@@ -111,17 +111,19 @@
           class="nav-link d-lg-block d-none"
           :class="{ active: currentRouteName == 'default' }"
         >
-          Home
+          {{ $t("header.home") }}
         </li>
         <li
           @click="navigateTo('Upcoming Appointment')"
           class="nav-link d-lg-block d-none"
           :class="{ active: currentRouteName == 'Upcoming Appointment' }"
         >
-          Bookings
+          {{ $t("header.bookings") }}
         </li>
-        <li class="nav-link d-lg-block d-none">Emergency Consultations</li>
-        <li class="nav-link d-lg-block d-none">Contact Us</li>
+        <li class="nav-link d-lg-block d-none">
+          {{ $t("header.emergencyConsultations") }}
+        </li>
+        <li class="nav-link d-lg-block d-none">{{ $t("header.contactUs") }}</li>
         <Notifications />
         <!-- <li class="maximize">
           <a
@@ -142,7 +144,7 @@
                 class="mx-1"
               />
               <span class="w500">
-                Marhaba
+                {{ $t("header.marhaba") }}
                 {{
                   currentUser.first_name +
                   (currentUser.middle_name
@@ -151,15 +153,11 @@
                   (currentUser.family_name ? " " + currentUser.family_name : "")
                 }}</span
               >
-              <!-- <p class="mb-0 font-roboto">
-                {{ $t("header.admin") }} 
-                <i class="middle fa fa-angle-down"></i>
-              </p> -->
             </div>
             <img class="b-r-round" src="../assets/images/profile.png" alt="" />
           </div>
           <ul class="profile-dropdown onhover-show-div">
-            <span class="sec-heading w500">View Your Settings</span>
+            <span class="sec-heading w500">{{ $t("header.settings") }}</span>
             <hr />
             <li>
               <a class="" @click="toggleLayout()">
@@ -215,7 +213,7 @@
             </li>
             <hr /> -->
             <button @click="logout" class="btn btn-secondary btn-pill">
-              Logout
+              {{ $t("header.logOut") }}
             </button>
           </ul>
         </li>

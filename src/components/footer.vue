@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12 footer-copyright text-center">
-            <p class="mb-0">All Rights Reserved By Almoosa Hospital Specialist</p>
+            <p class="mb-0">{{ $t("footer.allRights") }}</p>
             <div class="footer-icons">
               <i class="fa fa-twitter"></i>
               <i class="fa fa-linkedin"></i>

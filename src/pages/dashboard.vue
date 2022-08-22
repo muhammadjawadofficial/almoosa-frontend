@@ -9,7 +9,7 @@
         />
         <div class="standard-width">
           <div class="main-banner-text w600">
-            Help Millions People everywhere, everytime!
+            {{ $t("dashboard.helpMillions") }}
           </div>
         </div>
       </div>
@@ -20,9 +20,13 @@
               <new-badge-svg />
             </div>
             <div class="title">
-              Virtual Consultations
+              {{ $t("modules.Virtual Consultations") }}
               <div class="sub-title">
-                Discover the best doctors in Almoosa Specialist Hospital
+                {{
+                  $t(
+                    "modules.description.Discover the best doctors in Almoosa Specialist Hospital"
+                  )
+                }}
               </div>
             </div>
             <div class="icon">
@@ -31,9 +35,13 @@
           </div>
           <div class="consultation-section--blocks--single large primary">
             <div class="title">
-              On-site Consultations
+              {{ $t("modules.On-site Consultations") }}
               <div class="sub-title">
-                Discover the best doctors in Almoosa Specialist Hospital
+                {{
+                  $t(
+                    "modules.description.Discover the best doctors in Almoosa Specialist Hospital"
+                  )
+                }}
               </div>
             </div>
             <div class="icon">
@@ -42,9 +50,13 @@
           </div>
           <div class="consultation-section--blocks--single large tertiary">
             <div class="title">
-              Find Specialist
+              {{ $t("modules.Find Specialist") }}
               <div class="sub-title">
-                Discover the best doctors in Almoosa Specialist Hospital
+                {{
+                  $t(
+                    "modules.description.Discover the best doctors in Almoosa Specialist Hospital"
+                  )
+                }}
               </div>
             </div>
             <div class="icon">
@@ -56,9 +68,11 @@
     </div>
 
     <div class="consultation-section standard-width large">
-      <div class="consultation-section--pre-heading">Let's Consult</div>
+      <div class="consultation-section--pre-heading">
+        {{ $t("dashboard.letsConsult") }}
+      </div>
       <div class="consultation-section--heading two-tone">
-        With Our Specialist Today
+        {{ $t("dashboard.withOurSpecialist") }}
       </div>
       <div class="consultation-section--blocks">
         <div
@@ -71,7 +85,7 @@
           <div v-if="item.unique" class="new-badge">
             <new-badge-svg />
           </div>
-          <div class="title" v-html="item.text"></div>
+          <div class="title" v-html="$t('modules.' + item.text)"></div>
           <div class="icon">
             <component :is="item.icon" />
             <!-- <virtual-consultations-svg /> -->
@@ -92,7 +106,7 @@ export default {
           icon: "symptom-svg",
         },
         {
-          text: "Add Family&nbsp;Member",
+          text: "Add Family Member",
           icon: "family-svg",
           link: "Book Appointment",
         },
@@ -130,7 +144,7 @@ export default {
           icon: "promotions-svg",
         },
         {
-          text: "Get Service&nbsp;&&nbsp;Package",
+          text: "Get Service & Package",
           icon: "briefcase-svg",
         },
         {
@@ -158,7 +172,7 @@ export default {
     }
     .main-banner-text {
       position: absolute;
-      text-align: left;
+      text-align: start;
       font-size: 3.625rem;
       line-height: 4.25rem;
       color: #1e445c;

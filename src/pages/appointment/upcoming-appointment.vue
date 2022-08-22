@@ -1,6 +1,8 @@
 <template>
-  <div class="upcoming-appointment-container page-body-container standard-width">
-    <back-navigation title="Upcoming Appointments" />
+  <div
+    class="upcoming-appointment-container page-body-container standard-width"
+  >
+    <back-navigation :title="$t('modules.Upcoming Appointment')" />
     <div class="row">
       <div class="col-sm-12">
         <b-card
@@ -10,7 +12,7 @@
         >
           <b-card-body>
             <b-tabs pills slot="header" class="tabbed-card">
-              <b-tab title="Virtual" active>
+              <b-tab :title="$t('upcomingAppointment.virtual')" active>
                 <div class="appointment-list">
                   <div
                     class="appointment-list-item"
@@ -64,7 +66,7 @@
                   </div>
                 </div>
               </b-tab>
-              <b-tab title="On-site">
+              <b-tab :title="$t('upcomingAppointment.onsite')">
                 <div class="appointment-list">
                   <div
                     class="appointment-list-item"

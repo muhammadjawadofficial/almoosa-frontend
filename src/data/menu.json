@@ -13,7 +13,7 @@
         },
         {
             "titleEn": "Virtual Appointments",
-            "titleAr": "حظر المستخدم",
+            "titleAr": "المواعيد الافتراضية",
             "icon": "doctor-laptop-svg",
             "type": "link",
             "badgeType": "primary",
@@ -24,7 +24,7 @@
         },
         {
             "titleEn": "Symptom Checker",
-            "titleAr": "حظر المستخدم",
+            "titleAr": "مدقق الأعراض",
             "icon": "symptom-svg",
             "type": "link",
             "badgeType": "primary",
@@ -35,7 +35,7 @@
         },
         {
             "titleEn": "Find Specialist",
-            "titleAr": "حظر المستخدم",
+            "titleAr": "ابحث عن متخصص",
             "icon": "heart-checkup-svg",
             "type": "link",
             "badgeType": "primary",
@@ -46,7 +46,7 @@
         },
         {
             "titleEn": "On-site Appointments",
-            "titleAr": "حظر المستخدم",
+            "titleAr": "المواعيد في الموقع",
             "icon": "doctor-svg",
             "type": "link",
             "badgeType": "primary",
@@ -57,7 +57,7 @@
         },
         {
             "titleEn": "Medical Insurance",
-            "titleAr": "حظر المستخدم",
+            "titleAr": "تأمين طبي",
             "icon": "health-shield-svg",
             "type": "link",
             "badgeType": "primary",
@@ -68,7 +68,7 @@
         },
         {
             "titleEn": "Lab Works",
-            "titleAr": "حظر المستخدم",
+            "titleAr": "يعمل المعمل",
             "icon": "lab-svg",
             "type": "link",
             "badgeType": "primary",
@@ -79,7 +79,7 @@
         },
         {
             "titleEn": "Radiology Reports",
-            "titleAr": "حظر المستخدم",
+            "titleAr": "تقارير الأشعة",
             "icon": "user-report-svg",
             "type": "link",
             "badgeType": "primary",
@@ -90,7 +90,7 @@
         },
         {
             "titleEn": "View Timeline",
-            "titleAr": "حظر المستخدم",
+            "titleAr": "عرض الجدول الزمني",
             "icon": "timeline-svg",
             "type": "link",
             "badgeType": "primary",
@@ -101,7 +101,7 @@
         },
         {
             "titleEn": "My Medications",
-            "titleAr": "حظر المستخدم",
+            "titleAr": "أدويتي",
             "icon": "medical-jar-svg",
             "type": "link",
             "badgeType": "primary",
@@ -112,7 +112,7 @@
         },
         {
             "titleEn": "My Vitals",
-            "titleAr": "حظر المستخدم",
+            "titleAr": "عناصري الحيوية",
             "icon": "heart-report-svg",
             "type": "link",
             "badgeType": "primary",
@@ -123,7 +123,7 @@
         },
         {
             "titleEn": "Health Education",
-            "titleAr": "حظر المستخدم",
+            "titleAr": "التثقيف الصحي",
             "icon": "atom-svg",
             "type": "link",
             "badgeType": "primary",
@@ -134,7 +134,7 @@
         },
         {
             "titleEn": "Virtual Tour",
-            "titleAr": "حظر المستخدم",
+            "titleAr": "جولة افتراضية",
             "icon": "user-tag-svg",
             "type": "link",
             "badgeType": "primary",
@@ -145,7 +145,7 @@
         },
         {
             "titleEn": "View Promotions",
-            "titleAr": "حظر المستخدم",
+            "titleAr": "مشاهدة العروض الترويجية",
             "icon": "promotions-svg",
             "type": "link",
             "badgeType": "primary",

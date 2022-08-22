@@ -2,8 +2,8 @@
   <div class="appointment-detail-container page-body-container standard-width">
     <back-navigation
       backLink="Upcoming Appointment"
-      title="Appointment Detail"
-      subTitle="View your appointments history"
+      :title="$t('appointmentDetail.heading')"
+      :subTitle="$t('appointmentDetail.subHeading')"
     />
     <div class="row">
       <div class="col-sm-12">
@@ -15,11 +15,15 @@
           <b-card-body class="mt-0">
             <div class="appointment-detail">
               <div class="appointment-detail--type">
-                <div class="appointment-detail--label">Appointment</div>
+                <div class="appointment-detail--label">
+                  {{ $t("appointmentDetail.appointment") }}
+                </div>
                 <div class="appointment-detail--value">{{ details.type }}</div>
               </div>
               <div class="appointment-detail--sepecialist">
-                <div class="appointment-detail--label">Specialist</div>
+                <div class="appointment-detail--label">
+                  {{ $t("appointmentDetail.specialist") }}
+                </div>
                 <div class="appointment-detail--value">
                   {{
                     details.doctor.first_name +
@@ -31,34 +35,50 @@
                 </div>
               </div>
               <div class="appointment-detail--sepecialist">
-                <div class="appointment-detail--label">Medical Type</div>
-                <div class="appointment-detail--value">Ortho</div>
+                <div class="appointment-detail--label">
+                  {{ $t("appointmentDetail.medicalType") }}
+                </div>
+                <div class="appointment-detail--value">
+                  {{ details.doctor.speciality.title }}
+                </div>
               </div>
               <div class="appointment-detail--sepecialist">
-                <div class="appointment-detail--label">Token</div>
+                <div class="appointment-detail--label">
+                  {{ $t("appointmentDetail.token") }}
+                </div>
                 <div class="appointment-detail--value">4D</div>
               </div>
               <div class="appointment-detail--sepecialist">
-                <div class="appointment-detail--label">Date & Time</div>
+                <div class="appointment-detail--label">
+                  {{ $t("appointmentDetail.dateTime") }}
+                </div>
                 <div class="appointment-detail--value">
                   {{ formatDate(details.booked_date) }}
                 </div>
               </div>
               <div class="appointment-detail--action-buttons">
                 <button class="btn btn-info appointment-detail--status">
-                  Paid
+                  {{ details.status }}
                 </button>
                 <div class="appointment-detail--communication">
-                  <button class="btn btn-primary">Join Call</button>
-                  <button class="btn btn-secondary">Chat with Doctor</button>
+                  <button class="btn btn-primary">
+                    {{ $t("appointmentDetail.joinCall") }}
+                  </button>
+                  <button class="btn btn-secondary">
+                    {{ $t("appointmentDetail.chatWithDoctor") }}
+                  </button>
                 </div>
               </div>
             </div>
           </b-card-body>
         </b-card>
         <div class="appointment--action-buttons">
-          <button class="btn btn-outline-primary">Reschedule</button>
-          <button class="btn btn-outline-danger">Cancel Appointment</button>
+          <button class="btn btn-outline-primary">
+            {{ $t("appointmentDetail.reschedule") }}
+          </button>
+          <button class="btn btn-outline-danger">
+            {{ $t("appointmentDetail.cancelAppointment") }}
+          </button>
         </div>
       </div>
     </div>

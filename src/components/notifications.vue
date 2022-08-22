@@ -9,9 +9,11 @@
       class="onhover-show-div notification-dropdown"
       :class="{ active: notification }"
     >
-      <div class="mb-0 dropdown-title w500">Notitications</div>
+      <div class="mb-0 dropdown-title w500">
+        {{ $t("header.notifications") }}
+      </div>
       <ul>
-        <div class="dropdown-sub-title">Today</div>
+        <div class="dropdown-sub-title">{{ $t("header.today") }}</div>
         <li class="notification-row warning">
           <div class="icon"><bell-fill-svg /></div>
           <p>

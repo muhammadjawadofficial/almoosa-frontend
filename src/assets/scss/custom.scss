@@ -486,6 +486,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                 right: 0;
                 top: -2rem;
                 width: 4.5rem;
+                direction: ltr;
             }
         }
     }
@@ -540,6 +541,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         }
         &--action-buttons {
             white-space: nowrap;
+            button {
+                text-transform: capitalize;
+            }
         }
         &--communication {
             display: flex;
@@ -558,6 +562,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     gap: 1rem;
     button {
         padding-block: 0.6rem;
+        text-transform: capitalize;
     }
 }
 

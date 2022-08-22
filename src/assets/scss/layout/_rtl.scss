@@ -439,6 +439,9 @@
               // margin-left: 10px;
             }
           }
+          button {
+            width: 10rem;
+          }
         }
         &.right-header {
           ul {
@@ -3628,10 +3631,14 @@
     margin-left: unset;
   }
   // tabbed card page
-  .tabbed-card {
-    ul {
-      left: 22px;
-      right: unset;
+  .card {
+    &.card-top-navigation {
+      .tabbed-card {
+        ul.nav-pills {
+          left: 0;
+          right: unset;
+        }
+      }
     }
   }
   // checkbox & radios page
@@ -4951,6 +4958,16 @@
         }
       }
     }
+  }
+  .main-banner .background-image img {
+    transform: scaleX(-1);
+  }
+  div {
+    text-align: start;
+  }
+  .consultation-section--blocks--single .title {
+    width: 100%;
+    display: block;
   }
 }
 

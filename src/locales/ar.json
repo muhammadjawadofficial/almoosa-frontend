@@ -1,12 +1,12 @@
 {
   "error": {
-    "invalidCredentials":"بيانات الاعتماد غير صالحة",
+    "invalidCredentials": "بيانات الاعتماد غير صالحة",
     "somethingWentWrong": "هناك خطأ ما! الرجاء معاودة المحاولة في وقت لاحق"
   },
   "login": {
     "heading": "تسجيل الدخول إلى الحساب",
     "subheading": "أدخل بريدك الإلكتروني وكلمة المرور لتسجيل الدخول",
-    "fields":{
+    "fields": {
       "emailLabel": "اسم المستخدم",
       "passwordLabel": "كلمه السر",
       "login_by_id": "تسجيل الدخول بالمعرف",
@@ -15,7 +15,14 @@
     "signIn": "تسجيل الدخول"
   },
   "header": {
-    "admin": "مسؤل",
+    "marhaba": "مرحبا",
+    "settings": "اعرض الإعدادات الخاصة بك",
+    "notifications": "إشعارات",
+    "today": "اليوم",
+    "home": "مسكن",
+    "bookings": "الحجوزات",
+    "emergencyConsultations": "استشارات الطوارئ",
+    "contactUs": "اتصل بنا",
     "logOut": "تسجيل خروج",
     "search": "تفتيش",
     "changeLanguage": "تغيير اللغة",
@@ -23,433 +30,50 @@
     "changePassword": "غير كلمة السر"
   },
   "dashboard": {
-    "heading": "لوحة القيادة",
-    "total": "المجموع",
-    "noOfUsers": "عدد المستخدمين",
-    "platformWiseStats": "منصة الإحصاءات الحكيمة",
-    "moduleWiseStats": "احصائيات الوحدة الحكيمة",
-    "noData": "لايوجد بيانات",
-    "patient": "المريض",
-    "module": "وحدة",
-    "platform": "برنامج",
-    "data": "البيانات الجدولية",
-    "export": "يصدّر",
-    "filters": "المرشحات",
-    "reset": "أعاد التشغيل",
-    "apply": "يتقدم",
-    "multiselect":{
-      "selectPlaceholder": "البحث أو إضافة علامة",
-      "addPlaceholder": "أضف هذا كعلامة جديدة",
-      "selectLabel": "المحدد",
-      "deselectLabel": "اضغط على زر الإدخال للإزالة"
+    "helpMillions": "ساعد الملايين من الناس في كل مكان وفي كل مرة!",
+    "letsConsult": "لنستشر",
+    "withOurSpecialist": "مع متخصصنا اليوم"
+  },
+  "modules": {
+    "Virtual Consultations": "استشارات افتراضية",
+    "On-site Consultations": "استشارات في الموقع",
+    "Check Symptoms": "تحقق من الأعراض",
+    "Add Family Member": "إضافة فرد من العائلة",
+    "Upcoming Appointment": "الموعد القادم",
+    "Lab Works": "يعمل المعمل",
+    "Radiology Reports": "تقارير الأشعة",
+    "My Medication": "دوائي",
+    "Medical Insurance": "تأمين طبي",
+    "My Timelines": "المخططات الزمنية الخاصة بي",
+    "Health Education": "التثقيف الصحي",
+    "View Promotions": "مشاهدة العروض الترويجية",
+    "Get Service & Package": "احصل على الخدمة والباقة",
+    "Emergency Consultations": "استشارات الطوارئ",
+    "Virtual Tour": "جولة افتراضية",
+    "Find Specialist": "ابحث عن متخصص",
+    "description": {
+      "Discover the best doctors in Almoosa Specialist Hospital": "اكتشف أفضل الأطباء في مستشفى الموسى التخصصي"
     }
   },
-  "newsfeed": {
-    "heading": "موجز الأخبار",
-    "changeDefault": "هل أنت متأكد أنك تريد تغيير الافتراضي؟",
-    "defaultChanged": "تم تغيير ملف الأخبار الافتراضي بنجاح",
-    "deleteConfirm": "هل أنت متأكد أنك تريد حذف ملف الأخبار هذا؟",
-    "deleteSuccess": "تم حذف موجز الأخبار بنجاح",
-    "cannotDeleteDefault": "لا يمكنك حذف موجز الأخبار الافتراضي",
-    "updateNewsfeed": "تحديث موجز الأخبار",
-    "updateSuccess": "تم تحديث ملف الأخبار بنجاح",
-    "createNewsfeed": "إنشاء موجز الأخبار",
-    "createSuccess": "تم إنشاء ملف الأخبار بنجاح",
-    "formFields": {
-      "titleEn": "العنوان الإنجليزية",
-      "titleAr": "العنوان عربي",
-      "descriptionEn": "وصف اللغة الإنجليزية",
-      "descriptionAr": "الوصف العربي",
-      "image": "صورة",
-      "active": "عملي",
-      "invalidInput": "يرجى تقديم قيمة إدخال صالحة",
-      "validInput": "تبدو جيدا"
-    }
+  "upcomingAppointment":{
+    "onsite": "بالموقع",
+    "virtual": "افتراضية"
   },
-  "educationCategory": {
-    "heading": "فئة التعليم",
-    "deleteConfirm": "هل أنت متأكد من أنك تريد حذف فئة التعليم هذه?",
-    "deleteSuccess": "تم حذف فئة التعليم بنجاح",
-    "cannotDeleteDefault": "لا يمكنك حذف فئة التعليم الافتراضية",
-    "updateEducationCategory": "تحديث فئة التعليم",
-    "updateSuccess": "تم تحديث فئة التعليم بنجاح",
-    "createEducationCategory": "إنشاء فئة التعليم",
-    "createSuccess": "تم إنشاء فئة التعليم بنجاح",
-    "formFields": {
-      "parentCategoryId": "معرف فئة الأصل",
-      "nameEn": "الاسم بالانجليزية",
-      "nameAr": "الاسم عربي",
-      "orderNo": "رقم الأمر"
-    }
+  "appointmentDetail":{
+    "heading": "تفاصيل الموعد",
+    "subHeading": "عرض محفوظات المواعيد الخاصة بك",
+    "appointment": "ميعاد",
+    "specialist": "متخصص",
+    "medicalType": "النوع الطبي",
+    "token": "رمز",
+    "dateTime": "التاريخ والوقت",
+    "reschedule": "إعادة الجدولة",
+    "cancelAppointment": "إلغاء التعيين",
+    "joinCall": "الانضمام إلى المكالمة",
+    "chatWithDoctor": "الدردشة مع الطبيب"
   },
-  "educationType": {
-    "heading": "نوع التعليم",
-    "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا النوع من التعليم؟",
-    "deleteSuccess": "تم حذف نوع التعليم بنجاح",
-    "cannotDeleteDefault": "لا يمكنك حذف نوع التعليم الافتراضي",
-    "updateEducationType": "تحديث نوع التعليم",
-    "updateSuccess": "تم تحديث نوع التعليم بنجاح",
-    "createEducationType": "إنشاء نوع التعليم",
-    "createSuccess": "تم إنشاء نوع التعليم بنجاح",
-    "formFields": {
-      "nameEn": "الاسم بالانجليزية",
-      "nameAr": "الاسم عربي",
-      "weekId": "معرف الأسبوع",
-      "selectWeekId": "حدد معرف الأسبوع",
-      "orderNo": "رقم الأمر",
-      "babyVideoLink": "رابط فيديو الطفل",
-      "icon": "أيقونة",
-      "babyIcon": "أيقونة الطفل",
-      "babySizeIcon": "طفل حجم أيقونة"
-    }
-  },
-  "education": {
-    "heading": "تعليم",
-    "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا التعليم؟",
-    "deleteSuccess": "تم حذف التعليم بنجاح",
-    "cannotDeleteDefault": "لا يمكنك حذف التعليم الافتراضي",
-    "updateEducation": "تحديث التعليم",
-    "updateSuccess": "تم تحديث التعليم بنجاح",
-    "createEducation": "خلق التعليم",
-    "createSuccess": "تم إنشاء التعليم بنجاح",
-    "formFields": {
-      "education_id": "معرف التعليم",
-      "category_id": "معرف الفئة",
-      "type_id": "اكتب المعرف",
-      "title_en": "العنوان الإنجليزية",
-      "title_ar": "العنوان عربي",
-      "url_en": "الارتباط باللغة الإنجليزية",
-      "url_ar": "رابط عربي",
-      "order_no": "رقم الأمر",
-      "is_active": "نشط",
-      "content_tag": "علامة المحتوى",
-      "created_on": "تم إنشاؤها على",
-      "icon": "أيقونة",
-      "video_link": "رابط الفيديو",
-      "selectCategoryId": "حدد فئة التعليم",
-      "selectTypeId": "حدد نوع التعليم"
-    }
-  },
-  "portalConfig": {
-    "heading": "تكوين البوابة",
-    "deleteConfirm": "هل أنت متأكد من أنك تريد حذف تكوين البوابة؟",
-    "deleteSuccess": "تم حذف تكوين البوابة بنجاح",
-    "cannotDeleteDefault": "لا يمكنك حذف تكوين البوابة الافتراضية",
-    "updatePortalConfig": "تحديث تكوين البوابة",
-    "updateSuccess": "تم تحديث تكوين البوابة بنجاح",
-    "createPortalConfig": "تكوين بوابة التكوين",
-    "createSuccess": "تم إنشاء تكوين البوابة بنجاح",
-    "formFields": {
-      "nameEn": "الاسم بالانجليزية",
-      "nameAr": "الاسم عربي",
-      "paramName": "اسم بارام",
-      "paramValue": "قيمة بارام"
-    }
-  },
-  "vaccination": {
-    "heading": "تلقيح",
-    "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا التطعيم؟",
-    "deleteSuccess": "تم حذف التطعيم بنجاح",
-    "cannotDeleteDefault": "لا يمكنك حذف تكوين البوابة الافتراضية",
-    "updateVaccination": "تحديث التطعيم",
-    "updateSuccess": "تم تحديث التطعيم بنجاح",
-    "createVaccination": "خلق التطعيم",
-    "createSuccess": "تم إنشاء التطعيم بنجاح",
-    "formFields": {
-      "name_en": "الاسم بالانجليزية",
-      "name_ar": "الاسم عربي",
-      "description_en": "الوصف English",
-      "description_ar": "الوصف Arabic",
-      "age": "سن اللغة الإنجليزية",
-      "age_ar": "العمر العربي",
-      "age_m": "العمر بالأشهر"
-    }
-  },
-  "screeningStatus": {
-    "heading": "حالة الفحص",
-    "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا التطعيم؟",
-    "deleteSuccess": "تم حذف حالة الفرز بنجاح",
-    "cannotDeleteDefault": "لا يمكنك حذف تكوين البوابة الافتراضية",
-    "updateScreeningStatus": "تحديث حالة الفحص",
-    "updateSuccess": "تم تحديث حالة الفحص بنجاح",
-    "createScreeningStatus": "إنشاء حالة الفرز",
-    "createSuccess": "تم إنشاء حالة الفحص بنجاح",
-    "formFields": {
-      "name_en": "الاسم بالانجليزية",
-      "name_ar": "الاسم عربي"
-    }
-  },
-  "screeningType": {
-    "heading": "نوع الفرز",
-    "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا النوع من الفرز؟",
-    "deleteSuccess": "تم حذف نوع الفرز بنجاح",
-    "cannotDeleteDefault": "لا يمكنك حذف نوع الفرز الافتراضي",
-    "updateScreeningType": "نوع فحص التحديث",
-    "updateSuccess": "تم تحديث نوع الفحص بنجاح",
-    "createScreeningType": "إنشاء نوع الفرز",
-    "createSuccess": "تم إنشاء نوع الفرز بنجاح",
-    "formFields": {
-      "name_en": "الاسم بالانجليزية",
-      "name_ar": "الاسم عربي",
-      "description_en": "وصف اللغة الإنجليزية",
-      "description_ar": "وصف عربي",
-      "next_date_indays": "التاريخ التالي (بالأيام)"
-    }
-  },
-  "symptomCategory": {
-    "heading": "فئة الأعراض",
-    "deleteConfirm": "هل أنت متأكد من أنك تريد حذف فئة الأعراض هذه؟",
-    "deleteSuccess": "تم حذف فئة الأعراض بنجاح",
-    "cannotDeleteDefault": "لا يمكنك حذف فئة الأعراض الافتراضية",
-    "updateSymptomCategory": "تحديث فئة الأعراض",
-    "updateSuccess": "تم تحديث فئة الأعراض بنجاح",
-    "createSymptomCategory": "تكوين فئة الأعراض",
-    "createSuccess": "تم إنشاء فئة الأعراض بنجاح",
-    "formFields": {
-      "nameEn": "الاسم بالانجليزية",
-      "nameAr": "الاسم عربي",
-      "catId": "معرف الفئة",
-      "icon": "أيقونة",
-      "patId": "رقم السجل الطبي للمريض",
-      "isDefault": "افتراضي",
-      "orderNo": "رقم الأمر",
-      "selectCategoryId": "حدد فئة الدورة الشهرية"
-    }
-  },
-  "pregnancySymptom": {
-    "heading": "أعراض الحمل",
-    "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا العرض؟",
-    "deleteSuccess": "تم حذف أعراض الحمل بنجاح",
-    "cannotDeleteDefault": "لا يمكنك حذف الأعراض الافتراضية",
-    "updatePregnancySymptom": "تحديث أعراض الحمل",
-    "updateSuccess": "تم تحديث أعراض الحمل بنجاح",
-    "createPregnancySymptom": "خلق أعراض الحمل",
-    "createSuccess": "تم إنشاء أعراض الحمل بنجاح",
-    "formFields": {
-      "name_en": "الاسم بالانجليزية",
-      "name_ar": "الاسم عربي",
-      "cat_id": "معرف الفئة",
-      "icon": "أيقونة",
-      "is_default": "افتراضي",
-      "order_no": "رقم الأمر",
-      "selectCategoryId": "حدد فئة الدورة الشهرية"
-    }
-  },
-  "menstrualCategory": {
-    "heading": "فئة الدورة الشهرية",
-    "deleteConfirm": "هل أنتِ متأكدة تريدين حذف فئة الدورة الشهرية؟",
-    "deleteSuccess": "تم حذف فئة الحيض بنجاح",
-    "cannotDeleteDefault": "لا يمكنك حذف فئة الحيض الافتراضية",
-    "updateMenstrualCategory": "تحديث فئة الدورة الشهرية",
-    "updateSuccess": "تم تحديث فئة الدورة الشهرية بنجاح",
-    "createMenstrualCategory": "إنشاء فئة الحيض",
-    "createSuccess": "تم إنشاء فئة الحيض بنجاح",
-    "formFields": {
-      "nameEn": "الاسم بالانجليزية",
-      "nameAr": "الاسم عربي",
-      "catId": "معرف الفئة",
-      "icon": "أيقونة",
-      "multiselect": "تحديد متعدد",
-      "orderNo": "رقم الأمر"
-    }
-  },
-  "medicineUnit": {
-    "heading": "وحدة الطب",
-    "deleteConfirm": "هل أنت متأكد أنك تريد حذف وحدة الأدوية هذه؟",
-    "deleteSuccess": "تم حذف وحدة الطب بنجاح",
-    "cannotDeleteDefault": "لا يمكنك حذف وحدة الطب الافتراضية",
-    "updateMedicineUnit": "وحدة تحديث الادوية",
-    "updateSuccess": "تم تحديث وحدة الطب بنجاح",
-    "createMedicineUnit": "إنشاء وحدة الطب",
-    "createSuccess": "تم إنشاء وحدة الطب بنجاح",
-    "formFields": {
-      "name_en": "الاسم بالانجليزية",
-      "name_ar": "الاسم عربي"
-    }
-  },
-  "dayPart": {
-    "heading": "جزء اليوم",
-    "deleteConfirm": "هل أنت متأكد أنك تريد حذف جزء اليوم هذا؟",
-    "deleteSuccess": "تم حذف جزء اليوم بنجاح",
-    "cannotDeleteDefault": "لا يمكنك حذف جزء اليوم الافتراضي",
-    "updateDayPart": "تحديث جزء اليوم",
-    "updateSuccess": "تم تحديث جزء اليوم بنجاح",
-    "createDayPart": "إنشاء جزء اليوم",
-    "createSuccess": "تم إنشاء جزء اليوم بنجاح",
-    "formFields": {
-      "nameEN": "الاسم بالانجليزية",
-      "nameAR": "الاسم عربي"
-    }
-  },
-  "contraType": {
-    "heading": "نوع كونترا",
-    "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا النوع المقابل؟",
-    "deleteSuccess": "تم حذف نوع التباين بنجاح",
-    "cannotDeleteDefault": "لا يمكنك حذف النوع المقابل الافتراضي",
-    "updateContraType": "تحديث نوع التباين",
-    "updateSuccess": "تم تحديث نوع التباين بنجاح",
-    "createContraType": "إنشاء نوع كونترا",
-    "createSuccess": "تم إنشاء نوع التباين بنجاح",
-    "formFields": {
-      "name_en": "الاسم بالانجليزية",
-      "name_ar": "الاسم عربي",
-      "description_en": "وصف اللغة الإنجليزية",
-      "description_ar": "الوصف العربي",
-      "has_medication": "لديه دواء"
-    }
-  },
-  "bloodPressureGlucose": {
-    "heading": "ضغط الدم / الجلوكوز",
-    "deleteConfirm": "هل أنت متأكد أنك تريد حذف ضغط الدم / الجلوكوز هذا؟",
-    "deleteSuccess": "تم حذف ضغط الدم بنجاح",
-    "cannotDeleteDefault": "لا يمكنك حذف ضغط الدم الافتراضي / الجلوكوز",
-    "updateBloodPressureGlucose": "تحديث ضغط الدم",
-    "updateSuccess": "تم تحديث ضغط الدم بنجاح",
-    "createBloodPressureGlucose": "خلق ضغط الدم",
-    "createSuccess": "تم إنشاء ضغط الدم بنجاح",
-    "formFields": {
-      "type": "يكتب",
-      "age": "سن",
-      "lower_limit": "الحد الأدنى",
-      "upper_limit": "الحد الأعلى"
-    }
-  },
-  "bloodGlucoseClassification": {
-    "heading": "تصنيف جلوكوز الدم",
-    "deleteConfirm": "هل أنت متأكد أنك تريد حذف جزء اليوم هذا؟",
-    "deleteSuccess": "تم حذف تصنيف نسبة السكر في الدم بنجاح",
-    "cannotDeleteDefault": "لا يمكنك حذف جزء اليوم الافتراضي",
-    "updateBloodGlucoseClassification": "تحديث تصنيف الجلوكوز في الدم",
-    "updateSuccess": "تم تحديث تصنيف الجلوكوز في الدم بنجاح",
-    "createBloodGlucoseClassification": "إنشاء تصنيف جلوكوز الدم",
-    "createSuccess": "تم إنشاء تصنيف الجلوكوز في الدم بنجاح",
-    "formFields": {
-      "classification_name": "اسم التصنيف انجليزي",
-      "classification_name_ar": "اسم التصنيف عربي"
-    }
-  },
-  "notificationType": {
-    "heading": "نوع إعلام",
-    "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا النوع من الإشعارات؟",
-    "deleteSuccess": "تم حذف نوع الإخطار بنجاح",
-    "cannotDeleteDefault": "لا يمكنك حذف نوع الإخطار الافتراضي",
-    "updateNotificationType": "تحديث نوع الإعلام",
-    "updateSuccess": "تم تحديث نوع الإخطار بنجاح",
-    "createNotificationType": "إنشاء نوع الإخطار",
-    "createSuccess": "تم إنشاء نوع الإخطار بنجاح",
-    "formFields": {
-      "uniqueName": "اسم فريد",
-      "name": "اسم",
-      "isActive": "نشط"
-    }
-  },
-  "notificationText": {
-    "heading": "نص الإخطار",
-    "deleteConfirm": "هل أنت متأكد أنك تريد حذف نص الإخطار هذا؟",
-    "deleteSuccess": "تم حذف نص الإخطار بنجاح",
-    "cannotDeleteDefault": "لا يمكنك حذف نص الإخطار الافتراضي",
-    "updateNotificationText": "تحديث نص الإخطار",
-    "updateSuccess": "تم تحديث نص الإخطار بنجاح",
-    "createNotificationText": "إنشاء نص إعلام",
-    "createSuccess": "تم إنشاء نص الإخطار بنجاح",
-    "formFields": {
-      "titleEn": "العنوان En",
-      "titleAr": "العنوان Ar",
-      "textEn": "نص En",
-      "textAr": "نص Ar",
-      "dayAhead": "يوم للأمام",
-      "dayPart": "جزء اليوم",
-      "isActive": "نشط",
-      "notificationTypeId": "معرف نوع الإعلام",
-      "selectCategoryId": "حدد معرف نوع الإعلام",
-      "selectDayPart": "حدد جزء اليوم"
-    }
-  },
-  "excemptedUser": {
-    "heading": "مستخدم معفى",
-    "changeConfirm": "هل أنت متأكد أنك تريد تغيير حالة هذا المستخدم المعفى؟",
-    "deleteConfirm": "هل أنت متأكد أنك تريد حذف هذا المستخدم المعفى؟",
-    "deleteSuccess": "تم حذف المستخدم المعفى بنجاح",
-    "cannotDeleteDefault": "لا يمكنك حذف المستخدم المعفى الافتراضي",
-    "updateExcemptedUser": "تحديث مستخدم مُعفى",
-    "updateSuccess": "تم تحديث المستخدم المُعفى بنجاح",
-    "createExcemptedUser": "إنشاء مستخدم مُعفى",
-    "createSuccess": "تم إنشاء مستخدم معفى بنجاح",
-    "formFields": {
-      "mrn": "MRN",
-      "status": "حالة"
-    }
-  },
-  "labReportProduct": {
-    "heading": "منتج تقرير المعمل",
-    "changeConfirm": "هل أنت متأكد من أنك تريد تغيير حالة ترتيب تقرير المعمل هذا؟",
-    "deleteConfirm": "هل أنت متأكد من أنك تريد حذف ترتيب التقرير المعملي هذا؟",
-    "deleteSuccess": "تقرير معمل تم حذف المنتج بنجاح",
-    "updateLabReportProduct": "تحديث تقرير المنتج المعمل",
-    "updateSuccess": "تم تحديث منتج تقرير المعمل بنجاح",
-    "createLabReportProduct": "إنشاء منتج تقرير معمل",
-    "createSuccess": "تم إنشاء منتج تقرير المعمل بنجاح",
-    "formFields": {
-      "id": "بطاقة تعريف",
-      "nameEn": "الاسم بالانجليزية",
-      "nameAr": "الاسم بالعربي",
-      "descriptionEn": "الوصف باللغة الإنجليزية",
-      "descriptionAr": "الوصف باللغة العربية",
-      "price": "سعر"
-    }
-  },
-  "labReportPackage": {
-    "heading": "حزمة تقرير المختبر",
-    "changeConfirm": "هل أنت متأكد من أنك تريد تغيير حالة حزمة تقرير المختبر هذه؟",
-    "deleteConfirm": "هل أنت متأكد من أنك تريد حذف حزمة تقرير المختبر هذه؟",
-    "deleteSuccess": "تم حذف حزمة تقرير المعمل بنجاح",
-    "updateLabReportPackage": "تحديث حزمة تقرير المعمل",
-    "updateSuccess": "تم تحديث حزمة تقرير المعمل بنجاح",
-    "createLabReportPackage": "إنشاء حزمة تقرير معمل",
-    "createSuccess": "تم إنشاء حزمة تقرير المعمل بنجاح",
-    "formFields": {
-      "id": "بطاقة تعريف",
-      "nameEn": "الاسم بالانجليزية",
-      "nameAr": "الاسم عربي",
-      "descriptionEn": "الوصف باللغة الإنجليزية",
-      "descriptionAr": "الوصف باللغة العربية",
-      "price": "سعر",
-      "discount": "تخفيض",
-      "discountedPrice": "سعر مخفض",
-      "totalPrice": "السعر الكلي",
-      "vat": "(%) ضريبة القيمة المضافة",
-      "isActive":"نشط",
-      "products": "منتجات"
-    }
-  },
-  "labReportOrder": {
-    "heading": "ترتيب تقرير المعمل",
-    "changeConfirm": "هل أنت متأكد من أنك تريد تغيير حالة ترتيب تقرير المعمل هذا؟",
-    "deleteConfirm": "هل أنت متأكد من أنك تريد حذف ملف تقرير المختبر هذا؟",
-    "deleteSuccess": "تم حذف تقرير المختبر بنجاح",
-    "updateLabReportOrder": "تحديث تقرير المعمل",
-    "updateSuccess": "تم تحديث تقرير المعمل بنجاح",
-    "createLabReportOrder": "إنشاء أمر تقرير المعمل",
-    "createSuccess": "تم تحميل تقرير المعمل بنجاح",
-    "formFields": {
-      "orderId": "رقم التعريف الخاص بالطلب",
-      "patid": "رقم المريض",
-      "userCartId": "معرف عربة المستخدم",
-      "orderStatus": "حالة الطلب",
-      "paymentMethod": "طريقة الدفع او السداد",
-      "paymentStatus": "حالة السداد",
-      "orderNo": "رقم الطلب",
-      "orderDate": "تاريخ الطلب",
-      "orderCompletedDate": "تاريخ اكتمال الطلب",
-      "orderPrice": "سعر الطلب",
-      "orderDiscount": "اطلب تخفيض",
-      "orderDiscountedPrice": "طلب سعر مخفض",
-      "orderVat": "طلب ضريبة القيمة المضافة",
-      "orderTotalPrice": "سعر الطلب الإجمالي",
-      "userCartIsOrder": "هل تم طلب عربة التسوق",
-      "userCartCreatedAt": "أنشئت في",
-      "userCartUpdatedAt": "تم التحديث في"
-    }
+  "footer": {
+    "allRights": "جميع الحقوق محفوظة من قبل أخصائي مستشفى الموسى"
   },
   "loading": "تحميل",
   "success": "نجاح",
