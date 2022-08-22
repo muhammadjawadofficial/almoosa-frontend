@@ -54,10 +54,15 @@ export default {
   },
   mounted() {
     this.layoutType = this.$i18n.locale == "en" ? "ltr" : "rtl";
+    this.switchLanguage("ltr");
   },
   methods: {
-    switchLanguage() {
-      this.layoutType = this.layoutType == "ltr" ? "rtl" : "ltr";
+    switchLanguage(layout) {
+      if (layout) {
+        this.layoutType = layout;
+      } else {
+        this.layoutType = this.layoutType == "ltr" ? "rtl" : "ltr";
+      }
       this.$store.dispatch("layout/setLayoutType", this.layoutType);
       this.$i18n.locale = this.layoutType == "rtl" ? "ar" : "en";
     },
@@ -125,10 +130,9 @@ export default {
 .full-height {
   min-height: 100vh;
   @media (max-width: 993px) {
-    
   }
   &.only-heading {
-    .login-dashboard-left{
+    .login-dashboard-left {
       justify-content: flex-start;
       padding-block: 8.5rem;
     }

@@ -46,17 +46,22 @@ export default {
       layoutType: "ltr",
     };
   },
-  watch:{
-    "$route": function(val){
+  watch: {
+    $route: function (val) {
       console.log(val);
-    }
+    },
   },
   mounted() {
     this.layoutType = this.$i18n.locale == "en" ? "ltr" : "rtl";
+    this.switchLanguage("ltr");
   },
   methods: {
     switchLanguage() {
-      this.layoutType = this.layoutType == "ltr" ? "rtl" : "ltr";
+      if (layout) {
+        this.layoutType = layout;
+      } else {
+        this.layoutType = this.layoutType == "ltr" ? "rtl" : "ltr";
+      }
       this.$store.dispatch("layout/setLayoutType", this.layoutType);
       this.$i18n.locale = this.layoutType == "rtl" ? "ar" : "en";
     },
@@ -88,13 +93,13 @@ export default {
   padding: 2rem 3rem;
   gap: 8rem;
   &--top-section {
-    &--logo{
-      img{
+    &--logo {
+      img {
         width: 5.406rem;
       }
     }
     &--logo-content {
-      .welcome-text{
+      .welcome-text {
         font-size: 2.063rem;
       }
       color: white;
@@ -122,7 +127,7 @@ export default {
 .full-height {
   min-height: 100vh;
 }
-.login-right-padding{
+.login-right-padding {
   padding-inline: 2.7rem;
 }
 </style>

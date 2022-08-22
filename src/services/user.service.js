@@ -6,6 +6,8 @@ export const userService = {
     getToken,
     removeToken,
     setToken,
+    setSelectedLayout,
+    getSelectedLayout,
     downloadFile
 };
 
@@ -13,6 +15,8 @@ import axios from "axios";
 
 const jwtTokenKey = 'token';
 const userInfo = 'userInfo';
+
+const preferredLayout = 'user-layout';
 
 function isAuthenticatedUser() {
     return !!localStorage.getItem(jwtTokenKey);
@@ -41,6 +45,13 @@ function removeToken() {
 }
 function setToken(token) {
     return localStorage.setItem(jwtTokenKey, token);
+}
+function setSelectedLayout(lang) {
+    console.log(lang, preferredLayout)
+    return localStorage.setItem(preferredLayout, lang);
+}
+function getSelectedLayout() {
+    return localStorage.getItem(preferredLayout);
 }
 function downloadFile(url) {
     let userToken = userService.getToken();

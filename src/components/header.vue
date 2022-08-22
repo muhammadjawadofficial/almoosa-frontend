@@ -304,14 +304,17 @@ export default {
       megamenuItems: (state) => state.menu.megamenu,
     }),
     currentUser() {
-      console.log(userService.currentUser());
       return userService.currentUser();
     },
   },
   mounted() {
-    if (this.$i18n.locale == "ar") {
-      this.toggleLayout();
+    let layout = "ltr";
+    if (userService.getSelectedLayout()) {
+      layout = userService.getSelectedLayout();
+    } else if (this.$i18n.locale == "ar") {
+      layout = "rtl";
     }
+    this.toggleLayout(layout);
   },
   methods: {
     toggle_sidebar() {
@@ -385,11 +388,16 @@ export default {
       this.mixLayout = val;
       this.$store.dispatch("layout/setLayout", val);
     },
-    toggleLayout() {
-      this.layoutType = this.layoutType == "ltr" ? "rtl" : "ltr";
+    toggleLayout(layout) {
+      if (layout) {
+        this.layoutType = layout;
+      } else {
+        this.layoutType = this.layoutType == "ltr" ? "rtl" : "ltr";
+      }
       let isArabic = this.layoutType == "rtl";
       this.$store.dispatch("layout/setLayoutType", this.layoutType);
       this.$i18n.locale = isArabic ? "ar" : "en";
+      userService.setSelectedLayout(this.layoutType);
     },
     logout() {
       userService.removeLoginInfo();

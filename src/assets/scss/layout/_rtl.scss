@@ -4965,9 +4965,15 @@
   div {
     text-align: start;
   }
-  .consultation-section--blocks--single .title {
-    width: 100%;
-    display: block;
+  .consultation-section--blocks--single {
+    .title {
+      width: 100%;
+      display: block;
+    }
+    .new-badge {
+      right: unset;
+      left: 0;
+    }
   }
 }
 
