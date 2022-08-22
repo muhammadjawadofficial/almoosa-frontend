@@ -1,0 +1,25 @@
+.loader-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .loader-icon {
+        border: 0.2em solid transparent;
+        border-left-color: currentColor;
+        border-right-color: currentColor;
+        border-radius: 50%;
+        animation: 1s loader-icon linear infinite;
+        min-width: 15px;
+        aspect-ratio: 1;
+        margin-inline: 0.5rem;
+    }
+
+    @keyframes loader-icon {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+}

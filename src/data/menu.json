@@ -1,0 +1,158 @@
+{
+    "data": [
+        {
+            "titleEn": "Dashboard",
+            "titleAr": "لوحة القيادة",
+            "icon": "dashboard-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "path": "/dashboard/default"
+        },
+        {
+            "titleEn": "Virtual Appointments",
+            "titleAr": "حظر المستخدم",
+            "icon": "doctor-laptop-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "path": "/dashboard/default2"
+        },
+        {
+            "titleEn": "Symptom Checker",
+            "titleAr": "حظر المستخدم",
+            "icon": "symptom-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "path": "/dashboard/default2"
+        },
+        {
+            "titleEn": "Find Specialist",
+            "titleAr": "حظر المستخدم",
+            "icon": "heart-checkup-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "path": "/dashboard/default2"
+        },
+        {
+            "titleEn": "On-site Appointments",
+            "titleAr": "حظر المستخدم",
+            "icon": "doctor-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "path": "/dashboard/default2"
+        },
+        {
+            "titleEn": "Medical Insurance",
+            "titleAr": "حظر المستخدم",
+            "icon": "health-shield-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "path": "/dashboard/default2"
+        },
+        {
+            "titleEn": "Lab Works",
+            "titleAr": "حظر المستخدم",
+            "icon": "lab-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "path": "/dashboard/default2"
+        },
+        {
+            "titleEn": "Radiology Reports",
+            "titleAr": "حظر المستخدم",
+            "icon": "user-report-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "path": "/dashboard/default2"
+        },
+        {
+            "titleEn": "View Timeline",
+            "titleAr": "حظر المستخدم",
+            "icon": "timeline-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "path": "/dashboard/default2"
+        },
+        {
+            "titleEn": "My Medications",
+            "titleAr": "حظر المستخدم",
+            "icon": "medical-jar-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "path": "/dashboard/default2"
+        },
+        {
+            "titleEn": "My Vitals",
+            "titleAr": "حظر المستخدم",
+            "icon": "heart-report-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "path": "/dashboard/default2"
+        },
+        {
+            "titleEn": "Health Education",
+            "titleAr": "حظر المستخدم",
+            "icon": "atom-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "path": "/dashboard/default2"
+        },
+        {
+            "titleEn": "Virtual Tour",
+            "titleAr": "حظر المستخدم",
+            "icon": "user-tag-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "path": "/dashboard/default2"
+        },
+        {
+            "titleEn": "View Promotions",
+            "titleAr": "حظر المستخدم",
+            "icon": "promotions-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "path": "/dashboard/default2"
+        }
+    ]
+}
