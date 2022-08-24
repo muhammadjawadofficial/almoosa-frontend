@@ -26,5 +26,8 @@ export const apiPath = {
 
     appointment: {
         upcoming: (id) => getApiObject("get", "appointments/upcoming?patient_id=" + id),
+        clinics: getApiObject("get", "clinics"),
+        specialities: getApiObject("get", "specialities"),
+        findDoctors: (speciality, date, clinic) => getApiObject("get", "users/doctors?speciality_id=" + speciality + "&date=" + date + (clinic ? "&clinic_id=" + clinic : '')),
     },
 };

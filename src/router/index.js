@@ -11,6 +11,8 @@ import AppointmentModule from '../pages/appointment'
 import BookAppointment from '../pages/appointment/book-appointment'
 import UpcomingAppointment from '../pages/appointment/upcoming-appointment'
 import appointmentDetail from '../pages/appointment/appointment-detail'
+import findSpecialist from '../pages/appointment/find-specialist'
+import doctorList from '../pages/appointment/doctor-list'
 
 import Login from '../pages/authentication/login';
 import OTP from '../pages/authentication/otp';
@@ -65,6 +67,22 @@ const routes = [
             component: appointmentDetail,
             meta: {
               title: 'Appointment Detail | Almoosa Specialist Hospital',
+            }
+          },
+          {
+            path: 'find-specialist',
+            name: 'Find Specialist',
+            component: findSpecialist,
+            meta: {
+              title: 'Find Specialist | Almoosa Specialist Hospital',
+            }
+          },
+          {
+            path: 'doctors',
+            name: 'Doctor List',
+            component: doctorList,
+            meta: {
+              title: 'Find Specialist | Almoosa Specialist Hospital',
             }
           },
         ]

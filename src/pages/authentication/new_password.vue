@@ -45,7 +45,7 @@
           </button>
         </div>
         <div class="sign-up-link w200" @click="resendOtp()">
-          Didn't receive a code? <strong class="w500">Resend</strong>
+          Didn't receive a code? <span class="w500">Resend</span>
         </div>
       </div>
     </div>

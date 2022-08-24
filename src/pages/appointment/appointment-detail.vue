@@ -12,7 +12,7 @@
           no-body
           class="ash-card bg-tertiary card-rounded"
         >
-          <b-card-body class="mt-0">
+          <b-card-body class="mt-0" v-if="details">
             <div class="appointment-detail">
               <div class="appointment-detail--type">
                 <div class="appointment-detail--label">
@@ -60,7 +60,10 @@
                 <button class="btn btn-info appointment-detail--status">
                   {{ details.status }}
                 </button>
-                <div class="appointment-detail--communication">
+                <div
+                  class="appointment-detail--communication"
+                  v-if="details.type == 'online'"
+                >
                   <button class="btn btn-primary">
                     {{ $t("appointmentDetail.joinCall") }}
                   </button>

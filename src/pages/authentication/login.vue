@@ -69,7 +69,7 @@
           class="sign-up-link w200 col-md-12"
           @click="navigateTo('Register')"
         >
-          Don't have an account yet? <strong class="w500">Sign Up</strong>
+          Don't have an account yet? <span class="w500">Sign Up</span>
         </div>
       </div>
       <div class="login-main login-form-card login-res" v-if="false">

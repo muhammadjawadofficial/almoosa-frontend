@@ -72,9 +72,21 @@
     "joinCall": "الانضمام إلى المكالمة",
     "chatWithDoctor": "الدردشة مع الطبيب"
   },
+  "findSpecialist": {
+    "specialities": "التخصصات",
+    "findSpecialist": "ابحث عن متخصص عن طريق اختيار الفئة",
+    "selectDateTime": "حدد التاريخ والوقت",
+    "findMySpecialist": "ابحث عن الاختصاصي الخاص بي",
+    "chooseLocation": "اختيار موقع",
+    "error": {
+      "location": "حدد الموقع أولاً",
+      "speciality": "حدد التخصص أولا"
+    }
+  },
   "footer": {
     "allRights": "جميع الحقوق محفوظة من قبل أخصائي مستشفى الموسى"
   },
+  "ash": "مستشفى الموسى التخصصى",
   "loading": "تحميل",
   "success": "نجاح",
   "failure": "باءت بالفشل",

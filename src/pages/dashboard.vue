@@ -15,7 +15,10 @@
       </div>
       <div class="consultation-section standard-width">
         <div class="consultation-section--blocks">
-          <div class="consultation-section--blocks--single large secondary">
+          <div
+            class="consultation-section--blocks--single large secondary"
+            @click="findASpecialist('virtual')"
+          >
             <div class="new-badge">
               <new-badge-svg />
             </div>
@@ -33,7 +36,10 @@
               <doctor-laptop-svg />
             </div>
           </div>
-          <div class="consultation-section--blocks--single large primary">
+          <div
+            class="consultation-section--blocks--single large primary"
+            @click="findASpecialist('onsite')"
+          >
             <div class="title">
               {{ $t("modules.On-site Consultations") }}
               <div class="sub-title">
@@ -77,7 +83,7 @@
       <div class="consultation-section--blocks">
         <div
           class="consultation-section--blocks--single"
-          :class="{ unique: item.unique }"
+          :class="{ uniques: item.unique }"
           v-for="(item, index) in dashboardItems"
           :key="'dashboard-item-' + index"
           @click="navigateTo(item.link)"
@@ -97,6 +103,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -104,6 +111,7 @@ export default {
         {
           text: "Check Symptoms",
           icon: "symptom-svg",
+          unique: true
         },
         {
           text: "Add Family Member",
@@ -157,6 +165,17 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    ...mapActions("user", ["setBookingMethod"]),
+    findASpecialist(type) {
+      if (type == "virtual") {
+        this.setBookingMethod("virtual");
+      } else {
+        this.setBookingMethod("onsite");
+      }
+      this.navigateTo("Find Specialist");
+    },
   },
 };
 </script>

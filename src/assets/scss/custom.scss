@@ -121,7 +121,7 @@
         margin-bottom: 0;
     }
     &__tags {
-        min-height: 38px;
+        min-height: 2.375rem;
         padding-top: 7px;
         border: 1px solid #ced4da;
     }
@@ -136,6 +136,7 @@
         letter-spacing: $form-placeholder-letter-spacing;
         font-weight: $form-placeholder-font-weight;
     }
+    min-height: 2.5rem;
 }
 .form-label-value {
     font-weight: normal;
@@ -167,7 +168,7 @@ svg text {
 .custom-login-input-groups {
     &:before {
         content: "";
-        background-color: var(--theme-tertiary);
+        background-color: $tertiary-color;
         opacity: 0.51;
         position: absolute;
         inset: 0;
@@ -238,7 +239,8 @@ svg text {
             background-image: url(../../components/svgIcons/carrot.svg);
             background-size: 1.5rem;
             background-repeat: no-repeat;
-            background-position: center;
+            background-position: right;
+            padding-inline-end: 0;
             &::before {
                 display: none;
             }
@@ -248,7 +250,7 @@ svg text {
             gap: 1rem;
         }
         &__prepend-icon {
-            width: 26px;
+            width: 1.625rem;
             svg {
                 vertical-align: middle;
             }
@@ -276,7 +278,7 @@ svg text {
             &.b-form-btn-label-control.form-control {
                 background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
             }
-            background-position: right calc(0.375em + 2.0875rem) center;
+            background-position: right 2.275rem center;
         }
         .b-calendar-grid-help {
             display: none;
@@ -325,11 +327,21 @@ svg text {
         }
     }
 }
+.file-upload-container {
+    border: 3px solid $primary-color;
+    background-color: transparent;
+    &::before {
+        display: none;
+    }
+}
 .sign-up-link {
-    color: var(--theme-secondary);
+    color: #8696b8;
     font-size: 1.375rem;
     line-height: 2.688rem;
     cursor: pointer;
+    span {
+        color: #155892;
+    }
 }
 .input-group-prepend,
 .input-group-append,
@@ -348,7 +360,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         top: 0;
         margin: auto;
         bottom: 0;
-        right: 3.75rem !important;
+        right: 3.1rem !important;
         width: calc(0.75em + 0.375rem) !important;
         aspect-ratio: 1;
         font-size: 1.438rem;
@@ -397,6 +409,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                 .icon {
                     .svg-icon-fill {
                         fill: white;
+                    }
+                    .svg-icon-stroke {
+                        stroke: white;
                     }
                 }
                 .title {
@@ -497,6 +512,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             }
             &--blocks {
                 gap: 2rem;
+                .new-badge {
+                    width: 5rem;
+                }
                 &--single {
                     width: 16.375rem;
                     padding: 2.625rem 2rem 1.75rem;
@@ -566,6 +584,146 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 }
 
+.find-specialist-container {
+    .heading {
+        &-section {
+            display: flex;
+            gap: 1rem;
+        }
+        &-title {
+            font-size: 1.5rem;
+            color: $black;
+        }
+        &-subTitle {
+            font-size: 1.125rem;
+            color: #8696b8;
+        }
+    }
+    .body-section {
+        margin-top: 1.5rem;
+    }
+    .back-navigation {
+        position: absolute;
+    }
+    .find-specialist-container-section {
+        padding-block: 2.5rem;
+    }
+    > .find-specialist-container-section:nth-child(2) {
+        padding-top: 0;
+        .heading-section {
+            margin-inline-start: 3rem;
+        }
+    }
+    .location-card-container {
+        display: flex;
+        gap: 1rem;
+        .location-card {
+            padding: 1rem;
+            background: $secondary-color;
+            border-radius: 1rem;
+            color: $white;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 24.063rem;
+            position: relative;
+            cursor: pointer;
+            &-details {
+                display: flex;
+                gap: 1rem;
+                &-image {
+                    img {
+                        width: 5rem;
+                    }
+                }
+                &-info {
+                    &-name {
+                        font-size: 1.125rem;
+                    }
+                    &-address {
+                        width: 85%;
+                        font-size: 0.813rem;
+                        font-family: $font-diodrum-medium;
+                    }
+                    &-timing {
+                        font-size: 0.75rem;
+                        font-family: $font-diodrum-medium;
+                        color: $primary-color;
+                    }
+                }
+            }
+            &-map {
+                height: 5rem;
+                width: 100%;
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            &.active {
+                &::before {
+                    content: "";
+                    width: 2.438rem;
+                    aspect-ratio: 1;
+                    position: absolute;
+                    top: -1.25rem;
+                    right: 0.75rem;
+                    background-image: url(../images/check.svg);
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: contain;
+                }
+            }
+        }
+    }
+    .specialities-container {
+        display: flex;
+        gap: 1rem;
+        .speciality {
+            width: 7.5rem;
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background-color: $tertiary-color;
+            border-radius: 1rem;
+            cursor: pointer;
+            position: relative;
+            &-image {
+                background-color: $primary-color;
+                width: 3.125rem;
+                aspect-ratio: 1;
+                border-radius: 50%;
+                display: flex;
+                place-content: center;
+            }
+            &.active {
+                &::before {
+                    content: "";
+                    width: 2.438rem;
+                    aspect-ratio: 1;
+                    position: absolute;
+                    top: -1.25rem;
+                    right: 0.75rem;
+                    background-image: url(../images/check.svg);
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: contain;
+                }
+            }
+        }
+    }
+    .datetime-container {
+        max-width: 22rem;
+        z-index: 1;
+        &::before {
+            opacity: 1;
+        }
+    }
+}
+
 .page-body-container {
     padding-top: 4.5rem;
     padding-bottom: 2rem;
@@ -598,5 +756,4 @@ html {
     @media (max-width: 1200px) {
         --standard-web-app-padding: 2rem;
     }
-    transition: 0.3s all;
 }

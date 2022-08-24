@@ -1,3 +1,5 @@
+import Vue from "vue";
+
 export default {
     namespaced: true,
     state: {
@@ -6,6 +8,16 @@ export default {
         userId: "",
         authState: "",
         selectedAppointment: null,
+        booking: {
+            type: null,
+            speciality: null,
+            clinic: null,
+            date: null,
+            startTime: null,
+            endTime: null,
+            amount: null
+        },
+        doctorsList: null
     },
     actions: {
         setLoading({ commit }, data) {
@@ -23,6 +35,21 @@ export default {
         setSelectedAppointment({ commit }, data) {
             commit('SET_SELECTED_APPOINTMENT', data)
         },
+        setBookingMethod({ commit }, data) {
+            commit('SET_BOOKING_METHOD', data)
+        },
+        setBookingSpeciality({ commit }, data) {
+            commit('SET_BOOKING_SPECIALITY', data)
+        },
+        setBookingClinic({ commit }, data) {
+            commit('SET_BOOKING_CLINIC', data)
+        },
+        setBookingDate({ commit }, data) {
+            commit('SET_BOOKING_DATE', data)
+        },
+        setDoctorsList({ commit }, data) {
+            commit('SET_DOCTORS_LIST', data)
+        },
     },
     mutations: {
         SET_LOADING(state, loading) {
@@ -38,7 +65,23 @@ export default {
             state.authState = authState;
         },
         SET_SELECTED_APPOINTMENT(state, selectedAppointment) {
-            state.selectedAppointment = selectedAppointment;
+            // state.selectedAppointment = selectedAppointment;
+            Vue.set(state, 'selectedAppointment', selectedAppointment)
+        },
+        SET_BOOKING_METHOD(state, bookingMethod) {
+            state.booking.type = bookingMethod;
+        },
+        SET_BOOKING_SPECIALITY(state, speciality) {
+            state.booking.speciality = speciality;
+        },
+        SET_BOOKING_CLINIC(state, clinic) {
+            state.booking.clinic = clinic;
+        },
+        SET_BOOKING_DATE(state, date) {
+            state.booking.date = date;
+        },
+        SET_DOCTORS_LIST(state, doctorsList) {
+            state.doctorsList = doctorsList;
         },
     },
     getters: {
@@ -47,5 +90,10 @@ export default {
         getUserId: (state) => state.userId,
         getAuthState: (state) => state.authState,
         getSelectedAppointment: (state) => state.selectedAppointment,
+        getBookingMethod: (state) => state.booking.type,
+        getBookingSpeciality: (state) => state.booking.speciality,
+        getBookingClinic: (state) => state.booking.clinic,
+        getBookingDate: (state) => state.booking.date,
+        getDoctorsList: (state) => state.doctorsList,
     }
 };

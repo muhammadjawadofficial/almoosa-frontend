@@ -74,6 +74,7 @@
     }
   }
   .toasted-container {
+    z-index: 999999999;
     .toasted {
       .fa,
       .fab,
@@ -4959,8 +4960,29 @@
       }
     }
   }
-  .main-banner .background-image img {
+  .main-banner .background-image img,
+  .back-icon,
+  .heading-icon {
     transform: scaleX(-1);
+  }
+  .find-specialist-container {
+    .location-card-container .location-card,
+    .specialities-container .speciality {
+      &.active {
+        &::before {
+          right: unset;
+          left: 0.75rem;
+        }
+      }
+    }
+  }
+  #datepicker-placeholder {
+    right: unset;
+    left: 0;
+  }
+  .toasted-container.top-right {
+    left: 7%;
+    right: unset;
   }
   div {
     text-align: start;

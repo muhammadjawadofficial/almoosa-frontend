@@ -11,8 +11,14 @@
           class="ash-card card-wizard card-top-navigation"
         >
           <b-card-body>
-            <b-tabs pills slot="header" class="tabbed-card">
-              <b-tab :title="$t('upcomingAppointment.virtual')" active>
+            <b-tabs
+              pills
+              slot="header"
+              class="tabbed-card"
+              @activate-tab="setActiveTab"
+              :value="activeTab"
+            >
+              <b-tab :title="$t('upcomingAppointment.virtual')">
                 <div class="appointment-list">
                   <div
                     class="appointment-list-item"
@@ -30,6 +36,7 @@
                     <div
                       class="appointment-card"
                       @click="viewDetails(appointment)"
+                      :class="getStatusClass(appointment.status)"
                     >
                       <div class="doctor-avatar">
                         <img :src="getImageUrl(appointment.doctor)" alt="" />
@@ -48,7 +55,7 @@
                           {{ appointment.doctor.speciality.title }},
                           {{ appointment.doctor.location }}
                         </div>
-                        <div class="appointment-status success">
+                        <div class="appointment-status">
                           <div class="appointment-time-span">
                             {{ removeSeconds(appointment.start_time) }} -
                             {{ removeSeconds(appointment.end_time) }}
@@ -84,6 +91,7 @@
                     <div
                       class="appointment-card"
                       @click="viewDetails(appointment)"
+                      :class="getStatusClass(appointment.status)"
                     >
                       <div class="doctor-avatar">
                         <img :src="getImageUrl(appointment.doctor)" alt="" />
@@ -129,7 +137,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import { appointmentService, userService } from "../../services";
 export default {
   data() {
@@ -137,13 +145,28 @@ export default {
       onsiteAppointments: [],
       virtualAppointments: [],
       appointmentStatus: "loading",
+      activeTab: null,
     };
   },
   mounted() {
     this.getAppointments();
+    this.checkScreenOffset();
+  },
+  computed: {
+    ...mapGetters("user", ["getSelectedAppointment"]),
   },
   methods: {
     ...mapActions("user", ["setSelectedAppointment"]),
+    checkScreenOffset() {
+      let appointment = this.getSelectedAppointment;
+      if (appointment) {
+        console.log(appointment, appointment.type);
+        this.activeTab = appointment.type == "onsite" ? 1 : 0;
+      }
+    },
+    setActiveTab(x) {
+      this.activeTab = x;
+    },
     viewDetails(appointment) {
       this.setSelectedAppointment(appointment);
       this.navigateTo("Appointment Detail");
@@ -153,6 +176,11 @@ export default {
         return process.env.VUE_APP_SERVER + profile.photo.path;
       }
       return "../../assets/images/profile.png";
+    },
+    getStatusClass(status) {
+      if (status.toLowerCase() == "pending") return "warning";
+      else if (status.toLowerCase() == "cancelled") return "danger";
+      else return "success";
     },
     getAppointments() {
       this.appointmentStatus = "loading";

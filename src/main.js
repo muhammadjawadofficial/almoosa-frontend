@@ -145,8 +145,14 @@ Vue.mixin({
     removeSeconds(timeString) {
       return timeString.slice(0, -3);
     },
-    formatDate(date){
+    formatDate(date) {
       return moment(date).format('MMMM Do YYYY, h:mm A');
+    },
+    formatOnlyDate(date) {
+      return moment(date).format('MMMM, D dddd');
+    },
+    formatDateForFindSpecialist(date) {
+      return moment(date).format("YYYY-MM-DD")
     }
   },
 })

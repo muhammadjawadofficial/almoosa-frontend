@@ -1894,6 +1894,13 @@
       }
     }
   }
+  .login-dashboard {
+    .login-dashboard-login-section {
+      .button-group {
+        justify-content: center !important;
+      }
+    }
+  }
 }
 
 @media only screen and (max-width: 991.98px) {
@@ -1906,17 +1913,13 @@
       }
       .consultation-section {
         &--blocks {
+          justify-content: center;
           &--single {
             &.large {
               width: 100%;
             }
           }
         }
-      }
-    }
-    .consultation-section {
-      .consultation-section--blocks {
-        justify-content: center;
       }
     }
   }
@@ -3036,6 +3039,25 @@
   .theme-form {
     &.form-inline {
       display: flex;
+    }
+  }
+  .image-section {
+    .login-dashboard-left {
+      padding-inline: 0;
+      gap: 2rem;
+      &--top-section {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      &--bottom-section {
+        gap: 1rem;
+        flex-direction: row;
+        button {
+          max-width: 24rem;
+          height: 100%;
+        }
+      }
     }
   }
 }
@@ -4214,8 +4236,20 @@
       }
     }
   }
-}
 
+  .login-dashboard {
+    .login-dashboard-login-section {
+      .button-group {
+        justify-content: center !important;
+      }
+    }
+  }
+}
+@media only screen and (max-width: 600px) {
+  .toasted-container.top-right {
+    left: 0 !important;
+  }
+}
 @media only screen and (max-width: 575.98px) {
   .main-dashboard-container {
     .main-banner {

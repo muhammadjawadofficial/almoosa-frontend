@@ -1,11 +1,14 @@
 <template>
   <div class="back-navigation">
-    <div class="icon" @click="navigateTo(backLink)">
+    <div class="back-icon" @click="navigateTo(backLink)">
       <img src="../assets/images/back.svg" alt="back-img" />
     </div>
-    <div class="text">
-      {{ title }}
-      <div v-if="subTitle" class="sub-text">{{ subTitle }}</div>
+    <div class="text" v-if="title">
+      <div class="component-icon" v-if="icon"><component :is="icon" /></div>
+      <div>
+        {{ title }}
+        <div v-if="subTitle" class="sub-text">{{ subTitle }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -15,13 +18,16 @@ export default {
   components: {},
   props: {
     title: {
-      default: "home",
+      default: "",
     },
     subTitle: {
       default: "",
     },
     backLink: {
       default: "default",
+    },
+    icon: {
+      default: "",
     },
   },
   methods: {},
@@ -34,17 +40,21 @@ export default {
   gap: 1.625rem;
   .text {
     font-size: 1.75rem;
+    display: flex;
   }
   .sub-text {
     color: #8696b8;
     font-size: 1rem;
   }
-  .icon {
+  .back-icon {
     cursor: pointer;
     width: 2rem;
     img {
       width: 100%;
     }
+  }
+  .component-icon {
+    margin-inline-end: 1rem;
   }
 }
 </style>

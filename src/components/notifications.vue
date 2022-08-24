@@ -3,7 +3,7 @@
     <div class="notification-box">
       <!-- <feather type="bell" @click="notification_open()"></feather> -->
       <img class="" src="../assets/images/header/bell.png" alt="bell" />
-      <span class="badge badge-pill badge-secondary">4 </span>
+      <span class="badge badge-pill badge-danger">4</span>
     </div>
     <div
       class="onhover-show-div notification-dropdown"

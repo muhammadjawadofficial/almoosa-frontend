@@ -38,7 +38,7 @@
           </div>
         </div>
 
-        <div class="col-xl-4 col-lg-12 col-md-4">
+        <div class="col-xl-4 col-lg-12 col-md-6">
           <b-input-group class="custom-login-input-groups">
             <b-form-input
               v-model="registerForm.first_name"
@@ -47,7 +47,7 @@
             ></b-form-input>
           </b-input-group>
         </div>
-        <div class="col-xl-4 col-lg-12 col-md-4">
+        <div class="col-xl-4 col-lg-12 col-md-6">
           <b-input-group class="custom-login-input-groups">
             <b-form-input
               v-model="registerForm.middle_name"
@@ -55,7 +55,7 @@
             ></b-form-input>
           </b-input-group>
         </div>
-        <div class="col-xl-4 col-lg-12 col-md-4">
+        <div class="col-xl-4 col-lg-12 col-md-6">
           <b-input-group class="custom-login-input-groups">
             <b-form-input
               v-model="registerForm.family_name"
@@ -84,7 +84,7 @@
             ></b-form-input>
           </b-input-group>
         </div>
-        <div class="col-xl-4 col-lg-12 col-md-4">
+        <div class="col-xl-4 col-lg-12 col-md-6">
           <div class="custom-login-input-groups">
             <multiselect
               v-model="registerForm.gender"
@@ -99,7 +99,7 @@
             ></div>
           </div>
         </div>
-        <div class="col-xl-4 col-lg-12 col-md-4">
+        <div class="col-xl-4 col-lg-12 col-md-6">
           <div class="custom-login-input-groups">
             <b-form-datepicker
               id="datepicker-placeholder"
@@ -123,7 +123,7 @@
             </b-form-datepicker>
           </div>
         </div>
-        <div class="col-xl-4 col-lg-12 col-md-4">
+        <div class="col-xl-4 col-lg-12 col-md-6">
           <div class="custom-login-input-groups">
             <multiselect
               v-model="registerForm.nationality"
@@ -140,7 +140,7 @@
             ></div>
           </div>
         </div>
-        <div class="col-xl-4 col-lg-12 col-md-4">
+        <div class="col-xl-6 col-lg-12 col-md-6">
           <b-input-group class="custom-login-input-groups">
             <b-form-input
               v-model="registerForm.location"
@@ -152,7 +152,7 @@
             </b-input-group-append>
           </b-input-group>
         </div>
-        <div class="col-xl-4 col-lg-12 col-md-4">
+        <div class="col-xl-6 col-lg-12 col-md-6">
           <b-input-group class="custom-login-input-groups">
             <b-form-input
               v-model="userId"
@@ -162,8 +162,8 @@
             ></b-form-input>
           </b-input-group>
         </div>
-        <div class="col-xl-4 col-lg-12 col-md-8">
-          <div class="custom-login-input-groups">
+        <div class="col-md-12">
+          <div class="custom-login-input-groups file-upload-container">
             <div class="upload-text" v-if="fileToUpload.length">
               Click Here To Upload a New File
             </div>
@@ -195,7 +195,7 @@
           </button>
         </div>
         <div class="sign-up-link w200" @click="navigateTo('Login')">
-          Already have an account? <strong class="w500">Log in</strong>
+          Already have an account? <span class="w500">Log in</span>
         </div>
       </div>
     </div>

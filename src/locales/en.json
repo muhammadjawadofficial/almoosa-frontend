@@ -55,11 +55,11 @@
       "Discover the best doctors in Almoosa Specialist Hospital": "Discover the best doctors in Almoosa Specialist Hospital"
     }
   },
-  "upcomingAppointment":{
+  "upcomingAppointment": {
     "onsite": "On-site",
     "virtual": "Virtual"
   },
-  "appointmentDetail":{
+  "appointmentDetail": {
     "heading": "Appointment Detail",
     "subHeading": "View your appointments history",
     "appointment": "Appointment",
@@ -72,9 +72,21 @@
     "joinCall": "Join Call",
     "chatWithDoctor": "Chat With Doctor"
   },
+  "findSpecialist": {
+    "specialities": "Specialities",
+    "findSpecialist": "Find specialist by selecting category",
+    "selectDateTime": "Select Date & Time",
+    "findMySpecialist": "Find My Specialist",
+    "chooseLocation": "Choose Location",
+    "error": {
+      "location": "Select Location First",
+      "speciality": "Select Speciality First"
+    }
+  },
   "footer": {
     "allRights": "All Rights Reserved By Almoosa Hospital Specialist"
   },
+  "ash": "Almoosa Specialist Hospital",
   "loading": "Loading",
   "success": "Success",
   "failure": "Failed",

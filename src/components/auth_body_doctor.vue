@@ -22,10 +22,10 @@
           </div>
           <div class="login-dashboard-left--bottom-section">
             <button class="btn btn-tertiary">
-              Click to Continue as a Patient
+              Continue as a Patient
             </button>
             <button class="btn btn-primary">
-              Click to Continue as a Doctor
+              Continue as a Doctor
             </button>
           </div>
         </div>

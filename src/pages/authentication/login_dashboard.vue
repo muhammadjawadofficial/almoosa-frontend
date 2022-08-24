@@ -1,7 +1,7 @@
 <template>
   <div class="login-dashboard">
     <div class="carousel-inner">
-      <swiper class="swiper" :options="swiperOption">
+      <swiper class="swiper" :options="swiperOption" :slides-per-view="1">
         <swiper-slide>
           <div class="carousel-item active">
             <div class="login-dashboard-slide">
@@ -89,10 +89,10 @@ export default {
           el: ".swiper-pagination",
           clickable: true,
         },
-        autoplay: {
-          delay: 2500,
-          disableOnInteraction: false,
-        },
+        // autoplay: {
+        //   delay: 2500,
+        //   disableOnInteraction: false,
+        // },
         navigation: {
           nextEl: `.next-${this.id}`,
           prevEl: `.prev-${this.id}`,
