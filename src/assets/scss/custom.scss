@@ -724,6 +724,146 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 }
 
+.doctor-list-container {
+    position: relative;
+    .doctor-card-container {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        margin-top: 2.5rem;
+        .doctor-card {
+            border: 1px solid #cbc0a9;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 3rem;
+            .doctor {
+                &-image {
+                    width: 17.5rem;
+                    height: 15.125rem;
+                    margin-bottom: 1.125rem;
+                    display: flex;
+                    justify-content: center;
+                    img {
+                        height: 100%;
+                    }
+                }
+                &-name {
+                    font-size: 1.5rem;
+                    color: $black;
+                }
+                &-speciality {
+                    font-size: 1.5rem;
+                    color: #8f7970;
+                    font-family: $font-diodrum-medium;
+                }
+            }
+            .make-appointment {
+                margin-top: 2rem;
+                width: 100%;
+                padding-block: 0.75rem;
+            }
+        }
+    }
+    .search {
+        &-box {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: absolute;
+            top: 4.5rem;
+            right: 0;
+        }
+        &-input {
+            width: 20.438rem;
+            height: 3.125rem;
+            input {
+                background-color: $tertiary-color;
+                border: none;
+                height: 100%;
+                border-radius: 4.875rem;
+            }
+        }
+        &-icon {
+            width: 3.125rem;
+            aspect-ratio: 1;
+            background-color: $primary-color;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: $white;
+            font-size: 1rem;
+        }
+    }
+}
+.doctor-details-container {
+    .doctor-details {
+        &-card {
+            height: 15rem;
+            background-color: $tertiary-color;
+            > div {
+                position: relative;
+                width: 100%;
+                height: 100%;
+            }
+            &-header {
+                display: flex;
+                align-items: center;
+                gap: 2rem;
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: -3rem;
+                &-image {
+                    width: 16rem;
+                    aspect-ratio: 1;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    img {
+                        height: 100%;
+                        aspect-ratio: 1;
+                        object-fit: cover;
+                        object-position: top;
+                    }
+                }
+                &-right {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+                    width: 100%;
+                    &-info {
+                        margin-right: 1rem;
+                        &-name,
+                        &-speciality,
+                        &-location {
+                            font-size: 1.75rem;
+                            color: #1e445c;
+                        }
+                        &-name {
+                            font-family: $font-diodrum-bold;
+                        }
+                        &-speciality {
+                            font-family: $font-diodrum-medium;
+                        }
+                    }
+                    &-location {
+                        display: flex;
+                        align-items: center;
+                        font-family: $font-diodrum-medium;
+                        font-size: 1.5rem;
+                        gap: 1rem;
+                        color: #1e445c;
+                    }
+                }
+            }
+        }
+        &-section {
+            padding-top: 6rem;
+        }
+    }
+}
+
 .page-body-container {
     padding-top: 4.5rem;
     padding-bottom: 2rem;

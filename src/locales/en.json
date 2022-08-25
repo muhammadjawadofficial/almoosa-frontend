@@ -83,6 +83,11 @@
       "speciality": "Select Speciality First"
     }
   },
+  "doctorList":{
+    "title": "Schedule Appointment",
+    "makeAppointment": "Make Appointment",
+    "search": "Search Doctor"
+  },
   "footer": {
     "allRights": "All Rights Reserved By Almoosa Hospital Specialist"
   },

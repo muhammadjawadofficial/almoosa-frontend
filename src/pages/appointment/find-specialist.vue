@@ -145,7 +145,12 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("user", ["getBookingMethod"]),
+    ...mapGetters("user", [
+      "getBookingMethod",
+      "getBookingClinic",
+      "getBookingDate",
+      "getBookingSpeciality",
+    ]),
   },
   mounted() {
     if (!this.getBookingMethod) {
@@ -196,6 +201,15 @@ export default {
         }
       );
       this.selectedDate = this.formatDateForFindSpecialist(new Date());
+      if (this.getBookingDate) {
+        this.selectedDate = this.getBookingDate;
+      }
+      if (this.getBookingClinic) {
+        this.selectedClinic = this.getBookingClinic;
+      }
+      if (this.getBookingSpeciality) {
+        this.selectedSpeciality = this.getBookingSpeciality;
+      }
     },
     getImageUrl(image) {
       return process.env.VUE_APP_SERVER + image.path;
@@ -216,7 +230,7 @@ export default {
         return;
       }
       this.setBookingClinic(this.selectedClinic);
-      this.setSelectedSpeciality(this.selectedSpeciality);
+      this.setBookingSpeciality(this.selectedSpeciality);
       this.setBookingDate(this.selectedDate);
 
       this.setLoadingState(true);

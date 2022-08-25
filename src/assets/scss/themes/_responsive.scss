@@ -4245,6 +4245,16 @@
     }
   }
 }
+@media only screen and (max-width: 700px) {
+  .doctor-details-container {
+    .doctor-details-card {
+      .doctor-details-card-header {
+        position: relative;
+        inset: 0;
+      }
+    }
+  }
+}
 @media only screen and (max-width: 600px) {
   .toasted-container.top-right {
     left: 0 !important;
@@ -4700,7 +4710,8 @@
     &.compact-wrapper {
       .page-body-wrapper {
         .page-body {
-          margin-top: 60px;
+          margin-top: 52px;
+          min-height: calc(100vh - 74px - 52px);
         }
 
         div.sidebar-wrapper {

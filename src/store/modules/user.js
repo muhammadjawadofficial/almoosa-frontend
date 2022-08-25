@@ -15,7 +15,8 @@ export default {
             date: null,
             startTime: null,
             endTime: null,
-            amount: null
+            amount: null,
+            doctor: null,
         },
         doctorsList: null
     },
@@ -46,6 +47,9 @@ export default {
         },
         setBookingDate({ commit }, data) {
             commit('SET_BOOKING_DATE', data)
+        },
+        setBookingDoctor({ commit }, data) {
+            commit('SET_BOOKING_DOCTOR', data)
         },
         setDoctorsList({ commit }, data) {
             commit('SET_DOCTORS_LIST', data)
@@ -80,6 +84,9 @@ export default {
         SET_BOOKING_DATE(state, date) {
             state.booking.date = date;
         },
+        SET_BOOKING_DOCTOR(state, doctor) {
+            state.booking.doctor = doctor;
+        },
         SET_DOCTORS_LIST(state, doctorsList) {
             state.doctorsList = doctorsList;
         },
@@ -94,6 +101,7 @@ export default {
         getBookingSpeciality: (state) => state.booking.speciality,
         getBookingClinic: (state) => state.booking.clinic,
         getBookingDate: (state) => state.booking.date,
+        getBookingDoctor: (state) => state.booking.doctor,
         getDoctorsList: (state) => state.doctorsList,
     }
 };
