@@ -96,31 +96,13 @@
           <div class="heading-title">
             {{ $t("findSpecialist.selectDateTime") }}
           </div>
-          <div class="heading-subTitle">{{ formatOnlyDate(selectedDate) }}</div>
+          <div class="heading-subTitle">
+            {{ getLongMonthDayFromDate(selectedDate) }}
+          </div>
         </div>
       </div>
       <div class="body-section">
-        <div class="custom-login-input-groups datetime-container">
-          <b-form-datepicker
-            id="datepicker-placeholder"
-            placeholder="Add DOB"
-            calendar-width="100%"
-            v-model="selectedDate"
-            right
-            :date-format-options="{
-              year: 'numeric',
-              month: 'numeric',
-              day: 'numeric',
-            }"
-            :hide-header="true"
-            show-decade-nav
-            class="w200"
-          >
-            <template #button-content>
-              <calendar-svg />
-            </template>
-          </b-form-datepicker>
-        </div>
+        <ash-datepicker v-model="selectedDate" />
       </div>
     </div>
     <div class="datetime-section find-specialist-container-section">
@@ -200,7 +182,13 @@ export default {
           this.setLoadingState(false);
         }
       );
-      this.selectedDate = this.formatDateForFindSpecialist(new Date());
+      let today = new Date();
+      this.selectedDate =
+        today.getUTCFullYear() +
+        "-" +
+        (today.getUTCMonth() + 1) +
+        "-" +
+        today.getUTCDate();
       if (this.getBookingDate) {
         this.selectedDate = this.getBookingDate;
       }
@@ -228,6 +216,9 @@ export default {
       if (!this.selectedSpeciality.id) {
         this.failureToast(this.$t("findSpecialist.error.speciality"));
         return;
+      }
+      if (this.getBookingMethod != "onsite") {
+        this.selectedClinic = {};
       }
       this.setBookingClinic(this.selectedClinic);
       this.setBookingSpeciality(this.selectedSpeciality);

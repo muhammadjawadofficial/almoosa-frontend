@@ -12,7 +12,7 @@
 
   &.ash-card {
     border-radius: 0.875rem 0px 0.875rem 0.875rem;
-    margin-top: 2rem;
+    margin-block: 2rem;
     &:not(.card-wizard) {
       overflow: hidden;
     }
@@ -109,7 +109,7 @@
               &.warning {
                 background-color: #fb9d2b;
                 .appointment-status {
-                  color: #F79D31;
+                  color: #f79d31;
                 }
               }
               &.danger {
@@ -145,6 +145,7 @@
           background-color: $tertiary-color;
           color: $secondary-color;
           font-size: 1.25rem;
+          text-align: center;
           &.active {
             background-color: $primary-color;
             color: $tertiary-color;
@@ -154,13 +155,20 @@
     }
   }
   &.card-wizard {
+    &.simple {
+      .appointment-list {
+        display: flex;
+        flex-direction: column;
+      }
+    }
     .card-body {
       margin-top: 0;
       .appointment-list {
         --dot-size: 1.4rem;
         --dot-size-dup: 1.4rem;
         --sub-dot-size: 1rem;
-        border-left: 1px solid $primary-color;
+        --border-width: 1px;
+        border-left: var(--border-width) solid $primary-color;
         &-item {
           padding-inline-start: 1.25rem;
           display: flex;
@@ -171,7 +179,7 @@
             content: "";
             position: absolute;
             top: 0;
-            left: calc(var(--dot-size) / 2 * -1);
+            left: calc((var(--dot-size) / 2 * -1) - (var(--border-width) - 1px));
             width: var(--dot-size);
             aspect-ratio: 1;
             border-radius: 50%;
@@ -183,7 +191,7 @@
           &::after {
             --dot-size: var(--sub-dot-size);
             top: calc((var(--dot-size-dup) - var(--sub-dot-size)) / 2);
-            left: calc(var(--dot-size) / -2);
+            left: calc((var(--dot-size) / -2) - (var(--border-width) - 1px));
             background: $secondary-color;
           }
           .appointment {

@@ -5,7 +5,9 @@ export const appointmentService = {
     getUpcomingAppointemnts,
     getClinics,
     getSpecialities,
-    findDoctors
+    findDoctors,
+    fetchTimeslots,
+    createAppointment
 }
 
 function getUpcomingAppointemnts(id) {
@@ -33,5 +35,29 @@ function findDoctors(speciality, date, clinic) {
     return axios({
         method: apiPath.appointment.findDoctors(speciality, date, clinic).method,
         url: apiPath.appointment.findDoctors(speciality, date, clinic).url
+    })
+}
+
+function fetchTimeslots(doctor, date) {
+    return axios({
+        method: apiPath.appointment.fetchTimeslots(doctor, date).method,
+        url: apiPath.appointment.fetchTimeslots(doctor, date).url
+    })
+}
+
+function createAppointment(type, patient, doctor, date, start_time, end_time, amount) {
+    let data = {
+        "patient_id": patient.id,
+        "doctor_id": doctor.id,
+        "type": type,
+        "booked_date": date,
+        "start_time": start_time,
+        "end_time": end_time,
+        "amount": amount
+    }
+    return axios({
+        method: apiPath.appointment.createAppointment.method,
+        url: apiPath.appointment.createAppointment.url,
+        data
     })
 }

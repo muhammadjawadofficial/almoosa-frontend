@@ -118,7 +118,7 @@
               class="w200"
             >
               <template #button-content>
-                <calendar-svg />
+                <img src="../../assets/images/datepicker.svg" alt="" />
               </template>
             </b-form-datepicker>
           </div>
@@ -386,7 +386,6 @@ export default {
               .resendOtp({ [this.selectedItem.method]: this.userId })
               .then(
                 (otpResponse) => {
-                  console.log(otpResponse, "otpResponse");
                   if (otpResponse.data.status) {
                     let data = otpResponse.data.data;
                     if (process.env.NODE_ENV != "Production") this.setOtp(data);

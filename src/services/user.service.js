@@ -47,7 +47,6 @@ function setToken(token) {
     return localStorage.setItem(jwtTokenKey, token);
 }
 function setSelectedLayout(lang) {
-    console.log(lang, preferredLayout)
     return localStorage.setItem(preferredLayout, lang);
 }
 function getSelectedLayout() {

@@ -80,17 +80,48 @@
     "chooseLocation": "اختيار موقع",
     "error": {
       "location": "حدد الموقع أولاً",
-      "speciality": "حدد التخصص أولا"
+      "speciality": "حدد التخصص أولا",
+      "bookingDate": "تاريخ الحجز",
+      "timeSlots": "الفترات الزمنية المتاحة"
     }
   },
   "doctorList":{
     "title": "جدولة موعد",
     "makeAppointment": "حدد موعدا",
-    "search": "ابحث عن دكتور"
+    "search": "ابحث عن دكتور",
+    "bookingDate": "تاريخ الحجز",
+    "timeSlots": "الفترات الزمنية المتاحة",
+    "bookAppointment": "احجز موعدًا",
+    "noData": "لا توجد بيانات في معايير الاختيار الحالية"
+  },
+  "doctorDetail": {
+    "tabs":{
+      "booking": "تفاصيل الحجز",
+      "clinic": "عيادات",
+      "experience": "خبرة في العمل"
+    },
+    "timeslot": {
+      "noData": "لا توجد فترات زمنية في هذا التاريخ المحدد"
+    }
   },
   "footer": {
     "allRights": "جميع الحقوق محفوظة من قبل أخصائي مستشفى الموسى"
   },
+  "bookAppointment": {
+    "success": "تم حجز موعدك بنجاح!",
+    "info": "لتأكيد موعدك ، أكمل عملية الدفع.",
+    "appointment": "ميعاد",
+    "specialist": "متخصص",
+    "dateTime": "التاريخ والوقت",
+    "payment": "دفع",
+    "payNow": "ادفع الآن",
+    "payLater": "ادفع لاحقا",
+    "modal": {
+      "confirmed": "تم تأكيد الموعد",
+      "confirmedText": "ستظهر حالة موعدك على أنها معلق إلا إذا دفعت مقابل الموعد."
+    }
+  },
+  "back": "خلف",
   "ash": "مستشفى الموسى التخصصى",
   "loading": "تحميل",
   "success": "نجاح",

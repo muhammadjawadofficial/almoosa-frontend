@@ -18,29 +18,34 @@
       </div>
     </div>
     <div class="doctor-card-container">
-      <div
-        class="doctor-card"
-        v-for="doctor in filteredDoctors"
-        :key="'doctor-card-' + doctor.id"
-      >
-        <div class="doctor-image">
-          <img :src="getImageUrl(doctor)" alt="doctor-image" />
-        </div>
-        <div class="doctor-name">
-          {{
-            doctor.first_name +
-            (doctor.middle_name ? " " + doctor.middle_name + " " : " ") +
-            doctor.family_name
-          }}
-        </div>
-        <div class="doctor-speciality">{{ doctor.speciality.title }}</div>
-        <button
-          class="btn btn-primary make-appointment"
-          @click="setSelectedDoctor(doctor)"
+      <template v-if="filteredDoctors && filteredDoctors.length">
+        <div
+          class="doctor-card"
+          v-for="doctor in filteredDoctors"
+          :key="'doctor-card-' + doctor.id"
         >
-          {{ $t("doctorList.makeAppointment") }}
-        </button>
-      </div>
+          <div class="doctor-image">
+            <img :src="getImageUrl(doctor)" alt="doctor-image" />
+          </div>
+          <div class="doctor-name">
+            {{
+              doctor.first_name +
+              (doctor.middle_name ? " " + doctor.middle_name + " " : " ") +
+              doctor.family_name
+            }}
+          </div>
+          <div class="doctor-speciality">{{ doctor.speciality.title }}</div>
+          <button
+            class="btn btn-primary make-appointment"
+            @click="setSelectedDoctor(doctor)"
+          >
+            {{ $t("doctorList.makeAppointment") }}
+          </button>
+        </div>
+      </template>
+      <template v-else>
+        <div class="no-data">{{ $t("doctorList.noData") }}</div>
+      </template>
     </div>
   </div>
 </template>
@@ -58,6 +63,9 @@ export default {
     ...mapGetters("user", ["getDoctorsList"]),
   },
   mounted() {
+    if (!this.getDoctorsList) {
+      this.navigateTo("Find Specialist");
+    }
     this.filteredDoctors = [...this.getDoctorsList];
     this.setBookingDoctor(null);
   },

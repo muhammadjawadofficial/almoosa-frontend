@@ -440,7 +440,6 @@ export default {
     },
     scrollToLeftRTL() {
       // If Margin is reach between screen resolution
-      console.log("this.margin", this.margin);
       if (this.margin <= -this.width) {
         this.margin += -this.width;
         this.hideLeftArrowRTL = true;
@@ -452,8 +451,6 @@ export default {
       }
     },
     scrollToLeft() {
-      console.log("left");
-
       // If Margin is reach between screen resolution
       if (this.margin >= -this.width) {
         this.margin = 0;

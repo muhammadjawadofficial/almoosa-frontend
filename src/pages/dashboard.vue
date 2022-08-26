@@ -17,7 +17,7 @@
         <div class="consultation-section--blocks">
           <div
             class="consultation-section--blocks--single large secondary"
-            @click="findASpecialist('virtual')"
+            @click="findASpecialist('online')"
           >
             <div class="new-badge">
               <new-badge-svg />
@@ -111,7 +111,7 @@ export default {
         {
           text: "Check Symptoms",
           icon: "symptom-svg",
-          unique: true
+          unique: true,
         },
         {
           text: "Add Family Member",
@@ -169,8 +169,8 @@ export default {
   methods: {
     ...mapActions("user", ["setBookingMethod"]),
     findASpecialist(type) {
-      if (type == "virtual") {
-        this.setBookingMethod("virtual");
+      if (type == "online") {
+        this.setBookingMethod("online");
       } else {
         this.setBookingMethod("onsite");
       }

@@ -4,7 +4,7 @@
   >
     <back-navigation :title="$t('modules.Upcoming Appointment')" />
     <div class="row">
-      <div class="col-sm-12">
+      <div class="col-sm-12" style="--numberOfTabs: 2">
         <b-card
           header-tag="div"
           no-body
@@ -30,7 +30,7 @@
                         {{ getDate(appointment.booked_date) }}
                       </div>
                       <div class="appointment-time-time">
-                        {{ getTime(appointment.booked_date) }}
+                        {{ getTimeFromDate(appointment.booked_date, true) }}
                       </div>
                     </div>
                     <div
@@ -57,8 +57,15 @@
                         </div>
                         <div class="appointment-status">
                           <div class="appointment-time-span">
-                            {{ removeSeconds(appointment.start_time) }} -
-                            {{ removeSeconds(appointment.end_time) }}
+                            {{
+                              removeSecondsFromTimeString(
+                                appointment.start_time
+                              )
+                            }}
+                            -
+                            {{
+                              removeSecondsFromTimeString(appointment.end_time)
+                            }}
                           </div>
                           {{ appointment.status }}
                         </div>
@@ -85,7 +92,7 @@
                         {{ getDate(appointment.booked_date) }}
                       </div>
                       <div class="appointment-time-time">
-                        {{ getTime(appointment.booked_date) }}
+                        {{ getTimeFromDate(appointment.booked_date, true) }}
                       </div>
                     </div>
                     <div
@@ -112,8 +119,15 @@
                         </div>
                         <div class="appointment-status success">
                           <div class="appointment-time-span">
-                            {{ removeSeconds(appointment.start_time) }} -
-                            {{ removeSeconds(appointment.end_time) }}
+                            {{
+                              removeSecondsFromTimeString(
+                                appointment.start_time
+                              )
+                            }}
+                            -
+                            {{
+                              removeSecondsFromTimeString(appointment.end_time)
+                            }}
                           </div>
                           {{ appointment.status }}
                         </div>
@@ -160,7 +174,6 @@ export default {
     checkScreenOffset() {
       let appointment = this.getSelectedAppointment;
       if (appointment) {
-        console.log(appointment, appointment.type);
         this.activeTab = appointment.type == "onsite" ? 1 : 0;
       }
     },

@@ -13,6 +13,7 @@ import VueApexCharts from 'vue-apexcharts';
 import VueExcelXlsx from "vue-excel-xlsx";
 import moment from 'moment'
 import PerPage from "./components/per_page"
+import ASHDatePicker from "./components/ash_datepicker"
 import Multiselect from "vue-multiselect";
 import vue2Dropzone from 'vue2-dropzone';
 import "./components/svgIcons"
@@ -25,6 +26,7 @@ Vue.component("v-otp-input", OtpInput);
 Vue.component(PxCard.name, PxCard)
 Vue.component("vueDropzone", vue2Dropzone)
 Vue.component('perpage', PerPage)
+Vue.component('ash-datepicker', ASHDatePicker)
 Vue.component('multiselect', Multiselect)
 
 // Multi Language Add
@@ -55,6 +57,11 @@ Vue.mixin({
       restartEnabled: false
     }
   },
+  watch: {
+    "$i18n.locale": function (val) {
+      moment.locale(val)
+    }
+  },
   methods: {
     getLocaleKey: function (key, wordCase = "camel") {
       let postKey = this.$i18n.locale == "ar" ? "Ar" : "En";
@@ -79,12 +86,14 @@ Vue.mixin({
         cancelButtonColor: "#4466f2",
       });
     },
-    successModal(title, confirmText) {
-      this.$swal({
-        text: title || this.$t('changesDone'),
-        type: 'success',
+    successPaymentModal(title, text, confirmText) {
+      const imagePath = require("./assets/images/wallet.svg")
+      return this.$swal({
+        title: title || this.$t('changesDone'),
+        text: text || this.$t('changesDone'),
         confirmButtonText: confirmText || this.$t("ok"),
-        confirmButtonColor: "#4466f2"
+        confirmButtonColor: "#4466f2",
+        imageUrl: imagePath,
       });
     },
     failureModal(title, confirmText) {
@@ -139,20 +148,80 @@ Vue.mixin({
         return date.format("DD MMM");
       }
     },
-    getTime(dateString) {
-      return moment(dateString).format("HH:mm");
+    getTimeFromDate(date, includeAmPm = false) {
+      return moment(date).utc().format("hh:mm" + (includeAmPm ? " A" : ""));
     },
-    removeSeconds(timeString) {
-      return timeString.slice(0, -3);
+    removeSecondsFromTimeString(timeString, onlySplice = false, translate = true) {
+      let timeArray = timeString.split(":");
+      let hh = timeArray[0];
+      let mm = timeArray[1];
+
+      let withoutSeconds = hh + ":" + mm;
+      if (onlySplice) {
+        if (translate) {
+          return this.translateNumber(withoutSeconds)
+        }
+        return withoutSeconds;
+      }
+      let parsedString = "";
+
+      if (hh >= 0 && +hh < 12) {
+        if (+hh == 0) {
+          hh = '12';
+        }
+        parsedString = hh + ":" + mm + "AM"
+      } else {
+        if (hh > 12) {
+          hh = hh - 12;
+        }
+        hh = '' + hh;
+        if (hh.split("").length < 2) {
+          hh = '0' + hh
+        }
+        parsedString = hh + ":" + mm + "PM"
+      }
+      return this.translateNumber(parsedString);
+    },
+    dateFormatter(date, format = 'MMMM Do YYYY, h:mm A') {
+      return moment(date).format(format);
     },
     formatDate(date) {
-      return moment(date).format('MMMM Do YYYY, h:mm A');
+      return this.dateFormatter(date, "DD-MM-YYYY")
     },
-    formatOnlyDate(date) {
-      return moment(date).format('MMMM, D dddd');
+    getLongMonthDayFromDate(date) {
+      return this.dateFormatter(date, 'MMMM, D dddd')
     },
-    formatDateForFindSpecialist(date) {
-      return moment(date).format("YYYY-MM-DD")
+    getLongDateFromDate(date) {
+      return this.dateFormatter(date, 'D MMMM YYYY')
+    },
+    getShortDateFromDate(date, separator = "-") {
+      return this.dateFormatter(date, "YYYY" + separator + "MM" + separator + "DD")
+    },
+    translateNumber(strNum) {
+      // e.g., 12:00AM
+      if (this.getCurrentLang() == "ar") {
+        let ar = '٠١٢٣٤٥٦٧٨٩'.split('');
+        let en = '0123456789'.split('');
+        if (strNum.includes("PM")) {
+          strNum = strNum.replace("PM", "")
+          strNum = "م" + strNum;
+        }
+        if (strNum.includes("AM")) {
+          strNum = strNum.replace("AM", "")
+          strNum = "ص" + strNum;
+        }
+        let strArray = strNum.split("");
+        let translateString = "";
+        strArray.forEach(character => {
+          if (en.includes(character)) {
+            translateString += ar[en.indexOf(character)]
+          } else {
+            translateString += character;
+          }
+        })
+        return translateString.split("").reverse().join("");
+      }
+      return strNum;
     }
   },
 })

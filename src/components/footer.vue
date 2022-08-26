@@ -31,3 +31,10 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.footer-copyright {
+  p {
+    font-size: 0.813rem;
+  }
+}
+</style>

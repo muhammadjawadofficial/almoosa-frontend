@@ -83,20 +83,50 @@
       "speciality": "Select Speciality First"
     }
   },
-  "doctorList":{
+  "doctorList": {
     "title": "Schedule Appointment",
     "makeAppointment": "Make Appointment",
-    "search": "Search Doctor"
+    "search": "Search Doctor",
+    "bookingDate": "Booking Date",
+    "timeSlots": "Available Time Slots",
+    "bookAppointment": "Book an Appointment",
+    "noData": "No Data Found in the current selection criteria"
+  },
+  "doctorDetail": {
+    "tabs": {
+      "booking": "Booking Details",
+      "clinic": "Clinics",
+      "experience": "Work Experience"
+    },
+    "timeslot": {
+      "noData": "No timeslots in this selected date",
+      "notSelected": "Please select a timeslot"
+    }
+  },
+  "bookAppointment": {
+    "success": "Your Appointment has been booked successfully!",
+    "info": "To confirm your appointment, complete the payment process.",
+    "appointment": "Appointment",
+    "specialist": "Specialist",
+    "dateTime": "Date & Time",
+    "payment": "Payment",
+    "payNow": "Pay Now",
+    "payLater": "Pay Later",
+    "modal": {
+      "confirmed": "Appointment Confirmed",
+      "confirmedText": "Your appointment status will be shown as Pending unless you pay for the appointment."
+    }
   },
   "footer": {
     "allRights": "All Rights Reserved By Almoosa Hospital Specialist"
   },
+  "back": "Back",
   "ash": "Almoosa Specialist Hospital",
   "loading": "Loading",
   "success": "Success",
   "failure": "Failed",
   "areYouSure": "Are you sure?",
-  "ok": "OK",
+  "ok": "Ok",
   "cancel": "Cancel",
   "changesDone": "Changes saved successfully",
   "changesReverted": "Changes has been reverted",

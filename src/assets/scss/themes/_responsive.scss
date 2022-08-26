@@ -203,15 +203,6 @@
       }
     }
   }
-  .page-wrapper {
-    &.compact-wrapper {
-      .page-body-wrapper {
-        div.sidebar-wrapper {
-          top: 77px;
-        }
-      }
-    }
-  }
 }
 
 @media (max-width: 1280px) {
@@ -2257,8 +2248,6 @@
 
       .page-body-wrapper {
         div.sidebar-wrapper {
-          top: 70px;
-
           &.close_icon {
             &:hover {
               // transform: translate(-285px);
@@ -2282,12 +2271,6 @@
             }
           }
 
-          .sidebar-main {
-            .sidebar-links {
-              height: calc(100vh - 105px);
-            }
-          }
-
           &.close_icon {
             // transform: translate(-285px);
 
@@ -2297,11 +2280,6 @@
               }
             }
           }
-        }
-
-        .page-body {
-          margin-top: 63px;
-          padding: 0;
         }
       }
     }
@@ -3089,6 +3067,17 @@
       }
     }
   }
+  .card {
+    &.card-top-navigation {
+      .nav-pills {
+        li {
+          a {
+            width: 13rem;
+          }
+        }
+      }
+    }
+  }
 }
 
 @media only screen and (max-width: 768px) {
@@ -3242,11 +3231,6 @@
       .nav-right {
         .nav-menus {
           // margin-right: 38px;
-        }
-      }
-      .page-body-wrapper {
-        div.sidebar-wrapper {
-          top: 66px;
         }
       }
     }
@@ -3578,7 +3562,7 @@
           width: 100%;
           gap: 1rem;
           li {
-            width: calc((100% - 1rem) / 2);
+            width: calc((100% - ((var(--numberOfTabs) * 1rem) - 1rem)) / var(--numberOfTabs));
             a {
               width: 100%;
             }
@@ -3601,6 +3585,15 @@
       .card-body {
         .appointment-list-item {
           margin-bottom: 1.75rem;
+        }
+      }
+    }
+  }
+  .doctor-details-container {
+    .doctor-details-section {
+      .card {
+        &.card-top-navigation {
+          --pill-height: 4.5rem;
         }
       }
     }
@@ -4244,6 +4237,15 @@
       }
     }
   }
+  .doctor-list-container {
+    div.search {
+      &-box {
+        position: relative;
+        inset: unset;
+        margin-top: 1rem;
+      }
+    }
+  }
 }
 @media only screen and (max-width: 700px) {
   .doctor-details-container {
@@ -4709,19 +4711,8 @@
 
     &.compact-wrapper {
       .page-body-wrapper {
-        .page-body {
-          margin-top: 52px;
-          min-height: calc(100vh - 74px - 52px);
-        }
-
         div.sidebar-wrapper {
           font-size: 14px;
-          top: 64px;
-          .sidebar-main {
-            .sidebar-links {
-              height: calc(100vh - 90px);
-            }
-          }
         }
       }
     }
@@ -6141,6 +6132,11 @@
       }
     }
   }
+  .doctor-list-container {
+    div.doctor-card-container {
+      font-size: 0.85rem;
+    }
+  }
 }
 
 @media only screen and (max-width: 480px) {
@@ -6531,7 +6527,6 @@
     &.compact-wrapper {
       .page-body-wrapper {
         div.sidebar-wrapper {
-          top: 54px;
           .sidebar-main {
             .sidebar-links {
               min-width: 112px;

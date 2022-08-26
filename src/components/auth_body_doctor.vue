@@ -46,11 +46,6 @@ export default {
       layoutType: "ltr",
     };
   },
-  watch: {
-    $route: function (val) {
-      console.log(val);
-    },
-  },
   mounted() {
     this.layoutType = this.$i18n.locale == "en" ? "ltr" : "rtl";
     this.switchLanguage("ltr");

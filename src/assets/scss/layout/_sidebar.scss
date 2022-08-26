@@ -1423,7 +1423,7 @@
       div {
         &.sidebar-wrapper {
           position: fixed;
-          top: 75px;
+          top: var(--header-height);
           right: -280px;
           z-index: 99997;
           height: 100%;
@@ -2117,8 +2117,8 @@
       }
 
       .page-body {
-        min-height: calc(100vh - 80px - 52px);
-        margin-top: 80px;
+        min-height: calc(100vh - var(--header-height) - var(--footer-height));
+        margin-top: var(--header-height);
         // margin-left: 280px;
         // animation: pagebody 1000ms ease-in-out;
       }
@@ -2345,7 +2345,7 @@
 
           .sidebar-links {
             margin: 30px 0;
-            height: calc(100vh - 80px);
+            height: calc(100vh - var(--header-height));
             overflow: auto;
             min-width: 150px;
             width: 100%;
