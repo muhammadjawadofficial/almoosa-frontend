@@ -223,8 +223,6 @@ export default {
       this.setBookingClinic(this.selectedClinic);
       this.setBookingSpeciality(this.selectedSpeciality);
       this.setBookingDate(this.selectedDate);
-
-      this.setLoadingState(true);
       appointmentService
         .findDoctors(
           this.selectedSpeciality.id,

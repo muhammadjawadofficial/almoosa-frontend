@@ -107,6 +107,8 @@
     "success": "Your Appointment has been booked successfully!",
     "info": "To confirm your appointment, complete the payment process.",
     "appointment": "Appointment",
+    "onsite": "On-site",
+    "online": "Virtual",
     "specialist": "Specialist",
     "dateTime": "Date & Time",
     "payment": "Payment",
@@ -142,5 +144,6 @@
   "list": "List",
   "download": "Download",
   "upload": "Upload",
-  "all": "All"
+  "all": "All",
+  "new": "New"
 }

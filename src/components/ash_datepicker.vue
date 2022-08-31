@@ -19,6 +19,7 @@
       show-decade-nav
       class="w200"
       @input="handleInput"
+      @change="handleChange"
     >
       <template #button-content>
         <img src="../assets/images/datepicker.svg" alt="" />
@@ -79,6 +80,9 @@ export default {
   methods: {
     handleInput(date) {
       this.$emit("input", date);
+    },
+    handleChange(date) {
+      this.$emit("change", date);
     },
     isLTR() {
       return this.getCurrentLang() == "en";

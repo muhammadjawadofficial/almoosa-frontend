@@ -1631,7 +1631,7 @@
         .appointment-list-item {
           .appointment-card {
             border-right: 0;
-            border-left: 0.7rem solid #55b047;
+            border-left: 0.7rem solid transparent;
             .appointment-time-span {
               right: unset;
               left: 1.875rem;

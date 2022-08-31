@@ -37,7 +37,7 @@
         font-size="14"
         font-family="Poppins-Regular, Poppins"
       >
-        <tspan x="-15" y="0">New</tspan>
+        <tspan x="-15" y="0">{{ $t("new") }}</tspan>
       </text>
     </g>
   </svg>

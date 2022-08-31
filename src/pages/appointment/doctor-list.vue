@@ -79,7 +79,11 @@ export default {
     },
   },
   methods: {
-    ...mapActions("user", ["setBookingDoctor"]),
+    ...mapActions("user", [
+      "setBookingDoctor",
+      "setBookingStartTime",
+      "setBookingEndTime",
+    ]),
     getImageUrl(profile) {
       if (profile.photo) {
         return process.env.VUE_APP_SERVER + profile.photo.path;
@@ -88,6 +92,8 @@ export default {
     },
     setSelectedDoctor(doctor) {
       this.setBookingDoctor(doctor);
+      this.setBookingStartTime(null);
+      this.setBookingEndTime(null);
       this.navigateTo("Doctor Details");
     },
   },

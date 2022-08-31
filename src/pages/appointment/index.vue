@@ -6,15 +6,25 @@ import { mapActions } from "vuex";
 export default {
   methods: {
     ...mapActions("user", [
-      "setBookingDate",
-      "setBookingClinic",
+      "setBookingMethod",
       "setBookingSpeciality",
+      "setBookingClinic",
+      "setBookingDate",
+      "setBookingStartTime",
+      "setBookingEndTime",
+      "setBookingDoctor",
+      "setBookingAmount",
     ]),
   },
   beforeDestroy() {
-    this.setBookingDate(null);
-    this.setBookingClinic(null);
+    this.setBookingMethod(null);
     this.setBookingSpeciality(null);
+    this.setBookingClinic(null);
+    this.setBookingDate(null);
+    this.setBookingStartTime(null);
+    this.setBookingEndTime(null);
+    this.setBookingDoctor(null);
+    this.setBookingAmount(null);
   },
 };
 </script>

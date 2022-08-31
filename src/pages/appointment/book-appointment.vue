@@ -30,7 +30,7 @@
                 {{ $t("bookAppointment.appointment") }}
               </div>
               <div class="appointment-detail--value">
-                {{ getBookingMethod }}
+                {{ $t("bookAppointment." + getBookingMethod) }}
               </div>
             </div>
             <div class="appointment-detail--sepecialist">
@@ -137,7 +137,11 @@ export default {
           userService.currentUser(),
           this.getBookingDoctor,
           this.getBookingDate,
-          this.removeSecondsFromTimeString(this.getBookingStartTime, true, false),
+          this.removeSecondsFromTimeString(
+            this.getBookingStartTime,
+            true,
+            false
+          ),
           this.removeSecondsFromTimeString(this.getBookingEndTime, true, false),
           this.getBookingAmount
         )

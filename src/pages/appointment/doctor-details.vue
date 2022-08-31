@@ -70,7 +70,8 @@
                               : setSelectedTimeSlot(index)
                           "
                         >
-                          {{ removeSecondsFromTimeString(timeslot.start_time) }} -
+                          {{ removeSecondsFromTimeString(timeslot.start_time) }}
+                          -
                           {{ removeSecondsFromTimeString(timeslot.end_time) }}
                         </div>
                       </div>
@@ -186,7 +187,8 @@ export default {
         this.fetchTimeslots();
       }
     },
-    bookingDateChanged() {
+    bookingDateChanged(val) {
+      this.selectedDate = val;
       this.setBookingStartTime(null);
       this.setBookingEndTime(null);
       this.setSelectedTimeSlot(null);
