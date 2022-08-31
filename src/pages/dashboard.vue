@@ -167,7 +167,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions("user", ["setBookingMethod"]),
+    ...mapActions("appointment", ["setBookingMethod"]),
     findASpecialist(type) {
       if (type == "online") {
         this.setBookingMethod("online");

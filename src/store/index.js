@@ -4,19 +4,21 @@ import Vuex from "vuex";
 import layout from './modules/layout'
 import menu from './modules/menu'
 import user from './modules/user'
+import appointment from './modules/appointment'
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
-    state: {
-    },
-    mutations: {
-    },
-    actions: {
-    },
-    modules: {
-      layout,
-      menu,
-      user
-    }
+  state: {
+  },
+  mutations: {
+  },
+  actions: {
+  },
+  modules: {
+    layout,
+    menu,
+    user,
+    appointment
+  }
 });
 

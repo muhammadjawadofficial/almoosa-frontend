@@ -90,14 +90,14 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import { appointmentService, userService } from "../../services";
 export default {
   mounted() {
     this.checkAccess();
   },
   computed: {
-    ...mapGetters("user", [
+    ...mapGetters("appointment", [
       "getBookingMethod",
       "getBookingDoctor",
       "getBookingDate",
@@ -107,7 +107,17 @@ export default {
     ]),
   },
   methods: {
+    ...mapActions("appointment", ["resetBookAppointment"]),
     checkAccess() {
+      console.log(
+        "sar",
+        this.getBookingAmount,
+        this.getBookingEndTime,
+        this.getBookingStartTime,
+        this.getBookingDate,
+        this.getBookingDoctor,
+        this.getBookingMethod
+      );
       if (
         !(
           this.getBookingAmount &&
@@ -126,6 +136,7 @@ export default {
         this.$t("bookAppointment.modal.confirmed"),
         this.$t("bookAppointment.modal.confirmedText")
       ).then(() => {
+        this.resetBookAppointment();
         this.navigateTo("Upcoming Appointment");
       });
     },

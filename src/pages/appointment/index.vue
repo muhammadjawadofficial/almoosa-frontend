@@ -5,7 +5,7 @@
 import { mapActions } from "vuex";
 export default {
   methods: {
-    ...mapActions("user", [
+    ...mapActions("appointment", [
       "setBookingMethod",
       "setBookingSpeciality",
       "setBookingClinic",
@@ -24,7 +24,7 @@ export default {
     this.setBookingStartTime(null);
     this.setBookingEndTime(null);
     this.setBookingDoctor(null);
-    this.setBookingAmount(null);
+    // this.setBookingAmount(null);
   },
 };
 </script>

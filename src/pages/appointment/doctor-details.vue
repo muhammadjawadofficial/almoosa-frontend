@@ -161,7 +161,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("user", [
+    ...mapGetters("appointment", [
       "getBookingDoctor",
       "getBookingDate",
       "getBookingStartTime",
@@ -175,7 +175,7 @@ export default {
     this.initializeData();
   },
   methods: {
-    ...mapActions("user", [
+    ...mapActions("appointment", [
       "setBookingStartTime",
       "setBookingEndTime",
       "setBookingDate",
@@ -243,6 +243,7 @@ export default {
         this.failureToast(this.$t("doctorDetail.timeslot.notSelected"));
         return;
       }
+      console.log("booked");
       let selectedTimeSlot = this.timeslots.all_slots[this.selectedTimeSlot];
       this.setBookingDate(this.selectedDate);
       this.setBookingStartTime(selectedTimeSlot.start_time);

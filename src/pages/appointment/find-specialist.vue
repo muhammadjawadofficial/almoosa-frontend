@@ -127,7 +127,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("user", [
+    ...mapGetters("appointment", [
       "getBookingMethod",
       "getBookingClinic",
       "getBookingDate",
@@ -141,7 +141,7 @@ export default {
     this.initializeData();
   },
   methods: {
-    ...mapActions("user", [
+    ...mapActions("appointment", [
       "setBookingSpeciality",
       "setBookingClinic",
       "setBookingDate",

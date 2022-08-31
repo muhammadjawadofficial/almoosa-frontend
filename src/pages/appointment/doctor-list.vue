@@ -60,10 +60,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("user", ["getDoctorsList"]),
+    ...mapGetters("appointment", ["getDoctorsList", "getBookingClinic"]),
   },
   mounted() {
-    if (!this.getDoctorsList) {
+    if (!this.getDoctorsList || !this.getBookingClinic) {
       this.navigateTo("Find Specialist");
     }
     this.filteredDoctors = [...this.getDoctorsList];
@@ -79,7 +79,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("user", [
+    ...mapActions("appointment", [
       "setBookingDoctor",
       "setBookingStartTime",
       "setBookingEndTime",

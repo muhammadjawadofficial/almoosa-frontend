@@ -167,10 +167,10 @@ export default {
     this.checkScreenOffset();
   },
   computed: {
-    ...mapGetters("user", ["getSelectedAppointment"]),
+    ...mapGetters("appointment", ["getSelectedAppointment"]),
   },
   methods: {
-    ...mapActions("user", ["setSelectedAppointment"]),
+    ...mapActions("appointment", ["setSelectedAppointment"]),
     checkScreenOffset() {
       let appointment = this.getSelectedAppointment;
       if (appointment) {

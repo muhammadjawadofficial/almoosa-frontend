@@ -100,14 +100,14 @@ export default {
     this.initializeAppointmentDetails();
   },
   methods: {
-    ...mapActions("user", ["setSelectedAppointment"]),
+    ...mapActions("appointment", ["setSelectedAppointment"]),
     initializeAppointmentDetails() {
       this.details = this.getSelectedAppointment;
       if (!this.details) this.navigateTo("Upcoming Appointment");
     },
   },
   computed: {
-    ...mapGetters("user", ["getSelectedAppointment"]),
+    ...mapGetters("appointment", ["getSelectedAppointment"]),
   },
 };
 </script>
