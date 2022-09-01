@@ -4,6 +4,7 @@ import constants from "../constants/constants"
 
 export const authService = {
     login,
+    loginDoctor,
     uploadId,
     register,
     resendOtp,
@@ -35,7 +36,19 @@ function login(payload) {
         data
     })
 }
-function uploadId(file){
+function loginDoctor(payload) {
+    let data = {
+        "field_name": payload.method,
+        "username": payload.username,
+        "password": payload.password,
+    }
+    return axios({
+        method: apiPath.login.doctor.method,
+        url: apiPath.login.doctor.url,
+        data
+    })
+}
+function uploadId(file) {
     let data = new FormData();
     data.append('patient_id', file);
     return axios({
@@ -44,35 +57,35 @@ function uploadId(file){
         data
     })
 }
-function register(data){
+function register(data) {
     return axios({
         method: apiPath.register.patient.method,
         url: apiPath.register.patient.url,
         data
     })
 }
-function resendOtp(data){
+function resendOtp(data) {
     return axios({
         method: apiPath.loginOtp.resend.method,
         url: apiPath.loginOtp.resend.url,
         data
     })
 }
-function verifyOtp(data){
+function verifyOtp(data) {
     return axios({
         method: apiPath.loginOtp.verify.method,
         url: apiPath.loginOtp.verify.url,
         data
     })
 }
-function resetPassword(data){
+function resetPassword(data) {
     return axios({
         method: apiPath.login.resetPassword.method,
         url: apiPath.login.resetPassword.url,
         data
     })
 }
-function getNationalities(){
+function getNationalities() {
     return axios({
         method: apiPath.register.getNationalities.method,
         url: apiPath.register.getNationalities.url

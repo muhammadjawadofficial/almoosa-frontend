@@ -40,10 +40,10 @@
           register now.
         </div>
         <div class="col-xl-6 col-lg-12 col-md-6 button-group">
-          <button class="btn btn-secondary" @click="navigateTo('Login')">
+          <button class="btn btn-secondary" @click="navigate('Login')">
             Login
           </button>
-          <button class="btn btn-primary" @click="navigateTo('Register')">
+          <button class="btn btn-primary" @click="navigate('Register')">
             Register
           </button>
         </div>
@@ -77,6 +77,7 @@
 <script>
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import "swiper/dist/css/swiper.css";
+import { mapActions } from "vuex";
 export default {
   components: {
     swiper,
@@ -135,7 +136,17 @@ export default {
       ],
     };
   },
-  methods: {},
+  mounted() {
+    if (this.getLSRole() == 4) {
+      this.navigateTo("Login");
+    }
+  },
+  methods: {
+    ...mapActions("user", ["setUserRole"]),
+    navigate(name) {
+      this.navigateTo(name);
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

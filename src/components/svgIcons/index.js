@@ -31,6 +31,9 @@ import userReport from './modules/user-report'
 import userTag from './modules/user-tag'
 import dashboardSvg from './modules/dashboard-svg.vue'
 import heartReport from './modules/heart-report-svg.vue'
+import calendarFill from './modules/calendar-fill.vue'
+import hospital from './modules/hospital.vue'
+import shield from './modules/shield.vue'
 
 Vue.component('new-badge-svg', newBadgeSvg)
 Vue.component('username-svg', usernameSvg)
@@ -63,3 +66,6 @@ Vue.component('symptom-svg', symptom)
 Vue.component('timeline-svg', timeline)
 Vue.component('user-report-svg', userReport)
 Vue.component('user-tag-svg', userTag)
+Vue.component('calendar-fill-svg', calendarFill)
+Vue.component('hospital-svg', hospital)
+Vue.component('shield-svg', shield)

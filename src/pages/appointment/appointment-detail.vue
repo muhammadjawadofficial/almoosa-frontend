@@ -18,7 +18,9 @@
                 <div class="appointment-detail--label">
                   {{ $t("appointmentDetail.appointment") }}
                 </div>
-                <div class="appointment-detail--value">{{ details.type }}</div>
+                <div class="appointment-detail--value">
+                  {{ $t("bookAppointment." + details.type) }}
+                </div>
               </div>
               <div class="appointment-detail--sepecialist">
                 <div class="appointment-detail--label">
@@ -26,11 +28,13 @@
                 </div>
                 <div class="appointment-detail--value">
                   {{
-                    details.doctor.first_name +
-                    (details.doctor.middle_name
-                      ? " " + details.doctor.middle_name + " "
+                    details[isDoctor ? "patient" : "doctor"].first_name +
+                    (details[isDoctor ? "patient" : "doctor"].middle_name
+                      ? " " +
+                        details[isDoctor ? "patient" : "doctor"].middle_name +
+                        " "
                       : " ") +
-                    details.doctor.family_name
+                    details[isDoctor ? "patient" : "doctor"].family_name
                   }}
                 </div>
               </div>
@@ -38,7 +42,10 @@
                 <div class="appointment-detail--label">
                   {{ $t("appointmentDetail.medicalType") }}
                 </div>
-                <div class="appointment-detail--value">
+                <div class="appointment-detail--value" v-if="isDoctor">
+                  {{ doctorSpeciality }}
+                </div>
+                <div class="appointment-detail--value" v-else>
                   {{ details.doctor.speciality.title }}
                 </div>
               </div>
@@ -53,7 +60,7 @@
                   {{ $t("appointmentDetail.dateTime") }}
                 </div>
                 <div class="appointment-detail--value">
-                  {{ formatDate(details.booked_date) }}
+                  {{ dateFormatter(details.booked_date) }}
                 </div>
               </div>
               <div class="appointment-detail--action-buttons">
@@ -64,18 +71,18 @@
                   class="appointment-detail--communication"
                   v-if="details.type == 'online'"
                 >
-                  <button class="btn btn-primary">
+                  <button class="btn btn-primary" @click="makeCall(details)">
                     {{ $t("appointmentDetail.joinCall") }}
                   </button>
-                  <button class="btn btn-secondary">
+                  <!-- <button class="btn btn-secondary">
                     {{ $t("appointmentDetail.chatWithDoctor") }}
-                  </button>
+                  </button> -->
                 </div>
               </div>
             </div>
           </b-card-body>
         </b-card>
-        <div class="appointment--action-buttons">
+        <div class="appointment--action-buttons" v-if="!isDoctor">
           <button class="btn btn-outline-primary">
             {{ $t("appointmentDetail.reschedule") }}
           </button>
@@ -90,6 +97,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { userService } from "../../services";
 export default {
   data() {
     return {
@@ -105,9 +113,15 @@ export default {
       this.details = this.getSelectedAppointment;
       if (!this.details) this.navigateTo("Upcoming Appointment");
     },
+    makeCall(details) {
+      this.navigateTo("Connect");
+    },
   },
   computed: {
     ...mapGetters("appointment", ["getSelectedAppointment"]),
+    doctorSpeciality() {
+      return userService.currentUser().speciality;
+    },
   },
 };
 </script>

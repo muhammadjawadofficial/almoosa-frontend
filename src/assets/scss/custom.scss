@@ -436,6 +436,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     width: 5rem;
                 }
                 .icon {
+                    &.small-icon {
+                        height: 4rem;
+                    }
                     height: 5.625rem;
                 }
                 .title {

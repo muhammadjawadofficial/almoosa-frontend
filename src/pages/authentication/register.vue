@@ -11,6 +11,7 @@
               track-by="value"
               label="text"
               :preselectFirst="true"
+              @input="itemSelected"
             >
               <template slot="placeholder">
                 <div class="multiselect__with-icon">
@@ -377,7 +378,7 @@ export default {
       if (!this.validateForm()) {
         return;
       }
-      this.registerForm[this.selectedItem.method] = this.userId;
+      this.registerForm[this.selectedItem.method] = +this.userId;
       this.setLoadingState(true);
       authService.register(this.registerForm).then(
         (response) => {
@@ -415,10 +416,8 @@ export default {
         }
       );
     },
-    itemSelected(selectedId) {
-      this.selectedItem = this.loginOptions.find((x) => x.value == selectedId);
-      this.username = "";
-      this.password = "";
+    itemSelected(item) {
+      this.selectedItem = item;
     },
   },
 };

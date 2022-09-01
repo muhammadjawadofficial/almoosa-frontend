@@ -1031,10 +1031,10 @@
           width: 24rem;
         }
       }
-      .consultation-section {
-        transform: translateX(0) !important;
-        padding-top: 2rem !important;
-      }
+    }
+    .consultation-section {
+      transform: translateX(0) !important;
+      padding-top: 2rem !important;
     }
   }
   .checkbox-group {
@@ -1864,21 +1864,19 @@
     }
   }
   .main-dashboard-container {
-    .main-banner {
-      .consultation-section {
-        &--blocks {
-          &--single {
-            &.large {
-              padding: 1.75rem;
-              .title {
-                font-size: 1.5rem;
-                .sub-title {
-                  font-size: 1rem;
-                }
+    .consultation-section {
+      &--blocks {
+        &--single {
+          &.large {
+            padding: 1.75rem;
+            .title {
+              font-size: 1.5rem;
+              .sub-title {
+                font-size: 1rem;
               }
-              .icon {
-                height: 4.5rem;
-              }
+            }
+            .icon {
+              height: 4.5rem;
             }
           }
         }
@@ -1902,13 +1900,13 @@
           min-height: 300px;
         }
       }
-      .consultation-section {
-        &--blocks {
-          justify-content: center;
-          &--single {
-            &.large {
-              width: 100%;
-            }
+    }
+    .consultation-section {
+      &--blocks {
+        justify-content: center;
+        &--single {
+          &.large {
+            width: 100%;
           }
         }
       }
@@ -2741,6 +2739,10 @@
                 right: unset;
                 left: unset;
               }
+            }
+            .start-call-button {
+              float: right;
+              position: unset;
             }
           }
         }
@@ -4265,18 +4267,18 @@
 @media only screen and (max-width: 575.98px) {
   .main-dashboard-container {
     .main-banner {
-      .consultation-section {
-        &--blocks {
-          &--single {
-            &.large {
-              width: 100%;
-            }
-          }
-        }
-      }
       .background-image {
         img {
           min-height: 200px;
+        }
+      }
+    }
+    .consultation-section {
+      &--blocks {
+        &--single {
+          &.large {
+            width: 100%;
+          }
         }
       }
     }

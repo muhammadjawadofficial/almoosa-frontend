@@ -7,6 +7,7 @@ let getApiObject = (method, url, pre = basePath) => {
 export const apiPath = {
     //Login
     login: {
+        doctor: getApiObject("post", "auth/doctor/login"),
         viaPassword: getApiObject("post", "auth/patient/login"),
         viaOTP: getApiObject("post", "otp/send"),
         verifyOTP: getApiObject("post", "otp/verify"),
@@ -25,11 +26,12 @@ export const apiPath = {
     },
 
     appointment: {
-        upcoming: (id) => getApiObject("get", "appointments/upcoming?patient_id=" + id),
+        upcoming: (id) => getApiObject("get", "appointments/upcoming?" + id),
         clinics: getApiObject("get", "clinics"),
         specialities: getApiObject("get", "specialities"),
         findDoctors: (speciality, date, clinic) => getApiObject("get", "users/doctors?speciality_id=" + speciality + "&date=" + date + (clinic ? "&clinic_id=" + clinic : '')),
         fetchTimeslots: (doctor, date) => getApiObject("get", "timeslots?doctor_id=" + doctor + (date ? "&date=" + date : '')),
         createAppointment: getApiObject("post", "appointments"),
+        todayAppointment: (id) => getApiObject("get", "appointments/today?doctor_id=" + id),
     },
 };

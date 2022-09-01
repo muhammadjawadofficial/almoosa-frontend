@@ -8,6 +8,9 @@ export const userService = {
     setToken,
     setSelectedLayout,
     getSelectedLayout,
+    getRole,
+    getUserRole,
+    setRole,
     downloadFile
 };
 
@@ -17,6 +20,8 @@ const jwtTokenKey = 'token';
 const userInfo = 'userInfo';
 
 const preferredLayout = 'user-layout';
+
+const userRole = 'userRole';
 
 function isAuthenticatedUser() {
     return !!localStorage.getItem(jwtTokenKey);
@@ -51,6 +56,15 @@ function setSelectedLayout(lang) {
 }
 function getSelectedLayout() {
     return localStorage.getItem(preferredLayout);
+}
+function getRole() {
+    return localStorage.getItem(userRole);
+}
+function getUserRole() {
+    return currentUser() && currentUser().role_id;
+}
+function setRole(role) {
+    return localStorage.setItem(userRole, role);
 }
 function downloadFile(url) {
     let userToken = userService.getToken();

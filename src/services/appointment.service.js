@@ -7,7 +7,8 @@ export const appointmentService = {
     getSpecialities,
     findDoctors,
     fetchTimeslots,
-    createAppointment
+    createAppointment,
+    getTodayAppointment
 }
 
 function getUpcomingAppointemnts(id) {
@@ -59,5 +60,12 @@ function createAppointment(type, patient, doctor, date, start_time, end_time, am
         method: apiPath.appointment.createAppointment.method,
         url: apiPath.appointment.createAppointment.url,
         data
+    })
+}
+
+function getTodayAppointment(id) {
+    return axios({
+        method: apiPath.appointment.todayAppointment(id).method,
+        url: apiPath.appointment.todayAppointment(id).url,
     })
 }

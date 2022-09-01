@@ -1,109 +1,241 @@
 <template>
-  <div class="main-dashboard-container">
-    <div class="main-banner">
-      <div class="background-image">
-        <img
-          src="../assets/images/banners/banner-main.png"
-          alt="main-banner"
-          class="img-fluid w-100"
-        />
-        <div class="standard-width">
-          <div class="main-banner-text w600">
-            {{ $t("dashboard.helpMillions") }}
-          </div>
-        </div>
-      </div>
-      <div class="consultation-section standard-width">
+  <div class="main-dashboard-container" :class="{ 'standard-width': isDoctor }">
+    <template v-if="isDoctor">
+      <div class="consultation-section page-body-container">
         <div class="consultation-section--blocks">
           <div
             class="consultation-section--blocks--single large secondary"
-            @click="findASpecialist('online')"
+            @click="navigateTo('Upcoming Appointment')"
           >
-            <div class="new-badge">
-              <new-badge-svg />
-            </div>
             <div class="title">
-              {{ $t("modules.Virtual Consultations") }}
+              {{ $t("modules.View Appointments") }}
               <div class="sub-title">
                 {{
                   $t(
-                    "modules.description.Discover the best doctors in Almoosa Specialist Hospital"
+                    "modules.description.View your complete upcoming appointments"
                   )
                 }}
               </div>
             </div>
-            <div class="icon">
-              <doctor-laptop-svg />
+            <div class="icon small-icon">
+              <calendar-fill-svg />
             </div>
           </div>
-          <div
-            class="consultation-section--blocks--single large primary"
-            @click="findASpecialist('onsite')"
-          >
+          <div class="consultation-section--blocks--single large primary">
             <div class="title">
-              {{ $t("modules.On-site Consultations") }}
+              {{ $t("modules.View Inpatients") }}
               <div class="sub-title">
                 {{
-                  $t(
-                    "modules.description.Discover the best doctors in Almoosa Specialist Hospital"
-                  )
+                  $t("modules.description.View your all inpatients data here")
                 }}
               </div>
             </div>
-            <div class="icon">
-              <doctor-svg />
+            <div class="icon small-icon">
+              <hospital-svg />
             </div>
           </div>
           <div class="consultation-section--blocks--single large tertiary">
             <div class="title">
-              {{ $t("modules.Find Specialist") }}
+              {{ $t("modules.Critical Care") }}
               <div class="sub-title">
                 {{
                   $t(
-                    "modules.description.Discover the best doctors in Almoosa Specialist Hospital"
+                    "modules.description.View your all critical outpatients data here"
                   )
                 }}
               </div>
             </div>
-            <div class="icon">
-              <heart-checkup-svg />
+            <div class="icon small-icon">
+              <shield-svg />
             </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="consultation-section standard-width large">
-      <div class="consultation-section--pre-heading">
-        {{ $t("dashboard.letsConsult") }}
-      </div>
-      <div class="consultation-section--heading two-tone">
-        {{ $t("dashboard.withOurSpecialist") }}
-      </div>
-      <div class="consultation-section--blocks">
-        <div
-          class="consultation-section--blocks--single"
-          :class="{ uniques: item.unique }"
-          v-for="(item, index) in dashboardItems"
-          :key="'dashboard-item-' + index"
-          @click="navigateTo(item.link)"
-        >
-          <div v-if="item.unique" class="new-badge">
-            <new-badge-svg />
+      <div class="today-appointment-section">
+        <template v-if="todayAppointments && todayAppointments.length">
+          <div class="main-heading">
+            {{ $t("dashboard.yourToday") }}
+            {{ translateNumber("" + todayAppointments.length) }}
+            {{ $t("dashboard.appointments") }}
           </div>
-          <div class="title" v-html="$t('modules.' + item.text)"></div>
-          <div class="icon">
-            <component :is="item.icon" />
-            <!-- <virtual-consultations-svg /> -->
+          <div class="sub-heading">
+            {{ $t("dashboard.changeDate") }}
+          </div>
+          <b-card header-tag="div" no-body class="ash-card card-wizard">
+            <b-card-body class="p-0">
+              <div class="appointment-list">
+                <div
+                  class="appointment-list-item"
+                  v-for="appointment in todayAppointments"
+                  :key="'upcoming-appointment-id' + appointment.id"
+                >
+                  <div class="appointment-time">
+                    <div class="appointment-time-day">
+                      {{ getDate(appointment.booked_date) }}
+                    </div>
+                    <div class="appointment-time-time">
+                      {{ getTimeFromDate(appointment.booked_date, true) }}
+                    </div>
+                  </div>
+                  <div
+                    class="appointment-card warning"
+                    @click="viewDetails(appointment)"
+                  >
+                    <div class="doctor-avatar">
+                      <img :src="getImageUrl(appointment.patient)" alt="" />
+                    </div>
+                    <div class="appointment-details">
+                      <div class="doctor-name">
+                        {{
+                          appointment.patient.first_name +
+                          (appointment.patient.middle_name
+                            ? " " + appointment.patient.middle_name + " "
+                            : " ") +
+                          appointment.patient.family_name
+                        }}
+                      </div>
+                      <div class="appointment-status">
+                        <div class="appointment-time-span">
+                          {{
+                            removeSecondsFromTimeString(appointment.start_time)
+                          }}
+                          -
+                          {{
+                            removeSecondsFromTimeString(appointment.end_time)
+                          }}
+                        </div>
+                        {{ $t("bookAppointment." + appointment.type) }}
+                      </div>
+                      <button class="btn btn-primary start-call-button">
+                        {{ $t("startCall") }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="loading" v-if="appointmentStatus == 'loading'">
+                  Loading...
+                </div>
+                <div class="no-data" v-else-if="!todayAppointments.length">
+                  No Data To Show
+                </div>
+              </div>
+            </b-card-body>
+          </b-card>
+        </template>
+        <template v-else>
+          <div class="main-heading">
+            {{ $t("dashboard.noData") }}
+          </div>
+        </template>
+      </div>
+    </template>
+    <template v-else>
+      <div class="main-banner">
+        <div class="background-image">
+          <img
+            src="../assets/images/banners/banner-main.png"
+            alt="main-banner"
+            class="img-fluid w-100"
+          />
+          <div class="standard-width">
+            <div class="main-banner-text w600">
+              {{ $t("dashboard.helpMillions") }}
+            </div>
+          </div>
+        </div>
+        <div class="consultation-section standard-width">
+          <div class="consultation-section--blocks">
+            <div
+              class="consultation-section--blocks--single large secondary"
+              @click="findASpecialist('online')"
+            >
+              <div class="new-badge">
+                <new-badge-svg />
+              </div>
+              <div class="title">
+                {{ $t("modules.Virtual Consultations") }}
+                <div class="sub-title">
+                  {{
+                    $t(
+                      "modules.description.Discover the best doctors in Almoosa Specialist Hospital"
+                    )
+                  }}
+                </div>
+              </div>
+              <div class="icon">
+                <doctor-laptop-svg />
+              </div>
+            </div>
+            <div
+              class="consultation-section--blocks--single large primary"
+              @click="findASpecialist('onsite')"
+            >
+              <div class="title">
+                {{ $t("modules.On-site Consultations") }}
+                <div class="sub-title">
+                  {{
+                    $t(
+                      "modules.description.Discover the best doctors in Almoosa Specialist Hospital"
+                    )
+                  }}
+                </div>
+              </div>
+              <div class="icon">
+                <doctor-svg />
+              </div>
+            </div>
+            <div class="consultation-section--blocks--single large tertiary">
+              <div class="title">
+                {{ $t("modules.Find Specialist") }}
+                <div class="sub-title">
+                  {{
+                    $t(
+                      "modules.description.Discover the best doctors in Almoosa Specialist Hospital"
+                    )
+                  }}
+                </div>
+              </div>
+              <div class="icon">
+                <heart-checkup-svg />
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      <div class="consultation-section standard-width large">
+        <div class="consultation-section--pre-heading">
+          {{ $t("dashboard.letsConsult") }}
+        </div>
+        <div class="consultation-section--heading two-tone">
+          {{ $t("dashboard.withOurSpecialist") }}
+        </div>
+        <div class="consultation-section--blocks">
+          <div
+            class="consultation-section--blocks--single"
+            :class="{ uniques: item.unique }"
+            v-for="(item, index) in dashboardItems"
+            :key="'dashboard-item-' + index"
+            @click="navigateTo(item.link)"
+          >
+            <div v-if="item.unique" class="new-badge">
+              <new-badge-svg />
+            </div>
+            <div class="title" v-html="$t('modules.' + item.text)"></div>
+            <div class="icon">
+              <component :is="item.icon" />
+              <!-- <virtual-consultations-svg /> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
 <script>
 import { mapActions } from "vuex";
+import { appointmentService, userService } from "../services";
 export default {
   data() {
     return {
@@ -164,7 +296,14 @@ export default {
           icon: "user-tag-svg",
         },
       ],
+      todayAppointments: [],
+      appointmentStatus: "loading",
     };
+  },
+  mounted() {
+    if (this.isDoctor) {
+      this.getTodayAppointment();
+    }
   },
   methods: {
     ...mapActions("appointment", ["setBookingMethod"]),
@@ -176,11 +315,56 @@ export default {
       }
       this.navigateTo("Find Specialist");
     },
+    getTodayAppointment() {
+      appointmentService.getTodayAppointment(userService.currentUser().id).then(
+        (res) => {
+          if (res.data.status) {
+            this.todayAppointments = res.data.data.items;
+            console.log(this.todayAppointments);
+          } else {
+            this.failureToast(res.data.message);
+          }
+          this.appointmentStatus = null;
+          this.setLoadingState(false);
+        },
+        (error) => {
+          this.appointmentStatus = null;
+          this.setLoadingState(false);
+          console.error(error);
+        }
+      );
+    },
+    getImageUrl(profile) {
+      if (profile.photo) {
+        return process.env.VUE_APP_SERVER + profile.photo.path;
+      }
+      return "/profile.png";
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.main-dashboard-container {
+  .ash-card {
+    background: transparent;
+    box-shadow: none;
+  }
+  .appointment-card {
+    align-items: center !important;
+  }
+  .main-heading {
+    font-size: 2.25rem;
+    color: var(--theme-secondary);
+  }
+  .sub-heading {
+    font-size: 1.25rem;
+    color: var(--theme-default);
+  }
+  .today-appointment-section {
+    margin-top: 2rem;
+  }
+}
 .main-banner {
   .background-image {
     position: relative;

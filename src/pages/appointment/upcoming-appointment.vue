@@ -39,19 +39,37 @@
                       :class="getStatusClass(appointment.status)"
                     >
                       <div class="doctor-avatar">
-                        <img :src="getImageUrl(appointment.doctor)" alt="" />
+                        <img
+                          :src="
+                            getImageUrl(
+                              appointment[isDoctor ? 'patient' : 'doctor']
+                            )
+                          "
+                          alt=""
+                        />
                       </div>
                       <div class="appointment-details">
                         <div class="doctor-name">
                           {{
-                            appointment.doctor.first_name +
-                            (appointment.doctor.middle_name
-                              ? " " + appointment.doctor.middle_name + " "
+                            appointment[isDoctor ? "patient" : "doctor"]
+                              .first_name +
+                            (appointment[isDoctor ? "patient" : "doctor"]
+                              .middle_name
+                              ? " " +
+                                appointment[isDoctor ? "patient" : "doctor"]
+                                  .middle_name +
+                                " "
                               : " ") +
-                            appointment.doctor.family_name
+                            appointment[isDoctor ? "patient" : "doctor"]
+                              .family_name
                           }}
                         </div>
-                        <div class="doctor-speciality">
+                        <div class="doctor-speciality" v-if="isDoctor">
+                          <div>
+                            {{ getPatientSubDetails(appointment.patient) }}
+                          </div>
+                        </div>
+                        <div class="doctor-speciality" v-else>
                           {{ appointment.doctor.speciality.title }},
                           {{ appointment.doctor.location }}
                         </div>
@@ -67,17 +85,26 @@
                               removeSecondsFromTimeString(appointment.end_time)
                             }}
                           </div>
-                          {{ appointment.status }}
+                          <template v-if="isDoctor">
+                            {{
+                              getYears(appointment.patient.dob) +
+                              " " +
+                              $t("years")
+                            }}
+                          </template>
+                          <template v-else>
+                            {{ appointment.status }}
+                          </template>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="loading" v-if="appointmentStatus == 'loading'">
-                    Loading...
-                  </div>
-                  <div class="no-data" v-else-if="!virtualAppointments.length">
-                    No Data To Show
-                  </div>
+                </div>
+                <div class="loading" v-if="appointmentStatus == 'loading'">
+                  Loading...
+                </div>
+                <div class="no-data" v-else-if="!virtualAppointments.length">
+                  No Data To Show
                 </div>
               </b-tab>
               <b-tab :title="$t('upcomingAppointment.onsite')">
@@ -101,19 +128,37 @@
                       :class="getStatusClass(appointment.status)"
                     >
                       <div class="doctor-avatar">
-                        <img :src="getImageUrl(appointment.doctor)" alt="" />
+                        <img
+                          :src="
+                            getImageUrl(
+                              appointment[isDoctor ? 'patient' : 'doctor']
+                            )
+                          "
+                          alt=""
+                        />
                       </div>
                       <div class="appointment-details">
                         <div class="doctor-name">
                           {{
-                            appointment.doctor.first_name +
-                            (appointment.doctor.middle_name
-                              ? " " + appointment.doctor.middle_name + " "
+                            appointment[isDoctor ? "patient" : "doctor"]
+                              .first_name +
+                            (appointment[isDoctor ? "patient" : "doctor"]
+                              .middle_name
+                              ? " " +
+                                appointment[isDoctor ? "patient" : "doctor"]
+                                  .middle_name +
+                                " "
                               : " ") +
-                            appointment.doctor.family_name
+                            appointment[isDoctor ? "patient" : "doctor"]
+                              .family_name
                           }}
                         </div>
-                        <div class="doctor-speciality">
+                        <div class="doctor-speciality" v-if="isDoctor">
+                          <div>
+                            {{ getPatientSubDetails(appointment.patient) }}
+                          </div>
+                        </div>
+                        <div class="doctor-speciality" v-else>
                           {{ appointment.doctor.speciality.title }},
                           {{ appointment.doctor.location }}
                         </div>
@@ -129,17 +174,26 @@
                               removeSecondsFromTimeString(appointment.end_time)
                             }}
                           </div>
-                          {{ appointment.status }}
+                          <template v-if="isDoctor">
+                            {{
+                              getYears(appointment.patient.dob) +
+                              " " +
+                              $t("years")
+                            }}
+                          </template>
+                          <template v-else>
+                            {{ appointment.status }}
+                          </template>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="loading" v-if="appointmentStatus == 'loading'">
-                    Loading...
-                  </div>
-                  <div class="no-data" v-else-if="!virtualAppointments.length">
-                    No Data To Show
-                  </div>
+                </div>
+                <div class="loading" v-if="appointmentStatus == 'loading'">
+                  Loading...
+                </div>
+                <div class="no-data" v-else-if="!virtualAppointments.length">
+                  No Data To Show
                 </div>
               </b-tab>
             </b-tabs>
@@ -185,47 +239,57 @@ export default {
       this.navigateTo("Appointment Detail");
     },
     getImageUrl(profile) {
-      if (profile.photo) {
+      if (profile && profile.photo) {
         return process.env.VUE_APP_SERVER + profile.photo.path;
       }
-      return "../../assets/images/profile.png";
+      return "/profile.png";
     },
     getStatusClass(status) {
       if (status.toLowerCase() == "pending") return "warning";
       else if (status.toLowerCase() == "cancelled") return "danger";
       else return "success";
     },
+    getPatientSubDetails(patient) {
+      let selected = null;
+      if (patient.mrn_number) {
+        selected = "mrn_number";
+      } else if (patient.saudi_id) {
+        selected = "saudi_id";
+      } else if (patient.iqama) {
+        selected = "iqama";
+      }
+      if (selected) return this.$t(selected) + " - " + patient[selected];
+      return "";
+    },
     getAppointments() {
-      this.appointmentStatus = "loading";
       this.onsiteAppointments = [];
       this.virtualAppointments = [];
+      let userIdQueryParam = this.isDoctor ? "doctor_id=" : "patient_id=";
+      userIdQueryParam += userService.currentUser().id;
       this.setLoadingState(true);
-      appointmentService
-        .getUpcomingAppointemnts(userService.currentUser().id)
-        .then(
-          (response) => {
-            if (response.data.status) {
-              let data = response.data.data.items;
-              data.forEach((item) => {
-                if (item.type == "onsite") {
-                  this.onsiteAppointments.push(item);
-                } else {
-                  this.virtualAppointments.push(item);
-                }
-                this.appointmentStatus = "success";
-              });
-            } else {
-              this.failureToast(response.data.messsage);
-              this.appointmentStatus = "error";
-            }
-            this.setLoadingState(false);
-          },
-          () => {
-            this.appointmentStatus = "error";
-            this.setLoadingState(false);
-            this.failureToast();
+      appointmentService.getUpcomingAppointemnts(userIdQueryParam).then(
+        (response) => {
+          if (response.data.status) {
+            let data = response.data.data.items;
+            data.forEach((item) => {
+              if (item.type == "onsite") {
+                this.onsiteAppointments.push(item);
+              } else {
+                this.virtualAppointments.push(item);
+              }
+            });
+          } else {
+            this.failureToast(response.data.messsage);
           }
-        );
+          this.appointmentStatus = null;
+          this.setLoadingState(false);
+        },
+        () => {
+          this.appointmentStatus = null;
+          this.setLoadingState(false);
+          this.failureToast();
+        }
+      );
     },
   },
 };

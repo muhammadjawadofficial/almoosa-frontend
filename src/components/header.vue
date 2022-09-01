@@ -105,25 +105,28 @@
             ><feather type="search" @click="search_open()"></feather
           ></span>
         </li> -->
-
-        <li
-          @click="navigateTo('default')"
-          class="nav-link d-lg-block d-none"
-          :class="{ active: currentRouteName == 'default' }"
-        >
-          {{ $t("header.home") }}
-        </li>
-        <li
-          @click="navigateTo('Upcoming Appointment')"
-          class="nav-link d-lg-block d-none"
-          :class="{ active: currentRouteName == 'Upcoming Appointment' }"
-        >
-          {{ $t("header.bookings") }}
-        </li>
-        <li class="nav-link d-lg-block d-none">
-          {{ $t("header.emergencyConsultations") }}
-        </li>
-        <li class="nav-link d-lg-block d-none">{{ $t("header.contactUs") }}</li>
+        <template v-if="!isDoctor">
+          <li
+            @click="navigateTo('default')"
+            class="nav-link d-lg-block d-none"
+            :class="{ active: currentRouteName == 'default' }"
+          >
+            {{ $t("header.home") }}
+          </li>
+          <li
+            @click="navigateTo('Upcoming Appointment')"
+            class="nav-link d-lg-block d-none"
+            :class="{ active: currentRouteName == 'Upcoming Appointment' }"
+          >
+            {{ $t("header.bookings") }}
+          </li>
+          <li class="nav-link d-lg-block d-none">
+            {{ $t("header.emergencyConsultations") }}
+          </li>
+          <li class="nav-link d-lg-block d-none">
+            {{ $t("header.contactUs") }}
+          </li>
+        </template>
         <Notifications />
         <!-- <li class="maximize">
           <a
@@ -217,7 +220,7 @@
             </button>
           </ul>
         </li>
-        <div class="hamburger" @click="toggle_sidebar">
+        <div class="hamburger" @click="toggle_sidebar" v-if="!isDoctor">
           <!-- <feather
             class="status_toggle middle"
             id="sidebar-toggle"

@@ -32,7 +32,11 @@
   "dashboard": {
     "helpMillions": "ساعد الملايين من الناس في كل مكان وفي كل مرة!",
     "letsConsult": "لنستشر",
-    "withOurSpecialist": "مع متخصصنا اليوم"
+    "withOurSpecialist": "مع متخصصنا اليوم",
+    "changeDate": "عرض المواعيد القادمة اليوم الخاص بك",
+    "yourToday": "جدول اليوم الخاص بك -",
+    "appointments": "تعيينات",
+    "noData": "لا توجد مواعيد مجدولة"
   },
   "modules": {
     "Virtual Consultations": "استشارات افتراضية",
@@ -51,15 +55,21 @@
     "Emergency Consultations": "استشارات الطوارئ",
     "Virtual Tour": "جولة افتراضية",
     "Find Specialist": "ابحث عن متخصص",
+    "View Appointments": "عرض المواعيد",
+    "View Inpatients": "عرض في المرضى",
+    "Critical Care": "عناية حرجة",
     "description": {
-      "Discover the best doctors in Almoosa Specialist Hospital": "اكتشف أفضل الأطباء في مستشفى الموسى التخصصي"
+      "Discover the best doctors in Almoosa Specialist Hospital": "اكتشف أفضل الأطباء في مستشفى الموسى التخصصي",
+      "View your complete upcoming appointments": "عرض كامل المواعيد القادمة الخاصة بك",
+      "View your all inpatients data here": "عرض جميع بيانات المرضى الداخليين الخاصة بك هنا",
+      "View your all critical outpatients data here": "جميع بيانات المرضى الخارجيين الهامة هنا"
     }
   },
-  "upcomingAppointment":{
+  "upcomingAppointment": {
     "onsite": "بالموقع",
     "virtual": "افتراضية"
   },
-  "appointmentDetail":{
+  "appointmentDetail": {
     "heading": "تفاصيل الموعد",
     "subHeading": "عرض محفوظات المواعيد الخاصة بك",
     "appointment": "ميعاد",
@@ -85,7 +95,7 @@
       "timeSlots": "الفترات الزمنية المتاحة"
     }
   },
-  "doctorList":{
+  "doctorList": {
     "title": "جدولة موعد",
     "makeAppointment": "حدد موعدا",
     "search": "ابحث عن دكتور",
@@ -95,7 +105,7 @@
     "noData": "لا توجد بيانات في معايير الاختيار الحالية"
   },
   "doctorDetail": {
-    "tabs":{
+    "tabs": {
       "booking": "تفاصيل الحجز",
       "clinic": "عيادات",
       "experience": "خبرة في العمل"
@@ -144,5 +154,10 @@
   "download": "تحميل الملف",
   "upload": "رفع ملف",
   "all": "الجميع",
-  "new": "جديد"
+  "new": "جديد",
+  "years": "سنوات",
+  "mrn_number": "رقم السجل الطبي",
+  "saudi_id": "الهوية السعودية",
+  "iqama": "الإقامة",
+  "startCall": "ابدأ الاتصال"
 }

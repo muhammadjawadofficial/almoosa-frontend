@@ -39,6 +39,7 @@ import './assets/scss/app.scss'
 
 import interceptor from './interceptor'
 import { userService } from './services'
+import { mapGetters } from 'vuex'
 interceptor();
 
 Vue.use(VueFeather);
@@ -54,8 +55,17 @@ Vue.use(Toasted, {
 Vue.mixin({
   data() {
     return {
-      restartEnabled: false
+      restartEnabled: false,
+      checkRoleFromUser: false
     }
+  },
+  computed: {
+    ...mapGetters("user", ["getUserRole"]),
+    isDoctor() {
+      let roleLS = this.getLSRole();
+      let roleS = this.getUserRole;
+      return (roleLS == 4 || (roleS && roleS.includes('doc')))
+    },
   },
   watch: {
     "$i18n.locale": function (val) {
@@ -63,6 +73,9 @@ Vue.mixin({
     }
   },
   methods: {
+    getLSRole() {
+      return !userService.isAuthenticatedUser() ? userService.getRole() : (this.checkRoleFromUser ? userService.getUserRole() : userService.getRole());
+    },
     getLocaleKey: function (key, wordCase = "camel") {
       let postKey = this.$i18n.locale == "ar" ? "Ar" : "En";
       if (wordCase == "upper") {
@@ -143,7 +156,7 @@ Vue.mixin({
     getDate(dateString) {
       let date = moment(dateString);
       if (moment(date).isSame(new Date(), "day")) {
-        return "Today";
+        return this.$t('header.today');
       } else {
         return date.format("DD MMM");
       }
@@ -197,6 +210,9 @@ Vue.mixin({
     getShortDateFromDate(date, separator = "-") {
       return this.dateFormatter(date, "YYYY" + separator + "MM" + separator + "DD")
     },
+    getYears(date) {
+      return moment().diff(date, 'years')
+    },
     translateNumber(strNum) {
       // e.g., 12:00AM
       if (this.getCurrentLang() == "ar") {
@@ -222,7 +238,7 @@ Vue.mixin({
         return translateString.split("").reverse().join("");
       }
       return strNum;
-    }
+    },
   },
 })
 

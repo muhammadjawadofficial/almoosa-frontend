@@ -7,6 +7,7 @@ export default {
         otp: "",
         userId: "",
         authState: "",
+        userRole: "patient"
     },
     actions: {
         setLoading({ commit }, data) {
@@ -20,6 +21,9 @@ export default {
         },
         setAuthState({ commit }, data) {
             commit('SET_AUTH_STATE', data)
+        },
+        setUserRole({ commit }, data) {
+            commit('SET_USER_ROLE', data)
         },
     },
     mutations: {
@@ -35,11 +39,15 @@ export default {
         SET_AUTH_STATE(state, authState) {
             state.authState = authState;
         },
+        SET_USER_ROLE(state, userRole) {
+            state.userRole = userRole;
+        },
     },
     getters: {
         getLoading: (state) => state.loading,
         getOtp: (state) => state.otp,
         getUserId: (state) => state.userId,
         getAuthState: (state) => state.authState,
+        getUserRole: (state) => state.userRole,
     }
 };

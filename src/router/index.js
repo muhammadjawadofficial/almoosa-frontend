@@ -6,6 +6,7 @@ import AuthBody from '../components/auth_body'
 import AuthBodyPatient from '../components/auth_body_patient'
 
 import Dashboard from '../pages/dashboard'
+import Iframe from '../pages/iframe'
 
 import AppointmentModule from '../pages/appointment'
 import BookAppointment from '../pages/appointment/book-appointment'
@@ -92,6 +93,14 @@ const routes = [
             component: doctorDetails,
             meta: {
               title: 'Doctor Details | Almoosa Specialist Hospital',
+            }
+          },
+          {
+            path: 'connect',
+            component: Iframe,
+            name: 'Connect',
+            meta: {
+              title: 'Connect | Almoosa Specialist Hospital',
             }
           },
         ]

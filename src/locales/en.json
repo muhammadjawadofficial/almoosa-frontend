@@ -32,7 +32,11 @@
   "dashboard": {
     "helpMillions": "Help Millions People everywhere, everytime!",
     "letsConsult": "Let's Consult",
-    "withOurSpecialist": "With Our Specialist Today"
+    "withOurSpecialist": "With Our Specialist Today",
+    "changeDate": "View your Today's upcoming appointments",
+    "yourToday": "Your Today's Schedule - ",
+    "appointments": "Appointments",
+    "noData": "No Appointments are scheduled"
   },
   "modules": {
     "Virtual Consultations": "Virtual Consultations",
@@ -51,8 +55,14 @@
     "Emergency Consultations": "Emergency Consultations",
     "Virtual Tour": "Virtual Tour",
     "Find Specialist": "Find Specialist",
+    "View Appointments": "View Appointments",
+    "View Inpatients": "View Inpatients",
+    "Critical Care": "Critical Care",
     "description": {
-      "Discover the best doctors in Almoosa Specialist Hospital": "Discover the best doctors in Almoosa Specialist Hospital"
+      "Discover the best doctors in Almoosa Specialist Hospital": "Discover the best doctors in Almoosa Specialist Hospital",
+      "View your complete upcoming appointments": "View your complete upcoming appointments",
+      "View your all inpatients data here": "View your all inpatients data here",
+      "View your all critical outpatients data here": "View your all critical outpatients data here"
     }
   },
   "upcomingAppointment": {
@@ -145,5 +155,10 @@
   "download": "Download",
   "upload": "Upload",
   "all": "All",
-  "new": "New"
+  "new": "New",
+  "years": "Years",
+  "mrn_number": "MRN",
+  "saudi_id": "Saudi ID",
+  "iqama": "Iqama",
+  "startCall": "Start Call"
 }

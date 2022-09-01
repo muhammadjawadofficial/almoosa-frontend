@@ -21,10 +21,18 @@
             </div>
           </div>
           <div class="login-dashboard-left--bottom-section" v-if="showButtons">
-            <button class="btn btn-primary">
+            <button
+              @click="continueAs('patient')"
+              class="btn"
+              :class="getButtonActiveClass('patient')"
+            >
               Continue as a Patient
             </button>
-            <button class="btn btn-tertiary">
+            <button
+              @click="continueAs('doctor')"
+              class="btn"
+              :class="getButtonActiveClass('doctor')"
+            >
               Continue as a Doctor
             </button>
           </div>
@@ -40,23 +48,38 @@
   </div>
 </template>
 <script>
+import { mapActions, mapGetters } from "vuex";
+import { userService } from "../services";
 export default {
   data() {
     return {
       layoutType: "ltr",
       showButtons: true,
+      role: "",
     };
   },
   watch: {
     $route: function (route) {
       this.showButtons = route.name !== "OTP";
     },
+    getUserRole: function (val) {
+      this.role = val;
+    },
+  },
+  computed: {
+    ...mapGetters("user", ["getUserRole"]),
   },
   mounted() {
     this.layoutType = this.$i18n.locale == "en" ? "ltr" : "rtl";
     this.switchLanguage("ltr");
+    this.role = this.getUserRole || "patient";
+    let LSRole = this.getLSRole();
+    if (LSRole && LSRole != this.getUserRole) {
+      this.setUserRole(LSRole == 4 ? "doctor" : "patient");
+    }
   },
   methods: {
+    ...mapActions("user", ["setUserRole"]),
     switchLanguage(layout) {
       if (layout) {
         this.layoutType = layout;
@@ -65,6 +88,21 @@ export default {
       }
       this.$store.dispatch("layout/setLayoutType", this.layoutType);
       this.$i18n.locale = this.layoutType == "rtl" ? "ar" : "en";
+    },
+    continueAs(role) {
+      this.setUserRole(role);
+      userService.setRole(role.includes("doc") ? 4 : 3);
+      if (role.includes("doc")) this.navigateTo("Login");
+      else this.navigateTo("Login Dashboard");
+    },
+    getButtonActiveClass(role) {
+      if (this.role) {
+        if (this.role.toLowerCase().includes(role)) {
+          return "btn-primary";
+        } else {
+          return "btn-tertiary";
+        }
+      }
     },
   },
 };
