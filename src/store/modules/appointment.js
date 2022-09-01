@@ -18,7 +18,16 @@ export default {
     },
     actions: {
         resetBookAppointment({ commit }, data) {
-            commit('RESET_BOOK_APPOINTMENT', data || {})
+            commit('RESET_BOOK_APPOINTMENT', data || {
+                type: null,
+                speciality: null,
+                clinic: null,
+                date: null,
+                startTime: null,
+                endTime: null,
+                amount: "100",
+                doctor: null,
+            })
         },
         setSelectedAppointment({ commit }, data) {
             commit('SET_SELECTED_APPOINTMENT', data)
