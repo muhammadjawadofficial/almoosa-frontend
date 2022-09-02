@@ -107,7 +107,7 @@ export default {
     ]),
   },
   methods: {
-    ...mapActions("appointment", ["resetBookAppointment"]),
+    ...mapActions("appointment", ["resetBookAppointment",]),
     checkAccess() {
       console.log(
         "sar",
@@ -132,7 +132,7 @@ export default {
       }
     },
     showModal() {
-      this.successPaymentModal(
+      this.successIconModal(
         this.$t("bookAppointment.modal.confirmed"),
         this.$t("bookAppointment.modal.confirmedText")
       ).then(() => {

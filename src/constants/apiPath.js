@@ -32,6 +32,7 @@ export const apiPath = {
         findDoctors: (speciality, date, clinic) => getApiObject("get", "users/doctors?speciality_id=" + speciality + "&date=" + date + (clinic ? "&clinic_id=" + clinic : '')),
         fetchTimeslots: (doctor, date) => getApiObject("get", "timeslots?doctor_id=" + doctor + (date ? "&date=" + date : '')),
         createAppointment: getApiObject("post", "appointments"),
+        updateAppointment: (id) => getApiObject("patch", "appointments/" + id),
         todayAppointment: (id) => getApiObject("get", "appointments/today?doctor_id=" + id),
     },
 };

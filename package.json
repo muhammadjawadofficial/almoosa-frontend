@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "start:local": "vue-cli-service serve --port 8008 --mode development",
-    "start:test": "vue-cli-service serve --port 8008 --mode test",
+    "start:test": "vue-cli-service serve --port 8008 --host 0.0.0.0 --mode test",
     "build": "vue-cli-service build",
     "build:test": "vue-cli-service build --mode test",
     "lint": "vue-cli-service lint"

@@ -136,7 +136,11 @@
               </button>
               <button
                 class="btn btn-tertiary"
-                @click="navigateTo('Doctor List')"
+                @click="
+                  navigateTo(
+                    getIsReschedule ? 'Appointment Detail' : 'Doctor List'
+                  )
+                "
               >
                 {{ $t("back") }}
               </button>
@@ -166,6 +170,8 @@ export default {
       "getBookingDate",
       "getBookingStartTime",
       "getBookingEndTime",
+      "getIsReschedule",
+      "getSelectedAppointment",
     ]),
   },
   mounted() {
@@ -179,6 +185,9 @@ export default {
       "setBookingStartTime",
       "setBookingEndTime",
       "setBookingDate",
+      "setIsReschedule",
+      "setSelectedAppointment",
+      "resetBookAppointment",
     ]),
     initializeData() {
       this.doctor = this.getBookingDoctor;
@@ -189,9 +198,6 @@ export default {
     },
     bookingDateChanged(val) {
       this.selectedDate = val;
-      this.setBookingStartTime(null);
-      this.setBookingEndTime(null);
-      this.setSelectedTimeSlot(null);
       this.fetchTimeslots();
     },
     fetchTimeslots() {
@@ -203,17 +209,16 @@ export default {
           if (response.status) {
             this.timeslots = response.data.items[0];
             if (this.timeslots && this.timeslots.all_slots.length) {
-              if (this.getBookingStartTime && this.getBookingEndTime) {
-                let timeslot = this.timeslots.all_slots.findIndex(
-                  (x) =>
-                    x.start_time == this.getBookingStartTime &&
-                    x.end_time == this.getBookingEndTime
-                );
-                if (
-                  timeslot > -1 &&
-                  !this.timeslots.all_slots[timeslot].is_booked
-                ) {
-                  this.selectedTimeSlot = timeslot;
+              if (this.isDateSame(this.getBookingDate, this.selectedDate)) {
+                if (this.getBookingStartTime && this.getBookingEndTime) {
+                  let timeslot = this.timeslots.all_slots.findIndex(
+                    (x) =>
+                      x.start_time == this.getBookingStartTime &&
+                      x.end_time == this.getBookingEndTime
+                  );
+                  if (timeslot > -1) {
+                    this.selectedTimeSlot = timeslot;
+                  }
                 }
               }
             }
@@ -243,13 +248,107 @@ export default {
         this.failureToast(this.$t("doctorDetail.timeslot.notSelected"));
         return;
       }
-      console.log("booked");
       let selectedTimeSlot = this.timeslots.all_slots[this.selectedTimeSlot];
       this.setBookingDate(this.selectedDate);
       this.setBookingStartTime(selectedTimeSlot.start_time);
       this.setBookingEndTime(selectedTimeSlot.end_time);
-      this.navigateTo("Book Appointment");
+
+      if (this.getIsReschedule) {
+        if (this.selectionSame()) {
+          this.setLoadingState(true);
+          appointmentService
+            .updateAppointment(
+              this.getIsReschedule,
+              this.selectedDate,
+              this.removeSecondsFromTimeString(
+                this.getBookingStartTime,
+                true,
+                false
+              ),
+              this.removeSecondsFromTimeString(
+                this.getBookingEndTime,
+                true,
+                false
+              )
+            )
+            .then(
+              (res) => {
+                let response = res.data;
+                if (response.status) {
+                  let appointment = this.getSelectedAppointment;
+                  appointment.booked_date = this.getBookingDate;
+                  appointment.start_time = this.getBookingStartTime;
+                  appointment.end_time = this.getBookingEndTime;
+
+                  this.successIconModal(
+                    this.$t("bookAppointment.modal.reschedule"),
+                    this.$t("bookAppointment.modal.rescheduleText")
+                  ).then(() => {
+                    this.resetBookAppointment();
+                    this.navigateTo("Appointment Detail");
+                  });
+                } else {
+                  this.failureToast(response.message);
+                }
+                this.setLoadingState(false);
+              },
+              (err) => {
+                console.error(err);
+                this.failureToast();
+                this.setLoadingState(false);
+              }
+            );
+          /**
+           * 
+        createAppointment(
+          this.getBookingMethod,
+          userService.currentUser(),
+          this.getBookingDoctor,
+          this.getBookingDate,
+          this.removeSecondsFromTimeString(
+            this.getBookingStartTime,
+            true,
+            false
+          ),
+          this.removeSecondsFromTimeString(this.getBookingEndTime, true, false),
+          this.getBookingAmount
+        )
+        .then(
+          (res) => {
+            let response = res.data;
+            if (response.status) {
+              this.showModal();
+            } else {
+              this.failureToast(response.message);
+            }
+            this.setLoadingState(false);
+          },
+          (err) => {
+            console.error(err);
+            this.failureToast();
+            this.setLoadingState(false);
+          }
+        );
+           */
+        } else {
+        }
+      } else {
+        this.navigateTo("Book Appointment");
+      }
     },
+    selectionSame() {
+      let selectedTimeSlot = this.timeslots.all_slots[this.selectedTimeSlot];
+      return (
+        this.selectedDate == this.getBookingDate &&
+        selectedTimeSlot.start_time == this.getBookingStartTime &&
+        selectedTimeSlot.end_time == this.getBookingEndTime
+      );
+    },
+  },
+  beforeDestroy() {
+    if (this.getIsReschedule) {
+      this.setIsReschedule(false);
+    }
   },
 };
 </script>

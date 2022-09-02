@@ -1004,44 +1004,49 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         }
     }
 }
-.swal2-popup {
-    border-radius: 1.5em;
-    position: relative;
-    width: 32em;
-    padding-top: 6em;
-    padding-bottom: 2em;
-    .swal2-title {
-        font-size: 1.438em;
-        color: $primary-color;
-        margin-bottom: 0;
-        font-weight: normal;
+.swal2-container {
+    &.swal-custom-icon-top-padding {
+        .swal2-popup {
+            padding-top: 6em;
+        }
     }
-    .swal2-content {
-        margin-top: 0.25em;
-        font-size: 1.25em;
-        color: $black;
-        line-height: 1.1em;
-        font-family: $font-diodrum-medium;
-    }
-    .swal2-image {
-        position: absolute;
-        top: -7em;
-        background-color: white;
-        border-radius: 50%;
-        width: 9.25em;
-        aspect-ratio: 1;
-        padding: 0.75em;
-        box-shadow: 0 0.188em 0.375em #6e99fc30;
-    }
-    .swal2-actions {
-        margin-top: 2em;
-        button {
-            &:focus {
-                outline: none;
-                box-shadow: none;
+    .swal2-popup {
+        border-radius: 1.5em;
+        position: relative;
+        width: 32em;
+        padding-block: 2em;
+        .swal2-title {
+            font-size: 1.438em;
+            color: $primary-color;
+            margin-bottom: 0;
+            font-weight: normal;
+        }
+        .swal2-content {
+            margin-top: 0.25em;
+            font-size: 1.25em;
+            color: $black;
+            line-height: 1.1em;
+            font-family: $font-diodrum-medium;
+        }
+        .swal2-image {
+            position: absolute;
+            top: -7em;
+            background-color: white;
+            border-radius: 50%;
+            width: 9.25em;
+            aspect-ratio: 1;
+            box-shadow: 0.813rem 0.813rem 1rem #6e99fc30;
+        }
+        .swal2-actions {
+            margin-top: 2em;
+            button {
+                &:focus {
+                    outline: none;
+                    box-shadow: none;
+                }
+                width: calc(min(15.188em, 100%));
+                padding-block: 0.6em;
             }
-            width: calc(min(15.188em, 100%));
-            padding-block: 0.6em;
         }
     }
 }

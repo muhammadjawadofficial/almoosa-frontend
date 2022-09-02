@@ -14,7 +14,8 @@ export default {
             amount: "100",
             doctor: null,
         },
-        doctorsList: null
+        doctorsList: null,
+        isReschedule: false,
     },
     actions: {
         resetBookAppointment({ commit }, data) {
@@ -59,6 +60,9 @@ export default {
         setDoctorsList({ commit }, data) {
             commit('SET_DOCTORS_LIST', data)
         },
+        setIsReschedule({ commit }, data) {
+            commit('SET_IS_RESCHEDULE', data)
+        },
     },
     mutations: {
         RESET_BOOK_APPOINTMENT(state, booking) {
@@ -94,6 +98,9 @@ export default {
         SET_DOCTORS_LIST(state, doctorsList) {
             state.doctorsList = doctorsList;
         },
+        SET_IS_RESCHEDULE(state, isReschedule) {
+            state.isReschedule = isReschedule;
+        },
     },
     getters: {
         getSelectedAppointment: (state) => state.selectedAppointment,
@@ -106,5 +113,6 @@ export default {
         getBookingDoctor: (state) => state.booking.doctor,
         getBookingAmount: (state) => state.booking.amount,
         getDoctorsList: (state) => state.doctorsList,
+        getIsReschedule: (state) => state.isReschedule,
     }
 };

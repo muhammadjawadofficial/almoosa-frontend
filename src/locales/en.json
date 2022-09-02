@@ -100,7 +100,7 @@
     "bookingDate": "Booking Date",
     "timeSlots": "Available Time Slots",
     "bookAppointment": "Book an Appointment",
-    "noData": "No Data Found in the current selection criteria"
+    "noData": "No doctor found in the current selection criteria"
   },
   "doctorDetail": {
     "tabs": {
@@ -126,7 +126,9 @@
     "payLater": "Pay Later",
     "modal": {
       "confirmed": "Appointment Confirmed",
-      "confirmedText": "Your appointment status will be shown as Pending unless you pay for the appointment."
+      "confirmedText": "Your appointment status will be shown as Pending unless you pay for the appointment",
+      "reschedule": "Appointment Rescheduled",
+      "rescheduleText": "Your appointment has been rescheduled successfully"
     }
   },
   "footer": {

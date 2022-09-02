@@ -8,6 +8,7 @@ export const appointmentService = {
     findDoctors,
     fetchTimeslots,
     createAppointment,
+    updateAppointment,
     getTodayAppointment
 }
 
@@ -59,6 +60,19 @@ function createAppointment(type, patient, doctor, date, start_time, end_time, am
     return axios({
         method: apiPath.appointment.createAppointment.method,
         url: apiPath.appointment.createAppointment.url,
+        data
+    })
+}
+
+function updateAppointment(id, date, start_time, end_time) {
+    let data = {
+        "booked_date": date,
+        "start_time": start_time,
+        "end_time": end_time,
+    }
+    return axios({
+        method: apiPath.appointment.updateAppointment(id).method,
+        url: apiPath.appointment.updateAppointment(id).url,
         data
     })
 }

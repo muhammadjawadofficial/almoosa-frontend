@@ -83,7 +83,10 @@
           </b-card-body>
         </b-card>
         <div class="appointment--action-buttons" v-if="!isDoctor">
-          <button class="btn btn-outline-primary">
+          <button
+            class="btn btn-outline-primary"
+            @click="rescheduleAppointment"
+          >
             {{ $t("appointmentDetail.reschedule") }}
           </button>
           <button class="btn btn-outline-danger">
@@ -108,13 +111,30 @@ export default {
     this.initializeAppointmentDetails();
   },
   methods: {
-    ...mapActions("appointment", ["setSelectedAppointment"]),
+    ...mapActions("appointment", [
+      "setSelectedAppointment",
+      "setBookingDate",
+      "setBookingStartTime",
+      "setBookingEndTime",
+      "setBookingDoctor",
+      "setBookingAmount",
+      "setIsReschedule",
+    ]),
     initializeAppointmentDetails() {
       this.details = this.getSelectedAppointment;
       if (!this.details) this.navigateTo("Upcoming Appointment");
     },
     makeCall(details) {
       this.navigateTo("Connect");
+    },
+    rescheduleAppointment() {
+      this.setBookingDoctor(this.details.doctor);
+      this.setBookingDate(this.details.booked_date);
+      this.setBookingStartTime(this.details.start_time);
+      this.setBookingEndTime(this.details.end_time);
+      this.setBookingAmount(this.details.amount);
+      this.setIsReschedule(this.details.id);
+      this.navigateTo("Doctor Details");
     },
   },
   computed: {

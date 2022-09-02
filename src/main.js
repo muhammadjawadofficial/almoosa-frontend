@@ -99,14 +99,26 @@ Vue.mixin({
         cancelButtonColor: "#4466f2",
       });
     },
-    successPaymentModal(title, text, confirmText) {
-      const imagePath = require("./assets/images/wallet.svg")
+    successModal(title, text, confirmText) {
+      return this.$swal({
+        title: title || this.$t('changesDone'),
+        text: text || this.$t('changesDone'),
+        type: 'success',
+        confirmButtonText: confirmText || this.$t("ok"),
+        confirmButtonColor: "#4466f2",
+      });
+    },
+    successIconModal(title, text, confirmText) {
+      const imagePath = require("./assets/images/m-check.svg")
       return this.$swal({
         title: title || this.$t('changesDone'),
         text: text || this.$t('changesDone'),
         confirmButtonText: confirmText || this.$t("ok"),
         confirmButtonColor: "#4466f2",
         imageUrl: imagePath,
+        customClass: {
+          container: 'swal-custom-icon-top-padding',
+        }
       });
     },
     failureModal(title, confirmText) {
@@ -195,7 +207,10 @@ Vue.mixin({
       }
       return this.translateNumber(parsedString);
     },
-    dateFormatter(date, format = 'MMMM Do YYYY, h:mm A') {
+    dateFormatter(date, format = 'MMMM Do YYYY, h:mm A', utc = false) {
+      if (utc) {
+        return moment(date).utc().format(format);
+      }
       return moment(date).format(format);
     },
     formatDate(date) {
@@ -209,6 +224,11 @@ Vue.mixin({
     },
     getShortDateFromDate(date, separator = "-") {
       return this.dateFormatter(date, "YYYY" + separator + "MM" + separator + "DD")
+    },
+    isDateSame(date1, date2) {
+      let fdate1 = this.formatDate(new Date(date1));
+      let fdate2 = this.formatDate(new Date(date2));
+      return moment(fdate1).isSame(fdate2)
     },
     getYears(date) {
       return moment().diff(date, 'years')
