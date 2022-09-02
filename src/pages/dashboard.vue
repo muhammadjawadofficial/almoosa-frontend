@@ -106,7 +106,10 @@
                         </div>
                         {{ $t("bookAppointment." + appointment.type) }}
                       </div>
-                      <button class="btn btn-primary start-call-button">
+                      <button
+                        class="btn btn-primary start-call-button"
+                        @click="makeCall(appointment)"
+                      >
                         {{ $t("startCall") }}
                       </button>
                     </div>
@@ -339,6 +342,9 @@ export default {
         return process.env.VUE_APP_SERVER + profile.photo.path;
       }
       return "/profile.png";
+    },
+    makeCall(appointment) {
+      this.navigateTo("Connect");
     },
   },
 };

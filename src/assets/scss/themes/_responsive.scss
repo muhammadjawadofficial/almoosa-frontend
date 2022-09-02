@@ -4281,6 +4281,16 @@
           }
         }
       }
+      &.large {
+        .consultation-section {
+          &--blocks {
+            &--single {
+              width: 14rem;
+              gap: 1rem;
+            }
+          }
+        }
+      }
     }
   }
   .datatable-select {
@@ -5514,6 +5524,11 @@
         font-size: 17px;
       }
     }
+    .card-header,
+    .card-body,
+    .card-footer {
+      padding: 1rem !important;
+    }
 
     &.ash-card {
       .card-body {
@@ -6092,11 +6107,36 @@
               top: 60px;
               left: 15px !important;
             }
+            &.profile-dropdown {
+              .sec-heading,
+              button {
+                font-size: 1.25rem;
+              }
+              li {
+                span {
+                  font-size: 1rem;
+                }
+              }
+            }
             .notification-dropdown {
               width: calc(100vw - 30px);
               position: fixed;
               top: 60px;
               left: 15px !important;
+              .dropdown-title {
+                font-size: 1.25rem;
+              }
+              .dropdown-sub-title {
+                font-size: 1.25rem;
+              }
+              .notification-row {
+                p {
+                  font-size: 1rem;
+                }
+                span {
+                  white-space: pre-wrap;
+                }
+              }
             }
           }
         }

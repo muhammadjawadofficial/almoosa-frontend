@@ -541,6 +541,7 @@
             display: flex;
             gap: 1rem;
             background-color: var(--notification-bg-color);
+            align-items: center;
             .icon {
               width: 3rem;
               aspect-ratio: 1;
