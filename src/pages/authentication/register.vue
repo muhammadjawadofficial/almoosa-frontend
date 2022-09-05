@@ -115,6 +115,7 @@
                 day: 'numeric',
               }"
               :hide-header="true"
+              :date-disabled-fn="nextDateDisabled"
               show-decade-nav
               class="w200"
             >
@@ -296,6 +297,17 @@ export default {
   },
   methods: {
     ...mapActions("user", ["setOtp", "setUserId", "setAuthState"]),
+    nextDateDisabled(ymd, date) {
+      const today = new Date();
+
+      // 👇️ OPTIONAL!
+      // This line sets the hour of the current date to midnight
+      // so the comparison only returns `true` if the passed in date
+      // is at least yesterday
+      today.setHours(0, 0, 0, 0);
+
+      return date > today;
+    },
     checkDropdownValues() {
       authService.getNationalities().then(
         (res) => {
