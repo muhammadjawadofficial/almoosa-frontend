@@ -75,7 +75,7 @@
     </b-card>
     <div class="row">
       <div class="col-md-12 button-group">
-        <button class="btn btn-primary" @click="showModal">
+        <button class="btn btn-primary" @click="bookAppointment('payNow')">
           {{ $t("bookAppointment.payNow") }}
         </button>
         <button class="btn btn-secondary" @click="bookAppointment">
@@ -107,7 +107,11 @@ export default {
     ]),
   },
   methods: {
-    ...mapActions("appointment", ["resetBookAppointment",]),
+    ...mapActions("appointment", [
+      "resetBookAppointment",
+      "setPaymentObject",
+      "setSelectedAppointment",
+    ]),
     checkAccess() {
       console.log(
         "sar",
@@ -140,7 +144,7 @@ export default {
         this.navigateTo("Upcoming Appointment");
       });
     },
-    bookAppointment() {
+    bookAppointment(method = "payLater") {
       this.setLoadingState(true);
       appointmentService
         .createAppointment(
@@ -160,7 +164,17 @@ export default {
           (res) => {
             let response = res.data;
             if (response.status) {
-              this.showModal();
+              if (method == "payNow") {
+                this.setSelectedAppointment(response.data);
+                let obj = {
+                  amount: this.getBookingAmount,
+                  appointment_id: response.data.id,
+                };
+                this.setPaymentObject(obj);
+                this.navigateTo("Select Payment Method");
+              } else {
+                this.showModal();
+              }
             } else {
               this.failureToast(response.message);
             }

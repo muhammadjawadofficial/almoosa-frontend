@@ -11,6 +11,9 @@ export const userService = {
     getRole,
     getUserRole,
     setRole,
+    getBooking,
+    removeBooking,
+    setBooking,
     downloadFile
 };
 
@@ -22,6 +25,8 @@ const userInfo = 'userInfo';
 const preferredLayout = 'user-layout';
 
 const userRole = 'userRole';
+
+const paymentToBeBook = 'booking'
 
 function isAuthenticatedUser() {
     return !!localStorage.getItem(jwtTokenKey);
@@ -65,6 +70,15 @@ function getUserRole() {
 }
 function setRole(role) {
     return localStorage.setItem(userRole, role);
+}
+function getBooking() {
+    return JSON.parse(localStorage.getItem(paymentToBeBook));
+}
+function removeBooking() {
+    return localStorage.removeItem(paymentToBeBook);
+}
+function setBooking(booking) {
+    return localStorage.setItem(paymentToBeBook, JSON.stringify(booking));
 }
 function downloadFile(url) {
     let userToken = userService.getToken();

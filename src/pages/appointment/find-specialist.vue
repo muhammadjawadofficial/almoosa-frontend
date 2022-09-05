@@ -1,9 +1,9 @@
 <template>
-  <div class="find-specialist-container page-body-container standard-width">
+  <div class="find-specialist-container only-back-container page-body-container standard-width">
     <back-navigation />
     <div
       v-if="getBookingMethod == 'onsite'"
-      class="location-section find-specialist-container-section"
+      class="location-section find-specialist-container-section block-section"
     >
       <div class="heading-section">
         <div class="heading-icon">
@@ -53,7 +53,7 @@
         </div>
       </div>
     </div>
-    <div class="specialist-section find-specialist-container-section">
+    <div class="specialist-section find-specialist-container-section block-section">
       <div class="heading-section">
         <div class="heading-icon">
           <img src="../../assets/images/speciality.svg" alt="speciality-icon" />
@@ -87,7 +87,7 @@
         </div>
       </div>
     </div>
-    <div class="datetime-section find-specialist-container-section">
+    <div class="datetime-section find-specialist-container-section block-section">
       <div class="heading-section">
         <div class="heading-icon">
           <img src="../../assets/images/calendar.svg" alt="calendar-icon" />
@@ -105,7 +105,7 @@
         <ash-datepicker v-model="selectedDate" />
       </div>
     </div>
-    <div class="datetime-section find-specialist-container-section">
+    <div class="datetime-section find-specialist-container-section block-section">
       <button @click="findSpecialist" class="btn btn-secondary">
         {{ $t("findSpecialist.findMySpecialist") }}
       </button>

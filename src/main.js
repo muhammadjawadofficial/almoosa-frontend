@@ -108,8 +108,24 @@ Vue.mixin({
         confirmButtonColor: "#4466f2",
       });
     },
-    successIconModal(title, text, confirmText) {
-      const imagePath = require("./assets/images/m-check.svg")
+    confirmIconModal(title, text, icon = 'm-check', confirmText, cancelText) {
+      const imagePath = require("./assets/images/" + icon + ".svg")
+      return this.$swal({
+        title: title || this.$t('areYouSure'),
+        text: text || this.$t('areYouSure'),
+        showCancelButton: true,
+        confirmButtonText: confirmText || this.$t("ok"),
+        confirmButtonColor: "#4466f2",
+        cancelButtonText: cancelText || this.$t("cancel"),
+        cancelButtonColor: "#4466f2",
+        imageUrl: imagePath,
+        customClass: {
+          container: 'swal-custom-icon-top-padding theme-action-button',
+        }
+      });
+    },
+    successIconModal(title, text, icon = 'm-check', confirmText) {
+      const imagePath = require("./assets/images/" + icon + ".svg")
       return this.$swal({
         title: title || this.$t('changesDone'),
         text: text || this.$t('changesDone'),
@@ -127,6 +143,19 @@ Vue.mixin({
         type: 'error',
         confirmButtonText: confirmText || this.$t("ok"),
         confirmButtonColor: "#4466f2"
+      });
+    },
+    failureIconModal(title, text, icon = 'm-check', confirmText) {
+      const imagePath = require("./assets/images/" + icon + ".svg")
+      this.$swal({
+        title: title || this.$t('error.somethingWentWrong'),
+        text: text || this.$t('error.somethingWentWrong'),
+        confirmButtonText: confirmText || this.$t("ok"),
+        confirmButtonColor: "#4466f2",
+        imageUrl: imagePath,
+        customClass: {
+          container: 'swal-custom-icon-top-padding',
+        }
       });
     },
     successToast(message) {
@@ -213,6 +242,9 @@ Vue.mixin({
       }
       return moment(date).format(format);
     },
+    formatLongDayDateFromDate(date, utc = true) {
+      return this.dateFormatter(date, 'dddd, MMMM DD', utc);
+    },
     formatDate(date) {
       return this.dateFormatter(date, "DD-MM-YYYY")
     },
@@ -228,7 +260,7 @@ Vue.mixin({
     isDateSame(date1, date2) {
       let fdate1 = this.formatDate(new Date(date1));
       let fdate2 = this.formatDate(new Date(date2));
-      return moment(fdate1).isSame(fdate2)
+      return fdate1 == fdate2;
     },
     getYears(date) {
       return moment().diff(date, 'years')
@@ -273,6 +305,10 @@ const i18n = new VueI18n({
   messages,
   silentTranslationWarn: true
 });
+
+// config for firebase
+import firebaseMessaging from './firebase'
+Vue.prototype.$messaging = firebaseMessaging
 
 new Vue({
   i18n,

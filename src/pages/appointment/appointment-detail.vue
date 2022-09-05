@@ -60,18 +60,30 @@
                   {{ $t("appointmentDetail.dateTime") }}
                 </div>
                 <div class="appointment-detail--value">
-                  {{ dateFormatter(details.booked_date) }}
+                  {{
+                    formatLongDayDateFromDate(details.booked_date) +
+                    " - " +
+                    removeSecondsFromTimeString(details.start_time)
+                  }}
                 </div>
               </div>
               <div class="appointment-detail--action-buttons">
                 <button class="btn btn-info appointment-detail--status">
                   {{ details.status }}
                 </button>
-                <div
-                  class="appointment-detail--communication"
-                  v-if="details.type == 'online'"
-                >
-                  <button class="btn btn-primary" @click="makeCall(details)">
+                <div class="appointment-detail--communication">
+                  <button
+                    class="btn btn-secondary"
+                    v-if="details.status == 'pending'"
+                    @click="makePayment"
+                  >
+                    {{ $t("bookAppointment.payNow") }}
+                  </button>
+                  <button
+                    class="btn btn-primary"
+                    @click="makeCall(details)"
+                    v-if="details.type == 'online'"
+                  >
                     {{ $t("appointmentDetail.joinCall") }}
                   </button>
                   <!-- <button class="btn btn-secondary">
@@ -89,7 +101,7 @@
           >
             {{ $t("appointmentDetail.reschedule") }}
           </button>
-          <button class="btn btn-outline-danger">
+          <button @click="cancelAppointment" class="btn btn-outline-danger">
             {{ $t("appointmentDetail.cancelAppointment") }}
           </button>
         </div>
@@ -100,7 +112,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { userService } from "../../services";
+import { appointmentService, userService } from "../../services";
 export default {
   data() {
     return {
@@ -124,7 +136,10 @@ export default {
       this.details = this.getSelectedAppointment;
       if (!this.details) this.navigateTo("Upcoming Appointment");
     },
-    makeCall(details) {
+    makePayment() {
+      this.navigateTo("Select Payment Method");
+    },
+    makeCall() {
       this.navigateTo("Connect");
     },
     rescheduleAppointment() {
@@ -135,6 +150,42 @@ export default {
       this.setBookingAmount(this.details.amount);
       this.setIsReschedule(this.details.id);
       this.navigateTo("Doctor Details");
+    },
+    cancelAppointment() {
+      this.confirmIconModal(
+        this.$t("upcomingAppointment.modal.confirm"),
+        this.$t("upcomingAppointment.modal.confirmText"),
+        "m-calendar-cancel-confirm",
+        this.$t("cancel"),
+        this.$t("appointmentDetail.reschedule")
+      ).then((result) => {
+        if (result.value) {
+          this.setLoadingState(true);
+          appointmentService.cancelAppointment(this.details.id).then(
+            (res) => {
+              let response = res.data;
+              if (response.status) {
+                this.navigateTo("Upcoming Appointment");
+                this.successIconModal(
+                  this.$t("upcomingAppointment.modal.delete"),
+                  this.$t("upcomingAppointment.modal.deleteText"),
+                  "m-calendar-cancel"
+                );
+              } else {
+                this.failureToast(response.message);
+              }
+              this.setLoadingState(false);
+            },
+            (err) => {
+              console.error(err);
+              this.failureToast();
+              this.setLoadingState(false);
+            }
+          );
+        } else if (result.dismiss == "cancel") {
+          this.rescheduleAppointment();
+        }
+      });
     },
   },
   computed: {

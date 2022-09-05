@@ -34,6 +34,10 @@ import heartReport from './modules/heart-report-svg.vue'
 import calendarFill from './modules/calendar-fill.vue'
 import hospital from './modules/hospital.vue'
 import shield from './modules/shield.vue'
+import walletSvg from './payment-method/wallet-svg.vue'
+import appleSvg from './payment-method/apple-svg.vue'
+import cashSvg from './payment-method/cash-svg.vue'
+import insuranceSvg from './payment-method/insurance-svg.vue'
 
 Vue.component('new-badge-svg', newBadgeSvg)
 Vue.component('username-svg', usernameSvg)
@@ -69,3 +73,7 @@ Vue.component('user-tag-svg', userTag)
 Vue.component('calendar-fill-svg', calendarFill)
 Vue.component('hospital-svg', hospital)
 Vue.component('shield-svg', shield)
+Vue.component('wallet-svg', walletSvg)
+Vue.component('apple-svg', appleSvg)
+Vue.component('cash-svg', cashSvg)
+Vue.component('insurance-svg', insuranceSvg)

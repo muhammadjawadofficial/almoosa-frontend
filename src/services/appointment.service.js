@@ -9,6 +9,7 @@ export const appointmentService = {
     fetchTimeslots,
     createAppointment,
     updateAppointment,
+    cancelAppointment,
     getTodayAppointment
 }
 
@@ -74,6 +75,13 @@ function updateAppointment(id, date, start_time, end_time) {
         method: apiPath.appointment.updateAppointment(id).method,
         url: apiPath.appointment.updateAppointment(id).url,
         data
+    })
+}
+
+function cancelAppointment(id) {
+    return axios({
+        method: apiPath.appointment.cancelAppointment(id).method,
+        url: apiPath.appointment.cancelAppointment(id).url,
     })
 }
 

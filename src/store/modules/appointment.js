@@ -14,6 +14,12 @@ export default {
             amount: "100",
             doctor: null,
         },
+        paymentObject: {
+            currency: null,
+            amount: null,
+            appointment_id: null,
+            method: null
+        },
         doctorsList: null,
         isReschedule: false,
     },
@@ -63,6 +69,9 @@ export default {
         setIsReschedule({ commit }, data) {
             commit('SET_IS_RESCHEDULE', data)
         },
+        setPaymentObject({ commit }, data) {
+            commit('SET_PAYMENT_OBJECT', data)
+        },
     },
     mutations: {
         RESET_BOOK_APPOINTMENT(state, booking) {
@@ -101,6 +110,9 @@ export default {
         SET_IS_RESCHEDULE(state, isReschedule) {
             state.isReschedule = isReschedule;
         },
+        SET_PAYMENT_OBJECT(state, paymentObject) {
+            Vue.set(state, 'paymentObject', paymentObject)
+        },
     },
     getters: {
         getSelectedAppointment: (state) => state.selectedAppointment,
@@ -114,5 +126,6 @@ export default {
         getBookingAmount: (state) => state.booking.amount,
         getDoctorsList: (state) => state.doctorsList,
         getIsReschedule: (state) => state.isReschedule,
+        getPaymentObject: (state) => state.paymentObject,
     }
 };

@@ -7,7 +7,7 @@
       <div class="component-icon" v-if="icon"><component :is="icon" /></div>
       <div>
         {{ title }}
-        <div v-if="subTitle" class="sub-text">{{ subTitle }}</div>
+        <div v-if="subTitle" class="sub-text w200">{{ subTitle }}</div>
       </div>
     </div>
   </div>
@@ -49,6 +49,7 @@ export default {
   .back-icon {
     cursor: pointer;
     width: 2rem;
+    margin-top: 0.25rem;
     img {
       width: 100%;
     }

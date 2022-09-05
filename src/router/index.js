@@ -15,6 +15,11 @@ import appointmentDetail from '../pages/appointment/appointment-detail'
 import findSpecialist from '../pages/appointment/find-specialist'
 import doctorList from '../pages/appointment/doctor-list'
 import doctorDetails from '../pages/appointment/doctor-details'
+import selectPaymentMethod from '../pages/appointment/select-payment-method'
+import payNow from '../pages/appointment/pay-now'
+
+import paymentSuccess from '../pages/payment-success'
+import paymentFailure from '../pages/payment-failure'
 
 import Login from '../pages/authentication/login';
 import OTP from '../pages/authentication/otp';
@@ -93,6 +98,38 @@ const routes = [
             component: doctorDetails,
             meta: {
               title: 'Doctor Details | Almoosa Specialist Hospital',
+            }
+          },
+          {
+            path: 'select-payment-method',
+            name: 'Select Payment Method',
+            component: selectPaymentMethod,
+            meta: {
+              title: 'Select Payment Method | Almoosa Specialist Hospital',
+            }
+          },
+          {
+            path: 'pay-now',
+            name: 'Pay Now',
+            component: payNow,
+            meta: {
+              title: 'Pay Now | Almoosa Specialist Hospital',
+            }
+          },
+          {
+            path: 'payment/success',
+            name: 'Payment Success',
+            component: paymentSuccess,
+            meta: {
+              title: 'Payment Success | Almoosa Specialist Hospital',
+            }
+          },
+          {
+            path: 'payment/failure',
+            name: 'Payment Failure',
+            component: paymentFailure,
+            meta: {
+              title: 'Payment Failure | Almoosa Specialist Hospital',
             }
           },
           {
@@ -181,6 +218,7 @@ const router = new Router({
   routes,
   base: '/ashwebapp/',
   linkActiveClass: "active",
+  mode: 'history',
   scrollBehavior() {
     return { x: 0, y: 0 }
   }

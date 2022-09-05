@@ -25,6 +25,7 @@ export default {
   },
   mounted() {
     this.timeOut();
+    console.log("Firebase cloud messaging object", this.$messaging);
   },
   computed: {
     ...mapGetters("user", ["getLoading"]),

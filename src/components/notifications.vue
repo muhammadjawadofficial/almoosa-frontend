@@ -77,5 +77,10 @@ export default {
       this.notification = !this.notification;
     },
   },
+  mounted() {
+    this.$messaging.onMessage((payload) => {
+      console.log("Foreground Notification ", payload.notification);
+    });
+  },
 };
 </script>

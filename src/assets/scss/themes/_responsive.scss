@@ -6552,6 +6552,15 @@
       margin-top: 10px;
     }
   }
+  .select-payment-method-container {
+    .payment-method--item {
+      .content {
+        .content--info {
+          gap: 1rem;
+        }
+      }
+    }
+  }
 }
 
 @media only screen and (max-width: 425px) {
@@ -6973,6 +6982,34 @@
   }
 }
 
+@media only screen and (max-width: 330px) {
+  .page-wrapper .header-logo-wrapper img {
+    width: 25px;
+    object-fit: cover;
+    object-position: right;
+  }
+  .select-payment-method-container {
+    .payment-method {
+      .payment-method--item {
+        .content {
+          flex-direction: column;
+          gap: 0;
+          align-items: flex-start;
+          position: relative;
+          padding-inline-end: 0.75rem;
+          i {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+}
 @media only screen and (min-width: 576px) {
   .product-wrapper-grid {
     &.list-view {

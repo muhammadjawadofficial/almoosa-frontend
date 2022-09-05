@@ -595,7 +595,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 }
 
-.find-specialist-container {
+.only-back-container {
+    > .block-section:nth-child(2) {
+        padding-top: 0;
+        .heading-section {
+            margin-inline-start: 3rem;
+        }
+    }
+    .back-navigation {
+        position: absolute;
+    }
     .heading {
         &-section {
             display: flex;
@@ -608,6 +617,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         &-subTitle {
             font-size: 1.125rem;
             color: #8696b8;
+            font-family: $font-diodrum-medium;
         }
         &-icon {
             width: 1.75rem;
@@ -617,20 +627,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             }
         }
     }
+}
+
+.find-specialist-container {
     .body-section {
         margin-top: 1.5rem;
     }
-    .back-navigation {
-        position: absolute;
-    }
     .find-specialist-container-section {
         padding-block: 2.5rem;
-    }
-    > .find-specialist-container-section:nth-child(2) {
-        padding-top: 0;
-        .heading-section {
-            margin-inline-start: 3rem;
-        }
     }
     .location-card-container {
         display: flex;
@@ -741,6 +745,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     background-position: center;
                     background-size: contain;
                 }
+                background-color: $secondary-color;
+                color: $white;
             }
         }
     }
@@ -1004,10 +1010,82 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         }
     }
 }
+.select-payment-method-container {
+    .payment-method {
+        padding-block: 1rem 4rem;
+        &--item {
+            &.primary {
+                background: $primary-color;
+                .content {
+                    &--name,
+                    &--price,
+                    &--info {
+                        color: $white;
+                    }
+                }
+                .svg-icon-fill {
+                    fill: $white;
+                }
+                path:not(.svg-icon-fill) {
+                    fill: $primary-color;
+                }
+            }
+            display: flex;
+            gap: 1rem;
+            width: calc(min(56rem, 100%));
+            padding: 2rem;
+            margin-top: 1rem;
+            border-radius: 1rem;
+            background: $tertiary-color;
+            cursor: pointer;
+            .logo {
+                width: 2.75rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                img {
+                    width: 100%;
+                }
+            }
+            .content {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 2rem;
+                width: 100%;
+                &--name {
+                    font-size: 1.25rem;
+                    color: #8696b8;
+                }
+                &--info {
+                    display: flex;
+                    gap: 5rem;
+                    align-items: center;
+                    font-size: 1.25rem;
+                    white-space: nowrap;
+                }
+                &--price {
+                    font-size: 1.5rem;
+                    color: $primary-color;
+                }
+            }
+        }
+    }
+}
 .swal2-container {
     &.swal-custom-icon-top-padding {
         .swal2-popup {
             padding-top: 6em;
+        }
+    }
+    &.theme-action-button {
+        .swal2-actions {
+            .swal2-confirm {
+                background-color: $primary-color !important;
+            }
+            .swal2-cancel {
+                background-color: $secondary-color !important;
+            }
         }
     }
     .swal2-popup {
@@ -1044,7 +1122,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     outline: none;
                     box-shadow: none;
                 }
-                width: calc(min(15.188em, 100%));
+                width: calc(min(10em, 100%));
                 padding-block: 0.6em;
             }
         }

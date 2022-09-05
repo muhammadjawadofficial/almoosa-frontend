@@ -172,6 +172,7 @@ export default {
       "getBookingEndTime",
       "getIsReschedule",
       "getSelectedAppointment",
+      "getBookingMethod",
     ]),
   },
   mounted() {
@@ -211,11 +212,13 @@ export default {
             if (this.timeslots && this.timeslots.all_slots.length) {
               if (this.isDateSame(this.getBookingDate, this.selectedDate)) {
                 if (this.getBookingStartTime && this.getBookingEndTime) {
-                  let timeslot = this.timeslots.all_slots.findIndex(
-                    (x) =>
+                  let timeslot = this.timeslots.all_slots.findIndex((x) => {
+                    // console.log(x.start_time, x.end_time, this.getBookingStartTime, this.getBookingEndTime);
+                    return (
                       x.start_time == this.getBookingStartTime &&
                       x.end_time == this.getBookingEndTime
-                  );
+                    );
+                  });
                   if (timeslot > -1) {
                     this.selectedTimeSlot = timeslot;
                   }
@@ -279,7 +282,6 @@ export default {
                   appointment.booked_date = this.getBookingDate;
                   appointment.start_time = this.getBookingStartTime;
                   appointment.end_time = this.getBookingEndTime;
-
                   this.successIconModal(
                     this.$t("bookAppointment.modal.reschedule"),
                     this.$t("bookAppointment.modal.rescheduleText")
@@ -298,39 +300,6 @@ export default {
                 this.setLoadingState(false);
               }
             );
-          /**
-           * 
-        createAppointment(
-          this.getBookingMethod,
-          userService.currentUser(),
-          this.getBookingDoctor,
-          this.getBookingDate,
-          this.removeSecondsFromTimeString(
-            this.getBookingStartTime,
-            true,
-            false
-          ),
-          this.removeSecondsFromTimeString(this.getBookingEndTime, true, false),
-          this.getBookingAmount
-        )
-        .then(
-          (res) => {
-            let response = res.data;
-            if (response.status) {
-              this.showModal();
-            } else {
-              this.failureToast(response.message);
-            }
-            this.setLoadingState(false);
-          },
-          (err) => {
-            console.error(err);
-            this.failureToast();
-            this.setLoadingState(false);
-          }
-        );
-           */
-        } else {
         }
       } else {
         this.navigateTo("Book Appointment");

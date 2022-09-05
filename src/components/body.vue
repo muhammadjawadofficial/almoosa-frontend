@@ -167,9 +167,7 @@ export default {
           menuItem.active = false;
         });
       }
-      if (window.innerWidth < 991) {
-        this.$store.state.menu.togglesidebar = true;
-      }
+      this.$store.state.menu.togglesidebar = true;
     },
   },
 };

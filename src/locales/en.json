@@ -67,7 +67,13 @@
   },
   "upcomingAppointment": {
     "onsite": "On-site",
-    "virtual": "Virtual"
+    "virtual": "Virtual",
+    "modal": {
+      "delete": "Appointment Cancelled",
+      "deleteText": "Your appointment has been cancelled",
+      "confirm": "Hey, Wait!",
+      "confirmText": "Are you sure, you want to cancel your appointment? You can reschedule your appointment based on your availability"
+    }
   },
   "appointmentDetail": {
     "heading": "Appointment Detail",
@@ -131,6 +137,19 @@
       "rescheduleText": "Your appointment has been rescheduled successfully"
     }
   },
+  "selectPaymentMethod": {
+    "title": "Choose Your Payment Method",
+    "applePay": "Apple Pay",
+    "card": "Credit/Debit Card",
+    "insurance": "Pay Via Insurance",
+    "payCash": "Pay via Credit/Debit/Apple Pay",
+    "chooseCash": "Choose Your Cash Method",
+    "chooseInsurance": "Pay Your Bills Via Medical Insurance",
+    "paymentSuccessful": "Payment Successful",
+    "paymentSuccessfulText": "Your payment has been received successfully",
+    "paymentFailed": "Payment Failed",
+    "paymentFailedText": "Your payment has been failed"
+  },
   "footer": {
     "allRights": "All Rights Reserved By Almoosa Hospital Specialist"
   },
@@ -162,5 +181,6 @@
   "mrn_number": "MRN",
   "saudi_id": "Saudi ID",
   "iqama": "Iqama",
-  "startCall": "Start Call"
+  "startCall": "Start Call",
+  "sar": "SAR"
 }

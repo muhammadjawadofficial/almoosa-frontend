@@ -487,12 +487,14 @@ $label-color: $primary-color, $secondary-color, $success-color, $danger-color, $
     }
 
     &:hover,
-    &:focus,
     &:active,
     &.active {
       color: white;
       background-color: darken($btn-color, 10%) !important;
       border-color: darken($btn-color, 10%) !important;
+    }
+    &:focus {
+      box-shadow: none;
     }
   }
 }
