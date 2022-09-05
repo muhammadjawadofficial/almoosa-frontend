@@ -14,6 +14,7 @@ export default {
       "setBookingEndTime",
       "setBookingDoctor",
       "setBookingAmount",
+      "setSelectedAppointment",
     ]),
   },
   beforeDestroy() {
@@ -24,6 +25,7 @@ export default {
     this.setBookingStartTime(null);
     this.setBookingEndTime(null);
     this.setBookingDoctor(null);
+    this.setSelectedAppointment(null);
     // this.setBookingAmount(null);
   },
 };

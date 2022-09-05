@@ -22,7 +22,10 @@
                   {{ doctor.speciality.title }}
                 </div>
               </div>
-              <div class="doctor-details-card-header-right-location">
+              <div
+                class="doctor-details-card-header-right-location"
+                v-if="shouldShowLocation"
+              >
                 <img src="../../assets/images/location.svg" alt="" />
                 {{ doctor.location }}
               </div>
@@ -174,6 +177,13 @@ export default {
       "getSelectedAppointment",
       "getBookingMethod",
     ]),
+    shouldShowLocation() {
+      if (this.getIsReschedule) {
+        return this.getSelectedAppointment.type == "onsite";
+      } else {
+        return this.getBookingMethod == "onsite";
+      }
+    },
   },
   mounted() {
     if (!this.getBookingDoctor) {

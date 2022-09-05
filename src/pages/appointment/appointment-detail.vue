@@ -122,6 +122,11 @@ export default {
   mounted() {
     this.initializeAppointmentDetails();
   },
+  beforeDestroy() {
+    if (!this.getIsReschedule) {
+      this.setSelectedAppointment(null);
+    }
+  },
   methods: {
     ...mapActions("appointment", [
       "setSelectedAppointment",
@@ -189,7 +194,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters("appointment", ["getSelectedAppointment"]),
+    ...mapGetters("appointment", ["getSelectedAppointment", "getIsReschedule"]),
     doctorSpeciality() {
       return userService.currentUser().speciality;
     },
