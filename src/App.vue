@@ -26,9 +26,6 @@ export default {
   mounted() {
     this.timeOut();
     console.log("Firebase cloud messaging object", this.$messaging);
-    navigator.serviceWorker.addEventListener("message", (event) => {
-      console.log("Push Notification Recieved", event.data.notification); // refresh code goes here
-    });
   },
   computed: {
     ...mapGetters("user", ["getLoading"]),

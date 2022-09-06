@@ -74,7 +74,7 @@
                 <div class="appointment-detail--communication">
                   <button
                     class="btn btn-secondary"
-                    v-if="details.status == 'pending'"
+                    v-if="details.status == 'pending' && !isDoctor"
                     @click="makePayment"
                   >
                     {{ $t("bookAppointment.payNow") }}
@@ -145,7 +145,17 @@ export default {
       this.navigateTo("Select Payment Method");
     },
     makeCall() {
-      this.navigateTo("Connect");
+      if (
+        this.isAllowedToCall(
+          this.details.booked_date,
+          this.details.start_time,
+          this.details.end_time
+        )
+      ) {
+        this.navigateTo("Connect");
+      } else {
+        this.failureToast(this.$t("cantJoinCall"));
+      }
     },
     rescheduleAppointment() {
       this.setBookingDoctor(this.details.doctor);

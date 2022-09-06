@@ -108,6 +108,7 @@
                       </div>
                       <button
                         class="btn btn-primary start-call-button"
+                        v-if="appointment.type == 'online'"
                         @click="makeCall(appointment)"
                       >
                         {{ $t("startCall") }}
@@ -311,19 +312,13 @@ export default {
   methods: {
     ...mapActions("appointment", ["setBookingMethod"]),
     findASpecialist(type) {
-      if (type == "online") {
-        this.setBookingMethod("online");
-      } else {
-        this.setBookingMethod("onsite");
-      }
-      this.navigateTo("Find Specialist");
+      this.navigateTo("Find Specialist", { method: type });
     },
     getTodayAppointment() {
       appointmentService.getTodayAppointment(userService.currentUser().id).then(
         (res) => {
           if (res.data.status) {
             this.todayAppointments = res.data.data.items;
-            console.log(this.todayAppointments);
           } else {
             this.failureToast(res.data.message);
           }
@@ -344,7 +339,17 @@ export default {
       return "/profile.png";
     },
     makeCall(appointment) {
-      this.navigateTo("Connect");
+      if (
+        this.isAllowedToCall(
+          appointment.booked_date,
+          appointment.start_time,
+          appointment.end_time
+        )
+      ) {
+        this.navigateTo("Connect");
+      } else {
+        this.failureToast(this.$t("cantJoinCall"));
+      }
     },
   },
 };

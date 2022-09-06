@@ -1,5 +1,12 @@
 <template>
-  <div class="find-specialist-container only-back-container page-body-container standard-width">
+  <div
+    class="
+      find-specialist-container
+      only-back-container
+      page-body-container
+      standard-width
+    "
+  >
     <back-navigation />
     <div
       v-if="getBookingMethod == 'onsite'"
@@ -53,7 +60,9 @@
         </div>
       </div>
     </div>
-    <div class="specialist-section find-specialist-container-section block-section">
+    <div
+      class="specialist-section find-specialist-container-section block-section"
+    >
       <div class="heading-section">
         <div class="heading-icon">
           <img src="../../assets/images/speciality.svg" alt="speciality-icon" />
@@ -87,7 +96,9 @@
         </div>
       </div>
     </div>
-    <div class="datetime-section find-specialist-container-section block-section">
+    <div
+      class="datetime-section find-specialist-container-section block-section"
+    >
       <div class="heading-section">
         <div class="heading-icon">
           <img src="../../assets/images/calendar.svg" alt="calendar-icon" />
@@ -105,7 +116,9 @@
         <ash-datepicker v-model="selectedDate" />
       </div>
     </div>
-    <div class="datetime-section find-specialist-container-section block-section">
+    <div
+      class="datetime-section find-specialist-container-section block-section"
+    >
       <button @click="findSpecialist" class="btn btn-secondary">
         {{ $t("findSpecialist.findMySpecialist") }}
       </button>
@@ -134,7 +147,13 @@ export default {
       "getBookingSpeciality",
     ]),
   },
+  watch: {
+    "$route.params.method": function () {
+      this.setSelectedMethod();
+    },
+  },
   mounted() {
+    this.setSelectedMethod();
     if (!this.getBookingMethod) {
       this.navigateTo("default");
     }
@@ -146,6 +165,7 @@ export default {
       "setBookingClinic",
       "setBookingDate",
       "setDoctorsList",
+      "setBookingMethod",
     ]),
     initializeData() {
       this.setLoadingState(true);
@@ -201,6 +221,14 @@ export default {
     },
     getImageUrl(image) {
       return process.env.VUE_APP_SERVER + image.path;
+    },
+    setSelectedMethod() {
+      let type = this.$route.params.method;
+      if (type == "online") {
+        this.setBookingMethod("online");
+      } else if (type == "onsite") {
+        this.setBookingMethod("onsite");
+      }
     },
     setSelectedClinic(clinic) {
       this.selectedClinic = clinic;

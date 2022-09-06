@@ -30,13 +30,13 @@ messaging.getToken({ vapidKey: "BCBFdxeSbCZ_iyTTLUctA7WiZoN__DKtNJiHZFLuBKyoWRcN
     });
 messaging.onBackgroundMessage((payload) => {
     console.log('Background Notification ', payload.notification);
+
     // Customize notification here
     // const notificationTitle = 'Background Message Title';
     // const notificationOptions = {
     //     body: 'Background Message body.',
     //     icon: './profile.png'
     // };
-
     // self.registration.showNotification(notificationTitle,
     //     notificationOptions);
 });

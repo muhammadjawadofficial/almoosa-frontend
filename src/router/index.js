@@ -77,7 +77,7 @@ const routes = [
             }
           },
           {
-            path: 'find-specialist',
+            path: 'find-specialist/:method',
             name: 'Find Specialist',
             component: findSpecialist,
             meta: {

@@ -544,6 +544,7 @@
             align-items: center;
             .icon {
               width: 3rem;
+              min-width: 3rem;
               aspect-ratio: 1;
               /* UI Properties */
               background: $white;
@@ -584,6 +585,12 @@
 
           ul {
             padding: 0.938rem;
+          }
+          &.notification-dropdown {
+            ul {
+              max-height: 20rem;
+              overflow: auto;
+            }
           }
           li {
             padding: 0.938rem;
@@ -769,10 +776,10 @@
           li {
             background-color: #f9f9f9;
             border-radius: 5px;
-            &:last-child {
-              text-align: center;
-              background-color: transparent;
-            }
+            // &:last-child {
+            //   text-align: center;
+            //   background-color: transparent;
+            // }
 
             p {
               display: flex;

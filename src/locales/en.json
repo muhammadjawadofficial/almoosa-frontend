@@ -18,6 +18,7 @@
     "marhaba": "Marhaba",
     "settings": "View Your Settings",
     "notifications": "Notifications",
+    "noData": "No New Notifications",
     "today": "Today",
     "home": "Home",
     "bookings": "Bookings",
@@ -153,6 +154,7 @@
   "footer": {
     "allRights": "All Rights Reserved By Almoosa Hospital Specialist"
   },
+  "cantJoinCall": "Not allowed to join call",
   "back": "Back",
   "ash": "Almoosa Specialist Hospital",
   "loading": "Loading",

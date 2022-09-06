@@ -9,7 +9,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/dashboard/default"
+            "path": "/dashboard"
         },
         {
             "titleEn": "Virtual Appointments",
@@ -20,7 +20,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/dashboard/default2"
+            "path": "/appointment/find-specialist/online"
         },
         {
             "titleEn": "Symptom Checker",
@@ -53,7 +53,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/dashboard/default2"
+            "path": "/appointment/find-specialist/onsite"
         },
         {
             "titleEn": "Medical Insurance",

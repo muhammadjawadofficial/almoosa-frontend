@@ -761,6 +761,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         }
     }
 }
+.multi-line-ellipse {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .doctor-list-container {
     position: relative;
     .doctor-card-container {

@@ -188,8 +188,12 @@ Vue.mixin({
       )
       return localStorage.getItem('restartRequired')
     },
-    navigateTo(name) {
-      this.$router.push({ name })
+    navigateTo(name, params = null) {
+      let obj = { name };
+      if (params) {
+        obj.params = params
+      }
+      this.$router.push(obj);
     },
     replaceTo(name) {
       this.$router.replace({ name })
@@ -257,6 +261,9 @@ Vue.mixin({
     getShortDateFromDate(date, separator = "-") {
       return this.dateFormatter(date, "YYYY" + separator + "MM" + separator + "DD")
     },
+    formatNotificationTime(date, utc = false) {
+      return this.dateFormatter(date, 'MMMM YYYY - hh:mm A', utc)
+    },
     isDateSame(date1, date2) {
       let fdate1 = this.formatDate(new Date(date1));
       let fdate2 = this.formatDate(new Date(date2));
@@ -291,6 +298,25 @@ Vue.mixin({
       }
       return strNum;
     },
+    isAllowedToCall(date, start, end) {
+      let minutes = 1000 * 60;
+
+      let startTime = start.split(":");
+      let endTime = end.split(":");
+
+      let now = new Date().getTime();
+      let bookDate = new Date(date);
+      let bookDateWithStartTime = bookDate.setHours(startTime[0], startTime[1]);
+      let bookDateWithEndTime = bookDate.setHours(endTime[0], endTime[1]);
+
+      let bookDateWithStartTimeMili = new Date(bookDateWithStartTime).getTime();
+      let bookDateWithEndTimeMili = new Date(bookDateWithEndTime).getTime();
+
+      let allowedStartLimit = bookDateWithStartTimeMili - (15 * minutes);
+      let allowedEndLimit = bookDateWithEndTimeMili;
+
+      return now > allowedStartLimit && now < allowedEndLimit;
+    }
   },
 })
 
