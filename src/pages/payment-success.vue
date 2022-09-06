@@ -18,16 +18,20 @@ export default {
       booking.status = "confirmed";
       this.setSelectedAppointment(booking);
       userService.removeBooking();
+      this.setLoadingState(false);
       this.successIconModal(
         this.$t("selectPaymentMethod.paymentSuccessful"),
         this.$t("selectPaymentMethod.paymentSuccessfulText"),
         "m-payment-success"
       ).then(() => {
-        this.navigateTo("Appointment Detail");
+        this.navigateTo("default");
       });
     },
   },
   computed: {},
+  beforeMount() {
+    this.setLoadingState(true);
+  },
   mounted() {
     this.showModal();
   },

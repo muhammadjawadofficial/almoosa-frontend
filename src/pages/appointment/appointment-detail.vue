@@ -123,9 +123,9 @@ export default {
     this.initializeAppointmentDetails();
   },
   beforeDestroy() {
-    if (!this.getIsReschedule) {
-      this.setSelectedAppointment(null);
-    }
+    // if (!this.getIsReschedule) {
+    //   this.setSelectedAppointment(null);
+    // }
   },
   methods: {
     ...mapActions("appointment", [

@@ -219,6 +219,7 @@ export default {
   mounted() {
     this.getAppointments();
     this.checkScreenOffset();
+    this.setSelectedAppointment(null);
   },
   computed: {
     ...mapGetters("appointment", ["getSelectedAppointment"]),

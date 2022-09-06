@@ -7,7 +7,8 @@ export default {
         otp: "",
         userId: "",
         authState: "",
-        userRole: "patient"
+        userRole: "patient",
+        notification: []
     },
     actions: {
         setLoading({ commit }, data) {
@@ -24,6 +25,9 @@ export default {
         },
         setUserRole({ commit }, data) {
             commit('SET_USER_ROLE', data)
+        },
+        setNotification({ commit }, data) {
+            commit('SET_NOTIFICATION', data)
         },
     },
     mutations: {
@@ -42,6 +46,9 @@ export default {
         SET_USER_ROLE(state, userRole) {
             state.userRole = userRole;
         },
+        SET_NOTIFICATION(state, notification) {
+            Vue.set(state, 'notification', [...state.notification, notification])
+        },
     },
     getters: {
         getLoading: (state) => state.loading,
@@ -49,5 +56,6 @@ export default {
         getUserId: (state) => state.userId,
         getAuthState: (state) => state.authState,
         getUserRole: (state) => state.userRole,
+        getNotification: (state) => state.notification,
     }
 };
