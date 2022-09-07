@@ -14,7 +14,7 @@
 <script>
 export default {
   methods: {
-    iframeIsLoaded(e) {
+    iframeIsLoaded() {
       this.setLoadingState(false);
     },
   },

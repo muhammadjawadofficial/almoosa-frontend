@@ -20,6 +20,18 @@ import "./components/svgIcons"
 import OtpInput from "@bachdgvn/vue-otp-input";
 import PxCard from './components/Pxcard.vue'
 
+
+import VueAnalytics from 'vue-analytics';
+
+// Configuration VueAnalytics
+Vue.use(VueAnalytics, {
+  id: 'G-TVYDCJG6GS',
+  router, 
+  autoTracking: {
+    screenview: true
+  }
+});
+
 Vue.prototype.moment = moment
 
 Vue.component("v-otp-input", OtpInput);

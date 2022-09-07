@@ -192,7 +192,7 @@
                 <div class="loading" v-if="appointmentStatus == 'loading'">
                   Loading...
                 </div>
-                <div class="no-data" v-else-if="!virtualAppointments.length">
+                <div class="no-data" v-else-if="!onsiteAppointments.length">
                   No Data To Show
                 </div>
               </b-tab>
