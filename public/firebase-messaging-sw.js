@@ -15,19 +15,6 @@ var firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig)
 const messaging = firebase.messaging();
 
-messaging.getToken({ vapidKey: "BCBFdxeSbCZ_iyTTLUctA7WiZoN__DKtNJiHZFLuBKyoWRcNbiu95V5zLiYOBUBptIUXo-dD1kn8-Ws3dnPBVj8" })
-    .then((currentToken) => {
-        if (currentToken) {
-            console.log("client token", currentToken);
-        } else {
-            console.log(
-                "No registration token available. Request permission to generate one."
-            );
-        }
-    })
-    .catch((err) => {
-        console.log("An error occurred while retrieving token. ", err);
-    });
 messaging.onBackgroundMessage((payload) => {
     console.log('Background Notification ', payload.notification);
 

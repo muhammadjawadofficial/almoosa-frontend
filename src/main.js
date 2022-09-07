@@ -26,7 +26,7 @@ import VueAnalytics from 'vue-analytics';
 // Configuration VueAnalytics
 Vue.use(VueAnalytics, {
   id: 'G-TVYDCJG6GS',
-  router, 
+  router,
   autoTracking: {
     screenview: true
   }

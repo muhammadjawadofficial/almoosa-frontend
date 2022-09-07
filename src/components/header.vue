@@ -404,6 +404,7 @@ export default {
     },
     logout() {
       userService.removeLoginInfo();
+      this.$messaging.deleteToken();
       this.navigateTo({ name: "Login Dashboard" });
     },
   },
