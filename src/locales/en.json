@@ -14,6 +14,13 @@
     },
     "signIn": "Sign in"
   },
+  "register": {
+    "modal": {
+      "title": "Registered Successfully",
+      "text": "You have been registered, the submitted information will be reviewed by the hospital and we will get back to you. Meanwhile you can enjoy our pre-login features",
+      "ok": "Contact us"
+    }
+  },
   "header": {
     "marhaba": "Marhaba",
     "settings": "View Your Settings",

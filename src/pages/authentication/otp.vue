@@ -112,7 +112,12 @@ export default {
                 this.navigateTo("New Password");
               } else {
                 if (this.getAuthState == constants.auth.register) {
-                  this.navigateTo("Login");
+                  this.successIconModal(
+                    this.$t("register.modal.title"),
+                    this.$t("register.modal.text"),
+                    "m-check"
+                  );
+                  this.navigateTo("Login Dashboard");
                 } else {
                   this.setAuthState(constants.auth.login);
                   userService.storeLoginInfo(data.user, data.access_token);
