@@ -46,6 +46,7 @@ const routes = [
         component: Dashboard,
         meta: {
           title: 'Dashboard | Almoosa Specialist Hospital',
+          public: true
         }
       },
       {

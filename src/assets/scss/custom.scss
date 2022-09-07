@@ -532,12 +532,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                 font-size: 2.188rem;
             }
             &--blocks {
-                gap: 2rem;
+                --blocksGap: 2;
+                gap: calc(var(--blocksGap) * 1rem);
                 .new-badge {
                     width: 5rem;
                 }
                 &--single {
-                    width: 16.375rem;
                     padding: 2.625rem 2rem 1.75rem;
                     gap: 2rem;
                     .title {

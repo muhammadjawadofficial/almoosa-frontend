@@ -7029,6 +7029,39 @@
 .pointer {
   cursor: pointer;
 }
+.consultation-section {
+  &.large {
+    .consultation-section {
+      &--blocks {
+        @media only screen and (max-width: 1280px) and (min-width: 992px) {
+          --blocksGap: 1 !important;
+        }
+        &--single {
+          @media (min-width: 992px) {
+            --perLineItems: 4;
+          }
+          @media (min-width: 1280px) {
+            --perLineItems: 4;
+          }
+          @media (min-width: 1600px) {
+            --perLineItems: 5;
+          }
+          @media (min-width: 1920px) {
+            --perLineItems: 6;
+          }
+          @media (min-width: 992px) {
+            width: calc(
+              (100% - ((var(--perLineItems) * (var(--blocksGap)) * 1rem) - (var(--blocksGap)) * 1rem)) / var(--perLineItems)
+            );
+          }
+          @media (max-width: 991px) {
+            width: 16.375rem;
+          }
+        }
+      }
+    }
+  }
+}
 /**=====================
      62. Responsive CSS Ends
 ==========================**/
