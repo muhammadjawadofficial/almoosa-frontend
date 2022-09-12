@@ -6634,6 +6634,33 @@
   }
 }
 
+@media only screen and (max-width: 375px) {
+  .book-appointment-completion-conatiner {
+    .promotions-loyalty {
+      flex-direction: column;
+      .promotions-loyalty-separator {
+        width: 13.625rem;
+        padding-top: 3px;
+        &::before,
+        &::after {
+          width: calc((100% - 4rem) / 2);
+          height: 2px;
+          bottom: 0;
+          top: 1rem;
+        }
+        &::before {
+          left: 0.5rem;
+          right: unset;
+        }
+
+        &::after {
+          right: 0.5rem;
+          left: unset;
+        }
+      }
+    }
+  }
+}
 @media only screen and (max-width: 360px) {
   .chat-box {
     .about {
@@ -7051,7 +7078,8 @@
           }
           @media (min-width: 992px) {
             width: calc(
-              (100% - ((var(--perLineItems) * (var(--blocksGap)) * 1rem) - (var(--blocksGap)) * 1rem)) / var(--perLineItems)
+              (100% - ((var(--perLineItems) * (var(--blocksGap)) * 1rem) - (var(--blocksGap)) * 1rem)) /
+                var(--perLineItems)
             );
           }
           @media (max-width: 991px) {

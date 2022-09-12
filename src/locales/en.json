@@ -158,6 +158,33 @@
     "paymentFailed": "Payment Failed",
     "paymentFailedText": "Your payment has been failed"
   },
+  "promotions": {
+    "title": "Promotions List",
+    "viewDetails": "View Details",
+    "apply": "Apply Promotion",
+    "applied": "Promotion Applied",
+    "promotionTitle": "Promotion Title",
+    "promotionCode": "Promotion Code",
+    "promotionDetails": "Details",
+    "promotionDateTime": "Promotion Date & Time",
+    "topSpecialist": "Top Specialist",
+    "topSpecialistText": "We provide medical services that you can trust",
+    "addPromo": "Apply Promotion Code",
+    "addPromoText": "Promotion Code",
+    "promotionApplied": "Promotion Applied",
+    "promotionAppliedText": "Promotion has been applied successfully",
+    "loyaltyPoint": "Use Loyalty Points or Redeem Code",
+    "loyaltyPointText": "You Can Use One Type Of Discount At One Time",
+    "noPromo": "Promo Code",
+    "promoCardTitle": "OFF",
+    "promoCardText": "Tap to use the code",
+    "loyaltyPointCardTitle": "Loyalty Points",
+    "loyaltyPointCardText": "Tap to use these points",
+    "clearSelection": "Clear Selection",
+    "removePromo": "Remove Promo",
+    "invalidPromo": "Add valid promo code",
+    "noData": "We will let you know once there is any promotion available for you"
+  },
   "footer": {
     "allRights": "All Rights Reserved By Almoosa Hospital Specialist"
   },
@@ -191,5 +218,6 @@
   "saudi_id": "Saudi ID",
   "iqama": "Iqama",
   "startCall": "Start Call",
-  "sar": "SAR"
+  "sar": "SAR",
+  "or": "OR"
 }

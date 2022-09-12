@@ -26,7 +26,7 @@ export default {
     this.setBookingEndTime(null);
     this.setBookingDoctor(null);
     this.setSelectedAppointment(null);
-    // this.setBookingAmount(null);
+    this.setBookingAmount(null);
   },
 };
 </script>

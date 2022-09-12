@@ -21,6 +21,10 @@ import payNow from '../pages/appointment/pay-now'
 import paymentSuccess from '../pages/payment-success'
 import paymentFailure from '../pages/payment-failure'
 
+import promotionsModule from '../pages/promotions'
+import promotionsList from '../pages/promotions/promotions-list'
+import promotionsDetails from '../pages/promotions/promotions-details'
+
 import Login from '../pages/authentication/login';
 import OTP from '../pages/authentication/otp';
 import ForgotPassword from '../pages/authentication/forgot_password';
@@ -46,7 +50,6 @@ const routes = [
         component: Dashboard,
         meta: {
           title: 'Dashboard | Almoosa Specialist Hospital',
-          public: true
         }
       },
       {
@@ -141,6 +144,28 @@ const routes = [
               title: 'Connect | Almoosa Specialist Hospital',
             }
           },
+        ]
+      },
+      {
+        path: 'promotions',
+        component: promotionsModule,
+        children: [
+          {
+            path: "/",
+            name: 'Promotions',
+            component: promotionsList,
+            meta: {
+              title: 'Promotions | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "details",
+            name: 'Promotion Details',
+            component: promotionsDetails,
+            meta: {
+              title: 'Promotion Details | Almoosa Specialist Hospital',
+            },
+          }
         ]
       }
     ]

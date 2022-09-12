@@ -9,7 +9,9 @@
   letter-spacing: 0.5px;
   border-radius: $card-border-radious;
   box-shadow: $card-box-shadow;
-
+  &.transparent {
+    box-shadow: none !important;
+  }
   &.ash-card {
     border-radius: 0.875rem 0px 0.875rem 0.875rem;
     margin-block: 2rem;
@@ -41,7 +43,7 @@
               background-color: $primary-color;
               width: 100%;
               border-radius: 1.25rem;
-              border-right: 0.7rem solid transparent;
+              border-right: 0.5rem solid transparent;
               display: flex;
               align-items: flex-start;
               gap: 2rem;
@@ -68,6 +70,9 @@
                 padding: 0.45rem 0.25rem 0.25rem;
                 img {
                   border-radius: 50%;
+                  width: 100%;
+                  height: 100%;
+                  object-fit: contain;
                 }
               }
               .appointment {

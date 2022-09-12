@@ -37,7 +37,11 @@
               </div>
               <div class="content--info">
                 <div class="content--price">
-                  {{ translateNumber(getBookingAmount) + " " + $t("sar") }}
+                  {{
+                    translateNumber(getSelectedAppointment.amount) +
+                    " " +
+                    $t("sar")
+                  }}
                 </div>
                 <i
                   :class="
@@ -80,7 +84,11 @@
               </div>
               <div class="content--info">
                 <div class="content--price">
-                  {{ translateNumber(getBookingAmount) + " " + $t("sar") }}
+                  {{
+                    translateNumber(getSelectedAppointment.amount) +
+                    " " +
+                    $t("sar")
+                  }}
                 </div>
                 <i
                   :class="

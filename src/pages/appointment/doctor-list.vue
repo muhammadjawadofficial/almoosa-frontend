@@ -83,6 +83,7 @@ export default {
       "setBookingDoctor",
       "setBookingStartTime",
       "setBookingEndTime",
+      "setBookingAmount",
     ]),
     getImageUrl(profile) {
       if (profile.photo) {
@@ -94,6 +95,7 @@ export default {
       this.setBookingDoctor(doctor);
       this.setBookingStartTime(null);
       this.setBookingEndTime(null);
+      this.setBookingAmount(100);
       this.navigateTo("Doctor Details");
     },
   },

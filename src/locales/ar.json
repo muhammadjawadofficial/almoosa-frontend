@@ -128,6 +128,33 @@
       "noData": "لا توجد فترات زمنية في هذا التاريخ المحدد"
     }
   },
+  "promotions": {
+    "title": "قائمة الترقيات",
+    "viewDetails": "عرض التفاصيل",
+    "apply": "تطبيق الترويج",
+    "applied": "العرض المقدم",
+    "promotionTitle": "عنوان الترويج",
+    "promotionCode": "شفرة الترقية",
+    "promotionDetails": "تفاصيل",
+    "promotionDateTime": "تاريخ ووقت الترويج",
+    "topSpecialist": "أفضل متخصص",
+    "topSpecialistText": "نحن نقدم خدمات طبية يمكنك الوثوق بها",
+    "addPromo": "تطبيق كود الترويج",
+    "addPromoText": "شفرة الترقية",
+    "promotionApplied": "العرض المقدم",
+    "promotionAppliedText": "تم تطبيق الترقية بنجاح",
+    "loyaltyPoint": "استخدم نقاط الولاء أو رمز الاسترداد",
+    "loyaltyPointText": "يمكنك استخدام نوع واحد من الخصم في وقت واحد",
+    "noPromo": "رمز ترويجي",
+    "promoCardTitle": "إيقاف",
+    "promoCardText": "انقر لاستخدام الرمز",
+    "loyaltyPointCardTitle": "نقاط الولاء",
+    "loyaltyPointCardText": "انقر لاستخدام هذه النقاط",
+    "clearSelection": "التحديد الواضح",
+    "removePromo": "إزالة العرض الترويجي",
+    "invalidPromo": "أضف رمزًا ترويجيًا صالحًا",
+    "noData": "سنخبرك بمجرد توفر أي عرض ترويجي لك"
+  },
   "footer": {
     "allRights": "جميع الحقوق محفوظة من قبل أخصائي مستشفى الموسى"
   },
@@ -186,5 +213,6 @@
   "saudi_id": "الهوية السعودية",
   "iqama": "الإقامة",
   "startCall": "ابدأ الاتصال",
-  "sar": "ريال"
+  "sar": "ريال",
+  "or": "أو"
 }

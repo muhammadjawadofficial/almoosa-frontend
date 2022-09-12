@@ -5,6 +5,7 @@ import layout from './modules/layout'
 import menu from './modules/menu'
 import user from './modules/user'
 import appointment from './modules/appointment'
+import promotion from './modules/promotion'
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
@@ -18,7 +19,8 @@ export const store = new Vuex.Store({
     layout,
     menu,
     user,
-    appointment
+    appointment,
+    promotion
   }
 });
 

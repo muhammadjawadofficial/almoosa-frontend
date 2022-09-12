@@ -490,11 +490,11 @@ $landing-color: var(--theme-default);
   right: 30px;
   z-index: 5;
   color: #fff;
-  background: var(--theme-default);
+  background: var(--theme-secondary);
   border: 1px solid var(--theme-tertiary);
   border: none;
   padding: 7px;
-  box-shadow: 0 0 10px var(--theme-default);
+  box-shadow: 0 0 10px var(--theme-secondary);
   opacity: 0.5;
   transition: all 0.3s ease;
 

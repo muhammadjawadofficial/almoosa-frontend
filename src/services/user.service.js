@@ -3,6 +3,7 @@ export const userService = {
     storeLoginInfo,
     removeLoginInfo,
     currentUser,
+    storeUserInfo,
     getToken,
     removeToken,
     setToken,
@@ -45,6 +46,9 @@ function removeLoginInfo() {
 
 function currentUser() {
     return JSON.parse(localStorage.getItem(userInfo));
+}
+function storeUserInfo(user) {
+    localStorage.setItem(userInfo, JSON.stringify(user));
 }
 
 function getToken() {

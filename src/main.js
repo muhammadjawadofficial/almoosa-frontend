@@ -136,6 +136,34 @@ Vue.mixin({
         }
       });
     },
+    inputIconModal(title, text, icon = 'm-check', type = 'text', confirmText, cancelText) {
+      const imagePath = require("./assets/images/" + icon + ".svg")
+      return this.$swal({
+        input: type,
+        inputPlaceholder: text,
+        title: title || this.$t('areYouSure'),
+        showCancelButton: true,
+        confirmButtonText: confirmText || this.$t("ok"),
+        confirmButtonColor: "#4466f2",
+        cancelButtonText: cancelText || this.$t("cancel"),
+        cancelButtonColor: "#4466f2",
+        preConfirm: (inputVal) => {
+          let trimInputVal = (inputVal + "").trim();
+          let isValidInput = trimInputVal != '';
+          if (!isValidInput) {
+            this.$swal.showValidationMessage(
+              this.$t('promotions.invalidPromo')
+            )
+          }
+
+          return isValidInput && trimInputVal;
+        },
+        imageUrl: imagePath,
+        customClass: {
+          container: 'swal-custom-icon-top-padding theme-action-button',
+        }
+      });
+    },
     successIconModal(title, text, icon = 'm-check', confirmText) {
       const imagePath = require("./assets/images/" + icon + ".svg")
       return this.$swal({
@@ -270,6 +298,9 @@ Vue.mixin({
     getLongDateFromDate(date) {
       return this.dateFormatter(date, 'D MMMM YYYY')
     },
+    getLongDateAndTimeFromDate(date, utc = false) {
+      return this.dateFormatter(date, 'DD MMMM YYYY - hh:mm A', utc)
+    },
     getShortDateFromDate(date, separator = "-") {
       return this.dateFormatter(date, "YYYY" + separator + "MM" + separator + "DD")
     },
@@ -284,7 +315,8 @@ Vue.mixin({
     getYears(date) {
       return moment().diff(date, 'years')
     },
-    translateNumber(strNum) {
+    translateNumber(num) {
+      let strNum = num + '';
       // e.g., 12:00AM
       if (this.getCurrentLang() == "ar") {
         let ar = '٠١٢٣٤٥٦٧٨٩'.split('');
@@ -306,7 +338,8 @@ Vue.mixin({
             translateString += character;
           }
         })
-        return translateString.split("").reverse().join("");
+        return translateString;
+        // return translateString.split("").reverse().join("");
       }
       return strNum;
     },

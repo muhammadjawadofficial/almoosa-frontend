@@ -11,7 +11,7 @@ export default {
             date: null,
             startTime: null,
             endTime: null,
-            amount: "100",
+            amount: null,
             doctor: null,
         },
         paymentObject: {

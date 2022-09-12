@@ -61,12 +61,86 @@
                 }}
               </div>
             </div>
-            <div class="appointment-detail--sepecialist">
+            <div class="appointment-detail--amount">
               <div class="appointment-detail--label">
                 {{ $t("bookAppointment.payment") }}
+                <div
+                  class="reset-discount"
+                  v-if="selectedDiscountType != ''"
+                  @click="resetDiscount"
+                >
+                  {{
+                    selectedDiscountType == "promotion"
+                      ? $t("promotions.removePromo")
+                      : $t("promotions.clearSelection")
+                  }}
+                </div>
+              </div>
+              <div class="appointment-detail--value d-flex">
+                {{ $t("sar") }} {{ translateNumber(getCalculatedAmount) }}
+              </div>
+            </div>
+            <div class="appointment-detail--loyalty-promotion">
+              <div class="appointment-detail--label">
+                {{ $t("promotions.loyaltyPoint") }}
               </div>
               <div class="appointment-detail--value">
-                SAR {{ getBookingAmount }}
+                {{ $t("promotions.loyaltyPointText") }}
+              </div>
+            </div>
+          </div>
+          <div class="promotions-loyalty">
+            <div
+              class="promotions-loyalty-item"
+              @click="setDiscount('loyalty')"
+              :class="{
+                active: selectedDiscountType == 'loyalty',
+                disabled: !getUserInfo.loyality_points,
+              }"
+            >
+              <div class="promotions-loyalty-item-icon">
+                <img src="../../assets/images/badge.svg" alt="badge" />
+                <span
+                  v-if="selectedLoyaltyPoints != null"
+                  class="number deducted font-danger"
+                >
+                  - {{ translateNumber(selectedLoyaltyPoints) }}
+                </span>
+              </div>
+              <div class="promotions-loyalty-item-title">
+                <span class="number">{{
+                  translateNumber(getCalculatedLoyaltyPoints)
+                }}</span>
+                {{ $t("promotions.loyaltyPointCardTitle") }}
+              </div>
+              <div class="promotions-loyalty-item-info">
+                {{ $t("promotions.loyaltyPointCardText") }}
+              </div>
+            </div>
+            <div class="promotions-loyalty-separator">{{ $t("or") }}</div>
+            <div
+              class="promotions-loyalty-item"
+              @click="setDiscount('promotion')"
+              :class="{ active: selectedDiscountType == 'promotion' }"
+            >
+              <div class="promotions-loyalty-item-icon">
+                <img
+                  src="../../assets/images/announcement.svg"
+                  alt="announcement"
+                />
+              </div>
+              <div class="promotions-loyalty-item-title">
+                <span class="number" v-if="selectedPromotion">
+                  {{ translateNumber(selectedPromotion.discount_percent) }}%
+                </span>
+                {{
+                  selectedPromotion
+                    ? $t("promotions.promoCardTitle")
+                    : $t("promotions.noPromo")
+                }}
+              </div>
+              <div class="promotions-loyalty-item-info">
+                {{ $t("promotions.promoCardText") }}
               </div>
             </div>
           </div>
@@ -91,10 +165,23 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { appointmentService, userService } from "../../services";
+import {
+  appointmentService,
+  promotionService,
+  userService,
+} from "../../services";
 export default {
+  data() {
+    return {
+      selectedDiscountType: "",
+      selectedPromotion: null,
+      selectedLoyaltyPoints: null,
+      promotionList: [],
+    };
+  },
   mounted() {
     this.checkAccess();
+    this.fetchPromotionsList();
   },
   computed: {
     ...mapGetters("appointment", [
@@ -105,23 +192,72 @@ export default {
       "getBookingEndTime",
       "getBookingAmount",
     ]),
+    getUserInfo() {
+      return userService.currentUser();
+    },
+    getCalculatedAmount() {
+      let actualAmount = this.getBookingAmount;
+      if (this.selectedDiscountType == "promotion") {
+        if (this.selectedPromotion) {
+          let discount = this.selectedPromotion.discount_percent / 100;
+          let discountedAmount = this.getBookingAmount * discount;
+          actualAmount = this.getBookingAmount - discountedAmount;
+        }
+      } else if (this.selectedDiscountType == "loyalty") {
+        let loyaltyAmount = this.getUserInfo.loyality_points / 2;
+        if (loyaltyAmount > this.getBookingAmount) {
+          actualAmount = 0;
+        } else {
+          actualAmount = Math.ceil(this.getBookingAmount - loyaltyAmount);
+        }
+      }
+      return actualAmount;
+    },
+    getCalculatedLoyaltyPoints() {
+      let loyaltyPoints = this.getUserInfo.loyality_points;
+      if (this.selectedLoyaltyPoints) {
+        loyaltyPoints -= this.selectedLoyaltyPoints;
+      }
+      return loyaltyPoints;
+    },
   },
   methods: {
     ...mapActions("appointment", [
       "resetBookAppointment",
       "setPaymentObject",
       "setSelectedAppointment",
+      "setBookingAmount",
     ]),
-    checkAccess() {
-      console.log(
-        "sar",
-        this.getBookingAmount,
-        this.getBookingEndTime,
-        this.getBookingStartTime,
-        this.getBookingDate,
-        this.getBookingDoctor,
-        this.getBookingMethod
+    ...mapActions("promotion", ["setPromotionsList"]),
+    fetchPromotionsList() {
+      this.setLoadingState(true);
+      promotionService.fetchPromotions().then(
+        (response) => {
+          if (response.data.status) {
+            let data = response.data.data.items;
+            this.promotionList = [...data];
+            let userInfo = this.getUserInfo;
+            let selectedPromotionIndex = data.findIndex(
+              (x) => x.promo_code == userInfo.promo_code
+            );
+            let selectedPromotion = data[selectedPromotionIndex];
+            if (selectedPromotion) {
+              this.selectedDiscountType = "promotion";
+              this.selectedPromotion = selectedPromotion;
+            }
+            this.setPromotionsList(this.promotionList);
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+          this.setLoadingState(false);
+        },
+        () => {
+          this.setLoadingState(false);
+          this.failureToast();
+        }
       );
+    },
+    checkAccess() {
       if (
         !(
           this.getBookingAmount &&
@@ -140,12 +276,22 @@ export default {
         this.$t("bookAppointment.modal.confirmed"),
         this.$t("bookAppointment.modal.confirmedText")
       ).then(() => {
+        this.checkAndDeductLoyaltyPoints();
         this.resetBookAppointment();
         this.navigateTo("Upcoming Appointment");
       });
     },
     bookAppointment(method = "payLater") {
       this.setLoadingState(true);
+      let promo = null;
+      if (this.selectedDiscountType == "promotion" && this.selectedPromotion) {
+        promo = this.selectedPromotion.promo_code;
+      } else if (
+        this.selectedDiscountType == "loyalty" &&
+        this.selectedLoyaltyPoints
+      ) {
+        promo = "points";
+      }
       appointmentService
         .createAppointment(
           this.getBookingMethod,
@@ -158,7 +304,8 @@ export default {
             false
           ),
           this.removeSecondsFromTimeString(this.getBookingEndTime, true, false),
-          this.getBookingAmount
+          this.getBookingAmount,
+          promo
         )
         .then(
           (res) => {
@@ -166,8 +313,9 @@ export default {
             if (response.status) {
               if (method == "payNow") {
                 this.setSelectedAppointment(response.data);
+                this.checkAndDeductLoyaltyPoints();
                 let obj = {
-                  amount: this.getBookingAmount,
+                  amount: response.data.amount,
                   appointment_id: response.data.id,
                 };
                 this.setPaymentObject(obj);
@@ -186,6 +334,76 @@ export default {
             this.setLoadingState(false);
           }
         );
+    },
+    checkAndDeductLoyaltyPoints() {
+      if (
+        this.selectedLoyaltyPoints &&
+        this.selectedDiscountType == "loyalty"
+      ) {
+        this.setBookingAmount(this.getCalculatedAmount);
+        let userInfo = this.getUserInfo;
+        userInfo.loyality_points -= this.selectedLoyaltyPoints;
+        userService.storeUserInfo(userInfo);
+      }
+      this.resetDiscount();
+    },
+    resetDiscount() {
+      if (this.selectedDiscountType == "promotion") {
+        let userInfo = this.getUserInfo;
+        userInfo.promo_code = "";
+        userService.storeUserInfo(userInfo);
+        this.selectedPromotion = null;
+      }
+      this.selectedDiscountType = "";
+      this.selectedLoyaltyPoints = null;
+    },
+    setDiscount(type) {
+      if (type == "promotion") {
+        if (this.selectedPromotion) {
+          this.selectedDiscountType = type;
+          this.selectedLoyaltyPoints = null;
+        } else {
+          this.inputIconModal(
+            this.$t("promotions.addPromo"),
+            this.$t("promotions.addPromoText"),
+            "m-bell"
+          ).then((modalValue) => {
+            if (modalValue.dismiss) {
+              return;
+            }
+            let code = modalValue.value;
+            promotionService.applyPromotions(code).then(
+              (response) => {
+                if (response.data.status) {
+                  this.selectedDiscountType = type;
+                  this.selectedLoyaltyPoints = null;
+                  this.selectedPromotion = response.data.data;
+                  let userInfo = this.getUserInfo;
+                  userInfo.promo_code = this.selectedPromotion.promo_code;
+                  userService.storeUserInfo(userInfo);
+                } else {
+                  this.failureToast(response.data.message);
+                }
+                this.setLoadingState(false);
+              },
+              () => {
+                this.setLoadingState(false);
+                this.failureToast();
+              }
+            );
+          });
+        }
+      } else {
+        this.selectedDiscountType = type;
+        if (this.selectedLoyaltyPoints == null) {
+          let loyaltyAmount = this.getUserInfo.loyality_points / 2;
+          if (loyaltyAmount > this.getBookingAmount) {
+            this.selectedLoyaltyPoints = Math.ceil(this.getBookingAmount * 2);
+          } else {
+            this.selectedLoyaltyPoints = this.getUserInfo.loyality_points;
+          }
+        }
+      }
     },
   },
 };

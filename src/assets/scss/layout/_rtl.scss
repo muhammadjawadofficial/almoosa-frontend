@@ -15,8 +15,6 @@
       }
     }
   }
-  .custom-select {
-  }
 
   .language-switcher {
     right: auto;
@@ -262,19 +260,6 @@
             .according-menu {
               display: none;
             }
-            &:hover {
-              .sidebar-main {
-                .sidebar-links {
-                  > li {
-                    a {
-                      svg {
-                        // margin-left: 13px;
-                      }
-                    }
-                  }
-                }
-              }
-            }
           }
           &:hover {
             transform: translate(0px);
@@ -434,12 +419,6 @@
           }
         }
         .profile-dropdown {
-          li {
-            svg {
-              // margin-right: unset;
-              // margin-left: 10px;
-            }
-          }
           button {
             width: 10rem;
           }
@@ -1631,7 +1610,7 @@
         .appointment-list-item {
           .appointment-card {
             border-right: 0;
-            border-left: 0.7rem solid transparent;
+            border-left: 0.5rem solid transparent;
             .appointment-time-span,
             .start-call-button {
               right: unset;
@@ -2745,12 +2724,6 @@
         .profile-dropdown {
           border-top-right-radius: 0.875rem;
           border-top-left-radius: 0;
-          li {
-            svg {
-              // margin-right: unset;
-              // margin-left: 10px;
-            }
-          }
         }
       }
       .mobile-sidebar {
@@ -4344,11 +4317,6 @@
       &.compact-wrapper {
         .page-body-wrapper {
           .sidebar-wrapper {
-            &.close_icon {
-              &:hover {
-                // transform: translate(285px);
-              }
-            }
             .logo-wrapper {
               .back-btn {
                 float: left;
@@ -4439,13 +4407,6 @@
         .page-header {
           margin-right: 0 !important;
           margin-left: unset !important;
-        }
-        .page-body-wrapper {
-          .sidebar-wrapper {
-            &.close_icon {
-              // transform: translate(285px);
-            }
-          }
         }
       }
     }
@@ -4782,11 +4743,6 @@
       }
       &.compact-wrapper,
       &.compact-sidebar {
-        .nav-right {
-          .nav-menus {
-            // margin-left: 37px;
-          }
-        }
         .page-header {
           .header-wrapper {
             .toggle-sidebar {
@@ -5004,6 +4960,22 @@
   .doctor-list-container .search-box {
     right: unset;
     left: 0;
+  }
+
+  .appointment-detail--amount .appointment-detail--label .reset-discount {
+    float: left;
+  }
+
+  .book-appointment-completion-conatiner .promotions-loyalty {
+    &-item {
+      &.active::before {
+        right: unset;
+        left: 0.5rem;
+      }
+      &-icon .deducted {
+        float: left;
+      }
+    }
   }
 }
 

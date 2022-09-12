@@ -136,12 +136,18 @@ export default {
       "setBookingDoctor",
       "setBookingAmount",
       "setIsReschedule",
+      "setPaymentObject",
     ]),
     initializeAppointmentDetails() {
       this.details = this.getSelectedAppointment;
       if (!this.details) this.navigateTo("Upcoming Appointment");
     },
     makePayment() {
+      let obj = {
+        amount: this.details.amount,
+        appointment_id: this.details.id,
+      };
+      this.setPaymentObject(obj);
       this.navigateTo("Select Payment Method");
     },
     makeCall() {

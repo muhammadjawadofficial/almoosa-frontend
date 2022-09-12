@@ -48,7 +48,7 @@ function fetchTimeslots(doctor, date) {
     })
 }
 
-function createAppointment(type, patient, doctor, date, start_time, end_time, amount) {
+function createAppointment(type, patient, doctor, date, start_time, end_time, amount, promo) {
     let data = {
         "patient_id": patient.id,
         "doctor_id": doctor.id,
@@ -57,6 +57,14 @@ function createAppointment(type, patient, doctor, date, start_time, end_time, am
         "start_time": start_time,
         "end_time": end_time,
         "amount": amount
+    }
+    if (promo) {
+        if (promo == 'points') {
+            data.use_loyality = true;
+        } else {
+            data.use_loyality = false;
+            data.promo_code = promo;
+        }
     }
     return axios({
         method: apiPath.appointment.createAppointment.method,

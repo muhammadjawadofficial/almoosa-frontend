@@ -86,8 +86,8 @@
             @click="setSelectedSpeciality(speciality)"
           >
             <div class="speciality-image">
-              <img src="../../assets/images/sample.svg" alt="speciality-icon" />
-              <!-- <img :src="getImageUrl(speciality.icon)" alt="speciality-icon" /> -->
+              <!-- <img src="../../assets/images/sample.svg" alt="speciality-icon" /> -->
+              <img :src="getImageUrl(speciality.icon)" alt="icon" />
             </div>
             <div class="speciality-label">
               {{ speciality.title }}
