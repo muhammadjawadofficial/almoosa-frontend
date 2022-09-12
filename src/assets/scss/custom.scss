@@ -1256,7 +1256,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         }
     }
 }
-.lab-works-doctors-container {
+.lab-works-doctors-container,
+.radiology-report-doctors-container {
     position: relative;
     .card.ash-card {
         .card-body {
@@ -1267,15 +1268,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             }
         }
     }
-    .report-action-buttons {
-        display: flex;
-        gap: 1rem;
-        float: right;
-        z-index: 1;
-        img {
-            width: 3.125rem;
-            aspect-ratio: 1;
-        }
+}
+.report-action-buttons {
+    display: flex;
+    gap: 1rem;
+    float: right;
+    z-index: 1;
+    img {
+        width: 3.125rem;
+        aspect-ratio: 1;
     }
 }
 .swal2-container {

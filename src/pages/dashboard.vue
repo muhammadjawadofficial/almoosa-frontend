@@ -271,6 +271,7 @@ export default {
         {
           text: "Radiology Reports",
           icon: "user-report-svg",
+          link: "Radiology Report"
         },
         {
           text: "My Medication",

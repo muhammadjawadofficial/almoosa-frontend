@@ -29,6 +29,10 @@ import labWorksModule from '../pages/lab-works'
 import labWorksDoctors from '../pages/lab-works/doctor-list'
 import labWorksReports from '../pages/lab-works/report-list'
 
+import radiologyReportModule from '../pages/radiology-reports'
+import radiologyReportDoctors from '../pages/radiology-reports/doctor-list'
+import radiologyReportReports from '../pages/radiology-reports/report-list'
+
 import Login from '../pages/authentication/login';
 import OTP from '../pages/authentication/otp';
 import ForgotPassword from '../pages/authentication/forgot_password';
@@ -191,6 +195,29 @@ const routes = [
             component: labWorksReports,
             meta: {
               title: 'Lab Work - Reports | Almoosa Specialist Hospital',
+            },
+          },
+        ]
+      },
+      {
+        path: 'radiology-report',
+        component: radiologyReportModule,
+        children: [
+          { path: '', name: "Radiology Report", redirect: { name: 'Radiology Report Doctors' } },
+          {
+            path: "doctors",
+            name: 'Radiology Report Doctors',
+            component: radiologyReportDoctors,
+            meta: {
+              title: 'Radiology Report - Select Doctor | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "reports",
+            name: 'Radiology Reports',
+            component: radiologyReportReports,
+            meta: {
+              title: 'Radiology Report - Reports | Almoosa Specialist Hospital',
             },
           },
         ]

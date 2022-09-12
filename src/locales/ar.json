@@ -161,6 +161,12 @@
     "reports": "تقارير المعمل",
     "appointmentSession": "جلسة التعيين"
   },
+  "radiologyReport":{
+    "title": "تقارير الأشعة",
+    "viewDetails": "عرض التفاصيل",
+    "reports": "تقارير المعمل",
+    "appointmentSession": "جلسة التعيين"
+  },
   "footer": {
     "allRights": "جميع الحقوق محفوظة من قبل أخصائي مستشفى الموسى"
   },

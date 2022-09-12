@@ -7,6 +7,7 @@ import user from './modules/user'
 import appointment from './modules/appointment'
 import promotion from './modules/promotion'
 import labwork from './modules/labwork'
+import radiologyReport from './modules/radiology-report'
 
 Vue.use(Vuex);
 
@@ -23,7 +24,8 @@ export const store = new Vuex.Store({
     user,
     appointment,
     promotion,
-    labwork
+    labwork,
+    radiologyReport
   }
 });
 

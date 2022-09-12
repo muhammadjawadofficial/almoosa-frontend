@@ -191,6 +191,12 @@
     "reports": "Lab Reports",
     "appointmentSession": "Appointment Session"
   },
+  "radiologyReport":{
+    "title": "Radiology Reports",
+    "viewDetails": "View Details",
+    "reports": "Lab Reports",
+    "appointmentSession": "Appointment Session"
+  },
   "footer": {
     "allRights": "All Rights Reserved By Almoosa Hospital Specialist"
   },
