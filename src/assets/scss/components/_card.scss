@@ -38,7 +38,6 @@
               }
             }
             &-card {
-              margin-inline-start: 0.5rem;
               padding: 1.875rem;
               background-color: $primary-color;
               width: 100%;
@@ -62,12 +61,17 @@
               .doctor-avatar {
                 z-index: 1;
                 width: 6.438rem;
+                height: 6.438rem;
                 aspect-ratio: 1;
                 background: white;
                 border-radius: 50%;
                 display: flex;
                 place-content: center;
                 padding: 0.45rem 0.25rem 0.25rem;
+                &.transparent {
+                  background-color: transparent;
+                  padding: 0;
+                }
                 img {
                   border-radius: 50%;
                   width: 100%;
@@ -179,6 +183,9 @@
         --sub-dot-size: 1rem;
         --border-width: 1px;
         border-left: var(--border-width) solid $primary-color;
+        &.noData {
+          border-left-color: transparent;
+        }
         &-item {
           padding-inline-start: 1.25rem;
           display: flex;
@@ -207,6 +214,7 @@
           .appointment {
             &-card {
               margin-inline-start: 2.375rem;
+              width: calc(100% - 2.375rem - 4rem);
             }
           }
         }
@@ -259,7 +267,6 @@
       border-radius: 0 0 0 7px;
       right: 35px;
       top: 33px;
-      display: inline-block;
       float: right;
       padding: 8px 0;
       position: absolute;

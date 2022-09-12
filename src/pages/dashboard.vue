@@ -63,7 +63,12 @@
           </div>
           <b-card header-tag="div" no-body class="ash-card card-wizard">
             <b-card-body class="p-0">
-              <div class="appointment-list">
+              <div
+                class="appointment-list"
+                :class="{
+                  noData: !todayAppointments || !todayAppointments.length,
+                }"
+              >
                 <div
                   class="appointment-list-item"
                   v-for="appointment in todayAppointments"
@@ -117,10 +122,10 @@
                   </div>
                 </div>
                 <div class="loading" v-if="appointmentStatus == 'loading'">
-                  Loading...
+                  {{ $t("loading") }}
                 </div>
                 <div class="no-data" v-else-if="!todayAppointments.length">
-                  No Data To Show
+                  {{ $t("noData") }}
                 </div>
               </div>
             </b-card-body>
@@ -228,7 +233,6 @@
             <div class="title" v-html="$t('modules.' + item.text)"></div>
             <div class="icon">
               <component :is="item.icon" />
-              <!-- <virtual-consultations-svg /> -->
             </div>
           </div>
         </div>
@@ -262,6 +266,7 @@ export default {
         {
           text: "Lab Works",
           icon: "lab-svg",
+          link: "Lab Works",
         },
         {
           text: "Radiology Reports",
@@ -286,7 +291,7 @@ export default {
         {
           text: "View Promotions",
           icon: "promotions-svg",
-          link: "Promotions"
+          link: "Promotions",
         },
         {
           text: "Get Service & Package",

@@ -185,9 +185,16 @@
     "invalidPromo": "Add valid promo code",
     "noData": "We will let you know once there is any promotion available for you"
   },
+  "labWorks":{
+    "title": "Lab Works",
+    "viewDetails": "View Details",
+    "reports": "Lab Reports",
+    "appointmentSession": "Appointment Session"
+  },
   "footer": {
     "allRights": "All Rights Reserved By Almoosa Hospital Specialist"
   },
+  "noData": "No Data To Show",
   "cantJoinCall": "Not allowed to join call",
   "back": "Back",
   "ash": "Almoosa Specialist Hospital",

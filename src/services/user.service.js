@@ -84,13 +84,10 @@ function removeBooking() {
 function setBooking(booking) {
     return localStorage.setItem(paymentToBeBook, JSON.stringify(booking));
 }
-function downloadFile(url) {
-    let userToken = userService.getToken();
-    userService.removeToken();
-    let urlSplitArray = url.split("/");
-    let fileName = urlSplitArray[urlSplitArray.length - 1];
+function downloadFile(file) {
+    let fileName = file.name;
     axios({
-        url: url,
+        url: process.env.VUE_APP_SERVER + file.url,
         method: "GET",
         responseType: "blob",
     }).then((response) => {
@@ -101,6 +98,5 @@ function downloadFile(url) {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        userService.setToken(userToken);
     });
 }

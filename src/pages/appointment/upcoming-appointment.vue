@@ -19,7 +19,12 @@
               :value="activeTab"
             >
               <b-tab :title="$t('upcomingAppointment.virtual')">
-                <div class="appointment-list">
+                <div
+                  class="appointment-list"
+                  :class="{
+                    noData: !virtualAppointments || !virtualAppointments.length,
+                  }"
+                >
                   <div
                     class="appointment-list-item"
                     v-for="appointment in virtualAppointments"
@@ -30,7 +35,9 @@
                         {{ getDate(appointment.booked_date) }}
                       </div>
                       <div class="appointment-time-time">
-                        {{ getTimeFromDate(appointment.booked_date, true) }}
+                        {{
+                          removeSecondsFromTimeString(appointment.start_time)
+                        }}
                       </div>
                     </div>
                     <div
@@ -101,14 +108,17 @@
                   </div>
                 </div>
                 <div class="loading" v-if="appointmentStatus == 'loading'">
-                  Loading...
+                  {{ $t("loading") }}
                 </div>
                 <div class="no-data" v-else-if="!virtualAppointments.length">
-                  No Data To Show
+                  {{ $t("noData") }}
                 </div>
               </b-tab>
               <b-tab :title="$t('upcomingAppointment.onsite')">
-                <div class="appointment-list">
+                <div
+                  class="appointment-list"
+                  :class="{ noData: !onsiteAppointments.length }"
+                >
                   <div
                     class="appointment-list-item"
                     v-for="appointment in onsiteAppointments"
@@ -119,7 +129,9 @@
                         {{ getDate(appointment.booked_date) }}
                       </div>
                       <div class="appointment-time-time">
-                        {{ getTimeFromDate(appointment.booked_date, true) }}
+                        {{
+                          removeSecondsFromTimeString(appointment.start_time)
+                        }}
                       </div>
                     </div>
                     <div
@@ -190,10 +202,10 @@
                   </div>
                 </div>
                 <div class="loading" v-if="appointmentStatus == 'loading'">
-                  Loading...
+                  {{ $t("loading") }}
                 </div>
                 <div class="no-data" v-else-if="!onsiteAppointments.length">
-                  No Data To Show
+                  {{ $t("noData") }}
                 </div>
               </b-tab>
             </b-tabs>

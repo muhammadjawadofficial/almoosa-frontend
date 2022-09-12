@@ -25,6 +25,10 @@ import promotionsModule from '../pages/promotions'
 import promotionsList from '../pages/promotions/promotions-list'
 import promotionsDetails from '../pages/promotions/promotions-details'
 
+import labWorksModule from '../pages/lab-works'
+import labWorksDoctors from '../pages/lab-works/doctor-list'
+import labWorksReports from '../pages/lab-works/report-list'
+
 import Login from '../pages/authentication/login';
 import OTP from '../pages/authentication/otp';
 import ForgotPassword from '../pages/authentication/forgot_password';
@@ -166,6 +170,29 @@ const routes = [
               title: 'Promotion Details | Almoosa Specialist Hospital',
             },
           }
+        ]
+      },
+      {
+        path: 'lab-works',
+        component: labWorksModule,
+        children: [
+          { path: '', name: "Lab Works", redirect: { name: 'Lab Work Doctors' } },
+          {
+            path: "doctors",
+            name: 'Lab Work Doctors',
+            component: labWorksDoctors,
+            meta: {
+              title: 'Lab Work - Select Doctor | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "reports",
+            name: 'Lab Work Reports',
+            component: labWorksReports,
+            meta: {
+              title: 'Lab Work - Reports | Almoosa Specialist Hospital',
+            },
+          },
         ]
       }
     ]

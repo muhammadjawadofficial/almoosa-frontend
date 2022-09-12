@@ -3,7 +3,10 @@
     <back-navigation :title="$t('promotions.title')" />
     <b-card header-tag="div" no-body class="ash-card simple transparent">
       <b-card-body>
-        <div class="appointment-list">
+        <div
+          class="appointment-list"
+          :class="{ noData: !promotionList || !promotionList.length }"
+        >
           <template v-if="promotionList">
             <template v-if="promotionList.length">
               <div

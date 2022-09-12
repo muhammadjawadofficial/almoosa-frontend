@@ -40,5 +40,9 @@ export const apiPath = {
     promotions: {
         assigned: getApiObject("get", "promotions/assigned"),
         apply: getApiObject("post", "promotions/apply"),
+    },
+
+    reports: {
+        appointmentWithReports: (id, type) => getApiObject("get", "appointments/reports?patient_id=" + id + "&type=" + type),
     }
 };

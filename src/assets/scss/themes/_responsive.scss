@@ -3083,6 +3083,9 @@
 }
 
 @media only screen and (max-width: 768px) {
+  .report-action-buttons {
+    flex-direction: column;
+  }
   .cv-header {
     display: block;
     text-align: center;
@@ -3579,6 +3582,7 @@
             margin-inline-start: 1.75rem;
             padding: 1.5rem;
             gap: 1.5rem;
+            width: calc(100% - 1.75rem - 4rem);
           }
         }
       }
@@ -4239,15 +4243,6 @@
       }
     }
   }
-  .doctor-list-container {
-    div.search {
-      &-box {
-        position: relative;
-        inset: unset;
-        margin-top: 1rem;
-      }
-    }
-  }
 }
 @media only screen and (max-width: 700px) {
   .doctor-details-container {
@@ -4256,6 +4251,13 @@
         position: relative;
         inset: 0;
       }
+    }
+  }
+  div.search {
+    &-box {
+      position: relative;
+      inset: unset;
+      margin-top: 1rem;
     }
   }
 }
@@ -5524,11 +5526,6 @@
         font-size: 17px;
       }
     }
-    .card-header,
-    .card-body,
-    .card-footer {
-      padding: 1rem !important;
-    }
 
     &.ash-card {
       .card-body {
@@ -5543,7 +5540,6 @@
           }
           .appointment-card {
             padding: 1rem;
-            margin-inline-start: 1rem;
             .appointment-details {
               .doctor-name {
                 font-size: 1.25rem;
@@ -5554,6 +5550,21 @@
               .appointment-status {
                 font-size: 0.825rem;
               }
+            }
+          }
+        }
+      }
+    }
+    &.card-wizard {
+      .card-body {
+        .appointment-list-item {
+          .appointment-card {
+            margin-inline-start: 1rem;
+            width: calc(100% - 1rem - 4rem);
+            gap: 1rem;
+            .doctor-avatar {
+              width: 4rem;
+              height: 4rem;
             }
           }
         }
@@ -7036,6 +7047,24 @@
       }
     }
   }
+  .card.ash-card .card-body .appointment-list-item {
+    flex-direction: column;
+    gap: 1rem;
+    .appointment-card {
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-start !important;
+    }
+  }
+  .card.card-wizard .card-body .appointment-list-item {
+    .appointment-card {
+      width: 100%;
+      margin-inline-start: 0;
+    }
+  }
+  .report-action-buttons {
+    flex-direction: row;
+  }
 }
 @media only screen and (min-width: 576px) {
   .product-wrapper-grid {
@@ -7073,7 +7102,7 @@
           @media (min-width: 1600px) {
             --perLineItems: 5;
           }
-          @media (min-width: 1920px) {
+          @media (min-width: 1900px) {
             --perLineItems: 6;
           }
           @media (min-width: 992px) {

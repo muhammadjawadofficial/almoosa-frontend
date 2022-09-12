@@ -64,6 +64,7 @@ export default {
   bottom: 30px;
   left: 30px;
   cursor: pointer;
+  z-index: 999999;
   img {
     border-radius: 50%;
     width: 4rem;

@@ -88,6 +88,12 @@ Vue.mixin({
     getLSRole() {
       return !userService.isAuthenticatedUser() ? userService.getRole() : (this.checkRoleFromUser ? userService.getUserRole() : userService.getRole());
     },
+    getImageUrl(profile) {
+      if (profile && profile.photo) {
+        return process.env.VUE_APP_SERVER + profile.photo.path;
+      }
+      return "/profile.png";
+    },
     getLocaleKey: function (key, wordCase = "camel") {
       let postKey = this.$i18n.locale == "ar" ? "Ar" : "En";
       if (wordCase == "upper") {

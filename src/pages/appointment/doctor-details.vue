@@ -219,20 +219,27 @@ export default {
           let response = res.data;
           if (response.status) {
             this.timeslots = response.data.items[0];
-            if (this.timeslots && this.timeslots.all_slots.length) {
-              if (this.isDateSame(this.getBookingDate, this.selectedDate)) {
-                if (this.getBookingStartTime && this.getBookingEndTime) {
-                  let timeslot = this.timeslots.all_slots.findIndex((x) => {
-                    // console.log(x.start_time, x.end_time, this.getBookingStartTime, this.getBookingEndTime);
-                    return (
-                      x.start_time == this.getBookingStartTime &&
-                      x.end_time == this.getBookingEndTime
-                    );
-                  });
-                  if (timeslot > -1) {
-                    this.selectedTimeSlot = timeslot;
-                  }
-                }
+            let isThereAnyTimeSlotAvailable =
+              this.timeslots && this.timeslots.all_slots.length;
+            let isSelectedDateIsSameAsOfBookingDate = this.isDateSame(
+              this.getBookingDate,
+              this.selectedDate
+            );
+            let isStartEndTimeExist =
+              this.getBookingStartTime && this.getBookingEndTime;
+            if (
+              isThereAnyTimeSlotAvailable &&
+              isSelectedDateIsSameAsOfBookingDate &&
+              isStartEndTimeExist
+            ) {
+              let timeslot = this.timeslots.all_slots.findIndex((x) => {
+                return (
+                  x.start_time == this.getBookingStartTime &&
+                  x.end_time == this.getBookingEndTime
+                );
+              });
+              if (timeslot > -1) {
+                this.selectedTimeSlot = timeslot;
               }
             }
           } else {

@@ -620,6 +620,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                                 }
                                 &-avatar {
                                     width: 4rem;
+                                    height: 4rem;
                                     box-shadow: 0 3px 6px #6e99fc19;
                                     padding: 0;
                                 }
@@ -897,36 +898,37 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             }
         }
     }
-    .search {
-        &-box {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            position: absolute;
-            top: 4.5rem;
-            right: 0;
+}
+.search {
+    &-box {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        position: absolute;
+        top: 4.5rem;
+        right: 0;
+    }
+    &-input {
+        width: 20.438rem;
+        height: 3.125rem;
+        input {
+            background-color: $tertiary-color;
+            border: none;
+            height: 100%;
+            border-radius: 4.875rem;
         }
-        &-input {
-            width: 20.438rem;
-            height: 3.125rem;
-            input {
-                background-color: $tertiary-color;
-                border: none;
-                height: 100%;
-                border-radius: 4.875rem;
-            }
-        }
-        &-icon {
-            width: 3.125rem;
-            aspect-ratio: 1;
-            background-color: $primary-color;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: $white;
-            font-size: 1rem;
-        }
+    }
+    &-icon {
+        width: 3.125rem;
+        height: 3.125rem;
+        aspect-ratio: 1;
+        background-color: $primary-color;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $white;
+        font-size: 1rem;
     }
 }
 .doctor-details-container {
@@ -1251,6 +1253,28 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     color: $primary-color;
                 }
             }
+        }
+    }
+}
+.lab-works-doctors-container {
+    position: relative;
+    .card.ash-card {
+        .card-body {
+            .appointment-list-item {
+                .appointment-card {
+                    align-items: center;
+                }
+            }
+        }
+    }
+    .report-action-buttons {
+        display: flex;
+        gap: 1rem;
+        float: right;
+        z-index: 1;
+        img {
+            width: 3.125rem;
+            aspect-ratio: 1;
         }
     }
 }
