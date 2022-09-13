@@ -81,7 +81,7 @@ export default {
     },
   },
   watch: {
-    $route() {
+    $route(route) {
       this.setLoadingState(false);
       this.menuItems.filter((items) => {
         if (items.path === this.$route.path)
@@ -101,6 +101,7 @@ export default {
         (item) => Object.keys(item).pop() === this.layout.settings.layout
       );
       this.setLayoutObject();
+      this.$store.dispatch("menu/setNavLinkActive", { path: route.path });
     },
     sidebar_toggle_var: function () {
       this.resized =
@@ -121,6 +122,7 @@ export default {
     this.layoutobj = JSON.parse(JSON.stringify(this.layoutobj))[
       this.layout.settings.layout
     ];
+    this.$store.dispatch("menu/setNavLinkActive", { path: this.$route.path });
     this.setUserInfo(userService.currentUser());
   },
   methods: {

@@ -68,11 +68,9 @@
               v-if="menuItem.type == 'sub'"
               @click="setNavActive(menuItem, index)"
             >
-              <!-- <i :class="'fa fa-' + menuItem.icon"></i> -->
               <div class="side-bar-menu-item-icon">
                 <component :is="menuItem.icon" />
               </div>
-              <!-- <feather :type="menuItem.icon" class="top"></feather> -->
               <span>
                 {{ menuItem[getLocaleKey("title")] }}
               </span>
@@ -81,17 +79,15 @@
               </div>
             </a>
             <!-- Link -->
-            <router-link
-              :to="menuItem.path"
+            <a
+              href="javascript:void(0)"
+              @click="loadComponent(menuItem)"
               class="sidebar-link sidebar-title"
               v-if="menuItem.type == 'link'"
-              router-link-exact-active
             >
-              <!-- <i :class="'fa fa-' + menuItem.icon"></i> -->
               <div class="side-bar-menu-item-icon">
                 <component :is="menuItem.icon" />
               </div>
-              <!-- <feather :type="menuItem.icon" class="top"></feather> -->
               <span>
                 {{ menuItem[getLocaleKey("title")] }}
               </span>
@@ -99,7 +95,7 @@
                 class="fa fa-angle-right pull-right"
                 v-if="menuItem.children"
               ></i>
-            </router-link>
+            </a>
             <!-- External Link -->
             <a
               :href="menuItem.path"
@@ -108,7 +104,6 @@
               @click="setNavActive(menuItem, index)"
             >
               <i :class="'fa fa-' + menuItem.icon"></i>
-              <!-- <feather :type="menuItem.icon" class="top"></feather> -->
               <span>
                 {{ menuItem[getLocaleKey("title")] }}
               </span>
@@ -126,7 +121,6 @@
               @click="setNavActive(menuItem, index)"
             >
               <i :class="'fa fa-' + menuItem.icon"></i>
-              <!-- <feather :type="menuItem.icon" class="top"></feather> -->
               <span>
                 {{ menuItem[getLocaleKey("title")] }}
               </span>
@@ -474,6 +468,11 @@ export default {
         this.margin += -this.width;
         this.hideLeftArrow = false;
       }
+    },
+    loadComponent(item) {
+      this.toggle_sidebar();
+      this.setNavActive(item);
+      this.$router.push(item.path);
     },
   },
 };

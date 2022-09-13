@@ -337,7 +337,8 @@ export default {
       ) {
         this.setBookingAmount(this.getCalculatedAmount);
         this.updateUserInfo({
-          loyality_points: loyality_points - this.selectedLoyaltyPoints,
+          loyality_points:
+            this.getUserInfo.loyality_points - this.selectedLoyaltyPoints,
         });
       }
       this.resetDiscount();
@@ -387,11 +388,11 @@ export default {
           });
         }
       } else {
+        this.selectedDiscountType = type;
         this.setPromotionLoyalty();
       }
     },
     setPromotionLoyalty() {
-      this.selectedDiscountType = type;
       if (this.selectedLoyaltyPoints == null) {
         let loyaltyAmount = this.getUserInfo.loyality_points / 2;
         if (loyaltyAmount > this.getBookingAmount) {

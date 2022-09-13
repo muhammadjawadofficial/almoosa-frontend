@@ -1718,12 +1718,17 @@
 
                 &.active {
                   .sidebar-link {
-                    background-color: #dad6ff;
+                    background-color: $tertiary-color;
                     transition: all 0.5s ease;
                     position: relative;
                     // box-shadow: 0px 0px 12px 0px rgba($primary-color, 0.35);
                     // margin-bottom: 10px;
-
+                    .side-bar-menu-item-icon {
+                      background-color: $secondary-color;
+                    }
+                    .svg-icon-fill {
+                      fill: $tertiary-color;
+                    }
                     .according-menu {
                       i {
                         color: var(--theme-default);
@@ -1740,7 +1745,7 @@
                     }
 
                     span {
-                      color: var(--theme-default);
+                      color: $secondary-color;
                       transition: all 0.3s ease;
                     }
                   }
@@ -1769,15 +1774,6 @@
                     text-transform: capitalize;
                     // font-family: $font-roboto, $font-serif;
                     border-radius: 10px;
-                  }
-
-                  &:hover {
-                    > a {
-                      &:hover {
-                        background-color: rgba($primary-color, 0.12%);
-                        transition: all 0.3s ease;
-                      }
-                    }
                   }
                 }
 

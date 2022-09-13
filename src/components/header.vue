@@ -11,14 +11,14 @@
       <ul class="nav-menus w200 mt-1">
         <template v-if="!isDoctor">
           <li
-            @click="navigateTo('default')"
+            @click="loadComponent('/dashboard')"
             class="nav-link d-lg-block d-none"
             :class="{ active: currentRouteName == 'default' }"
           >
             {{ $t("header.home") }}
           </li>
           <li
-            @click="navigateTo('Upcoming Appointment')"
+            @click="loadComponent('/appointment/upcoming')"
             class="nav-link d-lg-block d-none"
             :class="{ active: currentRouteName == 'Upcoming Appointment' }"
           >
@@ -143,6 +143,7 @@ export default {
     ...mapState({
       menuItems: (state) => state.menu.searchData,
       megamenuItems: (state) => state.menu.megamenu,
+      isSideBarOpen: (state) => state.menu.togglesidebar,
     }),
     ...mapGetters("user", ["getUserInfo"]),
   },
@@ -154,13 +155,14 @@ export default {
       layout = "rtl";
     }
     this.toggleLayout(layout);
+    this.currentRouteName = this.$route.name;
   },
   methods: {
     toggle_sidebar() {
       this.$store.dispatch("menu/opensidebar");
     },
     setNavActive(item) {
-      this.$store.dispatch("menu/setBonusNavActive", item);
+      this.$store.dispatch("menu/setNavLinkActive", item);
     },
     openlangpicker() {
       this.openlanguage = !this.openlanguage;
@@ -245,6 +247,11 @@ export default {
     },
     viewProfile() {
       if (this.$route.name != "Profile") this.navigateTo("Profile");
+    },
+    loadComponent(path) {
+      if (!this.isSideBarOpen) this.toggle_sidebar();
+      this.setNavActive({ path });
+      this.$router.push(path);
     },
   },
   watch: {

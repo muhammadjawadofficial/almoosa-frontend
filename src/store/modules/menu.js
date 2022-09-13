@@ -64,6 +64,9 @@ const mutations = {
     }
     item.active = !item.active
   },
+  setNavLinkActive: (state, obj) => {
+    state.data.forEach(x => x.active = x.path == obj.path);
+  },
   setActiveRoute: (state, item) => {
     state.data.filter(menuItem => {
       if (menuItem != item)
@@ -95,6 +98,9 @@ const actions = {
   },
   setNavActive: (context, item) => {
     context.commit('setNavActive', item)
+  },
+  setNavLinkActive: (context, item) => {
+    context.commit('setNavLinkActive', item)
   },
   setActiveRoute: (context, item) => {
     context.commit('setActiveRoute', item)

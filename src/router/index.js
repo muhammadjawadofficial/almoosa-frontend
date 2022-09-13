@@ -169,7 +169,7 @@ const routes = [
         component: promotionsModule,
         children: [
           {
-            path: "/",
+            path: "",
             name: 'Promotions',
             component: promotionsList,
             meta: {

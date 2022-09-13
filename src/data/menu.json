@@ -75,7 +75,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/lab-works"
+            "path": "/lab-works/doctors"
         },
         {
             "titleEn": "Radiology Reports",
@@ -86,7 +86,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/radiology-report"
+            "path": "/radiology-report/doctors"
         },
         {
             "titleEn": "View Timeline",
@@ -152,7 +152,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/promotions"
+            "path": "/promotions/"
         }
     ]
 }
