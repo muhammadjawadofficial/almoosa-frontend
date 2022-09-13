@@ -49,7 +49,7 @@
                         <img
                           :src="
                             getImageUrl(
-                              appointment[isDoctor ? 'patient' : 'doctor']
+                              appointment[isDoctor ? 'patient' : 'doctor'].photo
                             )
                           "
                           alt=""
@@ -143,7 +143,7 @@
                         <img
                           :src="
                             getImageUrl(
-                              appointment[isDoctor ? 'patient' : 'doctor']
+                              appointment[isDoctor ? 'patient' : 'doctor'].photo
                             )
                           "
                           alt=""
@@ -218,7 +218,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { appointmentService, userService } from "../../services";
+import { appointmentService } from "../../services";
 export default {
   data() {
     return {
@@ -235,6 +235,7 @@ export default {
   },
   computed: {
     ...mapGetters("appointment", ["getSelectedAppointment"]),
+    ...mapGetters("user", ["getUserInfo"]),
   },
   methods: {
     ...mapActions("appointment", ["setSelectedAppointment"]),
@@ -250,12 +251,6 @@ export default {
     viewDetails(appointment) {
       this.setSelectedAppointment(appointment);
       this.navigateTo("Appointment Detail");
-    },
-    getImageUrl(profile) {
-      if (profile && profile.photo) {
-        return process.env.VUE_APP_SERVER + profile.photo.path;
-      }
-      return "/profile.png";
     },
     getStatusClass(status) {
       if (status.toLowerCase() == "pending") return "warning";
@@ -278,7 +273,7 @@ export default {
       this.onsiteAppointments = [];
       this.virtualAppointments = [];
       let userIdQueryParam = this.isDoctor ? "doctor_id=" : "patient_id=";
-      userIdQueryParam += userService.currentUser().id;
+      userIdQueryParam += this.getUserInfo.id;
       this.setLoadingState(true);
       appointmentService.getUpcomingAppointemnts(userIdQueryParam).then(
         (response) => {

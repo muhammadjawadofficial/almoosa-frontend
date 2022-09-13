@@ -982,6 +982,28 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                         &-speciality {
                             font-family: $font-diodrum-medium;
                         }
+                        &-user {
+                            display: flex;
+                            gap: 1rem;
+                            font-size: 1.313rem;
+                            color: #807258;
+                        }
+                        &-section {
+                            display: flex;
+                            gap: 2rem;
+                            &-detail {
+                                margin-top: 1rem;
+                                border-left: 0.25rem solid $primary-color;
+                                padding-inline-start: 0.75rem;
+                                .title {
+                                    font-size: 0.75rem;
+                                    color: $primary-color;
+                                }
+                                .value {
+                                    font-size: 1.438rem;
+                                }
+                            }
+                        }
                     }
                     &-location {
                         display: flex;
@@ -1086,6 +1108,95 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         button {
             max-width: 15.75rem;
             font-size: 1.125rem;
+        }
+    }
+}
+.user-profile-container {
+    &.doctor-details-container {
+        .doctor-details {
+            &-card {
+                height: fit-content;
+                & > div {
+                    padding-bottom: 0;
+                    padding-top: 0;
+                }
+                &-header {
+                    position: relative;
+                    inset: unset;
+                    &-image {
+                        width: 19.6rem;
+                        bottom: -3rem;
+                    }
+                }
+            }
+        }
+    }
+}
+.profile-info {
+    display: flex;
+    gap: var(--gapBetweenLineItems);
+    flex-wrap: wrap;
+    --gapBetweenLineItems: 2rem;
+    --profileInfoLineItems: 3;
+    &-card {
+        padding: 1rem;
+        border-radius: 1.5rem;
+        background: $tertiary-color;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        cursor: pointer;
+        width: calc(
+            ((100% - ((var(--profileInfoLineItems) - 1) * var(--gapBetweenLineItems))) / var(--profileInfoLineItems))
+        );
+        &-logo {
+            width: 4.438rem;
+            height: 4.438rem;
+            aspect-ratio: 1;
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+        &-detail {
+            width: 100%;
+            &-title {
+                color: #8696b8;
+                font-family: $font-diodrum-medium;
+                font-size: 1rem;
+            }
+            &-value {
+                font-size: 1rem;
+                color: $black;
+                input,
+                input:disabled,
+                input:focus {
+                    background-color: transparent;
+                    border: none;
+                    outline: none;
+                    box-shadow: none;
+                    font-family: $font-diodrum-semibold;
+                    color: $black;
+                    padding: 0;
+                    border-bottom: 1px solid transparent;
+                    transition: 0.3s padding;
+                }
+                &:not(.inactive) {
+                    input {
+                        border-color: $secondary-color;
+                        padding-inline-start: 0.5rem;
+                    }
+                }
+            }
+        }
+        &-option {
+            width: 2.313rem;
+            height: 2.313rem;
+            aspect-ratio: 1;
+            img {
+                width: 100%;
+                height: 100%;
+            }
         }
     }
 }
@@ -1369,8 +1480,8 @@ html {
     }
     @media (max-width: 425px) {
         --globalFontSize: 11px;
-        --header-height: 53.63px;
-        --footer-height: 48px;
+        --header-height: 62.88px;
+        --footer-height: 52px;
     }
 
     --standard-web-app-padding: #{$web-app-dashboard-padding};

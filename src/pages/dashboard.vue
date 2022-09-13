@@ -87,7 +87,10 @@
                     @click="viewDetails(appointment)"
                   >
                     <div class="doctor-avatar">
-                      <img :src="getImageUrl(appointment.patient)" alt="" />
+                      <img
+                        :src="getImageUrl(appointment.patient.photo)"
+                        alt=""
+                      />
                     </div>
                     <div class="appointment-details">
                       <div class="doctor-name">
@@ -242,8 +245,8 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import { appointmentService, userService } from "../services";
+import { mapActions, mapGetters } from "vuex";
+import { appointmentService } from "../services";
 export default {
   data() {
     return {
@@ -271,7 +274,7 @@ export default {
         {
           text: "Radiology Reports",
           icon: "user-report-svg",
-          link: "Radiology Report"
+          link: "Radiology Report",
         },
         {
           text: "My Medication",
@@ -334,13 +337,16 @@ export default {
         console.log("An error occurred while retrieving token. ", err);
       });
   },
+  computed: {
+    ...mapGetters("user", ["getUserInfo"]),
+  },
   methods: {
     ...mapActions("appointment", ["setBookingMethod"]),
     findASpecialist(type) {
       this.navigateTo("Find Specialist", { method: type });
     },
     getTodayAppointment() {
-      appointmentService.getTodayAppointment(userService.currentUser().id).then(
+      appointmentService.getTodayAppointment(this.getUserInfo.id).then(
         (res) => {
           if (res.data.status) {
             this.todayAppointments = res.data.data.items;
@@ -356,12 +362,6 @@ export default {
           console.error(error);
         }
       );
-    },
-    getImageUrl(profile) {
-      if (profile.photo) {
-        return process.env.VUE_APP_SERVER + profile.photo.path;
-      }
-      return "/profile.png";
     },
     makeCall(appointment) {
       if (

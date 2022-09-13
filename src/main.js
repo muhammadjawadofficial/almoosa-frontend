@@ -86,11 +86,15 @@ Vue.mixin({
   },
   methods: {
     getLSRole() {
-      return !userService.isAuthenticatedUser() ? userService.getRole() : (this.checkRoleFromUser ? userService.getUserRole() : userService.getRole());
+      if (!userService.isAuthenticatedUser()) {
+        return userService.getRole();
+      } else {
+        return (this.checkRoleFromUser ? userService.getUserRole() : userService.getRole())
+      }
     },
     getImageUrl(profile) {
-      if (profile && profile.photo) {
-        return process.env.VUE_APP_SERVER + profile.photo.path;
+      if (profile) {
+        return process.env.VUE_APP_SERVER + profile.path;
       }
       return "/profile.png";
     },
@@ -126,15 +130,15 @@ Vue.mixin({
         confirmButtonColor: "#4466f2",
       });
     },
-    confirmIconModal(title, text, icon = 'm-check', confirmText, cancelText) {
+    confirmIconModal(title, text, icon = 'm-check', confirmText = this.$t("ok"), cancelText = this.$t("cancel")) {
       const imagePath = require("./assets/images/" + icon + ".svg")
       return this.$swal({
         title: title || this.$t('areYouSure'),
         text: text || this.$t('areYouSure'),
         showCancelButton: true,
-        confirmButtonText: confirmText || this.$t("ok"),
+        confirmButtonText: confirmText,
         confirmButtonColor: "#4466f2",
-        cancelButtonText: cancelText || this.$t("cancel"),
+        cancelButtonText: cancelText,
         cancelButtonColor: "#4466f2",
         imageUrl: imagePath,
         customClass: {
@@ -142,16 +146,16 @@ Vue.mixin({
         }
       });
     },
-    inputIconModal(title, text, icon = 'm-check', type = 'text', confirmText, cancelText) {
+    inputIconModal(title, text, icon = 'm-check', type = 'text', confirmText = this.$t("ok"), cancelText = this.$t("cancel")) {
       const imagePath = require("./assets/images/" + icon + ".svg")
       return this.$swal({
         input: type,
         inputPlaceholder: text,
         title: title || this.$t('areYouSure'),
         showCancelButton: true,
-        confirmButtonText: confirmText || this.$t("ok"),
+        confirmButtonText: confirmText,
         confirmButtonColor: "#4466f2",
-        cancelButtonText: cancelText || this.$t("cancel"),
+        cancelButtonText: cancelText,
         cancelButtonColor: "#4466f2",
         preConfirm: (inputVal) => {
           let trimInputVal = (inputVal + "").trim();
@@ -170,12 +174,12 @@ Vue.mixin({
         }
       });
     },
-    successIconModal(title, text, icon = 'm-check', confirmText) {
+    successIconModal(title, text, icon = 'm-check', confirmText = this.$t("ok")) {
       const imagePath = require("./assets/images/" + icon + ".svg")
       return this.$swal({
         title: title || this.$t('changesDone'),
         text: text || this.$t('changesDone'),
-        confirmButtonText: confirmText || this.$t("ok"),
+        confirmButtonText: confirmText,
         confirmButtonColor: "#4466f2",
         imageUrl: imagePath,
         customClass: {
@@ -191,12 +195,12 @@ Vue.mixin({
         confirmButtonColor: "#4466f2"
       });
     },
-    failureIconModal(title, text, icon = 'm-check', confirmText) {
+    failureIconModal(title, text, icon = 'm-check', confirmText = this.$t("ok")) {
       const imagePath = require("./assets/images/" + icon + ".svg")
       this.$swal({
         title: title || this.$t('error.somethingWentWrong'),
         text: text || this.$t('error.somethingWentWrong'),
-        confirmButtonText: confirmText || this.$t("ok"),
+        confirmButtonText: confirmText,
         confirmButtonColor: "#4466f2",
         imageUrl: imagePath,
         customClass: {
@@ -225,14 +229,6 @@ Vue.mixin({
     },
     download(url) {
       userService.downloadFile(url);
-    },
-    serverRestartRequired(flag = undefined) {
-      if (flag == true) {
-        localStorage.setItem('restartRequired', flag)
-      } else if (flag == false) (
-        localStorage.removeItem('restartRequired')
-      )
-      return localStorage.getItem('restartRequired')
     },
     navigateTo(name, params = null) {
       let obj = { name };
@@ -345,7 +341,6 @@ Vue.mixin({
           }
         })
         return translateString;
-        // return translateString.split("").reverse().join("");
       }
       return strNum;
     },

@@ -86,9 +86,6 @@
                   >
                     {{ $t("appointmentDetail.joinCall") }}
                   </button>
-                  <!-- <button class="btn btn-secondary">
-                    {{ $t("appointmentDetail.chatWithDoctor") }}
-                  </button> -->
                 </div>
               </div>
             </div>
@@ -112,7 +109,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { appointmentService, userService } from "../../services";
+import { appointmentService } from "../../services";
 export default {
   data() {
     return {
@@ -121,11 +118,6 @@ export default {
   },
   mounted() {
     this.initializeAppointmentDetails();
-  },
-  beforeDestroy() {
-    // if (!this.getIsReschedule) {
-    //   this.setSelectedAppointment(null);
-    // }
   },
   methods: {
     ...mapActions("appointment", [
@@ -211,8 +203,9 @@ export default {
   },
   computed: {
     ...mapGetters("appointment", ["getSelectedAppointment", "getIsReschedule"]),
+    ...mapGetters("user", ["getUserInfo"]),
     doctorSpeciality() {
-      return userService.currentUser().speciality;
+      return this.getUserInfo.speciality;
     },
   },
 };

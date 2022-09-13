@@ -7,8 +7,6 @@
       </div>
     </div>
     <!-- Loader ends-->
-
-    <!--<Main/>-->
     <router-view></router-view>
 
     <div class="developed-by" id="tooltip-target-1" v-if="isNotProduction">
@@ -43,7 +41,7 @@ export default {
   },
   methods: {
     timeOut() {
-      var self = this;
+      let self = this;
       setTimeout(function () {
         self.show = false;
       }, 1000);

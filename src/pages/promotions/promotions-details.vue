@@ -52,8 +52,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { promotionService, userService } from "../../services";
+import { mapActions, mapGetters } from "vuex";
+import { promotionService } from "../../services";
 export default {
   data() {
     return {
@@ -62,6 +62,7 @@ export default {
   },
   computed: {
     ...mapGetters("promotion", ["getSelectedPromotion"]),
+    ...mapGetters("user", ["getUserInfo"]),
   },
   mounted() {
     console.log(this.getSelectedPromotion);
@@ -73,17 +74,16 @@ export default {
     this.promotion.active = this.isActivePromotion();
   },
   methods: {
+    ...mapActions("user", ["updateUserInfo"]),
     isActivePromotion() {
-      return this.promotion.promo_code == userService.currentUser().promo_code;
+      return this.promotion.promo_code == this.getUserInfo.promo_code;
     },
     applyPromotion() {
       this.setLoadingState(true);
       promotionService.applyPromotions(this.promotion.promo_code).then(
         (response) => {
           if (response.data.status) {
-            let userInfo = userService.currentUser();
-            userInfo.promo_code = this.promotion.promo_code;
-            userService.storeUserInfo(userInfo);
+            this.updateUserInfo({ promo_code: this.promotion.promo_code });
             this.promotion.active = this.isActivePromotion();
             this.successIconModal(
               this.$t("promotions.promotionApplied"),

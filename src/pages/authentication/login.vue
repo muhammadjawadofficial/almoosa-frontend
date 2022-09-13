@@ -225,8 +225,6 @@ export default {
       this.selectedItem = this.loginOptions.find((x) => x.value == selectedId);
       this.username = "";
       this.password = "";
-      // if (selectedItem == constants.loginByOTP) {
-      // }
     },
   },
 };

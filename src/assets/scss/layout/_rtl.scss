@@ -4977,6 +4977,29 @@
       }
     }
   }
+
+  .profile-info {
+    &-card {
+      &-detail {
+        &-value {
+          input {
+            &.form-control {
+              &.is-valid,
+              &.is-invalid {
+                background-position: left calc(0.375em + 0.1875rem) center;
+                padding-inline-end: calc(1.5em + 0.75em);
+                padding-right: 0.5rem !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .doctor-details-container .doctor-details-card-header-right-info-section-detail {
+    border-left: none;
+    border-right: 0.25rem solid $primary-color;
+  }
 }
 
 /**=====================

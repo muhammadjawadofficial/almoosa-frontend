@@ -44,15 +44,23 @@
               <span class="w500">
                 {{ $t("header.marhaba") }}
                 {{
-                  currentUser.first_name +
-                  (currentUser.middle_name
-                    ? " " + currentUser.middle_name
+                  getUserInfo.first_name +
+                  (getUserInfo.middle_name
+                    ? " " + getUserInfo.middle_name
                     : "") +
-                  (currentUser.family_name ? " " + currentUser.family_name : "")
+                  (getUserInfo.family_name ? " " + getUserInfo.family_name : "")
                 }}</span
               >
             </div>
-            <img class="b-r-round" src="../assets/images/profile.png" alt="" />
+            <img
+              class="b-r-round"
+              :src="
+                getImageUrl(
+                  isDoctor ? { path: getUserInfo.photo } : getUserInfo.photo
+                )
+              "
+              alt=""
+            />
           </div>
           <ul class="profile-dropdown onhover-show-div">
             <span class="sec-heading w500">{{ $t("header.settings") }}</span>
@@ -76,7 +84,7 @@
             </li>
             <hr />
             <li>
-              <a class="" @click="toggleLayout()">
+              <a class="" @click="viewProfile">
                 <span class="profile-dropdown-menu-icon">
                   <user-svg />
                 </span>
@@ -103,7 +111,7 @@
 </template>
 <script>
 let body = document.getElementsByTagName("body")[0];
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import { userService } from "../services";
 import Notifications from "./notifications";
 export default {
@@ -136,9 +144,7 @@ export default {
       menuItems: (state) => state.menu.searchData,
       megamenuItems: (state) => state.menu.megamenu,
     }),
-    currentUser() {
-      return userService.currentUser();
-    },
+    ...mapGetters("user", ["getUserInfo"]),
   },
   mounted() {
     let layout = "ltr";
@@ -236,6 +242,9 @@ export default {
       userService.removeLoginInfo();
       this.$messaging.deleteToken();
       this.navigateTo({ name: "Login Dashboard" });
+    },
+    viewProfile() {
+      if (this.$route.name != "Profile") this.navigateTo("Profile");
     },
   },
   watch: {

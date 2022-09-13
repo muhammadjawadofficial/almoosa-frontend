@@ -44,5 +44,9 @@ export const apiPath = {
 
     reports: {
         appointmentWithReports: (id, type) => getApiObject("get", "appointments/reports?patient_id=" + id + "&type=" + type),
+    },
+
+    user: {
+        updateProfile: (id) => getApiObject("patch", "users/" + id)
     }
 };

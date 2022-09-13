@@ -86,7 +86,6 @@
             @click="setSelectedSpeciality(speciality)"
           >
             <div class="speciality-image">
-              <!-- <img src="../../assets/images/sample.svg" alt="speciality-icon" /> -->
               <img :src="getImageUrl(speciality.icon)" alt="icon" />
             </div>
             <div class="speciality-label">
@@ -218,9 +217,6 @@ export default {
       if (this.getBookingSpeciality) {
         this.selectedSpeciality = this.getBookingSpeciality;
       }
-    },
-    getImageUrl(image) {
-      return process.env.VUE_APP_SERVER + image.path;
     },
     setSelectedMethod() {
       let type = this.$route.params.method;

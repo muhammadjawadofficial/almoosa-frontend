@@ -21,6 +21,18 @@
       "ok": "Contact us"
     }
   },
+  "profile": {
+    "updateSuccess": "Profile updated successfully",
+    "address": "Address",
+    "activeProblem": "Active Problems",
+    "phoneNumber": "Phone Number",
+    "clinicWarning": "Clinic Warning",
+    "nationality": "Nationality",
+    "updateProfile": "Update Profile",
+    "editProfile": "Edit Profile",
+    "allergy": "Allergy",
+    "idNumber": "ID Number"
+  },
   "header": {
     "marhaba": "Marhaba",
     "settings": "View Your Settings",
@@ -185,13 +197,13 @@
     "invalidPromo": "Add valid promo code",
     "noData": "We will let you know once there is any promotion available for you"
   },
-  "labWorks":{
+  "labWorks": {
     "title": "Lab Works",
     "viewDetails": "View Details",
     "reports": "Lab Reports",
     "appointmentSession": "Appointment Session"
   },
-  "radiologyReport":{
+  "radiologyReport": {
     "title": "Radiology Reports",
     "viewDetails": "View Details",
     "reports": "Lab Reports",

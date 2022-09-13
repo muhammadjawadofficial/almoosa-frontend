@@ -5,6 +5,8 @@ import Body from '../components/body'
 import AuthBody from '../components/auth_body'
 import AuthBodyPatient from '../components/auth_body_patient'
 
+import Profile from '../pages/user/user-profile'
+
 import Dashboard from '../pages/dashboard'
 import Iframe from '../pages/iframe'
 
@@ -58,6 +60,14 @@ const routes = [
         component: Dashboard,
         meta: {
           title: 'Dashboard | Almoosa Specialist Hospital',
+        }
+      },
+      {
+        path: 'profile',
+        name: 'Profile',
+        component: Profile,
+        meta: {
+          title: 'View Profile | Almoosa Specialist Hospital',
         }
       },
       {

@@ -39,7 +39,7 @@
               </div>
               <div class="appointment-card warning">
                 <div class="doctor-avatar">
-                  <img :src="getImageUrl(appointment.doctor)" alt="" />
+                  <img :src="getImageUrl(appointment.doctor.photo)" alt="" />
                 </div>
                 <div class="appointment-details">
                   <div class="doctor-name">
@@ -79,8 +79,8 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import { reportService, userService } from "../../services";
+import { mapActions, mapGetters } from "vuex";
+import { reportService } from "../../services";
 export default {
   data() {
     return {
@@ -90,12 +90,15 @@ export default {
   mounted() {
     this.fetchAppointments();
   },
+  computed: {
+    ...mapGetters("user", ["getUserInfo"]),
+  },
   methods: {
     ...mapActions("radiologyReport", ["setSelectedRadiologyReport"]),
     fetchAppointments() {
       this.setLoadingState(true);
       reportService
-        .getAppointmentsWithReports(userService.currentUser().id, "radiology")
+        .getAppointmentsWithReports(this.getUserInfo.id, "radiology")
         .then(
           (response) => {
             if (response.data.status) {

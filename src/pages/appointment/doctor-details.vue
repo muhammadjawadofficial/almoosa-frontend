@@ -5,7 +5,7 @@
         <div class="standard-width page-body-container">
           <div class="doctor-details-card-header">
             <div class="doctor-details-card-header-image">
-              <img :src="getImageUrl(doctor)" alt="doctor-image" />
+              <img :src="getImageUrl(doctor.photo)" alt="doctor-image" />
             </div>
             <div class="doctor-details-card-header-right">
               <div class="doctor-details-card-header-right-info">
@@ -256,12 +256,6 @@ export default {
     },
     setSelectedTimeSlot(index) {
       this.selectedTimeSlot = index;
-    },
-    getImageUrl(profile) {
-      if (profile.photo) {
-        return process.env.VUE_APP_SERVER + profile.photo.path;
-      }
-      return "../../assets/images/profile.png";
     },
     bookAppointment() {
       if (this.selectedTimeSlot == null) {

@@ -26,12 +26,13 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 import { layoutClasses } from "../constants/layout";
 import Header from "./header";
 import Sidebar from "./sidebar.vue";
 import Footer from "./footer";
 import TapTop from "./taptop";
+import { userService } from "../services";
 
 export default {
   name: "mainpage",
@@ -99,6 +100,32 @@ export default {
       this.layoutobj = layoutClasses.find(
         (item) => Object.keys(item).pop() === this.layout.settings.layout
       );
+      this.setLayoutObject();
+    },
+    sidebar_toggle_var: function () {
+      this.resized =
+        this.width <= 991 ? !this.sidebar_toggle_var : this.sidebar_toggle_var;
+    },
+  },
+  created() {
+    window.addEventListener("resize", this.handleResize);
+    this.handleResize();
+    this.resized = this.sidebar_toggle_var;
+    this.$store.dispatch("layout/set");
+    this.layout.settings.layout = this.$route.query.layout
+      ? this.$route.query.layout
+      : "Dubai";
+    this.layoutobj = layoutClasses.find(
+      (item) => Object.keys(item).pop() === this.layout.settings.layout
+    );
+    this.layoutobj = JSON.parse(JSON.stringify(this.layoutobj))[
+      this.layout.settings.layout
+    ];
+    this.setUserInfo(userService.currentUser());
+  },
+  methods: {
+    ...mapActions("user", ["setUserInfo"]),
+    setLayoutObject() {
       if (
         (window.innerWidth < 991 &&
           this.layout.settings.layout === "LosAngeles") ||
@@ -121,28 +148,6 @@ export default {
         ];
       }
     },
-    sidebar_toggle_var: function () {
-      this.resized =
-        this.width <= 991 ? !this.sidebar_toggle_var : this.sidebar_toggle_var;
-    },
-  },
-  created() {
-    window.addEventListener("resize", this.handleResize);
-    this.handleResize();
-    this.resized = this.sidebar_toggle_var;
-    this.$store.dispatch("layout/set");
-    // this.$router.replace({ 'query': null }).catch(err => err);
-    this.layout.settings.layout = this.$route.query.layout
-      ? this.$route.query.layout
-      : "Dubai";
-    this.layoutobj = layoutClasses.find(
-      (item) => Object.keys(item).pop() === this.layout.settings.layout
-    );
-    this.layoutobj = JSON.parse(JSON.stringify(this.layoutobj))[
-      this.layout.settings.layout
-    ];
-  },
-  methods: {
     sidebar_toggle(value) {
       this.sidebar_toggle_var = !value;
     },

@@ -25,7 +25,7 @@
           :key="'doctor-card-' + doctor.id"
         >
           <div class="doctor-image">
-            <img :src="getImageUrl(doctor)" alt="doctor-image" />
+            <img :src="getImageUrl(doctor.photo)" alt="doctor-image" />
           </div>
           <div class="doctor-name">
             {{
@@ -85,12 +85,6 @@ export default {
       "setBookingEndTime",
       "setBookingAmount",
     ]),
-    getImageUrl(profile) {
-      if (profile.photo) {
-        return process.env.VUE_APP_SERVER + profile.photo.path;
-      }
-      return "../../assets/images/profile.png";
-    },
     setSelectedDoctor(doctor) {
       this.setBookingDoctor(doctor);
       this.setBookingStartTime(null);

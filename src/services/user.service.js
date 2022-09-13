@@ -1,3 +1,5 @@
+import { apiPath } from "../constants/apiPath";
+
 export const userService = {
     isAuthenticatedUser,
     storeLoginInfo,
@@ -15,7 +17,8 @@ export const userService = {
     getBooking,
     removeBooking,
     setBooking,
-    downloadFile
+    downloadFile,
+    updateProfile
 };
 
 import axios from "axios";
@@ -99,4 +102,11 @@ function downloadFile(file) {
         link.click();
         document.body.removeChild(link);
     });
+}
+function updateProfile(profile) {
+    return axios({
+        method: apiPath.user.updateProfile(currentUser().id).method,
+        url: apiPath.user.updateProfile(currentUser().id).url,
+        data: profile
+    })
 }

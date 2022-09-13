@@ -1348,10 +1348,6 @@
     }
   }
 
-  .sidebar-main {
-    // margin-top: 20px;
-  }
-
   // social app page
   .photos {
     ul {
@@ -1892,6 +1888,16 @@
   }
 }
 
+@media only screen and (max-width: 1024px) {
+  .user-profile-container {
+    &.doctor-details-container {
+      .profile-info {
+        --profileInfoLineItems: 2;
+      }
+    }
+  }
+}
+
 @media only screen and (max-width: 991.98px) {
   .main-dashboard-container {
     .main-banner {
@@ -2246,12 +2252,6 @@
 
       .page-body-wrapper {
         div.sidebar-wrapper {
-          &.close_icon {
-            &:hover {
-              // transform: translate(-285px);
-            }
-          }
-
           .logo-wrapper {
             padding: 16px 30px;
             display: flex;
@@ -2259,23 +2259,12 @@
             align-items: center;
 
             .back-btn {
-              display: inline-block;
               float: right;
               font-size: 20px;
             }
 
             .toggle-sidebar {
               display: none;
-            }
-          }
-
-          &.close_icon {
-            // transform: translate(-285px);
-
-            .sidebar-main {
-              .sidebar-links {
-                // height: unset;
-              }
             }
           }
         }
@@ -2301,14 +2290,6 @@
 
         .header-logo-wrapper {
           margin-right: 0;
-        }
-      }
-
-      .header-logo-wrapper {
-        .logo-wrapper {
-          img {
-            // margin-block: 0;
-          }
         }
       }
     }
@@ -2490,10 +2471,6 @@
         }
       }
     }
-  }
-
-  .tabbed-card ul {
-    // padding: 18px 15px;
   }
 
   .tabbed-card {
@@ -3232,14 +3209,6 @@
       }
     }
 
-    &.compact-wrapper {
-      .nav-right {
-        .nav-menus {
-          // margin-right: 38px;
-        }
-      }
-    }
-
     &.material-type {
       &::before {
         display: none;
@@ -3277,12 +3246,6 @@
             }
           }
         }
-      }
-    }
-
-    .nav-right {
-      .nav-menus {
-        // margin-right: 60px;
       }
     }
   }
@@ -4260,6 +4223,14 @@
       margin-top: 1rem;
     }
   }
+  .user-profile-container {
+    &.doctor-details-container {
+      .profile-info {
+        --profileInfoLineItems: 1;
+        --gapBetweenLineItems: 1rem;
+      }
+    }
+  }
 }
 @media only screen and (max-width: 600px) {
   .toasted-container.top-right {
@@ -4360,10 +4331,6 @@
     img {
       height: 250px;
     }
-  }
-
-  .profile-nav {
-    // display: none !important;
   }
 
   .login-card .login-main .theme-form .link {
@@ -4587,10 +4554,6 @@
       }
     }
 
-    .nav-right .nav-menus {
-      // margin-right: 35px;
-    }
-
     &.compact-wrapper,
     &.compact-sidebar {
       .left-header .mega-menu {
@@ -4611,10 +4574,6 @@
 
       .page-header {
         .header-wrapper {
-          .logo-wrapper {
-            // display: none;
-          }
-
           .toggle-sidebar {
             margin-left: 0;
             padding-left: 0;
@@ -6144,9 +6103,6 @@
                 p {
                   font-size: 1rem;
                 }
-                span {
-                  // white-space: pre-wrap;
-                }
               }
             }
           }
@@ -6188,6 +6144,44 @@
   .doctor-list-container {
     div.doctor-card-container {
       font-size: 0.85rem;
+    }
+  }
+
+  .user-profile-container {
+    &.doctor-details-container {
+      div.doctor-details {
+        &-card {
+          & > div {
+            padding-block: 2rem;
+          }
+          &-header {
+            &-image {
+              width: 16rem;
+              bottom: 0;
+            }
+            &-right {
+              &-info {
+                &-name {
+                  font-size: 1.5rem;
+                }
+                &-user {
+                  font-size: 1rem;
+                }
+                &-section {
+                  gap: 1rem;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .doctor-details-section {
+        padding-top: 2rem;
+        .button-group {
+          margin-top: 2rem;
+        }
+      }
     }
   }
 }
@@ -7016,6 +7010,18 @@
 
     button:first-child {
       margin-bottom: 10px;
+    }
+  }
+
+  .user-profile-container {
+    &.doctor-details-container {
+      div.doctor-details {
+        &-card {
+          &-header {
+            flex-direction: column;
+          }
+        }
+      }
     }
   }
 }

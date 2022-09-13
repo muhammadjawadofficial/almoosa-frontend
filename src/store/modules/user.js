@@ -1,4 +1,5 @@
 import Vue from "vue";
+import { userService } from '../../services'
 
 export default {
     namespaced: true,
@@ -8,7 +9,8 @@ export default {
         userId: "",
         authState: "",
         userRole: "patient",
-        notification: []
+        notification: [],
+        userInfo: null
     },
     actions: {
         setLoading({ commit }, data) {
@@ -28,6 +30,12 @@ export default {
         },
         setNotification({ commit }, data) {
             commit('SET_NOTIFICATION', data)
+        },
+        setUserInfo({ commit }, data) {
+            commit('SET_USER_INFO', data)
+        },
+        updateUserInfo({ commit }, data) {
+            commit('UPDATE_USER_INFO', data)
         },
     },
     mutations: {
@@ -49,6 +57,14 @@ export default {
         SET_NOTIFICATION(state, notification) {
             Vue.set(state, 'notification', [...state.notification, notification])
         },
+        SET_USER_INFO(state, userInfo) {
+            Vue.set(state, 'userInfo', userInfo);
+            userService.storeUserInfo(userInfo);
+        },
+        UPDATE_USER_INFO(state, userInfo) {
+            Vue.set(state, 'userInfo', { ...state.userInfo, ...userInfo });
+            userService.storeUserInfo(state.userInfo);
+        },
     },
     getters: {
         getLoading: (state) => state.loading,
@@ -57,5 +73,6 @@ export default {
         getAuthState: (state) => state.authState,
         getUserRole: (state) => state.userRole,
         getNotification: (state) => state.notification,
+        getUserInfo: (state) => state.userInfo,
     }
 };

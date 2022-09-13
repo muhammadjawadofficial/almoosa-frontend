@@ -276,7 +276,7 @@ export default {
     validEmailAddress() {
       if (this.formSubmitted) {
         let regex =
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         let result = this.registerForm.email_address.match(regex);
         return !!(result && result.length);
       }
@@ -284,7 +284,7 @@ export default {
     },
     validPhoneNumber() {
       if (this.formSubmitted) {
-        let regex = /^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/;
+        let regex = /^(009665|9665|\+9665|05|5)([503649187])(\d{7})$/;
         let result = this.registerForm.phone_number.match(regex);
         return !!(result && result.length);
       }

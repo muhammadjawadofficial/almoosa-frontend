@@ -21,6 +21,18 @@
       "ok": "اتصل بنا"
     }
   },
+  "profile": {
+    "updateSuccess": "تم تحديث الملف الشخصي بنجاح",
+    "address": "تبوك",
+    "activeProblem": "مشاكل نشطة",
+    "phoneNumber": "رقم الهاتف",
+    "clinicWarning": "تحذير العيادة",
+    "nationality": "جنسية",
+    "updateProfile": "تحديث الملف",
+    "editProfile": "تعديل الملف الشخصي",
+    "allergy": "حساسية",
+    "idNumber": "رقم الهوية"
+  },
   "header": {
     "marhaba": "مرحبا",
     "settings": "اعرض الإعدادات الخاصة بك",

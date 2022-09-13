@@ -165,11 +165,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import {
-  appointmentService,
-  promotionService,
-  userService,
-} from "../../services";
+import { appointmentService, promotionService } from "../../services";
 export default {
   data() {
     return {
@@ -192,9 +188,7 @@ export default {
       "getBookingEndTime",
       "getBookingAmount",
     ]),
-    getUserInfo() {
-      return userService.currentUser();
-    },
+    ...mapGetters("user", ["getUserInfo"]),
     getCalculatedAmount() {
       let actualAmount = this.getBookingAmount;
       if (this.selectedDiscountType == "promotion") {
@@ -229,6 +223,7 @@ export default {
       "setBookingAmount",
     ]),
     ...mapActions("promotion", ["setPromotionsList"]),
+    ...mapActions("user", ["updateUserInfo"]),
     fetchPromotionsList() {
       this.setLoadingState(true);
       promotionService.fetchPromotions().then(
@@ -295,7 +290,7 @@ export default {
       appointmentService
         .createAppointment(
           this.getBookingMethod,
-          userService.currentUser(),
+          this.getUserInfo,
           this.getBookingDoctor,
           this.getBookingDate,
           this.removeSecondsFromTimeString(
@@ -341,17 +336,15 @@ export default {
         this.selectedDiscountType == "loyalty"
       ) {
         this.setBookingAmount(this.getCalculatedAmount);
-        let userInfo = this.getUserInfo;
-        userInfo.loyality_points -= this.selectedLoyaltyPoints;
-        userService.storeUserInfo(userInfo);
+        this.updateUserInfo({
+          loyality_points: loyality_points - this.selectedLoyaltyPoints,
+        });
       }
       this.resetDiscount();
     },
     resetDiscount() {
       if (this.selectedDiscountType == "promotion") {
-        let userInfo = this.getUserInfo;
-        userInfo.promo_code = "";
-        userService.storeUserInfo(userInfo);
+        this.updateUserInfo({ promo_code: "" });
         this.selectedPromotion = null;
       }
       this.selectedDiscountType = "";
@@ -378,9 +371,9 @@ export default {
                   this.selectedDiscountType = type;
                   this.selectedLoyaltyPoints = null;
                   this.selectedPromotion = response.data.data;
-                  let userInfo = this.getUserInfo;
-                  userInfo.promo_code = this.selectedPromotion.promo_code;
-                  userService.storeUserInfo(userInfo);
+                  this.updateUserInfo({
+                    promo_code: this.selectedPromotion.promo_code,
+                  });
                 } else {
                   this.failureToast(response.data.message);
                 }
@@ -394,14 +387,17 @@ export default {
           });
         }
       } else {
-        this.selectedDiscountType = type;
-        if (this.selectedLoyaltyPoints == null) {
-          let loyaltyAmount = this.getUserInfo.loyality_points / 2;
-          if (loyaltyAmount > this.getBookingAmount) {
-            this.selectedLoyaltyPoints = Math.ceil(this.getBookingAmount * 2);
-          } else {
-            this.selectedLoyaltyPoints = this.getUserInfo.loyality_points;
-          }
+        this.setPromotionLoyalty();
+      }
+    },
+    setPromotionLoyalty() {
+      this.selectedDiscountType = type;
+      if (this.selectedLoyaltyPoints == null) {
+        let loyaltyAmount = this.getUserInfo.loyality_points / 2;
+        if (loyaltyAmount > this.getBookingAmount) {
+          this.selectedLoyaltyPoints = Math.ceil(this.getBookingAmount * 2);
+        } else {
+          this.selectedLoyaltyPoints = this.getUserInfo.loyality_points;
         }
       }
     },

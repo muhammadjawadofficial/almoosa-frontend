@@ -1,12 +1,13 @@
 
-/* eslint-disable */ 
+/* eslint-disable */
 import Layout from '../../data/layout';
 
 
 const state = {
-	layout : Layout,
-    sidebarType : localStorage.getItem('SidebarType') || 'default',
-	boxlayout : true
+	layout: Layout,
+	sidebarType: localStorage.getItem('SidebarType') || 'default',
+	boxlayout: true,
+	shouldAddStyles: false
 };
 
 // getters
@@ -20,23 +21,16 @@ const mutations = {
 		document.body.className = state.layout.color.mix_layout + " " + state.layout.settings.layout_type;
 		document.body.setAttribute('main-theme-layout', state.layout.settings.layout_type);
 		document.getElementsByTagName('html')[0].setAttribute('dir', state.layout.settings.layout_type);
-		var primaryColor = localStorage.getItem('primary_color') || state.layout.color.primary_color;
-		var secondaryColor = localStorage.getItem('secondary_color') || state.layout.color.secondary_color;
-		var layoutVersion = localStorage.getItem('layoutVersion') || state.layout.color.layout_version;
-		if (primaryColor || secondaryColor) {
+		let primaryColor = localStorage.getItem('primary_color') || state.layout.color.primary_color;
+		let secondaryColor = localStorage.getItem('secondary_color') || state.layout.color.secondary_color;
+		let layoutVersion = localStorage.getItem('layoutVersion') || state.layout.color.layout_version;
+		if ((primaryColor || secondaryColor) && state.shouldAddStyles) {
 			addStyle(primaryColor, secondaryColor);
 			if (layoutVersion)
 				document.body.className = layoutVersion;
 		}
 	},
 	setLayoutType: (state, payload) => {
-		// if (payload == 'box-layout') {
-		// 	document.body.classList.add(payload);
-		// }
-		// else if (payload == 'ltr' || payload == 'rtl') {
-		// 	document.body.className = document.body.className.replace("box-layout","");
-		// }
-		// document.body.setAttribute('class', payload);
 		document.body.setAttribute('main-theme-layout', payload);
 		if (payload == 'ltr') {
 			document.body.classList.remove('rtl');
@@ -47,10 +41,10 @@ const mutations = {
 		document.getElementsByTagName('html')[0].setAttribute('dir', payload);
 	},
 	setLayout: (state, payload) => {
-		if(payload == 'light-only'){
+		if (payload == 'light-only') {
 			document.body.classList.remove('dark-only')
 		}
-		if(payload == 'dark-only'){
+		if (payload == 'dark-only') {
 			document.body.classList.remove('light-only')
 		}
 		document.body.classList.add(payload);
@@ -78,30 +72,31 @@ const actions = {
 		context.commit('set');
 	},
 	setLayoutType: (context, payload) => {
-		context.commit('setLayoutType',payload);
+		context.commit('setLayoutType', payload);
 	},
 	setLayout: (context, payload) => {
-		context.commit('setLayout',payload);
+		context.commit('setLayout', payload);
 	},
 	setColorScheme: (context, payload) => {
-		context.commit('setColorScheme',payload);
+		context.commit('setColorScheme', payload);
 	},
 	setColorDarkScheme: (context, payload) => {
-		context.commit('setColorDarkScheme',payload);
+		context.commit('setColorDarkScheme', payload);
 	},
 	setCustomizeSidebarType: (context, payload) => {
-		context.commit('setCustomizeSidebarType',payload);
+		context.commit('setCustomizeSidebarType', payload);
 	}
 };
 
 function addStyle(primary, secondary) {
-	return
 	document.documentElement.style.setProperty('--theme-default', primary);
 	document.documentElement.style.setProperty('--theme-secondary', secondary);
 }
 
 function setColor(state, color) {
-	addStyle(color.primary, color.secondary);
+	if (state.shouldAddStyles) {
+		addStyle(color.primary, color.secondary);
+	}
 	localStorage.setItem('primary_color', color.primary);
 	localStorage.setItem('secondary_color', color.secondary);
 	window.location.reload();
