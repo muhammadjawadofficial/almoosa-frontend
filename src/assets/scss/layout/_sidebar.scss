@@ -1729,6 +1729,9 @@
                     .svg-icon-fill {
                       fill: $tertiary-color;
                     }
+                    .svg-icon-stroke {
+                      stroke: $tertiary-color;
+                    }
                     .according-menu {
                       i {
                         color: var(--theme-default);

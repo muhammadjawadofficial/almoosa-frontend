@@ -67,7 +67,6 @@
           <div class="title">{{ item.text }}</div>
           <div class="icon">
             <component :is="item.icon" />
-            <!-- <virtual-consultations-svg /> -->
           </div>
         </div>
       </div>

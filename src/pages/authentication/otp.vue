@@ -120,8 +120,10 @@ export default {
                   this.navigateTo("Login Dashboard");
                 } else {
                   this.setAuthState(constants.auth.login);
-                  userService.storeLoginInfo(data.user, data.access_token);
-                  this.navigateTo("default");
+                  let obj = data.user;
+                  obj.termsAndCondition = false
+                  userService.storeLoginInfo(obj, data.access_token);
+                  this.navigateTo("Terms and Condition");
                 }
               }
             } else {

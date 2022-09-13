@@ -123,7 +123,11 @@ export default {
       this.layout.settings.layout
     ];
     this.$store.dispatch("menu/setNavLinkActive", { path: this.$route.path });
-    this.setUserInfo(userService.currentUser());
+    let userInfo = userService.currentUser();
+    this.setUserInfo(userInfo);
+    if (!userInfo.termsAndCondition) {
+      this.navigateTo("Terms and Condition");
+    }
   },
   methods: {
     ...mapActions("user", ["setUserInfo"]),

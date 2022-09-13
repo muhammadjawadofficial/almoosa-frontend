@@ -42,6 +42,8 @@ import NewPassword from '../pages/authentication/new_password';
 import Register from '../pages/authentication/register';
 import LoginDashboard from '../pages/authentication/login_dashboard';
 
+import TermsAndCondition from '../pages/authentication/terms-and-condition'
+
 import { userService } from '../services';
 
 // component
@@ -239,7 +241,7 @@ const routes = [
     component: AuthBody,
     children: [
       {
-        path: 'patient',
+        path: 'user',
         name: 'Patient Login',
         component: AuthBodyPatient,
         children: [
@@ -267,7 +269,8 @@ const routes = [
             component: OTP,
             meta: {
               title: 'OTP | Almoosa Specialist Hospital',
-              public: true
+              public: true,
+              hideButtons: true
             }
           },
           {
@@ -295,6 +298,16 @@ const routes = [
             meta: {
               title: 'Register | Almoosa Specialist Hospital',
               public: true
+            }
+          },
+          {
+            path: 'terms-and-condition',
+            name: 'Terms and Condition',
+            component: TermsAndCondition,
+            meta: {
+              title: 'Terms and Condition | Almoosa Specialist Hospital',
+              public: true,
+              hideButtons: true
             }
           },
         ]

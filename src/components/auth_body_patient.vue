@@ -60,7 +60,7 @@ export default {
   },
   watch: {
     $route: function (route) {
-      this.showButtons = route.name !== "OTP";
+      this.showButtons = !route.meta.hideButtons;
     },
     getUserRole: function (val) {
       this.role = val;
@@ -77,6 +77,7 @@ export default {
     if (LSRole && LSRole != this.getUserRole) {
       this.setUserRole(LSRole == 4 ? "doctor" : "patient");
     }
+    this.showButtons = !this.$route.meta.hideButtons;
   },
   methods: {
     ...mapActions("user", ["setUserRole"]),
@@ -167,14 +168,25 @@ export default {
 }
 .full-height {
   min-height: 100vh;
-  @media (max-width: 993px) {
+  @media (max-width: 991px) {
+    .login-right-padding {
+      position: relative;
+      top: -2rem;
+      background: white;
+      border-top-right-radius: 2rem;
+      border-top-left-radius: 2rem;
+      padding-top: 2.5rem !important;
+    }
+    .image-section {
+      padding-bottom: 2rem;
+    }
   }
   &.only-heading {
     .login-dashboard-left {
       justify-content: flex-start;
       padding-block: 8.5rem;
     }
-    @media (max-width: 993px) {
+    @media (max-width: 991px) {
       align-content: flex-start;
       .image-section {
         height: fit-content;
