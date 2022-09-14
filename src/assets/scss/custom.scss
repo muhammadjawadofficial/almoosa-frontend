@@ -1411,6 +1411,27 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         position: relative;
         width: 32em;
         padding-block: 2em;
+        .swal2-list {
+            list-style: none;
+            text-align: start;
+            li {
+                margin-top: 1rem;
+                padding-inline-start: 2rem;
+                position: relative;
+                font-size: 1rem;
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: 0.375rem;
+                    left: 0;
+                    width: 0.625rem;
+                    height: 0.625rem;
+                    border-radius: 50%;
+                    background: $primary-color;
+                    margin: auto;
+                }
+            }
+        }
         .swal2-title {
             font-size: 1.438em;
             color: $primary-color;
@@ -1440,7 +1461,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     outline: none;
                     box-shadow: none;
                 }
-                width: calc(min(10em, 100%));
+                min-width: calc(min(10em, 100%));
                 padding-block: 0.6em;
             }
         }

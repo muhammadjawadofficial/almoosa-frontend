@@ -106,7 +106,8 @@
     "reschedule": "إعادة الجدولة",
     "cancelAppointment": "إلغاء التعيين",
     "joinCall": "الانضمام إلى المكالمة",
-    "chatWithDoctor": "الدردشة مع الطبيب"
+    "chatWithDoctor": "الدردشة مع الطبيب",
+    "instructionTitle": "تعليمات الموعد الافتراضي"
   },
   "findSpecialist": {
     "specialities": "التخصصات",

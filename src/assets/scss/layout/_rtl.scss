@@ -5000,6 +5000,10 @@
     border-left: none;
     border-right: 0.25rem solid $primary-color;
   }
+  .swal2-container .swal2-popup .swal2-list li::before {
+    left: unset;
+    right: 0;
+  }
 }
 
 /**=====================

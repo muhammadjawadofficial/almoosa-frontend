@@ -114,6 +114,7 @@ export default {
   data() {
     return {
       details: null,
+      instructions: [],
     };
   },
   mounted() {
@@ -133,6 +134,11 @@ export default {
     initializeAppointmentDetails() {
       this.details = this.getSelectedAppointment;
       if (!this.details) this.navigateTo("Upcoming Appointment");
+      this.instructions = [
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+        "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
+      ];
     },
     makePayment() {
       let obj = {
@@ -150,7 +156,20 @@ export default {
           this.details.end_time
         )
       ) {
-        this.navigateTo("Connect");
+        let html =
+          "<ul class='swal2-list'>" +
+          this.instructions.map((x) => "<li>" + x + "</li>").join("") +
+          "</ul>";
+        this.successIconListModal(
+          this.$t("appointmentDetail.instructionTitle"),
+          html,
+          "m-clipboard",
+          this.$t("appointmentDetail.joinCall")
+        ).then((res) => {
+          if (res.value) {
+            this.navigateTo("Connect");
+          }
+        });
       } else {
         this.failureToast(this.$t("cantJoinCall"));
       }

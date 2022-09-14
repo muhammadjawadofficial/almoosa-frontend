@@ -124,6 +124,19 @@ export default {
                 }
             });
         },
+        successIconListModal(title, text, icon = 'm-check', confirmText = this.$t("ok")) {
+            const imagePath = require("../assets/images/" + icon + ".svg")
+            return this.$swal({
+                title: title || this.$t('changesDone'),
+                html: text || this.$t('changesDone'),
+                confirmButtonText: confirmText,
+                confirmButtonColor: "#4466f2",
+                imageUrl: imagePath,
+                customClass: {
+                    container: 'swal-custom-icon-top-padding',
+                }
+            });
+        },
         failureModal(title, confirmText) {
             this.$swal({
                 text: title || this.$t('error.somethingWentWrong'),

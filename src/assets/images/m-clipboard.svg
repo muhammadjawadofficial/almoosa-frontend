@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="97.273" height="97.273" viewBox="0 0 97.273 97.273">
+  <g id="Group_20600" data-name="Group 20600" transform="translate(-165 -179)">
+    <path id="Path_13482" data-name="Path 13482" d="M48.637,0A48.637,48.637,0,1,1,0,48.637,48.637,48.637,0,0,1,48.637,0Z" transform="translate(165 179)" fill="#fff"/>
+    <g id="Group_11694" data-name="Group 11694" transform="translate(-2 37)">
+      <path id="Path_13481" data-name="Path 13481" d="M40.93,0A40.93,40.93,0,1,1,0,40.93,40.93,40.93,0,0,1,40.93,0Z" transform="translate(175 149)" fill="#6ab654"/>
+    </g>
+    <path id="Icon_material-assignment" data-name="Icon material-assignment" d="M28.5,4.5H22.23a4.482,4.482,0,0,0-8.46,0H7.5a3.009,3.009,0,0,0-3,3v21a3.009,3.009,0,0,0,3,3h21a3.009,3.009,0,0,0,3-3V7.5A3.009,3.009,0,0,0,28.5,4.5ZM18,4.5A1.5,1.5,0,1,1,16.5,6,1.5,1.5,0,0,1,18,4.5Zm3,21H10.5v-3H21Zm4.5-6h-15v-3h15Zm0-6h-15v-3h15Z" transform="translate(196.5 210.5)" fill="#fff"/>
+  </g>
+</svg>

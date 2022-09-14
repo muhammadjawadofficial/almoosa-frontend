@@ -106,7 +106,8 @@
     "reschedule": "Reschedule",
     "cancelAppointment": "Cancel Appointment",
     "joinCall": "Join Call",
-    "chatWithDoctor": "Chat With Doctor"
+    "chatWithDoctor": "Chat With Doctor",
+    "instructionTitle": "Virtual Appointment Instruction"
   },
   "findSpecialist": {
     "specialities": "Specialities",
