@@ -141,7 +141,9 @@
                 class="btn btn-tertiary"
                 @click="
                   navigateTo(
-                    getIsReschedule ? 'Appointment Detail' : 'Doctor List'
+                    getIsReschedule
+                      ? 'Appointment Detail'
+                      : 'Doctor List' + (getIsGuest ? ' Guest' : '')
                   )
                 "
               >
@@ -266,8 +268,10 @@ export default {
       this.setBookingDate(this.selectedDate);
       this.setBookingStartTime(selectedTimeSlot.start_time);
       this.setBookingEndTime(selectedTimeSlot.end_time);
-
-      if (this.getIsReschedule) {
+      if (this.getIsGuest) {
+        this.navigateTo("Login");
+        localStorage.setItem("url", "Doctor Details");
+      } else if (this.getIsReschedule) {
         if (this.selectionSame()) {
           this.setLoadingState(true);
           appointmentService

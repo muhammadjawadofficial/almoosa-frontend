@@ -13,7 +13,6 @@
             :class="'otp-filled s' + otp.length"
             input-classes="otp-input"
             separator=""
-            :value="12"
             :num-inputs="4"
             :should-auto-focus="true"
             :is-input-num="true"
@@ -72,7 +71,12 @@ export default {
     ...mapGetters("user", ["getOtp", "getUserId", "getAuthState"]),
   },
   methods: {
-    ...mapActions("user", ["setOtp", "setUserId", "setAuthState"]),
+    ...mapActions("user", [
+      "setOtp",
+      "setUserId",
+      "setAuthState",
+      "setUserInfo",
+    ]),
     resetAuthState() {
       this.setOtp(null);
       this.setUserId(null);
@@ -81,6 +85,7 @@ export default {
     processData() {
       if (process.env.NODE_ENV !== "Production") {
         let otp = ("" + this.getOtp.otp_code).split("").map((x) => x);
+        // this.$refs.otpInput.oldOtp = ["", "", "", ""];
         this.$refs.otpInput.otp = otp;
         this.otp = this.getOtp.otp_code;
       }
@@ -120,10 +125,13 @@ export default {
                   this.navigateTo("Login Dashboard");
                 } else {
                   this.setAuthState(constants.auth.login);
-                  let obj = data.user;
-                  obj.termsAndCondition = false
-                  userService.storeLoginInfo(obj, data.access_token);
-                  this.navigateTo("Terms and Condition");
+                  userService.storeLoginInfo(data.user, data.access_token);
+                  this.setUserInfo(data.user);
+                  if (data.user.is_privacy_agreed) {
+                    this.navigateTo("default");
+                  } else {
+                    this.navigateTo("Terms and Condition");
+                  }
                 }
               }
             } else {

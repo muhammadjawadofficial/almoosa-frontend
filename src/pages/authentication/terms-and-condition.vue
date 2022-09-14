@@ -54,7 +54,8 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
+import { userService } from "../../services";
 export default {
   data() {
     return {
@@ -62,8 +63,14 @@ export default {
       submitted: false,
     };
   },
+  computed: {
+    ...mapGetters("user", ["getUserInfo"]),
+  },
+  mounted() {
+    this.setUserInfo(userService.currentUser());
+  },
   methods: {
-    ...mapActions("user", ["updateUserInfo"]),
+    ...mapActions("user", ["updateUserInfo", "setUserInfo"]),
     validateFields() {
       return !!this.agreeTerms;
     },
@@ -73,8 +80,31 @@ export default {
         this.failureToast("Please Accept Privacy Policy");
         return;
       }
-      this.updateUserInfo({ termsAndCondition: true });
-      this.navigateTo("default");
+      this.updateProfileInfo({ is_privacy_agreed: true });
+    },
+
+    updateProfileInfo(data) {
+      if (!this.getUserInfo) {
+        this.navigateTo("Login Dashboard");
+        return;
+      }
+      this.setLoadingState(true);
+      userService.updateProfile(data).then(
+        (res) => {
+          if (res.data.status) {
+            this.updateUserInfo({ ...data });
+            this.navigateTo("default");
+          } else {
+            this.failureToast(res.data.message);
+          }
+          this.setLoadingState(false);
+        },
+        (error) => {
+          this.setLoadingState(false);
+          this.failureToast();
+          console.error(error);
+        }
+      );
     },
   },
 };

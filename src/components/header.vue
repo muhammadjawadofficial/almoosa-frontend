@@ -111,7 +111,7 @@
 </template>
 <script>
 let body = document.getElementsByTagName("body")[0];
-import { mapGetters, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import { userService } from "../services";
 import Notifications from "./notifications";
 export default {
@@ -158,6 +158,7 @@ export default {
     this.currentRouteName = this.$route.name;
   },
   methods: {
+    ...mapActions("user", ["removeUserInfo"]),
     toggle_sidebar() {
       this.$store.dispatch("menu/opensidebar");
     },
@@ -241,7 +242,8 @@ export default {
       userService.setSelectedLayout(this.layoutType);
     },
     logout() {
-      userService.removeLoginInfo();
+      this.$root.$refs.appointmentModule.destroyObjects();
+      this.removeUserInfo();
       this.$messaging.deleteToken();
       this.navigateTo({ name: "Login Dashboard" });
     },

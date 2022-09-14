@@ -148,7 +148,12 @@ export default {
     this.selectedOption = this.selectedItem.value;
   },
   methods: {
-    ...mapActions("user", ["setOtp", "setUserId", "setAuthState"]),
+    ...mapActions("user", [
+      "setOtp",
+      "setUserId",
+      "setAuthState",
+      "setUserInfo",
+    ]),
     validateForm() {
       this.usernameState = this.username != "";
       if (this.selectedItem.type == constants.loginByPassword) {
@@ -189,6 +194,7 @@ export default {
             } else {
               this.setAuthState(constants.auth.login);
               userService.storeLoginInfo(data.user, data.access_token);
+              this.setUserInfo(data.user);
             }
             this.navigateTo("OTP");
           } else {
@@ -204,11 +210,14 @@ export default {
     },
     doDoctorLogin(payload) {
       this.setLoadingState(true);
+      localStorage.removeItem("url");
+      this.$root.$refs.appointmentModule.destroyObjects(true);
       authService.loginDoctor(payload).then(
         (response) => {
           if (response.data.status) {
             let data = response.data.data;
             userService.storeLoginInfo(data.user, data.access_token);
+            this.setUserInfo(data.user);
             this.navigateTo("default");
           } else {
             this.failureToast(response.data.message);

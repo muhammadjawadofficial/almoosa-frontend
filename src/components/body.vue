@@ -125,7 +125,7 @@ export default {
     this.$store.dispatch("menu/setNavLinkActive", { path: this.$route.path });
     let userInfo = userService.currentUser();
     this.setUserInfo(userInfo);
-    if (!userInfo.termsAndCondition) {
+    if (!userInfo.is_privacy_agreed) {
       this.navigateTo("Terms and Condition");
     }
   },

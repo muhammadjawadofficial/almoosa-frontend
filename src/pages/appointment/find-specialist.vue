@@ -152,6 +152,11 @@ export default {
     },
   },
   mounted() {
+    if (!this.$route.params.method && this.getBookingMethod) {
+      this.navigateTo("Find Specialist" + (this.getIsGuest ? " Guest" : ""), {
+        method: this.getBookingMethod,
+      });
+    }
     this.setSelectedMethod();
     if (!this.getBookingMethod) {
       this.navigateTo("default");
@@ -218,8 +223,8 @@ export default {
         this.selectedSpeciality = this.getBookingSpeciality;
       }
     },
-    setSelectedMethod() {
-      let type = this.$route.params.method;
+    setSelectedMethod(pre = null) {
+      let type = pre || this.$route.params.method;
       if (type == "online") {
         this.setBookingMethod("online");
       } else if (type == "onsite") {
@@ -258,7 +263,11 @@ export default {
             let response = res.data;
             if (response.status) {
               this.setDoctorsList(response.data.items);
-              this.navigateTo("Doctor List");
+              if (this.getIsGuest) {
+                this.navigateTo("Doctor List Guest");
+              } else {
+                this.navigateTo("Doctor List");
+              }
             } else {
               this.failureToast(response.message);
             }

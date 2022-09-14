@@ -315,6 +315,10 @@ export default {
     };
   },
   mounted() {
+    if (localStorage.getItem("url")) {
+      this.navigateTo(localStorage.getItem("url"));
+      localStorage.removeItem("url");
+    }
     if (this.isDoctor) {
       this.getTodayAppointment();
     }

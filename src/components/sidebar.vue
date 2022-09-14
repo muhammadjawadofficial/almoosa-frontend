@@ -377,7 +377,7 @@ export default {
     }
     setTimeout(() => {
       const elmnt = document.getElementById("myDIV");
-      this.menuWidth = elmnt.offsetWidth;
+      this.menuWidth = elmnt && elmnt.offsetWidth;
       this.menuWidth > window.innerWidth
         ? ((this.hideRightArrow = false), (this.hideLeftArrowRTL = false))
         : ((this.hideRightArrow = false), (this.hideLeftArrowRTL = true));

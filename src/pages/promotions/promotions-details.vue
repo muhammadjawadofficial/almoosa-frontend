@@ -65,7 +65,6 @@ export default {
     ...mapGetters("user", ["getUserInfo"]),
   },
   mounted() {
-    console.log(this.getSelectedPromotion);
     if (!this.getSelectedPromotion) {
       this.navigateTo("Promotions");
       return;

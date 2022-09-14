@@ -326,7 +326,6 @@ export default {
       userService.updateProfile(data_id).then(
         (res) => {
           if (res.data.status) {
-            console.log(data, data.path)
             let obj = { ...data };
             let doctorObj = { photo: data.photo.path };
             let saveObj = this.isDoctor ? doctorObj : obj;

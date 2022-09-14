@@ -42,25 +42,100 @@
         <div v-if="false" @click="switchLanguage" class="language-switcher">
           {{ layoutType == "ltr" ? "ع" : "En" }}
         </div>
+        <div class="carousel-inner" v-if="showSlider">
+          <swiper class="swiper" :options="swiperOption" :slides-per-view="1">
+            <swiper-slide>
+              <div class="carousel-item active">
+                <div class="login-dashboard-slide">
+                  <div class="login-dashboard-slide--content">
+                    Help Millions People everywhere, everytime!
+                  </div>
+                </div>
+              </div>
+            </swiper-slide>
+            <swiper-slide>
+              <div class="carousel-item active">
+                <div class="login-dashboard-slide">
+                  <div class="login-dashboard-slide--content">
+                    Help Millions People everywhere, everytime!
+                  </div>
+                </div>
+              </div>
+            </swiper-slide>
+            <swiper-slide>
+              <div class="carousel-item active">
+                <div class="login-dashboard-slide">
+                  <div class="login-dashboard-slide--content">
+                    Help Millions People everywhere, everytime!
+                  </div>
+                </div>
+              </div>
+            </swiper-slide>
+            <div class="swiper-pagination" slot="pagination"></div>
+          </swiper>
+        </div>
+
+        <div
+          class="login-dashboard-login-section"
+          v-if="showLoginRegister"
+          :class="{ 'mt-0': !showSlider }"
+        >
+          <div class="row">
+            <div class="col-xl-6 col-lg-12 col-md-6 content w200">
+              To browse your medical file and book appointments, please login or
+              register now.
+            </div>
+            <div class="col-xl-6 col-lg-12 col-md-6 button-group">
+              <button class="btn btn-secondary" @click="navigateTo('Login')">
+                Login
+              </button>
+              <button class="btn btn-primary" @click="navigateTo('Register')">
+                Register
+              </button>
+            </div>
+          </div>
+        </div>
         <router-view></router-view>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { swiper, swiperSlide } from "vue-awesome-swiper";
+import "swiper/dist/css/swiper.css";
 import { mapActions, mapGetters } from "vuex";
 import { userService } from "../services";
 export default {
+  components: {
+    swiper,
+    swiperSlide,
+  },
   data() {
     return {
       layoutType: "ltr",
       showButtons: true,
+      showSlider: false,
+      showLoginRegister: false,
       role: "",
+      swiperOption: {
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        // autoplay: {
+        //   delay: 2500,
+        //   disableOnInteraction: false,
+        // },
+        navigation: {
+          nextEl: `.next-${this.id}`,
+          prevEl: `.prev-${this.id}`,
+        },
+      },
     };
   },
   watch: {
     $route: function (route) {
-      this.showButtons = !route.meta.hideButtons;
+      this.checkConditions(route);
     },
     getUserRole: function (val) {
       this.role = val;
@@ -77,10 +152,15 @@ export default {
     if (LSRole && LSRole != this.getUserRole) {
       this.setUserRole(LSRole == 4 ? "doctor" : "patient");
     }
-    this.showButtons = !this.$route.meta.hideButtons;
+    this.checkConditions(this.$route);
   },
   methods: {
     ...mapActions("user", ["setUserRole"]),
+    checkConditions(route) {
+      this.showButtons = !route.meta.hideButtons;
+      this.showSlider = route.name == "Login Dashboard";
+      this.showLoginRegister = this.showSlider || route.path.includes("guest");
+    },
     switchLanguage(layout) {
       if (layout) {
         this.layoutType = layout;
@@ -109,6 +189,75 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.login-dashboard-login-section {
+  padding: 1.5rem 2.5rem;
+  background: var(--theme-tertiary);
+  border-radius: 1rem;
+  margin-top: 2.5rem;
+  .content {
+    color: var(--theme-secondary);
+    font-size: 1.375rem;
+    line-height: 2rem;
+  }
+  > .row {
+    align-items: center;
+    .content,
+    .button-group {
+      padding-block: 0.5rem;
+    }
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      button {
+        flex: 1;
+        max-width: 12.5rem;
+        padding-block: 0.75rem;
+        font-size: 1rem;
+        font-weight: 500;
+      }
+    }
+  }
+}
+.swiper-container {
+  border-radius: 1.25rem;
+  .login-dashboard-slide {
+    display: flex;
+    align-items: center;
+    // height: 188px;
+    padding: 3rem 3rem 4rem;
+    background: url("../assets/images/login/slider/slide1.png");
+    background-position: top right;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    &--content {
+      width: 23.625rem;
+      color: white;
+      font-size: 2.563rem;
+      line-height: 3.063rem;
+      font-weight: bold;
+    }
+  }
+  .swiper-pagination {
+    ::v-deep {
+      .swiper-pagination-bullet {
+        aspect-ratio: 1;
+        height: 0.938rem;
+        width: auto;
+        background: white;
+        opacity: 1;
+        &-active {
+          background: var(--theme-default);
+        }
+      }
+    }
+    left: 3rem;
+    bottom: 1.75rem;
+    width: fit-content;
+  }
+}
 .image-section {
   position: relative;
   background-size: cover;

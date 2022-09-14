@@ -1450,6 +1450,29 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     padding-top: 4.5rem;
     padding-bottom: 2rem;
 }
+.login-right-padding {
+    .page-body-container,
+    .doctor-details-container {
+        padding-top: 3rem;
+    }
+    .doctor-details-card {
+        padding-inline: 1.5rem;
+        border-radius: 1rem;
+    }
+    .doctor-details-section {
+        .nav-pills {
+            li {
+                a {
+                    font-size: 1rem;
+                    width: 12rem;
+                }
+            }
+        }
+    }
+    .find-specialist-container .find-specialist-container-section {
+        padding-block-end: 0.5rem;
+    }
+}
 .no-data {
     font-size: 1.5rem;
     padding-top: 3rem;

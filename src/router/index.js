@@ -5,6 +5,8 @@ import Body from '../components/body'
 import AuthBody from '../components/auth_body'
 import AuthBodyPatient from '../components/auth_body_patient'
 
+import GuestUserModule from '../components/guest-user'
+
 import Profile from '../pages/user/user-profile'
 
 import Dashboard from '../pages/dashboard'
@@ -309,6 +311,46 @@ const routes = [
               public: true,
               hideButtons: true
             }
+          },
+          {
+            path: 'guest',
+            component: GuestUserModule,
+            children: [
+
+              {
+                path: 'appointment',
+                component: AppointmentModule,
+                children: [
+                  {
+                    path: 'find-specialist/:method',
+                    name: 'Find Specialist Guest',
+                    component: findSpecialist,
+                    meta: {
+                      title: 'Find Specialist | Almoosa Specialist Hospital',
+                      public: true
+                    }
+                  },
+                  {
+                    path: 'doctors',
+                    name: 'Doctor List Guest',
+                    component: doctorList,
+                    meta: {
+                      title: 'Find Specialist | Almoosa Specialist Hospital',
+                      public: true
+                    }
+                  },
+                  {
+                    path: 'doctor-details',
+                    name: 'Doctor Details Guest',
+                    component: doctorDetails,
+                    meta: {
+                      title: 'Doctor Details | Almoosa Specialist Hospital',
+                      public: true
+                    }
+                  },
+                ]
+              }
+            ]
           },
         ]
       },

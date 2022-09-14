@@ -1,7 +1,7 @@
 <template>
   <div class="doctor-list-container page-body-container standard-width">
     <back-navigation
-      backLink="Find Specialist"
+      :backLink="'Find Specialist' + (getIsGuest ? ' Guest' : '')"
       :title="$t('doctorList.title')"
     />
     <div class="search-box">
@@ -64,7 +64,7 @@ export default {
   },
   mounted() {
     if (!this.getDoctorsList || !this.getBookingClinic) {
-      this.navigateTo("Find Specialist");
+      this.navigateTo("Find Specialist" + (this.getIsGuest ? " Guest" : ""));
     }
     this.filteredDoctors = [...this.getDoctorsList];
     this.setBookingDoctor(null);
@@ -90,7 +90,7 @@ export default {
       this.setBookingStartTime(null);
       this.setBookingEndTime(null);
       this.setBookingAmount(100);
-      this.navigateTo("Doctor Details");
+      this.navigateTo("Doctor Details" + (this.getIsGuest ? " Guest" : ""));
     },
   },
 };
