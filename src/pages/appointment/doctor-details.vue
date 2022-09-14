@@ -167,6 +167,7 @@ export default {
       doctor: null,
       timeslots: null,
       selectedTimeSlot: null,
+      neverShowLocation: true,
     };
   },
   computed: {
@@ -180,7 +181,9 @@ export default {
       "getBookingMethod",
     ]),
     shouldShowLocation() {
-      if (this.getIsReschedule) {
+      if (neverShowLocation) {
+        return true;
+      } else if (this.getIsReschedule) {
         return this.getSelectedAppointment.type == "onsite";
       } else {
         return this.getBookingMethod == "onsite";

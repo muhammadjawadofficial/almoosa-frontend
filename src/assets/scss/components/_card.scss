@@ -132,6 +132,12 @@
                   color: $danger-color;
                 }
               }
+              &.default{
+                background-color: #6AB654;
+                .appointment-status {
+                  color: #6ab654;
+                }
+              }
             }
           }
         }

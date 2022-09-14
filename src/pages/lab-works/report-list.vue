@@ -33,7 +33,7 @@
               v-for="report in reports"
               :key="'upcoming-appointment-id' + report.id"
             >
-              <div class="appointment-card warning">
+              <div class="appointment-card default">
                 <div class="doctor-avatar transparent">
                   <img src="../../assets/images/lab.svg" alt="" />
                 </div>

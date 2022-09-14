@@ -31,7 +31,7 @@
                   {{ removeSecondsFromTimeString(appointment.start_time) }}
                 </div>
               </div>
-              <div class="appointment-card warning">
+              <div class="appointment-card default">
                 <div class="doctor-avatar">
                   <img :src="getImageUrl(appointment.doctor.photo)" alt="" />
                 </div>

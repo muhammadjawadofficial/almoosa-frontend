@@ -367,18 +367,8 @@ export default {
         }
       );
     },
-    makeCall(appointment) {
-      if (
-        this.isAllowedToCall(
-          appointment.booked_date,
-          appointment.start_time,
-          appointment.end_time
-        )
-      ) {
-        this.navigateTo("Connect");
-      } else {
-        this.failureToast(this.$t("cantJoinCall"));
-      }
+    makeCall() {
+      this.navigateTo("Connect");
     },
   },
 };

@@ -14,7 +14,7 @@
                 v-for="promotion in promotionList"
                 :key="'promotion-' + promotion.id"
               >
-                <div class="appointment-card success">
+                <div class="appointment-card default">
                   <div class="doctor-avatar">
                     <img src="../../assets/images/bell.svg" alt="" />
                   </div>
