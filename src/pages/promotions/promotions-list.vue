@@ -16,7 +16,7 @@
               >
                 <div class="appointment-card default">
                   <div class="doctor-avatar">
-                    <img src="../../assets/images/bell.svg" alt="" />
+                    <bell-bg-svg />
                   </div>
                   <div class="appointment-details">
                     <div class="doctor-name">{{ promotion.title }}</div>
