@@ -1,5 +1,5 @@
 import { mapGetters } from 'vuex';
-import { userService } from '../services';
+import { appointmentService, userService } from '../services';
 
 export default {
     data() {
@@ -81,6 +81,77 @@ export default {
                 customClass: {
                     container: 'swal-custom-icon-top-padding theme-action-button',
                 }
+            });
+        },
+        ratingIconModal(title, text, icon, confirmText, cancelText, doctor_id) {
+            const imagePath = require("../assets/images/" + (icon || 'm-check') + ".svg");
+            let selectedRating = null;
+            let innerHTML = `
+                            <div class="swal-title">${text}</div>
+                            <div class="rating-container">
+                                <div class="fa fa-star star"></div>
+                                <div class="fa fa-star star"></div>
+                                <div class="fa fa-star star"></div>
+                                <div class="fa fa-star star"></div>
+                                <div class="fa fa-star star"></div>
+                            </div>
+                            `;
+            return this.$swal({
+                title: title || this.$t('areYouSure'),
+                text: text || this.$t('areYouSure'),
+                showCancelButton: true,
+                confirmButtonText: confirmText || this.$t("ok"),
+                confirmButtonColor: "#4466f2",
+                cancelButtonText: cancelText || this.$t("cancel"),
+                cancelButtonColor: "#4466f2",
+                imageUrl: imagePath,
+                customClass: {
+                    container: 'swal-custom-icon-top-padding theme-action-button',
+                },
+                html: innerHTML,
+                onBeforeOpen: () => {
+                    const ratings = document.getElementsByClassName('star')
+                    Object.values(ratings).forEach((rating, index) => {
+                        rating.addEventListener('click', () => {
+                            for (const element of ratings) {
+                                element.classList.remove('active')
+                            }
+                            for (let i = 0; i <= index; i++) {
+                                ratings[i].classList.add('active')
+                            }
+                            selectedRating = index + 1;
+                        })
+                    })
+                },
+                preConfirm: () => {
+                    console.log(selectedRating);
+                    if (selectedRating == null) {
+                        this.$swal.showValidationMessage(
+                            this.$t('rating.error')
+                        )
+                        return selectedRating != null
+                    } else {
+                        let success = false;
+                        this.setLoadingState(true);
+                        appointmentService.ratePhysician(doctor_id, selectedRating).then(
+                            (response) => {
+                                if (response.data.status) {
+                                    success = true;
+                                    this.successToast(this.$t('rating.submitted'));
+                                    this.$swal.close();
+                                } else {
+                                    this.failureToast(response.data.message);
+                                }
+                                this.setLoadingState(false);
+                            },
+                            (err) => {
+                                this.failureToast(err.response && err.response.data.message);
+                                this.setLoadingState(false);
+                            }
+                        );
+                        return success && selectedRating != null && selectedRating
+                    }
+                },
             });
         },
         inputIconModal(title, text, icon = 'm-check', type = 'text', confirmText = this.$t("ok"), cancelText = this.$t("cancel")) {

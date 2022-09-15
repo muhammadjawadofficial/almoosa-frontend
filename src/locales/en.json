@@ -213,6 +213,14 @@
   "footer": {
     "allRights": "All Rights Reserved By Almoosa Hospital Specialist"
   },
+  "rating": {
+    "title": "Rate Our Physician",
+    "text": "How was your experience with our physician?",
+    "success": "Submit",
+    "deny": "Skip",
+    "error": "Select any star to continue",
+    "submitted": "Rating Submitted Successfully"
+  },
   "noData": "No Data To Show",
   "cantJoinCall": "Not allowed to join call",
   "back": "Back",

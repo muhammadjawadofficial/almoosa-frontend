@@ -395,32 +395,36 @@ $label-color: $primary-color, $secondary-color, $success-color, $danger-color, $
 /*======= Font-color css end  ======= */
 
 /*======= Button-color css starts  ======= */
+@mixin theme-style-button($btn-color) {
+  background-color: $btn-color !important;
+  border-color: $btn-color !important;
+  color: $white;
+
+  &.disabled,
+  &:disabled {
+    background-color: $btn-color !important;
+    border-color: $btn-color !important;
+  }
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active {
+    background-color: darken($btn-color, 10%) !important;
+    border-color: darken($btn-color, 10%) !important;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 0.2rem lighten($btn-color, 30%);
+  }
+}
 // btn--color//
 @each $btn-name, $btn-color in (primary, $primary-color), (secondary, $secondary-color), (tertiary, $tertiary-color),
   (success, $success-color), (danger, $danger-color), (info, $info-color), (light, $light-color), (dark, $dark-color),
   (warning, $warning-color)
 {
   .btn-#{$btn-name} {
-    background-color: $btn-color !important;
-    border-color: $btn-color !important;
-
-    &.disabled,
-    &:disabled {
-      background-color: $btn-color !important;
-      border-color: $btn-color !important;
-    }
-
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
-      background-color: darken($btn-color, 10%) !important;
-      border-color: darken($btn-color, 10%) !important;
-    }
-
-    &:focus {
-      box-shadow: 0 0 0 0.2rem lighten($btn-color, 30%);
-    }
+    @include theme-style-button($btn-color);
   }
 }
 

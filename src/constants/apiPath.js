@@ -35,6 +35,7 @@ export const apiPath = {
         updateAppointment: (id) => getApiObject("patch", "appointments/" + id),
         cancelAppointment: (id) => getApiObject("delete", "appointments/" + id),
         todayAppointment: (id) => getApiObject("get", "appointments/today?doctor_id=" + id),
+        ratePhysician: (id) => getApiObject("patch", "doctor/rating/" + id),
     },
 
     promotions: {

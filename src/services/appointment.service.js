@@ -10,7 +10,8 @@ export const appointmentService = {
     createAppointment,
     updateAppointment,
     cancelAppointment,
-    getTodayAppointment
+    getTodayAppointment,
+    ratePhysician
 }
 
 function getUpcomingAppointemnts(id) {
@@ -97,5 +98,13 @@ function getTodayAppointment(id) {
     return axios({
         method: apiPath.appointment.todayAppointment(id).method,
         url: apiPath.appointment.todayAppointment(id).url,
+    })
+}
+
+function ratePhysician(id, rating) {
+    return axios({
+        method: apiPath.appointment.ratePhysician(id).method,
+        url: apiPath.appointment.ratePhysician(id).url,
+        data: { rating }
     })
 }

@@ -21,6 +21,7 @@ import doctorList from '../pages/appointment/doctor-list'
 import doctorDetails from '../pages/appointment/doctor-details'
 import selectPaymentMethod from '../pages/appointment/select-payment-method'
 import payNow from '../pages/appointment/pay-now'
+import callEnd from '../pages/appointment/call-end'
 
 import paymentSuccess from '../pages/payment-success'
 import paymentFailure from '../pages/payment-failure'
@@ -164,6 +165,14 @@ const routes = [
             name: 'Connect',
             meta: {
               title: 'Connect | Almoosa Specialist Hospital',
+            }
+          },
+          {
+            path: 'connect/rate',
+            component: callEnd,
+            name: 'Rate Doctor',
+            meta: {
+              title: 'Rate Doctor | Almoosa Specialist Hospital',
             }
           },
         ]

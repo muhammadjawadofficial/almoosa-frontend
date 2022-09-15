@@ -144,6 +144,9 @@
 .svg-icon-fill {
     fill: $secondary-color;
 }
+.svg-icon-fill-bg {
+    fill: $white;
+}
 .svg-icon-stroke {
     stroke: $secondary-color;
 }
@@ -1444,6 +1447,39 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             color: $black;
             line-height: 1.1em;
             font-family: $font-diodrum-medium;
+            .swal-title {
+                margin-block-start: 0.5rem;
+                margin-block-end: 1.5rem;
+            }
+            .swal2-validation-message {
+                margin-block-start: 1rem;
+            }
+            .rating-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: fit-content;
+                margin: auto;
+                .star {
+                    width: 2rem;
+                    height: 2rem;
+                    font-size: 1.25rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    color: #d8d8d8;
+                }
+                &:hover .star {
+                    color: $primary-color;
+                }
+                .star:hover ~ .star {
+                    color: #d8d8d8;
+                }
+                .star.active {
+                    color: $primary-color;
+                }
+            }
         }
         .swal2-image {
             position: absolute;

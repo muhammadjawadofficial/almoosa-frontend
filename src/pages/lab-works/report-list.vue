@@ -35,7 +35,7 @@
             >
               <div class="appointment-card default">
                 <div class="doctor-avatar transparent">
-                  <img src="../../assets/images/lab.svg" alt="" />
+                  <lab-bg-svg />
                 </div>
                 <div class="appointment-details">
                   <div class="doctor-name">
@@ -52,10 +52,7 @@
                   <div class="view-report" @click="viewReport(report)">
                     <img src="../../assets/images/stats.svg" alt="stats-img" />
                   </div>
-                  <div
-                    class="download-report"
-                    @click="downloadReport(report)"
-                  >
+                  <div class="download-report" @click="downloadReport(report)">
                     <img
                       src="../../assets/images/download.svg"
                       alt="download-img"

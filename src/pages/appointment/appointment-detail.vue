@@ -167,6 +167,7 @@ export default {
           this.$t("appointmentDetail.joinCall")
         ).then((res) => {
           if (res.value) {
+            localStorage.setItem("doctor", this.details.doctor_id);
             this.navigateTo("Connect");
           }
         });

@@ -20,7 +20,7 @@
           <template v-else>
             <div
               class="appointment-list-item"
-              v-for="appointment in reportAppointments"
+              v-for="(appointment, index) in reportAppointments"
               :key="'upcoming-appointment-id' + appointment.id"
             >
               <div class="appointment-time">
@@ -57,7 +57,7 @@
                     </div>
                   </div>
                   <button
-                    class="btn btn-primary start-call-button"
+                    class="btn start-call-button"
                     @click="viewDetails(appointment)"
                   >
                     {{ $t("labWorks.viewDetails") }}
