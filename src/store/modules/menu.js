@@ -17,15 +17,11 @@ const mutations = {
     state.togglesidebar = !state.togglesidebar
   },
   resizetoggle: (state) => {
-    if (window.innerWidth < 1199) {
-      state.togglesidebar = true
-    } else {
-      state.togglesidebar = true
-    }
+    state.togglesidebar = true;
   },
   searchTerm: (state, term) => {
     let items = [];
-    var searchval = term.toLowerCase();
+    let searchval = term.toLowerCase();
     state.data.filter(menuItems => {
       if (menuItems.title) {
         if (menuItems.title.toLowerCase().includes(searchval) && menuItems.type === 'link') {

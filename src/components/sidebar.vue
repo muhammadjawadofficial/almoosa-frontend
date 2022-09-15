@@ -378,9 +378,13 @@ export default {
     setTimeout(() => {
       const elmnt = document.getElementById("myDIV");
       this.menuWidth = elmnt && elmnt.offsetWidth;
-      this.menuWidth > window.innerWidth
-        ? ((this.hideRightArrow = false), (this.hideLeftArrowRTL = false))
-        : ((this.hideRightArrow = false), (this.hideLeftArrowRTL = true));
+      if (this.menuWidth > window.innerWidth) {
+        this.hideRightArrow = false;
+        this.hideLeftArrowRTL = false;
+      } else {
+        this.hideRightArrow = false;
+        this.hideLeftArrowRTL = true;
+      }
     }, 500);
     this.layoutobject = layoutClasses.find(
       (item) => Object.keys(item).pop() === this.layout.settings.layout

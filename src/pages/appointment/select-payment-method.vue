@@ -167,7 +167,6 @@ export default {
   mounted() {
     if (!this.getSelectedAppointment) {
       this.navigateTo("Upcoming Appointment");
-      return;
     }
   },
   methods: {

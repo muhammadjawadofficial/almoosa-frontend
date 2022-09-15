@@ -181,7 +181,7 @@ export default {
       "getBookingMethod",
     ]),
     shouldShowLocation() {
-      if (neverShowLocation) {
+      if (this.neverShowLocation) {
         return true;
       } else if (this.getIsReschedule) {
         return this.getSelectedAppointment.type == "onsite";

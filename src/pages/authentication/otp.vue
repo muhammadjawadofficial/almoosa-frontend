@@ -85,7 +85,6 @@ export default {
     processData() {
       if (process.env.NODE_ENV !== "Production") {
         let otp = ("" + this.getOtp.otp_code).split("").map((x) => x);
-        // this.$refs.otpInput.oldOtp = ["", "", "", ""];
         this.$refs.otpInput.otp = otp;
         this.otp = this.getOtp.otp_code;
       }
