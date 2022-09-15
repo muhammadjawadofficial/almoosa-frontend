@@ -224,6 +224,9 @@
   "criticalCare":{
     "title": "Critical Care"
   },
+  "inPatients":{
+    "title": "InPatients"
+  },
   "noData": "No Data To Show",
   "cantJoinCall": "Not allowed to join call",
   "back": "Back",

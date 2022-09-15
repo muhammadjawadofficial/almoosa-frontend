@@ -21,7 +21,10 @@
               <calendar-fill-svg />
             </div>
           </div>
-          <div class="consultation-section--blocks--single large primary">
+          <div
+            class="consultation-section--blocks--single large primary"
+            @click="navigateTo('InPatients')"
+          >
             <div class="title">
               {{ $t("modules.View Inpatients") }}
               <div class="sub-title">

@@ -46,6 +46,7 @@ import Register from '../pages/authentication/register';
 import LoginDashboard from '../pages/authentication/login_dashboard';
 
 import CriticalCare from '../pages/critical-care';
+import InPatients from '../pages/in-patients';
 
 import TermsAndCondition from '../pages/authentication/terms-and-condition'
 
@@ -253,6 +254,14 @@ const routes = [
         component: CriticalCare,
         meta: {
           title: 'Critical Care Patients - Reports | Almoosa Specialist Hospital',
+        },
+      },
+      {
+        path: "inpatients",
+        name: 'InPatients',
+        component: InPatients,
+        meta: {
+          title: 'View InPatients - Reports | Almoosa Specialist Hospital',
         },
       }
     ]
