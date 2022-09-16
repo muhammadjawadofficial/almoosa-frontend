@@ -232,6 +232,21 @@
     "viewDetails": "View Details",
     "noData": "There is no data uploaded yet"
   },
+  "insurance": {
+    "medicalInsurance": "Medical Insurance",
+    "myInsurance": "My Insurance",
+    "approvals": "Approvals",
+    "addNewInsurance": "Add New Insurance",
+    "policyNum": "Policy Number",
+    "planDetails": "Plan Details",
+    "lastUpdate": "Last Update On",
+    "insuranceCompnayName": "Insurance Company Name",
+    "nationalId": "National ID",
+    "uploadId": "Upload Your ID",
+    "addInsurance": "Add Insurance",
+    "insuranceAdded": "Insurance Added Successfully",
+    "clickToUpload": "Click Here To Upload a New File"
+  },
   "noData": "No Data To Show",
   "cantJoinCall": "Not allowed to join call",
   "back": "Back",

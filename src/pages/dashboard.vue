@@ -289,6 +289,7 @@ export default {
         {
           text: "Medical Insurance",
           icon: "health-shield-svg",
+          link: "Medical Insurance"
         },
         {
           text: "My Timelines",

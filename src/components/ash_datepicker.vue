@@ -1,8 +1,11 @@
 <template>
-  <div class="custom-login-input-groups ash-datetime-container">
+  <div
+    class="custom-login-input-groups ash-datetime-container"
+    :class="className"
+  >
     <b-form-datepicker
       id="datepicker-placeholder"
-      placeholder="Add DOB"
+      :placeholder="placeholder || 'Add DOB'"
       calendar-width="100%"
       v-model="content"
       v-bind="labels[locale] || {}"
@@ -30,7 +33,7 @@
 
 <script>
 export default {
-  props: ["date"],
+  props: ["date", "className", "placeholder"],
   model: {
     prop: "date",
     event: "dateChanged",
@@ -115,6 +118,9 @@ export default {
 .ash-datetime-container {
   max-width: 22rem;
   z-index: 1;
+  &.full-width {
+    max-width: 100%;
+  }
   &::before {
     opacity: 1;
   }

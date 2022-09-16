@@ -15,7 +15,7 @@
   &.ash-card {
     border-radius: 0.875rem 0px 0.875rem 0.875rem;
     margin-block: 2rem;
-    &:not(.card-wizard) {
+    &:not(.card-top-navigation) {
       overflow: hidden;
     }
     .card-body {
@@ -120,17 +120,35 @@
                 .appointment-status {
                   color: #76a762;
                 }
+                .start-call-button {
+                  @include theme-style-button(#76a762);
+                }
+                .svg-icon-fill {
+                  fill: #76a762;
+                }
               }
               &.warning {
                 background-color: #fb9d2b;
                 .appointment-status {
                   color: #f79d31;
                 }
+                .start-call-button {
+                  @include theme-style-button(#f79d31);
+                }
+                .svg-icon-fill {
+                  fill: #f79d31;
+                }
               }
               &.danger {
                 background-color: $danger-color;
                 .appointment-status {
                   color: $danger-color;
+                }
+                .start-call-button {
+                  @include theme-style-button($danger-color);
+                }
+                .svg-icon-fill {
+                  fill: $danger-color;
                 }
               }
               &.default {
@@ -139,6 +157,9 @@
                   color: #6ab654;
                 }
               }
+              .svg-icon-fill {
+                fill: $primary-color;
+              }
             }
           }
           &:nth-child(odd) {
@@ -146,12 +167,12 @@
               &-card {
                 &.default {
                   background-color: #6ab654;
-                }
-                .start-call-button {
-                  @include theme-style-button(#6ab654);
-                }
-                .svg-icon-fill {
-                  fill: #6ab654;
+                  .start-call-button {
+                    @include theme-style-button(#6ab654);
+                  }
+                  .svg-icon-fill {
+                    fill: #6ab654;
+                  }
                 }
               }
             }
@@ -181,6 +202,12 @@
   &.card-top-navigation {
     --pill-height: 3.75rem;
     margin-top: var(--pill-height);
+    &.tabs-start {
+      .nav-pills {
+        right: unset;
+        left: 0;
+      }
+    }
     .nav-pills {
       top: calc(var(--pill-height) * -1);
       right: 0;

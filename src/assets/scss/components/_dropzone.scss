@@ -74,6 +74,7 @@
     -webkit-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.16);
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.16);
     font-size: 14px;
+    text-align: center !important;
     .dz-details {
       position: absolute;
       top: 10px;
@@ -584,13 +585,6 @@
 // upload page
 .vue-dropzone {
   color: $theme-body-font-color;
-  > .dz-preview {
-    &:hover {
-      .dz-remove {
-        // opacity: 0 !important;
-      }
-    }
-  }
   .dz-preview {
     .dz-image,
     .dz-success-mark,
@@ -602,6 +596,9 @@
       img {
         height: 100%;
       }
+    }
+    .dz-image {
+      text-align: center;
     }
   }
 }

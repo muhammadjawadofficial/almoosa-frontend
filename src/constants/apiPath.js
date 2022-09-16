@@ -53,5 +53,10 @@ export const apiPath = {
 
     patient: {
         criticalCare: () => getApiObject("get", "appointments/reports?patient_id=1&type=lab"),
+    },
+
+    insurance: {
+        addNew: getApiObject("post", "insurances"),
+        fetch: (id) => getApiObject("get", "insurances?patient_id=" + id),
     }
 };

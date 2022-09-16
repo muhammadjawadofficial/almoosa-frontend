@@ -169,6 +169,7 @@ svg text {
 }
 
 .custom-login-input-groups {
+    isolation: isolate;
     &:before {
         content: "";
         background-color: $tertiary-color;

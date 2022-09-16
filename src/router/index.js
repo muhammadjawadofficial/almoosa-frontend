@@ -42,6 +42,10 @@ import healthEducationModule from '../pages/health-education'
 import healthEducationList from '../pages/health-education/health-education-list'
 import healthEducationDetails from '../pages/health-education/health-education-details'
 
+import insuranceModule from '../pages/insurance'
+import insuranceMyMedical from '../pages/insurance/my-medical-insurance'
+import addNewInsurance from '../pages/insurance/add-new-insurance'
+
 import Login from '../pages/authentication/login';
 import OTP from '../pages/authentication/otp';
 import ForgotPassword from '../pages/authentication/forgot_password';
@@ -287,6 +291,29 @@ const routes = [
             component: healthEducationDetails,
             meta: {
               title: 'Health Education Details | Almoosa Specialist Hospital',
+            },
+          },
+        ]
+      },
+      {
+        path: 'insurance',
+        component: insuranceModule,
+        children: [
+          { path: '', name: "Medical Insurance", redirect: { name: 'Medical Insurance List' } },
+          {
+            path: "list",
+            name: 'Medical Insurance List',
+            component: insuranceMyMedical,
+            meta: {
+              title: 'Medical Insurance | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "add",
+            name: 'Add New Insurance',
+            component: addNewInsurance,
+            meta: {
+              title: 'Add New Insurance | Almoosa Specialist Hospital',
             },
           },
         ]

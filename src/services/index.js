@@ -4,3 +4,4 @@ export * from './appointment.service';
 export * from './promotion.service';
 export * from './report.service';
 export * from './patient.service';
+export * from './insurance.service';

@@ -3617,6 +3617,14 @@
           right: unset;
         }
       }
+      &.tabs-start {
+        .tabbed-card {
+          ul.nav-pills {
+            left: unset;
+            right: 0;
+          }
+        }
+      }
     }
   }
   // checkbox & radios page

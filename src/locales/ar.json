@@ -226,6 +226,21 @@
     "viewDetails": "عرض التفاصيل",
     "noData": "لا توجد بيانات تم تحميلها حتى الآن"
   },
+  "insurance": {
+    "medicalInsurance": "تأمين طبي",
+    "myInsurance": "التأمين الخاص بي",
+    "approvals": "الموافقات",
+    "addNewInsurance": "إضافة تأمين جديد",
+    "policyNum": "رقم مركز الشرطه",
+    "planDetails": "تفاصيل الخطة",
+    "lastUpdate": "آخر تحديث في",
+    "insuranceCompnayName": "اسم شركة التأمين",
+    "nationalId": "الهوية الوطنية",
+    "uploadId": "قم بتحميل المعرف الخاص بك",
+    "addInsurance": "أضف التأمين",
+    "insuranceAdded": "تمت إضافة التأمين بنجاح",
+    "clickToUpload": "انقر هنا لتحميل ملف جديد"
+  },
   "noData": "لا توجد بيانات لإظهارها",
   "cantJoinCall": "غير مسموح له بالانضمام إلى المكالمة",
   "back": "خلف",
