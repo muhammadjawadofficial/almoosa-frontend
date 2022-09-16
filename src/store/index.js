@@ -7,6 +7,7 @@ import appointment from './modules/appointment'
 import promotion from './modules/promotion'
 import labwork from './modules/labwork'
 import radiologyReport from './modules/radiology-report'
+import healthEducation from './modules/health-education'
 
 Vue.use(Vuex);
 
@@ -24,7 +25,8 @@ export const store = new Vuex.Store({
     appointment,
     promotion,
     labwork,
-    radiologyReport
+    radiologyReport,
+    healthEducation,
   }
 });
 

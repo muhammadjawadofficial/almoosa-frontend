@@ -221,11 +221,16 @@
     "error": "Select any star to continue",
     "submitted": "Rating Submitted Successfully"
   },
-  "criticalCare":{
+  "criticalCare": {
     "title": "Critical Care"
   },
-  "inPatients":{
+  "inPatients": {
     "title": "InPatients"
+  },
+  "healthEducation": {
+    "title": "Health Education",
+    "viewDetails": "View Details",
+    "noData": "There is no data uploaded yet"
   },
   "noData": "No Data To Show",
   "cantJoinCall": "Not allowed to join call",

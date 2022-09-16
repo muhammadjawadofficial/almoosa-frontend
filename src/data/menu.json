@@ -130,7 +130,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/dashboard/default2"
+            "path": "/health-education/list"
         },
         {
             "titleEn": "Virtual Tour",

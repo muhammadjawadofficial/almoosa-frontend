@@ -297,6 +297,7 @@ export default {
         {
           text: "Health Education",
           icon: "atom-svg",
+          link: "Health Education",
         },
         {
           text: "View Promotions",
@@ -399,36 +400,6 @@ export default {
   }
   .today-appointment-section {
     margin-top: 2rem;
-  }
-}
-.main-banner {
-  .background-image {
-    position: relative;
-    img {
-      object-fit: cover;
-      object-position: center;
-      max-height: 500px;
-    }
-    .main-banner-text {
-      position: absolute;
-      text-align: start;
-      font-size: 3.625rem;
-      line-height: 4.25rem;
-      color: #1e445c;
-      opacity: 1;
-      top: 0;
-      bottom: 0;
-      display: flex;
-      align-items: center;
-      width: 34rem;
-    }
-  }
-  .consultation-section {
-    transform: translateY(-50px);
-    padding-block: 0;
-    &--blocks {
-      justify-content: center;
-    }
   }
 }
 </style>

@@ -38,6 +38,10 @@ import radiologyReportModule from '../pages/radiology-reports'
 import radiologyReportDoctors from '../pages/radiology-reports/doctor-list'
 import radiologyReportReports from '../pages/radiology-reports/report-list'
 
+import healthEducationModule from '../pages/health-education'
+import healthEducationList from '../pages/health-education/health-education-list'
+import healthEducationDetails from '../pages/health-education/health-education-details'
+
 import Login from '../pages/authentication/login';
 import OTP from '../pages/authentication/otp';
 import ForgotPassword from '../pages/authentication/forgot_password';
@@ -263,7 +267,30 @@ const routes = [
         meta: {
           title: 'View InPatients - Reports | Almoosa Specialist Hospital',
         },
-      }
+      },
+      {
+        path: 'health-education',
+        component: healthEducationModule,
+        children: [
+          { path: '', name: "Health Education", redirect: { name: 'Health Education List' } },
+          {
+            path: "list",
+            name: 'Health Education List',
+            component: healthEducationList,
+            meta: {
+              title: 'Health Education | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "details",
+            name: 'Health Education Details',
+            component: healthEducationDetails,
+            meta: {
+              title: 'Health Education Details | Almoosa Specialist Hospital',
+            },
+          },
+        ]
+      },
     ]
   },
   {

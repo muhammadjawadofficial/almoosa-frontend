@@ -889,7 +889,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     color: $black;
                 }
                 &-speciality {
-                    font-size: 1.5em;
+                    font-size: 1.25em;
                     color: #8f7970;
                     font-family: $font-diodrum-medium;
                 }
@@ -899,6 +899,37 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                 width: 100%;
                 padding-block: 0.75em;
             }
+        }
+    }
+}
+
+.main-banner {
+    .background-image {
+        position: relative;
+        img {
+            object-fit: cover;
+            object-position: center;
+            max-height: 500px;
+        }
+        .main-banner-text {
+            position: absolute;
+            text-align: start;
+            font-size: 3.625rem;
+            line-height: 4.25rem;
+            color: #1e445c;
+            opacity: 1;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            width: 34rem;
+        }
+    }
+    .consultation-section {
+        transform: translateY(-50px);
+        padding-block: 0;
+        &--blocks {
+            justify-content: center;
         }
     }
 }
