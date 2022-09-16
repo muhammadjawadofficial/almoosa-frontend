@@ -20,7 +20,7 @@
           class="appointment-list"
           :class="{ noData: !filteredPatients || !filteredPatients.length }"
         >
-          <div class="loading" v-if="filteredPatients == null">
+          <div class="loading no-data" v-if="filteredPatients == null">
             {{ $t("loading") }}
           </div>
           <div class="no-data" v-else-if="!filteredPatients.length">
@@ -34,27 +34,27 @@
             >
               <div class="appointment-card default">
                 <div class="doctor-avatar">
-                  <img :src="getImageUrl(appointment.doctor.photo)" alt="" />
+                  <img :src="getImageUrl(appointment.photo)" alt="" />
                 </div>
                 <div class="appointment-details">
                   <div class="doctor-name">
                     {{
-                      appointment.doctor.first_name +
-                      (appointment.doctor.middle_name
-                        ? " " + appointment.doctor.middle_name + " "
+                      appointment.first_name +
+                      (appointment.middle_name
+                        ? " " + appointment.middle_name + " "
                         : " ") +
-                      appointment.doctor.family_name
+                      appointment.family_name
                     }}
                   </div>
-                  <div class="doctor-speciality">
-                    {{ $t("bookAppointment." + appointment.type) }}
-                  </div>
+                  <div class="doctor-speciality">Intensive Care Unit</div>
                   <div class="appointment-status">
                     <div class="appointment-time-span">
-                      <div>MRN - {{ appointment.doctor.mrn_number }}</div>
+                      <div v-if="appointment.mrn_number">
+                        {{ $t("mrn_number") }} - {{ appointment.mrn_number }}
+                      </div>
                       <div>
-                        {{ appointment.doctor.gender }} -
-                        {{ getYears(appointment.doctor.dob) }} Years
+                        {{ appointment.gender }} -
+                        {{ getYears(appointment.dob) }} {{ $t("years") }}
                       </div>
                     </div>
                   </div>
@@ -86,7 +86,13 @@ export default {
     searchQuery(val) {
       this.filteredPatients = [
         ...this.patientList.filter((x) =>
-          x.doctor.first_name.toLowerCase().includes(val.toLowerCase())
+          (
+            x.first_name +
+            (x.middle_name ? " " + x.middle_name + " " : " ") +
+            x.family_name
+          )
+            .toLowerCase()
+            .includes(val.toLowerCase())
         ),
       ];
     },
@@ -98,232 +104,11 @@ export default {
     fetchAppointments() {
       this.patientList = null;
       this.setLoadingState(true);
-      patientService.fetchCriticalCare().then(
+      patientService.fetchCriticalCare(this.getUserInfo.id).then(
         (response) => {
           if (response.data.status) {
             let data = response.data.data.items;
             this.patientList = [...data];
-            this.patientList = [
-              {
-                id: 6,
-                patient_id: 2,
-                doctor_id: 1,
-                clinic_id: 1,
-                type: "onsite",
-                booked_date: "2022-08-16T00:00:00.000Z",
-                start_time: "19:00:00",
-                end_time: "20:00:00",
-                amount: 100,
-                status: "confirmed",
-                use_loyality: false,
-                loyality_discount: 0,
-                promo_code: "",
-                promo_discount: 0,
-                doctor: {
-                  id: 1,
-                  email_address: "hina@qaenginner.com",
-                  role_id: 4,
-                  speciality_id: 2,
-                  saudi_id: "2342545543",
-                  iqama: "1232364676",
-                  mrn_number: "56534324343",
-                  first_name: "Hina",
-                  middle_name: "Fatima",
-                  family_name: "Sohail",
-                  first_name_ar: "",
-                  middle_name_ar: null,
-                  family_name_ar: null,
-                  phone_number: "00966561792921",
-                  gender: "female",
-                  dob: "2022-08-23",
-                  location: "Lahore, Pakistan",
-                  card_id: 4,
-                  photo_id: 98,
-                  status: "verified",
-                  nationality_id: null,
-                  promo_group_id: 18,
-                  otp_code: 8639,
-                  rating: 4,
-                  loyality_points: 0,
-                  promo_code: "",
-                  udid: null,
-                  fcm_token: null,
-                  is_privacy_agreed: false,
-                  deleted_at: null,
-                  created_at: "2022-08-16T06:34:39.000Z",
-                  updated_at: "2022-09-15T12:03:47.000Z",
-                  photo: {
-                    id: 98,
-                    mimetype: "image/png",
-                    filename: "76a2a384979e67e69579332f966dd8b8",
-                    path: "image/76a2a384979e67e69579332f966dd8b8",
-                  },
-                },
-                reports: [
-                  {
-                    id: 5,
-                    appointment_id: 6,
-                    dated: "2022-09-11T15:00:00.000Z",
-                    type: "radiology",
-                    title: "Sample RADIOLOGY Record",
-                    result: "normal",
-                    report_id: 122,
-                    report_file: {
-                      id: 122,
-                      mimetype: "application/pdf",
-                      filename: "425aaa2164320552dea820fcc9080887",
-                      path: "pdf/425aaa2164320552dea820fcc9080887",
-                    },
-                  },
-                ],
-              },
-              {
-                id: 7,
-                patient_id: 2,
-                doctor_id: 1,
-                clinic_id: 1,
-                type: "onsite",
-                booked_date: "2022-08-16T00:00:00.000Z",
-                start_time: "19:00:00",
-                end_time: "20:00:00",
-                amount: 100,
-                status: "confirmed",
-                use_loyality: false,
-                loyality_discount: 0,
-                promo_code: "",
-                promo_discount: 0,
-                doctor: {
-                  id: 1,
-                  email_address: "hina@qaenginner.com",
-                  role_id: 4,
-                  speciality_id: 2,
-                  saudi_id: "2342545543",
-                  iqama: "1232364676",
-                  mrn_number: "56534324343",
-                  first_name: "Hina",
-                  middle_name: "Fatima",
-                  family_name: "Sohail",
-                  first_name_ar: "",
-                  middle_name_ar: null,
-                  family_name_ar: null,
-                  phone_number: "00966561792921",
-                  gender: "female",
-                  dob: "2022-08-23",
-                  location: "Lahore, Pakistan",
-                  card_id: 4,
-                  photo_id: 98,
-                  status: "verified",
-                  nationality_id: null,
-                  promo_group_id: 18,
-                  otp_code: 8639,
-                  rating: 4,
-                  loyality_points: 0,
-                  promo_code: "",
-                  udid: null,
-                  fcm_token: null,
-                  is_privacy_agreed: false,
-                  deleted_at: null,
-                  created_at: "2022-08-16T06:34:39.000Z",
-                  updated_at: "2022-09-15T12:03:47.000Z",
-                  photo: {
-                    id: 98,
-                    mimetype: "image/png",
-                    filename: "76a2a384979e67e69579332f966dd8b8",
-                    path: "image/76a2a384979e67e69579332f966dd8b8",
-                  },
-                },
-                reports: [
-                  {
-                    id: 5,
-                    appointment_id: 6,
-                    dated: "2022-09-11T15:00:00.000Z",
-                    type: "radiology",
-                    title: "Sample RADIOLOGY Record",
-                    result: "normal",
-                    report_id: 122,
-                    report_file: {
-                      id: 122,
-                      mimetype: "application/pdf",
-                      filename: "425aaa2164320552dea820fcc9080887",
-                      path: "pdf/425aaa2164320552dea820fcc9080887",
-                    },
-                  },
-                ],
-              },
-              {
-                id: 8,
-                patient_id: 2,
-                doctor_id: 1,
-                clinic_id: 1,
-                type: "onsite",
-                booked_date: "2022-08-16T00:00:00.000Z",
-                start_time: "19:00:00",
-                end_time: "20:00:00",
-                amount: 100,
-                status: "confirmed",
-                use_loyality: false,
-                loyality_discount: 0,
-                promo_code: "",
-                promo_discount: 0,
-                doctor: {
-                  id: 1,
-                  email_address: "hina@qaenginner.com",
-                  role_id: 4,
-                  speciality_id: 2,
-                  saudi_id: "2342545543",
-                  iqama: "1232364676",
-                  mrn_number: "56534324343",
-                  first_name: "Hina",
-                  middle_name: "Fatima",
-                  family_name: "Sohail",
-                  first_name_ar: "",
-                  middle_name_ar: null,
-                  family_name_ar: null,
-                  phone_number: "00966561792921",
-                  gender: "female",
-                  dob: "2022-08-23",
-                  location: "Lahore, Pakistan",
-                  card_id: 4,
-                  photo_id: 98,
-                  status: "verified",
-                  nationality_id: null,
-                  promo_group_id: 18,
-                  otp_code: 8639,
-                  rating: 4,
-                  loyality_points: 0,
-                  promo_code: "",
-                  udid: null,
-                  fcm_token: null,
-                  is_privacy_agreed: false,
-                  deleted_at: null,
-                  created_at: "2022-08-16T06:34:39.000Z",
-                  updated_at: "2022-09-15T12:03:47.000Z",
-                  photo: {
-                    id: 98,
-                    mimetype: "image/png",
-                    filename: "76a2a384979e67e69579332f966dd8b8",
-                    path: "image/76a2a384979e67e69579332f966dd8b8",
-                  },
-                },
-                reports: [
-                  {
-                    id: 5,
-                    appointment_id: 6,
-                    dated: "2022-09-11T15:00:00.000Z",
-                    type: "radiology",
-                    title: "Sample RADIOLOGY Record",
-                    result: "normal",
-                    report_id: 122,
-                    report_file: {
-                      id: 122,
-                      mimetype: "application/pdf",
-                      filename: "425aaa2164320552dea820fcc9080887",
-                      path: "pdf/425aaa2164320552dea820fcc9080887",
-                    },
-                  },
-                ],
-              },
-            ];
             this.filteredPatients = [...this.patientList];
           } else {
             this.failureToast(response.data.messsage);
