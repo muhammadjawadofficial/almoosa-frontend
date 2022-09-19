@@ -920,6 +920,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             height: 100%;
             border-radius: 4.875rem;
         }
+        @media (max-width: 525px) {
+            width: 100%;
+        }
     }
     &-icon {
         width: 3.125rem;

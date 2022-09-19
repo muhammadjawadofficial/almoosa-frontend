@@ -49,5 +49,9 @@ export const apiPath = {
 
     user: {
         updateProfile: (id) => getApiObject("patch", "users/" + id)
+    },
+
+    patient: {
+        criticalCare: () => getApiObject("get", "appointments/reports?patient_id=1&type=lab"),
     }
 };

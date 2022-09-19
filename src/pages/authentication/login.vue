@@ -211,7 +211,7 @@ export default {
     doDoctorLogin(payload) {
       this.setLoadingState(true);
       localStorage.removeItem("url");
-      this.$root.$refs.appointmentModule.destroyObjects(true);
+      this.$root.$refs.appointmentModule && this.$root.$refs.appointmentModule.destroyObjects(true);
       authService.loginDoctor(payload).then(
         (response) => {
           if (response.data.status) {

@@ -161,12 +161,12 @@
               &-card {
                 &.default {
                   background-color: $secondary-color;
-                }
-                .start-call-button {
-                  @include theme-style-button($secondary-color);
-                }
-                .svg-icon-fill {
-                  fill: $secondary-color;
+                  .start-call-button {
+                    @include theme-style-button($secondary-color);
+                  }
+                  .svg-icon-fill {
+                    fill: $secondary-color;
+                  }
                 }
               }
             }

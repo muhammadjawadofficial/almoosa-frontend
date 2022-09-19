@@ -221,6 +221,9 @@
     "error": "Select any star to continue",
     "submitted": "Rating Submitted Successfully"
   },
+  "criticalCare":{
+    "title": "Critical Care"
+  },
   "noData": "No Data To Show",
   "cantJoinCall": "Not allowed to join call",
   "back": "Back",

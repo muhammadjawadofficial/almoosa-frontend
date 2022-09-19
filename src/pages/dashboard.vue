@@ -34,7 +34,10 @@
               <hospital-svg />
             </div>
           </div>
-          <div class="consultation-section--blocks--single large tertiary">
+          <div
+            class="consultation-section--blocks--single large tertiary"
+            @click="navigateTo('Critical Care')"
+          >
             <div class="title">
               {{ $t("modules.Critical Care") }}
               <div class="sub-title">

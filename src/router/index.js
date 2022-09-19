@@ -45,6 +45,8 @@ import NewPassword from '../pages/authentication/new_password';
 import Register from '../pages/authentication/register';
 import LoginDashboard from '../pages/authentication/login_dashboard';
 
+import CriticalCare from '../pages/critical-care';
+
 import TermsAndCondition from '../pages/authentication/terms-and-condition'
 
 import { userService } from '../services';
@@ -244,6 +246,14 @@ const routes = [
             },
           },
         ]
+      },
+      {
+        path: "critical-care",
+        name: 'Critical Care',
+        component: CriticalCare,
+        meta: {
+          title: 'Critical Care Patients - Reports | Almoosa Specialist Hospital',
+        },
       }
     ]
   },
