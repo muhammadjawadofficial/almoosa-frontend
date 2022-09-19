@@ -237,6 +237,7 @@
     "insuranceCompnayName": "اسم شركة التأمين",
     "nationalId": "الهوية الوطنية",
     "uploadId": "قم بتحميل المعرف الخاص بك",
+    "idUploaded": "تم تحميل المعرف الخاص بك بنجاح",
     "addInsurance": "أضف التأمين",
     "insuranceAdded": "تمت إضافة التأمين بنجاح",
     "clickToUpload": "انقر هنا لتحميل ملف جديد"

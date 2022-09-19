@@ -73,6 +73,7 @@ export default {
         REMOVE_USER_INFO(state) {
             userService.removeBooking();
             userService.removeLoginInfo();
+            localStorage.removeItem("doctor");
             Vue.set(state, 'userInfo', null);
         },
         UPDATE_USER_INFO(state, userInfo) {

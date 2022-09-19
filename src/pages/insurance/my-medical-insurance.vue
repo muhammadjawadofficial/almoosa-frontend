@@ -38,8 +38,8 @@
                 >
                   <div
                     class="appointment-list-item"
-                    v-for="appointment in getApprovedInsurances"
-                    :key="'upcoming-appointment-id' + appointment.id"
+                    v-for="insurance in getApprovedInsurances"
+                    :key="'upcoming-appointment-id' + insurance.id"
                   >
                     <div class="appointment-card success">
                       <div class="doctor-avatar transparent">
@@ -76,19 +76,19 @@
                 >
                   <div
                     class="appointment-list-item"
-                    v-for="appointment in insuranceList"
-                    :key="'upcoming-appointment-id' + appointment.id"
+                    v-for="insurance in insuranceList"
+                    :key="'upcoming-appointment-id' + insurance.id"
                   >
                     <div
                       class="appointment-card"
-                      @click="viewDetails(appointment)"
-                      :class="getStatusClass(appointment.status)"
+                      @click="viewDetails(insurance)"
+                      :class="getStatusClass(insurance.status)"
                     >
                       <div class="doctor-avatar transparent">
                         <shield-bg-svg />
                       </div>
                       <div class="appointment-details">
-                        <div class="doctor-name w600">Medical Support</div>
+                        <div class="doctor-name w600">{{insurance.company_name}}</div>
                         <div class="doctor-speciality">
                           20% MAX UP To Sr. 100 LIMIT 1000
                         </div>
@@ -99,7 +99,7 @@
                           {{ getLongDateAndTimeFromDate(new Date()) }}
                         </div>
                         <button class="btn start-call-button">
-                          {{ appointment.status }}
+                          {{ insurance.status }}
                         </button>
                       </div>
                     </div>

@@ -8,10 +8,12 @@
           class="img-fluid w-100"
         />
         <div class="standard-width">
+          <!-- Commented This Line of Code as QA Suggested that we dont need a back button here
+              User can navigate to previous screen using the browser back button
           <back-navigation
             class="back-btn"
             :backLink="'Health Education List' + (getIsGuest ? ' Guest' : '')"
-          />
+          /> -->
           <div class="main-banner-text w600">
             {{ $t("dashboard.helpMillions") }}
           </div>

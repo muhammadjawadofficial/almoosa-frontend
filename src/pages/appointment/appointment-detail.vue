@@ -68,7 +68,10 @@
                 </div>
               </div>
               <div class="appointment-detail--action-buttons">
-                <button class="btn btn-info appointment-detail--status">
+                <button
+                  class="btn btn-info appointment-detail--status"
+                  v-if="!isDoctor"
+                >
                   {{ details.status }}
                 </button>
                 <div class="appointment-detail--communication">

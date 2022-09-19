@@ -1022,16 +1022,16 @@
 }
 
 @media only screen and (max-width: 1199.98px) {
-  .main-dashboard-container {
-    .main-banner {
-      .background-image {
-        .main-banner-text {
-          font-size: 2.625rem;
-          line-height: 3.25rem;
-          width: 24rem;
-        }
+  div.main-banner {
+    .background-image {
+      .main-banner-text {
+        font-size: 2.625rem;
+        line-height: 3.25rem;
+        width: 24rem;
       }
     }
+  }
+  .main-dashboard-container {
     .consultation-section {
       transform: translateX(0) !important;
       padding-top: 2rem !important;
@@ -1899,14 +1899,14 @@
 }
 
 @media only screen and (max-width: 991.98px) {
-  .main-dashboard-container {
-    .main-banner {
-      .background-image {
-        img {
-          min-height: 300px;
-        }
+  div.main-banner {
+    .background-image {
+      > img {
+        min-height: 300px;
       }
     }
+  }
+  .main-dashboard-container {
     .consultation-section {
       &--blocks {
         justify-content: center;
@@ -4238,14 +4238,14 @@
   }
 }
 @media only screen and (max-width: 575.98px) {
-  .main-dashboard-container {
-    .main-banner {
-      .background-image {
-        img {
-          min-height: 200px;
-        }
+  div.main-banner {
+    .background-image {
+      > img {
+        min-height: 200px;
       }
     }
+  }
+  .main-dashboard-container {
     .consultation-section {
       &--blocks {
         &--single {
@@ -6566,12 +6566,10 @@
 }
 
 @media only screen and (max-width: 425px) {
-  .main-dashboard-container {
-    .main-banner {
-      .background-image {
-        img {
-          min-height: 150px;
-        }
+  div.main-banner {
+    .background-image {
+      > img {
+        min-height: 150px;
       }
     }
   }

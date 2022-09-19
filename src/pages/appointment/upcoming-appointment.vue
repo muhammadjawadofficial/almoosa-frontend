@@ -43,7 +43,11 @@
                     <div
                       class="appointment-card"
                       @click="viewDetails(appointment)"
-                      :class="getStatusClass(appointment.status)"
+                      :class="
+                        isDoctor
+                          ? 'default'
+                          : getStatusClass(appointment.status)
+                      "
                     >
                       <div class="doctor-avatar">
                         <img
@@ -137,7 +141,11 @@
                     <div
                       class="appointment-card"
                       @click="viewDetails(appointment)"
-                      :class="getStatusClass(appointment.status)"
+                      :class="
+                        isDoctor
+                          ? 'default'
+                          : getStatusClass(appointment.status)
+                      "
                     >
                       <div class="doctor-avatar">
                         <img

@@ -48,6 +48,7 @@
     <div class="row">
       <div class="col-md-12 button-group">
         <button class="btn btn-primary" @click="acceptTerms">Confinue</button>
+        <!-- <button class="btn btn-secondary" @click="logout">Logout</button> -->
       </div>
     </div>
   </div>
@@ -70,6 +71,7 @@ export default {
     this.setUserInfo(userService.currentUser());
   },
   methods: {
+    ...mapActions("user", ["removeUserInfo"]),
     ...mapActions("user", ["updateUserInfo", "setUserInfo"]),
     validateFields() {
       return !!this.agreeTerms;
@@ -105,6 +107,13 @@ export default {
           console.error(error);
         }
       );
+    },
+    logout() {
+      this.$root.$refs.appointmentModule &&
+        this.$root.$refs.appointmentModule.destroyObjects();
+      this.removeUserInfo();
+      this.$messaging.deleteToken();
+      this.navigateTo({ name: "Login Dashboard" });
     },
   },
 };

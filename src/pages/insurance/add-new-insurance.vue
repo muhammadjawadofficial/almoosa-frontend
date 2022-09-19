@@ -19,6 +19,7 @@
       <div class="col-md-6">
         <b-input-group class="custom-login-input-groups">
           <b-form-input
+            type="number"
             v-model="registerForm.national_id"
             :state="registerFormState.national_id"
             :placeholder="$t('insurance.nationalId')"
@@ -109,7 +110,7 @@ export default {
             this.registerForm.insurance_card_id = res.data.data.id;
             this.registerFormState.insurance_card_id =
               this.registerForm.insurance_card_id != null;
-            this.successToast("ID uploaded successfully!");
+            this.successToast(this.$t("insurance.idUploaded"));
           } else {
             this.failureToast(res.data.message);
           }
@@ -126,7 +127,6 @@ export default {
       let form = this.registerForm;
       this.registerFormState.companyName = form.companyName != "";
       this.registerFormState.national_id = form.national_id != "";
-      this.registerFormState.insurance_card_id = form.insurance_card_id != "";
 
       return !Object.values(this.registerFormState).includes(false);
     },

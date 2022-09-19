@@ -907,7 +907,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .main-banner {
     .background-image {
         position: relative;
-        img {
+        > img {
             object-fit: cover;
             object-position: center;
             max-height: 500px;
