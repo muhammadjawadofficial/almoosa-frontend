@@ -24,7 +24,7 @@
       </div>
     </div>
     <b-card header-tag="div" no-body class="ash-card simple transparent">
-      <b-card-body class="p-0 mt-4">
+      <b-card-body class="py-0 px-3 mt-4">
         <div
           class="appointment-list"
           :class="{ noData: !reports || !reports.length }"

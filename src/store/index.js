@@ -8,6 +8,7 @@ import promotion from './modules/promotion'
 import labwork from './modules/labwork'
 import radiologyReport from './modules/radiology-report'
 import healthEducation from './modules/health-education'
+import myTimeline from './modules/my-timeline'
 
 Vue.use(Vuex);
 
@@ -27,6 +28,7 @@ export const store = new Vuex.Store({
     labwork,
     radiologyReport,
     healthEducation,
+    myTimeline,
   }
 });
 

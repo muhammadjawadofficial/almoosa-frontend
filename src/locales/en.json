@@ -248,6 +248,12 @@
     "insuranceAdded": "Insurance Added Successfully",
     "clickToUpload": "Click Here To Upload a New File"
   },
+  "myTimeline": {
+    "title": "My Timeline",
+    "details": "My Timeline Details",
+    "viewDetails": "View Details",
+    "appointmentSession": "Appointment Session"
+  },
   "noData": "No Data To Show",
   "cantJoinCall": "Not allowed to join call",
   "back": "Back",

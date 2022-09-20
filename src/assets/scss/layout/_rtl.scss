@@ -5012,6 +5012,17 @@
     left: unset;
     right: 0;
   }
+  .accordion {
+    .card {
+      .card-header {
+        .btn {
+          .icon {
+            transform: rotateZ(180deg);
+          }
+        }
+      }
+    }
+  }
 }
 
 /**=====================

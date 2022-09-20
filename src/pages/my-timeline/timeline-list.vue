@@ -1,6 +1,6 @@
 <template>
   <div class="lab-works-doctors-container page-body-container standard-width">
-    <back-navigation :title="$t('labWorks.title')" />
+    <back-navigation :title="$t('myTimeline.title')" />
     <b-card
       header-tag="div"
       no-body
@@ -9,58 +9,58 @@
       <b-card-body class="py-0 px-3 mt-4">
         <div
           class="appointment-list"
-          :class="{ noData: !reportAppointments || !reportAppointments.length }"
+          :class="{ noData: !timelineList || !timelineList.length }"
         >
-          <div class="loading" v-if="reportAppointments == null">
+          <div class="loading" v-if="timelineList == null">
             {{ $t("loading") }}
           </div>
-          <div class="no-data" v-else-if="!reportAppointments.length">
+          <div class="no-data" v-else-if="!timelineList.length">
             {{ $t("noData") }}
           </div>
           <template v-else>
             <div
               class="appointment-list-item"
-              v-for="appointment in reportAppointments"
-              :key="'upcoming-appointment-id' + appointment.id"
+              v-for="timeline in timelineList"
+              :key="'upcoming-appointment-id' + timeline.id"
             >
               <div class="appointment-time">
                 <div class="appointment-time-day">
-                  {{ getDate(appointment.booked_date) }}
+                  {{ getDate(timeline.booked_date) }}
                 </div>
                 <div class="appointment-time-time">
-                  {{ removeSecondsFromTimeString(appointment.start_time) }}
+                  {{ removeSecondsFromTimeString(timeline.start_time) }}
                 </div>
               </div>
               <div class="appointment-card default">
                 <div class="doctor-avatar">
-                  <img :src="getImageUrl(appointment.doctor.photo)" alt="" />
+                  <img :src="getImageUrl(timeline.doctor.photo)" alt="" />
                 </div>
                 <div class="appointment-details">
                   <div class="doctor-name">
-                    {{ $t("bookAppointment." + appointment.type) }}
-                    {{ $t("labWorks.appointmentSession") }}
+                    {{ $t("bookAppointment." + timeline.type) }}
+                    {{ $t("myTimeline.appointmentSession") }}
                   </div>
                   <div class="doctor-speciality">
                     {{
-                      appointment.doctor.first_name +
-                      (appointment.doctor.middle_name
-                        ? " " + appointment.doctor.middle_name + " "
+                      timeline.doctor.first_name +
+                      (timeline.doctor.middle_name
+                        ? " " + timeline.doctor.middle_name + " "
                         : " ") +
-                      appointment.doctor.family_name
+                      timeline.doctor.family_name
                     }}
                   </div>
                   <div class="appointment-status">
                     <div class="appointment-time-span">
-                      {{ removeSecondsFromTimeString(appointment.start_time) }}
+                      {{ removeSecondsFromTimeString(timeline.start_time) }}
                       -
-                      {{ removeSecondsFromTimeString(appointment.end_time) }}
+                      {{ removeSecondsFromTimeString(timeline.end_time) }}
                     </div>
                   </div>
                   <button
                     class="btn start-call-button"
-                    @click="viewDetails(appointment)"
+                    @click="viewDetails(timeline)"
                   >
-                    {{ $t("labWorks.viewDetails") }}
+                    {{ $t("myTimeline.viewDetails") }}
                   </button>
                 </div>
               </div>
@@ -78,24 +78,24 @@ import { reportService } from "../../services";
 export default {
   data() {
     return {
-      reportAppointments: null,
+      timelineList: null,
     };
   },
   mounted() {
-    this.fetchAppointments();
+    this.fetchTimelines();
   },
   computed: {
     ...mapGetters("user", ["getUserInfo"]),
   },
   methods: {
-    ...mapActions("labwork", ["setSelectedLabWork"]),
-    fetchAppointments() {
+    ...mapActions("myTimeline", ["setSelectedTimeline"]),
+    fetchTimelines() {
       this.setLoadingState(true);
       reportService.getAppointmentsWithReports(this.getUserInfo.id, "lab").then(
         (response) => {
           if (response.data.status) {
             let data = response.data.data.items;
-            this.reportAppointments = [...data];
+            this.timelineList = [...data];
             this.filteredDoctors = [...data];
           } else {
             this.failureToast(response.data.messsage);
@@ -109,8 +109,8 @@ export default {
       );
     },
     viewDetails(appointment) {
-      this.setSelectedLabWork(appointment);
-      this.navigateTo("Lab Work Reports");
+      this.setSelectedTimeline(appointment);
+      this.navigateTo("My Timeline Details");
     },
   },
 };

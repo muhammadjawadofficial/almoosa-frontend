@@ -46,6 +46,10 @@ import insuranceModule from '../pages/insurance'
 import insuranceMyMedical from '../pages/insurance/my-medical-insurance'
 import addNewInsurance from '../pages/insurance/add-new-insurance'
 
+import myTimelineModule from '../pages/my-timeline'
+import myTimelineList from '../pages/my-timeline/timeline-list'
+import myTimelineDetails from '../pages/my-timeline/timeline-details'
+
 import Login from '../pages/authentication/login';
 import OTP from '../pages/authentication/otp';
 import ForgotPassword from '../pages/authentication/forgot_password';
@@ -314,6 +318,29 @@ const routes = [
             component: addNewInsurance,
             meta: {
               title: 'Add New Insurance | Almoosa Specialist Hospital',
+            },
+          },
+        ]
+      },
+      {
+        path: 'my-timeline',
+        component: myTimelineModule,
+        children: [
+          { path: '', name: "My Timeline", redirect: { name: 'My Timeline List' } },
+          {
+            path: "list",
+            name: 'My Timeline List',
+            component: myTimelineList,
+            meta: {
+              title: 'My Timeline | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "details",
+            name: 'My Timeline Details',
+            component: myTimelineDetails,
+            meta: {
+              title: 'My Timeline Details | Almoosa Specialist Hospital',
             },
           },
         ]

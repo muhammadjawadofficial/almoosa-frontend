@@ -68,7 +68,7 @@
             {{ $t("dashboard.changeDate") }}
           </div>
           <b-card header-tag="div" no-body class="ash-card card-wizard">
-            <b-card-body class="p-0">
+            <b-card-body class="py-0 px-3">
               <div
                 class="appointment-list"
                 :class="{
@@ -289,11 +289,12 @@ export default {
         {
           text: "Medical Insurance",
           icon: "health-shield-svg",
-          link: "Medical Insurance"
+          link: "Medical Insurance",
         },
         {
           text: "My Timelines",
           icon: "timeline-svg",
+          link: "My Timeline",
         },
         {
           text: "Health Education",
