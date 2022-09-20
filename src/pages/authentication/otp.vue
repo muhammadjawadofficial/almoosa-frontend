@@ -7,7 +7,7 @@
     <div class="sub-heading font-primary w500">{{ phone }} & {{ email }}</div>
     <div class="login-form">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" @keydown.enter="doVerify">
           <v-otp-input
             ref="otpInput"
             :class="'otp-filled s' + otp.length"

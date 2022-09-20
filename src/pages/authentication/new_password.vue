@@ -6,7 +6,7 @@
     </div>
     <div class="login-form">
       <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-5" @keydown.enter="doVerify">
           <b-input-group class="custom-login-input-groups">
             <b-input-group-prepend is-text>
               <password-svg />
@@ -21,7 +21,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-5" @keydown.enter="doVerify">
           <b-input-group class="custom-login-input-groups">
             <b-input-group-prepend is-text>
               <password-svg />
@@ -43,9 +43,6 @@
           <button class="btn btn-tertiary" @click="navigateTo('Login')">
             Back
           </button>
-        </div>
-        <div class="sign-up-link w200" @click="resendOtp()">
-          Didn't receive a code? <span class="w500">Resend</span>
         </div>
       </div>
     </div>
@@ -126,26 +123,6 @@ export default {
             console.error(error);
           }
         );
-    },
-    resendOtp() {
-      this.setLoadingState(true);
-      authService.resendOtp(this.userId).then(
-        (response) => {
-          if (response.data.status) {
-            let data = response.data.data;
-            if (process.env.NODE_ENV != "Production") this.setOtp(data);
-            this.prePopulateOtp();
-          } else {
-            this.failureToast(response.data.message);
-          }
-          this.setLoadingState(false);
-        },
-        (err) => {
-          this.failureToast();
-          this.setLoadingState(false);
-          console.error(err);
-        }
-      );
     },
   },
 };

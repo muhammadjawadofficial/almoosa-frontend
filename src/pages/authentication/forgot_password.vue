@@ -6,7 +6,7 @@
     </div>
     <div class="login-form">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6" @keydown.enter="sendOtp">
           <b-input-group class="custom-login-input-groups">
             <b-input-group-prepend is-text>
               <username-svg />
@@ -94,8 +94,7 @@ export default {
           (response) => {
             if (response.data.status) {
               let data = response.data.data;
-              if (process.env.NODE_ENV != "Production")
-                this.setOtp(data);
+              if (process.env.NODE_ENV != "Production") this.setOtp(data);
               this.setAuthState(constants.auth.forgotPassword);
               this.setUserId({
                 [this.usernameKey]: this.username,

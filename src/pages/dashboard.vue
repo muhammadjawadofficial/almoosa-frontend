@@ -326,7 +326,9 @@ export default {
   },
   mounted() {
     if (localStorage.getItem("url")) {
-      this.navigateTo(localStorage.getItem("url"));
+      this.navigateTo(localStorage.getItem("url"), {
+        method: this.getBookingMethod,
+      });
       localStorage.removeItem("url");
     }
     if (this.isDoctor) {
@@ -353,6 +355,7 @@ export default {
   },
   computed: {
     ...mapGetters("user", ["getUserInfo"]),
+    ...mapGetters("appointment", ["getBookingMethod"]),
   },
   methods: {
     ...mapActions("appointment", ["setBookingMethod"]),

@@ -19,7 +19,7 @@
           </b-input-group>
         </div>
 
-        <div class="col-xl-5 col-lg-12 col-md-6">
+        <div class="col-xl-5 col-lg-12 col-md-6" @keydown.enter="doLogin">
           <b-input-group class="custom-login-input-groups">
             <b-input-group-prepend is-text>
               <template v-if="isDoctor">
@@ -40,7 +40,7 @@
           v-if="selectedItem.type == constants.loginByPassword || isDoctor"
         >
           <div v-if="!isDoctor" class="col-xl-2 d-lg-block"></div>
-          <div class="col-xl-5 col-lg-12 col-md-6">
+          <div class="col-xl-5 col-lg-12 col-md-6" @keydown.enter="doLogin">
             <b-input-group class="custom-login-input-groups">
               <b-input-group-prepend is-text>
                 <password-svg />
@@ -211,7 +211,8 @@ export default {
     doDoctorLogin(payload) {
       this.setLoadingState(true);
       localStorage.removeItem("url");
-      this.$root.$refs.appointmentModule && this.$root.$refs.appointmentModule.destroyObjects(true);
+      this.$root.$refs.appointmentModule &&
+        this.$root.$refs.appointmentModule.destroyObjects(true);
       authService.loginDoctor(payload).then(
         (response) => {
           if (response.data.status) {
