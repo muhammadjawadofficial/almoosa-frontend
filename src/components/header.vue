@@ -18,7 +18,7 @@
             {{ $t("header.home") }}
           </li>
           <li
-            @click="loadComponent('/appointment/upcoming')"
+            @click="loadComponent('/appointment/online/upcoming')"
             class="nav-link d-lg-block d-none"
             :class="{ active: currentRouteName == 'Upcoming Appointment' }"
           >

@@ -20,7 +20,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/appointment/find-specialist/online"
+            "path": "/appointment/online"
         },
         {
             "titleEn": "Symptom Checker",
@@ -53,7 +53,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/appointment/find-specialist/onsite"
+            "path": "/appointment/onsite"
         },
         {
             "titleEn": "Medical Insurance",
@@ -64,7 +64,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/insurance/list"
+            "path": "/insurance"
         },
         {
             "titleEn": "Lab Works",
@@ -75,7 +75,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/lab-works/doctors"
+            "path": "/lab-works"
         },
         {
             "titleEn": "Radiology Reports",
@@ -86,7 +86,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/radiology-report/doctors"
+            "path": "/radiology-report"
         },
         {
             "titleEn": "View Timeline",
@@ -97,7 +97,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/my-timeline/list"
+            "path": "/my-timeline"
         },
         {
             "titleEn": "My Medications",

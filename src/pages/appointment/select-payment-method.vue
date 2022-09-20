@@ -7,7 +7,13 @@
       page-body-container
     "
   >
-    <back-navigation backLink="Doctor Details" />
+    <back-navigation
+      :backLink="
+        getPaymentObject.payLater
+          ? 'Appointment Detail'
+          : 'Doctor Details'
+      "
+    />
 
     <div class="payment-section block-section">
       <div class="heading-section">

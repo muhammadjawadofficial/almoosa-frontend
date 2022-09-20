@@ -42,7 +42,9 @@
               ><i class="fa fa-angle-right pl-2" aria-hidden="true"></i>
             </div>
           </li>
-          <li
+          <router-link
+            :to="menuItem.path"
+            tag="li"
             v-for="(menuItem, index) in menuItems"
             :key="index"
             :class="{
@@ -298,7 +300,7 @@
                 </ul>
               </li>
             </ul>
-          </li>
+          </router-link>
         </ul>
       </div>
       <li

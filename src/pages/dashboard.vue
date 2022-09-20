@@ -5,7 +5,7 @@
         <div class="consultation-section--blocks">
           <div
             class="consultation-section--blocks--single large secondary"
-            @click="navigateTo('Upcoming Appointment')"
+            @click="navigateTo('Upcoming Appointment', { method: 'online' })"
           >
             <div class="title">
               {{ $t("modules.View Appointments") }}
@@ -234,7 +234,7 @@
             :class="{ uniques: item.unique }"
             v-for="(item, index) in dashboardItems"
             :key="'dashboard-item-' + index"
-            @click="navigateTo(item.link)"
+            @click="navigateTo(item.link, item.param)"
           >
             <div v-if="item.unique" class="new-badge">
               <new-badge-svg />
@@ -271,6 +271,7 @@ export default {
           text: "Upcoming Appointment",
           icon: "calendar-svg",
           link: "Upcoming Appointment",
+          param: { method: "online" },
         },
         {
           text: "Lab Works",

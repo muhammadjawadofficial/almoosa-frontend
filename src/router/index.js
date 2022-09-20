@@ -13,6 +13,7 @@ import Dashboard from '../pages/dashboard'
 import Iframe from '../pages/iframe'
 
 import AppointmentModule from '../pages/appointment'
+import AppointmentMethodModule from '../pages/appointment/appointment-method-module'
 import BookAppointment from '../pages/appointment/book-appointment'
 import UpcomingAppointment from '../pages/appointment/upcoming-appointment'
 import appointmentDetail from '../pages/appointment/appointment-detail'
@@ -95,84 +96,91 @@ const routes = [
         component: AppointmentModule,
         children: [
           {
-            path: 'book',
-            name: 'Book Appointment',
-            component: BookAppointment,
-            meta: {
-              title: 'Book Appointment | Almoosa Specialist Hospital',
-            }
-          },
-          {
-            path: 'upcoming',
-            name: 'Upcoming Appointment',
-            component: UpcomingAppointment,
-            meta: {
-              title: 'Upcoming Appointment | Almoosa Specialist Hospital',
-            }
-          },
-          {
-            path: 'detail',
-            name: 'Appointment Detail',
-            component: appointmentDetail,
-            meta: {
-              title: 'Appointment Detail | Almoosa Specialist Hospital',
-            }
-          },
-          {
-            path: 'find-specialist/:method',
-            name: 'Find Specialist',
-            component: findSpecialist,
-            meta: {
-              title: 'Find Specialist | Almoosa Specialist Hospital',
-            }
-          },
-          {
-            path: 'doctors',
-            name: 'Doctor List',
-            component: doctorList,
-            meta: {
-              title: 'Find Specialist | Almoosa Specialist Hospital',
-            }
-          },
-          {
-            path: 'doctor-details',
-            name: 'Doctor Details',
-            component: doctorDetails,
-            meta: {
-              title: 'Doctor Details | Almoosa Specialist Hospital',
-            }
-          },
-          {
-            path: 'select-payment-method',
-            name: 'Select Payment Method',
-            component: selectPaymentMethod,
-            meta: {
-              title: 'Select Payment Method | Almoosa Specialist Hospital',
-            }
-          },
-          {
-            path: 'pay-now',
-            name: 'Pay Now',
-            component: payNow,
-            meta: {
-              title: 'Pay Now | Almoosa Specialist Hospital',
-            }
-          },
-          {
-            path: 'payment/success',
-            name: 'Payment Success',
-            component: paymentSuccess,
-            meta: {
-              title: 'Payment Success | Almoosa Specialist Hospital',
-            }
-          },
-          {
-            path: 'payment/failure',
-            name: 'Payment Failure',
-            component: paymentFailure,
-            meta: {
-              title: 'Payment Failure | Almoosa Specialist Hospital',
-            }
+            path: ':method',
+            component: AppointmentMethodModule,
+            children: [
+              { path: '', name: "Create Appointment", redirect: { name: 'Find Specialist' } },
+              {
+                path: 'upcoming',
+                name: 'Upcoming Appointment',
+                component: UpcomingAppointment,
+                meta: {
+                  title: 'Upcoming Appointment | Almoosa Specialist Hospital',
+                }
+              },
+              {
+                path: 'detail',
+                name: 'Appointment Detail',
+                component: appointmentDetail,
+                meta: {
+                  title: 'Appointment Detail | Almoosa Specialist Hospital',
+                }
+              },
+              {
+                path: 'find-specialist',
+                name: 'Find Specialist',
+                component: findSpecialist,
+                meta: {
+                  title: 'Find Specialist | Almoosa Specialist Hospital',
+                },
+              },
+              {
+                path: 'doctors',
+                name: 'Doctor List',
+                component: doctorList,
+                meta: {
+                  title: 'Find Specialist | Almoosa Specialist Hospital',
+                }
+              },
+              {
+                path: 'doctor-details',
+                name: 'Doctor Details',
+                component: doctorDetails,
+                meta: {
+                  title: 'Doctor Details | Almoosa Specialist Hospital',
+                }
+              },
+              {
+                path: 'book',
+                name: 'Book Appointment',
+                component: BookAppointment,
+                meta: {
+                  title: 'Book Appointment | Almoosa Specialist Hospital',
+                }
+              },
+              {
+                path: 'select-payment-method',
+                name: 'Select Payment Method',
+                component: selectPaymentMethod,
+                meta: {
+                  title: 'Select Payment Method | Almoosa Specialist Hospital',
+                }
+              },
+              {
+                path: 'pay-now',
+                name: 'Pay Now',
+                component: payNow,
+                meta: {
+                  title: 'Pay Now | Almoosa Specialist Hospital',
+                }
+              },
+              {
+                path: 'payment/success',
+                name: 'Payment Success',
+                component: paymentSuccess,
+                meta: {
+                  title: 'Payment Success | Almoosa Specialist Hospital',
+                }
+              },
+              {
+                path: 'payment/failure',
+                name: 'Payment Failure',
+                component: paymentFailure,
+                meta: {
+                  title: 'Payment Failure | Almoosa Specialist Hospital',
+                }
+              },
+            ]
           },
           {
             path: 'connect',
@@ -472,6 +480,7 @@ const router = new Router({
   routes,
   base: '/ashwebapp/',
   linkActiveClass: "active",
+  linkExactActiveClass: "exact-active",
   mode: 'history',
   scrollBehavior() {
     return { x: 0, y: 0 }

@@ -16,9 +16,11 @@
               slot="header"
               class="tabbed-card"
               @activate-tab="setActiveTab"
-              :value="activeTab"
             >
-              <b-tab :title="$t('upcomingAppointment.virtual')">
+              <b-tab
+                :title="$t('upcomingAppointment.virtual')"
+                :active="activeTab == 0"
+              >
                 <div
                   class="appointment-list"
                   :class="{
@@ -118,7 +120,10 @@
                   {{ $t("noData") }}
                 </div>
               </b-tab>
-              <b-tab :title="$t('upcomingAppointment.onsite')">
+              <b-tab
+                :title="$t('upcomingAppointment.onsite')"
+                :active="activeTab == 1"
+              >
                 <div
                   class="appointment-list"
                   :class="{ noData: !onsiteAppointments.length }"
@@ -236,10 +241,16 @@ export default {
       activeTab: null,
     };
   },
+  watch: {
+    $route: function (val) {
+      this.activeTab = val.params.method;
+    },
+  },
   mounted() {
     this.getAppointments();
     this.checkScreenOffset();
     this.setSelectedAppointment(null);
+    this.activeTab = this.$route.params.method == "online" ? 0 : 1;
   },
   computed: {
     ...mapGetters("appointment", ["getSelectedAppointment"]),
@@ -254,7 +265,9 @@ export default {
       }
     },
     setActiveTab(x) {
-      this.activeTab = x;
+      this.navigateTo("Upcoming Appointment", {
+        method: x ? "onsite" : "online",
+      });
     },
     viewDetails(appointment) {
       this.setSelectedAppointment(appointment);
