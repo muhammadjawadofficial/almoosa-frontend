@@ -421,7 +421,7 @@ $label-color: $primary-color, $secondary-color, $success-color, $danger-color, $
 // btn--color//
 @each $btn-name, $btn-color in (primary, $primary-color), (secondary, $secondary-color), (tertiary, $tertiary-color),
   (success, $success-color), (danger, $danger-color), (info, $info-color), (light, $light-color), (dark, $dark-color),
-  (warning, $warning-color)
+  (warning, $warning-color), (dark-blue, $dark-blue-color)
 {
   .btn-#{$btn-name} {
     @include theme-style-button($btn-color);
@@ -447,11 +447,19 @@ $label-color: $primary-color, $secondary-color, $success-color, $danger-color, $
 .btn-tertiary {
   color: black;
 }
+.btn-dark-blue {
+  &:hover,
+  &:focus,
+  &:active,
+  &.active {
+    color: white;
+  }
+}
 
 /*======= Button-color css ends  ======= */
 @each $btn-name, $btn-color in (primary, $primary-color), (secondary, $secondary-color), (tertiary, $tertiary-color),
   (success, $success-color), (danger, $danger-color), (info, $info-color), (light, $light-color), (dark, $dark-color),
-  (warning, $warning-color)
+  (warning, $warning-color), (dark-blue, $dark-blue-color)
 {
   .btn-outline-#{$btn-name}-2x {
     border-width: 2px;

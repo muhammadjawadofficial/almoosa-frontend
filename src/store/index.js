@@ -9,6 +9,7 @@ import labwork from './modules/labwork'
 import radiologyReport from './modules/radiology-report'
 import healthEducation from './modules/health-education'
 import myTimeline from './modules/my-timeline'
+import myMedication from './modules/my-medication'
 
 Vue.use(Vuex);
 
@@ -29,6 +30,7 @@ export const store = new Vuex.Store({
     radiologyReport,
     healthEducation,
     myTimeline,
+    myMedication,
   }
 });
 

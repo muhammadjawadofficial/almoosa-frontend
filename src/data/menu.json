@@ -108,7 +108,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/dashboard/default2"
+            "path": "/my-medication"
         },
         {
             "titleEn": "My Vitals",

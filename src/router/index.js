@@ -51,6 +51,11 @@ import myTimelineModule from '../pages/my-timeline'
 import myTimelineList from '../pages/my-timeline/timeline-list'
 import myTimelineDetails from '../pages/my-timeline/timeline-details'
 
+import myMedicationModule from '../pages/my-medication'
+import myMedicationSessionList from '../pages/my-medication/medication-session-list'
+import myMedicationList from '../pages/my-medication/medication-list'
+import myMedicationDetails from '../pages/my-medication/medication-detail'
+
 import Login from '../pages/authentication/login';
 import OTP from '../pages/authentication/otp';
 import ForgotPassword from '../pages/authentication/forgot_password';
@@ -349,6 +354,37 @@ const routes = [
             component: myTimelineDetails,
             meta: {
               title: 'My Timeline Details | Almoosa Specialist Hospital',
+            },
+          },
+        ]
+      },
+      {
+        path: 'my-medication',
+        component: myMedicationModule,
+        children: [
+          { path: '', name: "My Medication", redirect: { name: 'My Medication Sessions' } },
+          {
+            path: "sessions",
+            name: 'My Medication Sessions',
+            component: myMedicationSessionList,
+            meta: {
+              title: 'My Medication Sessions | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "list",
+            name: 'My Medication List',
+            component: myMedicationList,
+            meta: {
+              title: 'My Medications | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "details",
+            name: 'My Medication Details',
+            component: myMedicationDetails,
+            meta: {
+              title: 'My Medication Details | Almoosa Specialist Hospital',
             },
           },
         ]

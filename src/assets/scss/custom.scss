@@ -1428,7 +1428,85 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         aspect-ratio: 1;
     }
 }
+
+.modal-content:has(.modal-body.transparent) {
+    background-color: transparent;
+    border-color: transparent;
+    padding: 0;
+}
+.daypart-section {
+    text-align: start;
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+    & + & {
+        margin-top: 1.5rem;
+    }
+    .content {
+        .title {
+            font-size: 1rem;
+        }
+        .sub-title {
+            font-size: 0.8rem;
+            color: #8696b8;
+        }
+    }
+}
+.reminder-timeslots {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.75rem;
+    @media (max-width: 525px) {
+        gap: 0.5rem;
+    }
+    .timeslot {
+        font-size: 0.8rem;
+        padding: 0.6rem 0.5rem 0.5rem;
+        font-family: $font-diodrum-semibold;
+        width: 6rem;
+        display: flex;
+        place-content: center;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        &.primary {
+            background-color: lighten($color: $primary-color, $amount: 45%);
+            color: $primary-color;
+            &.active {
+                background-color: $primary-color;
+            }
+        }
+        &.secondary {
+            background-color: lighten($color: $secondary-color, $amount: 45%);
+            color: $secondary-color;
+            &.active {
+                background-color: $secondary-color;
+            }
+        }
+        &.dark-blue {
+            background-color: lighten($color: $dark-blue-color, $amount: 45%);
+            color: $dark-blue-color;
+            &.active {
+                background-color: $dark-blue-color;
+            }
+        }
+        &.active {
+            color: $white;
+        }
+    }
+}
 .swal2-container {
+    &.custom-swal2 {
+        width: fit-content;
+        position: relative;
+        inset: unset;
+        overflow: visible !important;
+        background-color: transparent;
+        margin: auto;
+        padding: 0;
+        .swal2-modal {
+            width: calc(min(32em, 90vw));
+        }
+    }
     &.swal-custom-icon-top-padding {
         .swal2-popup {
             padding-top: 6em;

@@ -41,6 +41,7 @@ import insuranceSvg from './payment-method/insurance-svg.vue'
 import labBgSvg from './lab-bg-svg.vue'
 import bellBgSvg from './bell-bg-svg.vue'
 import shieldBgSvg from './shield-bg-svg.vue'
+import pillBgSvg from './pill-bg-svg.vue'
 
 Vue.component('new-badge-svg', newBadgeSvg)
 Vue.component('username-svg', usernameSvg)
@@ -83,3 +84,4 @@ Vue.component('insurance-svg', insuranceSvg)
 Vue.component('lab-bg-svg', labBgSvg)
 Vue.component('bell-bg-svg', bellBgSvg)
 Vue.component('shield-bg-svg', shieldBgSvg)
+Vue.component('pill-bg-svg', pillBgSvg)

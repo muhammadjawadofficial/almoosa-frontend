@@ -248,6 +248,25 @@
     "viewDetails": "عرض التفاصيل",
     "appointmentSession": "جلسة التعيين"
   },
+  "myMedication": {
+    "title": "الأدوية",
+    "medicationList": "قائمة الأدوية",
+    "medicationDetails": "تفاصيل الدواء",
+    "viewDetails": "عرض التفاصيل",
+    "appointmentSession": "جلسة التعيين",
+    "currentMedication": "الدواء الحالي",
+    "pastMedication": "الأدوية السابقة",
+    "setReminder": "تعيين تذكير",
+    "requestRefill": "طلب إعادة التعبئة",
+    "doctorInstruction": "تعليمات الطبيب",
+    "time": "زمن",
+    "modal": {
+      "requestTitle": "طلب إعادة التعبئة",
+      "requestText": "يمكنك أن ترسل إلينا طلبًا لإعادة ملء أدويتك بعد شهرين. إذا أكملت دورة العلاج الخاصة بك المدة المطلوبة ، فأرسل إلينا طلبًا.",
+      "requestButton": "ارسل طلب",
+      "requestSuccess": "لقد تلقينا طلبك."
+    }
+  },
   "noData": "لا توجد بيانات لإظهارها",
   "cantJoinCall": "غير مسموح له بالانضمام إلى المكالمة",
   "back": "خلف",

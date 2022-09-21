@@ -286,6 +286,7 @@ export default {
         {
           text: "My Medication",
           icon: "medical-jar-svg",
+          link: "My Medication",
         },
         {
           text: "Medical Insurance",

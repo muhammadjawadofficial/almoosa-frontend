@@ -120,7 +120,7 @@
                 .appointment-status {
                   color: #76a762;
                 }
-                .start-call-button {
+                .btn.start-call-button {
                   @include theme-style-button(#76a762);
                 }
                 .svg-icon-fill {
@@ -132,7 +132,7 @@
                 .appointment-status {
                   color: #f79d31;
                 }
-                .start-call-button {
+                .btn.start-call-button {
                   @include theme-style-button(#f79d31);
                 }
                 .svg-icon-fill {
@@ -144,7 +144,7 @@
                 .appointment-status {
                   color: $danger-color;
                 }
-                .start-call-button {
+                .btn.start-call-button {
                   @include theme-style-button($danger-color);
                 }
                 .svg-icon-fill {
@@ -167,7 +167,7 @@
               &-card {
                 &.default {
                   background-color: #6ab654;
-                  .start-call-button {
+                  .btn.start-call-button {
                     @include theme-style-button(#6ab654);
                   }
                   .svg-icon-fill {
@@ -182,7 +182,7 @@
               &-card {
                 &.default {
                   background-color: $secondary-color;
-                  .start-call-button {
+                  .btn.start-call-button {
                     @include theme-style-button($secondary-color);
                   }
                   .svg-icon-fill {

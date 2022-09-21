@@ -254,6 +254,25 @@
     "viewDetails": "View Details",
     "appointmentSession": "Appointment Session"
   },
+  "myMedication": {
+    "title": "Medications",
+    "medicationList": "Medication List",
+    "medicationDetails": "Medication Details",
+    "viewDetails": "View Details",
+    "appointmentSession": "Appointment Session",
+    "currentMedication": "Current Medication",
+    "pastMedication": "Past Medication",
+    "setReminder": "Set Reminder",
+    "requestRefill": "Request a Refill",
+    "doctorInstruction": "Doctor's Instruction",
+    "time": "Time",
+    "modal": {
+      "requestTitle": "Refill Request",
+      "requestText": "You can send us a request for refill your medication after two months. If your medication course has completed required duration then send us a request.",
+      "requestButton": "Send Request",
+      "requestSuccess": "We have received your request."
+    }
+  },
   "noData": "No Data To Show",
   "cantJoinCall": "Not allowed to join call",
   "back": "Back",
