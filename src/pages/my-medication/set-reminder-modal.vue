@@ -35,9 +35,7 @@
             alt=""
             style="display: flex"
           />
-          <h2 class="swal2-title" id="swal2-title" style="display: flex">
-            Refill Request
-          </h2>
+          <h2 class="swal2-title" id="swal2-title" style="display: flex"></h2>
         </div>
         <div class="swal2-content">
           <div id="swal2-content" style="display: block">
