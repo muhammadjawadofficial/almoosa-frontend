@@ -49,16 +49,20 @@
                       <div class="appointment-details">
                         <div class="doctor-name w600">Medical Support</div>
                         <div class="doctor-speciality">
-                          20% MAX UP To Sr. 100 LIMIT 1000
+                          {{ insurance.medical_support }}
                         </div>
                         <div class="doctor-name w600">
                           {{ $t("insurance.policyNum") }}
                         </div>
-                        <div class="doctor-speciality">119118</div>
+                        <div class="doctor-speciality">
+                          {{ insurance.policy_number }}
+                        </div>
                         <div class="doctor-name w600">
                           {{ $t("insurance.planDetails") }}
                         </div>
-                        <div class="doctor-speciality">Class A</div>
+                        <div class="doctor-speciality">
+                          {{ insurance.plan_details }}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -93,13 +97,13 @@
                           {{ insurance.company_name }}
                         </div>
                         <div class="doctor-speciality">
-                          20% MAX UP To Sr. 100 LIMIT 1000
+                          {{ insurance.medical_support }}
                         </div>
                         <div class="last-update-on w200">
                           {{ $t("insurance.lastUpdate") }}
                         </div>
                         <div class="date-time w200">
-                          {{ getLongDateAndTimeFromDate(new Date()) }}
+                          {{ getLongDateAndTimeFromDate(insurance.updated_at) }}
                         </div>
                         <button class="btn start-call-button">
                           {{ insurance.status }}
@@ -169,7 +173,7 @@ export default {
         status.toLowerCase() == "sent for approval"
       )
         return "warning";
-      else if (status.toLowerCase() == "cancelled") return "danger";
+      else if (status.toLowerCase() == "rejected") return "danger";
       else return "success";
     },
   },
