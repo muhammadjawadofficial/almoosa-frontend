@@ -380,18 +380,26 @@ export default {
     bottom: -3.5rem;
     left: 0;
     right: 0;
-    width: 100%;
-    font-size: 1rem;
-    background: var(--theme-secondary);
-    color: var(--theme-tertiary);
-    margin: 0;
     height: 3.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-bottom: 1rem;
     transition: 0.2s bottom;
+    width: 100%;
+    font-size: 1rem;
+    color: var(--theme-tertiary);
+    margin: 0;
+    padding-bottom: 1rem;
+    isolation: isolate;
     cursor: pointer;
+    &::before {
+      content: "";
+      background: var(--theme-secondary);
+      filter: opacity(0.5);
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+    }
   }
   &:hover {
     label {

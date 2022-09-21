@@ -222,7 +222,7 @@
     "submitted": "Rating Submitted Successfully"
   },
   "criticalCare": {
-    "title": "Critical Care"
+    "title": "Critical Patients"
   },
   "inPatients": {
     "title": "InPatients"
@@ -272,6 +272,12 @@
       "requestButton": "Send Request",
       "requestSuccess": "We have received your request."
     }
+  },
+  "paymentStatus": {
+    "pending": "Pending",
+    "confirmed": "Paid",
+    "cancelled" : "Cancelled",
+    "success": "Completed"
   },
   "noData": "No Data To Show",
   "cantJoinCall": "Not allowed to join call",

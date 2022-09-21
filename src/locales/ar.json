@@ -267,6 +267,12 @@
       "requestSuccess": "لقد تلقينا طلبك."
     }
   },
+  "paymentStatus": {
+    "pending": "قيد الانتظار",
+    "confirmed": "مدفوع",
+    "cancelled" : "ألغيت",
+    "success": "مكتمل"
+  },
   "noData": "لا توجد بيانات لإظهارها",
   "cantJoinCall": "غير مسموح له بالانضمام إلى المكالمة",
   "back": "خلف",

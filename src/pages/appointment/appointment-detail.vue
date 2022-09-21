@@ -72,7 +72,7 @@
                   class="btn btn-info appointment-detail--status"
                   v-if="!isDoctor"
                 >
-                  {{ details.status }}
+                  {{ $t("paymentStatus." + details.status) }}
                 </button>
                 <div class="appointment-detail--communication">
                   <button

@@ -33,7 +33,8 @@
                 <div
                   class="appointment-list"
                   :class="{
-                    noData: !getApprovedInsurances || !getApprovedInsurances.length,
+                    noData:
+                      !getApprovedInsurances || !getApprovedInsurances.length,
                   }"
                 >
                   <div
@@ -88,7 +89,9 @@
                         <shield-bg-svg />
                       </div>
                       <div class="appointment-details">
-                        <div class="doctor-name w600">{{insurance.company_name}}</div>
+                        <div class="doctor-name w600">
+                          {{ insurance.company_name }}
+                        </div>
                         <div class="doctor-speciality">
                           20% MAX UP To Sr. 100 LIMIT 1000
                         </div>
@@ -161,7 +164,11 @@ export default {
       );
     },
     getStatusClass(status) {
-      if (status.toLowerCase() == "pending") return "warning";
+      if (
+        status.toLowerCase() == "pending" ||
+        status.toLowerCase() == "sent for approval"
+      )
+        return "warning";
       else if (status.toLowerCase() == "cancelled") return "danger";
       else return "success";
     },
