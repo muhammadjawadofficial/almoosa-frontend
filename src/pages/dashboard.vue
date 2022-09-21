@@ -85,7 +85,7 @@
                       {{ getDate(appointment.booked_date) }}
                     </div>
                     <div class="appointment-time-time">
-                      {{ getTimeFromDate(appointment.booked_date, true) }}
+                      {{ removeSecondsFromTimeString(appointment.start_time) }}
                     </div>
                   </div>
                   <div
