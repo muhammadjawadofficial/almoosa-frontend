@@ -28,10 +28,19 @@
     "phoneNumber": "رقم الهاتف",
     "clinicWarning": "تحذير العيادة",
     "nationality": "جنسية",
+    "loyaltyPoint": "نقاط الولاء",
     "updateProfile": "تحديث الملف",
     "editProfile": "تعديل الملف الشخصي",
     "allergy": "حساسية",
-    "idNumber": "رقم الهوية"
+    "idNumber": "رقم الهوية",
+    "clinics": "عيادات",
+    "speciality": "تخصص",
+    "department": "قسم",
+    "degree": "درجة",
+    "expertise": "مجالات الخبرة",
+    "languages": "اللغات",
+    "consulting": "الفئات العمرية للاستشارات",
+    "select": "اختار"
   },
   "header": {
     "marhaba": "مرحبا",
@@ -304,5 +313,6 @@
   "startCall": "ابدأ الاتصال",
   "sar": "ريال",
   "or": "أو",
-  "bed": "سرير"
+  "bed": "سرير",
+  "equal": "يساوي"
 }

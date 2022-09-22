@@ -28,10 +28,19 @@
     "phoneNumber": "Phone Number",
     "clinicWarning": "Clinic Warning",
     "nationality": "Nationality",
+    "loyaltyPoint": "Loyalty Points",
     "updateProfile": "Update Profile",
     "editProfile": "Edit Profile",
     "allergy": "Allergy",
-    "idNumber": "ID Number"
+    "idNumber": "ID Number",
+    "clinics": "Clinics",
+    "speciality": "Speciality",
+    "department": "Department",
+    "degree": "Degree",
+    "expertise": "Areas of Expertise",
+    "languages": "Languages",
+    "consulting": "Consulting Age Groups",
+    "select": "Select"
   },
   "header": {
     "marhaba": "Marhaba",
@@ -276,7 +285,7 @@
   "paymentStatus": {
     "pending": "Pending",
     "confirmed": "Paid",
-    "cancelled" : "Cancelled",
+    "cancelled": "Cancelled",
     "success": "Completed"
   },
   "noData": "No Data To Show",
@@ -312,5 +321,6 @@
   "startCall": "Start Call",
   "sar": "SAR",
   "or": "OR",
-  "bed": "BED"
+  "bed": "BED",
+  "equal": "Equals"
 }
