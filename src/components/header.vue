@@ -56,7 +56,9 @@
               class="b-r-round"
               :src="
                 getImageUrl(
-                  isDoctor ? { path: getUserInfo.photo } : getUserInfo.photo
+                  typeof getUserInfo.photo == 'string'
+                    ? { path: getUserInfo.photo }
+                    : getUserInfo.photo
                 )
               "
               alt=""
@@ -242,7 +244,8 @@ export default {
       userService.setSelectedLayout(this.layoutType);
     },
     logout() {
-      this.$root.$refs.appointmentModule && this.$root.$refs.appointmentModule.destroyObjects();
+      this.$root.$refs.appointmentModule &&
+        this.$root.$refs.appointmentModule.destroyObjects();
       this.removeUserInfo();
       this.$messaging.deleteToken();
       this.navigateTo({ name: "Login Dashboard" });

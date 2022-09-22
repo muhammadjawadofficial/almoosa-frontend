@@ -18,7 +18,8 @@ export const userService = {
     removeBooking,
     setBooking,
     downloadFile,
-    updateProfile
+    updateProfile,
+    getProfile
 };
 
 import axios from "axios";
@@ -108,5 +109,11 @@ function updateProfile(profile) {
         method: apiPath.user.updateProfile(currentUser().id).method,
         url: apiPath.user.updateProfile(currentUser().id).url,
         data: profile
+    })
+}
+function getProfile(profile) {
+    return axios({
+        method: apiPath.user.getProfile(profile).method,
+        url: apiPath.user.getProfile(profile).url,
     })
 }

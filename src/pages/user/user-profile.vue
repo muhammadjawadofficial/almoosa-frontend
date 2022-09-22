@@ -8,7 +8,9 @@
               <img
                 :src="
                   getImageUrl(
-                    isDoctor ? { path: getUserInfo.photo } : getUserInfo.photo
+                    typeof getUserInfo.photo == 'string'
+                      ? { path: getUserInfo.photo }
+                      : getUserInfo.photo
                   )
                 "
                 alt="doctor-image"
@@ -97,30 +99,36 @@
                       </div>
                     </div>
                   </template>
-                  <div
-                    class="
-                      doctor-details-card-header-right-info-section-detail
-                      with-icon
-                    "
-                  >
-                    <div class="icon">
-                      <img
-                        src="../../assets/images/star-points.svg"
-                        alt="star-img"
-                      />
-                    </div>
-                    <div class="content">
-                      <div class="title">{{ $t("profile.loyaltyPoint") }}</div>
-                      <div class="value">
-                        {{ getUserInfo.loyality_points }} /
-                        <div class="sub-value">
-                          {{ $t("equal") }}
-                          {{ translateNumber(getUserInfo.loyality_points / 2) }}
-                          {{ $t("sar") }}
+                  <template v-if="!isDoctor">
+                    <div
+                      class="
+                        doctor-details-card-header-right-info-section-detail
+                        with-icon
+                      "
+                    >
+                      <div class="icon">
+                        <img
+                          src="../../assets/images/star-points.svg"
+                          alt="star-img"
+                        />
+                      </div>
+                      <div class="content">
+                        <div class="title">
+                          {{ $t("profile.loyaltyPoint") }}
+                        </div>
+                        <div class="value">
+                          {{ getUserInfo.loyality_points }} /
+                          <div class="sub-value">
+                            {{ $t("equal") }}
+                            {{
+                              translateNumber(getUserInfo.loyality_points / 2)
+                            }}
+                            {{ $t("sar") }}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </template>
                 </div>
               </div>
             </div>
@@ -236,8 +244,14 @@
                     "
                     multiple
                     track-by="id"
-                    label="clinic"
+                    label="title"
                   ></multiselect>
+                  <div
+                    class="custom-state-invalid icon"
+                    :class="{
+                      'is-invalid': doctorState.clinicsState == false,
+                    }"
+                  ></div>
                 </div>
               </div>
               <div class="profile-info-card-option">
@@ -268,7 +282,7 @@
                       $t('profile.select') + ' ' + $t('profile.speciality')
                     "
                     track-by="id"
-                    label="speciality"
+                    label="title"
                   ></multiselect>
                   <div
                     class="custom-state-invalid icon"
@@ -306,8 +320,14 @@
                       $t('profile.select') + ' ' + $t('profile.department')
                     "
                     track-by="id"
-                    label="department"
+                    label="name"
                   ></multiselect>
+                  <div
+                    class="custom-state-invalid icon"
+                    :class="{
+                      'is-invalid': doctorState.departmentState == false,
+                    }"
+                  ></div>
                 </div>
               </div>
               <div class="profile-info-card-option">
@@ -396,6 +416,12 @@
                       $t('profile.select') + ' ' + $t('profile.nationality')
                     "
                   ></multiselect>
+                  <div
+                    class="custom-state-invalid icon"
+                    :class="{
+                      'is-invalid': doctorState.nationalityState == false,
+                    }"
+                  ></div>
                 </div>
               </div>
               <div class="profile-info-card-option">
@@ -485,7 +511,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { authService, userService } from "../../services";
+import { appointmentService, authService, userService } from "../../services";
 export default {
   data() {
     return {
@@ -497,11 +523,11 @@ export default {
       phoneNumberState: null,
       doctor: {
         clinics: [],
-        speciality: "",
-        department: "",
+        speciality: {},
+        department: {},
         degree: "",
         expertise: "",
-        nationality: "",
+        nationality: {},
         languages: "",
         consulting: "",
       },
@@ -534,7 +560,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("user", ["updateUserInfo"]),
+    ...mapActions("user", ["updateUserInfo", "setUserInfo"]),
     changeProfilePicture(e) {
       let file = e.target.files[0];
       if (!file) {
@@ -561,6 +587,7 @@ export default {
       );
     },
     checkDropdownValues() {
+      this.setLoadingState(true);
       authService.getNationalities().then(
         (res) => {
           if (res.data.status) {
@@ -579,52 +606,59 @@ export default {
           this.setLoadingState(false);
         }
       );
-      this.specialities = [
-        {
-          id: this.getUserInfo.speciality_id,
-          speciality: this.getUserInfo.speciality,
+      this.setLoadingState(true);
+      authService.getDepartments().then(
+        (res) => {
+          if (res.data.status) {
+            let data = res.data.data;
+            if (data) {
+              this.departments = data.items;
+            }
+          } else {
+            this.failureToast(res.data.message);
+          }
+          this.setLoadingState(false);
         },
-        {
-          id: 99,
-          speciality: "Ortho",
+        (err) => {
+          console.error(err);
+          this.failureToast();
+          this.setLoadingState(false);
+        }
+      );
+      this.setLoadingState(true);
+      appointmentService.getClinics().then(
+        (res) => {
+          let response = res.data;
+          if (response.status) {
+            this.clinics = response.data.items;
+          } else {
+            this.failureToast(response.message);
+          }
+          this.setLoadingState(false);
         },
-        {
-          id: 100,
-          speciality: "Test",
+        (err) => {
+          console.error(err);
+          this.failureToast();
+          this.setLoadingState(false);
+        }
+      );
+      this.setLoadingState(true);
+      appointmentService.getSpecialities().then(
+        (res) => {
+          let response = res.data;
+          if (response.status) {
+            this.specialities = res.data.data.items;
+          } else {
+            this.failureToast(response.message);
+          }
+          this.setLoadingState(false);
         },
-      ];
-      this.departments = [
-        {
-          id: 1,
-          department: "General Surgery Clinic",
-        },
-        {
-          id: 2,
-          department: "General Dental Clinic",
-        },
-        {
-          id: 3,
-          department: "General Checkup",
-        },
-      ];
-      this.clinics = [
-        {
-          id: 1,
-          clinic: "South Tower, First Floor",
-        },
-        {
-          id: 2,
-          clinic: "South Tower, Second Floor",
-        },
-        {
-          id: 3,
-          clinic: "North Tower, First Floor",
-        },
-        {
-          id: 4,
-          clinic: "North Tower, Second Floor",
-        },
-      ];
+        (err) => {
+          console.error(err);
+          this.failureToast();
+          this.setLoadingState(false);
+        }
+      );
     },
     formatNumber(number, input) {
       if (
@@ -636,36 +670,38 @@ export default {
       return number;
     },
     initializeData() {
+      this.getProfileData();
       this.resetData();
+    },
+    getProfileData() {
+      this.setLoadingState(true);
+      userService.getProfile(this.isDoctor ? "doctor" : "patient").then(
+        (res) => {
+          if (res.data.status) {
+            this.setUserInfo(res.data.data);
+            this.resetData();
+          } else {
+            this.failureToast(res.data.message);
+          }
+          this.setLoadingState(false);
+        },
+        (error) => {
+          this.setLoadingState(false);
+          this.failureToast();
+          console.error(error);
+        }
+      );
     },
     resetData() {
       if (this.isDoctor) {
-        this.doctor.clinics = [
-          {
-            id: 2,
-            clinic: "South Tower, Second Floor",
-          },
-          {
-            id: 3,
-            clinic: "North Tower, First Floor",
-          },
-        ];
-        this.doctor.speciality = {
-          id: this.getUserInfo.speciality_id,
-          speciality: this.getUserInfo.speciality,
-        };
-        this.doctor.department = {
-          id: 1,
-          department: "General Surgery Clinic",
-        };
-        this.doctor.degree = "Ph. D.";
-        this.doctor.nationality = {
-          id: this.getUserInfo.nationality_id,
-          nationality: this.getUserInfo.nationality,
-        };
-        this.doctor.expertise = "Cardiology , Electrophysiology";
-        this.doctor.languages = "English, Arabic";
-        this.doctor.consulting = "Adults , Pediatrics";
+        this.doctor.clinics = this.getUserInfo.clinics || [];
+        this.doctor.speciality = this.getUserInfo.speciality;
+        this.doctor.department = this.getUserInfo.department;
+        this.doctor.degree = this.getUserInfo.degree;
+        this.doctor.nationality = this.getUserInfo.nationality;
+        this.doctor.expertise = this.getUserInfo.expertise;
+        this.doctor.languages = this.getUserInfo.languages;
+        this.doctor.consulting = this.getUserInfo.consulting_age_group;
         this.doctorState = {
           clinicsState: null,
           specialityState: null,
@@ -686,14 +722,24 @@ export default {
     },
     validateForm() {
       if (this.isDoctor) {
-        this.doctorState.clinicsState = this.doctor.clinics != [];
-        this.doctorState.specialityState = this.doctor.speciality != "";
-        this.doctorState.departmentState = this.doctor.department != "";
-        this.doctorState.degreeState = this.doctor.degree != "";
-        this.doctorState.expertiseState = this.doctor.expertise != "";
-        this.doctorState.nationalityState = this.doctor.nationality != "";
-        this.doctorState.languagesState = this.doctor.languages != "";
-        this.doctorState.consultingState = this.doctor.consulting != "";
+        this.doctorState.clinicsState =
+          this.doctor.clinics != [] &&
+          this.doctor.clinics.length > 0 &&
+          !!this.doctor.clinics;
+        this.doctorState.specialityState =
+          this.doctor.speciality != {} && !!this.doctor.speciality;
+        this.doctorState.departmentState =
+          this.doctor.department != {} && !!this.doctor.department;
+        this.doctorState.degreeState =
+          this.doctor.degree != "" && !!this.doctor.degree;
+        this.doctorState.expertiseState =
+          this.doctor.expertise != "" && !!this.doctor.expertise;
+        this.doctorState.nationalityState =
+          this.doctor.nationality != {} && !!this.doctor.nationality;
+        this.doctorState.languagesState =
+          this.doctor.languages != "" && !!this.doctor.languages;
+        this.doctorState.consultingState =
+          this.doctor.consulting != "" && !!this.doctor.consulting;
         return !Object.values(this.doctorState).includes(false);
       } else {
         this.addressState = this.address != "";
@@ -706,38 +752,76 @@ export default {
         if (!this.validateForm()) {
           return;
         }
-        let updateUserObj = {
-          location: this.address,
-          phone_number: this.phoneNumber,
-        };
+        let updateUserObj = {};
+        if (this.isDoctor) {
+          if (
+            this.getUserInfo.clinics.map((x) => x.id).join(",") !==
+            this.doctor.clinics.map((x) => x.id).join(",")
+          ) {
+            updateUserObj.clinics = this.doctor.clinics.map((x) => x.id);
+          }
+          if (
+            !this.getUserInfo.speciality ||
+            this.getUserInfo.speciality.id !== this.doctor.speciality.id
+          ) {
+            updateUserObj.speciality_id = this.doctor.speciality.id;
+          }
+          if (
+            !this.getUserInfo.department ||
+            this.getUserInfo.department !== this.doctor.department
+          ) {
+            updateUserObj.department_id = this.doctor.department.id;
+          }
+          if (this.getUserInfo.degree !== this.doctor.degree) {
+            updateUserObj.degree = this.doctor.degree;
+          }
+          if (this.getUserInfo.expertise !== this.doctor.expertise) {
+            updateUserObj.expertise = this.doctor.expertise;
+          }
+          if (
+            !this.getUserInfo.nationality ||
+            this.getUserInfo.nationality.id !== this.doctor.nationality.id
+          ) {
+            updateUserObj.nationality_id = this.doctor.nationality.id;
+          }
+          if (this.getUserInfo.languages !== this.doctor.languages) {
+            updateUserObj.languages = this.doctor.languages;
+          }
+          if (
+            this.getUserInfo.consulting_age_group !== this.doctor.consulting
+          ) {
+            updateUserObj.consulting_age_group = this.doctor.consulting;
+          }
+        } else {
+          updateUserObj = {
+            location: this.address,
+            phone_number: this.phoneNumber,
+          };
+        }
         this.updateProfileInfo(updateUserObj);
       } else {
         this.isEditing = true;
       }
     },
     updateProfileInfo(data) {
-      if (this.isDoctor) {
-        this.resetData();
-      } else {
-        this.setLoadingState(true);
-        userService.updateProfile(data).then(
-          (res) => {
-            if (res.data.status) {
-              this.updateUserInfo({ ...data });
-              this.successToast(this.$t("profile.updateSuccess"));
-              this.resetData();
-            } else {
-              this.failureToast(res.data.message);
-            }
-            this.setLoadingState(false);
-          },
-          (error) => {
-            this.setLoadingState(false);
-            this.failureToast();
-            console.error(error);
+      this.setLoadingState(true);
+      userService.updateProfile(data).then(
+        (res) => {
+          if (res.data.status) {
+            this.getProfileData();
+            this.successToast(this.$t("profile.updateSuccess"));
+            this.resetData();
+          } else {
+            this.failureToast(res.data.message);
           }
-        );
-      }
+          this.setLoadingState(false);
+        },
+        (error) => {
+          this.setLoadingState(false);
+          this.failureToast();
+          console.error(error);
+        }
+      );
     },
     updateProfilePicture(data, data_id) {
       this.setLoadingState(true);

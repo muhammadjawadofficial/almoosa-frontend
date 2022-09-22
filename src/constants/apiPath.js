@@ -18,6 +18,7 @@ export const apiPath = {
         patient: getApiObject("post", "auth/patient/register"),
         uploadId: getApiObject("post", "mediafiles/upload"),
         getNationalities: getApiObject("get", "nationalities"),
+        getDepartments: getApiObject("get", "departments"),
     },
 
     loginOtp: {
@@ -48,7 +49,8 @@ export const apiPath = {
     },
 
     user: {
-        updateProfile: (id) => getApiObject("patch", "users/" + id)
+        updateProfile: (id) => getApiObject("patch", "users/" + id),
+        getProfile: (profile) => getApiObject("get", "auth/" + profile + "/profile")
     },
 
     patient: {

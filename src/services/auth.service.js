@@ -10,7 +10,8 @@ export const authService = {
     resendOtp,
     verifyOtp,
     resetPassword,
-    getNationalities
+    getNationalities,
+    getDepartments
 }
 
 
@@ -89,5 +90,11 @@ function getNationalities() {
     return axios({
         method: apiPath.register.getNationalities.method,
         url: apiPath.register.getNationalities.url
+    })
+}
+function getDepartments() {
+    return axios({
+        method: apiPath.register.getDepartments.method,
+        url: apiPath.register.getDepartments.url
     })
 }
