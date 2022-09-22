@@ -176,7 +176,6 @@ export default {
     };
   },
   mounted() {
-    console.log("book-appointment");
     this.checkAccess();
     this.fetchPromotionsList();
   },

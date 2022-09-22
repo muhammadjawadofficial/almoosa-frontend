@@ -272,11 +272,9 @@ export default {
       this.setBookingStartTime(selectedTimeSlot.start_time);
       this.setBookingEndTime(selectedTimeSlot.end_time);
       if (this.getIsGuest) {
-        console.log('isguest')
         this.navigateTo("Login");
         localStorage.setItem("url", "Doctor Details");
       } else if (this.getIsReschedule) {
-        console.log('isreschedule')
         if (this.selectionSame()) {
           this.setLoadingState(true);
           appointmentService
@@ -322,7 +320,6 @@ export default {
             );
         }
       } else {
-        console.log('book apt')
         this.navigateTo("Book Appointment");
       }
     },

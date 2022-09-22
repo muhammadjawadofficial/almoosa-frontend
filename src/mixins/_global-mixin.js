@@ -9,7 +9,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters("user", ["getUserRole", "getIsGuest"]),
+        ...mapGetters("user", ["getUserRole", "getIsGuest", "getLoading"]),
         isDoctor() {
             let roleLS = this.getLSRole();
             let roleS = this.getUserRole;
@@ -124,7 +124,6 @@ export default {
                     })
                 },
                 preConfirm: () => {
-                    console.log(selectedRating);
                     if (selectedRating == null) {
                         this.$swal.showValidationMessage(
                             this.$t('rating.error')

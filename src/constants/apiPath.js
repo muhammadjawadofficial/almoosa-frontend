@@ -61,5 +61,10 @@ export const apiPath = {
     insurance: {
         addNew: getApiObject("post", "insurances"),
         fetch: (id) => getApiObject("get", "insurances?patient_id=" + id),
+    },
+
+    healthEducation: {
+        fetch: getApiObject("get", "health-education"),
+        details: (id) => getApiObject("get", "health-education/" + id),
     }
 };

@@ -1,7 +1,11 @@
 <template>
   <div>
     <div class="page-wrapper" :class="layoutobj">
-      <div class="page-header" :class="{ close_icon: !togglesidebar }">
+      <div
+        v-if="getUserInfo"
+        class="page-header"
+        :class="{ close_icon: !togglesidebar }"
+      >
         <Header @clicked="sidebar_toggle" />
       </div>
       <div class="page-body-wrapper">
@@ -13,12 +17,16 @@
         >
           <Sidebar @clicked="sidebar_toggle" />
         </div>
-        <div class="page-body" @click="hidesecondmenu()">
+        <div
+          class="page-body"
+          @click="hidesecondmenu()"
+          :class="{ 'm-0': !getUserInfo }"
+        >
           <transition name="fadeIn" enter-active-class="animated fadeIn">
             <router-view class="view"></router-view>
           </transition>
         </div>
-        <Footer />
+        <Footer v-if="getUserInfo" />
       </div>
       <TapTop />
     </div>
@@ -26,7 +34,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import { layoutClasses } from "../constants/layout";
 import Header from "./header";
 import Sidebar from "./sidebar.vue";
@@ -59,6 +67,7 @@ export default {
       togglesidebar: (state) => state.menu.togglesidebar,
       activeoverlay: (state) => state.menu.activeoverlay,
     }),
+    ...mapGetters("user", ["getUserInfo"]),
     layoutobject: {
       get: function () {
         return JSON.parse(

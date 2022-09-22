@@ -9,20 +9,13 @@
           :key="'doctor-card-' + content.id"
         >
           <div class="doctor-image">
-            <!-- <img :src="getImageUrl(content.photo)" alt="doctor-image" /> -->
-            <img src="../../assets/images/education-content.png" alt="" />
+            <img :src="getImageUrl(content.thumbnail)" alt="doctor-image" />
           </div>
           <div class="doctor-name">
-            <!-- {{
-              content.first_name +
-              (content.middle_name ? " " + content.middle_name + " " : " ") +
-              content.family_name
-            }} -->
-            Heart Disease
+            {{ content.short_title }}
           </div>
           <div class="doctor-speciality">
-            <!-- {{ content.speciality.title }} -->
-            CDC study reveals hybrid
+            {{ content.short_text }}
           </div>
           <button
             class="btn btn-primary make-appointment"
@@ -41,24 +34,39 @@
 
 <script>
 import { mapActions } from "vuex";
+import { healthEducationService } from "../../services";
 export default {
   data() {
     return {
-      healthEducationContent: [
-        {
-          id: 1,
-        },
-        {
-          id: 57,
-        },
-      ],
+      healthEducationContent: null,
     };
+  },
+  mounted() {
+    this.initializeData();
   },
   methods: {
     ...mapActions("healthEducation", ["setSelectedHealthEducation"]),
     setSelectedContent(content) {
       this.setSelectedHealthEducation(content);
-      this.navigateTo("Health Education Details");
+      this.navigateTo("Health Education Details", { id: content.id });
+    },
+    initializeData() {
+      this.setLoadingState(true);
+      healthEducationService.fetchHealthEducations().then(
+        (response) => {
+          if (response.data.status) {
+            let data = response.data.data.items;
+            this.healthEducationContent = [...data];
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+          this.setLoadingState(false);
+        },
+        () => {
+          this.setLoadingState(false);
+          this.failureToast();
+        }
+      );
     },
   },
 };
@@ -74,7 +82,12 @@ export default {
     margin-top: 1em;
   }
   .doctor-image {
-    height: auto;
+    height: 13.75rem;
+    width: 17.5rem;
+    background: url(../../assets/images/loader.gif);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
     img {
       height: auto;
       width: 100%;

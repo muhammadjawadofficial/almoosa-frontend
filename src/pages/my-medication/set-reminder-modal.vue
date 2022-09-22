@@ -178,7 +178,6 @@ export default {
         afternoon: this.selectedAfternoonSlot,
         evening: this.selectedEveningSlot,
       };
-      console.log(this.selectedTimeslot);
     },
   },
 };

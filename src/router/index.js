@@ -303,11 +303,12 @@ const routes = [
             },
           },
           {
-            path: "details",
+            path: "details/:id",
             name: 'Health Education Details',
             component: healthEducationDetails,
             meta: {
               title: 'Health Education Details | Almoosa Specialist Hospital',
+              public: true
             },
           },
         ]

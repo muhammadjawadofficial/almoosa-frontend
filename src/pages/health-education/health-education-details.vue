@@ -1,71 +1,69 @@
 <template>
   <div class="doctor-list-container">
-    <div class="main-banner">
-      <div class="background-image">
-        <img
-          src="../../assets/images/banners/banner-main.png"
-          alt="main-banner"
-          class="img-fluid w-100"
-        />
-        <div class="standard-width">
-          <!-- Commented This Line of Code as QA Suggested that we dont need a back button here
-              User can navigate to previous screen using the browser back button
-          <back-navigation
-            class="back-btn"
-            :backLink="'Health Education List' + (getIsGuest ? ' Guest' : '')"
-          /> -->
-          <div class="main-banner-text w600">
-            {{ $t("dashboard.helpMillions") }}
+    <template v-if="getLoading">
+      <div class="standard-width no-data">{{ $t("loading") }}</div>
+    </template>
+    <template v-else-if="!educationContent">
+      <div class="standard-width no-data">{{ $t("noData") }}</div>
+    </template>
+    <template v-else>
+      <div class="main-banner">
+        <div class="background-image">
+          <img
+            :src="getImageUrl(educationContent.banner)"
+            alt="main-banner"
+            class="img-fluid w-100"
+          />
+          <div class="standard-width">
+            <div class="main-banner-text w600">
+              {{ educationContent.long_title }}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="standard-width educational-content">
-      <div class="text-content w200">
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book. It has survived not only five
-        centuries, but also the leap into electronic typesetting, remaining
-        essentially unchanged. It was popularised in the 1960s with the release
-        of Letraset sheets containing Lorem Ipsum passages, and more recently
-        with desktop publishing software like Aldus PageMaker including versions
-        of Lorem Ipsum.
-      </div>
-      <div class="text-content w200">
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book.
-      </div>
-      <div class="text-content w200">
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book. It has survived not only five
-        centuries, but also the leap into electronic typesetting, remaining
-        essentially unchanged. It was popularised in the 1960s with the release
-        of Letraset sheets containing Lorem Ipsum passages, and more recently
-        with desktop publishing software like Aldus PageMaker including versions
-        of Lorem Ipsum.
-      </div>
-    </div>
+      <div
+        class="standard-width educational-content"
+        v-html="educationContent.long_text"
+      ></div>
+    </template>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { healthEducationService } from "../../services";
 export default {
   data() {
-    return {};
-  },
-  computed: {
-    ...mapGetters("healthEducation", ["getSelectedHealthEducation"]),
+    return {
+      educationContent: null,
+    };
   },
   mounted() {
-    if (!this.getSelectedHealthEducation) {
+    if (!this.$route.params.id) {
       this.navigateTo("Health Education List");
     }
+    this.initializeData();
+  },
+  methods: {
+    initializeData() {
+      this.setLoadingState(true);
+      healthEducationService
+        .fetchHealthEducationsDetails(this.$route.params.id)
+        .then(
+          (response) => {
+            if (response.data.status) {
+              let data = response.data.data;
+              this.educationContent = data;
+            } else {
+              this.failureToast(response.data.messsage);
+            }
+            this.setLoadingState(false);
+          },
+          () => {
+            this.setLoadingState(false);
+            this.failureToast();
+          }
+        );
+    },
   },
 };
 </script>
@@ -82,7 +80,53 @@ export default {
   margin-block: 1.5rem;
 }
 .educational-content {
-  padding-block-start: 1.5rem;
   padding-block-end: 5rem;
+  :deep * {
+    font-family: "DiodrumArabicMedium" !important;
+  }
+}
+
+.main-banner {
+  .background-image {
+    .main-banner-text {
+      position: relative;
+      inset: unset;
+      padding-block-start: 2rem;
+      width: 100%;
+      font-size: 1.625rem;
+      line-height: 1.4em;
+    }
+  }
+}
+@media (min-width: 991px) {
+  .educational-content {
+    padding-block-start: 1.5rem;
+  }
+  .main-banner {
+    .background-image {
+      isolation: isolate;
+      height: 500px;
+      display: flex;
+      .main-banner-text {
+        width: 45%;
+        padding-block-end: 2rem;
+        font-size: 2.625rem;
+      }
+      > img {
+        position: absolute;
+        z-index: -1;
+        height: 100%;
+      }
+    }
+  }
+}
+@media (max-width: 992px) {
+  .main-banner {
+    .background-image {
+      > img {
+        min-height: auto;
+      }
+    }
+  }
 }
 </style>
