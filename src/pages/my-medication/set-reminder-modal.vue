@@ -50,13 +50,18 @@
                   <div
                     class="timeslot secondary"
                     :class="{
-                      active: timeslot.id == selectedTimeslot.morning,
+                      active:
+                        timeslot.reminder_time == selectedTimeslot.morning,
                     }"
                     v-for="timeslot in timeslots.morning"
-                    @click="selectedTimeslot.morning = timeslot.id"
+                    @click="selectedTimeslot.morning = timeslot.reminder_time"
                     :key="'morning-timeslot-' + timeslot.id"
                   >
-                    {{ timeslot.value }}
+                    {{
+                      translateNumber(
+                        removeSecondsFromTimeString(timeslot.reminder_time)
+                      )
+                    }}
                   </div>
                 </div>
               </div>
@@ -72,13 +77,18 @@
                   <div
                     class="timeslot dark-blue"
                     :class="{
-                      active: timeslot.id == selectedTimeslot.afternoon,
+                      active:
+                        timeslot.reminder_time == selectedTimeslot.afternoon,
                     }"
                     v-for="timeslot in timeslots.afternoon"
                     :key="'afternoon-timeslot-' + timeslot.id"
-                    @click="selectedTimeslot.afternoon = timeslot.id"
+                    @click="selectedTimeslot.afternoon = timeslot.reminder_time"
                   >
-                    {{ timeslot.value }}
+                    {{
+                      translateNumber(
+                        removeSecondsFromTimeString(timeslot.reminder_time)
+                      )
+                    }}
                   </div>
                 </div>
               </div>
@@ -94,13 +104,18 @@
                   <div
                     class="timeslot primary"
                     :class="{
-                      active: timeslot.id == selectedTimeslot.evening,
+                      active:
+                        timeslot.reminder_time == selectedTimeslot.evening,
                     }"
                     v-for="timeslot in timeslots.evening"
                     :key="'evening-timeslot-' + timeslot.id"
-                    @click="selectedTimeslot.evening = timeslot.id"
+                    @click="selectedTimeslot.evening = timeslot.reminder_time"
                   >
-                    {{ timeslot.value }}
+                    {{
+                      translateNumber(
+                        removeSecondsFromTimeString(timeslot.reminder_time)
+                      )
+                    }}
                   </div>
                 </div>
               </div>
@@ -136,6 +151,7 @@
 </template>
 
 <script>
+import { medicationService } from "../../services";
 export default {
   props: [
     "selectedMorningSlot",
@@ -145,21 +161,9 @@ export default {
   data() {
     return {
       timeslots: {
-        morning: [
-          { id: 1, value: "08:00 AM" },
-          { id: 2, value: "09:00 AM" },
-          { id: 3, value: "10:00 AM" },
-        ],
-        afternoon: [
-          { id: 1, value: "12:00 PM" },
-          { id: 2, value: "01:00 PM" },
-          { id: 3, value: "02:00 PM" },
-        ],
-        evening: [
-          { id: 1, value: "08:00 PM" },
-          { id: 2, value: "09:00 PM" },
-          { id: 3, value: "10:00 PM" },
-        ],
+        morning: [],
+        afternoon: [],
+        evening: [],
       },
       selectedTimeslot: {
         morning: null,
@@ -168,9 +172,54 @@ export default {
       },
     };
   },
+  watch: {
+    selectedMorningSlot: function (val) {
+      this.selectedTimeslot.morning = val;
+    },
+    selectedAfternoonSlot: function (val) {
+      this.selectedTimeslot.afternoon = val;
+    },
+    selectedEveningSlot: function (val) {
+      this.selectedTimeslot.evening = val;
+    },
+  },
+  mounted() {
+    this.fetchTimeslots();
+  },
   methods: {
     setReminder() {
       this.$refs["setReminder"].hide();
+      this.successIconModal(
+        this.$t("myMedication.modal.reminderTitle"),
+        this.$t("myMedication.modal.reminderText"),
+        "m-pill"
+      );
+    },
+    fetchTimeslots() {
+      this.setLoadingState(true);
+      medicationService.getReminderSlots().then(
+        (response) => {
+          if (response.data.status) {
+            let data = response.data.data.items;
+            this.timeslots.morning = data.filter(
+              (x) => x.day_part == "morning"
+            );
+            this.timeslots.evening = data.filter(
+              (x) => x.day_part == "evening"
+            );
+            this.timeslots.afternoon = data.filter(
+              (x) => x.day_part == "afternoon"
+            );
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+          this.setLoadingState(false);
+        },
+        () => {
+          this.setLoadingState(false);
+          this.failureToast();
+        }
+      );
     },
     resetSelection() {
       this.selectedTimeslot = {

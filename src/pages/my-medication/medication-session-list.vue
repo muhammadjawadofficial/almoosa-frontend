@@ -72,7 +72,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { reportService } from "../../services";
+import { medicationService } from "../../services";
 export default {
   data() {
     return {
@@ -89,7 +89,7 @@ export default {
     ...mapActions("myMedication", ["setSelectedMedicationSession"]),
     fetchTimelines() {
       this.setLoadingState(true);
-      reportService.getAppointmentsWithReports(this.getUserInfo.id, "lab").then(
+      medicationService.getAppointmentHistory(this.getUserInfo.id).then(
         (response) => {
           if (response.data.status) {
             let data = response.data.data.items;

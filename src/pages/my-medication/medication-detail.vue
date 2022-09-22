@@ -21,8 +21,16 @@
                   <pill-bg-svg />
                 </div>
                 <div class="name">
-                  <div class="title">Desloratidine 500 MG</div>
-                  <div class="subTitle w200">Oral - 2 Times a day</div>
+                  <div class="title">
+                    {{
+                      getSelectedMedication.title +
+                      " " +
+                      getSelectedMedication.variation
+                    }}
+                  </div>
+                  <div class="subTitle w200">
+                    {{ getSelectedMedication.description }}
+                  </div>
                 </div>
               </div>
               <div class="header-section--button">
@@ -37,33 +45,50 @@
                   {{ $t("myMedication.doctorInstruction") }}
                 </div>
                 <div class="appointment-detail--value">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip exea commodo unt in culpa qui officia
-                  deserunt mollit id est laborum.Lorem ipsum dolor sit amet,
-                  consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                  ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                  quis nostrud exercitation ullamco laboris nisi ut aliquip exea
-                  commodo unt in culpa qui officia deserunt mollit id est
-                  laborum.
+                  {{ getSelectedMedication.instructions }}
                 </div>
               </div>
               <div class="appointment-detail--sepecialist mt-5">
                 <div class="appointment-detail--label">
                   {{ $t("myMedication.time") }}
                 </div>
-                <div class="appointment-detail--value">Three times a day</div>
+                <div class="appointment-detail--value">
+                  {{ getSelectedMedication.description }}
+                </div>
                 <div class="appointment-detail--value--details mt-3">
-                  <span class="btn btn-secondary btn-pill">{{
-                    translateNumber("11:00 AM")
-                  }}</span>
-                  <span class="btn btn-dark-blue btn-pill">{{
-                    translateNumber("02:00 PM")
-                  }}</span>
-                  <span class="btn btn-primary btn-pill">{{
-                    translateNumber("08:00 PM")
-                  }}</span>
+                  <span
+                    v-if="getSelectedMedication.morning_reminder"
+                    class="btn btn-secondary btn-pill"
+                    >{{
+                      translateNumber(
+                        removeSecondsFromTimeString(
+                          getSelectedMedication.morning_reminder
+                        )
+                      )
+                    }}</span
+                  >
+                  <span
+                    v-if="getSelectedMedication.evening_reminder"
+                    class="btn btn-dark-blue btn-pill"
+                    >{{
+                      translateNumber(
+                        removeSecondsFromTimeString(
+                          getSelectedMedication.evening_reminder
+                        )
+                      )
+                    }}</span
+                  >
+                  <span
+                    v-if="getSelectedMedication.afternoon_reminder"
+                    class="btn btn-primary btn-pill"
+                    >{{
+                      translateNumber(
+                        removeSecondsFromTimeString(
+                          getSelectedMedication.afternoon_reminder
+                        )
+                      )
+                    }}</span
+                  >
                 </div>
               </div>
             </div>
@@ -77,9 +102,9 @@
       </div>
     </div>
     <set-reminder-modal
-      :selectedMorningSlot="1"
-      :selectedAfternoonSlot="3"
-      :selectedEveningSlot="2"
+      :selectedMorningSlot="getSelectedMedication.morning_reminder"
+      :selectedAfternoonSlot="getSelectedMedication.afternoon_reminder"
+      :selectedEveningSlot="getSelectedMedication.evening_reminder"
     />
   </div>
 </template>

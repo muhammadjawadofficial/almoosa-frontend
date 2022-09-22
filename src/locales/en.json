@@ -279,7 +279,9 @@
       "requestTitle": "Refill Request",
       "requestText": "You can send us a request for refill your medication after two months. If your medication course has completed required duration then send us a request.",
       "requestButton": "Send Request",
-      "requestSuccess": "We have received your request."
+      "requestSuccess": "We have received your request.",
+      "reminderTitle": "Reminder Added",
+      "reminderText": "Reminder has been set successfully"
     }
   },
   "paymentStatus": {
