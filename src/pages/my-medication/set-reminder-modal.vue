@@ -151,12 +151,14 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { medicationService } from "../../services";
 export default {
   props: [
     "selectedMorningSlot",
     "selectedAfternoonSlot",
     "selectedEveningSlot",
+    "medicationId",
   ],
   data() {
     return {
@@ -183,16 +185,39 @@ export default {
       this.selectedTimeslot.evening = val;
     },
   },
+  computed: {
+    ...mapGetters("myMedication", ["getSelectedMedication"]),
+  },
   mounted() {
     this.fetchTimeslots();
   },
   methods: {
     setReminder() {
-      this.$refs["setReminder"].hide();
-      this.successIconModal(
-        this.$t("myMedication.modal.reminderTitle"),
-        this.$t("myMedication.modal.reminderText"),
-        "m-pill"
+      this.setLoadingState(true);
+      let obj = {
+        morning_reminder: this.selectedTimeslot.morning,
+        afternoon_reminder: this.selectedTimeslot.afternoon,
+        evening_reminder: this.selectedTimeslot.evening,
+      };
+      medicationService.setReminder(this.medicationId, obj).then(
+        (response) => {
+          if (response.data.status) {
+            this.$emit("update", obj);
+            this.$refs["setReminder"].hide();
+            this.successIconModal(
+              this.$t("myMedication.modal.reminderTitle"),
+              this.$t("myMedication.modal.reminderText"),
+              "m-pill"
+            );
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+          this.setLoadingState(false);
+        },
+        () => {
+          this.setLoadingState(false);
+          this.failureToast();
+        }
       );
     },
     fetchTimeslots() {

@@ -54,16 +54,16 @@
                               : ""
                           }}
                           {{
-                            medication.evening_reminder
+                            medication.afternoon_reminder
                               ? removeSecondsFromTimeString(
-                                  medication.evening_reminder
+                                  medication.afternoon_reminder
                                 ) + ", "
                               : ""
                           }}
                           {{
-                            medication.afternoon_reminder
+                            medication.evening_reminder
                               ? removeSecondsFromTimeString(
-                                  medication.afternoon_reminder
+                                  medication.evening_reminder
                                 ) + ", "
                               : ""
                           }}
@@ -121,16 +121,16 @@
                               : ""
                           }}
                           {{
-                            medication.evening_reminder
+                            medication.afternoon_reminder
                               ? removeSecondsFromTimeString(
-                                  medication.evening_reminder
+                                  medication.afternoon_reminder
                                 ) + ", "
                               : ""
                           }}
                           {{
-                            medication.afternoon_reminder
+                            medication.evening_reminder
                               ? removeSecondsFromTimeString(
-                                  medication.afternoon_reminder
+                                  medication.evening_reminder
                                 ) + ", "
                               : ""
                           }}
@@ -146,9 +146,11 @@
       </b-card-body>
     </b-card>
     <set-reminder-modal
+      :medicationId="selectedMedication.id"
       :selectedMorningSlot="selectedMedication.morning_reminder"
       :selectedAfternoonSlot="selectedMedication.afternoon_reminder"
       :selectedEveningSlot="selectedMedication.evening_reminder"
+      @update="handleSlotUpdate"
     />
   </div>
 </template>
@@ -167,6 +169,7 @@ export default {
       pastMedicationList: null,
       presentMedicationList: null,
       selectedMedication: {
+        id: null,
         morning_reminder: null,
         evening_reminder: null,
         afternoon_reminder: null,
@@ -190,25 +193,29 @@ export default {
       this.selectedMedication = medication;
       this.$bvModal.show("setReminderCustomModal");
     },
+    handleSlotUpdate(slots) {
+      let findIndex = this.medicationList.findIndex(
+        (x) => x.id == this.selectedMedication.id
+      );
+      if (findIndex > -1) {
+        this.medicationList[findIndex].morning_reminder =
+          slots.morning_reminder;
+        this.medicationList[findIndex].afternoon_reminder =
+          slots.afternoon_reminder;
+        this.medicationList[findIndex].evening_reminder =
+          slots.evening_reminder;
+      }
+    },
     fetchTimelines() {
       this.setLoadingState(true);
-      console.log(
-        this.getSelectedMedicationSession,
-        this.getSelectedMedicationSession.id
-      );
       medicationService
         .getMedications(this.getSelectedMedicationSession.id)
         .then(
           (response) => {
             if (response.data.status) {
               let data = response.data.data.items;
-              this.presentMedicationList = data.filter(
-                (x) => new Date() <= new Date(x.end_date)
-              );
-              this.pastMedicationList = data.filter(
-                (x) => new Date() > new Date(x.end_date)
-              );
               this.medicationList = [...data];
+              this.filterMedications();
             } else {
               this.failureToast(response.data.messsage);
             }
@@ -219,6 +226,17 @@ export default {
             this.failureToast();
           }
         );
+    },
+    filterMedications() {
+      this.presentMedicationList = [];
+      this.pastMedicationList = [];
+      this.medicationList.forEach((medication) => {
+        if (new Date() > new Date(medication.end_date)) {
+          this.pastMedicationList.push(medication);
+        } else {
+          this.presentMedicationList.push(medication);
+        }
+      });
     },
     viewDetails(medication) {
       this.setSelectedMedication(medication);

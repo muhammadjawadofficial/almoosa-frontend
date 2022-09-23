@@ -6,6 +6,7 @@
       page-body-container
       standard-width
     "
+    v-if="getSelectedMedication"
   >
     <back-navigation
       backLink="My Medication List"
@@ -65,30 +66,30 @@
                           getSelectedMedication.morning_reminder
                         )
                       )
-                    }}</span
-                  >
-                  <span
-                    v-if="getSelectedMedication.evening_reminder"
-                    class="btn btn-dark-blue btn-pill"
-                    >{{
-                      translateNumber(
-                        removeSecondsFromTimeString(
-                          getSelectedMedication.evening_reminder
-                        )
-                      )
-                    }}</span
-                  >
+                    }}
+                  </span>
                   <span
                     v-if="getSelectedMedication.afternoon_reminder"
-                    class="btn btn-primary btn-pill"
+                    class="btn btn-dark-blue btn-pill"
                     >{{
                       translateNumber(
                         removeSecondsFromTimeString(
                           getSelectedMedication.afternoon_reminder
                         )
                       )
-                    }}</span
-                  >
+                    }}
+                  </span>
+                  <span
+                    v-if="getSelectedMedication.evening_reminder"
+                    class="btn btn-primary btn-pill"
+                    >{{
+                      translateNumber(
+                        removeSecondsFromTimeString(
+                          getSelectedMedication.evening_reminder
+                        )
+                      )
+                    }}
+                  </span>
                 </div>
               </div>
             </div>
@@ -102,15 +103,17 @@
       </div>
     </div>
     <set-reminder-modal
+      :medicationId="getSelectedMedication.id"
       :selectedMorningSlot="getSelectedMedication.morning_reminder"
       :selectedAfternoonSlot="getSelectedMedication.afternoon_reminder"
       :selectedEveningSlot="getSelectedMedication.evening_reminder"
+      @update="handleSlotUpdate"
     />
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import SetReminderModal from "./set-reminder-modal.vue";
 export default {
   components: {
@@ -125,8 +128,12 @@ export default {
     }
   },
   methods: {
+    ...mapActions("myMedication", ["setSelectedMedication"]),
     setReminder() {
       this.$bvModal.show("setReminderCustomModal");
+    },
+    handleSlotUpdate(slots) {
+      this.setSelectedMedication({ ...this.getSelectedMedication, ...slots });
     },
     requestRefill() {
       this.successIconModal(

@@ -48,6 +48,7 @@ export const apiPath = {
         getAppointmentHistory: (id) => getApiObject("get", "appointments/history?patient_id=" + id),
         getMedications: (id) => getApiObject("get", "medications?appointment_id=" + id),
         getReminderSlots: getApiObject("get", "reminder-slots"),
+        setReminder: (id) => getApiObject("patch", "medications/" + id),
         appointmentWithReports: (id, type) => getApiObject("get", "appointments/reports?patient_id=" + id + "&type=" + type),
     },
 
