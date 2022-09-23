@@ -30,7 +30,22 @@ export const apiPath = {
         upcoming: (id) => getApiObject("get", "appointments/upcoming?" + id),
         clinics: getApiObject("get", "clinics"),
         specialities: getApiObject("get", "specialities"),
-        findDoctors: (speciality, date, clinic) => getApiObject("get", "users/doctors?speciality_id=" + speciality + "&date=" + date + (clinic ? "&clinic_id=" + clinic : '')),
+        findDoctors: (speciality, date, clinic) => {
+            let queryString = '?';
+            if (speciality) {
+                queryString += "speciality_id=" + speciality;
+            }
+            if (date) {
+                queryString += (queryString != "?" ? '&' : '') + "date=" + date;
+            }
+            if (clinic) {
+                queryString += (queryString != "?" ? '&' : '') + "clinic_id=" + clinic;
+            }
+            if (queryString == "?") {
+                queryString = '';
+            }
+            return getApiObject("get", "users/doctors" + queryString);
+        },
         fetchTimeslots: (doctor, date) => getApiObject("get", "timeslots?doctor_id=" + doctor + (date ? "&date=" + date : '')),
         createAppointment: getApiObject("post", "appointments"),
         updateAppointment: (id) => getApiObject("patch", "appointments/" + id),
@@ -64,7 +79,7 @@ export const apiPath = {
 
     insurance: {
         addNew: getApiObject("post", "insurances"),
-        fetch: (id) => getApiObject("get", "insurances?patient_id=" + id),
+        fetch: (id) => getApiObject("get", "insurances?patient_id=" + id + "&sort=-id"),
     },
 
     healthEducation: {

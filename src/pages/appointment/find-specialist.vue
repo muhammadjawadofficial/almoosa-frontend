@@ -252,33 +252,11 @@ export default {
       this.setBookingClinic(this.selectedClinic);
       this.setBookingSpeciality(this.selectedSpeciality);
       this.setBookingDate(this.selectedDate);
-      appointmentService
-        .findDoctors(
-          this.selectedSpeciality.id,
-          this.selectedDate,
-          this.selectedClinic.id
-        )
-        .then(
-          (res) => {
-            let response = res.data;
-            if (response.status) {
-              this.setDoctorsList(response.data.items);
-              if (this.getIsGuest) {
-                this.navigateTo("Doctor List Guest");
-              } else {
-                this.navigateTo("Doctor List");
-              }
-            } else {
-              this.failureToast(response.message);
-            }
-            this.setLoadingState(false);
-          },
-          (err) => {
-            console.error(err);
-            this.failureToast();
-            this.setLoadingState(false);
-          }
-        );
+      if (this.getIsGuest) {
+        this.navigateTo("Doctor List Guest");
+      } else {
+        this.navigateTo("Doctor List");
+      }
     },
   },
 };

@@ -42,7 +42,10 @@
           >
             <b-card-body>
               <b-tabs pills slot="header" class="tabbed-card">
-                <b-tab :title="$t('doctorDetail.tabs.booking')">
+                <b-tab
+                  :title="$t('doctorDetail.tabs.booking')"
+                  v-if="isBookingFlow"
+                >
                   <div class="booking-details-tab-container">
                     <div class="booking-date">
                       <div class="tab-content-heading">
@@ -83,49 +86,78 @@
                 </b-tab>
                 <b-tab :title="$t('doctorDetail.tabs.clinic')">
                   <div class="appointment-list">
-                    <div class="appointment-list-item">
+                    <div
+                      class="appointment-list-item"
+                      v-for="clinic in doctor.clinics"
+                      :key="'doctor-' + doctor.id + 'clinic-' + clinic.id"
+                    >
                       <div class="hospital-name">
-                        AlMoosa Specialist Hospital
+                        {{ clinic.title }}
                       </div>
                       <div class="hospital-address">
-                        Dhahran Rd, Al Mubarraz 36342, Saudi Arabia
-                      </div>
-                    </div>
-                    <div class="appointment-list-item">
-                      <div class="hospital-name">AlMoosa Rehab Center</div>
-                      <div class="hospital-address">
-                        AlMoosa Rehabilitation & Long Term Care Hospital
+                        {{ clinic.address }}
                       </div>
                     </div>
                   </div>
                 </b-tab>
                 <b-tab :title="$t('doctorDetail.tabs.experience')">
-                  <div class="card-heading">About Doctor</div>
+                  <div class="card-heading">
+                    {{ $t("doctorDetail.aboutDoctor") }}
+                  </div>
                   <div class="card-paragraph">
-                    Lorem ipsum dolor sit amet, consectetur adipiscingelit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo unt in culpa
-                    qui officia deserunt mollit id est laborum.
+                    <div>
+                      {{ $t("doctorDetail.degree") }}:
+                      {{ doctor.degree || $t("noData") }}
+                    </div>
+                    <div>
+                      {{ $t("doctorDetail.expertise") }}:
+                      {{ doctor.expertise || $t("noData") }}
+                    </div>
+                    <div>
+                      {{ $t("doctorDetail.nationality") }}:
+                      {{ doctor.nationality.nationality || $t("noData") }}
+                    </div>
                   </div>
                   <div class="appointment-list">
                     <div class="appointment-list-item">
                       <div class="hospital-name">
-                        Glowing Smiles Family Dental Clinic
+                        {{ $t("doctorDetail.languages") }}
                       </div>
-                      <div class="hospital-address">5 Years 2010 - Present</div>
+                      <template v-if="doctor.language">
+                        <div
+                          class="hospital-address"
+                          v-for="language in doctor.languages.split(',')"
+                          :key="'language-' + language.trim()"
+                        >
+                          {{ language }}
+                        </div>
+                      </template>
+                      <template v-else>
+                        <div class="hospital-address no-data pt-0">
+                          {{ $t("noData") }}
+                        </div>
+                      </template>
                     </div>
                     <div class="appointment-list-item">
                       <div class="hospital-name">
-                        Comfort Care Dental Clinic
+                        {{ $t("doctorDetail.ageGroups") }}
                       </div>
-                      <div class="hospital-address">3 Years 2007 - 2013</div>
-                    </div>
-                    <div class="appointment-list-item">
-                      <div class="hospital-name">
-                        Comfort Care Dental Clinic
-                      </div>
-                      <div class="hospital-address">3 Years 2007 - 2013</div>
+                      <template v-if="doctor.consulting_age_group">
+                        <div
+                          class="hospital-address"
+                          v-for="ageGroup in doctor.consulting_age_group.split(
+                            ','
+                          )"
+                          :key="'ageGroup-' + ageGroup.trim()"
+                        >
+                          {{ ageGroup }}
+                        </div>
+                      </template>
+                      <template v-else>
+                        <div class="hospital-address no-data pt-0">
+                          {{ $t("noData") }}
+                        </div>
+                      </template>
                     </div>
                   </div>
                 </b-tab>
@@ -134,16 +166,23 @@
           </b-card>
           <div class="row">
             <div class="col-md-12 button-group">
-              <button class="btn btn-secondary" @click="bookAppointment">
+              <button
+                class="btn btn-secondary"
+                @click="bookAppointment"
+                v-if="isBookingFlow"
+              >
                 {{ $t("doctorList.bookAppointment") }}
               </button>
               <button
-                class="btn btn-tertiary"
+                class="btn"
+                :class="isBookingFlow ? 'btn-tertiary' : 'btn-secondary'"
                 @click="
                   navigateTo(
-                    getIsReschedule
-                      ? 'Appointment Detail'
-                      : 'Doctor List' + (getIsGuest ? ' Guest' : '')
+                    isBookingFlow
+                      ? getIsReschedule
+                        ? 'Appointment Detail'
+                        : 'Doctor List' + (getIsGuest ? ' Guest' : '')
+                      : 'Find A Specialist' + (getIsGuest ? ' Guest' : '')
                   )
                 "
               >
@@ -168,6 +207,7 @@ export default {
       timeslots: null,
       selectedTimeSlot: null,
       neverShowLocation: true,
+      isBookingFlow: false,
     };
   },
   computed: {
@@ -182,7 +222,7 @@ export default {
     ]),
     shouldShowLocation() {
       if (this.neverShowLocation) {
-        return true;
+        return false;
       } else if (this.getIsReschedule) {
         return this.getSelectedAppointment.type == "onsite";
       } else {
@@ -195,6 +235,9 @@ export default {
       this.navigateTo("Doctor List");
     }
     this.initializeData();
+    this.isBookingFlow = ["Doctor Details", "Doctor Details Guest"].includes(
+      this.$route.name
+    );
   },
   methods: {
     ...mapActions("appointment", [

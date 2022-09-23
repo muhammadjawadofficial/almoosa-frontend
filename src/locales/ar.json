@@ -138,6 +138,8 @@
     "bookingDate": "تاريخ الحجز",
     "timeSlots": "الفترات الزمنية المتاحة",
     "bookAppointment": "احجز موعدًا",
+    "viewDetails": "عرض التفاصيل",
+    "physicianList": "قائمة الأطباء",
     "noData": "لم يتم العثور على طبيب في معايير الاختيار الحالية"
   },
   "doctorDetail": {
@@ -148,7 +150,13 @@
     },
     "timeslot": {
       "noData": "لا توجد فترات زمنية في هذا التاريخ المحدد"
-    }
+    },
+    "aboutDoctor": "عن دكتور",
+    "degree": "درجة",
+    "expertise": "مجالات الخبرة",
+    "nationality": "جنسية",
+    "languages": "اللغات",
+    "ageGroups": "الفئات العمرية للمريض"
   },
   "promotions": {
     "title": "قائمة الترقيات",

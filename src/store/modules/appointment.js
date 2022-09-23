@@ -105,7 +105,7 @@ export default {
             state.booking.amount = amount;
         },
         SET_DOCTORS_LIST(state, doctorsList) {
-            state.doctorsList = doctorsList;
+            Vue.set(state, 'doctorsList', doctorsList)
         },
         SET_IS_RESCHEDULE(state, isReschedule) {
             state.isReschedule = isReschedule;

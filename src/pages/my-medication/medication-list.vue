@@ -9,7 +9,7 @@
       no-body
       class="ash-card card-top-navigation transparent"
     >
-      <b-card-body class="mt-5 p-0">
+      <b-card-body class="mt-5 p-0" style="--numberOfTabs: 2">
         <b-tabs pills slot="header" class="tabbed-card">
           <b-tab :title="$t('myMedication.currentMedication')">
             <div

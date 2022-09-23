@@ -31,7 +31,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/dashboard/default2"
+            "path": "/symptom-checker"
         },
         {
             "titleEn": "Find Specialist",
@@ -42,7 +42,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/dashboard/default2"
+            "path": "/find-a-specialist"
         },
         {
             "titleEn": "On-site Appointments",
@@ -119,7 +119,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/dashboard/default2"
+            "path": "/my-vitals"
         },
         {
             "titleEn": "Health Education",
@@ -141,7 +141,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/dashboard/default2"
+            "path": "/virtual-tour"
         },
         {
             "titleEn": "View Promotions",

@@ -147,6 +147,9 @@
 .svg-icon-fill-bg {
     fill: $white;
 }
+.svg-icon-stroke-bg {
+    stroke: $secondary-color;
+}
 .svg-icon-stroke {
     stroke: $secondary-color;
 }
@@ -1207,6 +1210,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     --gapBetweenLineItems: 2rem;
     --profileInfoLineItems: 2;
     &-card {
+        overflow: hidden;
         padding: 1rem;
         border-radius: 1.5rem;
         background: $tertiary-color;

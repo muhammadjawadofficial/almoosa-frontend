@@ -136,6 +136,8 @@
     "bookingDate": "Booking Date",
     "timeSlots": "Available Time Slots",
     "bookAppointment": "Book an Appointment",
+    "viewDetails": "View Details",
+    "physicianList": "Physician List",
     "noData": "No doctor found in the current selection criteria"
   },
   "doctorDetail": {
@@ -147,7 +149,13 @@
     "timeslot": {
       "noData": "No timeslots in this selected date",
       "notSelected": "Please select a timeslot"
-    }
+    },
+    "aboutDoctor": "About Doctor",
+    "degree": "Degree",
+    "expertise": "Areas of expertise",
+    "nationality": "Nationality",
+    "languages": "Languages",
+    "ageGroups": "Patient Age Groups"
   },
   "bookAppointment": {
     "success": "Your Appointment has been booked successfully!",

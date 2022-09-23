@@ -1,8 +1,14 @@
 <template>
   <div class="doctor-list-container page-body-container standard-width">
     <back-navigation
-      :backLink="'Find Specialist' + (getIsGuest ? ' Guest' : '')"
-      :title="$t('doctorList.title')"
+      :backLink="
+        isBookingFlow
+          ? 'Find Specialist' + (getIsGuest ? ' Guest' : '')
+          : 'default'
+      "
+      :title="
+        isBookingFlow ? $t('doctorList.title') : $t('doctorList.physicianList')
+      "
     />
     <div class="search-box">
       <div class="search-icon">
@@ -39,7 +45,11 @@
             class="btn btn-primary make-appointment"
             @click="setSelectedDoctor(doctor)"
           >
-            {{ $t("doctorList.makeAppointment") }}
+            {{
+              isBookingFlow
+                ? $t("doctorList.makeAppointment")
+                : $t("doctorList.viewDetails")
+            }}
           </button>
         </div>
       </template>
@@ -52,28 +62,52 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { appointmentService } from "../../services";
 export default {
   data() {
     return {
       searchDoctorQuery: "",
       filteredDoctors: [],
+      isBookingFlow: false,
     };
   },
   computed: {
-    ...mapGetters("appointment", ["getDoctorsList", "getBookingClinic"]),
+    ...mapGetters("appointment", [
+      "getDoctorsList",
+      "getBookingClinic",
+      "getBookingSpeciality",
+      "getBookingMethod",
+      "getBookingClinic",
+      "getBookingDate",
+    ]),
   },
   mounted() {
-    if (!this.getDoctorsList || !this.getBookingClinic) {
+    this.isBookingFlow = ["Doctor List", "Doctor List Guest"].includes(
+      this.$route.name
+    );
+    if (
+      this.isBookingFlow &&
+      (!this.getBookingSpeciality ||
+        !this.getBookingMethod ||
+        !this.getBookingDate)
+    ) {
       this.navigateTo("Find Specialist" + (this.getIsGuest ? " Guest" : ""));
+      return;
     }
-    this.filteredDoctors = [...this.getDoctorsList];
     this.setBookingDoctor(null);
+    this.fetchDoctorList();
   },
   watch: {
     searchDoctorQuery(val) {
       this.filteredDoctors = [
         ...this.getDoctorsList.filter((x) =>
-          x.first_name.toLowerCase().includes(val.toLowerCase())
+          (
+            x.first_name +
+            (x.middle_name ? " " + x.middle_name + " " : " ") +
+            x.family_name
+          )
+            .toLowerCase()
+            .includes(val.toLowerCase())
         ),
       ];
     },
@@ -84,13 +118,48 @@ export default {
       "setBookingStartTime",
       "setBookingEndTime",
       "setBookingAmount",
+      "setDoctorsList",
     ]),
     setSelectedDoctor(doctor) {
       this.setBookingDoctor(doctor);
       this.setBookingStartTime(null);
       this.setBookingEndTime(null);
       this.setBookingAmount(100);
-      this.navigateTo("Doctor Details" + (this.getIsGuest ? " Guest" : ""));
+      this.navigateTo(
+        (this.isBookingFlow ? "Doctor Details" : "Specialist Details") +
+          (this.getIsGuest ? " Guest" : "")
+      );
+    },
+    fetchDoctorList() {
+      let speciality = null;
+      let date = null;
+      let clinic = null;
+
+      if (this.isBookingFlow) {
+        speciality = this.getBookingSpeciality.id;
+        date = this.getBookingDate;
+        if (this.getBookingMethod == "onsite") {
+          clinic = this.getBookingClinic;
+        }
+      }
+      this.setLoadingState(true);
+      appointmentService.findDoctors(speciality, date, clinic).then(
+        (res) => {
+          let response = res.data;
+          if (response.status) {
+            this.setDoctorsList(response.data.items);
+            this.filteredDoctors = [...response.data.items];
+          } else {
+            this.failureToast(response.message);
+          }
+          this.setLoadingState(false);
+        },
+        (err) => {
+          console.error(err);
+          this.failureToast();
+          this.setLoadingState(false);
+        }
+      );
     },
   },
 };

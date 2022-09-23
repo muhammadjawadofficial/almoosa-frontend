@@ -202,7 +202,10 @@
                 <doctor-svg />
               </div>
             </div>
-            <div class="consultation-section--blocks--single large tertiary">
+            <div
+              class="consultation-section--blocks--single large tertiary"
+              @click="findSpecialist()"
+            >
               <div class="title">
                 {{ $t("modules.Find Specialist") }}
                 <div class="sub-title">
@@ -359,7 +362,10 @@ export default {
     ...mapGetters("appointment", ["getBookingMethod"]),
   },
   methods: {
-    ...mapActions("appointment", ["setBookingMethod"]),
+    ...mapActions("appointment", ["setBookingMethod", "setDoctorsList"]),
+    findSpecialist() {
+      this.navigateTo("Find A Specialist");
+    },
     findASpecialist(type) {
       this.navigateTo("Find Specialist", { method: type });
     },

@@ -97,6 +97,22 @@ const routes = [
         }
       },
       {
+        path: 'find-a-specialist',
+        name: 'Find A Specialist',
+        component: doctorList,
+        meta: {
+          title: 'Find A Specialist | Almoosa Specialist Hospital',
+        }
+      },
+      {
+        path: 'find-a-specialist/details',
+        name: 'Specialist Details',
+        component: doctorDetails,
+        meta: {
+          title: 'Specialist Details | Almoosa Specialist Hospital',
+        }
+      },
+      {
         path: 'appointment',
         component: AppointmentModule,
         children: [
@@ -470,40 +486,63 @@ const routes = [
             path: 'guest',
             component: GuestUserModule,
             children: [
-
               {
                 path: 'appointment',
                 component: AppointmentModule,
                 children: [
                   {
-                    path: 'find-specialist/:method',
-                    name: 'Find Specialist Guest',
-                    component: findSpecialist,
-                    meta: {
-                      title: 'Find Specialist | Almoosa Specialist Hospital',
-                      public: true
-                    }
-                  },
-                  {
-                    path: 'doctors',
-                    name: 'Doctor List Guest',
-                    component: doctorList,
-                    meta: {
-                      title: 'Find Specialist | Almoosa Specialist Hospital',
-                      public: true
-                    }
-                  },
-                  {
-                    path: 'doctor-details',
-                    name: 'Doctor Details Guest',
-                    component: doctorDetails,
-                    meta: {
-                      title: 'Doctor Details | Almoosa Specialist Hospital',
-                      public: true
-                    }
-                  },
-                ]
-              }
+                    path: ':method',
+                    component: AppointmentMethodModule,
+                    children: [
+                      {
+                        path: 'find-specialist',
+                        name: 'Find Specialist Guest',
+                        component: findSpecialist,
+                        meta: {
+                          title: 'Find Specialist | Almoosa Specialist Hospital',
+                          public: true
+                        }
+                      },
+                      {
+                        path: 'doctors',
+                        name: 'Doctor List Guest',
+                        component: doctorList,
+                        meta: {
+                          title: 'Find Specialist | Almoosa Specialist Hospital',
+                          public: true
+                        }
+                      },
+                      {
+                        path: 'doctor-details',
+                        name: 'Doctor Details Guest',
+                        component: doctorDetails,
+                        meta: {
+                          title: 'Doctor Details | Almoosa Specialist Hospital',
+                          public: true
+                        }
+                      },
+                    ]
+                  }
+                ],
+              },
+              {
+                path: 'find-a-specialist',
+                name: 'Find A Specialist Guest',
+                component: doctorList,
+                meta: {
+                  title: 'Find A Specialist | Almoosa Specialist Hospital',
+                  public: true
+                }
+              },
+              {
+                path: 'find-a-specialist/details',
+                name: 'Specialist Details Guest',
+                component: doctorDetails,
+                meta: {
+                  title: 'Specialist Details | Almoosa Specialist Hospital',
+                  public: true
+                }
+              },
             ]
           },
         ]

@@ -66,6 +66,7 @@ export default {
         {
           text: "Find Specialist",
           icon: "heart-checkup-svg",
+          link: "Find A Specialist Guest",
         },
       ],
     };
@@ -75,7 +76,8 @@ export default {
       this.navigateTo("Login");
     }
     localStorage.removeItem("url");
-    this.$root.$refs.appointmentModule && this.$root.$refs.appointmentModule.destroyObjects(true);
+    this.$root.$refs.appointmentModule &&
+      this.$root.$refs.appointmentModule.destroyObjects(true);
   },
   methods: {
     ...mapActions("user", ["setUserRole"]),
