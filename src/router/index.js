@@ -118,6 +118,22 @@ const routes = [
         component: AppointmentModule,
         children: [
           {
+            path: 'payment/success',
+            name: 'Payment Success',
+            component: paymentSuccess,
+            meta: {
+              title: 'Payment Success | Almoosa Specialist Hospital',
+            }
+          },
+          {
+            path: 'payment/failure',
+            name: 'Payment Failure',
+            component: paymentFailure,
+            meta: {
+              title: 'Payment Failure | Almoosa Specialist Hospital',
+            }
+          },
+          {
             path: ':method',
             component: AppointmentMethodModule,
             children: [
@@ -192,22 +208,6 @@ const routes = [
                 component: payNow,
                 meta: {
                   title: 'Pay Now | Almoosa Specialist Hospital',
-                }
-              },
-              {
-                path: 'payment/success',
-                name: 'Payment Success',
-                component: paymentSuccess,
-                meta: {
-                  title: 'Payment Success | Almoosa Specialist Hospital',
-                }
-              },
-              {
-                path: 'payment/failure',
-                name: 'Payment Failure',
-                component: paymentFailure,
-                meta: {
-                  title: 'Payment Failure | Almoosa Specialist Hospital',
                 }
               },
             ]
@@ -551,6 +551,32 @@ const routes = [
                   title: 'Specialist Details | Almoosa Specialist Hospital',
                   public: true
                 }
+              },
+
+              {
+                path: 'health-education',
+                component: healthEducationModule,
+                children: [
+                  { path: '', name: "Health Education Guest", redirect: { name: 'Health Education List Guest' } },
+                  {
+                    path: "list",
+                    name: 'Health Education List Guest',
+                    component: healthEducationList,
+                    meta: {
+                      title: 'Health Education | Almoosa Specialist Hospital',
+                      public: true,
+                    },
+                  },
+                  {
+                    path: "details/:id",
+                    name: 'Health Education Details Guest',
+                    component: healthEducationDetails,
+                    meta: {
+                      title: 'Health Education Details | Almoosa Specialist Hospital',
+                      public: true
+                    },
+                  },
+                ]
               },
             ]
           },

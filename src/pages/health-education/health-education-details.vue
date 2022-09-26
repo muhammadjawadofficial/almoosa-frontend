@@ -15,7 +15,7 @@
             class="img-fluid w-100"
           />
           <div class="standard-width">
-            <div class="main-banner-text w600">
+            <div class="main-banner-text w600" :class="{ 'px-3': getIsGuest }">
               {{ educationContent.long_title }}
             </div>
           </div>

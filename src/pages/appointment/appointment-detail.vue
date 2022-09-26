@@ -171,7 +171,8 @@ export default {
           this.details.booked_date,
           this.details.start_time,
           this.details.end_time
-        )
+        ) &&
+        this.details.status == "confirmed"
       ) {
         let html =
           "<ul class='swal2-list'>" +

@@ -50,6 +50,7 @@ export default {
         {
           text: "Health Education",
           icon: "atom-svg",
+          link: "Health Education Guest",
         },
         {
           text: "Virtual Tour",
