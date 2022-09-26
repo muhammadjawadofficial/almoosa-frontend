@@ -97,6 +97,7 @@
   "upcomingAppointment": {
     "onsite": "On-site",
     "virtual": "Virtual",
+    "appointmentTimeline": "Appointment History Timeline",
     "modal": {
       "delete": "Appointment Cancelled",
       "deleteText": "Your appointment has been cancelled",
@@ -109,6 +110,7 @@
     "subHeading": "View your appointments history",
     "appointment": "Appointment",
     "specialist": "Specialist",
+    "patient": "Patient",
     "medicalType": "Medical Type",
     "token": "Token",
     "dateTime": "Date & Time",
@@ -116,7 +118,11 @@
     "cancelAppointment": "Cancel Appointment",
     "joinCall": "Join Call",
     "chatWithDoctor": "Chat With Doctor",
-    "instructionTitle": "Virtual Appointment Instruction"
+    "instructionTitle": "Virtual Appointment Instruction",
+    "caseHistory": "Case History",
+    "consultation": "Consultation",
+    "treatmentDate": "Treatment Date",
+    "treatmentType": "Treatment Type"
   },
   "findSpecialist": {
     "specialities": "Specialities",

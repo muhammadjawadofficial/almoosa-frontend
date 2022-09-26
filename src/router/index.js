@@ -17,6 +17,7 @@ import AppointmentMethodModule from '../pages/appointment/appointment-method-mod
 import BookAppointment from '../pages/appointment/book-appointment'
 import UpcomingAppointment from '../pages/appointment/upcoming-appointment'
 import appointmentDetail from '../pages/appointment/appointment-detail'
+import appointmentHistory from '../pages/appointment/appointment-history-timeline'
 import findSpecialist from '../pages/appointment/find-specialist'
 import doctorList from '../pages/appointment/doctor-list'
 import doctorDetails from '../pages/appointment/doctor-details'
@@ -135,6 +136,14 @@ const routes = [
                 component: appointmentDetail,
                 meta: {
                   title: 'Appointment Detail | Almoosa Specialist Hospital',
+                }
+              },
+              {
+                path: 'history',
+                name: 'Appointment History',
+                component: appointmentHistory,
+                meta: {
+                  title: 'Appointment History | Almoosa Specialist Hospital',
                 }
               },
               {

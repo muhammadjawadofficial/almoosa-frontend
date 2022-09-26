@@ -97,6 +97,23 @@
                     font-family: $font-diodrum-medium;
                     color: #6bb16f;
                   }
+                  .appointment-detail-section {
+                    &-title {
+                      font-size: 1.25rem;
+                      font-family: $font-diodrum-medium;
+                      color: #aeaeb4;
+                    }
+                    &-value {
+                      font-size: 1.25rem;
+                      color: black;
+                      .separator {
+                        font-size: 3rem;
+                        line-height: 0em;
+                        font-family: ui-sans-serif;
+                        color: $secondary-color;
+                      }
+                    }
+                  }
                 }
                 &-time-span {
                   position: absolute;

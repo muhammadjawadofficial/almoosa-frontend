@@ -97,6 +97,7 @@
   "upcomingAppointment": {
     "onsite": "بالموقع",
     "virtual": "افتراضية",
+    "appointmentTimeline": "الجدول الزمني لتاريخ الموعد",
     "modal": {
       "delete": "تم إلغاء الموعد",
       "deleteText": "تم إلغاء موعدك",
@@ -109,6 +110,7 @@
     "subHeading": "عرض محفوظات المواعيد الخاصة بك",
     "appointment": "ميعاد",
     "specialist": "متخصص",
+    "patient": "المريض",
     "medicalType": "النوع الطبي",
     "token": "رمز",
     "dateTime": "التاريخ والوقت",
@@ -116,7 +118,11 @@
     "cancelAppointment": "إلغاء التعيين",
     "joinCall": "الانضمام إلى المكالمة",
     "chatWithDoctor": "الدردشة مع الطبيب",
-    "instructionTitle": "تعليمات الموعد الافتراضي"
+    "instructionTitle": "تعليمات الموعد الافتراضي",
+    "caseHistory": "تاريخ الحالة",
+    "consultation": "التشاور",
+    "treatmentDate": "تاريخ العلاج",
+    "treatmentType": "نوع العلاج"
   },
   "findSpecialist": {
     "specialities": "التخصصات",

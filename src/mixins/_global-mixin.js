@@ -263,8 +263,11 @@ export default {
         replaceTo(name) {
             this.$router.replace({ name })
         },
-        getDate(dateString) {
+        getDate(dateString, utc = true) {
             let date = this.moment(dateString);
+            if (utc) {
+                date = date.utc();
+            }
             if (this.moment(date).isSame(new Date(), "day")) {
                 return this.$t('header.today');
             } else {

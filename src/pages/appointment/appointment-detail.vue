@@ -5,6 +5,14 @@
       :title="$t('appointmentDetail.heading')"
       :subTitle="$t('appointmentDetail.subHeading')"
     />
+    <div class="search-box">
+      <button
+        class="btn btn-secondary"
+        @click="navigateTo('Appointment History')"
+      >
+        {{ $t("appointmentDetail.caseHistory") }}
+      </button>
+    </div>
     <div class="row">
       <div class="col-sm-12">
         <b-card
@@ -24,7 +32,12 @@
               </div>
               <div class="appointment-detail--sepecialist">
                 <div class="appointment-detail--label">
-                  {{ $t("appointmentDetail.specialist") }}
+                  {{
+                    $t(
+                      "appointmentDetail." +
+                        (isDoctor ? "patient" : "specialist")
+                    )
+                  }}
                 </div>
                 <div class="appointment-detail--value">
                   {{
