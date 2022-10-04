@@ -317,6 +317,9 @@ export default {
         formatLongDayDateFromDate(date, utc = true) {
             return this.dateFormatter(date, 'dddd, MMMM DD', utc);
         },
+        removeDateTime(date) {
+            return this.dateFormatter(date, "YYYY-MM-DD")
+        },
         formatDate(date) {
             return this.dateFormatter(date, "DD-MM-YYYY")
         },

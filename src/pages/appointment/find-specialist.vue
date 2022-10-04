@@ -207,12 +207,7 @@ export default {
         }
       );
       let today = new Date();
-      this.selectedDate =
-        today.getUTCFullYear() +
-        "-" +
-        (today.getUTCMonth() + 1) +
-        "-" +
-        today.getUTCDate();
+      this.selectedDate = this.removeDateTime(today.setHours(0, 0, 0));
       if (this.getBookingDate) {
         this.selectedDate = this.getBookingDate;
       }
