@@ -879,10 +879,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             border: 1px solid #cbc0a9;
             padding: 1.5em;
             border-radius: 0.5em;
-            margin-bottom: 3em;
+            // margin-bottom: 3em;
+            width: calc(min(20.5em, 100%));
+            display: flex;
+            flex-direction: column;
             .doctor {
                 &-image {
                     width: 17.5em;
+                    width: calc(min(17.5em, 100%));
                     height: 15.125em;
                     margin-bottom: 1.125em;
                     display: flex;
@@ -899,10 +903,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     font-size: 1.25em;
                     color: #8f7970;
                     font-family: $font-diodrum-medium;
+                    margin-bottom: 1.5em;
                 }
             }
             .make-appointment {
-                margin-top: 2em;
+                margin-top: auto;
                 width: 100%;
                 padding-block: 0.75em;
             }
@@ -937,6 +942,31 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         padding-block: 0;
         &--blocks {
             justify-content: center;
+        }
+    }
+}
+.package-information {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    .thumbnain-picture {
+        width: calc(min(100%, 30rem));
+        // height: 20rem;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    .package-info-section {
+        .title {
+            color: $black;
+            font-size: 1.5rem;
+        }
+        .value {
+            color: $primary-color;
+            font-size: 2.5rem;
         }
     }
 }

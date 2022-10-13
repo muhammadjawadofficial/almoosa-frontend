@@ -4206,6 +4206,14 @@
       }
     }
   }
+
+  .doctor-list-container {
+    div.doctor-card-container {
+      .doctor-card {
+        width: calc(50% - 1rem);
+      }
+    }
+  }
 }
 @media only screen and (max-width: 700px) {
   .doctor-details-container {
@@ -6144,6 +6152,11 @@
   .doctor-list-container {
     div.doctor-card-container {
       font-size: 0.85rem;
+      .doctor-card {
+        .doctor-image {
+          height: 12em;
+        }
+      }
     }
   }
 
@@ -6653,6 +6666,17 @@
         &::after {
           right: 0.5rem;
           left: unset;
+        }
+      }
+    }
+  }
+  .doctor-list-container {
+    div.doctor-card-container {
+      .doctor-card {
+        align-items: center;
+        width: 100%;
+        .doctor-image {
+          height: 15em;
         }
       }
     }

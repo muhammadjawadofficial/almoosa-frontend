@@ -3,7 +3,14 @@
     <div class="row" v-if="promotion">
       <div class="col-md-12">
         <div class="promotion-banner">
-          <img src="../../assets/images/promotion.png" alt="" />
+          <img
+            :src="
+              promotion.image
+                ? getImageUrl(promotion.image)
+                : '../../assets/images/promotion.png'
+            "
+            alt=""
+          />
         </div>
       </div>
       <div class="col-md-12 mt-4">

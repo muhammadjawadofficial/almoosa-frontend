@@ -314,6 +314,7 @@ export default {
         {
           text: "Get Service & Package",
           icon: "briefcase-svg",
+          link: "Services Packages",
         },
         {
           text: "Emergency Consultations",

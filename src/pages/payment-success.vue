@@ -15,9 +15,11 @@ export default {
     ...mapActions("appointment", ["setSelectedAppointment"]),
     showModal() {
       let booking = userService.getBooking();
-      booking.status = "confirmed";
-      this.setSelectedAppointment(booking);
-      userService.removeBooking();
+      if (booking) {
+        booking.status = "confirmed";
+        this.setSelectedAppointment(booking);
+        userService.removeBooking();
+      }
       this.setLoadingState(false);
       this.successIconModal(
         this.$t("selectPaymentMethod.paymentSuccessful"),

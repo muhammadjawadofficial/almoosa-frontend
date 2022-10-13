@@ -9,11 +9,7 @@
   >
     <back-navigation
       :backLink="
-        getPaymentObject.otherPayment
-          ? 'Services Packages Details'
-          : getPaymentObject.payLater
-          ? 'Appointment Detail'
-          : 'Doctor Details'
+        getPaymentObject.payLater ? 'Appointment Detail' : 'Doctor Details'
       "
     />
 
@@ -46,7 +42,9 @@
               <div class="content--info">
                 <div class="content--price">
                   {{
-                    translateNumber(getPaymentObject.amount) + " " + $t("sar")
+                    translateNumber(getSelectedAppointment.amount) +
+                    " " +
+                    $t("sar")
                   }}
                 </div>
                 <i
@@ -66,72 +64,53 @@
       <div class="heading-section">
         <div class="heading-text">
           <div class="heading-title">
-            {{
-              $t(
-                "selectPaymentMethod." +
-                  (getPaymentObject && getPaymentObject.otherPayment
-                    ? "tamara"
-                    : "insurance")
-              )
-            }}
+            {{ $t("selectPaymentMethod.insurance") }}
           </div>
           <div class="heading-subTitle">
-            {{
-              $t(
-                "selectPaymentMethod.choose" +
-                  (getPaymentObject && getPaymentObject.otherPayment
-                    ? "Tamara"
-                    : "Insurance")
-              )
-            }}
+            {{ $t("selectPaymentMethod.chooseInsurance") }}
           </div>
         </div>
       </div>
       <div class="body-section">
         <div class="payment-method">
-          <template v-for="method in paymentMethodsOthers">
-            <template
-              v-if="getPaymentObject.otherPayment == method.isOtherPayment"
-            >
-              <div
-                class="payment-method--item primary"
-                :key="'payment-method-' + method.title"
-                @click="handleSelection(method)"
-              >
-                <div class="logo">
-                  <component :is="method.icon" />
-                </div>
-                <div class="content">
-                  <div class="content--name">
-                    {{ $t("selectPaymentMethod." + method.title) }}
-                  </div>
-                  <div class="content--info">
-                    <div class="content--price">
-                      {{
-                        translateNumber(getPaymentObject.amount) +
-                        " " +
-                        $t("sar")
-                      }}
-                    </div>
-                    <i
-                      :class="
-                        'fa fa-chevron-' +
-                        (getCurrentLang() == 'en' ? 'right' : 'left')
-                      "
-                      aria-hidden="true"
-                    ></i>
-                  </div>
-                </div>
+          <div
+            class="payment-method--item primary"
+            v-for="method in paymentMethodsInsurance"
+            :key="'payment-method-' + method.title"
+            @click="handleSelection(method)"
+          >
+            <div class="logo">
+              <component :is="method.icon" />
+            </div>
+            <div class="content">
+              <div class="content--name">
+                {{ $t("selectPaymentMethod." + method.title) }}
               </div>
-            </template>
-          </template>
+              <div class="content--info">
+                <div class="content--price">
+                  {{
+                    translateNumber(getSelectedAppointment.amount) +
+                    " " +
+                    $t("sar")
+                  }}
+                </div>
+                <i
+                  :class="
+                    'fa fa-chevron-' +
+                    (getCurrentLang() == 'en' ? 'right' : 'left')
+                  "
+                  aria-hidden="true"
+                ></i>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
-<script>
+  
+  <script>
 import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
@@ -151,19 +130,12 @@ export default {
         },
       ],
 
-      paymentMethodsOthers: [
+      paymentMethodsInsurance: [
         {
           title: "insurance",
           icon: "insurance-svg",
           currency: "sar",
           isOnlinePayment: false,
-        },
-        {
-          title: "tamara",
-          icon: "cash-svg",
-          currency: "sar",
-          isOnlinePayment: false,
-          isOtherPayment: true,
         },
       ],
     };
@@ -197,6 +169,8 @@ export default {
     },
   },
   mounted() {
+    console.log(this.getSelectedAppointment);
+    console.log(this.getPaymentObject);
     if (!this.getSelectedAppointment) {
       if (!(this.getPaymentObject && this.getPaymentObject.otherPayment)) {
         this.navigateTo("Upcoming Appointment");
@@ -208,23 +182,24 @@ export default {
     ...mapActions("appointment", ["setPaymentObject"]),
     handleSelection(item) {
       if (item.isOnlinePayment) {
-        console.log(this.getPaymentObject);
         let obj = {
-          amount: this.getPaymentObject.amount,
-          appointment_id: this.getPaymentObject.appointment_id,
+          amount: this.getSelectedAppointment.amount,
+          appointment_id: this.getSelectedAppointment.id,
           currency: item.currency.toUpperCase(),
         };
         obj.method = null;
         if (item.title.includes("apple")) {
           obj.method = item.title.toUpperCase();
         }
-        this.setPaymentObject(obj);
+        if (!this.getPaymentObject) {
+          this.setPaymentObject(obj);
+        }
         this.navigateTo("Pay Now");
       }
     },
   },
 };
 </script>
-
-<style>
+  
+  <style>
 </style>

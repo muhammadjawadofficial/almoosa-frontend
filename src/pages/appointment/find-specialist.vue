@@ -57,6 +57,9 @@
               />
             </div>
           </div>
+          <div class="no-data pt-0" v-if="!clinics || !clinics.length">
+            {{ $t("noData") }}
+          </div>
         </div>
       </div>
     </div>
@@ -91,6 +94,12 @@
             <div class="speciality-label">
               {{ speciality.title }}
             </div>
+          </div>
+          <div
+            class="no-data pt-0"
+            v-if="!specialities || !specialities.length"
+          >
+            {{ $t("noData") }}
           </div>
         </div>
       </div>

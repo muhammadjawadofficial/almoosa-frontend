@@ -7,3 +7,4 @@ export * from './patient.service';
 export * from './insurance.service';
 export * from './health-education.service';
 export * from './medication.service';
+export * from './services-packages.service';

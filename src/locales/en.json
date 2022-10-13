@@ -186,9 +186,11 @@
     "applePay": "Apple Pay",
     "card": "Credit/Debit Card",
     "insurance": "Pay Via Insurance",
+    "tamara": "Pay Via Tamara",
     "payCash": "Pay via Credit/Debit/Apple Pay",
     "chooseCash": "Choose Your Cash Method",
     "chooseInsurance": "Pay Your Bills Via Medical Insurance",
+    "chooseTamara": "Pay Your Bills Via Tamara in Installments",
     "paymentSuccessful": "Payment Successful",
     "paymentSuccessfulText": "Your payment has been received successfully",
     "paymentFailed": "Payment Failed",
@@ -297,6 +299,19 @@
       "reminderTitle": "Reminder Added",
       "reminderText": "Reminder has been set successfully"
     }
+  },
+  "servicesPackages": {
+    "title": "Services and Packages",
+    "details": "Package Details",
+    "viewDetails": "View Details",
+    "searchPlaceholder": "Search Service",
+    "packageTitle": "Package Title",
+    "price": "Price",
+    "description": "Description",
+    "serviceDetails": "Service Details",
+    "bookPackage": "Book Package",
+    "packageList": "Package List",
+    "bookedPackages": "Booked Packages"
   },
   "paymentStatus": {
     "pending": "Pending",

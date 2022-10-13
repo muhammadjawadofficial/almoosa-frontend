@@ -44,6 +44,10 @@ import healthEducationModule from '../pages/health-education'
 import healthEducationList from '../pages/health-education/health-education-list'
 import healthEducationDetails from '../pages/health-education/health-education-details'
 
+import servicesPackagesModule from '../pages/services-packages'
+import servicesPackagesList from '../pages/services-packages/services-packages-list'
+import servicesPackagesDetails from '../pages/services-packages/services-packages-details'
+
 import insuranceModule from '../pages/insurance'
 import insuranceMyMedical from '../pages/insurance/my-medical-insurance'
 import addNewInsurance from '../pages/insurance/add-new-insurance'
@@ -333,6 +337,30 @@ const routes = [
             component: healthEducationDetails,
             meta: {
               title: 'Health Education Details | Almoosa Specialist Hospital',
+              public: true
+            },
+          },
+        ]
+      },
+      {
+        path: 'services-packages',
+        component: servicesPackagesModule,
+        children: [
+          { path: '', name: "Services Packages", redirect: { name: 'Services Packages List' } },
+          {
+            path: "list",
+            name: 'Services Packages List',
+            component: servicesPackagesList,
+            meta: {
+              title: 'Services Packages | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "details",
+            name: 'Services Packages Details',
+            component: servicesPackagesDetails,
+            meta: {
+              title: 'Services Packages Details | Almoosa Specialist Hospital',
               public: true
             },
           },

@@ -298,6 +298,32 @@
               width: calc(100% - 2.375rem - 4rem);
             }
           }
+          .service-details {
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            width: 50%;
+            min-width: fit-content;
+            margin-inline-start: 1rem;
+            .details-title {
+              font-size: 1.25rem;
+              font-family: $font-diodrum-semibold;
+              padding-bottom: 0.5rem;
+            }
+          }
+          &:nth-child(odd) {
+            .service-details {
+              .details-title {
+                color: $primary-color;
+              }
+            }
+          }
+          &:nth-child(even) {
+            .service-details {
+              .details-title {
+                color: $info-color;
+              }
+            }
+          }
         }
       }
       // padding-inline-start: ;

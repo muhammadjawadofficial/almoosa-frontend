@@ -86,5 +86,10 @@ export const apiPath = {
     healthEducation: {
         fetch: getApiObject("get", "health-education"),
         details: (id) => getApiObject("get", "health-education/" + id),
+    },
+
+    servicesPackages: {
+        fetch: getApiObject("get", "packages"),
+        details: (id) => getApiObject("get", "health-education/" + id),
     }
 };

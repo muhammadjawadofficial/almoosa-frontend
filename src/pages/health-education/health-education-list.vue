@@ -85,7 +85,6 @@ export default {
   }
   .doctor-image {
     height: 13.75rem;
-    width: 17.5rem;
     background: url(../../assets/images/loader.gif);
     background-size: contain;
     background-position: center;

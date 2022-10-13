@@ -41,11 +41,12 @@ export default {
     ]),
   },
   mounted() {
-    if (!this.getSelectedAppointment) {
+    if (!this.getPaymentObject) {
       this.navigateTo("Upcoming Appointment");
       return;
     }
-    userService.setBooking(this.getSelectedAppointment);
+    if (!this.getPaymentObject.otherPayment)
+      userService.setBooking(this.getPaymentObject);
     this.setLoadingState(true);
   },
 };

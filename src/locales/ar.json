@@ -191,13 +191,13 @@
     "invalidPromo": "أضف رمزًا ترويجيًا صالحًا",
     "noData": "سنخبرك بمجرد توفر أي عرض ترويجي لك"
   },
-  "labWorks":{
+  "labWorks": {
     "title": "يعمل المعمل",
     "viewDetails": "عرض التفاصيل",
     "reports": "تقارير المعمل",
     "appointmentSession": "جلسة التعيين"
   },
-  "radiologyReport":{
+  "radiologyReport": {
     "title": "تقارير الأشعة",
     "viewDetails": "عرض التفاصيل",
     "reports": "تقارير المعمل",
@@ -229,9 +229,15 @@
     "applePay": "أبل باي",
     "card": "بطاقة الائتمان / الخصم",
     "insurance": "الدفع عن طريق التأمين",
+    "tamara": "ادفع عن طريق تمارا",
     "payCash": "الدفع عن طريق الائتمان / الخصم / أبل باي",
     "chooseCash": "اختر طريقتك النقدية",
-    "chooseInsurance": "دفع فواتيرك عن طريق التأمين الطبي"
+    "chooseInsurance": "دفع فواتيرك عن طريق التأمين الطبي",
+    "chooseTamara": "ادفع فواتيرك عن طريق تمارا بالتقسيط",
+    "paymentSuccessful": "تم الدفع بنجاح",
+    "paymentSuccessfulText": "تم استلام دفعتك بنجاح",
+    "paymentFailed": "عملية الدفع فشلت",
+    "paymentFailedText": "لقد فشلت عملية الدفع الخاصة بك"
   },
   "rating": {
     "title": "قيم طبيبنا",
@@ -241,7 +247,7 @@
     "error": "حدد أي نجمة للمتابعة",
     "submitted": "تم التقديم بنجاح"
   },
-  "criticalCare":{
+  "criticalCare": {
     "title": "عناية حرجة"
   },
   "healthEducation": {
@@ -292,10 +298,23 @@
       "reminderText": "تم ضبط التذكير بنجاح"
     }
   },
+  "servicesPackages": {
+    "title": "الخدمات والحزم",
+    "details": "حزمة من التفاصيل",
+    "viewDetails": "عرض التفاصيل",
+    "searchPlaceholder": "خدمة البحث",
+    "packageTitle": "عنوان الحزمة",
+    "price": "سعر",
+    "description": "وصف",
+    "serviceDetails": "تفاصيل الخدمة",
+    "bookPackage": "حزمة الكتاب",
+    "packageList": "قائمة العبوة",
+    "bookedPackages": "الحزم المحجوزة"
+  },
   "paymentStatus": {
     "pending": "قيد الانتظار",
     "confirmed": "مدفوع",
-    "cancelled" : "ألغيت",
+    "cancelled": "ألغيت",
     "success": "مكتمل"
   },
   "noData": "لا توجد بيانات لإظهارها",
