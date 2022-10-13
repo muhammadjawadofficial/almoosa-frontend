@@ -43,11 +43,11 @@
                 </div>
               </div>
             </div>
-            <div class="promotion-detail-section pt-3">
+            <div class="promotion-detail-section pt-2">
               <div class="title">{{ $t("servicesPackages.description") }}</div>
               <div class="value">{{ packageInfo.description }}</div>
             </div>
-            <div class="promotion-detail-section pt-3">
+            <div class="promotion-detail-section pt-2">
               <div class="title">
                 {{ $t("servicesPackages.serviceDetails") }}
               </div>
