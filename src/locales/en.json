@@ -56,7 +56,8 @@
     "search": "Search",
     "changeLanguage": "Change Language",
     "viewProfile": "View Profile",
-    "changePassword": "Change Password"
+    "changePassword": "Change Password",
+    "switchMyProfile": "Switch to My Profile"
   },
   "dashboard": {
     "helpMillions": "Help Millions People everywhere, everytime!",
@@ -71,7 +72,7 @@
     "Virtual Consultations": "Virtual Consultations",
     "On-site Consultations": "On-site Consultations",
     "Check Symptoms": "Check Symptoms",
-    "Add Family Member": "Add Family&nbsp;Member",
+    "View Family Member": "View Family&nbsp;Member",
     "Upcoming Appointment": "Upcoming Appointment",
     "Lab Works": "Lab Works",
     "Radiology Reports": "Radiology Reports",
@@ -128,6 +129,7 @@
     "specialities": "Specialities",
     "findSpecialist": "Find specialist by selecting category",
     "selectDateTime": "Select Date & Time",
+    "selectDate": "Select Date",
     "findMySpecialist": "Find My Specialist",
     "chooseLocation": "Choose Location",
     "error": {
@@ -312,6 +314,31 @@
     "bookPackage": "Book Package",
     "packageList": "Package List",
     "bookedPackages": "Booked Packages"
+  },
+  "familyMembers": {
+    "title": "Family Members",
+    "bookAppointment": "Book Appointment",
+    "tapToAddFamilyMember": "Tap to Add New Family Member",
+    "addFamilyMember": "Add Family Member",
+    "addedSuccessfully": "Family Member Added Successfully",
+    "addMember": "Add Member",
+    "selectTypeOfId": "Select Type of ID",
+    "firstName": "First Name",
+    "middleName": "Middle Name",
+    "familyName": "Family Name",
+    "emailAddress": "Email Address",
+    "phoneNumber": "Phone Number",
+    "selectNationality": "Select Nationality",
+    "addDOB": "Add DOB",
+    "yourLocation": "Your Location",
+    "selectGender": "Select Gender",
+    "uploadNewFile": "Click Here To Upload a New File",
+    "uploadId": "Upload Profile Photo",
+    "enterIqamaNumber": "Enter Your Iqama Number",
+    "enterSaudiID": "Enter Your Saudi ID",
+    "saudiId": "Saudi ID",
+    "iqamaId": "Iqama ID",
+    "switchProfile": "Switch Profile"
   },
   "paymentStatus": {
     "pending": "Pending",

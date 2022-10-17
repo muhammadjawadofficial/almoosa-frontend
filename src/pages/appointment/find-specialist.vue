@@ -121,7 +121,10 @@
         </div>
       </div>
       <div class="body-section">
-        <ash-datepicker v-model="selectedDate" />
+        <ash-datepicker
+          :placeholder="$t('findSpecialist.selectDate')"
+          v-model="selectedDate"
+        />
       </div>
     </div>
     <div

@@ -66,13 +66,17 @@ export default {
             Vue.set(state, 'notification', [...state.notification, notification])
         },
         SET_USER_INFO(state, userInfo) {
-            Vue.set(state, 'userInfo', userInfo);
             state.isGuest = userInfo == null;
+            if (userService.getGuardianInfo()) {
+                userInfo.isDependent = true;
+            }
+            Vue.set(state, 'userInfo', userInfo);
             userService.storeUserInfo(userInfo);
         },
         REMOVE_USER_INFO(state) {
             userService.removeBooking();
             userService.removeLoginInfo();
+            userService.removeGuardianInfo();
             localStorage.removeItem("doctor");
             Vue.set(state, 'userInfo', null);
         },

@@ -56,7 +56,8 @@
     "search": "تفتيش",
     "changeLanguage": "تغيير اللغة",
     "viewProfile": "عرض الصفحة الشخصية",
-    "changePassword": "غير كلمة السر"
+    "changePassword": "غير كلمة السر",
+    "switchMyProfile": "تبديل ملف التعريف الخاص بي"
   },
   "dashboard": {
     "helpMillions": "ساعد الملايين من الناس في كل مكان وفي كل مرة!",
@@ -128,6 +129,7 @@
     "specialities": "التخصصات",
     "findSpecialist": "ابحث عن متخصص عن طريق اختيار الفئة",
     "selectDateTime": "حدد التاريخ والوقت",
+    "selectDate": "حدد تاريخ",
     "findMySpecialist": "ابحث عن الاختصاصي الخاص بي",
     "chooseLocation": "اختيار موقع",
     "error": {
@@ -310,6 +312,31 @@
     "bookPackage": "حزمة الكتاب",
     "packageList": "قائمة العبوة",
     "bookedPackages": "الحزم المحجوزة"
+  },
+  "familyMembers": {
+    "title": "أفراد الأسرة",
+    "bookAppointment": "موعد الكتاب",
+    "tapToAddFamilyMember": "انقر لإضافة عضو عائلة جديد",
+    "addFamilyMember": "إضافة فرد من العائلة",
+    "addedSuccessfully": "تمت إضافة فرد من العائلة بنجاح",
+    "addMember": "إضافة عضو",
+    "selectTypeOfId": "حدد نوع الهوية",
+    "firstName": "الاسم الاول",
+    "middleName": "الاسم الوسطى",
+    "familyName": "اسم العائلة",
+    "emailAddress": "عنوان البريد الالكترونى",
+    "phoneNumber": "رقم الهاتف",
+    "selectNationality": "اختر الجنسية",
+    "addDOB": "إضافة تاريخ الميلاد",
+    "yourLocation": "موقعك",
+    "selectGender": "حدد نوع الجنس",
+    "uploadNewFile": "انقر هنا لتحميل ملف جديد",
+    "uploadId": "تحميل ملف الصورة",
+    "enterIqamaNumber":"أدخل رقم إقامتك",
+    "enterSaudiID": "أدخل هويتك السعودية",
+    "saudiId": "الهوية السعودية",
+    "iqamaId": "معرف الإقامة",
+    "switchProfile": "تبديل الملف الشخصي"
   },
   "paymentStatus": {
     "pending": "قيد الانتظار",

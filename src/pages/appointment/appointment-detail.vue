@@ -98,7 +98,7 @@
                   <button
                     class="btn btn-primary"
                     @click="makeCall(details)"
-                    v-if="details.type == 'online'"
+                    v-if="details.type == 'online' && !getUserInfo.isDependent"
                   >
                     {{ $t("appointmentDetail.joinCall") }}
                   </button>

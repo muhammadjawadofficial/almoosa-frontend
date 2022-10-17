@@ -162,7 +162,10 @@
           </div>
         </div>
         <div class="consultation-section standard-width">
-          <div class="consultation-section--blocks">
+          <div
+            class="consultation-section--blocks"
+            :class="{ two: getUserInfo.isDependent }"
+          >
             <div
               class="consultation-section--blocks--single large secondary"
               @click="findASpecialist('online')"
@@ -204,6 +207,7 @@
             </div>
             <div
               class="consultation-section--blocks--single large tertiary"
+              v-if="!getUserInfo.isDependent"
               @click="findSpecialist()"
             >
               <div class="title">
@@ -232,21 +236,26 @@
           {{ $t("dashboard.withOurSpecialist") }}
         </div>
         <div class="consultation-section--blocks">
-          <div
-            class="consultation-section--blocks--single"
-            :class="{ uniques: item.unique }"
-            v-for="(item, index) in dashboardItems"
-            :key="'dashboard-item-' + index"
-            @click="navigateTo(item.link, item.param)"
-          >
-            <div v-if="item.unique" class="new-badge">
-              <new-badge-svg />
+          <template v-for="(item, index) in dashboardItems">
+            <div
+              v-if="
+                !getUserInfo.isDependent ||
+                (getUserInfo.isDependent && item.guardianComponents)
+              "
+              class="consultation-section--blocks--single"
+              :class="{ uniques: item.unique }"
+              :key="'dashboard-item-' + index"
+              @click="navigateTo(item.link, item.param)"
+            >
+              <div v-if="item.unique" class="new-badge">
+                <new-badge-svg />
+              </div>
+              <div class="title" v-html="$t('modules.' + item.text)"></div>
+              <div class="icon">
+                <component :is="item.icon" />
+              </div>
             </div>
-            <div class="title" v-html="$t('modules.' + item.text)"></div>
-            <div class="icon">
-              <component :is="item.icon" />
-            </div>
-          </div>
+          </template>
         </div>
       </div>
     </template>
@@ -266,25 +275,28 @@ export default {
           unique: true,
         },
         {
-          text: "Add Family Member",
+          text: "View Family Member",
           icon: "family-svg",
-          link: "Book Appointment",
+          link: "Family Members",
         },
         {
           text: "Upcoming Appointment",
           icon: "calendar-svg",
           link: "Upcoming Appointment",
           param: { method: "online" },
+          guardianComponents: true,
         },
         {
           text: "Lab Works",
           icon: "lab-svg",
           link: "Lab Works",
+          guardianComponents: true,
         },
         {
           text: "Radiology Reports",
           icon: "user-report-svg",
           link: "Radiology Report",
+          guardianComponents: true,
         },
         {
           text: "My Medication",
@@ -295,6 +307,7 @@ export default {
           text: "Medical Insurance",
           icon: "health-shield-svg",
           link: "Medical Insurance",
+          guardianComponents: true,
         },
         {
           text: "My Timelines",

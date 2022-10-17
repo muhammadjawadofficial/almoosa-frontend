@@ -4,8 +4,8 @@
     :class="className"
   >
     <b-form-datepicker
-      id="datepicker-placeholder"
-      :placeholder="placeholder || 'Add DOB'"
+      :id="id || 'datepicker-placeholder'"
+      :placeholder="placeholder || 'Select Date'"
       calendar-width="100%"
       v-model="content"
       v-bind="labels[locale] || {}"
@@ -18,7 +18,7 @@
         day: 'numeric',
       }"
       :hide-header="true"
-      :date-disabled-fn="previousDateDisabled"
+      :date-disabled-fn="disableDateFunction"
       show-decade-nav
       class="w200"
       @input="handleInput"
@@ -33,7 +33,14 @@
 
 <script>
 export default {
-  props: ["date", "className", "placeholder"],
+  props: [
+    "date",
+    "className",
+    "placeholder",
+    "id",
+    "disableDate",
+    "dateToCompare",
+  ],
   model: {
     prop: "date",
     event: "dateChanged",
@@ -99,16 +106,22 @@ export default {
         this.locale = currentLocale.value;
       }
     },
-    previousDateDisabled(ymd, date) {
-      const today = new Date();
-
+    disableDateFunction(ymd, date) {
+      let today = new Date();
+      if (this.dateToCompare && this.dateToCompare != "") {
+        today = new Date(this.dateToCompare);
+      }
       // 👇️ OPTIONAL!
       // This line sets the hour of the current date to midnight
       // so the comparison only returns `true` if the passed in date
       // is at least yesterday
       today.setHours(0, 0, 0, 0);
-
-      return date < today;
+      if (this.disableDate == "forward") {
+        return date < today;
+      } else if (this.disableDate == "backward") {
+        return date > today;
+      }
+      return false;
     },
   },
 };

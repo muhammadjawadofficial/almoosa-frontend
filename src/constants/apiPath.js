@@ -70,7 +70,8 @@ export const apiPath = {
 
     user: {
         updateProfile: (id) => getApiObject("patch", "users/" + id),
-        getProfile: (profile) => getApiObject("get", "auth/" + profile + "/profile")
+        getProfile: (profile) => getApiObject("get", "auth/" + profile + "/profile"),
+        getProfileById: (id) => getApiObject("get", "users/?id=" + id)
     },
 
     patient: {
@@ -91,5 +92,10 @@ export const apiPath = {
     servicesPackages: {
         fetch: getApiObject("get", "packages"),
         details: (id) => getApiObject("get", "health-education/" + id),
+    },
+
+    familyMembers: {
+        fetch: getApiObject("get", "family-members"),
+        add: getApiObject("post", "family-members/add"),
     }
 };

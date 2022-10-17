@@ -324,7 +324,7 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import { layoutClasses } from "../constants/layout";
 export default {
   name: "Sidebar",
@@ -343,12 +343,14 @@ export default {
       layoutobj: {},
     };
   },
+  // (this.getUserInfo.isDependent && x.guardianComponent) || !x.disabled
   computed: {
     ...mapState({
-      menuItems: (state) => state.menu.data.filter((x) => !x.disabled),
+      menuItems: (state) => state.menu.data.filter((x) => ((state.user.userInfo.isDependent && x.guardianComponent) || (!state.user.userInfo.isDependent)) && !x.disabled),
       layout: (state) => state.layout.layout,
       sidebar: (state) => state.layout.sidebarType,
     }),
+    ...mapGetters("user", ["getUserInfo"]),
     layoutobject: {
       get: function () {
         return JSON.parse(

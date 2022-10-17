@@ -73,6 +73,10 @@ import InPatients from '../pages/in-patients';
 
 import TermsAndCondition from '../pages/authentication/terms-and-condition'
 
+import familyMembersModule from '../pages/family-members'
+import familyMembersList from '../pages/family-members/family-member-list'
+import familyMembersForm from '../pages/family-members/family-member-form'
+
 import { userService } from '../services';
 
 // component
@@ -439,6 +443,29 @@ const routes = [
             component: myMedicationDetails,
             meta: {
               title: 'My Medication Details | Almoosa Specialist Hospital',
+            },
+          },
+        ]
+      },
+      {
+        path: 'family-members',
+        component: familyMembersModule,
+        children: [
+          { path: '', name: "Family Members", redirect: { name: 'Family Members List' } },
+          {
+            path: "list",
+            name: 'Family Members List',
+            component: familyMembersList,
+            meta: {
+              title: 'Family Members | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "add",
+            name: 'Family Members Create',
+            component: familyMembersForm,
+            meta: {
+              title: 'Add Family Member | Almoosa Specialist Hospital',
             },
           },
         ]

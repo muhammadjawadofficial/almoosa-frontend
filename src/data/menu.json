@@ -9,7 +9,8 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/dashboard"
+            "path": "/dashboard",
+            "guardianComponent": true
         },
         {
             "titleEn": "Virtual Appointments",
@@ -20,7 +21,8 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/appointment/online"
+            "path": "/appointment/online",
+            "guardianComponent": true
         },
         {
             "titleEn": "Symptom Checker",
@@ -53,7 +55,8 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/appointment/onsite"
+            "path": "/appointment/onsite",
+            "guardianComponent": true
         },
         {
             "titleEn": "Medical Insurance",
@@ -64,7 +67,8 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/insurance"
+            "path": "/insurance",
+            "guardianComponent": true
         },
         {
             "titleEn": "Lab Works",
@@ -75,7 +79,8 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/lab-works"
+            "path": "/lab-works",
+            "guardianComponent": true
         },
         {
             "titleEn": "Radiology Reports",
@@ -86,7 +91,8 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/radiology-report"
+            "path": "/radiology-report",
+            "guardianComponent": true
         },
         {
             "titleEn": "View Timeline",

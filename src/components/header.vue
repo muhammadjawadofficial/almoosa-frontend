@@ -67,15 +67,15 @@
           <ul class="profile-dropdown onhover-show-div">
             <span class="sec-heading w500">{{ $t("header.settings") }}</span>
             <hr />
-            <li>
+            <li v-if="!getUserInfo.isDependent">
               <a class="" @click="toggleLayout()">
                 <span class="profile-dropdown-menu-icon">
                   <lock-svg />
                 </span>
                 <span>{{ $t("header.changePassword") }}</span>
               </a>
+              <hr />
             </li>
-            <hr />
             <li>
               <a class="" @click="toggleLayout()">
                 <span class="profile-dropdown-menu-icon">
@@ -83,17 +83,26 @@
                 </span>
                 <span>{{ $t("header.changeLanguage") }}</span>
               </a>
+              <hr />
             </li>
-            <hr />
-            <li>
+            <li v-if="!getUserInfo.isDependent">
               <a class="" @click="viewProfile">
                 <span class="profile-dropdown-menu-icon">
                   <user-svg />
                 </span>
                 <span>{{ $t("header.viewProfile") }}</span>
               </a>
+              <hr />
             </li>
-            <hr />
+            <li v-if="getUserInfo.isDependent">
+              <a class="" @click="switchToMyProfile">
+                <span class="profile-dropdown-menu-icon">
+                  <switch-profile-svg />
+                </span>
+                <span>{{ $t("header.switchMyProfile") }}</span>
+              </a>
+              <hr />
+            </li>
             <button @click="logout" class="btn btn-secondary btn-pill">
               {{ $t("header.logOut") }}
             </button>
@@ -160,7 +169,7 @@ export default {
     this.currentRouteName = this.$route.name;
   },
   methods: {
-    ...mapActions("user", ["removeUserInfo"]),
+    ...mapActions("user", ["removeUserInfo", "setUserInfo"]),
     toggle_sidebar() {
       this.$store.dispatch("menu/opensidebar");
     },
@@ -252,6 +261,12 @@ export default {
     },
     viewProfile() {
       if (this.$route.name != "Profile") this.navigateTo("Profile");
+    },
+    switchToMyProfile() {
+      let guardianInfo = { ...userService.getGuardianInfo() };
+      userService.removeGuardianInfo();
+      this.setUserInfo(guardianInfo);
+      this.navigateTo("default");
     },
     loadComponent(path) {
       if (!this.isSideBarOpen) this.toggle_sidebar();

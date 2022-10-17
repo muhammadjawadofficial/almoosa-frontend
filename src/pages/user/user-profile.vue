@@ -670,15 +670,41 @@ export default {
       return number;
     },
     initializeData() {
-      this.getProfileData();
       this.resetData();
+      this.getProfileData();
     },
     getProfileData() {
+      if (this.getUserInfo.isDependent) {
+        this.getUserData();
+      } else {
+        this.getLoggedInUserData();
+      }
+    },
+    getLoggedInUserData() {
       this.setLoadingState(true);
       userService.getProfile(this.isDoctor ? "doctor" : "patient").then(
         (res) => {
           if (res.data.status) {
             this.setUserInfo(res.data.data);
+            this.resetData();
+          } else {
+            this.failureToast(res.data.message);
+          }
+          this.setLoadingState(false);
+        },
+        (error) => {
+          this.setLoadingState(false);
+          this.failureToast();
+          console.error(error);
+        }
+      );
+    },
+    getUserData() {
+      this.setLoadingState(true);
+      userService.getProfileById(this.getUserInfo.id).then(
+        (res) => {
+          if (res.data.status) {
+            this.setUserInfo(res.data.data.items[0]);
             this.resetData();
           } else {
             this.failureToast(res.data.message);

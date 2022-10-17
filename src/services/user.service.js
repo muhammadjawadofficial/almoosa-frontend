@@ -4,6 +4,9 @@ export const userService = {
     isAuthenticatedUser,
     storeLoginInfo,
     removeLoginInfo,
+    getGuardianInfo,
+    storeGuardianInfo,
+    removeGuardianInfo,
     currentUser,
     storeUserInfo,
     getToken,
@@ -19,13 +22,15 @@ export const userService = {
     setBooking,
     downloadFile,
     updateProfile,
-    getProfile
+    getProfile,
+    getProfileById
 };
 
 import axios from "axios";
 
 const jwtTokenKey = 'token';
 const userInfo = 'userInfo';
+const guardianInfo = 'guardianInfo';
 
 const preferredLayout = 'user-layout';
 
@@ -53,6 +58,15 @@ function currentUser() {
 }
 function storeUserInfo(user) {
     localStorage.setItem(userInfo, JSON.stringify(user));
+}
+function getGuardianInfo() {
+    return JSON.parse(localStorage.getItem(guardianInfo));
+}
+function storeGuardianInfo(user) {
+    localStorage.setItem(guardianInfo, JSON.stringify(user));
+}
+function removeGuardianInfo() {
+    localStorage.removeItem(guardianInfo);
 }
 
 function getToken() {
@@ -115,5 +129,11 @@ function getProfile(profile) {
     return axios({
         method: apiPath.user.getProfile(profile).method,
         url: apiPath.user.getProfile(profile).url,
+    })
+}
+function getProfileById(id) {
+    return axios({
+        method: apiPath.user.getProfileById(id).method,
+        url: apiPath.user.getProfileById(id).url,
     })
 }

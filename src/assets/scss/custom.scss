@@ -419,6 +419,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         @media (max-width: 600px) {
             justify-content: center;
         }
+        --inline-blocks: 3;
+        &.two {
+            --inline-blocks: 2;
+        }
         &--single {
             position: relative;
             background: var(--theme-tertiary);
@@ -444,7 +448,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                 }
             }
             &.large {
-                width: calc((100% - (1.625rem * 2)) / 3);
+                width: calc((100% - (1.625rem * 2)) / var(--inline-blocks));
                 flex-direction: row;
                 align-items: center;
                 padding: 2.375rem;
