@@ -271,7 +271,7 @@ export default {
     loadComponent(path) {
       if (!this.isSideBarOpen) this.toggle_sidebar();
       this.setNavActive({ path });
-      this.$router.push(path);
+      if (this.$route.path != path) this.$router.push(path);
     },
   },
   watch: {

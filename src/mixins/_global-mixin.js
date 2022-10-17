@@ -254,6 +254,9 @@ export default {
             this.$router.go(-1);
         },
         navigateTo(name, params = null) {
+            if (this.$route.name == name) {
+                return;
+            }
             let obj = { name };
             if (params) {
                 obj.params = params
