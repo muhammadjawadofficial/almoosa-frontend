@@ -60,6 +60,10 @@ export const apiPath = {
         apply: getApiObject("post", "promotions/apply"),
     },
 
+    timeline: {
+        details: (id) => getApiObject("get", "timelines?appointment_id=" + id),
+    },
+
     reports: {
         getAppointmentHistory: (id) => getApiObject("get", "appointments/history?patient_id=" + id),
         getMedications: (id) => getApiObject("get", "medications?appointment_id=" + id),

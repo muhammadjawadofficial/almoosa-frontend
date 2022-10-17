@@ -6,133 +6,59 @@
     />
     <div class="row">
       <div class="col-lg-6">
-        <div class="accordion mt-4" role="tablist">
-          <b-card no-body class="transparent mb-2">
+        <div class="accordion mt-4" role="tablist" v-if="parsedDetails">
+          <b-card no-body class="transparent mb-2" v-if="parsedDetails.heading">
             <b-card-header header-tag="header" class="p-1" role="tab">
               <b-button block variant="primary">
                 <div>
                   <img src="../../assets/images/heart-beat.svg" alt="heart" />
-                  Medical Type: Ortho
+                  {{ $t("appointmentDetail.medicalType") }}:
+                  {{ parsedDetails.heading["Medical Type"] }}
                 </div>
                 <div class="info">
                   <img src="../../assets/images/hashtag.svg" alt="heart" />
-                  Token: 4A
+                  {{ $t("appointmentDetail.token") }}:
+                  {{ parsedDetails.heading["Token"] }}
                 </div>
               </b-button>
             </b-card-header>
           </b-card>
-
-          <b-card no-body class="transparent mb-2">
-            <b-card-header
-              header-tag="header"
-              class="p-1 accordion-tab"
-              role="tab"
+          <template v-if="parsedDetails.sections">
+            <b-card
+              no-body
+              class="transparent mb-2"
+              v-for="(section, index) in parsedDetails.sections"
+              :key="'section-' + index"
             >
-              <b-button block v-b-toggle.accordion-2>
-                Chief Complaint (الشكوى الرئيسية)
-                <div class="icon"></div>
-              </b-button>
-            </b-card-header>
-            <b-collapse
-              id="accordion-2"
-              accordion="my-accordion"
-              role="tabpanel"
-            >
-              <b-card-body>
-                <b-card-text>
-                  <div class="heading">PROVISIONAL DIAGNOSIS CODE</div>
-                  <div class="description">
-                    Z00.0 - General medical examination(Primary)
-                    <div class="status">Status: Active</div>
-                  </div>
-                </b-card-text>
-              </b-card-body>
-            </b-collapse>
-          </b-card>
-
-          <b-card no-body class="transparent mb-2">
-            <b-card-header
-              header-tag="header"
-              class="p-1 accordion-tab"
-              role="tab"
-            >
-              <b-button block v-b-toggle.accordion-3>
-                Diagnosis & Plan (التشخيص والخطة)
-                <div class="icon"></div>
-              </b-button>
-            </b-card-header>
-            <b-collapse
-              id="accordion-3"
-              accordion="my-accordion"
-              role="tabpanel"
-            >
-              <b-card-body>
-                <b-card-text>
-                  <div class="heading">PROVISIONAL DIAGNOSIS CODE</div>
-                  <div class="description">
-                    Z00.0 - General medical examination(Primary)
-                    <div class="status">Status: Active</div>
-                  </div>
-                </b-card-text>
-              </b-card-body>
-            </b-collapse>
-          </b-card>
-
-          <b-card no-body class="transparent mb-2">
-            <b-card-header
-              header-tag="header"
-              class="p-1 accordion-tab"
-              role="tab"
-            >
-              <b-button block v-b-toggle.accordion-4>
-                Vital Signs (علامات حيوية)
-                <div class="icon"></div>
-              </b-button>
-            </b-card-header>
-            <b-collapse
-              id="accordion-4"
-              accordion="my-accordion"
-              role="tabpanel"
-            >
-              <b-card-body>
-                <b-card-text>
-                  <div class="heading">PROVISIONAL DIAGNOSIS CODE</div>
-                  <div class="description">
-                    Z00.0 - General medical examination(Primary)
-                    <div class="status">Status: Active</div>
-                  </div>
-                </b-card-text>
-              </b-card-body>
-            </b-collapse>
-          </b-card>
-
-          <b-card no-body class="transparent mb-2">
-            <b-card-header
-              header-tag="header"
-              class="p-1 accordion-tab"
-              role="tab"
-            >
-              <b-button block v-b-toggle.accordion-5>
-                Medication CPOE (دواء CPOE)
-                <div class="icon"></div>
-              </b-button>
-            </b-card-header>
-            <b-collapse
-              id="accordion-5"
-              accordion="my-accordion"
-              role="tabpanel"
-            >
-              <b-card-body>
-                <b-card-text>
-                  <div class="heading">PROVISIONAL DIAGNOSIS CODE</div>
-                  <div class="description">
-                    Z00.0 - General medical examination(Primary)
-                    <div class="status">Status: Active</div>
-                  </div>
-                </b-card-text>
-              </b-card-body>
-            </b-collapse>
-          </b-card>
+              <b-card-header
+                header-tag="header"
+                class="p-1 accordion-tab"
+                role="tab"
+              >
+                <b-button block v-b-toggle="'accordion-' + index">
+                  {{ section.title }}
+                  <div class="icon"></div>
+                </b-button>
+              </b-card-header>
+              <b-collapse
+                :id="'accordion-' + index"
+                accordion="my-accordion"
+                role="tabpanel"
+              >
+                <b-card-body>
+                  <b-card-text>
+                    <div class="heading">{{ section.key }}</div>
+                    <div class="description">
+                      {{ section.value }}
+                    </div>
+                  </b-card-text>
+                </b-card-body>
+              </b-collapse>
+            </b-card>
+          </template>
+        </div>
+        <div v-else class="no-data mt-5">
+          {{ $t("noData") }}
         </div>
       </div>
     </div>
@@ -140,9 +66,56 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { timelineService } from "../../services";
 export default {
   data() {
-    return {};
+    return {
+      timelineDetails: null,
+      parsedDetails: null,
+    };
+  },
+  computed: {
+    ...mapGetters("myTimeline", ["getSelectedTimeline"]),
+    ...mapGetters("user", ["getUserInfo"]),
+  },
+  mounted() {
+    this.fetchTimelineDetails();
+  },
+  methods: {
+    fetchTimelineDetails() {
+      this.setLoadingState(true);
+      timelineService.fetchTimelineDetails(this.getSelectedTimeline.id).then(
+        (response) => {
+          if (response.data.status) {
+            let data = response.data.data.items[0];
+            this.timelineDetails = data;
+            if (data) {
+              let topHeading = data.sections[0];
+              let bottomSections = data.sections[1].data;
+
+              let parsedTopHeading = Object.keys(topHeading).map((x) => {
+                return {
+                  key: x,
+                  value: topHeading[x],
+                };
+              });
+              this.parsedDetails = {
+                heading: topHeading,
+                sections: bottomSections,
+              };
+            }
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+          this.setLoadingState(false);
+        },
+        () => {
+          this.setLoadingState(false);
+          this.failureToast();
+        }
+      );
+    },
   },
 };
 </script>

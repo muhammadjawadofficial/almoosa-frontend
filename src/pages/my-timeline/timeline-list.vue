@@ -11,7 +11,7 @@
           class="appointment-list"
           :class="{ noData: !timelineList || !timelineList.length }"
         >
-          <div class="loading" v-if="timelineList == null">
+          <div class="loading no-data" v-if="timelineList == null">
             {{ $t("loading") }}
           </div>
           <div class="no-data" v-else-if="!timelineList.length">
@@ -74,7 +74,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { reportService } from "../../services";
+import { medicationService } from "../../services";
 export default {
   data() {
     return {
@@ -91,7 +91,7 @@ export default {
     ...mapActions("myTimeline", ["setSelectedTimeline"]),
     fetchTimelines() {
       this.setLoadingState(true);
-      reportService.getAppointmentsWithReports(this.getUserInfo.id, "lab").then(
+      medicationService.getAppointmentHistory(this.getUserInfo.id).then(
         (response) => {
           if (response.data.status) {
             let data = response.data.data.items;
