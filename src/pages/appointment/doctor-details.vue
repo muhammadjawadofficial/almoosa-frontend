@@ -115,7 +115,11 @@
                     </div>
                     <div>
                       {{ $t("doctorDetail.nationality") }}:
-                      {{ doctor.nationality.nationality || $t("noData") }}
+                      {{
+                        (doctor.nationality &&
+                          doctor.nationality.nationality) ||
+                        $t("noData")
+                      }}
                     </div>
                   </div>
                   <div class="appointment-list">

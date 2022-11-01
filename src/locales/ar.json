@@ -239,7 +239,9 @@
     "paymentSuccessful": "تم الدفع بنجاح",
     "paymentSuccessfulText": "تم استلام دفعتك بنجاح",
     "paymentFailed": "عملية الدفع فشلت",
-    "paymentFailedText": "لقد فشلت عملية الدفع الخاصة بك"
+    "paymentFailedText": "لقد فشلت عملية الدفع الخاصة بك",
+    "currentBalance": "الرصيد الحالي",
+    "useWalletAmount": "استخدم مبلغ المحفظة"
   },
   "rating": {
     "title": "قيم طبيبنا",

@@ -17,6 +17,37 @@
       "
     />
 
+    <div class="payment-section block-section mt-3">
+      <div class="body-section">
+        <div class="payment-method">
+          <div class="payment-method--item secondary multiple-card-design">
+            <div class="content">
+              <div class="content--info">
+                <div class="content--name">
+                  {{ $t("selectPaymentMethod.currentBalance") }}
+                </div>
+                <div class="content--price">
+                  {{
+                    $t("sar") + " " + translateNumber(getPaymentObject.amount)
+                  }}
+                </div>
+              </div>
+              <div class="content--action">
+                <button class="btn btn-primary">
+                  {{ $t("selectPaymentMethod.useWalletAmount") }}
+                </button>
+              </div>
+            </div>
+            <div class="layers">
+              <div class="layer alpha"></div>
+              <div class="layer beta"></div>
+              <div class="layer gamma"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="payment-section block-section">
       <div class="heading-section">
         <div class="heading-text">

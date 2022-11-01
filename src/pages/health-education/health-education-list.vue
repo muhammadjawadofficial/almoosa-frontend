@@ -48,9 +48,12 @@ export default {
     ...mapActions("healthEducation", ["setSelectedHealthEducation"]),
     setSelectedContent(content) {
       this.setSelectedHealthEducation(content);
-      this.navigateTo("Health Education Details" + (this.getIsGuest ? " Guest" : ""), {
-        id: content.id,
-      });
+      this.navigateTo(
+        "Health Education Details" + (this.getIsGuest ? " Guest" : ""),
+        {
+          id: content.id,
+        }
+      );
     },
     initializeData() {
       this.setLoadingState(true);
@@ -90,8 +93,9 @@ export default {
     background-position: center;
     background-repeat: no-repeat;
     img {
-      height: auto;
+      height: 100%;
       width: 100%;
+      object-fit: cover;
     }
   }
 }

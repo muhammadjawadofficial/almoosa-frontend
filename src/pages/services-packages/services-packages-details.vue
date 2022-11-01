@@ -43,11 +43,11 @@
                 </div>
               </div>
             </div>
-            <div class="promotion-detail-section pt-2">
+            <div class="promotion-detail-section">
               <div class="title">{{ $t("servicesPackages.description") }}</div>
               <div class="value">{{ packageInfo.description }}</div>
             </div>
-            <div class="promotion-detail-section pt-2">
+            <div class="promotion-detail-section">
               <div class="title">
                 {{ $t("servicesPackages.serviceDetails") }}
               </div>
@@ -150,6 +150,11 @@ export default {
   :deep * {
     font-family: "DiodrumArabicMedium" !important;
   }
+}
+
+.promotions-details-conatiner .promotion-detail-section {
+  padding-top: 2rem;
+  padding-bottom: 1.5rem;
 }
 
 .main-banner {

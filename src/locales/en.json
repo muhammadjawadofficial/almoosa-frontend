@@ -196,7 +196,9 @@
     "paymentSuccessful": "Payment Successful",
     "paymentSuccessfulText": "Your payment has been received successfully",
     "paymentFailed": "Payment Failed",
-    "paymentFailedText": "Your payment has been failed"
+    "paymentFailedText": "Your payment has been failed",
+    "currentBalance": "Current Balance",
+    "useWalletAmount": "Use Wallet Amount"
   },
   "promotions": {
     "title": "Promotions List",
