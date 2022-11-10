@@ -1,6 +1,6 @@
 <template>
   <div class="login-card">
-    <div class="heading w600">LOGIN</div>
+    <div class="heading w600">{{ $t("login.login") }}</div>
     <div class="login-form">
       <div class="row">
         <div class="col-xl-5 col-lg-12 col-md-6" v-if="!isDoctor">
@@ -13,7 +13,7 @@
                 v-for="option in loginOptions"
                 :key="option.value + '-login-options'"
                 :value="option.value"
-                >{{ option.text }}</b-form-select-option
+                >{{ $t("login." + option.text) }}</b-form-select-option
               >
             </b-form-select>
           </b-input-group>
@@ -31,7 +31,9 @@
             </b-input-group-prepend>
             <b-form-input
               v-model="username"
-              :placeholder="isDoctor ? 'Enter ID' : selectedItem.placeholder"
+              :placeholder="
+                $t('login.' + (isDoctor ? 'enterId' : selectedItem.placeholder))
+              "
               :state="usernameState"
             ></b-form-input>
           </b-input-group>
@@ -48,7 +50,7 @@
               <b-form-input
                 v-model="password"
                 :type="showPassword ? 'text' : 'password'"
-                placeholder="Your Password"
+                :placeholder="$t('login.enterPassword')"
                 :state="passwordState"
               ></b-form-input>
             </b-input-group>
@@ -60,7 +62,7 @@
               name="rememberMe"
               class="mt-3 custom-checkbox"
             >
-              Remember Me
+              {{ $t("login.rememberMe") }}
             </b-form-checkbox>
           </div>
           <div
@@ -70,20 +72,23 @@
             <span
               @click="navigateTo('Forgot Password')"
               class="forgot-password pointer mt-3 w200"
-              >Forgot Password?</span
             >
+              {{ $t("login.forgotPassword") }}
+            </span>
           </div>
         </template>
       </div>
       <div class="row">
         <div class="col-md-12 button-group" :class="{ lg: isDoctor }">
-          <button class="btn btn-primary" @click="doLogin">Login</button>
+          <button class="btn btn-primary" @click="doLogin">
+            {{ $t("login.login") }}
+          </button>
           <button
             class="btn btn-tertiary"
             @click="navigateTo('Login Dashboard')"
             v-if="!isDoctor"
           >
-            Back
+            {{ $t("back") }}
           </button>
         </div>
         <div
@@ -91,7 +96,8 @@
           @click="navigateTo('Register')"
           v-if="!isDoctor"
         >
-          Don't have an account yet? <span class="w500">Sign Up</span>
+          {{ $t("login.dontHaveAccount") }}
+          <span class="w500">{{ $t("login.signUp") }}</span>
         </div>
       </div>
     </div>
@@ -118,23 +124,23 @@ export default {
       loginOptions: [
         {
           value: 1,
-          text: "Proceed with MRN",
+          text: "proceedWithMRN",
           method: "mrn_number",
-          placeholder: "Enter Your MRN",
+          placeholder: "enterMRN",
           type: constants.loginByPassword,
         },
         {
           value: 2,
-          text: "Proceed with Iqama",
+          text: "proceedWithIqamaId",
           method: "iqama",
-          placeholder: "Enter Your Iqama",
+          placeholder: "enterIqamaId",
           type: constants.loginByOTP,
         },
         {
           value: 6,
-          text: "Proceed with Saudi ID",
+          text: "proceedWithSaudiId",
           method: "saudi_id",
-          placeholder: "Enter Your Saudi ID",
+          placeholder: "enterSaudiId",
           type: constants.loginByOTP,
         },
       ],
@@ -247,6 +253,7 @@ export default {
 .heading {
   font-size: 2.938rem;
   color: var(--theme-secondary);
+  text-transform: uppercase;
 }
 .forgot-password {
   font-size: 1.125rem;

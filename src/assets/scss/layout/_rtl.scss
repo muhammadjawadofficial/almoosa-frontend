@@ -19,6 +19,7 @@
   .language-switcher {
     right: auto;
     left: -5px;
+    border-radius: 0 1.25rem 1.25rem 0;
   }
   .login-card {
     .login-main {
@@ -5023,9 +5024,42 @@
       }
     }
   }
-  .doctor-details-container .doctor-details-card-header-right-info-user > *:not(:first-child){
+  .doctor-details-container .doctor-details-card-header-right-info-user > *:not(:first-child) {
     border-left: none;
     border-right: 0.2rem solid #807258;
+  }
+  .custom-login-input-groups {
+    .custom-select,
+    .multiselect__select {
+      background-position: left;
+    }
+  }
+  .was-validated .form-control:invalid,
+  .form-control.is-invalid {
+    padding-left: calc(1.5em + 0.75rem) !important;
+    padding-right: 0.5rem !important;
+    background-position: left calc(0.375em + 0.1875rem) center;
+  }
+  .custom-state-invalid.is-invalid {
+    right: unset !important;
+    left: 3.1rem !important;
+  }
+  .dropzone.is-invalid {
+    right: unset !important;
+    left: 1.15rem !important;
+  }
+  .custom-checkbox {
+    label {
+      &::after,
+      &::before {
+        right: -2rem;
+        left: unset;
+      }
+    }
+  }
+  .add-new-insurance {
+    right: unset;
+    left: 0;
   }
 }
 

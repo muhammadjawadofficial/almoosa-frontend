@@ -16,8 +16,8 @@
               <img src="../assets/images/login/ashlogo.svg" alt="" />
             </div>
             <div class="login-dashboard-left--top-section--logo-content">
-              <div class="welcome-text">Welcome to</div>
-              <div>AlMoosa Specialist Hospital!</div>
+              <div class="welcome-text">{{ $t("login.welcomeTo") }}</div>
+              <div>{{ $t("ash") }}</div>
             </div>
           </div>
           <div class="login-dashboard-left--bottom-section" v-if="showButtons">
@@ -26,20 +26,20 @@
               class="btn"
               :class="getButtonActiveClass('patient')"
             >
-              Continue as a Patient
+              {{ $t("login.continueAsPatient") }}
             </button>
             <button
               @click="continueAs('doctor')"
               class="btn"
               :class="getButtonActiveClass('doctor')"
             >
-              Continue as a Doctor
+              {{ $t("login.continueAsDoctor") }}
             </button>
           </div>
         </div>
       </div>
       <div class="col-xl-8 col-lg-6 login-right-padding py-3">
-        <div v-if="false" @click="switchLanguage" class="language-switcher">
+        <div @click="switchLanguage()" class="language-switcher">
           {{ layoutType == "ltr" ? "ع" : "En" }}
         </div>
         <div class="carousel-inner" v-if="showSlider">
@@ -48,7 +48,7 @@
               <div class="carousel-item active">
                 <div class="login-dashboard-slide">
                   <div class="login-dashboard-slide--content">
-                    Help Millions People everywhere, everytime!
+                    {{ $t("dashboard.helpMillions") }}
                   </div>
                 </div>
               </div>
@@ -57,7 +57,7 @@
               <div class="carousel-item active">
                 <div class="login-dashboard-slide">
                   <div class="login-dashboard-slide--content">
-                    Help Millions People everywhere, everytime!
+                    {{ $t("dashboard.helpMillions") }}
                   </div>
                 </div>
               </div>
@@ -66,7 +66,7 @@
               <div class="carousel-item active">
                 <div class="login-dashboard-slide">
                   <div class="login-dashboard-slide--content">
-                    Help Millions People everywhere, everytime!
+                    {{ $t("dashboard.helpMillions") }}
                   </div>
                 </div>
               </div>
@@ -82,15 +82,14 @@
         >
           <div class="row">
             <div class="col-xl-6 col-lg-12 col-md-6 content w200">
-              To browse your medical file and book appointments, please login or
-              register now.
+              {{ $t("login.toBrowse") }}
             </div>
             <div class="col-xl-6 col-lg-12 col-md-6 button-group">
               <button class="btn btn-secondary" @click="navigateTo('Login')">
-                Login
+                {{ $t("login.login") }}
               </button>
               <button class="btn btn-primary" @click="navigateTo('Register')">
-                Register
+                {{ $t("login.register") }}
               </button>
             </div>
           </div>
@@ -145,8 +144,13 @@ export default {
     ...mapGetters("user", ["getUserRole"]),
   },
   mounted() {
-    this.layoutType = this.$i18n.locale == "en" ? "ltr" : "rtl";
-    this.switchLanguage("ltr");
+    let layout = "ltr";
+    if (userService.getSelectedLayout()) {
+      layout = userService.getSelectedLayout();
+    } else if (this.$i18n.locale == "ar") {
+      layout = "rtl";
+    }
+    this.switchLanguage(layout);
     this.role = this.getUserRole || "patient";
     let LSRole = this.getLSRole();
     if (LSRole && LSRole != this.getUserRole) {
@@ -167,8 +171,10 @@ export default {
       } else {
         this.layoutType = this.layoutType == "ltr" ? "rtl" : "ltr";
       }
+      console.log(this.layoutType);
       this.$store.dispatch("layout/setLayoutType", this.layoutType);
       this.$i18n.locale = this.layoutType == "rtl" ? "ar" : "en";
+      userService.setSelectedLayout(this.layoutType);
     },
     continueAs(role) {
       this.setUserRole(role);
@@ -265,14 +271,16 @@ export default {
   display: block;
 }
 .language-switcher {
-  position: absolute;
+  position: fixed;
   right: -5px;
-  top: 0.5rem;
+  top: 1rem;
   background: var(--theme-default);
-  padding: 1rem;
-  border-radius: 5px;
+  padding-block: 1rem;
+  border-radius: 1.25rem 0 0 1.25rem;
   color: var(--light);
   cursor: pointer;
+  width: 40px;
+  text-align: center;
 }
 .login-dashboard-left {
   display: flex;

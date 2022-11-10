@@ -139,7 +139,7 @@ export default {
         speciality = this.getBookingSpeciality.id;
         date = this.getBookingDate;
         if (this.getBookingMethod == "onsite") {
-          clinic = this.getBookingClinic;
+          clinic = this.getBookingClinic.id;
         }
       }
       this.setLoadingState(true);

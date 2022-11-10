@@ -12,14 +12,74 @@
       "login_by_id": "Login By ID",
       "login_by_mrn": "Proceed with MRN"
     },
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "welcomeTo": "Welcome to",
+    "continueAsPatient": "Continue as a Patient",
+    "continueAsDoctor": "Continue as a Doctor",
+    "login": "Login",
+    "register": "Register",
+    "toBrowse": "To browse your medical file and book appointments, please login or register now.",
+    "dontHaveAccount": "Dont't have an account yet?",
+    "signUp": "Sign Up",
+    "forgotPassword": "Forgot Password?",
+    "proceedWithMRN": "Proceed with MRN",
+    "proceedWithSaudiId": "Proceed with Saudi ID",
+    "proceedWithNationalId": "Proceed with National ID",
+    "proceedWithIqamaId": "Proceed with Iqama ID",
+    "enterMRN": "Enter MRN",
+    "enterSaudiId": "Enter Saudi ID",
+    "enterNationalId": "Enter National ID",
+    "enterIqamaId": "Enter Iqama ID",
+    "enterPassword": "Enter Password",
+    "enterId": "Enter ID",
+    "rememberMe": "Remember Me",
+    "enterVerificationCode": "Enter Verification Code",
+    "enterRegisterId": "Enter your registered email or phone number",
+    "enterResetPasswordId": "Enter Email/Phone Number",
+    "sendCode": "Send Code",
+    "codeSentMessage": "A 4 digit code has been sent to",
+    "verify": "Verify",
+    "didntReceiveACode": "Didn't receive a code?",
+    "resend": "Resend",
+    "letsConsult": "Let's Consult With Our Specialist Today",
+    "setNewPassword": "Set New Password",
+    "setNewPasswordDescription": "Set new password for your account and use the latest password for login",
+    "enterNewPassword": "Enter New Password",
+    "confirmPassword": "Confirm Password",
+    "setPassword": "Set Password"
   },
   "register": {
     "modal": {
       "title": "Registered Successfully",
       "text": "You have been registered, the submitted information will be reviewed by the hospital and we will get back to you. Meanwhile you can enjoy our pre-login features",
       "ok": "Contact us"
-    }
+    },
+    "saudiId": "Saudi ID",
+    "nationalId": "National ID",
+    "iqamaId": "Iqama ID",
+    "firstName": "First Name",
+    "middleName": "Middle Name",
+    "familyName": "Family Name",
+    "emailAddress": "Email Address",
+    "phoneNumber": "Phone Number",
+    "selectGender": "Select Gender",
+    "selectNationality": "Select Nationality",
+    "addDOB": "Add DOB",
+    "yourLocation": "Your Location",
+    "attachASaudiIdPhoto": "Attach a Saudi ID Photo",
+    "uploadImage": "Upload Image",
+    "continue": "Continue",
+    "alreadyHaveAnAccount": "Already have an account?",
+    "login": "Log in",
+    "contactUs": "Contact us",
+    "male": "Male",
+    "female": "Female",
+    "idUploadSuccessMessage": "ID Uploaded Successfully"
+  },
+  "termsAndConditions": {
+    "privacyPolicy": "Privacy Policy",
+    "mustAgree": "You must agree with the policies to use the App",
+    "iAgree": "I agree with the policy"
   },
   "profile": {
     "updateSuccess": "Profile updated successfully",
@@ -55,7 +115,7 @@
     "logOut": "Logout",
     "search": "Search",
     "changeLanguage": "Change Language",
-    "viewProfile": "View Profile",
+    "viewProfile": "View My Profile",
     "changePassword": "Change Password",
     "switchMyProfile": "Switch to My Profile"
   },
@@ -88,6 +148,7 @@
     "View Appointments": "View Appointments",
     "View Inpatients": "View Inpatients",
     "Critical Care": "Critical Care",
+    "Contact Us": "Contact Us",
     "description": {
       "Discover the best doctors in Almoosa Specialist Hospital": "Discover the best doctors in Almoosa Specialist Hospital",
       "View your complete upcoming appointments": "View your complete upcoming appointments",
@@ -96,6 +157,8 @@
     }
   },
   "upcomingAppointment": {
+    "heading": "Upcoming Appointments",
+    "subHeading": "View your complete upcoming appointments",
     "onsite": "On-site",
     "virtual": "Virtual",
     "appointmentTimeline": "Appointment History Timeline",
@@ -129,7 +192,7 @@
     "specialities": "Specialities",
     "findSpecialist": "Find specialist by selecting category",
     "selectDateTime": "Select Date & Time",
-    "selectDate": "Select Date",
+    "selectDate": "Select Appointment Date",
     "findMySpecialist": "Find My Specialist",
     "chooseLocation": "Choose Location",
     "error": {
@@ -139,7 +202,7 @@
   },
   "doctorList": {
     "title": "Schedule Appointment",
-    "makeAppointment": "Make Appointment",
+    "makeAppointment": "Schedule Appointment",
     "search": "Search Doctor",
     "bookingDate": "Booking Date",
     "timeSlots": "Available Time Slots",
@@ -194,7 +257,7 @@
     "chooseInsurance": "Pay Your Bills Via Medical Insurance",
     "chooseTamara": "Pay Your Bills Via Tamara in Installments",
     "paymentSuccessful": "Payment Successful",
-    "paymentSuccessfulText": "Your payment has been received successfully",
+    "paymentSuccessfulText": "Your have paid for the appointment successfully",
     "paymentFailed": "Payment Failed",
     "paymentFailedText": "Your payment has been failed",
     "currentBalance": "Current Balance",
@@ -222,7 +285,7 @@
     "promoCardText": "Tap to use the code",
     "loyaltyPointCardTitle": "Loyalty Points",
     "loyaltyPointCardText": "Tap to use these points",
-    "clearSelection": "Clear Selection",
+    "clearSelection": "Remove Loyalty Points",
     "removePromo": "Remove Promo",
     "invalidPromo": "Add valid promo code",
     "noData": "We will let you know once there is any promotion available for you"
@@ -301,7 +364,13 @@
       "requestButton": "Send Request",
       "requestSuccess": "We have received your request.",
       "reminderTitle": "Reminder Added",
-      "reminderText": "Reminder has been set successfully"
+      "reminderText": "Reminder has been set successfully",
+      "morning": "Morning",
+      "morningText": "Select from morning time slots",
+      "afternoon": "Afternoon",
+      "afternoonText": "Select from afternoon time slots",
+      "evening": "Evening",
+      "eveningText": "Select from evening time slots"
     }
   },
   "servicesPackages": {
@@ -318,7 +387,7 @@
     "bookedPackages": "Booked Packages"
   },
   "familyMembers": {
-    "title": "Family Members",
+    "title": "Family Members List",
     "bookAppointment": "Book Appointment",
     "tapToAddFamilyMember": "Tap to Add New Family Member",
     "addFamilyMember": "Add Family Member",
@@ -382,5 +451,9 @@
   "sar": "SAR",
   "or": "OR",
   "bed": "BED",
-  "equal": "Equals"
+  "equal": "Equals",
+  "selectOptionLabel": "Select Option",
+  "selectLabel": "Press enter to select",
+  "selectedLabel": "Selected",
+  "deselectLabel": "Press enter to remove"
 }

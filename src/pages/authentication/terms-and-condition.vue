@@ -1,8 +1,8 @@
 <template>
   <div class="login-card">
-    <div class="heading w600">Privacy Policy</div>
+    <div class="heading w600">{{ $t("termsAndConditions.privacyPolicy") }}</div>
     <div class="sub-heading w200">
-      You must agree with the policies to use the App
+      {{ $t("termsAndConditions.mustAgree") }}
     </div>
     <div class="text">
       It is a long established fact that a reader will be distracted by the
@@ -41,13 +41,15 @@
           name="rememberMe"
           class="mt-3 custom-checkbox"
         >
-          I accept the terms and use
+          {{ $t("termsAndConditions.iAgree") }}
         </b-form-checkbox>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12 button-group">
-        <button class="btn btn-primary" @click="acceptTerms">Confinue</button>
+        <button class="btn btn-primary" @click="acceptTerms">
+          {{ $t("register.continue") }}
+        </button>
         <!-- <button class="btn btn-secondary" @click="logout">Logout</button> -->
       </div>
     </div>
@@ -121,6 +123,7 @@ export default {
 
 <style lang="scss" scoped>
 .heading {
+  text-transform: uppercase;
   font-size: 2.938rem;
   color: var(--theme-default);
   margin-bottom: 1rem;

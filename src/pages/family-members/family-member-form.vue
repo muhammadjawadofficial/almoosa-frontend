@@ -15,6 +15,10 @@
               label="text"
               :preselectFirst="true"
               @input="itemSelected"
+              :placeholder="$t('selectOptionLabel')"
+              :selectLabel="$t('selectLabel')"
+              :selectedLabel="$t('selectedLabel')"
+              :deselectLabel="$t('deselectLabel')"
             >
               <template slot="placeholder">
                 <div class="multiselect__with-icon">
@@ -116,6 +120,9 @@
               label="nationality"
               :placeholder="$t('familyMembers.selectNationality')"
               track-by="id"
+              :selectLabel="$t('selectLabel')"
+              :selectedLabel="$t('selectedLabel')"
+              :deselectLabel="$t('deselectLabel')"
             ></multiselect>
             <div
               class="custom-state-invalid icon"
@@ -159,6 +166,9 @@
               v-model="registerForm.gender"
               :options="genderList"
               :placeholder="$t('familyMembers.selectGender')"
+              :selectLabel="$t('selectLabel')"
+              :selectedLabel="$t('selectedLabel')"
+              :deselectLabel="$t('deselectLabel')"
             ></multiselect>
             <div
               class="custom-state-invalid icon"

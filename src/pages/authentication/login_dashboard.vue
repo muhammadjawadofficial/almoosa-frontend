@@ -2,7 +2,8 @@
   <div class="login-dashboard">
     <div class="consultation-section">
       <div class="consultation-section--heading">
-        Let's Consult With Our Specialist Today
+        {{ $t("dashboard.letsConsult") }}
+        {{ $t("dashboard.withOurSpecialist") }}
       </div>
       <div class="consultation-section--blocks">
         <div
@@ -15,7 +16,7 @@
           <div v-if="item.unique" class="new-badge">
             <new-badge-svg />
           </div>
-          <div class="title">{{ item.text }}</div>
+          <div class="title">{{ $t("modules." + item.text) }}</div>
           <div class="icon">
             <component :is="item.icon" />
           </div>

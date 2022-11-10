@@ -84,7 +84,7 @@ export default {
   .make-appointment {
     font-size: 1.25em;
     padding-block: 0.5em;
-    margin-top: 1em;
+    margin-top: auto;
   }
   .doctor-image {
     height: 13.75rem;

@@ -1,8 +1,8 @@
 <template>
   <div class="login-card">
-    <div class="heading w600">SET NEW PASSWORD</div>
+    <div class="heading w600">{{ $t("login.setNewPassword") }}</div>
     <div class="sub-heading font-secondary w200">
-      Set new password for your account and use the latest password for login
+      {{ $t("login.setNewPasswordDescription") }}
     </div>
     <div class="login-form">
       <div class="row">
@@ -14,7 +14,7 @@
             <b-form-input
               v-model="password"
               type="password"
-              placeholder="Enter New Password"
+              :placeholder="$t('login.enterNewPassword')"
               :state="passwordState"
             ></b-form-input>
           </b-input-group>
@@ -29,7 +29,7 @@
             <b-form-input
               v-model="confirmPassword"
               type="password"
-              placeholder="Confirm Password"
+              :placeholder="$t('login.confirmPassword')"
               :state="confirmPasswordState"
             ></b-form-input>
           </b-input-group>
@@ -38,10 +38,10 @@
       <div class="row">
         <div class="col-md-12 button-group">
           <button class="btn btn-primary" @click="doVerify">
-            Set Password
+            {{ $t("login.setPassword") }}
           </button>
           <button class="btn btn-tertiary" @click="navigateTo('Login')">
-            Back
+            {{ $t("back") }}
           </button>
         </div>
       </div>
@@ -133,6 +133,7 @@ export default {
   padding-top: 2rem;
 }
 .heading {
+  text-transform: uppercase;
   font-size: 2.938rem;
   color: var(--theme-secondary);
   margin-bottom: 1rem;

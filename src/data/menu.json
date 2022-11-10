@@ -14,7 +14,7 @@
         },
         {
             "titleEn": "Virtual Appointments",
-            "titleAr": "المواعيد الافتراضية",
+            "titleAr": "المواعيد الإفتراضية",
             "icon": "doctor-laptop-svg",
             "type": "link",
             "badgeType": "primary",
@@ -37,7 +37,7 @@
         },
         {
             "titleEn": "Find Specialist",
-            "titleAr": "ابحث عن متخصص",
+            "titleAr": "ابحث عن طبيبك",
             "icon": "heart-checkup-svg",
             "type": "link",
             "badgeType": "primary",
@@ -48,7 +48,7 @@
         },
         {
             "titleEn": "On-site Appointments",
-            "titleAr": "المواعيد في الموقع",
+            "titleAr": "المواعيد في العيادة",
             "icon": "doctor-svg",
             "type": "link",
             "badgeType": "primary",
@@ -60,7 +60,7 @@
         },
         {
             "titleEn": "Medical Insurance",
-            "titleAr": "تأمين طبي",
+            "titleAr": "التأمين الطبي",
             "icon": "health-shield-svg",
             "type": "link",
             "badgeType": "primary",
@@ -72,7 +72,7 @@
         },
         {
             "titleEn": "Lab Works",
-            "titleAr": "يعمل المعمل",
+            "titleAr": "التحاليل",
             "icon": "lab-svg",
             "type": "link",
             "badgeType": "primary",
@@ -96,7 +96,7 @@
         },
         {
             "titleEn": "View Timeline",
-            "titleAr": "عرض الجدول الزمني",
+            "titleAr": "الجدول الزمني",
             "icon": "timeline-svg",
             "type": "link",
             "badgeType": "primary",
@@ -107,7 +107,7 @@
         },
         {
             "titleEn": "My Medications",
-            "titleAr": "أدويتي",
+            "titleAr": "الأدوية",
             "icon": "medical-jar-svg",
             "type": "link",
             "badgeType": "primary",
@@ -118,7 +118,7 @@
         },
         {
             "titleEn": "My Vitals",
-            "titleAr": "عناصري الحيوية",
+            "titleAr": "علاماتي الحيوية",
             "icon": "heart-report-svg",
             "type": "link",
             "badgeType": "primary",
@@ -129,7 +129,7 @@
         },
         {
             "titleEn": "Health Education",
-            "titleAr": "التثقيف الصحي",
+            "titleAr": "التثقيف الطبي",
             "icon": "atom-svg",
             "type": "link",
             "badgeType": "primary",
@@ -151,7 +151,7 @@
         },
         {
             "titleEn": "View Promotions",
-            "titleAr": "مشاهدة العروض الترويجية",
+            "titleAr": "الاطلاع على العروض",
             "icon": "promotions-svg",
             "type": "link",
             "badgeType": "primary",

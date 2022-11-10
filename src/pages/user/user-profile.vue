@@ -245,6 +245,9 @@
                     multiple
                     track-by="id"
                     label="title"
+                    :selectLabel="$t('selectLabel')"
+                    :selectedLabel="$t('selectedLabel')"
+                    :deselectLabel="$t('deselectLabel')"
                   ></multiselect>
                   <div
                     class="custom-state-invalid icon"
@@ -283,6 +286,9 @@
                     "
                     track-by="id"
                     label="title"
+                    :selectLabel="$t('selectLabel')"
+                    :selectedLabel="$t('selectedLabel')"
+                    :deselectLabel="$t('deselectLabel')"
                   ></multiselect>
                   <div
                     class="custom-state-invalid icon"
@@ -321,6 +327,9 @@
                     "
                     track-by="id"
                     label="name"
+                    :selectLabel="$t('selectLabel')"
+                    :selectedLabel="$t('selectedLabel')"
+                    :deselectLabel="$t('deselectLabel')"
                   ></multiselect>
                   <div
                     class="custom-state-invalid icon"
@@ -415,6 +424,9 @@
                     :placeholder="
                       $t('profile.select') + ' ' + $t('profile.nationality')
                     "
+                    :selectLabel="$t('selectLabel')"
+                    :selectedLabel="$t('selectedLabel')"
+                    :deselectLabel="$t('deselectLabel')"
                   ></multiselect>
                   <div
                     class="custom-state-invalid icon"

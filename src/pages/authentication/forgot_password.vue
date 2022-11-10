@@ -1,8 +1,8 @@
 <template>
   <div class="login-card">
-    <div class="heading w600">ENTER VERIFICATION CODE</div>
+    <div class="heading w600">{{ $t("login.enterVerificationCode") }}</div>
     <div class="sub-heading font-secondary w200">
-      Enter your registered email or phone number
+      {{ $t("login.enterRegisterId") }}
     </div>
     <div class="login-form">
       <div class="row">
@@ -13,7 +13,7 @@
             </b-input-group-prepend>
             <b-form-input
               v-model="username"
-              placeholder="Enter Email/Phone Number"
+              :placeholder="$t('login.enterResetPasswordId')"
               :state="usernameState"
             ></b-form-input>
           </b-input-group>
@@ -21,9 +21,11 @@
       </div>
       <div class="row">
         <div class="col-md-12 button-group">
-          <button class="btn btn-primary" @click="sendOtp">Send Code</button>
+          <button class="btn btn-primary" @click="sendOtp">
+            {{ $t("login.sendCode") }}
+          </button>
           <button class="btn btn-tertiary" @click="navigateTo('Login')">
-            Back
+            {{ $t("back") }}
           </button>
         </div>
       </div>
@@ -121,6 +123,7 @@ export default {
   padding-top: 2rem;
 }
 .heading {
+  text-transform: uppercase;
   font-size: 2.938rem;
   color: var(--theme-secondary);
   margin-bottom: 1rem;

@@ -186,6 +186,7 @@ export default {
   padding-top: 2rem;
 }
 .heading {
+  text-transform: uppercase;
   font-size: 2.938rem;
   color: var(--theme-secondary);
 }

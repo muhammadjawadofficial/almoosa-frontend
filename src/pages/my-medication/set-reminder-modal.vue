@@ -44,8 +44,12 @@
                 <img src="../../assets/images/alarm-clock.svg" alt="" />
               </div>
               <div class="content">
-                <div class="title w500">Morning</div>
-                <div class="sub-title">Select from morning slots</div>
+                <div class="title w500">
+                  {{ $t("myMedication.modal.morning") }}
+                </div>
+                <div class="sub-title">
+                  {{ $t("myMedication.modal.morningText") }}
+                </div>
                 <div class="reminder-timeslots">
                   <div
                     class="timeslot secondary"
@@ -71,8 +75,12 @@
                 <img src="../../assets/images/alarm-clock.svg" alt="" />
               </div>
               <div class="content">
-                <div class="title w500">Afternoon</div>
-                <div class="sub-title">Select from afternoon slots</div>
+                <div class="title w500">
+                  {{ $t("myMedication.modal.afternoon") }}
+                </div>
+                <div class="sub-title">
+                  {{ $t("myMedication.modal.afternoonText") }}
+                </div>
                 <div class="reminder-timeslots">
                   <div
                     class="timeslot dark-blue"
@@ -98,8 +106,12 @@
                 <img src="../../assets/images/alarm-clock.svg" alt="" />
               </div>
               <div class="content">
-                <div class="title w500">Evening</div>
-                <div class="sub-title">Select from evening slots</div>
+                <div class="title w500">
+                  {{ $t("myMedication.modal.evening") }}
+                </div>
+                <div class="sub-title">
+                  {{ $t("myMedication.modal.eveningText") }}
+                </div>
                 <div class="reminder-timeslots">
                   <div
                     class="timeslot primary"

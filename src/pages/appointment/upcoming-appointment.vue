@@ -2,7 +2,10 @@
   <div
     class="upcoming-appointment-container page-body-container standard-width"
   >
-    <back-navigation :title="$t('modules.Upcoming Appointment')" />
+    <back-navigation
+      :title="$t('upcomingAppointment.heading')"
+      :subTitle="$t('upcomingAppointment.subHeading')"
+    />
     <div class="row">
       <div class="col-sm-12" style="--numberOfTabs: 2">
         <b-card
