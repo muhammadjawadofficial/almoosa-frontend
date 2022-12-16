@@ -247,7 +247,7 @@ export default {
     }
   }
   .swiper-pagination {
-    ::v-deep {
+    :deep {
       .swiper-pagination-bullet {
         aspect-ratio: 1;
         height: 0.938rem;

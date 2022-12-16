@@ -35,6 +35,7 @@
                 $t('login.' + (isDoctor ? 'enterId' : selectedItem.placeholder))
               "
               :state="usernameState"
+              :formatter="numberOnly"
             ></b-form-input>
           </b-input-group>
         </div>

@@ -8,21 +8,24 @@ export default function setup() {
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
+        if (process.env.NODE_ENV !== "production") {
+            config.headers['bypass-tunnel-reminder'] = true
+        }
         return config;
     }, function (err) {
         return Promise.reject(err);
     });
     axios.interceptors.response.use(function (response) {
-        if(response.status == 401){
-            userService.removeLoginInfo();
-            router.push({name: "Login Dashboard"})
-        }
+        checkAccess(response);
         return response;
     }, function (error) {
-        if(error.response.status == 401){
-            userService.removeLoginInfo();
-            router.push({name: "Login Dashboard"})
-        }
+        checkAccess(error.response);
         return Promise.reject(error);
     })
+}
+function checkAccess(response) {
+    if (response.status == 401 && !router.currentRoute.path.includes('auth')) {
+        userService.removeLoginInfo();
+        router.push({ name: "Login Dashboard" })
+    }
 }

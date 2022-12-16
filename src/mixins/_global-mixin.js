@@ -47,6 +47,40 @@ export default {
         getCurrentLang() {
             return this.$i18n.locale;
         },
+        numberOnly(number, input) {
+            /**
+             * @param {string} number
+             * @param {string} input
+             * @returns {number}
+             * @description
+             * 1. if input is not a number, return the number without the last character
+             * 2. if input is a number, return the number
+             * 3. if input is a number and the number is not a number, return the number by removing all non-numbers
+             * 4. if input is a number and the number is a number, return the number
+             * 5. if input is not a number and the number is not a number, return the number by removing all non-numbers
+             * 6. if input is not a number and the number is a number, return the number
+             */
+            if (isNaN(input)) {
+                return number.replace(/[^0-9]/g, "");
+            } else {
+                return number;
+            }
+        },
+        phoneNumberCharactersOnly(number, input) {
+            /**
+             * @param {string} number
+             * @param {string} input
+             * @returns {number}
+             * @description
+             * 1. if input is a telephone number of saudi format, return the number
+             * 2. if input is not a telephone number of saudi format, return the number without valid characters
+             */
+            if (input.type == "input" && !((0 <= input.data && input.data <= 9) || input.data == "+")) {
+                return number.replace(/[^0-9+]/g, "");
+            } else {
+                return number;
+            }
+        },
         confirmModal(title, confirmText, cancelText) {
             return this.$swal({
                 text: title || this.$t('areYouSure'),

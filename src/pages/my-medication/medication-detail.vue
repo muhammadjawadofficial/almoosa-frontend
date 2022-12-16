@@ -197,7 +197,7 @@ export default {
     @media (max-width: 325px) {
       flex-direction: column;
     }
-    ::v-deep {
+    :deep {
       .svg-icon-fill {
         fill: var(--theme-default);
       }

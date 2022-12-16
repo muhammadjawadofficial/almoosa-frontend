@@ -88,7 +88,7 @@
               v-model="registerForm.phone_number"
               :state="registerFormState.phone_number"
               :placeholder="$t('register.phoneNumber')"
-              :formatter="formatNumber"
+              :formatter="phoneNumberCharactersOnly"
             ></b-form-input>
           </b-input-group>
         </div>
@@ -173,8 +173,10 @@
             <b-form-input
               v-model="userId"
               :state="registerFormState.userId"
-              :placeholder="$t('login.' + selectedItem.placeholder)"
-              type="number"
+              :placeholder="
+                selectedItem ? $t('login.' + selectedItem.placeholder) : ''
+              "
+              :formatter="numberOnly"
             ></b-form-input>
           </b-input-group>
         </div>
@@ -184,7 +186,11 @@
               {{ $t("insurance.clickToUpload") }}
             </div>
             <div class="upload-text text-muted w200 center" v-else>
-              {{ $t("register.uploadImage") }}
+              {{
+                selectedOption && selectedOption.text == "iqamaId"
+                  ? $t("register.uploadIqamaID")
+                  : $t("register.uploadSaudiID")
+              }}
             </div>
             <vue-dropzone
               @vdropzone-file-added="fileUpload"
@@ -285,7 +291,6 @@ export default {
         url: "http://localhost:8080",
         thumbnailWidth: 150,
         acceptedFiles: ["image/jpeg", "image/png"],
-        maxFilesize: 0.5,
         maxFiles: 1,
         dictDefaultMessage: "",
       },

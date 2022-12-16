@@ -772,6 +772,7 @@ $i: 1;
 
 .dropzone {
   .dz-preview {
+    isolation: isolate;
     .dz-error-message {
       background: $white !important;
       color: $primary-color !important;
