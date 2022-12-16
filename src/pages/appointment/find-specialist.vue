@@ -124,6 +124,7 @@
         <ash-datepicker
           :placeholder="$t('findSpecialist.selectDate')"
           v-model="selectedDate"
+          disableDate="forward"
         />
       </div>
     </div>

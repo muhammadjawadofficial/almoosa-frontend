@@ -55,6 +55,7 @@
                       <ash-datepicker
                         v-model="selectedDate"
                         @input="bookingDateChanged"
+                        disableDate="forward"
                       />
                     </div>
                     <div class="booking-time-slots" v-if="timeslots">
