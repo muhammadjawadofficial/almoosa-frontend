@@ -182,9 +182,14 @@
       <div class="row">
         <div class="col-xl-8 col-lg-12">
           <div class="custom-login-input-groups file-upload-container">
-            <div class="upload-text" v-if="fileToUpload.length">
-              {{ $t("familyMembers.uploadNewFile") }}
-            </div>
+            <template v-if="fileToUpload.length">
+              <div class="re-upload-icon">
+                <i class="fa fa-refresh" aria-hidden="true"></i>
+              </div>
+              <div class="upload-text">
+                {{ $t("familyMembers.uploadNewFile") }}
+              </div>
+            </template>
             <vue-dropzone
               @vdropzone-file-added="fileUpload"
               @vdropzone-removed-file="removeFile"
@@ -485,5 +490,6 @@ export default {
   position: absolute;
   left: 0;
   right: 0;
+  bottom: 1rem;
 }
 </style>

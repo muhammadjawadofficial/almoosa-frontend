@@ -182,9 +182,14 @@
         </div>
         <div class="col-md-12">
           <div class="custom-login-input-groups file-upload-container">
-            <div class="upload-text" v-if="fileToUpload.length">
-              {{ $t("insurance.clickToUpload") }}
-            </div>
+            <template v-if="fileToUpload.length">
+              <div class="re-upload-icon">
+                <i class="fa fa-refresh" aria-hidden="true"></i>
+              </div>
+              <div class="upload-text">
+                {{ $t("insurance.clickToUpload") }}
+              </div>
+            </template>
             <div class="upload-text text-muted w200 center" v-else>
               {{
                 selectedOption && selectedOption.text == "iqamaId"
@@ -498,6 +503,7 @@ export default {
   position: absolute;
   left: 0;
   right: 0;
+  bottom: 1rem;
   &.center {
     top: 0;
     bottom: 0;
