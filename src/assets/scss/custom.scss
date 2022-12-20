@@ -1247,7 +1247,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     --gapBetweenLineItems: 2rem;
     --profileInfoLineItems: 2;
     &-card {
-        overflow: hidden;
         padding: 1rem;
         border-radius: 1.5rem;
         background: $tertiary-color;
