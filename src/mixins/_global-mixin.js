@@ -101,7 +101,7 @@ export default {
                 confirmButtonColor: "#4466f2",
             });
         },
-        confirmIconModal(title, text, icon = 'm-check', confirmText = this.$t("ok"), cancelText = this.$t("cancel")) {
+        confirmIconModal(title, text, icon = 'm-check', confirmText = this.$t("ok"), cancelText = this.$t("cancel"), customClass = "") {
             const imagePath = require("../assets/images/" + icon + ".svg")
             return this.$swal({
                 title: title || this.$t('areYouSure'),
@@ -113,7 +113,7 @@ export default {
                 cancelButtonColor: "#4466f2",
                 imageUrl: imagePath,
                 customClass: {
-                    container: 'swal-custom-icon-top-padding theme-action-button',
+                    container: 'swal-custom-icon-top-padding theme-action-button ' + customClass,
                 }
             });
         },
@@ -411,23 +411,49 @@ export default {
             return strNum;
         },
         isAllowedToCall(date, start, end) {
-            let minutes = 1000 * 60;
-
+            /**
+             * @param date: date in string format
+             * @param start: start time in string format with format hh:mm:ss
+             * @param end: end time in string format with format hh:mm:ss
+             * @returns boolean
+             */
             let startTime = start.split(":");
             let endTime = end.split(":");
 
-            let now = new Date().getTime();
-            let bookDate = new Date(date);
-            let bookDateWithStartTime = bookDate.setHours(startTime[0], startTime[1]);
-            let bookDateWithEndTime = bookDate.setHours(endTime[0], endTime[1]);
+            let now = this.moment().utc();
+            let bookDate = this.moment(date).utc().startOf('day')
 
-            let bookDateWithStartTimeMili = new Date(bookDateWithStartTime).getTime();
-            let bookDateWithEndTimeMili = new Date(bookDateWithEndTime).getTime();
+            let bookDateWithStartTime = this.moment(bookDate).add(startTime[0], 'hours').add(startTime[1], 'minutes');
+            let bookDateWithEndTime = this.moment(bookDate).add(endTime[0], 'hours').add(endTime[1], 'minutes');
 
-            let allowedStartLimit = bookDateWithStartTimeMili - (15 * minutes);
-            let allowedEndLimit = bookDateWithEndTimeMili;
-
-            return now > allowedStartLimit && now < allowedEndLimit;
+            let allowedStartLimit = bookDateWithStartTime.add(-15, 'minutes');
+            let allowedEndLimit = bookDateWithEndTime;
+            
+            if (now.isBefore(allowedStartLimit)) {
+                this.failureToast(this.$t("cantJoinCallEarly"));
+                return false;
+            } else if (now.isAfter(allowedEndLimit)) {
+                this.failureToast(this.$t("cantJoinCallLate"));
+                return false;
+            } else {
+                return true;
+            }
+        },
+        navigateToRegister() {
+            this.confirmIconModal(
+                this.$t('register.modal.selectToContinue'),
+                ' ',
+                'm-info',
+                this.$t('register.modal.iHaveMedicalFile'),
+                this.$t('register.modal.iDontHaveMedicalFile'),
+                'one-line-equal-width-buttons',
+            ).then(res => {
+                if (res.value) {
+                    this.navigateTo('Register Medical File');
+                } else if (res.dismiss == 'cancel') {
+                    this.navigateTo('Register');
+                }
+            })
         }
     },
 }

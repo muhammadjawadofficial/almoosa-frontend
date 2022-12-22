@@ -186,10 +186,17 @@
               <div class="re-upload-icon">
                 <i class="fa fa-refresh" aria-hidden="true"></i>
               </div>
-              <div class="upload-text">
+              <div class="upload-text new">
                 {{ $t("familyMembers.uploadNewFile") }}
               </div>
             </template>
+            <div class="custom-file-upload upload-text text-muted w200 center" v-else>
+              {{
+                selectedOption && selectedOption.text == "iqamaId"
+                  ? $t("register.uploadIqamaID")
+                  : $t("register.uploadSaudiID")
+              }}
+            </div>
             <vue-dropzone
               @vdropzone-file-added="fileUpload"
               @vdropzone-removed-file="removeFile"
@@ -201,7 +208,7 @@
             </vue-dropzone>
             <div
               :class="{
-                'dropzone is-invalid': registerFormState.photo_id == false,
+                'dropzone is-invalid': registerFormState.card_id == false,
               }"
             ></div>
           </div>
@@ -236,7 +243,7 @@ export default {
         dob: "",
         location: "",
         role_id: 3,
-        photo_id: null,
+        card_id: null,
         nationality: "",
       },
       registerFormState: {
@@ -248,7 +255,7 @@ export default {
         dob: null,
         location: null,
         userId: null,
-        photo_id: null,
+        card_id: null,
         nationality: null,
       },
       nationalities: [],
@@ -281,10 +288,7 @@ export default {
         acceptedFiles: ["image/jpeg", "image/png"],
         maxFilesize: 0.5,
         maxFiles: 1,
-        dictDefaultMessage:
-          "<span class='custom-file-upload text-muted w200'>" +
-          this.$t("familyMembers.uploadId") +
-          "</span>",
+        dictDefaultMessage: "",
       },
       fileToUpload: [],
     };
@@ -371,9 +375,9 @@ export default {
       authService.uploadId(file).then(
         (res) => {
           if (res.data.status) {
-            this.registerForm.photo_id = res.data.data.id;
-            this.registerFormState.photo_id =
-              this.registerForm.photo_id != null;
+            this.registerForm.card_id = res.data.data.id;
+            this.registerFormState.card_id =
+              this.registerForm.card_id != null;
             this.successToast("ID uploaded successfully!");
           } else {
             this.failureToast(res.data.message);
@@ -397,7 +401,7 @@ export default {
       this.registerFormState.dob = form.dob != "";
       this.registerFormState.location = form.location != "";
       this.registerFormState.userId = this.userId != "";
-      this.registerFormState.photo_id = form.photo_id != null;
+      this.registerFormState.card_id = form.card_id != null;
       this.registerFormState.nationality = form.nationality != "";
 
       return !Object.values(this.registerFormState).includes(false);
@@ -484,12 +488,5 @@ export default {
 }
 .sign-up-link {
   text-align: right;
-}
-.upload-text {
-  text-align: center;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 1rem;
 }
 </style>

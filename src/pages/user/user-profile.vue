@@ -38,24 +38,8 @@
                 </div>
                 <div class="doctor-details-card-header-right-info-user">
                   <div class="user-id">
-                    {{
-                      getUserInfo.mrn_number
-                        ? getUserInfo.mrn_number
-                        : getUserInfo.saudi_id
-                        ? getUserInfo.saudi_id
-                        : getUserInfo.iqama
-                        ? getUserInfo.iqama
-                        : getUserInfo.id
-                    }}
+                    {{ getUserInfo.mrn_number || "N/A" }}
                   </div>
-                  <template v-if="getUserInfo.nationality">
-                    <div class="nationality">
-                      {{
-                        getUserInfo.nationality.nationality ||
-                        getUserInfo.nationality
-                      }}
-                    </div>
-                  </template>
                 </div>
                 <div class="doctor-details-card-header-right-info-section">
                   <template v-if="getUserInfo.nationality">
@@ -73,29 +57,27 @@
                       </div>
                     </div>
                   </template>
-                  <div
-                    class="doctor-details-card-header-right-info-section-detail"
-                  >
-                    <div class="title">{{ $t("profile.idNumber") }}</div>
-                    <div class="value">
-                      {{
-                        getUserInfo.saudi_id
-                          ? getUserInfo.saudi_id
-                          : getUserInfo.iqama
-                          ? getUserInfo.iqama
-                          : getUserInfo.id
-                      }}
-                    </div>
-                  </div>
-                  <template v-if="getUserInfo.allergy">
+                  <template v-if="getUserInfo.saudi_id">
                     <div
                       class="
                         doctor-details-card-header-right-info-section-detail
                       "
                     >
-                      <div class="title">{{ $t("profile.nationality") }}</div>
+                      <div class="title">{{ $t("register.saudiId") }}</div>
                       <div class="value">
-                        {{ getUserInfo.allergy.name }}
+                        {{ getUserInfo.saudi_id}}
+                      </div>
+                    </div>
+                  </template>
+                  <template v-if="getUserInfo.iqama">
+                    <div
+                      class="
+                        doctor-details-card-header-right-info-section-detail
+                      "
+                    >
+                      <div class="title">{{ $t("register.iqamaId") }}</div>
+                      <div class="value">
+                        {{ getUserInfo.iqama}}
                       </div>
                     </div>
                   </template>

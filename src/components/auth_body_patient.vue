@@ -88,7 +88,7 @@
               <button class="btn btn-secondary" @click="navigateTo('Login')">
                 {{ $t("login.login") }}
               </button>
-              <button class="btn btn-primary" @click="navigateTo('Register')">
+              <button class="btn btn-primary" @click="navigateToRegister()">
                 {{ $t("login.register") }}
               </button>
             </div>

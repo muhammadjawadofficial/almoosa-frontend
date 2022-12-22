@@ -58,47 +58,59 @@
                         disableDate="forward"
                       />
                     </div>
-                    <div class="booking-time-slots" v-if="timeslots">
+                    <div class="booking-time-slots">
                       <div class="tab-content-heading">
                         {{ $t("doctorList.timeSlots") }}
                       </div>
                       <div class="time-slots-container">
-                        <div
-                          class="time-slot"
-                          :class="{
-                            disabled: timeslot.is_booked,
-                            active: selectedTimeSlot == index,
-                          }"
-                          v-for="(timeslot, index) in timeslots.all_slots"
-                          :key="index + '-doctor-time-slot'"
-                          @click="
-                            timeslot.is_booked
-                              ? null
-                              : setSelectedTimeSlot(index)
-                          "
-                        >
-                          {{ removeSecondsFromTimeString(timeslot.start_time) }}
-                          -
-                          {{ removeSecondsFromTimeString(timeslot.end_time) }}
+                        <template v-if="timeslots">
+                          <div
+                            class="time-slot"
+                            :class="{
+                              disabled: timeslot.is_booked,
+                              active: selectedTimeSlot == index,
+                            }"
+                            v-for="(timeslot, index) in timeslots.all_slots"
+                            :key="index + '-doctor-time-slot'"
+                            @click="
+                              timeslot.is_booked
+                                ? null
+                                : setSelectedTimeSlot(index)
+                            "
+                          >
+                            {{
+                              removeSecondsFromTimeString(timeslot.start_time)
+                            }}
+                            -
+                            {{ removeSecondsFromTimeString(timeslot.end_time) }}
+                          </div>
+                        </template>
+                        <div class="no-data" v-else>
+                          {{ this.$t("noData") }}
                         </div>
                       </div>
                     </div>
                   </div>
                 </b-tab>
                 <b-tab :title="$t('doctorDetail.tabs.clinic')">
-                  <div class="appointment-list">
-                    <div
-                      class="appointment-list-item"
-                      v-for="clinic in doctor.clinics"
-                      :key="'doctor-' + doctor.id + 'clinic-' + clinic.id"
-                    >
-                      <div class="hospital-name">
-                        {{ clinic.title }}
-                      </div>
-                      <div class="hospital-address">
-                        {{ clinic.address }}
+                  <template v-if="doctor.clinics && doctor.clinics.length">
+                    <div class="appointment-list">
+                      <div
+                        class="appointment-list-item"
+                        v-for="clinic in doctor.clinics"
+                        :key="'doctor-' + doctor.id + 'clinic-' + clinic.id"
+                      >
+                        <div class="hospital-name">
+                          {{ clinic.title }}
+                        </div>
+                        <div class="hospital-address">
+                          {{ clinic.address }}
+                        </div>
                       </div>
                     </div>
+                  </template>
+                  <div class="no-data" v-else>
+                    {{ $t("noData") }}
                   </div>
                 </b-tab>
                 <b-tab :title="$t('doctorDetail.tabs.experience')">
@@ -128,7 +140,7 @@
                       <div class="hospital-name">
                         {{ $t("doctorDetail.languages") }}
                       </div>
-                      <template v-if="doctor.language">
+                      <template v-if="doctor.languages">
                         <div
                           class="hospital-address"
                           v-for="language in doctor.languages.split(',')"

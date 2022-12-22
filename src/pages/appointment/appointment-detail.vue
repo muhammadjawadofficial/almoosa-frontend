@@ -166,13 +166,16 @@ export default {
       this.navigateTo("Select Payment Method");
     },
     makeCall() {
+      if (this.details.status !== "confirmed") {
+        this.failureToast(this.$t("cantJoinCallPaymetPending"));
+        return;
+      }
       if (
         this.isAllowedToCall(
           this.details.booked_date,
           this.details.start_time,
           this.details.end_time
-        ) &&
-        this.details.status == "confirmed"
+        )
       ) {
         let html =
           "<ul class='swal2-list'>" +
@@ -189,8 +192,6 @@ export default {
             this.navigateTo("Connect");
           }
         });
-      } else {
-        this.failureToast(this.$t("cantJoinCall"));
       }
     },
     rescheduleAppointment() {

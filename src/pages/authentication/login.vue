@@ -94,7 +94,7 @@
         </div>
         <div
           class="sign-up-link w200 col-md-12"
-          @click="navigateTo('Register')"
+          @click="navigateToRegister()"
           v-if="!isDoctor"
         >
           {{ $t("login.dontHaveAccount") }}

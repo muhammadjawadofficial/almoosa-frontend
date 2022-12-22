@@ -12,6 +12,8 @@ import Profile from '../pages/user/user-profile'
 import Dashboard from '../pages/dashboard'
 import Iframe from '../pages/iframe'
 
+import RouterViewModule from '../components/module'
+
 import AppointmentModule from '../pages/appointment'
 import AppointmentMethodModule from '../pages/appointment/appointment-method-module'
 import BookAppointment from '../pages/appointment/book-appointment'
@@ -66,6 +68,7 @@ import OTP from '../pages/authentication/otp';
 import ForgotPassword from '../pages/authentication/forgot_password';
 import NewPassword from '../pages/authentication/new_password';
 import Register from '../pages/authentication/register';
+import RegisterMedicalFile from '../pages/authentication/registerMedicalFile';
 import LoginDashboard from '../pages/authentication/login_dashboard';
 
 import CriticalCare from '../pages/critical-care';
@@ -529,12 +532,27 @@ const routes = [
           },
           {
             path: 'register',
-            name: 'Register',
-            component: Register,
-            meta: {
-              title: 'Register | Almoosa Specialist Hospital',
-              public: true
-            }
+            component: RouterViewModule,
+            children: [
+              {
+                path: '',
+                name: 'Register',
+                component: Register,
+                meta: {
+                  title: 'Register | Almoosa Specialist Hospital',
+                  public: true
+                }
+              },
+              {
+                path: 'medical-file',
+                name: 'Register Medical File',
+                component: RegisterMedicalFile,
+                meta: {
+                  title: 'Register via Medical File | Almoosa Specialist Hospital',
+                  public: true
+                }
+              }
+            ]
           },
           {
             path: 'terms-and-condition',

@@ -8,7 +8,12 @@
 }
 @font-face {
     font-family: "DiodrumArabicMedium";
-    src: url(../../assets/fonts/DiodrumArabic-Medium.ttf) format("truetype");
+    src: url(../../assets/fonts/diodrum/medium/DiodrumArabic-Medium.eot);
+    src: url(../../assets/fonts/diodrum/medium/DiodrumArabic-Medium.eot?#iefix) format("embedded-opentype"),
+        url(../../assets/fonts/diodrum/medium/DiodrumArabic-Medium.woff2) format("woff2"),
+        url(../../assets/fonts/diodrum/medium/DiodrumArabic-Medium.woff) format("woff"),
+        url(../../assets/fonts/diodrum/medium/DiodrumArabic-Medium.ttf) format("truetype"),
+        url(../../assets/fonts/diodrum/medium/DiodrumArabic-Medium.svg#DiodrumArabic-Medium) format("svg");
 }
 @font-face {
     font-family: "DiodrumArabicSemibold";
@@ -16,7 +21,12 @@
 }
 @font-face {
     font-family: "DiodrumArabicBold";
-    src: url(../../assets/fonts/DiodrumArabic-Bold.ttf) format("truetype");
+    src: url(../../assets/fonts/diodrum/bold/DiodrumArabic-Bold.eot);
+    src: url(../../assets/fonts/diodrum/bold/DiodrumArabic-Bold.eot?#iefix) format("embedded-opentype"),
+        url(../../assets/fonts/diodrum/bold/DiodrumArabic-Bold.woff2) format("woff2"),
+        url(../../assets/fonts/diodrum/bold/DiodrumArabic-Bold.woff) format("woff"),
+        url(../../assets/fonts/diodrum/bold/DiodrumArabic-Bold.ttf) format("truetype"),
+        url(../../assets/fonts/diodrum/bold/DiodrumArabic-Bold.svg#DiodrumArabic-Bold) format("svg");
 }
 // General variables
 $theme-font-color: #242934;
