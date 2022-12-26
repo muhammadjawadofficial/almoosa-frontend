@@ -233,7 +233,7 @@ export default {
       );
     },
     fetchTimeslots() {
-      this.setLoadingState(true);
+      // this.setLoadingState(true);
       medicationService.getReminderSlots().then(
         (response) => {
           if (response.data.status) {
@@ -250,10 +250,10 @@ export default {
           } else {
             this.failureToast(response.data.messsage);
           }
-          this.setLoadingState(false);
+          // this.setLoadingState(false);
         },
         () => {
-          this.setLoadingState(false);
+          // this.setLoadingState(false);
           this.failureToast();
         }
       );

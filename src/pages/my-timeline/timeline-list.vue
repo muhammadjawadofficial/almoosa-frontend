@@ -20,15 +20,19 @@
           <template v-else>
             <div
               class="appointment-list-item"
-              v-for="timeline in timelineList"
-              :key="'upcoming-appointment-id' + timeline.id"
+              v-for="(timeline, index) in timelineList"
+              :key="'upcoming-appointment-id' + index + timeline.id"
             >
               <div class="appointment-time">
                 <div class="appointment-time-day">
                   {{ getDate(timeline.booked_date) }}
                 </div>
                 <div class="appointment-time-time">
-                  {{ removeSecondsFromTimeString(timeline.start_time) }}
+                  {{
+                    timeline.start_time
+                      ? getTimeFromDate(timeline.start_time, true)
+                      : ""
+                  }}
                 </div>
               </div>
               <div class="appointment-card default">
@@ -37,23 +41,24 @@
                 </div>
                 <div class="appointment-details">
                   <div class="doctor-name">
-                    {{ $t("bookAppointment." + timeline.type) }}
+                    {{ $t("bookAppointment." + timeline.type.toLowerCase()) }}
                     {{ $t("myTimeline.appointmentSession") }}
                   </div>
                   <div class="doctor-speciality">
-                    {{
-                      timeline.doctor.first_name +
-                      (timeline.doctor.middle_name
-                        ? " " + timeline.doctor.middle_name + " "
-                        : " ") +
-                      timeline.doctor.family_name
-                    }}
+                    {{ $t("dr") }} {{ getFullName(timeline.doctor) }}
                   </div>
                   <div class="appointment-status">
                     <div class="appointment-time-span">
-                      {{ removeSecondsFromTimeString(timeline.start_time) }}
-                      -
-                      {{ removeSecondsFromTimeString(timeline.end_time) }}
+                      {{
+                        timeline.start_time
+                          ? getTimeFromDate(timeline.start_time, true) + " - "
+                          : ""
+                      }}
+                      {{
+                        timeline.end_time
+                          ? getTimeFromDate(timeline.end_time, true)
+                          : ""
+                      }}
                     </div>
                   </div>
                   <button

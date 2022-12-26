@@ -16,7 +16,7 @@
                 alt="doctor-image"
               />
               <label for="user-profile-picture-upload">
-                Upload Picture
+                {{ $t("profile.uploadPicture") }}
                 <input
                   type="file"
                   @change="changeProfilePicture"
@@ -28,13 +28,7 @@
             <div class="doctor-details-card-header-right">
               <div class="doctor-details-card-header-right-info">
                 <div class="doctor-details-card-header-right-info-name">
-                  {{
-                    getUserInfo.first_name +
-                    (getUserInfo.middle_name
-                      ? " " + getUserInfo.middle_name + " "
-                      : " ") +
-                    getUserInfo.family_name
-                  }}
+                  {{ getFullName(getUserInfo) }}
                 </div>
                 <div class="doctor-details-card-header-right-info-user">
                   <div class="user-id">
@@ -65,7 +59,7 @@
                     >
                       <div class="title">{{ $t("register.saudiId") }}</div>
                       <div class="value">
-                        {{ getUserInfo.saudi_id}}
+                        {{ getUserInfo.saudi_id }}
                       </div>
                     </div>
                   </template>
@@ -77,11 +71,11 @@
                     >
                       <div class="title">{{ $t("register.iqamaId") }}</div>
                       <div class="value">
-                        {{ getUserInfo.iqama}}
+                        {{ getUserInfo.iqama }}
                       </div>
                     </div>
                   </template>
-                  <template v-if="!isDoctor">
+                  <template v-if="!isDoctor && false">
                     <div
                       class="
                         doctor-details-card-header-right-info-section-detail
@@ -98,7 +92,7 @@
                         <div class="title">
                           {{ $t("profile.loyaltyPoint") }}
                         </div>
-                        <div class="value">
+                        <div class="value" v-if="getUserInfo.loyality_points">
                           {{ getUserInfo.loyality_points }} /
                           <div class="sub-value">
                             {{ $t("equal") }}
@@ -108,6 +102,7 @@
                             {{ $t("sar") }}
                           </div>
                         </div>
+                        <div class="value" v-else>N/A</div>
                       </div>
                     </div>
                   </template>
@@ -150,7 +145,7 @@
             </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
-                <img src="../../assets/images/heart-vitals.svg" alt="" />
+                <img src="../../assets/images/active-problems.svg" alt="" />
               </div>
               <div class="profile-info-card-detail">
                 <div class="profile-info-card-detail-title">
@@ -193,7 +188,7 @@
             </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
-                <img src="../../assets/images/heart-vitals.svg" alt="" />
+                <img src="../../assets/images/clinical-warning.svg" alt="" />
               </div>
               <div class="profile-info-card-detail">
                 <div class="profile-info-card-detail-title">
@@ -205,48 +200,6 @@
             </div>
           </div>
           <div class="profile-info" v-else>
-            <div class="profile-info-card">
-              <div class="profile-info-card-logo">
-                <img src="../../assets/images/location-bg.svg" alt="" />
-              </div>
-              <div class="profile-info-card-detail">
-                <div class="profile-info-card-detail-title">
-                  {{ $t("profile.clinics") }}
-                </div>
-                <div
-                  class="profile-info-card-detail-value"
-                  :class="{ inactive: !isEditing }"
-                >
-                  <multiselect
-                    :disabled="!isEditing"
-                    v-model="doctor.clinics"
-                    :options="clinics"
-                    :placeholder="
-                      $t('profile.select') + ' ' + $t('profile.clinics')
-                    "
-                    multiple
-                    track-by="id"
-                    label="title"
-                    :selectLabel="$t('selectLabel')"
-                    :selectedLabel="$t('selectedLabel')"
-                    :deselectLabel="$t('deselectLabel')"
-                  ></multiselect>
-                  <div
-                    class="custom-state-invalid icon"
-                    :class="{
-                      'is-invalid': doctorState.clinicsState == false,
-                    }"
-                  ></div>
-                </div>
-              </div>
-              <div class="profile-info-card-option">
-                <img
-                  src="../../assets/images/pencil.svg"
-                  alt=""
-                  v-if="isEditing"
-                />
-              </div>
-            </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
                 <img src="../../assets/images/heart-vitals-bg.svg" alt="" />
@@ -290,11 +243,11 @@
             </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
-                <img src="../../assets/images/strethoscope-bg.svg" alt="" />
+                <img src="../../assets/images/location-bg.svg" alt="" />
               </div>
               <div class="profile-info-card-detail">
                 <div class="profile-info-card-detail-title">
-                  {{ $t("profile.department") }}
+                  {{ $t("profile.clinics") }}
                 </div>
                 <div
                   class="profile-info-card-detail-value"
@@ -302,13 +255,14 @@
                 >
                   <multiselect
                     :disabled="!isEditing"
-                    v-model="doctor.department"
-                    :options="departments"
+                    v-model="doctor.clinics"
+                    :options="clinics"
                     :placeholder="
-                      $t('profile.select') + ' ' + $t('profile.department')
+                      $t('profile.select') + ' ' + $t('profile.clinics')
                     "
+                    multiple
                     track-by="id"
-                    label="name"
+                    label="title"
                     :selectLabel="$t('selectLabel')"
                     :selectedLabel="$t('selectedLabel')"
                     :deselectLabel="$t('deselectLabel')"
@@ -316,7 +270,7 @@
                   <div
                     class="custom-state-invalid icon"
                     :class="{
-                      'is-invalid': doctorState.departmentState == false,
+                      'is-invalid': doctorState.clinicsState == false,
                     }"
                   ></div>
                 </div>
@@ -401,7 +355,7 @@
                     :disabled="!isEditing"
                     v-model="doctor.nationality"
                     :options="nationalities"
-                    track-by="id"
+                    track-by="code"
                     label="nationality"
                     :placeholder="
                       $t('profile.select') + ' ' + $t('profile.nationality')
@@ -518,7 +472,6 @@ export default {
       doctor: {
         clinics: [],
         speciality: {},
-        department: {},
         degree: "",
         expertise: "",
         nationality: {},
@@ -528,7 +481,6 @@ export default {
       doctorState: {
         clinicsState: null,
         specialityState: null,
-        departmentState: null,
         degreeState: null,
         expertiseState: null,
         nationalityState: null,
@@ -536,7 +488,6 @@ export default {
         consultingState: null,
       },
       nationalities: [],
-      departments: [],
       clinics: [],
       specialities: [],
     };
@@ -582,77 +533,47 @@ export default {
     },
     checkDropdownValues() {
       this.setLoadingState(true);
-      authService.getNationalities().then(
-        (res) => {
-          if (res.data.status) {
-            let data = res.data.data;
+      Promise.all([
+        authService.getNationalities(),
+        appointmentService.getClinics(),
+        appointmentService.getSpecialities(),
+      ])
+        .then((res) => {
+          let nationalities = res[0];
+          let clinics = res[1];
+          let specialities = res[2];
+          if (nationalities.data.status) {
+            let data = nationalities.data.data;
             if (data) {
               this.nationalities = data.items;
             }
           } else {
-            this.failureToast(res.data.message);
+            this.failureToast(nationalities.data.message);
           }
-          this.setLoadingState(false);
-        },
-        (err) => {
-          console.error(err);
-          this.failureToast();
-          this.setLoadingState(false);
-        }
-      );
-      this.setLoadingState(true);
-      authService.getDepartments().then(
-        (res) => {
-          if (res.data.status) {
-            let data = res.data.data;
+          if (clinics.data.status) {
+            let data = clinics.data.data;
             if (data) {
-              this.departments = data.items;
+              this.clinics = data.items;
             }
           } else {
-            this.failureToast(res.data.message);
+            this.failureToast(clinics.data.message);
           }
-          this.setLoadingState(false);
-        },
-        (err) => {
-          console.error(err);
-          this.failureToast();
-          this.setLoadingState(false);
-        }
-      );
-      this.setLoadingState(true);
-      appointmentService.getClinics().then(
-        (res) => {
-          let response = res.data;
-          if (response.status) {
-            this.clinics = response.data.items;
+          if (specialities.data.status) {
+            let data = specialities.data.data;
+            if (data) {
+              this.specialities = data.items;
+            }
           } else {
-            this.failureToast(response.message);
+            this.failureToast(specialities.data.message);
           }
-          this.setLoadingState(false);
-        },
-        (err) => {
-          console.error(err);
+        })
+        .catch(() => {
           this.failureToast();
+        })
+        .finally(() => {
           this.setLoadingState(false);
-        }
-      );
-      this.setLoadingState(true);
-      appointmentService.getSpecialities().then(
-        (res) => {
-          let response = res.data;
-          if (response.status) {
-            this.specialities = res.data.data.items;
-          } else {
-            this.failureToast(response.message);
-          }
-          this.setLoadingState(false);
-        },
-        (err) => {
-          console.error(err);
-          this.failureToast();
-          this.setLoadingState(false);
-        }
-      );
+          this.getProfileData();
+        });
     },
     formatNumber(number, input) {
       if (
@@ -665,7 +586,6 @@ export default {
     },
     initializeData() {
       this.resetData();
-      this.getProfileData();
     },
     getProfileData() {
       if (this.getUserInfo.isDependent) {
@@ -716,7 +636,6 @@ export default {
       if (this.isDoctor) {
         this.doctor.clinics = this.getUserInfo.clinics || [];
         this.doctor.speciality = this.getUserInfo.speciality;
-        this.doctor.department = this.getUserInfo.department;
         this.doctor.degree = this.getUserInfo.degree;
         this.doctor.nationality = this.getUserInfo.nationality;
         this.doctor.expertise = this.getUserInfo.expertise;
@@ -725,7 +644,6 @@ export default {
         this.doctorState = {
           clinicsState: null,
           specialityState: null,
-          departmentState: null,
           degreeState: null,
           expertiseState: null,
           nationalityState: null,
@@ -748,8 +666,6 @@ export default {
           !!this.doctor.clinics;
         this.doctorState.specialityState =
           this.doctor.speciality != {} && !!this.doctor.speciality;
-        this.doctorState.departmentState =
-          this.doctor.department != {} && !!this.doctor.department;
         this.doctorState.degreeState =
           this.doctor.degree != "" && !!this.doctor.degree;
         this.doctorState.expertiseState =
@@ -785,12 +701,6 @@ export default {
             this.getUserInfo.speciality.id !== this.doctor.speciality.id
           ) {
             updateUserObj.speciality_id = this.doctor.speciality.id;
-          }
-          if (
-            !this.getUserInfo.department ||
-            this.getUserInfo.department !== this.doctor.department
-          ) {
-            updateUserObj.department_id = this.doctor.department.id;
           }
           if (this.getUserInfo.degree !== this.doctor.degree) {
             updateUserObj.degree = this.doctor.degree;

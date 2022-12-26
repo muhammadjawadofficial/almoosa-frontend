@@ -10,16 +10,10 @@
             <div class="doctor-details-card-header-right">
               <div class="doctor-details-card-header-right-info">
                 <div class="doctor-details-card-header-right-info-name">
-                  {{
-                    doctor.first_name +
-                    (doctor.middle_name
-                      ? " " + doctor.middle_name + " "
-                      : " ") +
-                    doctor.family_name
-                  }}
+                  {{ $t("dr") }} {{ getFullName(doctor) }}
                 </div>
                 <div class="doctor-details-card-header-right-info-speciality">
-                  {{ doctor.speciality.title }}
+                  {{ doctor.speciality ? doctor.speciality.title : "N/A" }}
                 </div>
               </div>
               <div
@@ -67,22 +61,20 @@
                           <div
                             class="time-slot"
                             :class="{
-                              disabled: timeslot.is_booked,
+                              disabled: timeslot.is_booked != 'FREE',
                               active: selectedTimeSlot == index,
                             }"
-                            v-for="(timeslot, index) in timeslots.all_slots"
+                            v-for="(timeslot, index) in timeslots"
                             :key="index + '-doctor-time-slot'"
                             @click="
-                              timeslot.is_booked
+                              timeslot.is_booked != 'FREE'
                                 ? null
                                 : setSelectedTimeSlot(index)
                             "
                           >
-                            {{
-                              removeSecondsFromTimeString(timeslot.start_time)
-                            }}
+                            {{ getTimeFromDate(timeslot.start_time, true) }}
                             -
-                            {{ removeSecondsFromTimeString(timeslot.end_time) }}
+                            {{ getTimeFromDate(timeslot.end_time, true) }}
                           </div>
                         </template>
                         <div class="no-data" v-else>
@@ -120,18 +112,18 @@
                   <div class="card-paragraph">
                     <div>
                       {{ $t("doctorDetail.degree") }}:
-                      {{ doctor.degree || $t("noData") }}
+                      {{ doctor.degree || "N/A" }}
                     </div>
                     <div>
                       {{ $t("doctorDetail.expertise") }}:
-                      {{ doctor.expertise || $t("noData") }}
+                      {{ doctor.expertise || "N/A" }}
                     </div>
                     <div>
                       {{ $t("doctorDetail.nationality") }}:
                       {{
                         (doctor.nationality &&
                           doctor.nationality.nationality) ||
-                        $t("noData")
+                        "N/A"
                       }}
                     </div>
                   </div>
@@ -251,10 +243,10 @@ export default {
     if (!this.getBookingDoctor) {
       this.navigateTo("Doctor List");
     }
-    this.initializeData();
     this.isBookingFlow = ["Doctor Details", "Doctor Details Guest"].includes(
       this.$route.name
     );
+    this.initializeData();
   },
   methods: {
     ...mapActions("appointment", [
@@ -268,7 +260,7 @@ export default {
     initializeData() {
       this.doctor = this.getBookingDoctor;
       this.selectedDate = this.getBookingDate;
-      if (this.doctor) {
+      if (this.doctor && this.isBookingFlow) {
         this.fetchTimeslots();
       }
     },
@@ -283,9 +275,9 @@ export default {
         (res) => {
           let response = res.data;
           if (response.status) {
-            this.timeslots = response.data.items[0];
+            this.timeslots = response.data.items;
             let isThereAnyTimeSlotAvailable =
-              this.timeslots && this.timeslots.all_slots.length;
+              this.timeslots && this.timeslots.length;
             let isSelectedDateIsSameAsOfBookingDate = this.isDateSame(
               this.getBookingDate,
               this.selectedDate
@@ -297,7 +289,7 @@ export default {
               isSelectedDateIsSameAsOfBookingDate &&
               isStartEndTimeExist
             ) {
-              let timeslot = this.timeslots.all_slots.findIndex((x) => {
+              let timeslot = this.timeslots.findIndex((x) => {
                 return (
                   x.start_time == this.getBookingStartTime &&
                   x.end_time == this.getBookingEndTime
@@ -327,7 +319,7 @@ export default {
         this.failureToast(this.$t("doctorDetail.timeslot.notSelected"));
         return;
       }
-      let selectedTimeSlot = this.timeslots.all_slots[this.selectedTimeSlot];
+      let selectedTimeSlot = this.timeslots[this.selectedTimeSlot];
       this.setBookingDate(this.selectedDate);
       this.setBookingStartTime(selectedTimeSlot.start_time);
       this.setBookingEndTime(selectedTimeSlot.end_time);
@@ -341,16 +333,8 @@ export default {
             .updateAppointment(
               this.getIsReschedule,
               this.selectedDate,
-              this.removeSecondsFromTimeString(
-                this.getBookingStartTime,
-                true,
-                false
-              ),
-              this.removeSecondsFromTimeString(
-                this.getBookingEndTime,
-                true,
-                false
-              )
+              this.getTimeFromDate(this.getBookingStartTime, true),
+              this.getTimeFromDate(this.getBookingEndTime, true)
             )
             .then(
               (res) => {
@@ -384,7 +368,7 @@ export default {
       }
     },
     selectionSame() {
-      let selectedTimeSlot = this.timeslots.all_slots[this.selectedTimeSlot];
+      let selectedTimeSlot = this.timeslots[this.selectedTimeSlot];
       return (
         this.selectedDate == this.getBookingDate &&
         selectedTimeSlot.start_time == this.getBookingStartTime &&

@@ -119,7 +119,7 @@
               :options="nationalities"
               label="nationality"
               :placeholder="$t('familyMembers.selectNationality')"
-              track-by="id"
+              track-by="code"
               :selectLabel="$t('selectLabel')"
               :selectedLabel="$t('selectedLabel')"
               :deselectLabel="$t('deselectLabel')"

@@ -27,17 +27,17 @@
       <b-card-body class="py-0 px-3 mt-4">
         <div
           class="appointment-list"
-          :class="{ noData: !reports || !reports.length }"
+          :class="{ 'no-data': !filteredList || !filteredList.length }"
         >
-          <div class="loading" v-if="reports == null">{{ $t("loading") }}</div>
-          <div class="no-data" v-else-if="!reports.length">
+          <div class="loading" v-if="filteredList == null">{{ $t("loading") }}</div>
+          <div class="no-data" v-else-if="!filteredList.length">
             {{ $t("noData") }}
           </div>
           <template v-else>
             <div
               class="appointment-list-item"
-              v-for="report in reports"
-              :key="'upcoming-appointment-id' + report.id"
+              v-for="(report, index) in filteredList"
+              :key="'upcoming-appointment-id' + index + report.id"
             >
               <div class="appointment-card default">
                 <div class="doctor-avatar transparent">
@@ -76,11 +76,12 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { userService } from "../../services";
+import { reportService, userService } from "../../services";
 export default {
   data() {
     return {
       reports: [],
+      filteredList: [],
       searchReportQuery: "",
     };
   },
@@ -92,8 +93,8 @@ export default {
   },
   watch: {
     searchReportQuery(val) {
-      this.reports = [
-        ...this.getSelectedRadiologyReport.reports.filter((x) =>
+      this.filteredList = [
+        ...this.reports.filter((x) =>
           x.title.toLowerCase().includes(val.toLowerCase())
         ),
       ];
@@ -105,13 +106,28 @@ export default {
         this.navigateTo("Radiology Report Doctors");
         return;
       }
-      this.reports = this.getSelectedRadiologyReport.reports;
+      this.setLoadingState(true);
+      reportService
+        .getReportsWithAppointments(this.getSelectedRadiologyReport.id)
+        .then(
+          (response) => {
+            if (response.data.status) {
+              let data = response.data.data.items;
+              this.reports = [...data];
+              this.filteredList = [...data];
+            } else {
+              this.failureToast(response.data.messsage);
+            }
+            this.setLoadingState(false);
+          },
+          () => {
+            this.setLoadingState(false);
+            this.failureToast();
+          }
+        );
     },
     viewReport(report) {
-      window.open(
-        process.env.VUE_APP_SERVER + report.report_file.path,
-        "_blank"
-      );
+      window.open(report.report_file.path, "_blank");
     },
     downloadReport(report) {
       let file = {

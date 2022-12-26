@@ -7,6 +7,7 @@ export const authService = {
     loginDoctor,
     uploadId,
     register,
+    registerViaMedicalFile,
     resendOtp,
     verifyOtp,
     resetPassword,
@@ -62,6 +63,13 @@ function register(data) {
     return axios({
         method: apiPath.register.patient.method,
         url: apiPath.register.patient.url,
+        data
+    })
+}
+function registerViaMedicalFile(data) {
+    return axios({
+        method: apiPath.register.medicalFile.method,
+        url: apiPath.register.medicalFile.url,
         data
     })
 }

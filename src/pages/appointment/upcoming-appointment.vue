@@ -40,9 +40,7 @@
                         {{ getDate(appointment.booked_date) }}
                       </div>
                       <div class="appointment-time-time">
-                        {{
-                          removeSecondsFromTimeString(appointment.start_time)
-                        }}
+                        {{ getTimeFromDate(appointment.start_time, true) }}
                       </div>
                     </div>
                     <div
@@ -67,17 +65,10 @@
                       <div class="appointment-details">
                         <div class="doctor-name">
                           {{
-                            appointment[isDoctor ? "patient" : "doctor"]
-                              .first_name +
-                            (appointment[isDoctor ? "patient" : "doctor"]
-                              .middle_name
-                              ? " " +
-                                appointment[isDoctor ? "patient" : "doctor"]
-                                  .middle_name +
-                                " "
-                              : " ") +
-                            appointment[isDoctor ? "patient" : "doctor"]
-                              .family_name
+                            (isDoctor ? $t("dr") + " " : "") +
+                            getFullName(
+                              appointment[isDoctor ? "patient" : "doctor"]
+                            )
                           }}
                         </div>
                         <div class="doctor-speciality" v-if="isDoctor">
@@ -86,20 +77,23 @@
                           </div>
                         </div>
                         <div class="doctor-speciality" v-else>
-                          {{ appointment.doctor.speciality.title }},
+                          {{
+                            appointment.doctor.speciality &&
+                            appointment.doctor.speciality.title + ", "
+                          }}
                           {{ appointment.doctor.location }}
+                          {{
+                            !appointment.doctor.speciality &&
+                            !appointment.doctor.location
+                              ? "N/A"
+                              : ""
+                          }}
                         </div>
                         <div class="appointment-status">
                           <div class="appointment-time-span">
-                            {{
-                              removeSecondsFromTimeString(
-                                appointment.start_time
-                              )
-                            }}
+                            {{ getTimeFromDate(appointment.start_time, true) }}
                             -
-                            {{
-                              removeSecondsFromTimeString(appointment.end_time)
-                            }}
+                            {{ getTimeFromDate(appointment.end_time, true) }}
                           </div>
                           <template v-if="isDoctor">
                             {{
@@ -141,9 +135,7 @@
                         {{ getDate(appointment.booked_date) }}
                       </div>
                       <div class="appointment-time-time">
-                        {{
-                          removeSecondsFromTimeString(appointment.start_time)
-                        }}
+                        {{ getTimeFromDate(appointment.start_time, true) }}
                       </div>
                     </div>
                     <div
@@ -168,17 +160,10 @@
                       <div class="appointment-details">
                         <div class="doctor-name">
                           {{
-                            appointment[isDoctor ? "patient" : "doctor"]
-                              .first_name +
-                            (appointment[isDoctor ? "patient" : "doctor"]
-                              .middle_name
-                              ? " " +
-                                appointment[isDoctor ? "patient" : "doctor"]
-                                  .middle_name +
-                                " "
-                              : " ") +
-                            appointment[isDoctor ? "patient" : "doctor"]
-                              .family_name
+                            (isDoctor ? $t("dr") + " " : "") +
+                            getFullName(
+                              appointment[isDoctor ? "patient" : "doctor"]
+                            )
                           }}
                         </div>
                         <div class="doctor-speciality" v-if="isDoctor">
@@ -193,14 +178,10 @@
                         <div class="appointment-status success">
                           <div class="appointment-time-span">
                             {{
-                              removeSecondsFromTimeString(
-                                appointment.start_time
-                              )
+                              (getTimeFromDate, true(appointment.start_time))
                             }}
                             -
-                            {{
-                              removeSecondsFromTimeString(appointment.end_time)
-                            }}
+                            {{ getTimeFromDate(appointment.end_time, true) }}
                           </div>
                           <template v-if="isDoctor">
                             {{

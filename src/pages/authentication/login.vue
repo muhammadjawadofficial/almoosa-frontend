@@ -68,7 +68,7 @@
           </div>
           <div
             class="col-xl-5 col-lg-12 col-md-6 d-flex align-items-center"
-            :class="{ 'justify-content-end': isDoctor }"
+            v-if="!isDoctor"
           >
             <span
               @click="navigateTo('Forgot Password')"

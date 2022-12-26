@@ -143,7 +143,7 @@
               v-model="registerForm.nationality"
               :options="nationalities"
               label="nationality"
-              track-by="id"
+              track-by="code"
               :placeholder="$t('register.selectNationality')"
               :selectLabel="$t('selectLabel')"
               :selectedLabel="$t('selectedLabel')"

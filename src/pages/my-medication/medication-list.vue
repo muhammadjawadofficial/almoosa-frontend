@@ -39,7 +39,10 @@
                     </div>
                     <div class="appointment-details">
                       <div class="doctor-name">
-                        {{ medication.title + " " + medication.variation }}
+                        {{
+                          (medication.title ? medication.title + " " : "") +
+                          medication.variation
+                        }}
                       </div>
                       <div class="doctor-speciality">
                         {{ medication.description }}
@@ -106,7 +109,10 @@
                     </div>
                     <div class="appointment-details">
                       <div class="doctor-name">
-                        {{ medication.title + " " + medication.variation }}
+                        {{
+                          (medication.title ? medication.title + " " : "") +
+                          medication.variation
+                        }}
                       </div>
                       <div class="doctor-speciality">
                         {{ medication.description }}

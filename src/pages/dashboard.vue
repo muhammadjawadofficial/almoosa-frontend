@@ -85,7 +85,11 @@
                       {{ getDate(appointment.booked_date) }}
                     </div>
                     <div class="appointment-time-time">
-                      {{ removeSecondsFromTimeString(appointment.start_time) }}
+                      {{
+                        appointment.start_time
+                          ? getTimeFromDate(appointment.start_time, true)
+                          : ""
+                      }}
                     </div>
                   </div>
                   <div
@@ -100,29 +104,31 @@
                     </div>
                     <div class="appointment-details">
                       <div class="doctor-name">
-                        {{
-                          appointment.patient.first_name +
-                          (appointment.patient.middle_name
-                            ? " " + appointment.patient.middle_name + " "
-                            : " ") +
-                          appointment.patient.family_name
-                        }}
+                        {{ getFullName(appointment.patient) }}
                       </div>
                       <div class="appointment-status">
                         <div class="appointment-time-span">
                           {{
-                            removeSecondsFromTimeString(appointment.start_time)
+                            appointment.start_time
+                              ? getTimeFromDate(appointment.start_time, true) +
+                                " - "
+                              : ""
                           }}
-                          -
                           {{
-                            removeSecondsFromTimeString(appointment.end_time)
+                            appointment.end_time
+                              ? getTimeFromDate(appointment.end_time, true)
+                              : ""
                           }}
                         </div>
-                        {{ $t("bookAppointment." + appointment.type) }}
+                        {{
+                          $t(
+                            "bookAppointment." + appointment.type.toLowerCase()
+                          )
+                        }}
                       </div>
                       <button
                         class="btn btn-primary start-call-button"
-                        v-if="appointment.type == 'online'"
+                        v-if="appointment.type.toLowerCase() == 'online'"
                         @click="makeCall(appointment)"
                       >
                         {{ $t("startCall") }}

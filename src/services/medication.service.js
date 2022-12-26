@@ -3,6 +3,7 @@ import { apiPath } from "../constants/apiPath";
 
 export const medicationService = {
     getAppointmentHistory,
+    getAppointmentMedication,
     getMedications,
     getReminderSlots,
     setReminder
@@ -12,6 +13,12 @@ function getAppointmentHistory(id) {
     return axios({
         method: apiPath.reports.getAppointmentHistory(id).method,
         url: apiPath.reports.getAppointmentHistory(id).url,
+    })
+}
+function getAppointmentMedication(id) {
+    return axios({
+        method: apiPath.reports.getAppointmentMedication(id).method,
+        url: apiPath.reports.getAppointmentMedication(id).url,
     })
 }
 function getMedications(id) {

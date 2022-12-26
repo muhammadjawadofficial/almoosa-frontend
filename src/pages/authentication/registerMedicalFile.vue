@@ -122,7 +122,7 @@ export default {
         {
           value: 7,
           text: "patientId",
-          method: "patient_id",
+          method: "mrn_number",
           placeholder: "enterPatientId",
         },
       ],
@@ -158,13 +158,13 @@ export default {
       }
       this.registerForm[this.selectedItem.method] = +this.userId;
       this.setLoadingState(true);
-      authService.register(this.registerForm).then(
+      authService.registerViaMedicalFile(this.registerForm).then(
         (response) => {
           if (response.data.status) {
             if (this.approveFromHISFlow) {
               this.successIconModal(
                 this.$t("register.modal.title"),
-                this.$t("register.modal.text"),
+                this.$t("register.modal.medicalFileText"),
                 "m-check"
               );
               this.navigateTo("Login Dashboard");

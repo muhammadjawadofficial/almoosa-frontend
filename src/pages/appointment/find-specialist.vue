@@ -95,9 +95,14 @@
               {{ speciality.title }}
             </div>
           </div>
+          <div v-if="getLoading">
+            <div class="loader-container">
+              <div class="loader"></div>
+            </div>
+          </div>
           <div
             class="no-data pt-0"
-            v-if="!specialities || !specialities.length"
+            v-else-if="!specialities || !specialities.length"
           >
             {{ $t("noData") }}
           </div>
@@ -186,39 +191,29 @@ export default {
     ]),
     initializeData() {
       this.setLoadingState(true);
-      appointmentService.getClinics().then(
-        (res) => {
-          let response = res.data;
-          if (response.status) {
-            this.clinics = response.data.items;
+      Promise.all([
+        appointmentService.getClinics(),
+        appointmentService.getSpecialities(),
+      ])
+        .then((res) => {
+          let clinicResponse = res[0].data;
+          if (clinicResponse.status) {
+            this.clinics = clinicResponse.data.items;
           } else {
-            this.failureToast(response.message);
+            this.failureToast(clinicResponse.message);
+          }
+          let specialitiesResponse = res[1].data;
+          if (specialitiesResponse.status) {
+            this.specialities = specialitiesResponse.data.items;
+          } else {
+            this.failureToast(specialitiesResponse.message);
           }
           this.setLoadingState(false);
-        },
-        (err) => {
-          console.error(err);
+        })
+        .catch(() => {
           this.failureToast();
           this.setLoadingState(false);
-        }
-      );
-      this.setLoadingState(true);
-      appointmentService.getSpecialities().then(
-        (res) => {
-          let response = res.data;
-          if (response.status) {
-            this.specialities = res.data.data.items;
-          } else {
-            this.failureToast(response.message);
-          }
-          this.setLoadingState(false);
-        },
-        (err) => {
-          console.error(err);
-          this.failureToast();
-          this.setLoadingState(false);
-        }
-      );
+        });
       let today = new Date();
       this.selectedDate = this.removeDateTime(today.setHours(0, 0, 0));
       if (this.getBookingDate) {

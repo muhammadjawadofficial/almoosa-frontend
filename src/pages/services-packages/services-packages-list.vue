@@ -57,7 +57,7 @@
               </b-tab>
               <b-tab
                 :title="$t('servicesPackages.bookedPackages')"
-                :active="activeTab == 0"
+                :active="activeTab == 1"
               >
                 <div class="doctor-card-container">
                   <template
@@ -110,6 +110,7 @@ export default {
   data() {
     return {
       servicesPackagesContent: null,
+      activeTab: 0,
     };
   },
   mounted() {
@@ -120,6 +121,9 @@ export default {
     setSelectedContent(content) {
       this.setSelectedPackage(content);
       this.navigateTo("Services Packages Details");
+    },
+    setActiveTab(tab) {
+      this.activeTab = tab;
     },
     initializeData() {
       this.setLoadingState(true);

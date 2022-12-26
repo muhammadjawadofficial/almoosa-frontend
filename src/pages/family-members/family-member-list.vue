@@ -43,15 +43,7 @@
                   </div>
                   <div class="appointment-details">
                     <div class="doctor-name w600">
-                      {{
-                        familyMember.first_name +
-                        (familyMember.middle_name
-                          ? " " + familyMember.middle_name
-                          : "") +
-                        (familyMember.family_name
-                          ? " " + familyMember.family_name
-                          : "")
-                      }}
+                      {{ getFullName(familyMember) }}
                     </div>
                     <div class="doctor-speciality">
                       {{

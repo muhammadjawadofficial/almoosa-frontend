@@ -34,11 +34,7 @@
             <img :src="getImageUrl(doctor.photo)" alt="doctor-image" />
           </div>
           <div class="doctor-name">
-            {{
-              doctor.first_name +
-              (doctor.middle_name ? " " + doctor.middle_name + " " : " ") +
-              doctor.family_name
-            }}
+            {{ $t("dr") }} {{ getFullName(doctor) }}
           </div>
           <div class="doctor-speciality">{{ doctor.speciality.title }}</div>
           <button
@@ -101,13 +97,7 @@ export default {
     searchDoctorQuery(val) {
       this.filteredDoctors = [
         ...this.getDoctorsList.filter((x) =>
-          (
-            x.first_name +
-            (x.middle_name ? " " + x.middle_name + " " : " ") +
-            x.family_name
-          )
-            .toLowerCase()
-            .includes(val.toLowerCase())
+          this.getFullName(x).toLowerCase().includes(val.toLowerCase())
         ),
       ];
     },

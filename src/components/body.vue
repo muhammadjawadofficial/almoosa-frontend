@@ -111,6 +111,7 @@ export default {
       );
       this.setLayoutObject();
       this.$store.dispatch("menu/setNavLinkActive", { path: route.path });
+      this.checkTermsAndConditions();
     },
     sidebar_toggle_var: function () {
       this.resized =
@@ -132,14 +133,17 @@ export default {
       this.layout.settings.layout
     ];
     this.$store.dispatch("menu/setNavLinkActive", { path: this.$route.path });
-    let userInfo = userService.currentUser();
-    this.setUserInfo(userInfo);
-    if (!userInfo.is_privacy_agreed) {
-      this.navigateTo("Terms and Condition");
-    }
+    this.checkTermsAndConditions();
   },
   methods: {
     ...mapActions("user", ["setUserInfo"]),
+    checkTermsAndConditions() {
+      let userInfo = userService.currentUser();
+      this.setUserInfo(userInfo);
+      if (!userInfo.is_privacy_agreed) {
+        this.navigateTo("Terms and Condition");
+      }
+    },
     setLayoutObject() {
       if (
         (window.innerWidth < 991 &&

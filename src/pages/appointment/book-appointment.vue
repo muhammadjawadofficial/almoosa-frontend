@@ -38,13 +38,7 @@
                 {{ $t("bookAppointment.specialist") }}
               </div>
               <div class="appointment-detail--value">
-                {{
-                  getBookingDoctor.first_name +
-                  (getBookingDoctor.middle_name
-                    ? " " + getBookingDoctor.middle_name + " "
-                    : " ") +
-                  getBookingDoctor.family_name
-                }}
+                {{ $t("dr") }} {{ getFullName(getBookingDoctor) }}
               </div>
             </div>
             <div class="appointment-detail--sepecialist">
@@ -55,41 +49,43 @@
                 {{
                   getLongDateFromDate(getBookingDate) +
                   " - " +
-                  removeSecondsFromTimeString(getBookingStartTime) +
+                  getTimeFromDate(getBookingStartTime, true) +
                   " - " +
-                  removeSecondsFromTimeString(getBookingEndTime)
+                  getTimeFromDate(getBookingEndTime, true)
                 }}
               </div>
             </div>
-            <div class="appointment-detail--amount">
-              <div class="appointment-detail--label">
-                {{ $t("bookAppointment.payment") }}
-                <div
-                  class="reset-discount"
-                  v-if="selectedDiscountType != ''"
-                  @click="resetDiscount"
-                >
-                  {{
-                    selectedDiscountType == "promotion"
-                      ? $t("promotions.removePromo")
-                      : $t("promotions.clearSelection")
-                  }}
+            <template v-if="false">
+              <div class="appointment-detail--amount">
+                <div class="appointment-detail--label">
+                  {{ $t("bookAppointment.payment") }}
+                  <div
+                    class="reset-discount"
+                    v-if="selectedDiscountType != ''"
+                    @click="resetDiscount"
+                  >
+                    {{
+                      selectedDiscountType == "promotion"
+                        ? $t("promotions.removePromo")
+                        : $t("promotions.clearSelection")
+                    }}
+                  </div>
+                </div>
+                <div class="appointment-detail--value d-flex">
+                  {{ $t("sar") }} {{ translateNumber(getCalculatedAmount) }}
                 </div>
               </div>
-              <div class="appointment-detail--value d-flex">
-                {{ $t("sar") }} {{ translateNumber(getCalculatedAmount) }}
+              <div class="appointment-detail--loyalty-promotion">
+                <div class="appointment-detail--label">
+                  {{ $t("promotions.loyaltyPoint") }}
+                </div>
+                <div class="appointment-detail--value">
+                  {{ $t("promotions.loyaltyPointText") }}
+                </div>
               </div>
-            </div>
-            <div class="appointment-detail--loyalty-promotion">
-              <div class="appointment-detail--label">
-                {{ $t("promotions.loyaltyPoint") }}
-              </div>
-              <div class="appointment-detail--value">
-                {{ $t("promotions.loyaltyPointText") }}
-              </div>
-            </div>
+            </template>
           </div>
-          <div class="promotions-loyalty">
+          <div v-if="false" class="promotions-loyalty">
             <div
               class="promotions-loyalty-item"
               @click="setDiscount('loyalty')"
@@ -293,12 +289,8 @@ export default {
           this.getUserInfo,
           this.getBookingDoctor,
           this.getBookingDate,
-          this.removeSecondsFromTimeString(
-            this.getBookingStartTime,
-            true,
-            false
-          ),
-          this.removeSecondsFromTimeString(this.getBookingEndTime, true, false),
+          this.getTimeFromDate(this.getBookingStartTime, true),
+          this.getTimeFromDate(this.getBookingEndTime, true),
           this.getBookingAmount,
           promo
         )
@@ -307,7 +299,7 @@ export default {
             let response = res.data;
             if (response.status) {
               if (method == "payNow") {
-                this.setSelectedAppointment(response.data);
+                this.setSelectedAppointment(response.data.items[0].data);
                 this.checkAndDeductLoyaltyPoints();
                 let obj = {
                   amount: response.data.amount,

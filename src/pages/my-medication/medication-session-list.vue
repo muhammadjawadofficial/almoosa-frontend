@@ -20,15 +20,19 @@
           <template v-else>
             <div
               class="appointment-list-item"
-              v-for="timeline in timelineList"
-              :key="'upcoming-appointment-id' + timeline.id"
+              v-for="(timeline, index) in timelineList"
+              :key="'upcoming-appointment-id' + index + timeline.id"
             >
               <div class="appointment-time">
                 <div class="appointment-time-day">
                   {{ getDate(timeline.booked_date) }}
                 </div>
                 <div class="appointment-time-time">
-                  {{ removeSecondsFromTimeString(timeline.start_time) }}
+                  {{
+                    timeline.start_time
+                      ? getTimeFromDate(timeline.start_time, true)
+                      : ""
+                  }}
                 </div>
               </div>
               <div class="appointment-card default">
@@ -37,21 +41,19 @@
                 </div>
                 <div class="appointment-details">
                   <div class="doctor-name">
-                    {{ $t("bookAppointment." + timeline.type) }}
+                    {{ $t("bookAppointment." + timeline.type.toLowerCase()) }}
                     {{ $t("myMedication.appointmentSession") }}
                   </div>
                   <div class="doctor-speciality">
-                    {{
-                      timeline.doctor.first_name +
-                      (timeline.doctor.middle_name
-                        ? " " + timeline.doctor.middle_name + " "
-                        : " ") +
-                      timeline.doctor.family_name
-                    }}
+                    {{ $t("dr") }} {{ getFullName(timeline.doctor) }}
                   </div>
                   <div class="appointment-status">
                     <div class="appointment-time-span">
-                      {{ removeSecondsFromTimeString(timeline.start_time) }}
+                      {{
+                        timeline.start_time
+                          ? getTimeFromDate(timeline.start_time, true)
+                          : ""
+                      }}
                     </div>
                   </div>
                   <button
@@ -89,7 +91,7 @@ export default {
     ...mapActions("myMedication", ["setSelectedMedicationSession"]),
     fetchTimelines() {
       this.setLoadingState(true);
-      medicationService.getAppointmentHistory(this.getUserInfo.id).then(
+      medicationService.getAppointmentMedication(this.getUserInfo.id).then(
         (response) => {
           if (response.data.status) {
             let data = response.data.data.items;

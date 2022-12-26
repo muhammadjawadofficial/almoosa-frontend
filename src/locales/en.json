@@ -57,7 +57,8 @@
       "ok": "Contact us",
       "selectToContinue": "Click one of the button to continue",
       "iHaveMedicalFile": "I have a medical file",
-      "iDontHaveMedicalFile": "I don't have a medical file"
+      "iDontHaveMedicalFile": "I don't have a medical file",
+      "medicalFileText": "You have been registered successfully. Your ASH Apps credentials have been shared on your registered email and phone number"
     },
     "saudiId": "Saudi ID",
     "nationalId": "National ID",
@@ -91,6 +92,7 @@
   },
   "profile": {
     "updateSuccess": "Profile updated successfully",
+    "uploadPicture": "Upload Picture",
     "address": "Address",
     "activeProblem": "Active Problems",
     "phoneNumber": "Phone Number",
@@ -466,5 +468,6 @@
   "selectOptionLabel": "Select Option",
   "selectLabel": "Press enter to select",
   "selectedLabel": "Selected",
-  "deselectLabel": "Press enter to remove"
+  "deselectLabel": "Press enter to remove",
+  "dr": "Dr."
 }

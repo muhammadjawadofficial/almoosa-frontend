@@ -27,7 +27,11 @@
                   {{ $t("appointmentDetail.appointment") }}
                 </div>
                 <div class="appointment-detail--value">
-                  {{ $t("bookAppointment." + details.type) }}
+                  {{
+                    details.type
+                      ? $t("bookAppointment." + details.type.toLowerCase())
+                      : "N/A"
+                  }}
                 </div>
               </div>
               <div class="appointment-detail--sepecialist">
@@ -41,13 +45,8 @@
                 </div>
                 <div class="appointment-detail--value">
                   {{
-                    details[isDoctor ? "patient" : "doctor"].first_name +
-                    (details[isDoctor ? "patient" : "doctor"].middle_name
-                      ? " " +
-                        details[isDoctor ? "patient" : "doctor"].middle_name +
-                        " "
-                      : " ") +
-                    details[isDoctor ? "patient" : "doctor"].family_name
+                    (isDoctor ? $t("dr") + " " : "") +
+                    getFullName(details[isDoctor ? "patient" : "doctor"])
                   }}
                 </div>
               </div>
@@ -59,7 +58,11 @@
                   {{ doctorSpeciality }}
                 </div>
                 <div class="appointment-detail--value" v-else>
-                  {{ details.doctor.speciality.title }}
+                  {{
+                    details.doctor.speciality
+                      ? details.doctor.speciality.title
+                      : "N/A"
+                  }}
                 </div>
               </div>
               <div class="appointment-detail--sepecialist">
@@ -76,7 +79,7 @@
                   {{
                     formatLongDayDateFromDate(details.booked_date) +
                     " - " +
-                    removeSecondsFromTimeString(details.start_time)
+                    getTimeFromDate(details.start_time, true)
                   }}
                 </div>
               </div>
@@ -85,7 +88,7 @@
                   class="btn btn-info appointment-detail--status"
                   v-if="!isDoctor"
                 >
-                  {{ $t("paymentStatus." + details.status) }}
+                  {{ $t("paymentStatus." + details.status.toLowerCase()) }}
                 </button>
                 <div class="appointment-detail--communication">
                   <button
@@ -244,7 +247,7 @@ export default {
     ...mapGetters("appointment", ["getSelectedAppointment", "getIsReschedule"]),
     ...mapGetters("user", ["getUserInfo"]),
     doctorSpeciality() {
-      return this.getUserInfo.speciality;
+      return this.getUserInfo.speciality || "N/A";
     },
   },
 };

@@ -288,7 +288,7 @@ export default {
             this.$router.go(-1);
         },
         navigateTo(name, params = null) {
-            if (this.$route.name == name) {
+            if (this.$route.name == name && this.isEqual(this.$route.params, params)) {
                 return;
             }
             let obj = { name };
@@ -296,6 +296,35 @@ export default {
                 obj.params = params
             }
             this.$router.push(obj);
+        },
+        isEqual(obj1, obj2) {
+            /**
+             * compare obj1 and obj2 and return true if they are equal
+             */
+
+            // Create arrays of property names
+            let aProps = Object.getOwnPropertyNames(obj1);
+            let bProps = Object.getOwnPropertyNames(obj2);
+
+            // If number of properties is different,
+            // objects are not equivalent
+            if (aProps.length != bProps.length) {
+                return false;
+            }
+
+            for (let i = 0; i < aProps.length; i++) {
+                let propName = aProps[i];
+
+                // If values of same property are not equal,
+                // objects are not equivalent
+                if (obj1[propName] !== obj2[propName]) {
+                    return false;
+                }
+            }
+
+            // If we made it this far, objects
+            // are considered equivalent
+            return true;
         },
         replaceTo(name) {
             this.$router.replace({ name })
@@ -428,7 +457,7 @@ export default {
 
             let allowedStartLimit = bookDateWithStartTime.add(-15, 'minutes');
             let allowedEndLimit = bookDateWithEndTime;
-            
+
             if (now.isBefore(allowedStartLimit)) {
                 this.failureToast(this.$t("cantJoinCallEarly"));
                 return false;
@@ -454,6 +483,11 @@ export default {
                     this.navigateTo('Register');
                 }
             })
+        },
+        getFullName(user) {
+            let parseName = (name) => name ? name + " " : "";
+            let fullName = parseName(user.first_name) + parseName(user.middle_name) + parseName(user.family_name);
+            return fullName.trim();
         }
     },
 }

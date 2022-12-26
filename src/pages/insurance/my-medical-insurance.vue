@@ -33,13 +33,12 @@
                 <div
                   class="appointment-list"
                   :class="{
-                    noData:
-                      !getApprovedInsurances || !getApprovedInsurances.length,
+                    noData: !insuranceList || !insuranceList.length,
                   }"
                 >
                   <div
                     class="appointment-list-item"
-                    v-for="insurance in getApprovedInsurances"
+                    v-for="insurance in insuranceList"
                     :key="'upcoming-appointment-id' + insurance.id"
                   >
                     <div class="appointment-card success">
@@ -49,45 +48,46 @@
                       <div class="appointment-details">
                         <div class="doctor-name w600">Medical Support</div>
                         <div class="doctor-speciality">
-                          {{ insurance.medical_support }}
+                          {{ insurance.medical_support || "N/A" }}
                         </div>
                         <div class="doctor-name w600">
                           {{ $t("insurance.policyNum") }}
                         </div>
                         <div class="doctor-speciality">
-                          {{ insurance.policy_number }}
+                          {{ insurance.policy_number || "N/A" }}
                         </div>
                         <div class="doctor-name w600">
                           {{ $t("insurance.planDetails") }}
                         </div>
                         <div class="doctor-speciality">
-                          {{ insurance.plan_details }}
+                          {{ insurance.plan_details || "N/A" }}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="loading" v-if="!getApprovedInsurances">
+                <div class="loading" v-if="!insuranceList">
                   {{ $t("loading") }}
                 </div>
-                <div class="no-data" v-else-if="!getApprovedInsurances.length">
+                <div class="no-data" v-else-if="!insuranceList.length">
                   {{ $t("noData") }}
                 </div>
               </b-tab>
               <b-tab :title="$t('insurance.approvals')">
                 <div
                   class="appointment-list"
-                  :class="{ noData: !insuranceList.length }"
+                  :class="{
+                    noData: !insuranceServices || !insuranceServices.length,
+                  }"
                 >
                   <div
                     class="appointment-list-item"
-                    v-for="insurance in insuranceList"
-                    :key="'upcoming-appointment-id' + insurance.id"
+                    v-for="(insurance, index) in insuranceServices"
+                    :key="'upcoming-appointment-id' + index + insurance.id"
                   >
                     <div
                       class="appointment-card"
-                      @click="viewDetails(insurance)"
-                      :class="getStatusClass(insurance.status)"
+                      :class="getStatusClass(insurance.approval_status)"
                     >
                       <div class="doctor-avatar transparent">
                         <shield-bg-svg />
@@ -106,16 +106,16 @@
                           {{ getLongDateAndTimeFromDate(insurance.updated_at) }}
                         </div>
                         <button class="btn start-call-button">
-                          {{ insurance.status }}
+                          {{ insurance.approval_status }}
                         </button>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="loading" v-if="insuranceList == null">
+                <div class="loading" v-if="insuranceServices == null">
                   {{ $t("loading") }}
                 </div>
-                <div class="no-data" v-else-if="!insuranceList.length">
+                <div class="no-data" v-else-if="!insuranceServices.length">
                   {{ $t("noData") }}
                 </div>
               </b-tab>
@@ -134,6 +134,7 @@ export default {
   data() {
     return {
       insuranceList: null,
+      insuranceServices: null,
     };
   },
   mounted() {
@@ -151,23 +152,33 @@ export default {
   methods: {
     getInsurances() {
       this.setLoadingState(true);
-      insuranceService.fetchInsurances(this.getUserInfo.id).then(
-        (response) => {
-          if (response.data.status) {
-            this.insuranceList = response.data.data.items;
+      Promise.all([
+        insuranceService.fetchInsurances(this.getUserInfo.id),
+        insuranceService.fetchInsuranceServices(),
+      ])
+        .then((response) => {
+          let myInsurances = response[0];
+          let insuranceServices = response[1];
+          if (myInsurances.data.status) {
+            this.insuranceList = myInsurances.data.data.items;
           } else {
-            this.failureToast(response.data.message);
+            this.failureToast(myInsurances.data.message);
           }
-          this.setLoadingState(false);
-        },
-        (error) => {
-          console.error(error);
+          if (insuranceServices.data.status) {
+            this.insuranceServices = insuranceServices.data.data.items;
+          } else {
+            this.failureToast(insuranceServices.data.message);
+          }
+        })
+        .catch(() => {
           this.failureToast();
+        })
+        .finally(() => {
           this.setLoadingState(false);
-        }
-      );
+        });
     },
-    getStatusClass(status) {
+    getStatusClass(statusTemp) {
+      let status = statusTemp || "";
       if (
         status.toLowerCase() == "pending" ||
         status.toLowerCase() == "sent for approval"

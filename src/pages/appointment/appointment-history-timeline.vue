@@ -31,7 +31,11 @@
                   {{ getDate(timeline.booked_date) }}
                 </div>
                 <div class="appointment-time-time">
-                  {{ removeSecondsFromTimeString(timeline.start_time) }}
+                  {{
+                    timeline.start_time
+                      ? getTimeFromDate(timeline.start_time, true)
+                      : ""
+                  }}
                 </div>
               </div>
               <div class="appointment-card default">
@@ -43,7 +47,7 @@
                       'font-primary': timeline.type == 'online',
                     }"
                   >
-                    {{ $t("bookAppointment." + timeline.type) }}
+                    {{ $t("bookAppointment." + timeline.type.toLowerCase()) }}
                     {{ $t("appointmentDetail.consultation") }}
                   </div>
                   <div class="appointment-detail-section mt-3">
@@ -52,22 +56,24 @@
                         {{ $t("appointmentDetail.treatmentType") }}
                       </template>
                       <template v-else>
-                        {{ timeline.doctor.speciality.title }}
+                        {{
+                          timeline.doctor.speciality
+                            ? timeline.doctor.speciality.title
+                            : "N/A"
+                        }}
                         {{ $t("appointmentDetail.specialist") }}
                       </template>
                     </div>
                     <div class="appointment-detail-section-value mt-1">
                       <template v-if="isDoctor">
-                        {{ timeline.doctor.speciality.title }}
+                        {{
+                          timeline.doctor.speciality
+                            ? timeline.doctor.speciality.title
+                            : "N/A"
+                        }}
                       </template>
                       <template v-else>
-                        {{
-                          timeline.doctor.first_name +
-                          (timeline.doctor.middle_name
-                            ? " " + timeline.doctor.middle_name + " "
-                            : " ") +
-                          timeline.doctor.family_name
-                        }}
+                        {{ $t("dr") }} {{ getFullName(timeline.doctor) }}
                       </template>
                     </div>
                   </div>
@@ -77,15 +83,26 @@
                     </div>
                     <div class="appointment-detail-section-value mt-1">
                       {{ formatLongDayDateFromDate(timeline.booked_date) }}
-                      <em class="separator">.</em>
-                      {{ removeSecondsFromTimeString(timeline.start_time) }}
+                      <em v-if="timeline.start_time" class="separator">.</em>
+                      {{
+                        timeline.start_time
+                          ? getTimeFromDate(timeline.start_time, true)
+                          : ""
+                      }}
                     </div>
                   </div>
                   <div class="appointment-status">
                     <div class="appointment-time-span">
-                      {{ removeSecondsFromTimeString(timeline.start_time) }}
-                      -
-                      {{ removeSecondsFromTimeString(timeline.end_time) }}
+                      {{
+                        timeline.start_time
+                          ? getTimeFromDate(timeline.start_time, true) + " - "
+                          : ""
+                      }}
+                      {{
+                        timeline.end_time
+                          ? getTimeFromDate(timeline.end_time, true)
+                          : ""
+                      }}
                     </div>
                   </div>
                 </div>

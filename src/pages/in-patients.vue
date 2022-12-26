@@ -38,13 +38,7 @@
                 </div>
                 <div class="appointment-details">
                   <div class="doctor-name">
-                    {{
-                      appointment.first_name +
-                      (appointment.middle_name
-                        ? " " + appointment.middle_name + " "
-                        : " ") +
-                      appointment.family_name
-                    }}
+                    {{ getFullName(appointment) }}
                   </div>
                   <div class="doctor-speciality">
                     Intensive Care Unit
@@ -93,13 +87,7 @@ export default {
     searchQuery(val) {
       this.filteredPatients = [
         ...this.patientList.filter((x) =>
-          (
-            x.first_name +
-            (x.middle_name ? " " + x.middle_name + " " : " ") +
-            x.family_name
-          )
-            .toLowerCase()
-            .includes(val.toLowerCase())
+          this.getFullName(x).toLowerCase().includes(val.toLowerCase())
         ),
       ];
     },

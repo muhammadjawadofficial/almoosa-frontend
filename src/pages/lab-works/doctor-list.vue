@@ -20,15 +20,19 @@
           <template v-else>
             <div
               class="appointment-list-item"
-              v-for="appointment in reportAppointments"
-              :key="'upcoming-appointment-id' + appointment.id"
+              v-for="(appointment, index) in reportAppointments"
+              :key="'upcoming-appointment-id' + index + appointment.id"
             >
               <div class="appointment-time">
                 <div class="appointment-time-day">
                   {{ getDate(appointment.booked_date) }}
                 </div>
                 <div class="appointment-time-time">
-                  {{ removeSecondsFromTimeString(appointment.start_time) }}
+                  {{
+                    appointment.start_time
+                      ? getTimeFromDate(appointment.start_time)
+                      : ""
+                  }}
                 </div>
               </div>
               <div class="appointment-card default">
@@ -37,23 +41,26 @@
                 </div>
                 <div class="appointment-details">
                   <div class="doctor-name">
-                    {{ $t("bookAppointment." + appointment.type) }}
+                    {{
+                      $t("bookAppointment." + appointment.type.toLowerCase())
+                    }}
                     {{ $t("labWorks.appointmentSession") }}
                   </div>
                   <div class="doctor-speciality">
-                    {{
-                      appointment.doctor.first_name +
-                      (appointment.doctor.middle_name
-                        ? " " + appointment.doctor.middle_name + " "
-                        : " ") +
-                      appointment.doctor.family_name
-                    }}
+                    {{ $t("dr") }} {{ getFullName(appointment.doctor) }}
                   </div>
                   <div class="appointment-status">
                     <div class="appointment-time-span">
-                      {{ removeSecondsFromTimeString(appointment.start_time) }}
-                      -
-                      {{ removeSecondsFromTimeString(appointment.end_time) }}
+                      {{
+                        appointment.start_time
+                          ? getTimeFromDate(appointment.start_time) + " - "
+                          : ""
+                      }}
+                      {{
+                        appointment.end_time
+                          ? getTimeFromDate(appointment.end_time)
+                          : ""
+                      }}
                     </div>
                   </div>
                   <button

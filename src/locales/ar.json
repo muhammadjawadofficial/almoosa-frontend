@@ -57,7 +57,8 @@
       "ok": "اتصل بنا",
       "selectToContinue": "انقر فوق أحد الأزرار للمتابعة",
       "iHaveMedicalFile": "لدي ملف طبي",
-      "iDontHaveMedicalFile": "ليس لدي ملف طبي"
+      "iDontHaveMedicalFile": "ليس لدي ملف طبي",
+      "medicalFileText": "لقد تم تسجيلك بنجاح. تمت مشاركة بيانات اعتماد تطبيقات ASH الخاصة بك على بريدك الإلكتروني المسجل ورقم هاتفك"
     },
     "saudiId": "رقم الهوية الوطنية",
     "nationalId": "الرقم القومي",
@@ -91,6 +92,7 @@
   },
   "profile": {
     "updateSuccess": "تم تحديث الملف الشخصي بنجاح",
+    "uploadPicture": "تحميل الصورة",
     "address": "تبوك",
     "activeProblem": "مشاكل نشطة",
     "phoneNumber": "رقم الهاتف",
@@ -462,5 +464,6 @@
   "selectOptionLabel": "حدد الخيار",
   "selectLabel": "اضغط على دخل لتحديد",
   "selectedLabel": "المحدد",
-  "deselectLabel": "اضغط على دخل للإزالة"
+  "deselectLabel": "اضغط على دخل للإزالة",
+  "dr": "دكتور"
 }

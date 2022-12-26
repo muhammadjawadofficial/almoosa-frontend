@@ -105,7 +105,7 @@ function setBooking(booking) {
 function downloadFile(file) {
     let fileName = file.name;
     axios({
-        url: process.env.VUE_APP_SERVER + file.url,
+        url: file.url,
         method: "GET",
         responseType: "blob",
     }).then((response) => {
