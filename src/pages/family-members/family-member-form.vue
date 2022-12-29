@@ -190,7 +190,10 @@
                 {{ $t("familyMembers.uploadNewFile") }}
               </div>
             </template>
-            <div class="custom-file-upload upload-text text-muted w200 center" v-else>
+            <div
+              class="custom-file-upload upload-text text-muted w200 center"
+              v-else
+            >
               {{
                 selectedOption && selectedOption.text == "iqamaId"
                   ? $t("register.uploadIqamaID")
@@ -273,6 +276,7 @@ export default {
           method: "iqama",
           placeholder: "enterIqamaNumber",
           type: constants.loginByOTP,
+          validation: 10,
         },
         {
           value: 6,
@@ -280,6 +284,7 @@ export default {
           method: "saudi_id",
           placeholder: "enterSaudiID",
           type: constants.loginByOTP,
+          validation: 10,
         },
       ],
       validationdropzoneOptions: {
@@ -306,7 +311,8 @@ export default {
     },
     validPhoneNumber() {
       if (this.formSubmitted) {
-        let regex = /^(009665|9665|\+9665|05|5)([503649187])(\d{7})$/;
+        // let regex = /^(009665|9665|\+9665|05|5)([503649187])(\d{7})$/;
+        let regex = /^(05)([503649187])(\d{7})$/;
         let result = this.registerForm.phone_number.match(regex);
         return !!(result && result.length);
       }
@@ -376,8 +382,7 @@ export default {
         (res) => {
           if (res.data.status) {
             this.registerForm.card_id = res.data.data.id;
-            this.registerFormState.card_id =
-              this.registerForm.card_id != null;
+            this.registerFormState.card_id = this.registerForm.card_id != null;
             this.successToast("ID uploaded successfully!");
           } else {
             this.failureToast(res.data.message);

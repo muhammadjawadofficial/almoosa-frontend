@@ -13,10 +13,10 @@ function fetchInsurances(id) {
         url: apiPath.insurance.fetch(id).url,
     })
 }
-function fetchInsuranceServices() {
+function fetchInsuranceServices(id) {
     return axios({
-        method: apiPath.insurance.servies.method,
-        url: apiPath.insurance.servies.url,
+        method: apiPath.insurance.services(id).method,
+        url: apiPath.insurance.services(id).url,
     })
 }
 

@@ -31,7 +31,7 @@
           :key="'doctor-card-' + doctor.id"
         >
           <div class="doctor-image">
-            <img :src="getImageUrl(doctor.photo)" alt="doctor-image" />
+            <img :src="getImageUrl(doctor.photo || doctor)" alt="doctor-image" />
           </div>
           <div class="doctor-name">
             {{ $t("dr") }} {{ getFullName(doctor) }}
@@ -139,6 +139,11 @@ export default {
           if (response.status) {
             this.setDoctorsList(response.data.items);
             this.filteredDoctors = [...response.data.items];
+            this.filteredDoctors.forEach((x) => {
+              if (x.id == "00915") {
+                console.log(x);
+              }
+            });
           } else {
             this.failureToast(response.message);
           }

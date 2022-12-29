@@ -9,6 +9,7 @@ export default {
             speciality: null,
             clinic: null,
             date: null,
+            timeslot: null,
             startTime: null,
             endTime: null,
             amount: null,
@@ -51,6 +52,9 @@ export default {
         setBookingDate({ commit }, data) {
             commit('SET_BOOKING_DATE', data)
         },
+        setBookingTimeslot({ commit }, data) {
+            commit('SET_BOOKING_TIMESLOT', data)
+        },
         setBookingStartTime({ commit }, data) {
             commit('SET_BOOKING_START_TIME', data)
         },
@@ -92,6 +96,9 @@ export default {
         SET_BOOKING_DATE(state, date) {
             state.booking.date = date;
         },
+        SET_BOOKING_TIMESLOT(state, timeslot) {
+            state.booking.timeslot = timeslot;
+        },
         SET_BOOKING_START_TIME(state, startTime) {
             state.booking.startTime = startTime;
         },
@@ -120,6 +127,7 @@ export default {
         getBookingSpeciality: (state) => state.booking.speciality,
         getBookingClinic: (state) => state.booking.clinic,
         getBookingDate: (state) => state.booking.date,
+        getBookingTimeslot: (state) => state.booking.timeslot,
         getBookingStartTime: (state) => state.booking.startTime,
         getBookingEndTime: (state) => state.booking.endTime,
         getBookingDoctor: (state) => state.booking.doctor,

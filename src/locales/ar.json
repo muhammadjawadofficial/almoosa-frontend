@@ -12,6 +12,7 @@
       "login_by_id": "تسجيل الدخول بالمعرف",
       "login_by_mrn": "قم بإدخال رقم السجل الطبي"
     },
+    "allFieldsMandatory": "جميع الحقول إلزامية",
     "signIn": "تسجيل الدخول",
     "welcomeTo": "أهلا بك في",
     "continueAsPatient": "للإستمرار كمريض",

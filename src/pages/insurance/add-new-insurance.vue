@@ -166,9 +166,6 @@ export default {
         }
       );
     },
-    itemSelected(item) {
-      this.selectedItem = item;
-    },
     resetForm() {
       this.registerForm = {
         companyName: "",

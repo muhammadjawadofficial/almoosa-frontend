@@ -118,12 +118,21 @@ export default {
           text: "saudiId",
           method: "saudi_id",
           placeholder: "enterSaudiId",
+          validation: 10,
+        },
+        {
+          value: 2,
+          text: "iqamaId",
+          method: "iqama",
+          placeholder: "enterIqamaId",
+          validation: 10,
         },
         {
           value: 7,
           text: "patientId",
           method: "mrn_number",
           placeholder: "enterPatientId",
+          validation: 7,
         },
       ],
     };
@@ -131,7 +140,8 @@ export default {
   computed: {
     validPhoneNumber() {
       if (this.formSubmitted) {
-        let regex = /^(009665|9665|\+9665|05|5)([503649187])(\d{7})$/;
+        // let regex = /^(009665|9665|\+9665|05|5)([503649187])(\d{7})$/;
+        let regex = /^(05)([503649187])(\d{7})$/;
         let result = this.registerForm.phone_number.match(regex);
         return !!(result && result.length);
       }
@@ -145,7 +155,9 @@ export default {
     ...mapActions("user", ["setOtp", "setUserId", "setAuthState"]),
     validateForm() {
       this.registerFormState.phone_number = this.validPhoneNumber;
-      this.registerFormState.userId = this.userId != "";
+      this.registerFormState.userId =
+        this.userId != "" &&
+        this.userId.length == this.selectedItem.validation;
       return !Object.values(this.registerFormState).includes(false);
     },
     doRegister() {

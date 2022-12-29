@@ -494,12 +494,17 @@ export default {
   },
   mounted() {
     this.initializeData();
-    this.checkDropdownValues();
+    if (this.isDoctor) {
+      this.checkDropdownValues();
+    } else {
+      this.getProfileData();
+    }
   },
   computed: {
     ...mapGetters("user", ["getUserInfo"]),
     validPhoneNumber() {
-      let regex = /^(009665|9665|\+9665|05|5)([503649187])(\d{7})$/;
+      // let regex = /^(009665|9665|\+9665|05|5)([503649187])(\d{7})$/;
+      let regex = /^(05)([503649187])(\d{7})$/;
       let result = this.phoneNumber.match(regex);
       return !!(result && result.length);
     },
@@ -596,22 +601,27 @@ export default {
     },
     getLoggedInUserData() {
       this.setLoadingState(true);
-      userService.getProfile(this.isDoctor ? "doctor" : "patient").then(
-        (res) => {
-          if (res.data.status) {
-            this.setUserInfo(res.data.data);
-            this.resetData();
-          } else {
-            this.failureToast(res.data.message);
+      userService
+        .getProfile(
+          this.isDoctor ? "doctor" : "patient",
+          this.getUserInfo.mrn_number
+        )
+        .then(
+          (res) => {
+            if (res.data.status) {
+              this.setUserInfo(res.data.data);
+              this.resetData();
+            } else {
+              this.failureToast(res.data.message);
+            }
+            this.setLoadingState(false);
+          },
+          (error) => {
+            this.setLoadingState(false);
+            this.failureToast();
+            console.error(error);
           }
-          this.setLoadingState(false);
-        },
-        (error) => {
-          this.setLoadingState(false);
-          this.failureToast();
-          console.error(error);
-        }
-      );
+        );
     },
     getUserData() {
       this.setLoadingState(true);

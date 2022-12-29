@@ -154,7 +154,7 @@ export default {
       this.setLoadingState(true);
       Promise.all([
         insuranceService.fetchInsurances(this.getUserInfo.id),
-        insuranceService.fetchInsuranceServices(),
+        insuranceService.fetchInsuranceServices(this.getUserInfo.id),
       ])
         .then((response) => {
           let myInsurances = response[0];

@@ -27,9 +27,7 @@
                   {{ $t("selectPaymentMethod.currentBalance") }}
                 </div>
                 <div class="content--price">
-                  {{
-                    $t("sar") + " " + translateNumber(getPaymentObject.amount)
-                  }}
+                  {{ $t("sar") + " " + translateNumber(walletAmount) }}
                 </div>
               </div>
               <div class="content--action">
@@ -164,9 +162,11 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { userService } from "../../services";
 export default {
   data() {
     return {
+      walletAmount: 0,
       paymentMethodsOnline: [
         {
           title: "applePay",
@@ -234,12 +234,19 @@ export default {
         return;
       }
     }
+    this.setLoadingState(true);
+    userService.getUserWalletAmount().then((res) => {
+      let response = res.data;
+      if (response.status) {
+        this.walletAmount = response.data.wallet_balance;
+      }
+      this.setLoadingState(false);
+    });
   },
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
     handleSelection(item) {
       if (item.isOnlinePayment) {
-        console.log(this.getPaymentObject);
         let obj = {
           amount: this.getPaymentObject.amount,
           appointment_id: this.getPaymentObject.appointment_id,

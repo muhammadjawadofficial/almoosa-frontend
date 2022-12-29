@@ -108,7 +108,7 @@ export default {
         .then(
           (response) => {
             if (response.data.status) {
-              let data = response.data.data.items;
+              let data = response.data.data.items.filter(x => x.type.toLowerCase() === 'lab');
               this.reports = [...data];
               this.filteredList = [...data];
             } else {

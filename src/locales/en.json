@@ -12,6 +12,7 @@
       "login_by_id": "Login By ID",
       "login_by_mrn": "Proceed with MRN"
     },
+    "allFieldsMandatory": "All fields are mandatory",
     "signIn": "Sign in",
     "welcomeTo": "Welcome to",
     "continueAsPatient": "Continue as a Patient",

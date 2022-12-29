@@ -1,9 +1,12 @@
 <template>
   <div class="login-card">
     <div class="heading w600">{{ $t("login.register") }}</div>
+    <div class="sub-heading font-secondary w200">
+      * {{ $t("login.allFieldsMandatory") }}
+    </div>
     <div class="login-form">
       <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12">
+        <div class="col-xl-6 col-lg-12 col-md-6">
           <div class="custom-login-input-groups">
             <multiselect
               v-model="selectedOption"
@@ -45,6 +48,18 @@
               }"
             ></div>
           </div>
+        </div>
+        <div class="col-xl-6 col-lg-12 col-md-6">
+          <b-input-group class="custom-login-input-groups">
+            <b-form-input
+              v-model="userId"
+              :state="registerFormState.userId"
+              :placeholder="
+                selectedItem ? $t('login.' + selectedItem.placeholder) : ''
+              "
+              :formatter="numberOnly"
+            ></b-form-input>
+          </b-input-group>
         </div>
 
         <div class="col-xl-4 col-lg-12 col-md-6">
@@ -157,7 +172,7 @@
             ></div>
           </div>
         </div>
-        <div class="col-xl-6 col-lg-12 col-md-6">
+        <div class="col-xl-12 col-lg-12 col-md-12">
           <b-input-group class="custom-login-input-groups">
             <b-form-input
               v-model="registerForm.location"
@@ -167,18 +182,6 @@
             <b-input-group-append>
               <location-svg />
             </b-input-group-append>
-          </b-input-group>
-        </div>
-        <div class="col-xl-6 col-lg-12 col-md-6">
-          <b-input-group class="custom-login-input-groups">
-            <b-form-input
-              v-model="userId"
-              :state="registerFormState.userId"
-              :placeholder="
-                selectedItem ? $t('login.' + selectedItem.placeholder) : ''
-              "
-              :formatter="numberOnly"
-            ></b-form-input>
           </b-input-group>
         </div>
         <div class="col-md-12">
@@ -284,6 +287,7 @@ export default {
           method: "iqama",
           placeholder: "enterIqamaId",
           type: constants.loginByOTP,
+          validation: 10,
         },
         {
           value: 6,
@@ -291,6 +295,7 @@ export default {
           method: "saudi_id",
           placeholder: "enterSaudiId",
           type: constants.loginByOTP,
+          validation: 10,
         },
       ],
       validationdropzoneOptions: {
@@ -315,7 +320,8 @@ export default {
     },
     validPhoneNumber() {
       if (this.formSubmitted) {
-        let regex = /^(009665|9665|\+9665|05|5)([503649187])(\d{7})$/;
+        // let regex = /^(009665|9665|\+9665|05|5)([503649187])(\d{7})$/;
+        let regex = /^(05)([503649187])(\d{7})$/;
         let result = this.registerForm.phone_number.match(regex);
         return !!(result && result.length);
       }
@@ -408,7 +414,8 @@ export default {
       this.registerFormState.gender = form.gender != "";
       this.registerFormState.dob = form.dob != "";
       this.registerFormState.location = form.location != "";
-      this.registerFormState.userId = this.userId != "";
+      this.registerFormState.userId =
+        this.userId != "" && this.userId.length == this.selectedItem.validation;
       this.registerFormState.card_id = form.card_id != null;
       this.registerFormState.nationality = form.nationality != "";
 
@@ -485,6 +492,10 @@ export default {
   text-transform: uppercase;
   font-size: 2.938rem;
   color: var(--theme-secondary);
+}
+.sub-heading {
+  font-size: 1.25rem;
+  line-height: 2rem;
 }
 .forgot-password {
   font-size: 1.125rem;

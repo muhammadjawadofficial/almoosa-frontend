@@ -57,19 +57,19 @@
                         {{ $t("doctorList.timeSlots") }}
                       </div>
                       <div class="time-slots-container">
-                        <template v-if="timeslots">
+                        <template v-if="timeslots && timeslots.length">
                           <div
                             class="time-slot"
                             :class="{
                               disabled: timeslot.is_booked != 'FREE',
-                              active: selectedTimeSlot == index,
+                              active: selectedTimeSlotIndex == index,
                             }"
                             v-for="(timeslot, index) in timeslots"
                             :key="index + '-doctor-time-slot'"
                             @click="
                               timeslot.is_booked != 'FREE'
                                 ? null
-                                : setSelectedTimeSlot(index)
+                                : setSelectedTimeSlot(timeslot, index)
                             "
                           >
                             {{ getTimeFromDate(timeslot.start_time, true) }}
@@ -215,6 +215,7 @@ export default {
       doctor: null,
       timeslots: null,
       selectedTimeSlot: null,
+      selectedTimeSlotIndex: null,
       neverShowLocation: true,
       isBookingFlow: false,
     };
@@ -250,6 +251,7 @@ export default {
   },
   methods: {
     ...mapActions("appointment", [
+      "setBookingTimeslot",
       "setBookingStartTime",
       "setBookingEndTime",
       "setBookingDate",
@@ -269,7 +271,7 @@ export default {
       this.fetchTimeslots();
     },
     fetchTimeslots() {
-      this.selectedTimeSlot = null;
+      this.selectedTimeSlotIndex = null;
       this.setLoadingState(true);
       appointmentService.fetchTimeslots(this.doctor.id, this.selectedDate).then(
         (res) => {
@@ -296,7 +298,7 @@ export default {
                 );
               });
               if (timeslot > -1) {
-                this.selectedTimeSlot = timeslot;
+                this.selectedTimeSlotIndex = timeslot;
               }
             }
           } else {
@@ -311,16 +313,18 @@ export default {
         }
       );
     },
-    setSelectedTimeSlot(index) {
-      this.selectedTimeSlot = index;
+    setSelectedTimeSlot(timeslot, index) {
+      this.selectedTimeSlot = timeslot;
+      this.selectedTimeSlotIndex = index;
     },
     bookAppointment() {
-      if (this.selectedTimeSlot == null) {
+      if (this.selectedTimeSlotIndex == null) {
         this.failureToast(this.$t("doctorDetail.timeslot.notSelected"));
         return;
       }
-      let selectedTimeSlot = this.timeslots[this.selectedTimeSlot];
+      let selectedTimeSlot = this.selectedTimeSlot;
       this.setBookingDate(this.selectedDate);
+      this.setBookingTimeslot(this.selectedTimeSlot);
       this.setBookingStartTime(selectedTimeSlot.start_time);
       this.setBookingEndTime(selectedTimeSlot.end_time);
       if (this.getIsGuest) {
@@ -332,9 +336,10 @@ export default {
           appointmentService
             .updateAppointment(
               this.getIsReschedule,
+              selectedTimeSlot,
+              this.getUserInfo.id,
+              this.getBookingMethod,
               this.selectedDate,
-              this.getTimeFromDate(this.getBookingStartTime, true),
-              this.getTimeFromDate(this.getBookingEndTime, true)
             )
             .then(
               (res) => {
@@ -368,7 +373,7 @@ export default {
       }
     },
     selectionSame() {
-      let selectedTimeSlot = this.timeslots[this.selectedTimeSlot];
+      let selectedTimeSlot = this.timeslots[this.selectedTimeSlotIndex];
       return (
         this.selectedDate == this.getBookingDate &&
         selectedTimeSlot.start_time == this.getBookingStartTime &&

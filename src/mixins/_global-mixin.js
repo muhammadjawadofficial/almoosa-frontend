@@ -30,13 +30,21 @@ export default {
             }
         },
         getImageUrl(profile) {
+            if (profile && profile.profile_photo_url && profile.profile_photo_url.includes('http')) {
+                let url = profile.profile_photo_url.split('/');
+                let lastPart = url[url.length - 1];
+                if (lastPart.includes('.')) {
+                    return profile.profile_photo_url;
+                }
+                return '/profile.png';
+            }
             if (profile) {
                 return process.env.VUE_APP_SERVER + profile.path;
             }
             return "/profile.png";
         },
-        getLocaleKey: function (key, wordCase = "camel") {
-            let postKey = this.$i18n.locale == "ar" ? "Ar" : "En";
+        getLocaleKey: function (key, wordCase = "camel", enLocale = "En", arLocale = "Ar") {
+            let postKey = this.$i18n.locale == "ar" ? arLocale : enLocale;
             if (wordCase == "upper") {
                 postKey = postKey.toUpperCase();
             } else if (wordCase == "lower") {
@@ -56,7 +64,7 @@ export default {
              * 1. if input is not a number, return the number without the last character
              * 2. if input is a number, return the number
              * 3. if input is a number and the number is not a number, return the number by removing all non-numbers
-             * 4. if input is a number and the number is a number, return the number
+             * 4. if input is a number and getLocalthe number is a number, return the number
              * 5. if input is not a number and the number is not a number, return the number by removing all non-numbers
              * 6. if input is not a number and the number is a number, return the number
              */
@@ -486,7 +494,7 @@ export default {
         },
         getFullName(user) {
             let parseName = (name) => name ? name + " " : "";
-            let fullName = parseName(user.first_name) + parseName(user.middle_name) + parseName(user.family_name);
+            let fullName = parseName(user[this.getLocaleKey('first_name', 'lower', '', '_ar')]) + parseName(user[this.getLocaleKey('middle_name', 'lower', '', '_ar')]) + parseName(user[this.getLocaleKey('family_name', 'lower', '', '_ar')]);
             return fullName.trim();
         }
     },

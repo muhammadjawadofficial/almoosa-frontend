@@ -38,7 +38,7 @@
                 {{ $t("bookAppointment.specialist") }}
               </div>
               <div class="appointment-detail--value">
-                {{ $t("dr") }} {{ getFullName(getBookingDoctor) }}
+                {{ $t("dr") }} {{ getFullName(getBookingDoctor || {}) }}
               </div>
             </div>
             <div class="appointment-detail--sepecialist">
@@ -180,6 +180,7 @@ export default {
       "getBookingMethod",
       "getBookingDoctor",
       "getBookingDate",
+      "getBookingTimeslot",
       "getBookingStartTime",
       "getBookingEndTime",
       "getBookingAmount",
@@ -252,6 +253,7 @@ export default {
       if (
         !(
           this.getBookingAmount &&
+          this.getBookingTimeslot &&
           this.getBookingEndTime &&
           this.getBookingStartTime &&
           this.getBookingDate &&
@@ -289,8 +291,7 @@ export default {
           this.getUserInfo,
           this.getBookingDoctor,
           this.getBookingDate,
-          this.getTimeFromDate(this.getBookingStartTime, true),
-          this.getTimeFromDate(this.getBookingEndTime, true),
+          this.getBookingTimeslot,
           this.getBookingAmount,
           promo
         )
@@ -299,11 +300,12 @@ export default {
             let response = res.data;
             if (response.status) {
               if (method == "payNow") {
-                this.setSelectedAppointment(response.data.items[0].data);
+                let appointment = response.data.items[0];
+                this.setSelectedAppointment(appointment);
                 this.checkAndDeductLoyaltyPoints();
                 let obj = {
-                  amount: response.data.amount,
-                  appointment_id: response.data.id,
+                  amount: appointment.amount,
+                  appointment_id: appointment.id,
                 };
                 this.setPaymentObject(obj);
                 this.navigateTo("Select Payment Method");

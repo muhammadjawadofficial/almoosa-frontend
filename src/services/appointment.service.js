@@ -50,15 +50,13 @@ function fetchTimeslots(doctor, date) {
     })
 }
 
-function createAppointment(type, patient, doctor, date, start_time, end_time, amount, promo) {
+function createAppointment(type, patient, doctor, date, timeslot, amount, promo) {
     let data = {
-        "patient_id": patient.id,
-        "doctor_id": doctor.id,
+        "slot_id": timeslot.id,
+        "mrn_number": patient.mrn_number,
         "type": type,
-        "booked_date": date,
-        "start_time": start_time,
-        "end_time": end_time,
-        "amount": amount
+        "is_rescheduled": 0,
+        "reschedule_app_id": null
     }
     if (promo) {
         if (promo == 'points') {
@@ -75,23 +73,27 @@ function createAppointment(type, patient, doctor, date, start_time, end_time, am
     })
 }
 
-function updateAppointment(id, date, start_time, end_time) {
+function updateAppointment(id, timeslot, mrn_number, type, date) {
     let data = {
-        "booked_date": date,
-        "start_time": start_time,
-        "end_time": end_time,
+        "old_app_id": id,
+        "slot_id": timeslot.id,
+        "mrn_number": mrn_number,
+        "type": type
     }
     return axios({
-        method: apiPath.appointment.updateAppointment(id).method,
-        url: apiPath.appointment.updateAppointment(id).url,
+        method: apiPath.appointment.updateAppointment.method,
+        url: apiPath.appointment.updateAppointment.url,
         data
     })
 }
 
 function cancelAppointment(id) {
     return axios({
-        method: apiPath.appointment.cancelAppointment(id).method,
-        url: apiPath.appointment.cancelAppointment(id).url,
+        method: apiPath.appointment.cancelAppointment.method,
+        url: apiPath.appointment.cancelAppointment.url,
+        data: {
+            "appointment_id": id
+        }
     })
 }
 

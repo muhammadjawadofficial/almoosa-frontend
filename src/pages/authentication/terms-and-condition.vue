@@ -93,7 +93,7 @@ export default {
         return;
       }
       this.setLoadingState(true);
-      userService.updateProfile(data).then(
+      userService.updateV1Profile(data).then(
         (res) => {
           if (res.data.status) {
             this.updateUserInfo({ ...data });

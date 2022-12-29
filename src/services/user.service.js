@@ -21,9 +21,11 @@ export const userService = {
     removeBooking,
     setBooking,
     downloadFile,
+    updateV1Profile,
     updateProfile,
     getProfile,
-    getProfileById
+    getProfileById,
+    getUserWalletAmount
 };
 
 import axios from "axios";
@@ -125,15 +127,28 @@ function updateProfile(profile) {
         data: profile
     })
 }
-function getProfile(profile) {
+function updateV1Profile(profile) {
     return axios({
-        method: apiPath.user.getProfile(profile).method,
-        url: apiPath.user.getProfile(profile).url,
+        method: apiPath.user.updateV1Profile(currentUser().id).method,
+        url: apiPath.user.updateV1Profile(currentUser().id).url,
+        data: profile
+    })
+}
+function getProfile(profile, mrn) {
+    return axios({
+        method: apiPath.user.getProfile(profile, mrn).method,
+        url: apiPath.user.getProfile(profile, mrn).url,
     })
 }
 function getProfileById(id) {
     return axios({
         method: apiPath.user.getProfileById(id).method,
         url: apiPath.user.getProfileById(id).url,
+    })
+}
+function getUserWalletAmount() {
+    return axios({
+        method: apiPath.user.getWalletAmount(currentUser().id).method,
+        url: apiPath.user.getWalletAmount(currentUser().id).url,
     })
 }

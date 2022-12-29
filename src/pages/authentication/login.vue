@@ -129,6 +129,7 @@ export default {
           method: "mrn_number",
           placeholder: "enterMRN",
           type: constants.loginByPassword,
+          validation: 7,
         },
         {
           value: 2,
@@ -136,6 +137,7 @@ export default {
           method: "iqama",
           placeholder: "enterIqamaId",
           type: constants.loginByOTP,
+          validation: 10,
         },
         {
           value: 6,
@@ -143,6 +145,7 @@ export default {
           method: "saudi_id",
           placeholder: "enterSaudiId",
           type: constants.loginByOTP,
+          validation: 10,
         },
       ],
     };
@@ -162,7 +165,14 @@ export default {
       "setUserInfo",
     ]),
     validateForm() {
-      this.usernameState = this.username != "";
+      // if (this.isDoctor) {
+      //   this.selectedItem = {
+      //     validation: 10,
+      //   };
+      // }
+      this.usernameState =
+        this.username != "" &&
+        (this.isDoctor || this.username.length == this.selectedItem.validation);
       if (this.selectedItem.type == constants.loginByPassword) {
         this.passwordState = this.password != "";
       } else {

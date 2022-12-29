@@ -37,7 +37,7 @@ export const apiPath = {
                 queryString += "speciality_id=" + speciality;
             }
             if (date) {
-                queryString += (queryString != "?" ? '&' : '') + "date=" + date;
+                queryString += (queryString != "?" ? '&' : '') + "dated=" + date;
             }
             if (clinic) {
                 queryString += (queryString != "?" ? '&' : '') + "clinic_id=" + clinic;
@@ -47,13 +47,13 @@ export const apiPath = {
             }
             return getApiObject("get", "users/doctors" + queryString, "v2", process.env.VUE_APP_API_V2_BASE_URL);
         },
-        fetchTimeslots: (doctor, date) => getApiObject("get", "timeslots?doctor_id=" + doctor + (date ? "&date=" + date : ''), "v2", process.env.VUE_APP_API_V2_BASE_URL),
+        fetchTimeslots: (doctor, date) => getApiObject("get", "timeslots?doctor_id=" + doctor + (date ? "&dated=" + date : ''), "v2", process.env.VUE_APP_API_V2_BASE_URL),
         createAppointment: getApiObject("post", "appointments", "v2", process.env.VUE_APP_API_V2_BASE_URL),
-        updateAppointment: (id) => getApiObject("patch", "appointments/" + id),
-        cancelAppointment: (id) => getApiObject("delete", "appointments/" + id),
+        updateAppointment: getApiObject("post", "appointments/reschedule"),
+        cancelAppointment: getApiObject("post", "appointments/cancel", "v2", process.env.VUE_APP_API_V2_BASE_URL),
         todayAppointment: (id) => getApiObject("get", "appointments/today?doctor_id=" + id, 'v2', process.env.VUE_APP_API_V2_BASE_URL),
         ratePhysician: (id) => getApiObject("patch", "doctor/rating/" + id),
-        fetchAppointmentHistory: (patient_id, doctor_id) => getApiObject("get", "appointments/history?patient_id=" + patient_id + "&doctor_id=" + doctor_id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
+        fetchAppointmentHistory: (patient_id, doctor_id) => getApiObject("get", "appointments/history?mrn_number=" + patient_id + "&doctor_id=" + doctor_id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
     },
 
     promotions: {
@@ -66,19 +66,21 @@ export const apiPath = {
     },
 
     reports: {
-        getAppointmentHistory: (id) => getApiObject("get", "appointments/history?patient_id=" + id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
-        getAppointmentMedication: (id) => getApiObject("get", "appointments/with-medications?patient_id=" + id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
+        getAppointmentHistory: (id) => getApiObject("get", "appointments/history?mrn_number=" + id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
+        getAppointmentMedication: (id) => getApiObject("get", "appointments/with-medications?mrn_number=" + id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
         getMedications: (id) => getApiObject("get", "medications?appointment_id=" + id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
         getReminderSlots: getApiObject("get", "reminder-slots"),
         setReminder: (id) => getApiObject("patch", "medications/" + id),
-        appointmentWithReports: (id, type) => getApiObject("get", "appointments/reports?patient_id=" + id + "&type=" + type, "v2", process.env.VUE_APP_API_V2_BASE_URL),
+        appointmentWithReports: (id, type) => getApiObject("get", "appointments/reports?mrn_number=" + id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
         reportsWithAppointments: (id) => getApiObject("get", "reports?appointment_id=" + id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
     },
 
     user: {
         updateProfile: (id) => getApiObject("patch", "users/" + id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
-        getProfile: (profile) => getApiObject("get", "auth/" + profile + "/profile", (profile == 'doctor' ? 'v1' : "v2"), profile == 'doctor' ? process.env.VUE_APP_API_BASE_URL : process.env.VUE_APP_API_V2_BASE_URL),
-        getProfileById: (id) => getApiObject("get", "users/?id=" + id)
+        updateV1Profile: (id) => getApiObject("patch", "users/" + id),
+        getProfile: (profile, mrn) => getApiObject("get", "auth/" + profile + "/profile?mrn_number=" + mrn, (profile == 'doctor' ? 'v1' : "v2"), profile == 'doctor' ? process.env.VUE_APP_API_BASE_URL : process.env.VUE_APP_API_V2_BASE_URL),
+        getProfileById: (id) => getApiObject("get", "users/?id=" + id),
+        getWalletAmount: (id) => getApiObject("get", "payments/wallet?mrn_number=" + id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
     },
 
     patient: {
@@ -88,8 +90,8 @@ export const apiPath = {
 
     insurance: {
         addNew: getApiObject("post", "insurances"),
-        servies: getApiObject("get", "insurances/services", "v2", process.env.VUE_APP_API_V2_BASE_URL),
-        fetch: (id) => getApiObject("get", "insurances?patient_id=" + id + "&sort=-id", "v2", process.env.VUE_APP_API_V2_BASE_URL),
+        services: (id) => getApiObject("get", "insurances/services?mrn_number=" + id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
+        fetch: (id) => getApiObject("get", "insurances?mrn_number=" + id + "&sort=-id", "v2", process.env.VUE_APP_API_V2_BASE_URL),
     },
 
     healthEducation: {

@@ -192,15 +192,19 @@ export default {
     initializeData() {
       this.setLoadingState(true);
       Promise.all([
-        appointmentService.getClinics(),
+        this.getBookingMethod == "onsite"
+          ? appointmentService.getClinics()
+          : null,
         appointmentService.getSpecialities(),
       ])
         .then((res) => {
-          let clinicResponse = res[0].data;
-          if (clinicResponse.status) {
-            this.clinics = clinicResponse.data.items;
-          } else {
-            this.failureToast(clinicResponse.message);
+          if (this.getBookingMethod == "onsite") {
+            let clinicResponse = res[0].data;
+            if (clinicResponse.status) {
+              this.clinics = clinicResponse.data.items;
+            } else {
+              this.failureToast(clinicResponse.message);
+            }
           }
           let specialitiesResponse = res[1].data;
           if (specialitiesResponse.status) {

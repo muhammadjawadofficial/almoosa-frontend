@@ -390,6 +390,7 @@ export default {
       this.navigateTo("Find Specialist", { method: type });
     },
     getTodayAppointment() {
+      this.setLoadingState(true);
       appointmentService.getTodayAppointment(this.getUserInfo.id).then(
         (res) => {
           if (res.data.status) {
