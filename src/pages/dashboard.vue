@@ -128,7 +128,7 @@
                       </div>
                       <button
                         class="btn btn-primary start-call-button"
-                        v-if="appointment.type.toLowerCase() == 'online'"
+                        v-if="appointment.type.toLowerCase() == 'virtual'"
                         @click="makeCall(appointment)"
                       >
                         {{ $t("startCall") }}
@@ -251,7 +251,11 @@
               class="consultation-section--blocks--single"
               :class="{ uniques: item.unique }"
               :key="'dashboard-item-' + index"
-              @click="navigateTo(item.link, item.param)"
+              @click="
+                item.link
+                  ? navigateTo(item.link, item.param)
+                  : navigateTo('Coming Soon')
+              "
             >
               <div v-if="item.unique" class="new-badge">
                 <new-badge-svg />

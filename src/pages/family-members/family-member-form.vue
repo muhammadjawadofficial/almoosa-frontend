@@ -56,6 +56,7 @@
               v-model="registerForm.first_name"
               :state="registerFormState.first_name"
               :placeholder="$t('familyMembers.firstName')"
+              :formatter="alphabetsOnly"
             ></b-form-input>
           </b-input-group>
         </div>
@@ -64,6 +65,7 @@
             <b-form-input
               v-model="registerForm.middle_name"
               :placeholder="$t('familyMembers.middleName')"
+              :formatter="alphabetsOnly"
             ></b-form-input>
           </b-input-group>
         </div>
@@ -75,6 +77,7 @@
               v-model="registerForm.family_name"
               :state="registerFormState.family_name"
               :placeholder="$t('familyMembers.familyName')"
+              :formatter="alphabetsOnly"
             ></b-form-input>
           </b-input-group>
         </div>

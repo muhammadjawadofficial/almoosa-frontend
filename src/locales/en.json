@@ -84,7 +84,21 @@
     "contactUs": "Contact us",
     "male": "Male",
     "female": "Female",
-    "idUploadSuccessMessage": "ID Uploaded Successfully"
+    "idUploadSuccessMessage": "ID Uploaded Successfully",
+    "firstNameRequired": "First Name is required",
+    "familyNameRequired": "Family Name is required",
+    "emailValid": "Email is not valid",
+    "phoneValid": "Phone is not valid",
+    "phoneLength": "Phone should be {length} digits",
+    "genderRequired": "Gender is required",
+    "dobRequired": "DOB is required",
+    "locationRequired": "Location is required",
+    "iqamaIdRequired": "Iqama ID is required",
+    "iqamaIdLength": "Iqama ID should be {length} digits",
+    "saudiIdRequired": "Saudi ID is required",
+    "saudiIdLength": "Saudi ID should be {length} digits",
+    "idRequired": "Iqama ID Photo is required",
+    "nationalityRequired": "Nationality is required"
   },
   "termsAndConditions": {
     "privacyPolicy": "Privacy Policy",
@@ -206,9 +220,12 @@
     "selectDate": "Select Appointment Date",
     "findMySpecialist": "Find My Specialist",
     "chooseLocation": "Choose Location",
+    "searchSpeciality": "Search Speciality",
     "error": {
       "location": "Select Location First",
-      "speciality": "Select Speciality First"
+      "speciality": "Select Speciality First",
+      "bookingDate": "Select Booking Date First",
+      "timeSlots": "Select Time Slots First"
     }
   },
   "doctorList": {
@@ -245,6 +262,7 @@
     "appointment": "Appointment",
     "onsite": "On-site",
     "online": "Virtual",
+    "virtual": "Virtual",
     "specialist": "Specialist",
     "dateTime": "Date & Time",
     "payment": "Payment",
@@ -272,7 +290,8 @@
     "paymentFailed": "Payment Failed",
     "paymentFailedText": "Your payment has been failed",
     "currentBalance": "Current Balance",
-    "useWalletAmount": "Use Wallet Amount"
+    "useWalletAmount": "Use Wallet Amount",
+    "fullyCovered": "Fully Covered"
   },
   "promotions": {
     "title": "Promotions List",
@@ -427,6 +446,12 @@
     "confirmed": "Paid",
     "cancelled": "Cancelled",
     "success": "Completed"
+  },
+  "comingSoon": {
+    "coming": "Coming",
+    "soon": "Soon...",
+    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "buttonText": "Back to Dashboard"
   },
   "noData": "No Data To Show",
   "cantJoinCall": "Not allowed to join call",

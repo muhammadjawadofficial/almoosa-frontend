@@ -4,7 +4,9 @@ import { apiPath } from "../constants/apiPath";
 export const appointmentService = {
     getUpcomingAppointemnts,
     getClinics,
+    getClinicsV1,
     getSpecialities,
+    getSpecialitiesV1,
     findDoctors,
     fetchTimeslots,
     createAppointment,
@@ -12,7 +14,8 @@ export const appointmentService = {
     cancelAppointment,
     getTodayAppointment,
     ratePhysician,
-    getAppointmentHistory
+    getAppointmentHistory,
+    createPayment
 }
 
 function getUpcomingAppointemnts(id) {
@@ -29,10 +32,24 @@ function getClinics() {
     })
 }
 
+function getClinicsV1() {
+    return axios({
+        method: apiPath.appointment.clinicsV1.method,
+        url: apiPath.appointment.clinicsV1.url
+    })
+}
+
 function getSpecialities() {
     return axios({
         method: apiPath.appointment.specialities.method,
         url: apiPath.appointment.specialities.url
+    })
+}
+
+function getSpecialitiesV1() {
+    return axios({
+        method: apiPath.appointment.specialitiesV1.method,
+        url: apiPath.appointment.specialitiesV1.url
     })
 }
 
@@ -43,10 +60,10 @@ function findDoctors(speciality, date, clinic) {
     })
 }
 
-function fetchTimeslots(doctor, date) {
+function fetchTimeslots(doctor, date, type) {
     return axios({
-        method: apiPath.appointment.fetchTimeslots(doctor, date).method,
-        url: apiPath.appointment.fetchTimeslots(doctor, date).url
+        method: apiPath.appointment.fetchTimeslots(doctor, date, type).method,
+        url: apiPath.appointment.fetchTimeslots(doctor, date, type).url
     })
 }
 
@@ -116,5 +133,13 @@ function getAppointmentHistory(patient_id, doctor_id) {
     return axios({
         method: apiPath.appointment.fetchAppointmentHistory(patient_id, doctor_id).method,
         url: apiPath.appointment.fetchAppointmentHistory(patient_id, doctor_id).url
+    })
+}
+
+function createPayment(data) {
+    return axios({
+        method: apiPath.appointment.createPayment.method,
+        url: apiPath.appointment.createPayment.url,
+        data
     })
 }

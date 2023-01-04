@@ -11,6 +11,7 @@
             v-model="registerForm.companyName"
             :state="registerFormState.companyName"
             :placeholder="$t('insurance.insuranceCompnayName')"
+            :formatter="alphabetsOnly"
           ></b-form-input>
         </b-input-group>
       </div>

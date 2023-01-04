@@ -84,7 +84,21 @@
     "contactUs": "اتصل بنا",
     "male": "ذكر",
     "female": "أنثى",
-    "idUploadSuccessMessage": "تم تحميل المعرف بنجاح"
+    "idUploadSuccessMessage": "تم تحميل المعرف بنجاح",
+    "firstNameRequired": "الاسم الأول مطلوب",
+    "familyNameRequired": "اسم العائلة مطلوب",
+    "emailValid": "البريد الإلكتروني غير صالح",
+    "phoneValid": "رقم الهاتف غير صالح",
+    "phoneLength": "يجب أن يكون رقم الهاتف {length} أرقام",
+    "genderRequired": "الجنس مطلوب",
+    "dobRequired": "تاريخ الميلاد مطلوب",
+    "locationRequired": "الموقع مطلوب",
+    "iqamaIdRequired": "معرف الإقامة مطلوب",
+    "iqamaIdLength": "معرف الإقامة يجب أن يكون {length} أرقام",
+    "saudiIdRequired": "رقم الهوية الوطنية مطلوب",
+    "saudiIdLength": "رقم الهوية الوطنية يجب أن يكون {length} أرقام",
+    "idRequired": "صورة هوية الإقامة مطلوبة",
+    "nationalityRequired": "الجنسية مطلوبة"
   },
   "termsAndConditions": {
     "privacyPolicy": "سياسة الخصوصية",
@@ -206,6 +220,7 @@
     "selectDate": "اختر  تاريخ الموعد",
     "findMySpecialist": "ابحث عن الاختصاصي الخاص بي",
     "chooseLocation": "اختيار موقع",
+    "searchSpeciality": "ابحث عن التخصص",
     "error": {
       "location": "حدد الموقع أولاً",
       "speciality": "حدد التخصص أولا",
@@ -288,6 +303,7 @@
     "appointment": "موعد",
     "onsite": "بالموقع",
     "online": "افتراضية",
+    "virtual": "افتراضية",
     "specialist": "أخصائي",
     "dateTime": "التاريخ والوقت",
     "payment": "الدفع",
@@ -315,7 +331,8 @@
     "paymentFailed": "فشلت عملية الدفع",
     "paymentFailedText": "لقد فشلت عملية الدفع الخاصة بك",
     "currentBalance": "الرصيد الحالي",
-    "useWalletAmount": "استخدم مبلغ المحفظة"
+    "useWalletAmount": "استخدم مبلغ المحفظة",
+    "fullyCovered": "مدفوع بالكامل"
   },
   "rating": {
     "title": "قيم طبيبنا",
@@ -425,6 +442,12 @@
     "confirmed": "مؤكد",
     "cancelled": "ألغيت",
     "success": "مكتمل"
+  },
+  "comingSoon": {
+    "coming": "آت",
+    "soon": "هكذا...",
+    "text": "هذه الخاصية قادمة قريبا",
+    "buttonText": "رجوع إلى لوحة القيادة"
   },
   "noData": "لا توجد بيانات لإظهارها",
   "cantJoinCall": "غير مسموح له بالانضمام إلى المكالمة",

@@ -38,7 +38,9 @@
           </div>
         </div>
       </div>
-      <div class="col-xl-8 col-lg-6 login-right-padding py-3">
+      <div
+        class="col-xl-8 col-lg-6 login-dashboard-right login-right-padding py-3"
+      >
         <div @click="switchLanguage()" class="language-switcher">
           {{ layoutType == "ltr" ? "ع" : "En" }}
         </div>
@@ -323,6 +325,10 @@ export default {
     }
   }
 }
+.login-dashboard-right {
+  max-height: 100vh;
+  overflow: auto;
+}
 .full-height {
   min-height: 100vh;
   @media (max-width: 991px) {
@@ -333,6 +339,9 @@ export default {
       border-top-right-radius: 2rem;
       border-top-left-radius: 2rem;
       padding-top: 2.5rem !important;
+    }
+    .login-dashboard-right {
+      max-height: 100%;
     }
     .image-section {
       padding-bottom: 2rem;

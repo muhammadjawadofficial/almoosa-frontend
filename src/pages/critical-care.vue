@@ -1,7 +1,7 @@
 <template>
   <div class="lab-works-doctors-container page-body-container standard-width">
     <back-navigation :title="$t('criticalCare.title')" />
-    <div class="search-box">
+    <div class="search-box top-padding">
       <div class="search-icon">
         <i class="fa fa-search" aria-hidden="true"></i>
       </div>
@@ -14,51 +14,118 @@
         ></b-form-input>
       </div>
     </div>
-    <b-card header-tag="div" no-body class="ash-card simple transparent">
-      <b-card-body class="py-0 px-3 mt-4">
-        <div
-          class="appointment-list"
-          :class="{ noData: !filteredPatients || !filteredPatients.length }"
+    <div class="row">
+      <div class="col-sm-12" style="--numberOfTabs: 2">
+        <b-card
+          header-tag="div"
+          no-body
+          class="ash-card card-top-navigation"
         >
-          <div class="loading no-data" v-if="filteredPatients == null">
-            {{ $t("loading") }}
-          </div>
-          <div class="no-data" v-else-if="!filteredPatients.length">
-            {{ $t("noData") }}
-          </div>
-          <template v-else>
-            <div
-              class="appointment-list-item"
-              v-for="appointment in filteredPatients"
-              :key="'upcoming-appointment-id' + appointment.id"
-            >
-              <div class="appointment-card default">
-                <div class="doctor-avatar">
-                  <img :src="getImageUrl(appointment.photo)" alt="" />
-                </div>
-                <div class="appointment-details">
-                  <div class="doctor-name">
-                    {{ getFullName(appointment) }}
+          <b-card-body class="mt-0">
+            <b-tabs pills slot="header" class="tabbed-card">
+              <b-tab :title="$t('upcomingAppointment.virtual')">
+                <div
+                  class="appointment-list"
+                  :class="{
+                    noData: !filteredPatients || !filteredPatients.length,
+                  }"
+                >
+                  <div class="loading no-data" v-if="filteredPatients == null">
+                    {{ $t("loading") }}
                   </div>
-                  <div class="doctor-speciality">Intensive Care Unit</div>
-                  <div class="appointment-status">
-                    <div class="appointment-time-span">
-                      <div v-if="appointment.mrn_number">
-                        {{ $t("mrn_number") }} - {{ appointment.mrn_number }}
-                      </div>
-                      <div>
-                        {{ appointment.gender }} -
-                        {{ getYears(appointment.dob) }} {{ $t("years") }}
+                  <div class="no-data" v-else-if="!filteredPatients.length">
+                    {{ $t("noData") }}
+                  </div>
+                  <template v-else>
+                    <div
+                      class="appointment-list-item"
+                      v-for="appointment in filteredPatients"
+                      :key="'upcoming-appointment-id' + appointment.id"
+                    >
+                      <div class="appointment-card default">
+                        <div class="doctor-avatar">
+                          <img :src="getImageUrl(appointment.photo)" alt="" />
+                        </div>
+                        <div class="appointment-details">
+                          <div class="doctor-name">
+                            {{ getFullName(appointment) }}
+                          </div>
+                          <div class="doctor-speciality">
+                            Intensive Care Unit
+                          </div>
+                          <div class="appointment-status">
+                            <div class="appointment-time-span">
+                              <div v-if="appointment.mrn_number">
+                                {{ $t("mrn_number") }} -
+                                {{ appointment.mrn_number }}
+                              </div>
+                              <div>
+                                {{ appointment.gender }} -
+                                {{ getYears(appointment.dob) }}
+                                {{ $t("years") }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </template>
                 </div>
-              </div>
-            </div>
-          </template>
-        </div>
-      </b-card-body>
-    </b-card>
+              </b-tab>
+              <b-tab :title="$t('upcomingAppointment.virtual')">
+                <div
+                  class="appointment-list"
+                  :class="{
+                    noData: !filteredPatients || !filteredPatients.length,
+                  }"
+                >
+                  <div class="loading no-data" v-if="filteredPatients == null">
+                    {{ $t("loading") }}
+                  </div>
+                  <div class="no-data" v-else-if="!filteredPatients.length">
+                    {{ $t("noData") }}
+                  </div>
+                  <template v-else>
+                    <div
+                      class="appointment-list-item"
+                      v-for="appointment in filteredPatients"
+                      :key="'upcoming-appointment-id' + appointment.id"
+                    >
+                      <div class="appointment-card default">
+                        <div class="doctor-avatar">
+                          <img :src="getImageUrl(appointment.photo)" alt="" />
+                        </div>
+                        <div class="appointment-details">
+                          <div class="doctor-name">
+                            {{ getFullName(appointment) }}
+                          </div>
+                          <div class="doctor-speciality">
+                            Intensive Care Unit
+                          </div>
+                          <div class="appointment-status">
+                            <div class="appointment-time-span">
+                              <div v-if="appointment.mrn_number">
+                                {{ $t("mrn_number") }} -
+                                {{ appointment.mrn_number }}
+                              </div>
+                              <div>
+                                {{ appointment.gender }} -
+                                {{ getYears(appointment.dob) }}
+                                {{ $t("years") }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </b-tab>
+            </b-tabs>
+          </b-card-body>
+        </b-card>
+      </div>
+    </div>
   </div>
 </template>
   

@@ -141,7 +141,7 @@ export default {
       this.setLoadingState(true);
       appointmentService
         .getAppointmentHistory(
-          this.getSelectedAppointment.patient_id,
+          this.getUserInfo.mrn_number,
           this.getSelectedAppointment.doctor_id
         )
         .then(

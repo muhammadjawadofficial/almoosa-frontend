@@ -78,10 +78,15 @@
                         </div>
                         <div class="doctor-speciality" v-else>
                           {{
-                            appointment.doctor.speciality &&
-                            appointment.doctor.speciality.title + ", "
+                            appointment.doctor[
+                              getLocaleKey("speciality", "lower", "", "_ar")
+                            ]
                           }}
-                          {{ appointment.doctor.location }}
+                          {{
+                            appointment.doctor.location
+                              ? ", " + appointment.doctor.location
+                              : ""
+                          }}
                           {{
                             !appointment.doctor.speciality &&
                             !appointment.doctor.location
@@ -110,7 +115,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="loading" v-if="appointmentStatus == 'loading'">
+                <div class="no-data" v-if="appointmentStatus == 'loading'">
                   {{ $t("loading") }}
                 </div>
                 <div class="no-data" v-else-if="!virtualAppointments.length">
@@ -172,14 +177,26 @@
                           </div>
                         </div>
                         <div class="doctor-speciality" v-else>
-                          {{ appointment.doctor.speciality.title }},
-                          {{ appointment.doctor.location }}
+                          {{
+                            appointment.doctor[
+                              getLocaleKey("speciality", "lower", "", "_ar")
+                            ]
+                          }}
+                          {{
+                            appointment.doctor.location
+                              ? ", " + appointment.doctor.location
+                              : ""
+                          }}
+                          {{
+                            !appointment.doctor.speciality &&
+                            !appointment.doctor.location
+                              ? "N/A"
+                              : ""
+                          }}
                         </div>
                         <div class="appointment-status success">
                           <div class="appointment-time-span">
-                            {{
-                              (getTimeFromDate, true(appointment.start_time))
-                            }}
+                            {{ getTimeFromDate(appointment.start_time, true) }}
                             -
                             {{ getTimeFromDate(appointment.end_time, true) }}
                           </div>
@@ -198,7 +215,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="loading" v-if="appointmentStatus == 'loading'">
+                <div class="no-data" v-if="appointmentStatus == 'loading'">
                   {{ $t("loading") }}
                 </div>
                 <div class="no-data" v-else-if="!onsiteAppointments.length">
@@ -277,15 +294,16 @@ export default {
     getAppointments() {
       this.onsiteAppointments = [];
       this.virtualAppointments = [];
-      let userIdQueryParam = this.isDoctor ? "doctor_id=" : "patient_id=";
-      userIdQueryParam += this.getUserInfo.id;
+      let userIdQueryParam = this.isDoctor
+        ? "doctor_id=" + this.getUserInfo.id
+        : "patient_id=" + this.getUserInfo.mrn_number;
       this.setLoadingState(true);
       appointmentService.getUpcomingAppointemnts(userIdQueryParam).then(
         (response) => {
           if (response.data.status) {
             let data = response.data.data.items;
             data.forEach((item) => {
-              if (item.type == "onsite") {
+              if (item.type.toLowerCase() == "onsite") {
                 this.onsiteAppointments.push(item);
               } else {
                 this.virtualAppointments.push(item);

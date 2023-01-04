@@ -10,7 +10,7 @@
       :title="$t('radiologyReport.title')"
       :backLink="'Radiology Report Doctors'"
     />
-    <div class="search-box">
+    <div class="search-box top-padding">
       <div class="search-icon">
         <i class="fa fa-search" aria-hidden="true"></i>
       </div>

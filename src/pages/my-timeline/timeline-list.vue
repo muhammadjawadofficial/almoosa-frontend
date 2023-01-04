@@ -25,7 +25,7 @@
             >
               <div class="appointment-time">
                 <div class="appointment-time-day">
-                  {{ getDate(timeline.booked_date) }}
+                  {{ getDate(timeline.start_date) }}
                 </div>
                 <div class="appointment-time-time">
                   {{
@@ -37,15 +37,23 @@
               </div>
               <div class="appointment-card default">
                 <div class="doctor-avatar">
-                  <img :src="getImageUrl(timeline.doctor.photo)" alt="" />
+                  <img
+                    :src="getImageUrl(timeline.doctor && timeline.doctor.photo)"
+                    alt=""
+                  />
                 </div>
                 <div class="appointment-details">
                   <div class="doctor-name">
-                    {{ $t("bookAppointment." + timeline.type.toLowerCase()) }}
-                    {{ $t("myTimeline.appointmentSession") }}
+                    {{
+                      timeline.episode_status
+                        ? timeline.episode_status +
+                          " " +
+                          $t("myTimeline.appointmentSession")
+                        : "N/A"
+                    }}
                   </div>
                   <div class="doctor-speciality">
-                    {{ $t("dr") }} {{ getFullName(timeline.doctor) }}
+                    {{ timeline.doctor_name }}
                   </div>
                   <div class="appointment-status">
                     <div class="appointment-time-span">
@@ -79,7 +87,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { medicationService } from "../../services";
+import { timelineService } from "../../services";
 export default {
   data() {
     return {
@@ -96,7 +104,7 @@ export default {
     ...mapActions("myTimeline", ["setSelectedTimeline"]),
     fetchTimelines() {
       this.setLoadingState(true);
-      medicationService.getAppointmentHistory(this.getUserInfo.id).then(
+      timelineService.fetchTimelineSessions(this.getUserInfo.mrn_number).then(
         (response) => {
           if (response.data.status) {
             let data = response.data.data.items;
@@ -108,6 +116,8 @@ export default {
           this.setLoadingState(false);
         },
         () => {
+          this.timelineList = [];
+          this.filteredDoctors = [];
           this.setLoadingState(false);
           this.failureToast();
         }

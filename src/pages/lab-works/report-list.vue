@@ -4,7 +4,7 @@
       :title="$t('labWorks.reports')"
       :backLink="'Lab Work Doctors'"
     />
-    <div class="search-box">
+    <div class="search-box top-padding">
       <div class="search-icon">
         <i class="fa fa-search" aria-hidden="true"></i>
       </div>
@@ -46,7 +46,10 @@
                   <div class="doctor-speciality">
                     {{ getLongDateAndTimeFromDate(report.dated, true) }}
                   </div>
-                  <div class="appointment-status">
+                  <div
+                    class="appointment-status"
+                    :class="getStatusClass(report.result)"
+                  >
                     {{ report.result }}
                   </div>
                 </div>
@@ -103,24 +106,33 @@ export default {
         return;
       }
       this.setLoadingState(true);
-      reportService
-        .getReportsWithAppointments(this.getSelectedLabWork.id)
-        .then(
-          (response) => {
-            if (response.data.status) {
-              let data = response.data.data.items.filter(x => x.type.toLowerCase() === 'lab');
-              this.reports = [...data];
-              this.filteredList = [...data];
-            } else {
-              this.failureToast(response.data.messsage);
-            }
-            this.setLoadingState(false);
-          },
-          () => {
-            this.setLoadingState(false);
-            this.failureToast();
+      reportService.getReportsWithAppointments(this.getSelectedLabWork.id).then(
+        (response) => {
+          if (response.data.status) {
+            let data = response.data.data.items.filter(
+              (x) => x.type.toLowerCase() === "lab"
+            );
+            this.reports = [...data];
+            this.filteredList = [...data];
+          } else {
+            this.failureToast(response.data.messsage);
           }
-        );
+          this.setLoadingState(false);
+        },
+        () => {
+          this.setLoadingState(false);
+          this.failureToast();
+        }
+      );
+    },
+    getStatusClass(status) {
+      if (status.toLowerCase() === "normal") {
+        return "normal";
+      } else if (status.toLowerCase() === "abnormal") {
+        return "abnormal";
+      } else {
+        return "pending";
+      }
     },
     viewReport(report) {
       window.open(report.report_file.path, "_blank");

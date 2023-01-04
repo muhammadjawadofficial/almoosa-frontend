@@ -230,6 +230,7 @@ export default {
           () => {
             this.setLoadingState(false);
             this.failureToast();
+            this.medicationList = [];
           }
         );
     },

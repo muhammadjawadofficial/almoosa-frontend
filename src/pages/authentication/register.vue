@@ -1,9 +1,6 @@
 <template>
   <div class="login-card">
     <div class="heading w600">{{ $t("login.register") }}</div>
-    <div class="sub-heading font-secondary w200">
-      * {{ $t("login.allFieldsMandatory") }}
-    </div>
     <div class="login-form">
       <div class="row">
         <div class="col-xl-6 col-lg-12 col-md-6">
@@ -68,6 +65,7 @@
               v-model="registerForm.first_name"
               :state="registerFormState.first_name"
               :placeholder="$t('register.firstName')"
+              :formatter="alphabetsOnly"
             ></b-form-input>
           </b-input-group>
         </div>
@@ -76,6 +74,7 @@
             <b-form-input
               v-model="registerForm.middle_name"
               :placeholder="$t('register.middleName')"
+              :formatter="alphabetsOnly"
             ></b-form-input>
           </b-input-group>
         </div>
@@ -85,6 +84,7 @@
               v-model="registerForm.family_name"
               :state="registerFormState.family_name"
               :placeholder="$t('register.familyName')"
+              :formatter="alphabetsOnly"
             ></b-form-input>
           </b-input-group>
         </div>
@@ -92,7 +92,11 @@
           <b-input-group class="custom-login-input-groups">
             <b-form-input
               v-model="registerForm.email_address"
-              :state="registerFormState.email_address"
+              :state="
+                !registerForm.email_address
+                  ? null
+                  : registerFormState.email_address
+              "
               :placeholder="$t('register.emailAddress')"
               type="email"
             ></b-form-input>
@@ -295,6 +299,7 @@ export default {
           method: "saudi_id",
           placeholder: "enterSaudiId",
           type: constants.loginByOTP,
+          autofill: "saudi",
           validation: 10,
         },
       ],
@@ -310,6 +315,9 @@ export default {
   },
   computed: {
     validEmailAddress() {
+      if (this.registerForm.email_address == "") {
+        return null;
+      }
       if (this.formSubmitted) {
         let regex =
           /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -417,7 +425,41 @@ export default {
       this.registerFormState.userId =
         this.userId != "" && this.userId.length == this.selectedItem.validation;
       this.registerFormState.card_id = form.card_id != null;
-      this.registerFormState.nationality = form.nationality != "";
+      this.registerFormState.nationality = !!form.nationality;
+
+      if (!this.registerFormState.userId) {
+        if (this.userId == "")
+          this.failureToast(
+            this.$t("register." + this.selectedOption.text + "Required")
+          );
+        else {
+          this.failureToast(
+            this.$t("register." + this.selectedOption.text + "Length", {
+              length: this.selectedItem.validation,
+            })
+          );
+        }
+      } else if (!this.registerFormState.first_name) {
+        this.failureToast(this.$t("register.firstNameRequired"));
+      } else if (!this.registerFormState.family_name) {
+        this.failureToast(this.$t("register.familyNameRequired"));
+      } else if (this.registerFormState.email_address == false) {
+        this.failureToast(this.$t("register.emailValid"));
+      } else if (this.registerFormState.phone_number == false) {
+        if (this.registerForm.phone_number.length < 10)
+          this.failureToast(this.$t("register.phoneLength", { length: 10 }));
+        else this.failureToast(this.$t("register.phoneValid"));
+      } else if (!this.registerFormState.gender) {
+        this.failureToast(this.$t("register.genderRequired"));
+      } else if (!this.registerFormState.dob) {
+        this.failureToast(this.$t("register.dobRequired"));
+      } else if (!this.registerFormState.nationality) {
+        this.failureToast(this.$t("register.nationalityRequired"));
+      } else if (!this.registerFormState.location) {
+        this.failureToast(this.$t("register.locationRequired"));
+      } else if (!this.registerFormState.card_id) {
+        this.failureToast(this.$t("register.idRequired"));
+      }
 
       return !Object.values(this.registerFormState).includes(false);
     },
@@ -431,7 +473,15 @@ export default {
       }
       this.registerForm[this.selectedItem.method] = +this.userId;
       this.setLoadingState(true);
-      authService.register(this.registerForm).then(
+      let form = { ...this.registerForm };
+      Object.keys(form).forEach((key) => {
+        if (form[key] === null || form[key] === undefined || form[key] === "") {
+          delete form[key];
+        } else if (key === "nationality") {
+          form[key] = form[key].id;
+        }
+      });
+      authService.register(form).then(
         (response) => {
           if (response.data.status) {
             if (this.approveFromHISFlow) {
@@ -479,6 +529,19 @@ export default {
     },
     itemSelected(item) {
       this.selectedItem = item;
+      if (item.autofill) {
+        let nationality = this.nationalities.find(
+          (n) => n.code.toLowerCase() == item.autofill
+        );
+        if (nationality) {
+          this.registerForm.nationality = nationality;
+        }
+      } else {
+        this.registerForm.nationality = null;
+      }
+      this.loginOptions.forEach((option) => {
+        delete this.registerForm[option.method];
+      });
     },
   },
 };

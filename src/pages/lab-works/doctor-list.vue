@@ -30,7 +30,7 @@
                 <div class="appointment-time-time">
                   {{
                     appointment.start_time
-                      ? getTimeFromDate(appointment.start_time)
+                      ? getTimeFromDate(appointment.start_time, true)
                       : ""
                   }}
                 </div>
@@ -53,12 +53,13 @@
                     <div class="appointment-time-span">
                       {{
                         appointment.start_time
-                          ? getTimeFromDate(appointment.start_time) + " - "
+                          ? getTimeFromDate(appointment.start_time, true) +
+                            " - "
                           : ""
                       }}
                       {{
                         appointment.end_time
-                          ? getTimeFromDate(appointment.end_time)
+                          ? getTimeFromDate(appointment.end_time, true)
                           : ""
                       }}
                     </div>
@@ -98,7 +99,7 @@ export default {
     ...mapActions("labwork", ["setSelectedLabWork"]),
     fetchAppointments() {
       this.setLoadingState(true);
-      reportService.getAppointmentsWithReports(this.getUserInfo.id, "lab").then(
+      reportService.getAppointmentsWithReports(this.getUserInfo.mrn_number, "lab").then(
         (response) => {
           if (response.data.status) {
             let data = response.data.data.items;

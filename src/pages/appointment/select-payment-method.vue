@@ -17,113 +17,161 @@
       "
     />
 
-    <div class="payment-section block-section mt-3">
-      <div class="body-section">
-        <div class="payment-method">
-          <div class="payment-method--item secondary multiple-card-design">
-            <div class="content">
-              <div class="content--info">
-                <div class="content--name">
-                  {{ $t("selectPaymentMethod.currentBalance") }}
+    <div class="row position-relative">
+      <div class="col-lg-7">
+        <div class="payment-section block-section mt-3">
+          <div class="body-section">
+            <div class="payment-method">
+              <div class="payment-method--item secondary multiple-card-design">
+                <div class="content">
+                  <div class="content--info">
+                    <div class="content--name">
+                      {{ $t("selectPaymentMethod.currentBalance") }}
+                    </div>
+                    <div class="content--price">
+                      {{ $t("sar") + " " + translateNumber(walletAmount) }}
+                    </div>
+                  </div>
+                  <div class="content--action">
+                    <button
+                      class="btn useButton"
+                      :class="{
+                        used: useWalletAmount,
+                        disabled: !walletAmount || insuranceAmount == 0,
+                      }"
+                      @click="
+                        walletAmount
+                          ? ((useWalletAmount = !useWalletAmount),
+                            setAppointmentAmount())
+                          : null
+                      "
+                    >
+                      {{ $t("selectPaymentMethod.useWalletAmount") }}
+                    </button>
+                  </div>
                 </div>
-                <div class="content--price">
-                  {{ $t("sar") + " " + translateNumber(walletAmount) }}
+                <div class="layers">
+                  <div class="layer alpha"></div>
+                  <div class="layer beta"></div>
+                  <div class="layer gamma"></div>
                 </div>
               </div>
-              <div class="content--action">
-                <button class="btn btn-primary">
-                  {{ $t("selectPaymentMethod.useWalletAmount") }}
-                </button>
-              </div>
-            </div>
-            <div class="layers">
-              <div class="layer alpha"></div>
-              <div class="layer beta"></div>
-              <div class="layer gamma"></div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="payment-section block-section">
-      <div class="heading-section">
-        <div class="heading-text">
-          <div class="heading-title">
-            {{ $t("selectPaymentMethod.payCash") }}
-          </div>
-          <div class="heading-subTitle">
-            {{ $t("selectPaymentMethod.chooseCash") }}
-          </div>
-        </div>
-      </div>
-      <div class="body-section">
-        <div class="payment-method">
-          <div
-            class="payment-method--item"
-            v-for="method in getPaymentMethodsOnline"
-            :key="'payment-method-' + method.title"
-            @click="handleSelection(method)"
-          >
-            <div class="logo">
-              <component :is="method.icon" />
-            </div>
-            <div class="content">
-              <div class="content--name">
-                {{ $t("selectPaymentMethod." + method.title) }}
+      <div class="col-lg-7">
+        <div class="payment-section block-section">
+          <div class="heading-section">
+            <div class="heading-text">
+              <div class="heading-title">
+                {{
+                  $t(
+                    "selectPaymentMethod." +
+                      (getPaymentObject && getPaymentObject.otherPayment
+                        ? "tamara"
+                        : "insurance")
+                  )
+                }}
               </div>
-              <div class="content--info">
-                <div class="content--price">
-                  {{
-                    translateNumber(getPaymentObject.amount) + " " + $t("sar")
-                  }}
-                </div>
-                <i
-                  :class="
-                    'fa fa-chevron-' +
-                    (getCurrentLang() == 'en' ? 'right' : 'left')
-                  "
-                  aria-hidden="true"
-                ></i>
+              <div class="heading-subTitle">
+                {{
+                  $t(
+                    "selectPaymentMethod.choose" +
+                      (getPaymentObject && getPaymentObject.otherPayment
+                        ? "Tamara"
+                        : "Insurance")
+                  )
+                }}
               </div>
             </div>
           </div>
+          <div class="body-section">
+            <div class="payment-method">
+              <template v-for="method in paymentMethodsOthers">
+                <template
+                  v-if="getPaymentObject.otherPayment == method.isOtherPayment"
+                >
+                  <div
+                    class="payment-method--item primary"
+                    :key="'payment-method-' + method.title"
+                    @click="handleSelection(method)"
+                  >
+                    <div class="logo">
+                      <component :is="method.icon" />
+                    </div>
+                    <div class="content">
+                      <div class="content--name">
+                        {{ $t("selectPaymentMethod." + method.title) }}
+                      </div>
+                      <div class="content--info">
+                        <div class="content--price">
+                          {{
+                            insuranceAmount == null
+                              ? ""
+                              : insuranceAmount == 0
+                              ? $t("selectPaymentMethod.fullyCovered")
+                              : $t("sar") +
+                                " " +
+                                translateNumber(insuranceAmount)
+                          }}
+                        </div>
+                        <i
+                          :class="
+                            'fa fa-chevron-' +
+                            (toggleOtherPaymentSection
+                              ? 'down'
+                              : getCurrentLang() == 'en'
+                              ? 'right'
+                              : 'left')
+                          "
+                          aria-hidden="true"
+                        ></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    v-if="toggleOtherPaymentSection"
+                    class="payment-dropdown-section payment-method--item"
+                    :key="'payment-dropdown-section-' + method.title"
+                  >
+                    <div
+                      class="payment-dropdown-option"
+                      :class="{
+                        selected:
+                          selectedInsurance &&
+                          insurance.id == selectedInsurance.id,
+                      }"
+                      v-for="insurance in patientInsurances"
+                      :key="'insurance-' + insurance.id"
+                      @click="getInsuranceAmount(insurance)"
+                    >
+                      {{ insurance.company_name }}
+                    </div>
+                  </div>
+                </template>
+              </template>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="payment-section block-section">
-      <div class="heading-section">
-        <div class="heading-text">
-          <div class="heading-title">
-            {{
-              $t(
-                "selectPaymentMethod." +
-                  (getPaymentObject && getPaymentObject.otherPayment
-                    ? "tamara"
-                    : "insurance")
-              )
-            }}
+      <div class="col-lg-7" v-if="appointmentAmount !== 0">
+        <div class="payment-section block-section">
+          <div class="heading-section">
+            <div class="heading-text">
+              <div class="heading-title">
+                {{ $t("selectPaymentMethod.payCash") }}
+              </div>
+              <div class="heading-subTitle">
+                {{ $t("selectPaymentMethod.chooseCash") }}
+              </div>
+            </div>
           </div>
-          <div class="heading-subTitle">
-            {{
-              $t(
-                "selectPaymentMethod.choose" +
-                  (getPaymentObject && getPaymentObject.otherPayment
-                    ? "Tamara"
-                    : "Insurance")
-              )
-            }}
-          </div>
-        </div>
-      </div>
-      <div class="body-section">
-        <div class="payment-method">
-          <template v-for="method in paymentMethodsOthers">
-            <template
-              v-if="getPaymentObject.otherPayment == method.isOtherPayment"
-            >
+          <div class="body-section">
+            <div class="payment-method">
               <div
-                class="payment-method--item primary"
+                class="payment-method--item"
+                v-for="method in getPaymentMethodsOnline"
                 :key="'payment-method-' + method.title"
                 @click="handleSelection(method)"
               >
@@ -136,11 +184,7 @@
                   </div>
                   <div class="content--info">
                     <div class="content--price">
-                      {{
-                        translateNumber(getPaymentObject.amount) +
-                        " " +
-                        $t("sar")
-                      }}
+                      {{ $t("sar") + " " + translateNumber(appointmentAmount) }}
                     </div>
                     <i
                       :class="
@@ -152,8 +196,49 @@
                   </div>
                 </div>
               </div>
-            </template>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-7 appointment--action-buttons" v-else>
+        <button class="btn btn-secondary" @click="createPayment">
+          {{ $t("doctorList.bookAppointment") }}
+        </button>
+      </div>
+
+      <div class="receipt-details col-lg-4 pt-5">
+        <div class="heading">Receipt Details</div>
+        <div class="details-group">
+          <div class="details-group-item" v-if="serviceBaseRate">
+            <div class="title">Appointment Amount</div>
+            <div class="value">
+              {{ $t("sar") + " " + serviceBaseRate.patient_amount }}
+            </div>
+          </div>
+          <template v-if="selectedInsurance">
+            <div class="details-group-item">
+              <div class="title">Your insurance can cover upto</div>
+              <div class="value">
+                {{
+                  $t("sar") +
+                  " " +
+                  (serviceBaseRate.patient_amount - insuranceAmount)
+                }}
+              </div>
+            </div>
           </template>
+          <template v-if="useWalletAmount">
+            <div class="details-group-item">
+              <div class="title">Wallet Amount</div>
+              <div class="value">
+                {{ $t("sar") + " " + getWalletDeductionAmount() }}
+              </div>
+            </div>
+          </template>
+          <div class="details-group-item total">
+            <div class="title">Amount Payable</div>
+            <div class="value">{{ $t("sar") + " " + appointmentAmount }}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -162,11 +247,23 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { userService } from "../../services";
+import {
+  appointmentService,
+  insuranceService,
+  userService,
+} from "../../services";
 export default {
   data() {
     return {
+      useWalletAmount: false,
+      toggleOtherPaymentSection: false,
+      selectedInsurance: null,
       walletAmount: 0,
+      insuranceAmount: null,
+      appointmentAmount: 0,
+      patientInsurances: null,
+      serviceBaseRate: null,
+      paymentAmount: null,
       paymentMethodsOnline: [
         {
           title: "applePay",
@@ -181,7 +278,6 @@ export default {
           isOnlinePayment: true,
         },
       ],
-
       paymentMethodsOthers: [
         {
           title: "insurance",
@@ -205,6 +301,7 @@ export default {
       "getPaymentObject",
       "getSelectedAppointment",
     ]),
+    ...mapGetters("user", ["getUserInfo"]),
     getPaymentMethodsOnline() {
       let userAgent = navigator.userAgent;
       let browserName = "";
@@ -234,21 +331,82 @@ export default {
         return;
       }
     }
-    this.setLoadingState(true);
-    userService.getUserWalletAmount().then((res) => {
-      let response = res.data;
-      if (response.status) {
-        this.walletAmount = response.data.wallet_balance;
-      }
-      this.setLoadingState(false);
-    });
+    this.handleAmount();
   },
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
+    handleAmount() {
+      this.setLoadingState(true);
+      Promise.all([
+        userService.getServiceBaseRate(
+          this.getUserInfo.mrn_number,
+          this.getSelectedAppointment.doctor_id,
+          this.getSelectedAppointment.id
+        ),
+        insuranceService.fetchInsurances(this.getUserInfo.mrn_number),
+      ])
+        .then((res) => {
+          let serviceBaseRate = res[0].data;
+          if (serviceBaseRate.status) {
+            let data = serviceBaseRate.data.items;
+            if (data && data.length) {
+              this.serviceBaseRate = data[0];
+              this.walletAmount = this.serviceBaseRate.advance_wallet;
+              let patientAmount = this.serviceBaseRate.patient_amount;
+              let obj = {
+                ...this.getPaymentObject,
+                amount: patientAmount,
+              };
+              this.setPaymentObject(obj);
+              this.setAppointmentAmount();
+            } else {
+              this.walletAmount = 0;
+            }
+          }
+
+          let insurances = res[1].data.data;
+          this.patientInsurances = [...insurances.items];
+        })
+        .catch(() => {
+          this.failureToast();
+          this.setLoadingState(false);
+        })
+        .finally(() => {
+          this.setLoadingState(false);
+        });
+    },
+    getWalletDeductionAmount() {
+      let appointmentAmount =
+        this.insuranceAmount == null
+          ? this.getPaymentObject.amount
+          : this.insuranceAmount;
+      if (this.useWalletAmount) {
+        return appointmentAmount >= this.walletAmount
+          ? this.walletAmount
+          : appointmentAmount;
+      }
+      return 0;
+    },
+    setAppointmentAmount() {
+      this.appointmentAmount =
+        this.insuranceAmount == null
+          ? this.getPaymentObject.amount
+          : this.insuranceAmount;
+      if (this.appointmentAmount > 0) {
+        if (this.useWalletAmount) {
+          this.appointmentAmount = this.appointmentAmount - this.walletAmount;
+          this.appointmentAmount =
+            this.appointmentAmount <= 0 ? 0 : this.appointmentAmount;
+        }
+      } else {
+        this.useWalletAmount = false;
+      }
+    },
     handleSelection(item) {
+      this.setAppointmentAmount();
       if (item.isOnlinePayment) {
         let obj = {
-          amount: this.getPaymentObject.amount,
+          amount: Math.floor(+this.appointmentAmount),
           appointment_id: this.getPaymentObject.appointment_id,
           currency: item.currency.toUpperCase(),
         };
@@ -257,12 +415,192 @@ export default {
           obj.method = item.title.toUpperCase();
         }
         this.setPaymentObject(obj);
-        this.navigateTo("Pay Now");
+        this.createPayment();
+      } else {
+        this.toggleOtherPaymentSection = !this.toggleOtherPaymentSection;
       }
+    },
+    getInsuranceAmount(insurance) {
+      if (this.selectedInsurance && insurance.id == this.selectedInsurance.id) {
+        this.insuranceAmount = null;
+        this.selectedInsurance = null;
+        this.setAppointmentAmount();
+        this.toggleOtherPaymentSection = false;
+        return;
+      }
+      this.setLoadingState(true);
+      this.selectedInsurance = insurance;
+      Promise.all([
+        userService.getPaymentAmount(
+          this.getUserInfo.mrn_number,
+          this.getSelectedAppointment.id,
+          insurance.scheme_id,
+          this.serviceBaseRate.service_code
+        ),
+      ])
+        .then((res) => {
+          let paymentAmount = res[0].data.data;
+          this.paymentAmount = paymentAmount;
+          this.insuranceAmount =
+            +paymentAmount.PatientShare + +paymentAmount.PatientTax;
+          this.setAppointmentAmount();
+        })
+        .catch(() => {
+          this.failureToast();
+          this.setLoadingState(false);
+        })
+        .finally(() => {
+          this.setLoadingState(false);
+        });
+    },
+    createPayment() {
+      let paymentVerifyObject = {
+        appointment_id: this.getSelectedAppointment.id,
+        service_value: this.paymentAmount ? this.paymentAmount.Amount : 0,
+        service_discount: this.paymentAmount
+          ? this.paymentAmount.Discount
+          : this.serviceBaseRate.discount,
+        service_tax: this.paymentAmount
+          ? this.paymentAmount.ServiceTax
+          : this.serviceBaseRate.service_tax,
+        service_net_amount: this.paymentAmount
+          ? this.paymentAmount.NetAmount
+          : this.serviceBaseRate.discount + this.serviceBaseRate.service_tax,
+        patient_amount: this.paymentAmount
+          ? this.paymentAmount.PatientShare
+          : this.serviceBaseRate.patient_amount,
+        patient_tax: this.paymentAmount ? this.paymentAmount.PatientTax : 0,
+        patient_share_total: this.paymentAmount
+          ? +this.paymentAmount.PatientShare + +this.paymentAmount.PatientTax
+          : this.serviceBaseRate.patient_amount,
+        is_free_consultation: this.paymentAmount
+          ? this.paymentAmount.FreeConsultation
+          : 0,
+        patient_scheme_id: this.selectedInsurance
+          ? this.selectedInsurance.scheme_id
+          : 1,
+        wallet_payment_amount: this.getWalletDeductionAmount(),
+        gateway_payment_amount: 4.5,
+        gateway_payment_ref: "GATEWAY TRX REF",
+        receipt_date: this.formatReceiptDateTime(new Date()),
+      };
+      localStorage.setItem(
+        "paymentVerifyObject",
+        JSON.stringify(paymentVerifyObject)
+      );
+      if (this.appointmentAmount !== 0) {
+        this.navigateTo("Pay Now");
+      } else {
+        this.doPayment();
+      }
+    },
+    doPayment() {
+      let paymentVerifyObject = JSON.parse(
+        localStorage.getItem("paymentVerifyObject")
+      );
+      localStorage.removeItem("paymentVerifyObject");
+      this.setLoadingState(true);
+      appointmentService
+        .createPayment(paymentVerifyObject)
+        .then((res) => {
+          let response = res.data;
+          this.setLoadingState(false);
+          if (response && response.status) {
+            if (
+              response.data.items[0].operation_status
+                .toLowerCase()
+                .includes("fail")
+            ) {
+              this.successIconModal(
+                this.$t("selectPaymentMethod.paymentFailed"),
+                response.data.items[0][
+                  this.getLocaleKey("operation_message", "lower", "", "_ar")
+                ],
+                "m-payment-failure"
+              );
+              return;
+            }
+            this.successIconModal(
+              this.$t("selectPaymentMethod.paymentSuccessful"),
+              this.$t("selectPaymentMethod.paymentSuccessfulText"),
+              "m-payment-success"
+            ).then(() => {
+              this.navigateTo("default");
+            });
+          } else {
+            this.failureToast();
+          }
+        })
+        .catch(() => {
+          this.setLoadingState(false);
+          this.failureToast();
+        });
     },
   },
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.useButton {
+  border-color: var(--theme-default);
+  color: var(--theme-tertiary) !important;
+  &.used {
+    background-color: var(--theme-default);
+  }
+  &.disabled {
+    cursor: default;
+  }
+}
+.select-payment-method-container {
+  .payment-method--item {
+    &.payment-dropdown-section {
+      display: block;
+      position: relative;
+      padding-top: 3rem;
+      padding-bottom: 1rem;
+      margin-top: -2rem;
+      border: 2px solid var(--theme-default);
+      z-index: -1;
+      .payment-dropdown-option {
+        font-size: 1rem;
+        padding-block: 0.5rem;
+        &:hover,
+        &.selected {
+          color: var(--theme-default);
+        }
+        &:hover {
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+}
+.receipt-details {
+  position: absolute;
+  top: 0;
+  right: 0;
+  .heading {
+    font-size: 1.75rem;
+    padding-block: 0.5rem;
+    border-bottom: 1px solid #eaeaea;
+  }
+  .details-group {
+    padding-top: 0.25rem;
+    &-item {
+      padding-block: 0.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1rem;
+      color: #8696b8;
+      &.total {
+        border-top: 1px solid #eaeaea;
+        margin-top: 0.25rem;
+        padding-top: 0.5rem;
+        font-weight: 600;
+        color: #000;
+      }
+    }
+  }
+}
 </style>

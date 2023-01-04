@@ -12,6 +12,7 @@ export const authService = {
     verifyOtp,
     resetPassword,
     getNationalities,
+    getNationalitiesV1,
     getDepartments
 }
 
@@ -40,8 +41,7 @@ function login(payload) {
 }
 function loginDoctor(payload) {
     let data = {
-        "field_name": payload.method,
-        "username": payload.username,
+        "doctor_id": payload.username,
         "password": payload.password,
     }
     return axios({
@@ -98,6 +98,12 @@ function getNationalities() {
     return axios({
         method: apiPath.register.getNationalities.method,
         url: apiPath.register.getNationalities.url
+    })
+}
+function getNationalitiesV1() {
+    return axios({
+        method: apiPath.register.getNationalitiesV1.method,
+        url: apiPath.register.getNationalitiesV1.url
     })
 }
 function getDepartments() {

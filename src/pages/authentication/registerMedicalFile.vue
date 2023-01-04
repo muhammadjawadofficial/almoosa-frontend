@@ -156,8 +156,7 @@ export default {
     validateForm() {
       this.registerFormState.phone_number = this.validPhoneNumber;
       this.registerFormState.userId =
-        this.userId != "" &&
-        this.userId.length == this.selectedItem.validation;
+        this.userId != "" && this.userId.length == this.selectedItem.validation;
       return !Object.values(this.registerFormState).includes(false);
     },
     doRegister() {
@@ -218,6 +217,9 @@ export default {
     },
     itemSelected(item) {
       this.selectedItem = item;
+      this.loginOptions.forEach((option) => {
+        delete this.registerForm[option.method];
+      });
     },
   },
 };

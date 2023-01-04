@@ -71,6 +71,9 @@ export default {
   },
   mounted() {
     this.setUserInfo(userService.currentUser());
+    if (userService.currentUser().is_privacy_agreed || this.isDoctor) {
+      this.navigateTo("default");
+    }
   },
   methods: {
     ...mapActions("user", ["removeUserInfo"]),

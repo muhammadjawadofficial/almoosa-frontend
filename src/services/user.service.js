@@ -24,8 +24,11 @@ export const userService = {
     updateV1Profile,
     updateProfile,
     getProfile,
+    getDoctorProfile,
     getProfileById,
-    getUserWalletAmount
+    getUserWalletAmount,
+    getServiceBaseRate,
+    getPaymentAmount
 };
 
 import axios from "axios";
@@ -140,6 +143,12 @@ function getProfile(profile, mrn) {
         url: apiPath.user.getProfile(profile, mrn).url,
     })
 }
+function getDoctorProfile(id) {
+    return axios({
+        method: apiPath.user.getDoctorProfile(id).method,
+        url: apiPath.user.getDoctorProfile(id).url,
+    })
+}
 function getProfileById(id) {
     return axios({
         method: apiPath.user.getProfileById(id).method,
@@ -150,5 +159,32 @@ function getUserWalletAmount() {
     return axios({
         method: apiPath.user.getWalletAmount(currentUser().id).method,
         url: apiPath.user.getWalletAmount(currentUser().id).url,
+    })
+}
+function getServiceBaseRate(mrn, doctorId, appointmentId) {
+    let data = {
+        "mrn_number": mrn,
+        "doctor_id": doctorId,
+        "appointment_id": appointmentId
+    }
+    return axios({
+        method: apiPath.user.getServiceBaseRate.method,
+        url: apiPath.user.getServiceBaseRate.url,
+        data
+    })
+}
+function getPaymentAmount(mrn, appointmentId, schemeId, serviceId) {
+    let data = {
+        "Mrno": mrn,
+        "ApptAllocationID": appointmentId,
+        "PatientSchemeID": schemeId,
+        "ServiceID": serviceId,
+    }
+    return axios({
+        method: apiPath.user.getPaymentAmount.method,
+        url: apiPath.user.getPaymentAmount.url,
+        // method: "get",
+        // url: 'http://localhost:8008/paymentAmount.json',
+        data
     })
 }

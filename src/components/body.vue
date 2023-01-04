@@ -140,7 +140,7 @@ export default {
     checkTermsAndConditions() {
       let userInfo = userService.currentUser();
       this.setUserInfo(userInfo);
-      if (!userInfo.is_privacy_agreed) {
+      if (!userInfo.is_privacy_agreed && !this.isDoctor) {
         this.navigateTo("Terms and Condition");
       }
     },

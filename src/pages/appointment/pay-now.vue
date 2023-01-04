@@ -3,7 +3,7 @@
     <iframe
       v-if="getPaymentObject"
       @load="iframeIsLoaded"
-      :src="`https://devbatch-almoosa.loca.lt/api/v1/payments?amount=${
+      :src="`http://172.16.249.108:3000/api/v1/payments?amount=${
         getPaymentObject.amount
       }&currency=${getPaymentObject.currency}${
         getPaymentObject.method ? '&method=' + getPaymentObject.method : ''

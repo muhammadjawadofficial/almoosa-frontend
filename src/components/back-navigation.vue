@@ -38,6 +38,7 @@ export default {
   display: flex;
   align-items: center;
   gap: 1.625rem;
+  z-index: 5;
   .text {
     font-size: 1.75rem;
     display: flex;

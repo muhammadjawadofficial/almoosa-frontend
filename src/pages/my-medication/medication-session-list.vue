@@ -91,7 +91,7 @@ export default {
     ...mapActions("myMedication", ["setSelectedMedicationSession"]),
     fetchTimelines() {
       this.setLoadingState(true);
-      medicationService.getAppointmentMedication(this.getUserInfo.id).then(
+      medicationService.getAppointmentMedication(this.getUserInfo.mrn_number).then(
         (response) => {
           if (response.data.status) {
             let data = response.data.data.items;

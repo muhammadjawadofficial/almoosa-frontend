@@ -1,6 +1,6 @@
 <template>
   <div class="login-dashboard">
-    <div class="consultation-section">
+    <div class="consultation-section pb-0">
       <div class="consultation-section--heading">
         {{ $t("dashboard.letsConsult") }}
         {{ $t("dashboard.withOurSpecialist") }}
@@ -93,6 +93,8 @@ export default {
         } else {
           this.navigateTo(item.link);
         }
+      } else {
+        this.navigateTo("Coming Soon Guest");
       }
     },
   },

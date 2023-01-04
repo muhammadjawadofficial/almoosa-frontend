@@ -94,7 +94,7 @@
                       </div>
                       <div class="appointment-details">
                         <div class="doctor-name w600">
-                          {{ insurance.company_name }}
+                          {{ insurance.service_name }}
                         </div>
                         <div class="doctor-speciality">
                           {{ insurance.medical_support }}
@@ -181,7 +181,7 @@ export default {
       let status = statusTemp || "";
       if (
         status.toLowerCase() == "pending" ||
-        status.toLowerCase() == "sent for approval"
+        status.toLowerCase().includes("approval")
       )
         return "warning";
       else if (status.toLowerCase() == "rejected") return "danger";

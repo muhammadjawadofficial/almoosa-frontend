@@ -32,7 +32,10 @@
                 </div>
                 <div class="doctor-details-card-header-right-info-user">
                   <div class="user-id">
-                    {{ getUserInfo.mrn_number || "N/A" }}
+                    {{
+                      (isDoctor ? getUserInfo.id : getUserInfo.mrn_number) ||
+                      "N/A"
+                    }}
                   </div>
                 </div>
                 <div class="doctor-details-card-header-right-info-section">
@@ -539,8 +542,8 @@ export default {
     checkDropdownValues() {
       this.setLoadingState(true);
       Promise.all([
-        authService.getNationalities(),
-        appointmentService.getClinics(),
+        authService.getNationalitiesV1(),
+        appointmentService.getClinicsV1(),
         appointmentService.getSpecialities(),
       ])
         .then((res) => {
@@ -596,20 +599,40 @@ export default {
       if (this.getUserInfo.isDependent) {
         this.getUserData();
       } else {
-        this.getLoggedInUserData();
+        if (this.isDoctor) this.getDoctorProfile();
+        else this.getLoggedInUserData();
       }
+    },
+    getDoctorProfile() {
+      this.setLoadingState(true);
+      userService.getDoctorProfile(this.getUserInfo.id).then(
+        (res) => {
+          if (res.data.status) {
+            this.updateUserInfo(res.data.data.items[0]);
+            this.resetData();
+          } else {
+            this.failureToast(res.data.message);
+          }
+          this.setLoadingState(false);
+        },
+        (error) => {
+          this.setLoadingState(false);
+          this.failureToast();
+          console.error(error);
+        }
+      );
     },
     getLoggedInUserData() {
       this.setLoadingState(true);
       userService
         .getProfile(
           this.isDoctor ? "doctor" : "patient",
-          this.getUserInfo.mrn_number
+          this.isDoctor ? this.getUserInfo.id : this.getUserInfo.mrn_number
         )
         .then(
           (res) => {
             if (res.data.status) {
-              this.setUserInfo(res.data.data);
+              this.updateUserInfo(res.data.data);
               this.resetData();
             } else {
               this.failureToast(res.data.message);
@@ -628,7 +651,7 @@ export default {
       userService.getProfileById(this.getUserInfo.id).then(
         (res) => {
           if (res.data.status) {
-            this.setUserInfo(res.data.data.items[0]);
+            this.updateUserInfo(res.data.data.items[0]);
             this.resetData();
           } else {
             this.failureToast(res.data.message);
@@ -701,8 +724,9 @@ export default {
         let updateUserObj = {};
         if (this.isDoctor) {
           if (
+            this.getUserInfo.clinics &&
             this.getUserInfo.clinics.map((x) => x.id).join(",") !==
-            this.doctor.clinics.map((x) => x.id).join(",")
+              this.doctor.clinics.map((x) => x.id).join(",")
           ) {
             updateUserObj.clinics = this.doctor.clinics.map((x) => x.id);
           }
@@ -734,8 +758,9 @@ export default {
           }
         } else {
           updateUserObj = {
-            location: this.address,
-            phone_number: this.phoneNumber,
+            address: this.address,
+            mobile_number: this.phoneNumber,
+            mrn_number: this.getUserInfo.mrn_number,
           };
         }
         this.updateProfileInfo(updateUserObj);
@@ -745,7 +770,11 @@ export default {
     },
     updateProfileInfo(data) {
       this.setLoadingState(true);
-      userService.updateProfile(data).then(
+      let v1;
+      v1 = this.isDoctor
+        ? userService.updateV1Profile(data)
+        : userService.updateProfile(data);
+      v1.then(
         (res) => {
           if (res.data.status) {
             this.getProfileData();
@@ -754,7 +783,6 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           this.setLoadingState(false);

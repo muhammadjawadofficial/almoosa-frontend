@@ -65,6 +65,7 @@
     </div>
     <div
       class="specialist-section find-specialist-container-section block-section"
+      style="position: relative"
     >
       <div class="heading-section">
         <div class="heading-icon">
@@ -79,12 +80,28 @@
           </div>
         </div>
       </div>
+      <div
+        class="search-box"
+        :class="{ 'top-no-padding': getBookingMethod == 'online' }"
+      >
+        <div class="search-icon">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </div>
+        <div class="search-input">
+          <b-form-input
+            :placeholder="$t('findSpecialist.searchSpeciality')"
+            id="type-search"
+            type="search"
+            v-model="searchQuery"
+          ></b-form-input>
+        </div>
+      </div>
       <div class="body-section">
         <div class="specialities-container">
           <div
             class="speciality"
             :class="{ active: selectedSpeciality.id == speciality.id }"
-            v-for="speciality in specialities"
+            v-for="speciality in filteredSpecialities"
             :key="'find-speciality-' + speciality.id"
             @click="setSelectedSpeciality(speciality)"
           >
@@ -102,7 +119,7 @@
           </div>
           <div
             class="no-data pt-0"
-            v-else-if="!specialities || !specialities.length"
+            v-else-if="!filteredSpecialities || !filteredSpecialities.length"
           >
             {{ $t("noData") }}
           </div>
@@ -154,6 +171,8 @@ export default {
       selectedClinic: {},
       selectedSpeciality: {},
       selectedDate: null,
+      filteredSpecialities: [],
+      searchQuery: "",
     };
   },
   computed: {
@@ -167,6 +186,13 @@ export default {
   watch: {
     "$route.params.method": function () {
       this.setSelectedMethod();
+    },
+    searchQuery(val) {
+      this.filteredSpecialities = [
+        ...this.specialities.filter((x) =>
+          x.title.toLowerCase().includes(val.toLowerCase())
+        ),
+      ];
     },
   },
   mounted() {
@@ -209,6 +235,7 @@ export default {
           let specialitiesResponse = res[1].data;
           if (specialitiesResponse.status) {
             this.specialities = specialitiesResponse.data.items;
+            this.filteredSpecialities = [...this.specialities];
           } else {
             this.failureToast(specialitiesResponse.message);
           }

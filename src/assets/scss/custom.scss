@@ -1013,8 +1013,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         align-items: center;
         gap: 0.5rem;
         position: absolute;
-        top: 4.5rem;
+        top: 2.5rem;
         right: 0;
+        &.top-padding {
+            top: 4.5rem;
+        }
+        &.top-no-padding {
+            top: 0;
+        }
     }
     &-input {
         width: 20.438rem;
@@ -1535,6 +1541,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 }
 .select-payment-method-container {
+    .custom-switch {
+        .custom-control-label {
+            &::before {
+            }
+        }
+    }
     .payment-method {
         padding-block: 1rem 4rem;
         isolation: isolate;
@@ -1652,13 +1664,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                 }
                 &--info {
                     display: flex;
-                    gap: 5rem;
+                    width: 11rem;
+                    justify-content: space-between;
                     align-items: center;
                     font-size: 1.25rem;
                     white-space: nowrap;
                 }
                 &--price {
-                    font-size: 1.5rem;
                     color: $primary-color;
                 }
             }

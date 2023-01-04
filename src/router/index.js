@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from "vue-router";
 
+import ComingSoon from '../pages/coming-soon'
+
 import Body from '../components/body'
 import AuthBody from '../components/auth_body'
 import AuthBodyPatient from '../components/auth_body_patient'
@@ -92,6 +94,14 @@ const routes = [
     path: '/',
     component: Body,
     children: [
+      {
+        path: 'coming-soon',
+        name: 'Coming Soon',
+        component: ComingSoon,
+        meta: {
+          title: 'Coming Soon | Almoosa Specialist Hospital'
+        }
+      },
       {
         path: 'dashboard',
         name: 'default',
@@ -569,6 +579,15 @@ const routes = [
             component: GuestUserModule,
             children: [
               {
+                path: 'coming-soon',
+                name: 'Coming Soon Guest',
+                component: ComingSoon,
+                meta: {
+                  title: 'Coming Soon | Almoosa Specialist Hospital',
+                  public: true
+                }
+              },
+              {
                 path: 'appointment',
                 component: AppointmentModule,
                 children: [
@@ -655,8 +674,11 @@ const routes = [
           },
         ]
       },
-
     ]
+  },
+  {
+    path: '*',
+    redirect: '/coming-soon'
   }
 ];
 

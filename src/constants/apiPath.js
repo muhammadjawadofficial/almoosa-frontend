@@ -1,13 +1,14 @@
-let basePath = process.env.VUE_APP_API_BASE_URL;
-
-let getApiObject = (method, url, version = "v1", pre = basePath) => {
-    return { method, url: pre + "api/" + version + "/" + url };
+let getApiObject = (method, url, version = "v1", pre = null) => {
+    let versionKey = version.toUpperCase();
+    let envKey = 'VUE_APP_API_' + versionKey + '_BASE_URL';
+    let baseUrl = pre || process.env[envKey];
+    return { method, url: baseUrl + "api/" + version + "/" + url };
 }
 
 export const apiPath = {
     //Login
     login: {
-        doctor: getApiObject("post", "auth/doctor/login"),
+        doctor: getApiObject("post", "auth/doctor/login", "v2"),
         viaPassword: getApiObject("post", "auth/patient/login"),
         viaOTP: getApiObject("post", "otp/send"),
         verifyOTP: getApiObject("post", "otp/verify"),
@@ -17,9 +18,10 @@ export const apiPath = {
     register: {
         patient: getApiObject("post", "auth/patient/register"),
         uploadId: getApiObject("post", "mediafiles/upload"),
-        getNationalities: getApiObject("get", "nationalities", 'v2', process.env.VUE_APP_API_V2_BASE_URL),
+        getNationalities: getApiObject("get", "nationalities", 'v2'),
+        getNationalitiesV1: getApiObject("get", "nationalities"),
         getDepartments: getApiObject("get", "departments"),
-        medicalFile: getApiObject("post", "auth/patient/register", "v2", process.env.VUE_APP_API_V2_BASE_URL),
+        medicalFile: getApiObject("post", "auth/patient/register", "v2"),
     },
 
     loginOtp: {
@@ -28,9 +30,11 @@ export const apiPath = {
     },
 
     appointment: {
-        upcoming: (id) => getApiObject("get", "appointments/upcoming?" + id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
-        clinics: getApiObject("get", "clinics", "v2", process.env.VUE_APP_API_V2_BASE_URL),
-        specialities: getApiObject("get", "specialities", "v2", process.env.VUE_APP_API_V2_BASE_URL),
+        upcoming: (id) => getApiObject("get", "appointments/upcoming?" + id, "v2"),
+        clinics: getApiObject("get", "clinics", "v2"),
+        clinicsV1: getApiObject("get", "clinics"),
+        specialities: getApiObject("get", "specialities", "v2"),
+        specialitiesV1: getApiObject("get", "specialities"),
         findDoctors: (speciality, date, clinic) => {
             let queryString = '?';
             if (speciality) {
@@ -45,15 +49,16 @@ export const apiPath = {
             if (queryString == "?") {
                 queryString = '';
             }
-            return getApiObject("get", "users/doctors" + queryString, "v2", process.env.VUE_APP_API_V2_BASE_URL);
+            return getApiObject("get", "users/doctors" + queryString, "v2");
         },
-        fetchTimeslots: (doctor, date) => getApiObject("get", "timeslots?doctor_id=" + doctor + (date ? "&dated=" + date : ''), "v2", process.env.VUE_APP_API_V2_BASE_URL),
-        createAppointment: getApiObject("post", "appointments", "v2", process.env.VUE_APP_API_V2_BASE_URL),
-        updateAppointment: getApiObject("post", "appointments/reschedule"),
-        cancelAppointment: getApiObject("post", "appointments/cancel", "v2", process.env.VUE_APP_API_V2_BASE_URL),
-        todayAppointment: (id) => getApiObject("get", "appointments/today?doctor_id=" + id, 'v2', process.env.VUE_APP_API_V2_BASE_URL),
+        fetchTimeslots: (doctor, date, type) => getApiObject("get", "timeslots?doctor_id=" + doctor + (date ? "&dated=" + date : '') + (type ? "&type=" + type : ''), "v2"),
+        createAppointment: getApiObject("post", "appointments", "v2"),
+        updateAppointment: getApiObject("post", "appointments/reschedule", "v2"),
+        cancelAppointment: getApiObject("post", "appointments/cancel", "v2"),
+        todayAppointment: (id) => getApiObject("get", "appointments/today?doctor_id=" + id, 'v2'),
         ratePhysician: (id) => getApiObject("patch", "doctor/rating/" + id),
-        fetchAppointmentHistory: (patient_id, doctor_id) => getApiObject("get", "appointments/history?mrn_number=" + patient_id + "&doctor_id=" + doctor_id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
+        fetchAppointmentHistory: (patient_id, doctor_id) => getApiObject("get", "appointments/history?mrn_number=" + patient_id + "&doctor_id=" + doctor_id, "v2"),
+        createPayment: getApiObject("post", "payments/create", "v2"),
     },
 
     promotions: {
@@ -62,36 +67,40 @@ export const apiPath = {
     },
 
     timeline: {
-        details: (id) => getApiObject("get", "timelines?appointment_id=" + id),
+        sessions: (id) => getApiObject("get", "timelines?mrn_number=" + id, "v2"),
+        details: (mrn, id) => getApiObject("get", "timelines/details?mrn_number=" + mrn + "&id=" + id, "v2"),
     },
 
     reports: {
-        getAppointmentHistory: (id) => getApiObject("get", "appointments/history?mrn_number=" + id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
-        getAppointmentMedication: (id) => getApiObject("get", "appointments/with-medications?mrn_number=" + id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
-        getMedications: (id) => getApiObject("get", "medications?appointment_id=" + id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
+        getAppointmentHistory: (id) => getApiObject("get", "appointments/history?mrn_number=" + id, "v2"),
+        getAppointmentMedication: (id) => getApiObject("get", "appointments/with-medications?mrn_number=" + id, "v2"),
+        getMedications: (id) => getApiObject("get", "medications?appointment_id=" + id + "&is_active=2  ", "v2"),
         getReminderSlots: getApiObject("get", "reminder-slots"),
         setReminder: (id) => getApiObject("patch", "medications/" + id),
-        appointmentWithReports: (id, type) => getApiObject("get", "appointments/reports?mrn_number=" + id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
-        reportsWithAppointments: (id) => getApiObject("get", "reports?appointment_id=" + id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
+        appointmentWithReports: (id, type) => getApiObject("get", "appointments/reports?mrn_number=" + id, "v2"),
+        reportsWithAppointments: (id) => getApiObject("get", "reports?appointment_id=" + id, "v2"),
     },
 
     user: {
-        updateProfile: (id) => getApiObject("patch", "users/" + id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
+        updateProfile: (id) => getApiObject("patch", "users/" + id, "v2"),
         updateV1Profile: (id) => getApiObject("patch", "users/" + id),
         getProfile: (profile, mrn) => getApiObject("get", "auth/" + profile + "/profile?mrn_number=" + mrn, (profile == 'doctor' ? 'v1' : "v2"), profile == 'doctor' ? process.env.VUE_APP_API_BASE_URL : process.env.VUE_APP_API_V2_BASE_URL),
+        getDoctorProfile: (id) => getApiObject("get", "users?id=" + id),
         getProfileById: (id) => getApiObject("get", "users/?id=" + id),
-        getWalletAmount: (id) => getApiObject("get", "payments/wallet?mrn_number=" + id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
+        getWalletAmount: (id) => getApiObject("get", "payments/wallet?mrn_number=" + id, "v2"),
+        getServiceBaseRate: getApiObject("post", "payments/service/rate", "v2"),
+        getPaymentAmount: getApiObject("post", "payments/amount", "v2", "http://172.16.249.108:3000/"),
     },
 
     patient: {
         criticalCare: (id) => getApiObject("get", "users?physician_id=" + id + "&is_critical_care=1"),
-        inPatients: (id) => getApiObject("get", "users/inpatient?physician_id=" + id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
+        inPatients: (id) => getApiObject("get", "users/inpatient?doctor_id=" + id, "v2"),
     },
 
     insurance: {
         addNew: getApiObject("post", "insurances"),
-        services: (id) => getApiObject("get", "insurances/services?mrn_number=" + id, "v2", process.env.VUE_APP_API_V2_BASE_URL),
-        fetch: (id) => getApiObject("get", "insurances?mrn_number=" + id + "&sort=-id", "v2", process.env.VUE_APP_API_V2_BASE_URL),
+        services: (id) => getApiObject("get", "insurances/services?mrn_number=" + id, "v2"),
+        fetch: (id) => getApiObject("get", "insurances?mrn_number=" + id + "&sort=-id", "v2"),
     },
 
     healthEducation: {

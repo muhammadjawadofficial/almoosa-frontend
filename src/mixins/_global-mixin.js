@@ -68,7 +68,7 @@ export default {
              * 5. if input is not a number and the number is not a number, return the number by removing all non-numbers
              * 6. if input is not a number and the number is a number, return the number
              */
-            if (isNaN(input)) {
+            if (isNaN(input) || input == ' ') {
                 return number.replace(/[^0-9]/g, "");
             } else {
                 return number;
@@ -83,12 +83,22 @@ export default {
              * 1. if input is a telephone number of saudi format, return the number
              * 2. if input is not a telephone number of saudi format, return the number without valid characters
              */
-            if (input.type == "input" && !((0 <= input.data && input.data <= 9) || input.data == "+")) {
+            if (input.data == ' ' || input.type == "input" && !((0 <= input.data && input.data <= 9) || input.data == "+")) {
                 return number.replace(/[^0-9+]/g, "");
             } else {
                 return number;
             }
         },
+        alphabetsOnly(string, input) {
+            /**
+             * @param {string} string
+             * @param {string} input
+             * @returns {string}
+             */
+            let regex = /[^a-zA-Z ]/g;
+            return string.replace(regex, "");
+        },
+
         confirmModal(title, confirmText, cancelText) {
             return this.$swal({
                 text: title || this.$t('areYouSure'),
@@ -412,6 +422,9 @@ export default {
         formatNotificationTime(date, utc = false) {
             return this.dateFormatter(date, 'MMMM YYYY - hh:mm A', utc)
         },
+        formatReceiptDateTime(date, utc = false) {
+            return this.dateFormatter(date, 'YYYY-MM-DD HH:mm:ss', utc)
+        },
         isDateSame(date1, date2) {
             let fdate1 = this.formatDate(new Date(date1));
             let fdate2 = this.formatDate(new Date(date2));
@@ -493,6 +506,9 @@ export default {
             })
         },
         getFullName(user) {
+            if (!user) {
+                return 'N/A'
+            }
             let parseName = (name) => name ? name + " " : "";
             let fullName = parseName(user[this.getLocaleKey('first_name', 'lower', '', '_ar')]) + parseName(user[this.getLocaleKey('middle_name', 'lower', '', '_ar')]) + parseName(user[this.getLocaleKey('family_name', 'lower', '', '_ar')]);
             return fullName.trim();

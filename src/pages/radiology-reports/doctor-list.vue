@@ -36,7 +36,7 @@
                 <div class="appointment-time-time">
                   {{
                     appointment.start_time
-                      ? getTimeFromDate(appointment.start_time)
+                      ? getTimeFromDate(appointment.start_time, true)
                       : ""
                   }}
                 </div>
@@ -59,12 +59,13 @@
                     <div class="appointment-time-span">
                       {{
                         appointment.start_time
-                          ? getTimeFromDate(appointment.start_time) + " - "
+                          ? getTimeFromDate(appointment.start_time, true) +
+                            " - "
                           : ""
                       }}
                       {{
                         appointment.end_time
-                          ? getTimeFromDate(appointment.end_time)
+                          ? getTimeFromDate(appointment.end_time, true)
                           : ""
                       }}
                     </div>
@@ -105,7 +106,7 @@ export default {
     fetchAppointments() {
       this.setLoadingState(true);
       reportService
-        .getAppointmentsWithReports(this.getUserInfo.id, "radiology")
+        .getAppointmentsWithReports(this.getUserInfo.mrn_number, "radiology")
         .then(
           (response) => {
             if (response.data.status) {

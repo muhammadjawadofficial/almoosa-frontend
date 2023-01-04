@@ -1,7 +1,7 @@
 <template>
   <div class="lab-works-doctors-container page-body-container standard-width">
     <back-navigation :title="$t('inPatients.title')" />
-    <div class="search-box">
+    <div class="search-box top-padding">
       <div class="search-icon">
         <i class="fa fa-search" aria-hidden="true"></i>
       </div>

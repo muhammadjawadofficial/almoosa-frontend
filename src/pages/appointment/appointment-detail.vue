@@ -5,7 +5,7 @@
       :title="$t('appointmentDetail.heading')"
       :subTitle="$t('appointmentDetail.subHeading')"
     />
-    <div class="search-box">
+    <div class="search-box top-padding">
       <button
         class="btn btn-secondary"
         @click="navigateTo('Appointment History')"
@@ -45,7 +45,7 @@
                 </div>
                 <div class="appointment-detail--value">
                   {{
-                    (isDoctor ? $t("dr") + " " : "") +
+                    (!isDoctor ? $t("dr") + " " : "") +
                     getFullName(details[isDoctor ? "patient" : "doctor"])
                   }}
                 </div>
@@ -59,9 +59,9 @@
                 </div>
                 <div class="appointment-detail--value" v-else>
                   {{
-                    details.doctor.speciality
-                      ? details.doctor.speciality.title
-                      : "N/A"
+                    details.doctor[
+                      getLocaleKey("speciality", "lower", "", "_ar")
+                    ] || "N/A"
                   }}
                 </div>
               </div>
@@ -93,7 +93,9 @@
                 <div class="appointment-detail--communication">
                   <button
                     class="btn btn-secondary"
-                    v-if="details.status == 'pending' && !isDoctor"
+                    v-if="
+                      details.status.toLowerCase() == 'pending' && !isDoctor
+                    "
                     @click="makePayment"
                   >
                     {{ $t("bookAppointment.payNow") }}
@@ -147,6 +149,7 @@ export default {
       "setBookingEndTime",
       "setBookingDoctor",
       "setBookingAmount",
+      "setBookingMethod",
       "setIsReschedule",
       "setPaymentObject",
     ]),
@@ -204,6 +207,7 @@ export default {
       this.setBookingEndTime(this.details.end_time);
       this.setBookingAmount(this.details.amount);
       this.setIsReschedule(this.details.id);
+      this.setBookingMethod(this.details.type);
       this.navigateTo("Doctor Details");
     },
     cancelAppointment() {
@@ -247,7 +251,7 @@ export default {
     ...mapGetters("appointment", ["getSelectedAppointment", "getIsReschedule"]),
     ...mapGetters("user", ["getUserInfo"]),
     doctorSpeciality() {
-      return this.getUserInfo.speciality || "N/A";
+      return this.getUserInfo.speciality[this.getLocaleKey('title', 'lower', '', '_ar')] || "N/A";
     },
   },
 };
