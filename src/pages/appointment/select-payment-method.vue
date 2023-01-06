@@ -247,11 +247,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import {
-  appointmentService,
-  insuranceService,
-  userService,
-} from "../../services";
+import { insuranceService, userService } from "../../services";
 export default {
   data() {
     return {
@@ -493,48 +489,6 @@ export default {
       } else {
         this.doPayment();
       }
-    },
-    doPayment() {
-      let paymentVerifyObject = JSON.parse(
-        localStorage.getItem("paymentVerifyObject")
-      );
-      localStorage.removeItem("paymentVerifyObject");
-      this.setLoadingState(true);
-      appointmentService
-        .createPayment(paymentVerifyObject)
-        .then((res) => {
-          let response = res.data;
-          this.setLoadingState(false);
-          if (response && response.status) {
-            if (
-              response.data.items[0].operation_status
-                .toLowerCase()
-                .includes("fail")
-            ) {
-              this.successIconModal(
-                this.$t("selectPaymentMethod.paymentFailed"),
-                response.data.items[0][
-                  this.getLocaleKey("operation_message", "lower", "", "_ar")
-                ],
-                "m-payment-failure"
-              );
-              return;
-            }
-            this.successIconModal(
-              this.$t("selectPaymentMethod.paymentSuccessful"),
-              this.$t("selectPaymentMethod.paymentSuccessfulText"),
-              "m-payment-success"
-            ).then(() => {
-              this.navigateTo("default");
-            });
-          } else {
-            this.failureToast();
-          }
-        })
-        .catch(() => {
-          this.setLoadingState(false);
-          this.failureToast();
-        });
     },
   },
 };

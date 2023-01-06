@@ -28,6 +28,7 @@
     "proceedWithSaudiId": "Proceed with Saudi ID",
     "proceedWithNationalId": "Proceed with National ID",
     "proceedWithIqamaId": "Proceed with Iqama ID",
+    "enterLoginId": "Enter the ID Number",
     "enterMRN": "Enter MRN",
     "enterSaudiId": "Enter Saudi ID",
     "enterNationalId": "Enter National ID",
@@ -35,6 +36,7 @@
     "enterPassword": "Enter Password",
     "enterPatientId": "Enter Patient ID",
     "enterId": "Enter ID",
+    "selectNationalityId": "Choose the type of national ID",
     "rememberMe": "Remember Me",
     "enterVerificationCode": "Enter Verification Code",
     "enterRegisterId": "Enter your registered email or phone number",
@@ -56,7 +58,7 @@
       "title": "Registered Successfully",
       "text": "You have been registered, the submitted information will be reviewed by the hospital and we will get back to you. Meanwhile you can enjoy our pre-login features",
       "ok": "Contact us",
-      "selectToContinue": "Click one of the button to continue",
+      "selectToContinue": "Do you have a medical file? Register now",
       "iHaveMedicalFile": "I have a medical file",
       "iDontHaveMedicalFile": "I don't have a medical file",
       "medicalFileText": "You have been registered successfully. Your ASH Apps credentials have been shared on your registered email and phone number"
@@ -98,7 +100,8 @@
     "saudiIdRequired": "Saudi ID is required",
     "saudiIdLength": "Saudi ID should be {length} digits",
     "idRequired": "Iqama ID Photo is required",
-    "nationalityRequired": "Nationality is required"
+    "nationalityRequired": "Nationality is required",
+    "register": "Register"
   },
   "termsAndConditions": {
     "privacyPolicy": "Privacy Policy",
@@ -259,7 +262,7 @@
   "bookAppointment": {
     "success": "Your Appointment has been booked successfully!",
     "info": "To confirm your appointment, complete the payment process.",
-    "appointment": "Appointment",
+    "appointment": "Appointment Type",
     "onsite": "On-site",
     "online": "Virtual",
     "virtual": "Virtual",
@@ -324,13 +327,15 @@
     "title": "Lab Works",
     "viewDetails": "View Details",
     "reports": "Lab Reports",
-    "appointmentSession": "Appointment Session"
+    "appointmentSession": "Appointment Session",
+    "search": "Search Reports"
   },
   "radiologyReport": {
     "title": "Radiology Reports",
     "viewDetails": "View Details",
     "reports": "Lab Reports",
-    "appointmentSession": "Appointment Session"
+    "appointmentSession": "Appointment Session",
+    "search": "Search Reports"
   },
   "footer": {
     "allRights": "All Rights Reserved By Almoosa Specialist Hospital"
@@ -344,7 +349,10 @@
     "submitted": "Rating Submitted Successfully"
   },
   "criticalCare": {
-    "title": "Critical Patients"
+    "title": "Critical Patients",
+    "lab": "Lab",
+    "radiology": "Radiology",
+    "search": "Search Patient"
   },
   "inPatients": {
     "title": "InPatients"
@@ -359,11 +367,12 @@
     "myInsurance": "My Insurance",
     "approvals": "Approvals",
     "addNewInsurance": "Add New Insurance",
+    "medicalSupport": "Medical Support",
     "policyNum": "Policy Number",
     "planDetails": "Plan Details",
     "lastUpdate": "Last Update On",
     "insuranceCompnayName": "Insurance Company Name",
-    "nationalId": "National ID",
+    "nationalId": "National ID / Saudi ID",
     "uploadId": "Upload Your ID",
     "idUploaded": "Your ID has been uploaded successfully",
     "addInsurance": "Add Insurance",
@@ -437,15 +446,21 @@
     "uploadId": "Upload Profile Photo",
     "enterIqamaNumber": "Enter Your Iqama Number",
     "enterSaudiID": "Enter Your Saudi ID",
+    "enterId": "Enter ID",
     "saudiId": "Saudi ID",
     "iqamaId": "Iqama ID",
     "switchProfile": "Switch Profile"
   },
   "paymentStatus": {
-    "pending": "Pending",
-    "confirmed": "Paid",
+    "unpaid": "Unpaid",
+    "paid": "Paid",
     "cancelled": "Cancelled",
     "success": "Completed"
+  },
+  "approvalStatus": {
+    "sent_for_approval": "Sent for Approval",
+    "approved": "Approved",
+    "rejected": "Rejected"
   },
   "comingSoon": {
     "coming": "Coming",

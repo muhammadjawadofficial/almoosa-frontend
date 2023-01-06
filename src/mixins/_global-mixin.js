@@ -1,4 +1,4 @@
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import { appointmentService, userService } from '../services';
 
 export default {
@@ -10,6 +10,7 @@ export default {
     },
     computed: {
         ...mapGetters("user", ["getUserRole", "getIsGuest", "getLoading"]),
+        ...mapGetters("appointment", ["getSelectedAppointment"]),
         isDoctor() {
             let roleLS = this.getLSRole();
             let roleS = this.getUserRole;
@@ -22,6 +23,7 @@ export default {
         }
     },
     methods: {
+        ...mapActions("appointment", ["setSelectedAppointment"]),
         getLSRole() {
             if (!userService.isAuthenticatedUser()) {
                 return userService.getRole();
@@ -30,20 +32,28 @@ export default {
             }
         },
         getImageUrl(profile) {
-            if (profile && profile.profile_photo_url && profile.profile_photo_url.includes('http')) {
-                let url = profile.profile_photo_url.split('/');
-                let lastPart = url[url.length - 1];
+            let path = '/profile.png'
+            let getPathFromUrl = (url) => {
+                let urlParts = url.split('/');
+                let lastPart = urlParts[urlParts.length - 1];
                 if (lastPart.includes('.')) {
-                    return profile.profile_photo_url;
+                    return url;
                 }
-                return '/profile.png';
+                return path;
             }
-            if (profile) {
+
+            if (profile == null)
+                return path;
+            else if (typeof profile == 'string')
+                return getPathFromUrl(profile);
+            else if (profile.profile_photo_url)
+                return getPathFromUrl(profile.profile_photo_url)
+            else if (profile.path)
                 return process.env.VUE_APP_SERVER + profile.path;
-            }
-            return "/profile.png";
+            else
+                return path;
         },
-        getLocaleKey: function (key, wordCase = "camel", enLocale = "En", arLocale = "Ar") {
+        getLocaleKey: function (key, wordCase = "lower", enLocale = "", arLocale = "_ar") {
             let postKey = this.$i18n.locale == "ar" ? arLocale : enLocale;
             if (wordCase == "upper") {
                 postKey = postKey.toUpperCase();
@@ -89,10 +99,9 @@ export default {
                 return number;
             }
         },
-        alphabetsOnly(string, input) {
+        alphabetsOnly(string) {
             /**
              * @param {string} string
-             * @param {string} input
              * @returns {string}
              */
             let regex = /[^a-zA-Z ]/g;
@@ -392,20 +401,20 @@ export default {
             }
             return this.translateNumber(parsedString);
         },
-        dateFormatter(date, format = 'MMMM Do YYYY, h:mm A', utc = false) {
+        dateFormatter(date, format = 'MMMM Do YYYY, h:mm A', utc = false, locale) {
             if (utc) {
-                return this.moment(date).utc().format(format);
+                return this.moment(date).locale(locale || this.getCurrentLang()).utc().format(format);
             }
-            return this.moment(date).format(format);
+            return this.moment(date).locale(locale || this.getCurrentLang()).format(format);
         },
         formatLongDayDateFromDate(date, utc = true) {
             return this.dateFormatter(date, 'dddd, MMMM DD', utc);
         },
         removeDateTime(date) {
-            return this.dateFormatter(date, "YYYY-MM-DD")
+            return this.dateFormatter(date, "YYYY-MM-DD", false, "en")
         },
         formatDate(date) {
-            return this.dateFormatter(date, "DD-MM-YYYY")
+            return this.dateFormatter(date, "DD-MM-YYYY", false, "en")
         },
         getLongMonthDayFromDate(date) {
             return this.dateFormatter(date, 'MMMM, D dddd')
@@ -423,7 +432,7 @@ export default {
             return this.dateFormatter(date, 'MMMM YYYY - hh:mm A', utc)
         },
         formatReceiptDateTime(date, utc = false) {
-            return this.dateFormatter(date, 'YYYY-MM-DD HH:mm:ss', utc)
+            return this.dateFormatter(date, 'YYYY-MM-DD HH:mm:ss', utc, "en")
         },
         isDateSame(date1, date2) {
             let fdate1 = this.formatDate(new Date(date1));
@@ -510,8 +519,64 @@ export default {
                 return 'N/A'
             }
             let parseName = (name) => name ? name + " " : "";
-            let fullName = parseName(user[this.getLocaleKey('first_name', 'lower', '', '_ar')]) + parseName(user[this.getLocaleKey('middle_name', 'lower', '', '_ar')]) + parseName(user[this.getLocaleKey('family_name', 'lower', '', '_ar')]);
-            return fullName.trim();
+            let fullName = parseName(user[this.getLocaleKey('first_name')]) + parseName(user[this.getLocaleKey('middle_name')]) + parseName(user[this.getLocaleKey('family_name')]);
+            if (!fullName) {
+                fullName = parseName(user.first_name) + parseName(user.middle_name) + parseName(user.family_name)
+            }
+            if (fullName && !user.mrn_number) {
+                fullName = this.$t('dr') + " " + fullName.trim();
+            }
+            return fullName || 'N/A';
+        },
+        doPayment() {
+            this.setLoadingState(true);
+            let booking = userService.getBooking();
+            userService.removeBooking();
+            if (!booking) {
+                booking = this.getSelectedAppointment;
+            }
+            let paymentVerifyObject = JSON.parse(
+                localStorage.getItem("paymentVerifyObject")
+            );
+            localStorage.removeItem("paymentVerifyObject");
+            if (!paymentVerifyObject) {
+                this.navigateTo("default");
+                return;
+            }
+            appointmentService.createPayment(paymentVerifyObject).then((res) => {
+                let response = res.data;
+                this.setLoadingState(false);
+                if (response && response.status) {
+                    if (
+                        response.data.items[0].operation_status
+                            .toLowerCase()
+                            .includes("fail")
+                    ) {
+                        this.successIconModal(
+                            this.$t("selectPaymentMethod.paymentFailed"),
+                            response.data.items[0][
+                            this.getLocaleKey("operation_message", "lower", "", "_ar")
+                            ],
+                            "m-payment-failure"
+                        ).then(() => {
+                            this.navigateTo("Appointment Detail");
+                        });
+                        return;
+                    }
+                    if (booking) {
+                        this.setSelectedAppointment({ ...booking, status: 'paid' });
+                    }
+                    this.successIconModal(
+                        this.$t("selectPaymentMethod.paymentSuccessful"),
+                        this.$t("selectPaymentMethod.paymentSuccessfulText"),
+                        "m-payment-success"
+                    ).then(() => {
+                        this.navigateTo("Appointment Detail");
+                    });
+                } else {
+                    this.failureToast();
+                }
+            });
         }
     },
 }

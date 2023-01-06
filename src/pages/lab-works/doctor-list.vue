@@ -47,7 +47,7 @@
                     {{ $t("labWorks.appointmentSession") }}
                   </div>
                   <div class="doctor-speciality">
-                    {{ $t("dr") }} {{ getFullName(appointment.doctor) }}
+                    {{ getFullName(appointment.doctor) }}
                   </div>
                   <div class="appointment-status">
                     <div class="appointment-time-span">
@@ -99,22 +99,24 @@ export default {
     ...mapActions("labwork", ["setSelectedLabWork"]),
     fetchAppointments() {
       this.setLoadingState(true);
-      reportService.getAppointmentsWithReports(this.getUserInfo.mrn_number, "lab").then(
-        (response) => {
-          if (response.data.status) {
-            let data = response.data.data.items;
-            this.reportAppointments = [...data];
-            this.filteredDoctors = [...data];
-          } else {
-            this.failureToast(response.data.messsage);
+      reportService
+        .getAppointmentsWithReports(this.getUserInfo.mrn_number, "lab")
+        .then(
+          (response) => {
+            if (response.data.status) {
+              let data = response.data.data.items;
+              this.reportAppointments = [...data];
+              this.filteredDoctors = [...data];
+            } else {
+              this.failureToast(response.data.messsage);
+            }
+            this.setLoadingState(false);
+          },
+          () => {
+            this.setLoadingState(false);
+            this.failureToast();
           }
-          this.setLoadingState(false);
-        },
-        () => {
-          this.setLoadingState(false);
-          this.failureToast();
-        }
-      );
+        );
     },
     viewDetails(appointment) {
       this.setSelectedLabWork(appointment);

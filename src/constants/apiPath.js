@@ -10,7 +10,7 @@ export const apiPath = {
     login: {
         doctor: getApiObject("post", "auth/doctor/login", "v2"),
         viaPassword: getApiObject("post", "auth/patient/login"),
-        viaOTP: getApiObject("post", "otp/send"),
+        viaOTP: getApiObject("post", "otp/send", "v1", process.env.VUE_APP_API_V2_BASE_URL),
         verifyOTP: getApiObject("post", "otp/verify"),
         resetPassword: getApiObject("post", "password/reset")
     },
@@ -77,19 +77,19 @@ export const apiPath = {
         getMedications: (id) => getApiObject("get", "medications?appointment_id=" + id + "&is_active=2  ", "v2"),
         getReminderSlots: getApiObject("get", "reminder-slots"),
         setReminder: (id) => getApiObject("patch", "medications/" + id),
-        appointmentWithReports: (id, type) => getApiObject("get", "appointments/reports?mrn_number=" + id, "v2"),
+        appointmentWithReports: (id) => getApiObject("get", "appointments/reports?mrn_number=" + id, "v2"),
         reportsWithAppointments: (id) => getApiObject("get", "reports?appointment_id=" + id, "v2"),
     },
 
     user: {
         updateProfile: (id) => getApiObject("patch", "users/" + id, "v2"),
         updateV1Profile: (id) => getApiObject("patch", "users/" + id),
-        getProfile: (profile, mrn) => getApiObject("get", "auth/" + profile + "/profile?mrn_number=" + mrn, (profile == 'doctor' ? 'v1' : "v2"), profile == 'doctor' ? process.env.VUE_APP_API_BASE_URL : process.env.VUE_APP_API_V2_BASE_URL),
+        getProfile: (profile, mrn) => getApiObject("get", "auth/" + profile + "/profile?mrn_number=" + mrn, (profile == 'doctor' ? 'v1' : "v2")),
         getDoctorProfile: (id) => getApiObject("get", "users?id=" + id),
         getProfileById: (id) => getApiObject("get", "users/?id=" + id),
         getWalletAmount: (id) => getApiObject("get", "payments/wallet?mrn_number=" + id, "v2"),
         getServiceBaseRate: getApiObject("post", "payments/service/rate", "v2"),
-        getPaymentAmount: getApiObject("post", "payments/amount", "v2", "http://172.16.249.108:3000/"),
+        getPaymentAmount: getApiObject("post", "payments/amount", "v2"),
     },
 
     patient: {

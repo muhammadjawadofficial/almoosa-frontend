@@ -29,7 +29,7 @@
           .appointment {
             &-time {
               white-space: nowrap;
-              min-width: 4rem;
+              min-width: 7rem;
               &-day {
                 font-size: 1.25rem;
               }
@@ -296,7 +296,7 @@
           .appointment {
             &-card {
               margin-inline-start: 2.375rem;
-              width: calc(100% - 2.375rem - 4rem);
+              width: calc(100% - 2.375rem - 7rem);
             }
           }
           .service-details {

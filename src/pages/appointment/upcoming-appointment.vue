@@ -65,7 +65,6 @@
                       <div class="appointment-details">
                         <div class="doctor-name">
                           {{
-                            (isDoctor ? $t("dr") + " " : "") +
                             getFullName(
                               appointment[isDoctor ? "patient" : "doctor"]
                             )
@@ -108,7 +107,12 @@
                             }}
                           </template>
                           <template v-else>
-                            {{ appointment.status }}
+                            {{
+                              $t(
+                                "paymentStatus." +
+                                  appointment.status.toLowerCase()
+                              )
+                            }}
                           </template>
                         </div>
                       </div>
@@ -165,7 +169,6 @@
                       <div class="appointment-details">
                         <div class="doctor-name">
                           {{
-                            (isDoctor ? $t("dr") + " " : "") +
                             getFullName(
                               appointment[isDoctor ? "patient" : "doctor"]
                             )
@@ -208,7 +211,12 @@
                             }}
                           </template>
                           <template v-else>
-                            {{ appointment.status }}
+                            {{
+                              $t(
+                                "paymentStatus." +
+                                  appointment.status.toLowerCase()
+                              )
+                            }}
                           </template>
                         </div>
                       </div>
@@ -275,7 +283,7 @@ export default {
       this.navigateTo("Appointment Detail");
     },
     getStatusClass(status) {
-      if (status.toLowerCase() == "pending") return "warning";
+      if (status.toLowerCase() == "unpaid") return "warning";
       else if (status.toLowerCase() == "cancelled") return "danger";
       else return "success";
     },

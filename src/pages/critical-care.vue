@@ -1,13 +1,13 @@
 <template>
   <div class="lab-works-doctors-container page-body-container standard-width">
     <back-navigation :title="$t('criticalCare.title')" />
-    <div class="search-box top-padding">
+    <div class="search-box top-padding-3">
       <div class="search-icon">
         <i class="fa fa-search" aria-hidden="true"></i>
       </div>
       <div class="search-input">
         <b-form-input
-          :placeholder="$t('doctorList.search')"
+          :placeholder="$t('criticalCare.search')"
           id="type-search"
           type="search"
           v-model="searchQuery"
@@ -16,14 +16,10 @@
     </div>
     <div class="row">
       <div class="col-sm-12" style="--numberOfTabs: 2">
-        <b-card
-          header-tag="div"
-          no-body
-          class="ash-card card-top-navigation"
-        >
+        <b-card header-tag="div" no-body class="ash-card card-top-navigation">
           <b-card-body class="mt-0">
             <b-tabs pills slot="header" class="tabbed-card">
-              <b-tab :title="$t('upcomingAppointment.virtual')">
+              <b-tab :title="$t('criticalCare.lab')">
                 <div
                   class="appointment-list"
                   :class="{
@@ -72,7 +68,7 @@
                   </template>
                 </div>
               </b-tab>
-              <b-tab :title="$t('upcomingAppointment.virtual')">
+              <b-tab :title="$t('criticalCare.radiology')">
                 <div
                   class="appointment-list"
                   :class="{
@@ -171,6 +167,8 @@ export default {
           this.setLoadingState(false);
         },
         () => {
+          this.patientList = [];
+          this.filteredPatients = [];
           this.setLoadingState(false);
           this.failureToast();
         }

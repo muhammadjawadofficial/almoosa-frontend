@@ -45,7 +45,7 @@
                     {{ $t("myMedication.appointmentSession") }}
                   </div>
                   <div class="doctor-speciality">
-                    {{ $t("dr") }} {{ getFullName(timeline.doctor) }}
+                    {{ getFullName(timeline.doctor) }}
                   </div>
                   <div class="appointment-status">
                     <div class="appointment-time-span">
@@ -91,22 +91,24 @@ export default {
     ...mapActions("myMedication", ["setSelectedMedicationSession"]),
     fetchTimelines() {
       this.setLoadingState(true);
-      medicationService.getAppointmentMedication(this.getUserInfo.mrn_number).then(
-        (response) => {
-          if (response.data.status) {
-            let data = response.data.data.items;
-            this.timelineList = [...data];
-            this.filteredDoctors = [...data];
-          } else {
-            this.failureToast(response.data.messsage);
+      medicationService
+        .getAppointmentMedication(this.getUserInfo.mrn_number)
+        .then(
+          (response) => {
+            if (response.data.status) {
+              let data = response.data.data.items;
+              this.timelineList = [...data];
+              this.filteredDoctors = [...data];
+            } else {
+              this.failureToast(response.data.messsage);
+            }
+            this.setLoadingState(false);
+          },
+          () => {
+            this.setLoadingState(false);
+            this.failureToast();
           }
-          this.setLoadingState(false);
-        },
-        () => {
-          this.setLoadingState(false);
-          this.failureToast();
-        }
-      );
+        );
     },
     viewDetails(appointment) {
       this.setSelectedMedicationSession(appointment);

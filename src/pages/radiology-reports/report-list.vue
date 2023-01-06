@@ -16,7 +16,7 @@
       </div>
       <div class="search-input">
         <b-form-input
-          :placeholder="$t('doctorList.search')"
+          :placeholder="$t('radiologyReport.search')"
           id="type-search"
           type="search"
           v-model="searchReportQuery"

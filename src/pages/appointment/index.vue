@@ -10,6 +10,7 @@ export default {
       "setBookingSpeciality",
       "setBookingClinic",
       "setBookingDate",
+      "setBookingTimeslot",
       "setBookingStartTime",
       "setBookingEndTime",
       "setBookingDoctor",
@@ -22,6 +23,7 @@ export default {
         this.setBookingSpeciality(null);
         this.setBookingClinic(null);
         this.setBookingDate(null);
+        this.setBookingTimeslot(null);
         this.setBookingStartTime(null);
         this.setBookingEndTime(null);
         this.setBookingDoctor(null);

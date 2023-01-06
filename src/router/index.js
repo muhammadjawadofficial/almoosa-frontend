@@ -696,7 +696,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.meta.title)
     document.title = to.meta.title;
-  if (process.env.NODE_ENV == "development" || to.meta.public || to.path === '/callback' || userService.isAuthenticatedUser()) {
+  if (to.meta.public || to.path === '/callback' || userService.isAuthenticatedUser()) {
     return next();
   }
   next({ name: "Login Dashboard" });

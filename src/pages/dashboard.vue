@@ -2,7 +2,7 @@
   <div class="main-dashboard-container" :class="{ 'standard-width': isDoctor }">
     <template v-if="isDoctor">
       <div class="consultation-section page-body-container">
-        <div class="consultation-section--blocks">
+        <div class="consultation-section--blocks no-sub-title">
           <div
             class="consultation-section--blocks--single large secondary"
             @click="navigateTo('Upcoming Appointment', { method: 'online' })"
@@ -97,10 +97,7 @@
                     @click="viewDetails(appointment)"
                   >
                     <div class="doctor-avatar">
-                      <img
-                        :src="getImageUrl(appointment.patient.photo)"
-                        alt=""
-                      />
+                      <img :src="getImageUrl(appointment.patient)" alt="" />
                     </div>
                     <div class="appointment-details">
                       <div class="doctor-name">
@@ -169,7 +166,7 @@
         </div>
         <div class="consultation-section standard-width">
           <div
-            class="consultation-section--blocks"
+            class="consultation-section--blocks no-sub-title"
             :class="{ two: getUserInfo.isDependent }"
           >
             <div

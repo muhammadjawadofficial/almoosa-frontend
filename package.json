@@ -4,10 +4,17 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "start:local": "vue-cli-service serve --port 8008 --mode development",
-    "start:test": "vue-cli-service serve --port 8008 --host 0.0.0.0 --mode test",
+    "start:local": "vue-cli-service serve --port 8008 --mode local",
+    "start:dev": "vue-cli-service serve --port 8008 --mode dev",
+    "start:debug": "vue-cli-service serve --port 8008 --mode debug",
+    "start:staging": "vue-cli-service serve --port 8008 --host 0.0.0.0 --mode staging",
+    "start:prod": "vue-cli-service serve --port 8008 --host 0.0.0.0 --mode prod",
     "build": "vue-cli-service build",
-    "build:test": "vue-cli-service build --mode test",
+    "build:local": "vue-cli-service build --mode local",
+    "build:dev": "vue-cli-service build --mode dev",
+    "build:debug": "vue-cli-service build --mode debug",
+    "build:staging": "vue-cli-service build --mode staging",
+    "build:prod": "vue-cli-service build --mode prod",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

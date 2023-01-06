@@ -15,7 +15,7 @@
               label="text"
               :preselectFirst="true"
               @input="itemSelected"
-              :placeholder="$t('selectOptionLabel')"
+              :placeholder="$t('login.selectNationalityId')"
               :selectLabel="$t('selectLabel')"
               :selectedLabel="$t('selectedLabel')"
               :deselectLabel="$t('deselectLabel')"
@@ -277,7 +277,7 @@ export default {
           value: 2,
           text: "iqamaId",
           method: "iqama",
-          placeholder: "enterIqamaNumber",
+          placeholder: "enterId",
           type: constants.loginByOTP,
           validation: 10,
         },
@@ -285,7 +285,7 @@ export default {
           value: 6,
           text: "saudiId",
           method: "saudi_id",
-          placeholder: "enterSaudiID",
+          placeholder: "enterId",
           type: constants.loginByOTP,
           validation: 10,
         },

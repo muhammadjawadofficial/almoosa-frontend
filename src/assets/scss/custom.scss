@@ -447,6 +447,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         &.two {
             --inline-blocks: 2;
         }
+        &.no-sub-title {
+            .title {
+                margin-bottom: 0;
+            }
+            .sub-title {
+                display: none;
+            }
+        }
         &--single {
             position: relative;
             background: var(--theme-tertiary);
@@ -816,6 +824,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                 img {
                     width: 100%;
                     height: 100%;
+                    object-fit: cover;
                 }
             }
             &.active {
@@ -852,7 +861,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             position: relative;
             padding: 0.75rem;
             &-image {
-                background-color: $primary-color;
+                // background-color: $primary-color;
                 width: 3.125rem;
                 aspect-ratio: 1;
                 border-radius: 50%;
@@ -861,7 +870,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                 align-items: center;
                 overflow: hidden;
                 img {
-                    width: 60%;
+                    width: 100%;
                     .svg-icon-fill {
                         fill: $white;
                     }
@@ -963,12 +972,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         .main-banner-text {
             position: absolute;
             text-align: start;
-            font-size: 3.625rem;
+            font-size: 3rem;
             line-height: 4.25rem;
             color: #1e445c;
             opacity: 1;
             top: 0;
-            bottom: 0;
+            bottom: 50px;
             display: flex;
             align-items: center;
             width: 34rem;
@@ -1017,6 +1026,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         right: 0;
         &.top-padding {
             top: 4.5rem;
+            &-3 {
+                top: 3rem;
+            }
+            &-2 {
+                top: 2rem;
+            }
         }
         &.top-no-padding {
             top: 0;

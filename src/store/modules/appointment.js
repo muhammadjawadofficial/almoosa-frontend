@@ -97,7 +97,7 @@ export default {
             state.booking.date = date;
         },
         SET_BOOKING_TIMESLOT(state, timeslot) {
-            state.booking.timeslot = timeslot;
+            Vue.set(state.booking, 'timeslot', timeslot)
         },
         SET_BOOKING_START_TIME(state, startTime) {
             state.booking.startTime = startTime;

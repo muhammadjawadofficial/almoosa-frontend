@@ -13,7 +13,7 @@
               :preselectFirst="true"
               @input="itemSelected"
               :allowEmpty="false"
-              :placeholder="$t('selectOptionLabel')"
+              :placeholder="$t('login.selectNationalityId')"
               :selectLabel="$t('selectLabel')"
               :selectedLabel="$t('selectedLabel')"
               :deselectLabel="$t('deselectLabel')"
@@ -72,7 +72,7 @@
       <div class="register-navigation">
         <div class="button-group">
           <button class="btn btn-primary" @click="doRegister">
-            {{ $t("login.register") }}
+            {{ $t("register.register") }}
           </button>
           <button
             class="btn btn-tertiary"
@@ -117,22 +117,15 @@ export default {
           value: 6,
           text: "saudiId",
           method: "saudi_id",
-          placeholder: "enterSaudiId",
+          placeholder: "enterId",
           validation: 10,
         },
         {
           value: 2,
           text: "iqamaId",
           method: "iqama",
-          placeholder: "enterIqamaId",
+          placeholder: "enterId",
           validation: 10,
-        },
-        {
-          value: 7,
-          text: "patientId",
-          method: "mrn_number",
-          placeholder: "enterPatientId",
-          validation: 7,
         },
       ],
     };

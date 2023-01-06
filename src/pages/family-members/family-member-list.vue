@@ -123,7 +123,7 @@ export default {
     },
     getStatusClass(status) {
       if (
-        status.toLowerCase() == "pending" ||
+        status.toLowerCase() == "unpaid" ||
         status.toLowerCase() == "sent for approval"
       )
         return "warning";

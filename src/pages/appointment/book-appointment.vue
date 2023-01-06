@@ -38,7 +38,7 @@
                 {{ $t("bookAppointment.specialist") }}
               </div>
               <div class="appointment-detail--value">
-                {{ $t("dr") }} {{ getFullName(getBookingDoctor || {}) }}
+                {{ getFullName(getBookingDoctor) }}
               </div>
             </div>
             <div class="appointment-detail--sepecialist">
@@ -173,7 +173,7 @@ export default {
   },
   mounted() {
     this.checkAccess();
-    this.fetchPromotionsList();
+    // this.fetchPromotionsList();
   },
   computed: {
     ...mapGetters("appointment", [

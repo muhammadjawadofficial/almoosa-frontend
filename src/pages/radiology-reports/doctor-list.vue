@@ -53,7 +53,7 @@
                     {{ $t("radiologyReport.appointmentSession") }}
                   </div>
                   <div class="doctor-speciality">
-                    {{ $t("dr") }} {{ getFullName(appointment.doctor) }}
+                    {{ getFullName(appointment.doctor) }}
                   </div>
                   <div class="appointment-status">
                     <div class="appointment-time-span">

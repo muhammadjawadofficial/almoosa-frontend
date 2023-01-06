@@ -3,11 +3,7 @@
     <iframe
       v-if="getPaymentObject"
       @load="iframeIsLoaded"
-      :src="`http://172.16.249.108:3000/api/v1/payments?amount=${
-        getPaymentObject.amount
-      }&currency=${getPaymentObject.currency}${
-        getPaymentObject.method ? '&method=' + getPaymentObject.method : ''
-      }&appointment_id=${getPaymentObject.appointment_id}&platform=web`"
+      :src="getIframeUrl"
       class="full-height-container mt-0 w-100"
       frameborder="0"
     >
@@ -39,14 +35,29 @@ export default {
       "getPaymentObject",
       "getSelectedAppointment",
     ]),
+    getIframeUrl() {
+      return (
+        process.env.VUE_APP_API_V2_BASE_URL +
+        "api/v1/payments?amount=" +
+        this.getPaymentObject.amount +
+        "&currency=" +
+        this.getPaymentObject.currency +
+        (this.getPaymentObject.method
+          ? "&method=" + this.getPaymentObject.method
+          : "") +
+        "&appointment_id=" +
+        this.getPaymentObject.appointment_id +
+        "&platform=web"
+      );
+    },
   },
   mounted() {
-    if (!this.getPaymentObject) {
+    if (!this.getPaymentObject || !this.getPaymentObject.amount) {
       this.navigateTo("Upcoming Appointment");
       return;
     }
     if (!this.getPaymentObject.otherPayment)
-      userService.setBooking(this.getPaymentObject);
+      userService.setBooking(this.getSelectedAppointment);
     this.setLoadingState(true);
   },
 };

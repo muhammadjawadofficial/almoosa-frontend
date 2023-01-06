@@ -169,8 +169,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.getSelectedAppointment);
-    console.log(this.getPaymentObject);
     if (!this.getSelectedAppointment) {
       if (!(this.getPaymentObject && this.getPaymentObject.otherPayment)) {
         this.navigateTo("Upcoming Appointment");

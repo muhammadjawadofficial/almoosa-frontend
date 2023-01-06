@@ -44,10 +44,7 @@
                   }}
                 </div>
                 <div class="appointment-detail--value">
-                  {{
-                    (!isDoctor ? $t("dr") + " " : "") +
-                    getFullName(details[isDoctor ? "patient" : "doctor"])
-                  }}
+                  {{ getFullName(details[isDoctor ? "patient" : "doctor"]) }}
                 </div>
               </div>
               <div class="appointment-detail--sepecialist">
@@ -88,13 +85,19 @@
                   class="btn btn-info appointment-detail--status"
                   v-if="!isDoctor"
                 >
-                  {{ $t("paymentStatus." + details.status.toLowerCase()) }}
+                  {{
+                    $t(
+                      "paymentStatus." +
+                        (details.status || "unpaid").toLowerCase()
+                    )
+                  }}
                 </button>
                 <div class="appointment-detail--communication">
                   <button
                     class="btn btn-secondary"
                     v-if="
-                      details.status.toLowerCase() == 'pending' && !isDoctor
+                      (details.status || 'unpaid').toLowerCase() == 'unpaid' &&
+                      !isDoctor
                     "
                     @click="makePayment"
                   >
@@ -103,7 +106,12 @@
                   <button
                     class="btn btn-primary"
                     @click="makeCall(details)"
-                    v-if="details.type == 'online' && !getUserInfo.isDependent"
+                    v-if="
+                      details.type.toLowerCase() == 'online' &&
+                      !getUserInfo.isDependent &&
+                      details.status &&
+                      details.status.toLowerCase() == 'paid'
+                    "
                   >
                     {{ $t("appointmentDetail.joinCall") }}
                   </button>
@@ -172,7 +180,7 @@ export default {
       this.navigateTo("Select Payment Method");
     },
     makeCall() {
-      if (this.details.status !== "confirmed") {
+      if (this.details.status.toLowerCase() !== "paid") {
         this.failureToast(this.$t("cantJoinCallPaymetPending"));
         return;
       }
@@ -251,7 +259,11 @@ export default {
     ...mapGetters("appointment", ["getSelectedAppointment", "getIsReschedule"]),
     ...mapGetters("user", ["getUserInfo"]),
     doctorSpeciality() {
-      return this.getUserInfo.speciality[this.getLocaleKey('title', 'lower', '', '_ar')] || "N/A";
+      return (
+        this.getUserInfo.speciality[
+          this.getLocaleKey("title", "lower", "", "_ar")
+        ] || "N/A"
+      );
     },
   },
 };

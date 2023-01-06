@@ -5,16 +5,7 @@
         <div class="standard-width page-body-container">
           <div class="doctor-details-card-header">
             <div class="doctor-details-card-header-image">
-              <img
-                :src="
-                  getImageUrl(
-                    typeof getUserInfo.photo == 'string'
-                      ? { path: getUserInfo.photo }
-                      : getUserInfo.photo
-                  )
-                "
-                alt="doctor-image"
-              />
+              <img :src="getImageUrl(getUserInfo)" alt="doctor-image" />
               <label for="user-profile-picture-upload">
                 {{ $t("profile.uploadPicture") }}
                 <input
@@ -763,7 +754,11 @@ export default {
             mrn_number: this.getUserInfo.mrn_number,
           };
         }
-        this.updateProfileInfo(updateUserObj);
+        if (Object.keys(updateUserObj).length) {
+          this.updateProfileInfo(updateUserObj);
+        } else {
+          this.isEditing = false;
+        }
       } else {
         this.isEditing = true;
       }

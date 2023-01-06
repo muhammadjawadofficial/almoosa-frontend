@@ -1,8 +1,8 @@
 {
     "data": [
         {
-            "titleEn": "Dashboard",
-            "titleAr": "لوحة القيادة",
+            "title": "Dashboard",
+            "title_ar": "الرئيسة",
             "icon": "dashboard-svg",
             "type": "link",
             "badgeType": "primary",
@@ -13,8 +13,8 @@
             "guardianComponent": true
         },
         {
-            "titleEn": "Virtual Appointments",
-            "titleAr": "المواعيد الإفتراضية",
+            "title": "Virtual Appointments",
+            "title_ar": "موعد افتراضي",
             "icon": "doctor-laptop-svg",
             "type": "link",
             "badgeType": "primary",
@@ -25,8 +25,8 @@
             "guardianComponent": true
         },
         {
-            "titleEn": "Symptom Checker",
-            "titleAr": "مدقق الأعراض",
+            "title": "Symptom Checker",
+            "title_ar": "مدقق الأعراض",
             "icon": "symptom-svg",
             "type": "link",
             "badgeType": "primary",
@@ -36,8 +36,8 @@
             "path": "/symptom-checker"
         },
         {
-            "titleEn": "Find Specialist",
-            "titleAr": "ابحث عن طبيبك",
+            "title": "Find Specialist",
+            "title_ar": "ابحث عن طبيبك",
             "icon": "heart-checkup-svg",
             "type": "link",
             "badgeType": "primary",
@@ -47,8 +47,8 @@
             "path": "/find-a-specialist"
         },
         {
-            "titleEn": "On-site Appointments",
-            "titleAr": "المواعيد في العيادة",
+            "title": "On-site Appointments",
+            "title_ar": "موعد في العيادة",
             "icon": "doctor-svg",
             "type": "link",
             "badgeType": "primary",
@@ -59,8 +59,8 @@
             "guardianComponent": true
         },
         {
-            "titleEn": "Medical Insurance",
-            "titleAr": "التأمين الطبي",
+            "title": "Medical Insurance",
+            "title_ar": "التأمين الطبي",
             "icon": "health-shield-svg",
             "type": "link",
             "badgeType": "primary",
@@ -71,8 +71,8 @@
             "guardianComponent": true
         },
         {
-            "titleEn": "Lab Works",
-            "titleAr": "التحاليل",
+            "title": "Lab Works",
+            "title_ar": "المختبر",
             "icon": "lab-svg",
             "type": "link",
             "badgeType": "primary",
@@ -83,8 +83,8 @@
             "guardianComponent": true
         },
         {
-            "titleEn": "Radiology Reports",
-            "titleAr": "تقارير الأشعة",
+            "title": "Radiology Reports",
+            "title_ar": "تقارير الأشعة",
             "icon": "user-report-svg",
             "type": "link",
             "badgeType": "primary",
@@ -95,8 +95,8 @@
             "guardianComponent": true
         },
         {
-            "titleEn": "View Timeline",
-            "titleAr": "الجدول الزمني",
+            "title": "View Timeline",
+            "title_ar": "تاريخك الطبي",
             "icon": "timeline-svg",
             "type": "link",
             "badgeType": "primary",
@@ -106,8 +106,8 @@
             "path": "/my-timeline"
         },
         {
-            "titleEn": "My Medications",
-            "titleAr": "الأدوية",
+            "title": "My Medications",
+            "title_ar": "الأدوية",
             "icon": "medical-jar-svg",
             "type": "link",
             "badgeType": "primary",
@@ -117,8 +117,8 @@
             "path": "/my-medication"
         },
         {
-            "titleEn": "My Vitals",
-            "titleAr": "علاماتي الحيوية",
+            "title": "My Vitals",
+            "title_ar": "علاماتي الحيوية",
             "icon": "heart-report-svg",
             "type": "link",
             "badgeType": "primary",
@@ -128,8 +128,8 @@
             "path": "/my-vitals"
         },
         {
-            "titleEn": "Health Education",
-            "titleAr": "التثقيف الطبي",
+            "title": "Health Education",
+            "title_ar": "التثقيف الطبي",
             "icon": "atom-svg",
             "type": "link",
             "badgeType": "primary",
@@ -139,8 +139,8 @@
             "path": "/health-education/list"
         },
         {
-            "titleEn": "Virtual Tour",
-            "titleAr": "جولة افتراضية",
+            "title": "Virtual Tour",
+            "title_ar": "جولة افتراضية",
             "icon": "user-tag-svg",
             "type": "link",
             "badgeType": "primary",
@@ -150,8 +150,8 @@
             "path": "/virtual-tour"
         },
         {
-            "titleEn": "View Promotions",
-            "titleAr": "الاطلاع على العروض",
+            "title": "View Promotions",
+            "title_ar": "العروض و الخدمات",
             "icon": "promotions-svg",
             "type": "link",
             "badgeType": "primary",

@@ -106,10 +106,10 @@
             @click="setSelectedSpeciality(speciality)"
           >
             <div class="speciality-image">
-              <img :src="getImageUrl(speciality.icon)" alt="icon" />
+              <img :src="getSpecialityIcon(speciality.title)" alt="icon" />
             </div>
             <div class="speciality-label">
-              {{ speciality.title }}
+              {{ speciality[getLocaleKey("title", "lower", "", "_ar")] }}
             </div>
           </div>
           <div v-if="getLoading">
@@ -154,7 +154,7 @@
       class="datetime-section find-specialist-container-section block-section"
     >
       <button @click="findSpecialist" class="btn btn-secondary">
-        {{ $t("findSpecialist.findMySpecialist") }}
+        {{ $t("register.continue") }}
       </button>
     </div>
   </div>
@@ -256,6 +256,9 @@ export default {
       if (this.getBookingSpeciality) {
         this.selectedSpeciality = this.getBookingSpeciality;
       }
+    },
+    getSpecialityIcon(name) {
+      return require(`../../assets/images/speciality/${name}.svg`);
     },
     setSelectedMethod(pre = null) {
       let type = pre || this.$route.params.method;

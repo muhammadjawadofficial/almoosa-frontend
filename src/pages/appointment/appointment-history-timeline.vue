@@ -57,7 +57,7 @@
                       </template>
                       <template v-else>
                         {{
-                          timeline.doctor.speciality
+                          timeline.doctor && timeline.doctor.speciality
                             ? timeline.doctor.speciality.title
                             : "N/A"
                         }}
@@ -66,14 +66,10 @@
                     </div>
                     <div class="appointment-detail-section-value mt-1">
                       <template v-if="isDoctor">
-                        {{
-                          timeline.doctor.speciality
-                            ? timeline.doctor.speciality.title
-                            : "N/A"
-                        }}
+                        {{ getLocaleKey(getUserInfo["department"]) || "N/A" }}
                       </template>
                       <template v-else>
-                        {{ $t("dr") }} {{ getFullName(timeline.doctor) }}
+                        {{ getFullName(timeline.doctor) }}
                       </template>
                     </div>
                   </div>
@@ -139,11 +135,18 @@ export default {
     ...mapActions("myTimeline", ["setSelectedTimeline"]),
     fetchTimelines() {
       this.setLoadingState(true);
+      let obj = {
+        mrn_number: this.getUserInfo.mrn_number,
+        doctor_id: this.getSelectedAppointment.doctor_id,
+      };
+      if (this.isDoctor) {
+        obj = {
+          mrn_number: this.getSelectedAppointment.patient_id,
+          doctor_id: this.getUserInfo.id,
+        };
+      }
       appointmentService
-        .getAppointmentHistory(
-          this.getUserInfo.mrn_number,
-          this.getSelectedAppointment.doctor_id
-        )
+        .getAppointmentHistory(obj.mrn_number, obj.doctor_id)
         .then(
           (response) => {
             if (response.data.status) {

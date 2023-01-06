@@ -7,18 +7,18 @@
     <div class="row">
       <div class="col-lg-6">
         <div class="accordion mt-4" role="tablist" v-if="parsedDetails">
-          <b-card no-body class="transparent mb-2" v-if="parsedDetails.heading">
+          <b-card no-body class="transparent mb-2" v-if="getSelectedTimeline">
             <b-card-header header-tag="header" class="p-1" role="tab">
               <b-button block variant="primary">
                 <div>
                   <img src="../../assets/images/heart-beat.svg" alt="heart" />
                   {{ $t("appointmentDetail.medicalType") }}:
-                  {{ parsedDetails.heading["Medical Type"] }}
+                  {{ getSelectedTimeline.department }}
                 </div>
                 <div class="info">
                   <img src="../../assets/images/hashtag.svg" alt="heart" />
                   {{ $t("appointmentDetail.token") }}:
-                  {{ parsedDetails.heading["Token"] }}
+                  {{ getSelectedTimeline.visit_no }}
                 </div>
               </b-button>
             </b-card-header>

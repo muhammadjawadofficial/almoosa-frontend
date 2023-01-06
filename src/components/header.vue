@@ -46,17 +46,7 @@
                 {{ getFullName(getUserInfo) }}</span
               >
             </div>
-            <img
-              class="b-r-round"
-              :src="
-                getImageUrl(
-                  typeof getUserInfo.photo == 'string'
-                    ? { path: getUserInfo.photo }
-                    : getUserInfo.photo
-                )
-              "
-              alt=""
-            />
+            <img class="b-r-round" :src="getImageUrl(getUserInfo)" alt="" />
           </div>
           <ul class="profile-dropdown onhover-show-div">
             <span class="sec-heading w500">{{ $t("header.settings") }}</span>

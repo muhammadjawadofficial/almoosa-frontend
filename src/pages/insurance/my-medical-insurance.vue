@@ -46,7 +46,9 @@
                         <shield-bg-svg />
                       </div>
                       <div class="appointment-details">
-                        <div class="doctor-name w600">Medical Support</div>
+                        <div class="doctor-name w600">
+                          {{ $t("insurance.medicalSupport") }}
+                        </div>
                         <div class="doctor-speciality">
                           {{ insurance.medical_support || "N/A" }}
                         </div>
@@ -106,7 +108,12 @@
                           {{ getLongDateAndTimeFromDate(insurance.updated_at) }}
                         </div>
                         <button class="btn start-call-button">
-                          {{ insurance.approval_status }}
+                          {{
+                            $t(
+                              "approvalStatus." +
+                                insurance.approval_status.toLowerCase()
+                            )
+                          }}
                         </button>
                       </div>
                     </div>
@@ -180,7 +187,7 @@ export default {
     getStatusClass(statusTemp) {
       let status = statusTemp || "";
       if (
-        status.toLowerCase() == "pending" ||
+        status.toLowerCase() == "unpaid" ||
         status.toLowerCase().includes("approval")
       )
         return "warning";

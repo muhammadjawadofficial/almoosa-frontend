@@ -5,12 +5,15 @@
         <div class="standard-width page-body-container">
           <div class="doctor-details-card-header">
             <div class="doctor-details-card-header-image">
-              <img :src="getImageUrl(doctor.photo || doctor)" alt="doctor-image" />
+              <img
+                :src="getImageUrl(doctor.photo || doctor)"
+                alt="doctor-image"
+              />
             </div>
             <div class="doctor-details-card-header-right">
               <div class="doctor-details-card-header-right-info">
                 <div class="doctor-details-card-header-right-info-name">
-                  {{ $t("dr") }} {{ getFullName(doctor) }}
+                  {{ getFullName(doctor) }}
                 </div>
                 <div class="doctor-details-card-header-right-info-speciality">
                   {{ doctor.speciality ? doctor.speciality.title : "N/A" }}
@@ -180,7 +183,7 @@
                 @click="bookAppointment"
                 v-if="isBookingFlow"
               >
-                {{ $t("doctorList.bookAppointment") }}
+                {{ $t("doctoList.boorkAppointment") }}
               </button>
               <button
                 class="btn"
@@ -284,7 +287,7 @@ export default {
           (res) => {
             let response = res.data;
             if (response.status) {
-              this.timeslots = response.data.items;
+              this.timeslots = [...response.data.items];
               let isThereAnyTimeSlotAvailable =
                 this.timeslots && this.timeslots.length;
               let isSelectedDateIsSameAsOfBookingDate = this.isDateSame(
@@ -298,15 +301,15 @@ export default {
                 isSelectedDateIsSameAsOfBookingDate &&
                 isStartEndTimeExist
               ) {
-                let timeslot = this.timeslots.findIndex((x) => {
-                  return (
-                    x.start_time == this.getBookingStartTime &&
-                    x.end_time == this.getBookingEndTime
-                  );
+                this.timeslots.forEach((timeslot, index) => {
+                  if (
+                    timeslot.start_time == this.getBookingStartTime &&
+                    timeslot.end_time == this.getBookingEndTime
+                  ) {
+                    this.selectedTimeSlotIndex = index;
+                    this.selectedTimeSlot = timeslot;
+                  }
                 });
-                if (timeslot > -1) {
-                  this.selectedTimeSlotIndex = timeslot;
-                }
               }
             } else {
               this.failureToast(response.message);
@@ -329,7 +332,6 @@ export default {
         this.failureToast(this.$t("doctorDetail.timeslot.notSelected"));
         return;
       }
-      let selectedTimeSlot = this.selectedTimeSlot;
       this.setBookingDate(this.selectedDate);
       this.setBookingTimeslot(this.selectedTimeSlot);
       this.setBookingStartTime(this.selectedTimeSlot.start_time);
@@ -343,7 +345,7 @@ export default {
           appointmentService
             .updateAppointment(
               this.getIsReschedule,
-              selectedTimeSlot,
+              this.selectedTimeSlot,
               this.getUserInfo.id,
               this.getBookingMethod,
               this.selectedDate
@@ -381,6 +383,7 @@ export default {
     },
     selectionSame() {
       let selectedTimeSlot = this.timeslots[this.selectedTimeSlotIndex];
+      this.selectedTimeSlot = selectedTimeSlot;
       return (
         this.selectedDate == this.getBookingDate &&
         selectedTimeSlot.start_time == this.getBookingStartTime &&
