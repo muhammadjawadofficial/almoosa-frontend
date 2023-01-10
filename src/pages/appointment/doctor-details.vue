@@ -183,7 +183,7 @@
                 @click="bookAppointment"
                 v-if="isBookingFlow"
               >
-                {{ $t("doctoList.boorkAppointment") }}
+                {{ $t("doctoList.bookAppointment") }}
               </button>
               <button
                 class="btn"

@@ -684,7 +684,7 @@ const routes = [
 
 const router = new Router({
   routes,
-  base: '/ashwebapp/',
+  base: '/',
   linkActiveClass: "active",
   linkExactActiveClass: "exact-active",
   mode: 'history',

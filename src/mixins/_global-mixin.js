@@ -45,13 +45,12 @@ export default {
             if (profile == null)
                 return path;
             else if (typeof profile == 'string')
-                return getPathFromUrl(profile);
+                path = getPathFromUrl(profile);
             else if (profile.profile_photo_url)
-                return getPathFromUrl(profile.profile_photo_url)
+                path = getPathFromUrl(profile.profile_photo_url)
             else if (profile.path)
-                return process.env.VUE_APP_SERVER + profile.path;
-            else
-                return path;
+                path = process.env.VUE_APP_SERVER + profile.path;
+            return path
         },
         getLocaleKey: function (key, wordCase = "lower", enLocale = "", arLocale = "_ar") {
             let postKey = this.$i18n.locale == "ar" ? arLocale : enLocale;

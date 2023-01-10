@@ -258,7 +258,13 @@ export default {
       }
     },
     getSpecialityIcon(name) {
-      return require(`../../assets/images/speciality/${name}.svg`);
+      let productImage = "";
+      try {
+        productImage = require(`../../assets/images/speciality/${name}.svg`);
+      } catch (error) {
+        productImage = require("../../assets/images/add.svg");
+      }
+      return productImage;
     },
     setSelectedMethod(pre = null) {
       let type = pre || this.$route.params.method;

@@ -1,6 +1,6 @@
 module.exports = {
-    publicPath: "/ashwebapp/",
-    outputDir: "dist/ashwebapp",
+    publicPath: "/",
+    outputDir: "dist",
     devServer: {
         disableHostCheck: true
     }
