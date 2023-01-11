@@ -93,7 +93,7 @@ export const apiPath = {
     },
 
     patient: {
-        criticalCare: (id) => getApiObject("get", "users?physician_id=" + id + "&is_critical_care=1"),
+        criticalCare: (query) => getApiObject("get", "reports/highcare" + query, "v2"),
         inPatients: (id) => getApiObject("get", "users/inpatient?doctor_id=" + id, "v2"),
     },
 

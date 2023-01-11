@@ -80,6 +80,13 @@ export default {
         this.usernameKey = "";
         this.usernameState = false;
       }
+      if (!this.username) {
+        this.failureToast(this.$t("register.phoneEmailRequired"));
+      } else if (!this.validEmailAddress) {
+        this.failureToast(this.$t("register.emailValid"));
+      } else if (!this.validPhoneNumber) {
+        this.failureToast(this.$t("register.phoneValid"));
+      }
       return this.usernameKey != "";
     },
     sendOtp() {

@@ -23,7 +23,7 @@
           class="appointment-list"
           :class="{ 'no-data': !filteredList || !filteredList.length }"
         >
-          <div class="loading" v-if="filteredList == null">
+          <div class="loading no-data" v-if="filteredList == null">
             {{ $t("loading") }}
           </div>
           <div class="no-data" v-else-if="!filteredList.length">

@@ -11,7 +11,7 @@
           class="appointment-list"
           :class="{ noData: !timelineList || !timelineList.length }"
         >
-          <div class="loading" v-if="timelineList == null">
+          <div class="loading no-data" v-if="timelineList == null">
             {{ $t("loading") }}
           </div>
           <div class="no-data" v-else-if="!timelineList.length">

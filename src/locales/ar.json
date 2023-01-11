@@ -15,8 +15,8 @@
     "allFieldsMandatory": "جميع الحقول إلزامية",
     "signIn": "تسجيل الدخول",
     "welcomeTo": "أهلا بك في",
-    "continueAsPatient": "للإستمرار كمراجع",
-    "continueAsDoctor": "للإستمرار كطبيب",
+    "continueAsPatient": "استمرار كمراجع",
+    "continueAsDoctor": "استمرار كطبيب",
     "login": "تسجيل دخول",
     "register": "للتسجيل",
     "userRegistration": "تسجيل المستخدم",
@@ -24,15 +24,15 @@
     "dontHaveAccount": "هل لديك ملف طبي؟",
     "signUp": "سجل الأن",
     "forgotPassword": "هل نسيت كلمة المرور؟",
-    "proceedWithMRN": "رقم الملف ",
-    "proceedWithSaudiId": "رقم الهوية الوطنية ",
-    "proceedWithNationalId": "رقم الهوية الوطنية ",
-    "proceedWithIqamaId": "رقم الإقامة ",
+    "proceedWithMRN": "رقم الملف",
+    "proceedWithSaudiId": "رقم الهوية الوطنية",
+    "proceedWithNationalId": "رقم الهوية الوطنية",
+    "proceedWithIqamaId": "رقم الإقامة",
     "enterLoginId": "ادخل الرقم المعرف",
-    "enterMRN": "رقم الملف ",
-    "enterSaudiId": "رقم الهوية الوطنية ",
+    "enterMRN": "رقم الملف",
+    "enterSaudiId": "رقم الهوية الوطنية",
     "enterNationalId": "ادخل  الرقم القومي",
-    "enterIqamaId": "رقم الإقامة ",
+    "enterIqamaId": "رقم الإقامة",
     "enterPassword": "كلمة المرور",
     "enterPatientID": "أدخل معرف المريض",
     "enterId": "أدخل المعرف",
@@ -63,7 +63,7 @@
       "iDontHaveMedicalFile": "ليس لدي ملف طبي",
       "medicalFileText": "لقد تم تسجيلك بنجاح. تمت مشاركة بيانات اعتماد تطبيقات ASH الخاصة بك على بريدك الإلكتروني المسجل ورقم هاتفك"
     },
-    "saudiId": "رقم الهوية الوطنية",
+    "saudiId": "الهوية الوطنية",
     "nationalId": "الرقم القومي",
     "iqamaId": "معرف الإقامة",
     "patientId": "معرف المريض",
@@ -80,7 +80,7 @@
     "uploadImage": "إرفاق صورة",
     "uploadSaudiID": "إرفاق صورة الهوية الوطنية",
     "uploadIqamaID": "إرفاق صورة معرف الإقامة",
-    "continue": "للإستمرار",
+    "continue": "استمرار",
     "alreadyHaveAnAccount": "هل لديك حساب؟",
     "login": "سجل دخولك",
     "contactUs": "اتصل بنا",
@@ -99,8 +99,12 @@
     "iqamaIdLength": "معرف الإقامة يجب أن يكون {length} أرقام",
     "saudiIdRequired": "رقم الهوية الوطنية مطلوب",
     "saudiIdLength": "رقم الهوية الوطنية يجب أن يكون {length} أرقام",
-    "idRequired": "صورة هوية الإقامة مطلوبة",
+    "mrnRequired": "رقم سجل طبي مطلوب",
+    "mrnLength": "رقم سجل طبي يجب أن يكون {length} أرقام",
+    "passwordRequired": "كلمة المرور مطلوبة",
+    "cardIdRequired": "صورة هوية الإقامة مطلوبة",
     "nationalityRequired": "الجنسية مطلوبة",
+    "phoneEmailRequired": "البريد الإلكتروني أو رقم الهاتف مطلوب",
     "register": "التسجيل"
   },
   "termsAndConditions": {
@@ -219,11 +223,11 @@
   "findSpecialist": {
     "specialities": "التخصصات الصحية",
     "findSpecialist": "ابحث عن طبيبك باختيار التخصص الصحي",
-    "selectDateTime": "حدد التاريخ والوقت",
+    "selectDateTime": "اختر تاريخ الموعد",
     "selectDate": "اختر تاريخ الموعد",
     "findMySpecialist": "ابحث عن الاختصاصي الخاص بي",
     "chooseLocation": "اختيار موقع",
-    "searchSpeciality": "ابحث عن طبيبك",
+    "searchSpeciality": "البحث عن التخصص الصحي",
     "error": {
       "location": "حدد الموقع أولاً",
       "speciality": "حدد التخصص أولا",
@@ -353,6 +357,9 @@
     "radiology": "أشعة",
     "search": "ابحث عن المريض"
   },
+  "inPatients": {
+    "title": "المرضى الداخليين"
+  },
   "healthEducation": {
     "title": "التثقيف الصحي",
     "viewDetails": "عرض التفاصيل",
@@ -424,7 +431,7 @@
   "familyMembers": {
     "title": "أفراد عائلتك",
     "bookAppointment": "موعد الكتاب",
-    "tapToAddFamilyMember": "انقر لإضافة عضو عائلة جديد",
+    "tapToAddFamilyMember": "إضافة فرد جديد",
     "addFamilyMember": "إضافة فرد جديد",
     "addedSuccessfully": "تمت إضافة فرد جديد بنجاح",
     "addMember": "إضافة عضو",
@@ -440,10 +447,10 @@
     "selectGender": "حدد نوع الجنس",
     "uploadNewFile": "انقر هنا لتحميل ملف جديد",
     "uploadId": "تحميل ملف الصورة",
-    "enterIqamaNumber": "أدخل رقم إقامتك",
-    "enterSaudiID": "أدخل هويتك السعودية",
+    "enterIqamaNumber": "رقم الإقامة",
+    "enterSaudiID": "رقم الهوية الوطنية",
     "enterId": "أدخل المعرف",
-    "saudiId": "الهوية السعودية",
+    "saudiId": "الهوية الوطنية",
     "iqamaId": "معرف الإقامة",
     "switchProfile": "تبديل الملف الشخصي"
   },
@@ -504,5 +511,6 @@
   "selectLabel": "اضغط على دخل لتحديد",
   "selectedLabel": "المحدد",
   "deselectLabel": "اضغط على دخل للإزالة",
-  "dr": "دكتور"
+  "dr": "دكتور",
+  "notAddedYet": "لم يتم إضافته بعد"
 }

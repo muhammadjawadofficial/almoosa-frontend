@@ -129,6 +129,7 @@ export default {
           method: "mrn_number",
           placeholder: "enterLoginId",
           type: constants.loginByPassword,
+          errorKey: "mrn",
           validation: 7,
         },
         {
@@ -137,6 +138,7 @@ export default {
           method: "iqama",
           placeholder: "enterLoginId",
           type: constants.loginByOTP,
+          errorKey: "iqamaId",
           validation: 10,
         },
         {
@@ -145,6 +147,7 @@ export default {
           method: "saudi_id",
           placeholder: "enterLoginId",
           type: constants.loginByOTP,
+          errorKey: "saudiId",
           validation: 10,
         },
       ],
@@ -165,11 +168,6 @@ export default {
       "setUserInfo",
     ]),
     validateForm() {
-      // if (this.isDoctor) {
-      //   this.selectedItem = {
-      //     validation: 10,
-      //   };
-      // }
       this.usernameState =
         this.username != "" &&
         (this.isDoctor || this.username.length == this.selectedItem.validation);
@@ -177,6 +175,21 @@ export default {
         this.passwordState = this.password != "";
       } else {
         this.passwordState = true;
+      }
+      if (!this.usernameState) {
+        if (this.username == "")
+          this.failureToast(
+            this.$t("register." + this.selectedItem.errorKey + "Required")
+          );
+        else {
+          this.failureToast(
+            this.$t("register." + this.selectedItem.errorKey + "Length", {
+              length: this.selectedItem.validation,
+            })
+          );
+        }
+      } else if (!this.passwordState) {
+        this.failureToast(this.$t("register.passwordRequired"));
       }
       return this.usernameState && this.passwordState;
     },

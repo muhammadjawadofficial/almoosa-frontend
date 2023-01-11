@@ -5061,6 +5061,12 @@
     right: unset;
     left: 0;
   }
+  .card.ash-card .card-body .appointment-list-item {
+    --time-width: 7rem;
+    @media (max-width: 575px) {
+      --time-width: 5rem;
+    }
+  }
 }
 
 /**=====================

@@ -458,7 +458,7 @@ export default {
       } else if (!this.registerFormState.location) {
         this.failureToast(this.$t("register.locationRequired"));
       } else if (!this.registerFormState.card_id) {
-        this.failureToast(this.$t("register.idRequired"));
+        this.failureToast(this.$t("register.cardIdRequired"));
       }
 
       return !Object.values(this.registerFormState).includes(false);

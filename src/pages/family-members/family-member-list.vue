@@ -60,7 +60,7 @@
                 </div>
               </div>
             </div>
-            <div class="loading" v-if="familyMembers == null">
+            <div class="loading no-data" v-if="familyMembers == null">
               {{ $t("loading") }}
             </div>
             <div class="no-data" v-else-if="!familyMembers.length">

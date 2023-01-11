@@ -99,8 +99,12 @@
     "iqamaIdLength": "Iqama ID should be {length} digits",
     "saudiIdRequired": "Saudi ID is required",
     "saudiIdLength": "Saudi ID should be {length} digits",
-    "idRequired": "Iqama ID Photo is required",
+    "mrnRequired": "MRN is required",
+    "mrnLength": "MRN should be {length} digits",
+    "passwordRequired": "Password is required",
+    "cardIdRequired": "Iqama ID Photo is required",
     "nationalityRequired": "Nationality is required",
+    "phoneEmailRequired": "Phone or Email is required",
     "register": "Register"
   },
   "termsAndConditions": {
@@ -510,5 +514,6 @@
   "selectLabel": "Press enter to select",
   "selectedLabel": "Selected",
   "deselectLabel": "Press enter to remove",
-  "dr": "Dr."
+  "dr": "Dr.",
+  "notAddedYet": "Not Added Yet"
 }

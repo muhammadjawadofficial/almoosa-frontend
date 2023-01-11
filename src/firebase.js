@@ -13,5 +13,9 @@ var firebaseConfig = {
 }
 
 firebase.initializeApp(firebaseConfig);
-
-export default firebase.messaging()
+let messaging = null;
+console.log('firebase sdk supported', firebase.messaging.isSupported())
+if (firebase.messaging.isSupported()) {
+    messaging = firebase.messaging();
+}
+export default messaging

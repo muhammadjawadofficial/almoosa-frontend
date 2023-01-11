@@ -26,10 +26,11 @@
           display: flex;
           position: relative;
           margin-bottom: 2.75rem;
+          --time-width: 3rem;
           .appointment {
             &-time {
               white-space: nowrap;
-              min-width: 7rem;
+              min-width: var(--time-width);
               &-day {
                 font-size: 1.25rem;
               }
@@ -94,9 +95,10 @@
                     }
                   }
                   .doctor-speciality {
-                    font-size: 1.25rem;
+                    font-size: 1.125rem;
                     font-family: $font-diodrum-medium;
                     color: #6bb16f;
+                    text-transform: capitalize;
                   }
                   .appointment-detail-section {
                     &-title {
@@ -296,7 +298,7 @@
           .appointment {
             &-card {
               margin-inline-start: 2.375rem;
-              width: calc(100% - 2.375rem - 7rem);
+              width: calc(100% - 2.375rem - var(--time-width));
             }
           }
           .service-details {

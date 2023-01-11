@@ -18,7 +18,7 @@
                 noData: !presentMedicationList || !presentMedicationList.length,
               }"
             >
-              <div class="loading" v-if="presentMedicationList == null">
+              <div class="loading no-data" v-if="presentMedicationList == null">
                 {{ $t("loading") }}
               </div>
               <div class="no-data" v-else-if="!presentMedicationList.length">
@@ -91,7 +91,7 @@
                 noData: !pastMedicationList || !pastMedicationList.length,
               }"
             >
-              <div class="loading" v-if="pastMedicationList == null">
+              <div class="loading no-data" v-if="pastMedicationList == null">
                 {{ $t("loading") }}
               </div>
               <div class="no-data" v-else-if="!pastMedicationList.length">

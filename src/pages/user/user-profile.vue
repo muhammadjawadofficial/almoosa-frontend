@@ -24,8 +24,9 @@
                 <div class="doctor-details-card-header-right-info-user">
                   <div class="user-id">
                     {{
-                      (isDoctor ? getUserInfo.id : getUserInfo.mrn_number) ||
-                      "N/A"
+                      translateNumber(
+                        isDoctor ? getUserInfo.id : getUserInfo.mrn_number
+                      ) || "N/A"
                     }}
                   </div>
                 </div>
@@ -53,7 +54,7 @@
                     >
                       <div class="title">{{ $t("register.saudiId") }}</div>
                       <div class="value">
-                        {{ getUserInfo.saudi_id }}
+                        {{ translateNumber(getUserInfo.saudi_id) }}
                       </div>
                     </div>
                   </template>
@@ -65,7 +66,7 @@
                     >
                       <div class="title">{{ $t("register.iqamaId") }}</div>
                       <div class="value">
-                        {{ getUserInfo.iqama }}
+                        {{ translateNumber(getUserInfo.iqama) }}
                       </div>
                     </div>
                   </template>
@@ -168,8 +169,11 @@
                     :state="phoneNumberState"
                     :placeholder="$t('profile.phoneNumber')"
                     :formatter="formatNumber"
-                    :disabled="!isEditing"
+                    v-if="isEditing"
                   ></b-form-input>
+                  <div class="profile-info-card-detail-value" v-else>
+                    {{ translateNumber(phoneNumber) }}
+                  </div>
                 </div>
               </div>
               <div class="profile-info-card-option">
@@ -188,7 +192,9 @@
                 <div class="profile-info-card-detail-title">
                   {{ $t("profile.clinicWarning") }}
                 </div>
-                <div class="profile-info-card-detail-value">Not Added Yet</div>
+                <div class="profile-info-card-detail-value">
+                  {{ $t("notAddedYet") }}
+                </div>
               </div>
               <div class="profile-info-card-option"></div>
             </div>

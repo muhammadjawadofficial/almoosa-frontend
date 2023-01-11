@@ -1024,13 +1024,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         position: absolute;
         top: 2.5rem;
         right: 0;
-        &.top-padding {
-            top: 4.5rem;
-            &-3 {
-                top: 3rem;
-            }
-            &-2 {
-                top: 2rem;
+        @media (min-width: 701px) {
+            &.top-padding {
+                top: 4.5rem;
+                &-3 {
+                    top: 3rem;
+                }
+                &-2 {
+                    top: 2rem;
+                }
             }
         }
         &.top-no-padding {
@@ -1222,7 +1224,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                             position: absolute;
                             top: -1rem;
                             right: 0.25rem;
-                            background-image: url(/img/check.65426710.svg);
+                            background-image: url(../images/check.svg);
                             background-repeat: no-repeat;
                             background-position: center;
                             background-size: contain;
@@ -1938,7 +1940,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 }
 .upload-text {
-    text-align: center;
+    text-align: center !important;
     position: absolute;
     left: 0;
     right: 0;

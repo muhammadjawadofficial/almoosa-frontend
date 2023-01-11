@@ -6,10 +6,10 @@ export const patientService = {
     fetchInPatients
 }
 
-function fetchCriticalCare(id) {
+function fetchCriticalCare(query) {
     return axios({
-        method: apiPath.patient.criticalCare(id).method,
-        url: apiPath.patient.criticalCare(id).url,
+        method: apiPath.patient.criticalCare(query).method,
+        url: apiPath.patient.criticalCare(query).url,
     })
 }
 
