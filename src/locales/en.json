@@ -49,9 +49,13 @@
     "letsConsult": "Let's Consult With Our Specialist Today",
     "setNewPassword": "Set New Password",
     "setNewPasswordDescription": "Set new password for your account and use the latest password for login",
+    "passwordRequired": "Password is required",
+    "confirmPasswordRequired": "Confirm Password is required",
+    "passwordDontMatch": "Password doesn't match",
     "enterNewPassword": "Enter New Password",
     "confirmPassword": "Confirm Password",
-    "setPassword": "Set Password"
+    "setPassword": "Set Password",
+    "otpRequired": "Please enter OTP to proceed"
   },
   "register": {
     "modal": {
@@ -105,6 +109,7 @@
     "cardIdRequired": "Iqama ID Photo is required",
     "nationalityRequired": "Nationality is required",
     "phoneEmailRequired": "Phone or Email is required",
+    "phoneEmailValid": "Phone or Email is not valid",
     "register": "Register"
   },
   "termsAndConditions": {
@@ -473,6 +478,7 @@
     "buttonText": "Back to Dashboard"
   },
   "noData": "No Data To Show",
+  "noRecord": "No Record Found",
   "cantJoinCall": "Not allowed to join call",
   "cantJoinCallPaymetPending": "Payment is pending for this appointment. Cannot Join Call",
   "cantJoinCallEarly": "Meeting can only be joined before 15 minutes of the scheduled start time",

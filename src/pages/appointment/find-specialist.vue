@@ -57,7 +57,10 @@
               />
             </div>
           </div>
-          <div class="no-data pt-0" v-if="!clinics || !clinics.length">
+          <div class="loading pt-0 no-data" v-if="clinics == null">
+            {{ $t("loading") }}
+          </div>
+          <div class="no-data pt-0" v-else-if="!clinics || !clinics.length">
             {{ $t("noData") }}
           </div>
         </div>
@@ -93,6 +96,7 @@
             id="type-search"
             type="search"
             v-model="searchQuery"
+            :formatter="alphabetsOnly"
           ></b-form-input>
         </div>
       </div>
@@ -112,16 +116,14 @@
               {{ speciality[getLocaleKey("title", "lower", "", "_ar")] }}
             </div>
           </div>
-          <div v-if="getLoading">
-            <div class="loader-container">
-              <div class="loader"></div>
-            </div>
+          <div class="loading pt-0 no-data" v-if="specialities == null">
+            {{ $t("loading") }}
           </div>
           <div
             class="no-data pt-0"
             v-else-if="!filteredSpecialities || !filteredSpecialities.length"
           >
-            {{ $t("noData") }}
+            {{ $t("noRecord") }}
           </div>
         </div>
       </div>
@@ -166,8 +168,8 @@ import { appointmentService } from "../../services";
 export default {
   data() {
     return {
-      clinics: [],
-      specialities: [],
+      clinics: null,
+      specialities: null,
       selectedClinic: {},
       selectedSpeciality: {},
       selectedDate: null,
@@ -229,6 +231,7 @@ export default {
             if (clinicResponse.status) {
               this.clinics = clinicResponse.data.items;
             } else {
+              this.clinics = [];
               this.failureToast(clinicResponse.message);
             }
           }
@@ -237,11 +240,14 @@ export default {
             this.specialities = specialitiesResponse.data.items;
             this.filteredSpecialities = [...this.specialities];
           } else {
+            this.specialities = [];
             this.failureToast(specialitiesResponse.message);
           }
           this.setLoadingState(false);
         })
         .catch(() => {
+          this.clinics = [];
+          this.specialities = [];
           this.failureToast();
           this.setLoadingState(false);
         });

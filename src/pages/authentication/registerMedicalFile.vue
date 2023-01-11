@@ -150,6 +150,23 @@ export default {
       this.registerFormState.phone_number = this.validPhoneNumber;
       this.registerFormState.userId =
         this.userId != "" && this.userId.length == this.selectedItem.validation;
+      if (!this.registerFormState.userId) {
+        if (this.userId == "")
+          this.failureToast(
+            this.$t("register." + this.selectedItem.text + "Required")
+          );
+        else {
+          this.failureToast(
+            this.$t("register." + this.selectedItem.text + "Length", {
+              length: this.selectedItem.validation,
+            })
+          );
+        }
+      } else if (this.registerFormState.phone_number == false) {
+        if (this.registerForm.phone_number.length < 10)
+          this.failureToast(this.$t("register.phoneLength", { length: 10 }));
+        else this.failureToast(this.$t("register.phoneValid"));
+      }
       return !Object.values(this.registerFormState).includes(false);
     },
     doRegister() {

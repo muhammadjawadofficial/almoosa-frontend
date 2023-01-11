@@ -70,23 +70,22 @@ export default {
   methods: {
     ...mapActions("user", ["setOtp", "setUserId", "setAuthState"]),
     validateForm() {
-      if (this.validEmailAddress) {
-        this.usernameState = true;
-        this.usernameKey = "email_address";
-      } else if (this.validPhoneNumber) {
+      if (this.validPhoneNumber) {
         this.usernameState = true;
         this.usernameKey = "phone_number";
+      } else if (this.validEmailAddress) {
+        this.usernameState = true;
+        this.usernameKey = "email_address";
       } else {
         this.usernameKey = "";
         this.usernameState = false;
       }
-      if (!this.username) {
-        this.failureToast(this.$t("register.phoneEmailRequired"));
-      } else if (!this.validEmailAddress) {
-        this.failureToast(this.$t("register.emailValid"));
-      } else if (!this.validPhoneNumber) {
-        this.failureToast(this.$t("register.phoneValid"));
-      }
+      if (!this.usernameState)
+        if (!this.username) {
+          this.failureToast(this.$t("register.phoneEmailRequired"));
+        } else if (!this.validPhoneNumber && !this.validEmailAddress) {
+          this.failureToast(this.$t("register.phoneEmailValid"));
+        }
       return this.usernameKey != "";
     },
     sendOtp() {
@@ -115,7 +114,7 @@ export default {
             this.setLoadingState(false);
           },
           (err) => {
-            this.failureToast();
+            this.failureToast(err.response ? err.response.data.message : null);
             this.setLoadingState(false);
             console.error(err);
           }

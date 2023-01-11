@@ -20,6 +20,7 @@
           id="type-search"
           type="search"
           v-model="searchDoctorQuery"
+          :formatter="alphabetsOnly"
         ></b-form-input>
       </div>
     </div>
@@ -55,7 +56,9 @@
         </div>
       </template>
       <template v-else>
-        <div class="no-data">{{ $t("doctorList.noData") }}</div>
+        <div class="no-data">
+          {{ $t(searchDoctorQuery ? "noRecord" : "doctorList.noData") }}
+        </div>
       </template>
     </div>
   </div>

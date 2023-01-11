@@ -60,7 +60,10 @@
                         {{ $t("doctorList.timeSlots") }}
                       </div>
                       <div class="time-slots-container">
-                        <template v-if="timeslots && timeslots.length">
+                        <div class="no-data" v-if="timeslots == null">
+                          {{ this.$t("loading") }}
+                        </div>
+                        <template v-else-if="timeslots.length">
                           <div
                             class="time-slot"
                             :class="{
@@ -81,7 +84,7 @@
                           </div>
                         </template>
                         <div class="no-data" v-else>
-                          {{ this.$t("noData") }}
+                          {{ this.$t("doctorDetail.timeslot.noData") }}
                         </div>
                       </div>
                     </div>

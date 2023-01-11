@@ -27,7 +27,7 @@
             {{ $t("loading") }}
           </div>
           <div class="no-data" v-else-if="!filteredList.length">
-            {{ $t("noData") }}
+            {{ $t(searchReportQuery ? "noRecord" : "noData") }}
           </div>
           <template v-else>
             <div
@@ -53,7 +53,10 @@
                     {{ report.result }}
                   </div>
                 </div>
-                <div class="report-action-buttons">
+                <div
+                  class="report-action-buttons"
+                  v-if="report.report_file && report.report_file.path"
+                >
                   <div class="view-report" @click="viewReport(report)">
                     <img src="../../assets/images/stats.svg" alt="stats-img" />
                   </div>

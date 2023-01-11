@@ -15,8 +15,8 @@
     "allFieldsMandatory": "جميع الحقول إلزامية",
     "signIn": "تسجيل الدخول",
     "welcomeTo": "أهلا بك في",
-    "continueAsPatient": "استمرار كمراجع",
-    "continueAsDoctor": "استمرار كطبيب",
+    "continueAsPatient": "للإستمرار كمراجع",
+    "continueAsDoctor": "للإستمرار كطبيب",
     "login": "تسجيل دخول",
     "register": "للتسجيل",
     "userRegistration": "تسجيل المستخدم",
@@ -49,9 +49,13 @@
     "letsConsult": "استشر طبيبك اليوم",
     "setNewPassword": "تعيين كلمة مرور جديدة",
     "setNewPasswordDescription": "قم بتعيين كلمة مرور جديدة لحسابك واستخدم أحدث كلمة مرور لتسجيل الدخول",
+    "passwordRequired": "كلمة المرور مطلوبة",
+    "confirmPasswordRequired": "تأكيد كلمة المرور مطلوب",
+    "passwordDontMatch": "كلمة المرور غير متطابقة",
     "enterNewPassword": "أدخل كلمة مرور جديدة",
     "confirmPassword": "تأكيد كلمة المرور",
-    "setPassword": "ضبط كلمة السر"
+    "setPassword": "ضبط كلمة السر",
+    "otpRequired": "رمز التحقق مطلوب"
   },
   "register": {
     "modal": {
@@ -105,6 +109,7 @@
     "cardIdRequired": "صورة هوية الإقامة مطلوبة",
     "nationalityRequired": "الجنسية مطلوبة",
     "phoneEmailRequired": "البريد الإلكتروني أو رقم الهاتف مطلوب",
+    "phoneEmailValid": "البريد الإلكتروني أو رقم الهاتف غير صالح",
     "register": "التسجيل"
   },
   "termsAndConditions": {
@@ -253,7 +258,8 @@
       "experience": "الخبرة المهنية"
     },
     "timeslot": {
-      "noData": "لا توجد فترات زمنية في هذا التاريخ المحدد"
+      "noData": "لا توجد فترات زمنية في هذا التاريخ المحدد",
+      "notSelected": "الرجاء تحديد فترة زمنية"
     },
     "aboutDoctor": "عن دكتور",
     "degree": "درجة",
@@ -472,6 +478,7 @@
     "buttonText": "الرئيسة"
   },
   "noData": "لا يوجد بيانات",
+  "noRecord": "لا يوجد سجلات",
   "cantJoinCall": "غير مسموح له بالانضمام إلى المكالمة",
   "cantJoinCallPaymetPending": "الدفع معلق لهذا الموعد. لا يمكن الانضمام إلى المكالمة",
   "cantJoinCallEarly": "يمكن فقط الانضمام إلى الاجتماع قبل 15 دقيقة من وقت البدء المجدول",

@@ -95,6 +95,13 @@ export default {
       this.confirmPasswordState =
         this.confirmPassword != "" && this.password == this.confirmPassword;
 
+      if (this.password == "") {
+        this.failureToast(this.$t("login.passwordRequired"));
+      } else if (this.confirmPassword == "") {
+        this.failureToast(this.$t("login.confirmPasswordRequired"));
+      } else if (!this.confirmPasswordState) {
+        this.failureToast(this.$t("login.passwordDontMatch"));
+      }
       return this.passwordState && this.confirmPasswordState;
     },
     doVerify() {

@@ -4,7 +4,9 @@
     <div class="sub-heading font-secondary w200">
       {{ $t("login.codeSentMessage") }}
     </div>
-    <div class="sub-heading font-primary w500">{{ phone }} & {{ email }}</div>
+    <div class="sub-heading font-primary w500">
+      {{ phone }} {{ email ? "& " + email : "" }}
+    </div>
     <div class="login-form">
       <div class="row">
         <div class="col-md-12" @keydown.enter="doVerify">
@@ -29,7 +31,13 @@
             {{ $t("back") }}
           </button>
         </div>
-        <div class="sign-up-link w200" @click="resendOtp()">
+        <div class="sign-up-link w200" v-if="time">
+          Resend in
+          <span class="w500">
+            {{ translateNumber("00:" + (time < 10 ? "0" : "") + time) }}
+          </span>
+        </div>
+        <div class="sign-up-link w200" @click="resendOtp()" v-else>
           {{ $t("login.didntReceiveACode") }}
           <span class="w500"> {{ $t("login.resend") }} </span>
         </div>
@@ -50,6 +58,8 @@ export default {
       phone: "+966***********",
       email: "*******@*****.com",
       isResetPassword: false,
+      resendTime: 60,
+      time: null,
     };
   },
   mounted() {
@@ -97,11 +107,22 @@ export default {
         this.userId = this.getUserId;
         this.setUserId("");
       }
+      this.time = this.resendTime;
+      let interval = setInterval(() => {
+        this.time--;
+        if (this.time == 0) {
+          clearInterval(interval);
+        }
+      }, 1000);
     },
     handleOnChange(e) {
       this.otp = e;
     },
     doVerify() {
+      if (!this.otp || this.otp.length < 4) {
+        this.failureToast(this.$t("login.otpRequired"));
+        return;
+      }
       this.setLoadingState(true);
       authService
         .verifyOtp({
