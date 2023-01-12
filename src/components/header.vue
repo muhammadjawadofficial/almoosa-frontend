@@ -240,8 +240,7 @@ export default {
       this.$root.$refs.appointmentModule &&
         this.$root.$refs.appointmentModule.destroyObjects();
       this.removeUserInfo();
-
-      if (!!this.$messaging) {
+      if (this.$messaging) {
         this.$messaging.deleteToken();
       }
       this.navigateTo({ name: "Login Dashboard" });

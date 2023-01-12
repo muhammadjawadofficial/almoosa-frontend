@@ -48,7 +48,7 @@
     <div class="row">
       <div class="col-md-12 button-group">
         <button class="btn btn-primary" @click="acceptTerms">
-          {{ $t("register.continue") }}
+          {{ $t("continue") }}
         </button>
         <!-- <button class="btn btn-secondary" @click="logout">Logout</button> -->
       </div>
@@ -118,7 +118,7 @@ export default {
         this.$root.$refs.appointmentModule.destroyObjects();
       this.removeUserInfo();
 
-      if (!!this.$messaging) {
+      if (this.$messaging) {
         this.$messaging.deleteToken();
       }
       this.navigateTo({ name: "Login Dashboard" });

@@ -207,17 +207,23 @@
       </div>
 
       <div class="receipt-details col-lg-4 pt-5">
-        <div class="heading">Receipt Details</div>
+        <div class="heading">
+          {{ $t("selectPaymentMethod.receiptDetails") }}
+        </div>
         <div class="details-group">
           <div class="details-group-item" v-if="serviceBaseRate">
-            <div class="title">Appointment Amount</div>
+            <div class="title">
+              {{ $t("selectPaymentMethod.appointmentAmount") }}
+            </div>
             <div class="value">
               {{ $t("sar") + " " + serviceBaseRate.patient_amount }}
             </div>
           </div>
           <template v-if="selectedInsurance">
             <div class="details-group-item">
-              <div class="title">Your insurance can cover upto</div>
+              <div class="title">
+                {{ $t("selectPaymentMethod.insuranceCanCoverUpto") }}
+              </div>
               <div class="value">
                 {{
                   $t("sar") +
@@ -229,14 +235,18 @@
           </template>
           <template v-if="useWalletAmount">
             <div class="details-group-item">
-              <div class="title">Wallet Amount</div>
+              <div class="title">
+                {{ $t("selectPaymentMethod.walletAmount") }}
+              </div>
               <div class="value">
                 {{ $t("sar") + " " + getWalletDeductionAmount() }}
               </div>
             </div>
           </template>
           <div class="details-group-item total">
-            <div class="title">Amount Payable</div>
+            <div class="title">
+              {{ $t("selectPaymentMethod.amountPayable") }}
+            </div>
             <div class="value">{{ $t("sar") + " " + appointmentAmount }}</div>
           </div>
         </div>
@@ -425,7 +435,6 @@ export default {
         return;
       }
       this.setLoadingState(true);
-      this.selectedInsurance = insurance;
       Promise.all([
         userService.getPaymentAmount(
           this.getUserInfo.mrn_number,
@@ -435,6 +444,7 @@ export default {
         ),
       ])
         .then((res) => {
+          this.selectedInsurance = insurance;
           let paymentAmount = res[0].data.data;
           this.paymentAmount = paymentAmount;
           this.insuranceAmount =

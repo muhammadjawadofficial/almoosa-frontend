@@ -163,7 +163,9 @@ export default {
           );
         }
       } else if (this.registerFormState.phone_number == false) {
-        if (this.registerForm.phone_number.length < 10)
+        if (!this.registerForm.phone_number)
+          this.failureToast(this.$t("register.phoneRequired"));
+        else if (this.registerForm.phone_number.length < 10)
           this.failureToast(this.$t("register.phoneLength", { length: 10 }));
         else this.failureToast(this.$t("register.phoneValid"));
       }
@@ -214,7 +216,25 @@ export default {
                 );
             }
           } else {
-            this.failureToast(response.data.message);
+            let message = response.data.message;
+            if (message) {
+              message = message.toLowerCase();
+            }
+            // check if message includes 'given data' and assign a boolean value to the variable
+            if (message.includes("given data") && message.includes("exist")) {
+              this.successIconModal(
+                this.$t("register.modal.medicalFileAlreadyExistTitle"),
+                this.$t("register.modal.medicalFileAlreadyExistText"),
+                "m-info",
+                this.$t("continue")
+              ).then((res) => {
+                if (res.value) {
+                  this.navigateTo("Login");
+                }
+              });
+            } else {
+              this.failureToast(response.data.message);
+            }
           }
           this.setLoadingState(false);
         },

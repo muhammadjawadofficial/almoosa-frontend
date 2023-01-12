@@ -65,7 +65,9 @@
       "selectToContinue": "هل لديك ملف طبي؟ سجل الأن",
       "iHaveMedicalFile": "لدي ملف طبي",
       "iDontHaveMedicalFile": "ليس لدي ملف طبي",
-      "medicalFileText": "لقد تم تسجيلك بنجاح. تمت مشاركة بيانات اعتماد تطبيقات ASH الخاصة بك على بريدك الإلكتروني المسجل ورقم هاتفك"
+      "medicalFileText": "لقد تم تسجيلك بنجاح. تمت مشاركة بيانات اعتماد تطبيقات ASH الخاصة بك على بريدك الإلكتروني المسجل ورقم هاتفك",
+      "medicalFileAlreadyExistTitle": "مسجل بالفعل",
+      "medicalFileAlreadyExistText": "يوجد بالفعل مستخدم بالتفاصيل المذكورة. استخدم بيانات الاعتماد المسجلة الخاصة بك لاستخدام تطبيق مستشفى الموسى التخصصي"
     },
     "saudiId": "الهوية الوطنية",
     "nationalId": "الرقم القومي",
@@ -94,6 +96,7 @@
     "firstNameRequired": "الاسم الاول مطلوب",
     "familyNameRequired": "اسم العائلة مطلوب",
     "emailValid": "البريد الإلكتروني غير صالح",
+    "phoneRequired": "رقم الهاتف مطلوب",
     "phoneValid": "رقم الهاتف غير صالح",
     "phoneLength": "يجب أن يكون رقم الهاتف {length} أرقام",
     "genderRequired": "الجنس مطلوب",
@@ -347,7 +350,12 @@
     "paymentFailedText": "لقد فشلت عملية الدفع الخاصة بك",
     "currentBalance": "الرصيد الحالي",
     "useWalletAmount": "استخدم مبلغ المحفظة",
-    "fullyCovered": "مدفوع بالكامل"
+    "fullyCovered": "مدفوع بالكامل",
+    "receiptDetails": "تفاصيل الإيصال",
+    "appointmentAmount": "مبلغ الموعد",
+    "insuranceCanCoverUpto": "يمكن أن يغطي التأمين حتى",
+    "walletAmount": "مبلغ المحفظة",
+    "amountPayable": "المبلغ المستحق الدفع"
   },
   "rating": {
     "title": "قيم طبيبنا",
@@ -489,6 +497,7 @@
   "success": "نجاح",
   "failure": "باءت بالفشل",
   "areYouSure": "هل أنت واثق؟",
+  "continue": "استمرار",
   "ok": "موافق",
   "cancel": "أَلغَى",
   "changesDone": "التغييرات التي تم حفظها بنجاح",

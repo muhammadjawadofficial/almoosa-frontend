@@ -29,8 +29,8 @@
                 </div>
                 <div class="appointment-time-time">
                   {{
-                    timeline.start_time
-                      ? getTimeFromDate(timeline.start_time, true)
+                    timeline.start_date
+                      ? getTimeFromDate(timeline.start_date, true)
                       : ""
                   }}
                 </div>
@@ -45,26 +45,26 @@
                 <div class="appointment-details">
                   <div class="doctor-name">
                     {{
-                      timeline.episode_status
-                        ? timeline.episode_status +
+                      timeline[getLocaleKey('department')]
+                        ? timeline[getLocaleKey('department')] +
                           " " +
                           $t("myTimeline.appointmentSession")
                         : "N/A"
                     }}
                   </div>
                   <div class="doctor-speciality">
-                    {{ timeline.doctor_name }}
+                    {{ timeline[getLocaleKey('doctor_name')] }}
                   </div>
                   <div class="appointment-status">
                     <div class="appointment-time-span">
                       {{
-                        timeline.start_time
-                          ? getTimeFromDate(timeline.start_time, true) + " - "
+                        timeline.start_date
+                          ? getTimeFromDate(timeline.start_date, true) + " - "
                           : ""
                       }}
                       {{
-                        timeline.end_time
-                          ? getTimeFromDate(timeline.end_time, true)
+                        timeline.end_date
+                          ? getTimeFromDate(timeline.end_date, true)
                           : ""
                       }}
                     </div>

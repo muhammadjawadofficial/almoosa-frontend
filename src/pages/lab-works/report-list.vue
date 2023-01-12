@@ -55,7 +55,11 @@
                 </div>
                 <div
                   class="report-action-buttons"
-                  v-if="report.report_file && report.report_file.path"
+                  v-if="
+                    showActionButtons &&
+                    report.report_file &&
+                    report.report_file.path
+                  "
                 >
                   <div class="view-report" @click="viewReport(report)">
                     <img src="../../assets/images/stats.svg" alt="stats-img" />
@@ -85,6 +89,7 @@ export default {
       reports: [],
       filteredList: [],
       searchReportQuery: "",
+      showActionButtons: false,
     };
   },
   mounted() {

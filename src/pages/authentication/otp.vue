@@ -34,7 +34,7 @@
         <div class="sign-up-link w200" v-if="time">
           Resend in
           <span class="w500">
-            {{ translateNumber("00:" + (time < 10 ? "0" : "") + time) }}
+            {{ translateNumber("00:" + (time > 10 ? "" : "0") + time) }}
           </span>
         </div>
         <div class="sign-up-link w200" @click="resendOtp()" v-else>

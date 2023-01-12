@@ -156,7 +156,7 @@
       class="datetime-section find-specialist-container-section block-section"
     >
       <button @click="findSpecialist" class="btn btn-secondary">
-        {{ $t("register.continue") }}
+        {{ $t("continue") }}
       </button>
     </div>
   </div>

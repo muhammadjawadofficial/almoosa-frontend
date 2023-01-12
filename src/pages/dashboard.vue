@@ -133,7 +133,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="loading no-data" v-if="appointmentStatus == 'loading'">
+                <div
+                  class="loading no-data"
+                  v-if="appointmentStatus == 'loading'"
+                >
                   {{ $t("loading") }}
                 </div>
                 <div class="no-data" v-else-if="!todayAppointments.length">
@@ -360,7 +363,7 @@ export default {
       this.getTodayAppointment();
     }
 
-    if (!!this.$messaging) {
+    if (this.$messaging) {
       this.$messaging
         .getToken({
           vapidKey:

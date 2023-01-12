@@ -65,7 +65,9 @@
       "selectToContinue": "Do you have a medical file? Register now",
       "iHaveMedicalFile": "I have a medical file",
       "iDontHaveMedicalFile": "I don't have a medical file",
-      "medicalFileText": "You have been registered successfully. Your ASH Apps credentials have been shared on your registered email and phone number"
+      "medicalFileText": "You have been registered successfully. Your ASH Apps credentials have been shared on your registered email and phone number",
+      "medicalFileAlreadyExistTitle": "Already Registered",
+      "medicalFileAlreadyExistText": "A user with the mentioned details already exist. Use your registered credentials to use the ASH App"
     },
     "saudiId": "Saudi ID",
     "nationalId": "National ID",
@@ -94,8 +96,9 @@
     "firstNameRequired": "First Name is required",
     "familyNameRequired": "Family Name is required",
     "emailValid": "Email is not valid",
-    "phoneValid": "Phone is not valid",
-    "phoneLength": "Phone should be {length} digits",
+    "phoneRequired": "Phone Number is required",
+    "phoneValid": "Phone Number is not valid",
+    "phoneLength": "Phone Number should be {length} digits",
     "genderRequired": "Gender is required",
     "dobRequired": "DOB is required",
     "locationRequired": "Location is required",
@@ -303,7 +306,12 @@
     "paymentFailedText": "Your payment has been failed",
     "currentBalance": "Current Balance",
     "useWalletAmount": "Use Wallet Amount",
-    "fullyCovered": "Fully Covered"
+    "fullyCovered": "Fully Covered",
+    "receiptDetails": "Receipt Details",
+    "appointmentAmount": "Appointment Amount",
+    "insuranceCanCoverUpto": "Insurance can cover upto",
+    "walletAmount": "Wallet Amount",
+    "amountPayable": "Amount Payable"
   },
   "promotions": {
     "title": "Promotions List",
@@ -489,6 +497,7 @@
   "success": "Success",
   "failure": "Failed",
   "areYouSure": "Are you sure?",
+  "continue": "Continue",
   "ok": "Ok",
   "cancel": "Cancel",
   "changesDone": "Changes saved successfully",
