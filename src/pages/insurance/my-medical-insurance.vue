@@ -177,8 +177,8 @@ export default {
             this.failureToast(insuranceServices.data.message);
           }
         })
-        .catch(() => {
-          this.failureToast();
+        .catch((error) => {
+          if (!this.isAPIAborted(error)) this.failureToast();
         })
         .finally(() => {
           this.setLoadingState(false);

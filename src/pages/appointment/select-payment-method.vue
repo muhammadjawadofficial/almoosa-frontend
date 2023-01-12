@@ -373,8 +373,8 @@ export default {
           let insurances = res[1].data.data;
           this.patientInsurances = [...insurances.items];
         })
-        .catch(() => {
-          this.failureToast();
+        .catch((error) => {
+          if (!this.isAPIAborted(error)) this.failureToast();
           this.setLoadingState(false);
         })
         .finally(() => {
@@ -451,8 +451,8 @@ export default {
             +paymentAmount.PatientShare + +paymentAmount.PatientTax;
           this.setAppointmentAmount();
         })
-        .catch(() => {
-          this.failureToast();
+        .catch((error) => {
+          if (!this.isAPIAborted(error)) this.failureToast();
           this.setLoadingState(false);
         })
         .finally(() => {

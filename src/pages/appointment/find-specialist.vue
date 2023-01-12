@@ -245,10 +245,10 @@ export default {
           }
           this.setLoadingState(false);
         })
-        .catch(() => {
+        .catch((error) => {
           this.clinics = [];
           this.specialities = [];
-          this.failureToast();
+          if (!this.isAPIAborted(error)) this.failureToast();
           this.setLoadingState(false);
         });
       let today = new Date();

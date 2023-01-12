@@ -693,7 +693,10 @@ const router = new Router({
   }
 });
 
+import { resetCancellation } from '../services/axios';
+
 router.beforeEach((to, from, next) => {
+  resetCancellation();
   if (to.meta.title)
     document.title = to.meta.title;
   if (to.meta.public || to.path === '/callback' || userService.isAuthenticatedUser()) {

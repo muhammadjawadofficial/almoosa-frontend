@@ -151,10 +151,10 @@ export default {
           }
           this.setLoadingState(false);
         },
-        (err) => {
-          console.error(err);
+        (error) => {
+          console.error(error);
           this.filteredDoctors = [];
-          this.failureToast();
+          if (!this.isAPIAborted(error)) this.failureToast();
           this.setLoadingState(false);
         }
       );

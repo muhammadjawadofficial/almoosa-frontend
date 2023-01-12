@@ -243,9 +243,9 @@ export default {
           }
           this.setLoadingState(false);
         },
-        () => {
+        (error) => {
           this.setLoadingState(false);
-          this.failureToast();
+          if (!this.isAPIAborted(error)) this.failureToast();
         }
       );
     },
@@ -317,9 +317,9 @@ export default {
             }
             this.setLoadingState(false);
           },
-          (err) => {
-            console.error(err);
-            this.failureToast();
+          (error) => {
+            console.error(error);
+            if (!this.isAPIAborted(error)) this.failureToast();
             this.setLoadingState(false);
           }
         );
@@ -374,9 +374,9 @@ export default {
                 }
                 this.setLoadingState(false);
               },
-              () => {
+              (error) => {
                 this.setLoadingState(false);
-                this.failureToast();
+                if (!this.isAPIAborted(error)) this.failureToast();
               }
             );
           });

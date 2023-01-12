@@ -115,11 +115,11 @@ export default {
           }
           this.setLoadingState(false);
         },
-        () => {
+        (error) => {
           this.timelineList = [];
           this.filteredDoctors = [];
           this.setLoadingState(false);
-          this.failureToast();
+          if (!this.isAPIAborted(error)) this.failureToast();
         }
       );
     },

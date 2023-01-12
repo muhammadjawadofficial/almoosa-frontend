@@ -112,9 +112,9 @@ export default {
             }
             this.setLoadingState(false);
           },
-          () => {
+          (error) => {
             this.setLoadingState(false);
-            this.failureToast();
+            if (!this.isAPIAborted(error)) this.failureToast();
           }
         );
     },

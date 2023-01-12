@@ -1,10 +1,13 @@
-import axios from 'axios';
+import { axios, controller, source } from './services/axios';
 import { userService } from './services';
 import router from './router';
+
 
 export default function setup() {
     axios.interceptors.request.use(function (config) {
         const token = userService.getToken();
+        config.signal = controller.signal;
+        config.cancelToken = source.token;
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
@@ -24,7 +27,7 @@ export default function setup() {
     })
 }
 function checkAccess(response) {
-    if (response.status == 401 && !router.currentRoute.path.includes('auth')) {
+    if (response && response.status == 401 && !router.currentRoute.path.includes('auth')) {
         userService.removeLoginInfo();
         router.push({ name: "Login Dashboard" })
     }

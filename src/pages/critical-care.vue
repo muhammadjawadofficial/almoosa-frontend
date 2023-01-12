@@ -254,12 +254,12 @@ export default {
             this.failureToast(radResponse.data.messsage);
           }
         })
-        .catch(() => {
+        .catch((error) => {
           this.labCriticalList = [];
           this.radCriticalList = [];
           this.filteredLabCriticalList = [];
           this.filteredRadCriticalList = [];
-          this.failureToast();
+          if (!this.isAPIAborted(error)) this.failureToast();
         })
         .finally(() => {
           this.setLoadingState(false);

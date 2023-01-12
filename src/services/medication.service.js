@@ -1,4 +1,4 @@
-import * as axios from "axios";
+import { axios } from "./axios";
 import { apiPath } from "../constants/apiPath";
 
 export const medicationService = {

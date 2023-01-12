@@ -109,7 +109,7 @@ export default {
         },
         (error) => {
           console.error(error);
-          this.failureToast();
+          if (!this.isAPIAborted(error)) this.failureToast();
           this.setLoadingState(false);
         }
       );

@@ -529,9 +529,9 @@ export default {
           }
           this.setLoadingState(false);
         },
-        (err) => {
-          console.error(err);
-          this.failureToast();
+        (error) => {
+          console.error(error);
+          if (!this.isAPIAborted(error)) this.failureToast();
           this.setLoadingState(false);
         }
       );
@@ -572,8 +572,8 @@ export default {
             this.failureToast(specialities.data.message);
           }
         })
-        .catch(() => {
-          this.failureToast();
+        .catch((error) => {
+          if (!this.isAPIAborted(error)) this.failureToast();
         })
         .finally(() => {
           this.setLoadingState(false);
@@ -614,7 +614,7 @@ export default {
         },
         (error) => {
           this.setLoadingState(false);
-          this.failureToast();
+          if (!this.isAPIAborted(error)) this.failureToast();
           console.error(error);
         }
       );
@@ -638,7 +638,7 @@ export default {
           },
           (error) => {
             this.setLoadingState(false);
-            this.failureToast();
+            if (!this.isAPIAborted(error)) this.failureToast();
             console.error(error);
           }
         );
@@ -657,7 +657,7 @@ export default {
         },
         (error) => {
           this.setLoadingState(false);
-          this.failureToast();
+          if (!this.isAPIAborted(error)) this.failureToast();
           console.error(error);
         }
       );
@@ -787,7 +787,7 @@ export default {
         },
         (error) => {
           this.setLoadingState(false);
-          this.failureToast();
+          if (!this.isAPIAborted(error)) this.failureToast();
           console.error(error);
         }
       );
@@ -810,7 +810,7 @@ export default {
         },
         (error) => {
           this.setLoadingState(false);
-          this.failureToast();
+          if (!this.isAPIAborted(error)) this.failureToast();
           console.error(error);
         }
       );

@@ -1,5 +1,6 @@
 import { mapActions, mapGetters } from 'vuex';
 import { appointmentService, userService } from '../services';
+import { axios } from '../services/axios';
 
 export default {
     data() {
@@ -527,6 +528,9 @@ export default {
             }
             return fullName || 'N/A';
         },
+        isAPIAborted(error) {
+            return axios.isCancel(error)
+        },
         doPayment() {
             this.setLoadingState(true);
             let booking = userService.getBooking();
@@ -573,8 +577,11 @@ export default {
                         this.navigateTo("Appointment Detail");
                     });
                 } else {
-                    this.failureToast();
+                    this.failureToast(response.message);
                 }
+            }).catch(error => {
+                this.setLoadingState(true);
+                if (!this.isAPIAborted(error)) this.failureToast(error.response.data && error.response.data.message);
             });
         }
     },

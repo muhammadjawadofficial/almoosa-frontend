@@ -1,4 +1,4 @@
-import * as axios from "axios";
+import { axios } from "./axios";
 import { apiPath } from "../constants/apiPath";
 import constants from "../constants/constants"
 
