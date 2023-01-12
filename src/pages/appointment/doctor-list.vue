@@ -25,7 +25,10 @@
       </div>
     </div>
     <div class="doctor-card-container">
-      <template v-if="filteredDoctors && filteredDoctors.length">
+      <div class="no-data" v-if="filteredDoctors == null">
+        {{ $t("loading") }}
+      </div>
+      <template v-else-if="filteredDoctors && filteredDoctors.length">
         <div
           class="doctor-card"
           v-for="doctor in filteredDoctors"
@@ -47,11 +50,7 @@
             class="btn btn-primary make-appointment"
             @click="setSelectedDoctor(doctor)"
           >
-            {{
-              isBookingFlow
-                ? $t("register.continue")
-                : $t("doctorList.viewDetails")
-            }}
+            {{ $t("doctorList.viewDetails") }}
           </button>
         </div>
       </template>
@@ -71,7 +70,7 @@ export default {
   data() {
     return {
       searchDoctorQuery: "",
-      filteredDoctors: [],
+      filteredDoctors: null,
       isBookingFlow: false,
     };
   },
@@ -154,6 +153,7 @@ export default {
         },
         (err) => {
           console.error(err);
+          this.filteredDoctors = [];
           this.failureToast();
           this.setLoadingState(false);
         }
