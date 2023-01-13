@@ -1,5 +1,11 @@
 <template>
-  <li class="onhover-dropdown">
+  <li
+    class="onhover-dropdown"
+    :class="{ 'show-dropdown': showProfileDropdown }"
+    tabindex="0"
+    @click="toggleProfileDropdown"
+    @focusout="toggleProfileDropdown($event, false)"
+  >
     <div class="notification-box">
       <!-- <feather type="bell" @click="notification_open()"></feather> -->
       <img class="" src="../assets/images/header/bell.png" alt="bell" />
@@ -49,9 +55,18 @@ export default {
     return {
       notification: false,
       notifications: [],
+      showProfileDropdown: false,
     };
   },
   methods: {
+    toggleProfileDropdown(event, status) {
+      event.preventDefault();
+      if (status != undefined) {
+        this.showProfileDropdown = status;
+      } else {
+        this.showProfileDropdown = !this.showProfileDropdown;
+      }
+    },
     notification_open() {
       this.notification = !this.notification;
     },

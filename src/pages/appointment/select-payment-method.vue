@@ -206,7 +206,10 @@
         </button>
       </div>
 
-      <div class="receipt-details col-lg-4 pt-5">
+      <div
+        class="receipt-details col-lg-4 pt-5"
+        v-if="serviceBaseRate && serviceBaseRate.patient_amount"
+      >
         <div class="heading">
           {{ $t("selectPaymentMethod.receiptDetails") }}
         </div>

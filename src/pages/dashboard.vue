@@ -58,7 +58,13 @@
         </div>
       </div>
       <div class="today-appointment-section">
-        <template v-if="todayAppointments && todayAppointments.length">
+        <div class="loading no-data" v-if="todayAppointments == null">
+          {{ $t("dashboard.fetchingTodayAppointment") }}
+        </div>
+        <div class="no-data" v-else-if="!todayAppointments.length">
+          {{ $t("dashboard.noData") }}
+        </div>
+        <template v-else>
           <div class="main-heading">
             {{ $t("dashboard.yourToday") }}
             {{ translateNumber("" + todayAppointments.length) }}
@@ -69,12 +75,7 @@
           </div>
           <b-card header-tag="div" no-body class="ash-card card-wizard">
             <b-card-body class="py-0 px-3">
-              <div
-                class="appointment-list"
-                :class="{
-                  noData: !todayAppointments || !todayAppointments.length,
-                }"
-              >
+              <div class="appointment-list">
                 <div
                   class="appointment-list-item"
                   v-for="appointment in todayAppointments"
@@ -133,23 +134,9 @@
                     </div>
                   </div>
                 </div>
-                <div
-                  class="loading no-data"
-                  v-if="appointmentStatus == 'loading'"
-                >
-                  {{ $t("loading") }}
-                </div>
-                <div class="no-data" v-else-if="!todayAppointments.length">
-                  {{ $t("noData") }}
-                </div>
               </div>
             </b-card-body>
           </b-card>
-        </template>
-        <template v-else>
-          <div class="main-heading">
-            {{ $t("dashboard.noData") }}
-          </div>
         </template>
       </div>
     </template>
@@ -329,11 +316,11 @@ export default {
           icon: "atom-svg",
           link: "Health Education",
         },
-        {
-          text: "View Promotions",
-          icon: "promotions-svg",
-          link: "Promotions",
-        },
+        // {
+        //   text: "View Promotions",
+        //   icon: "promotions-svg",
+        //   link: "Promotions",
+        // },
         {
           text: "Get Service & Package",
           icon: "briefcase-svg",
@@ -348,8 +335,7 @@ export default {
           icon: "user-tag-svg",
         },
       ],
-      todayAppointments: [],
-      appointmentStatus: "loading",
+      todayAppointments: null,
     };
   },
   mounted() {
@@ -396,20 +382,17 @@ export default {
       this.navigateTo("Find Specialist", { method: type });
     },
     getTodayAppointment() {
-      this.setLoadingState(true);
       appointmentService.getTodayAppointment(this.getUserInfo.id).then(
         (res) => {
           if (res.data.status) {
             this.todayAppointments = res.data.data.items;
           } else {
+            this.todayAppointments = [];
             this.failureToast(res.data.message);
           }
-          this.appointmentStatus = null;
-          this.setLoadingState(false);
         },
         (error) => {
-          this.appointmentStatus = null;
-          this.setLoadingState(false);
+          this.todayAppointments = [];
           console.error(error);
         }
       );

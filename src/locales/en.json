@@ -166,7 +166,8 @@
     "changeDate": "View your Today's upcoming appointments",
     "yourToday": "Your Today's Schedule - ",
     "appointments": "Appointments",
-    "noData": "No Appointments are scheduled"
+    "fetchingTodayAppointment": "Fetching Your Today's Appointments. Please wait...",
+    "noData": "You Don't Have Any Appointments Today"
   },
   "modules": {
     "Virtual Consultations": "Virtual Consultations",

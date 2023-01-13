@@ -166,7 +166,8 @@
     "changeDate": "عرض المواعيد القادمة اليوم الخاص بك",
     "yourToday": "جدول اليوم الخاص بك -",
     "appointments": "تعيينات",
-    "noData": "لا توجد مواعيد مجدولة"
+    "fetchingTodayAppointment": "إحضار مواعيد اليوم. أرجو الإنتظار",
+    "noData": "ليس لديك أي مواعيد اليوم"
   },
   "modules": {
     "Virtual Consultations": "موعد افتراضي",

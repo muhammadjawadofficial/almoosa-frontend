@@ -446,7 +446,9 @@ export default {
       } else if (this.registerFormState.email_address == false) {
         this.failureToast(this.$t("register.emailValid"));
       } else if (this.registerFormState.phone_number == false) {
-        if (this.registerForm.phone_number.length < 10)
+        if (!this.registerForm.phone_number)
+          this.failureToast(this.$t("register.phoneRequired"));
+        else if (this.registerForm.phone_number.length !== 10)
           this.failureToast(this.$t("register.phoneLength", { length: 10 }));
         else this.failureToast(this.$t("register.phoneValid"));
       } else if (!this.registerFormState.gender) {

@@ -32,7 +32,13 @@
           </li>
         </template>
         <Notifications />
-        <li class="profile-nav onhover-dropdown p-0 mr-0">
+        <li
+          class="profile-nav onhover-dropdown p-0 mr-0"
+          :class="{ 'show-dropdown': showProfileDropdown }"
+          tabindex="0"
+          @click="toggleProfileDropdown"
+          @focusout="toggleProfileDropdown($event, false)"
+        >
           <div class="media profile-media">
             <div class="media-body">
               <img
@@ -129,6 +135,7 @@ export default {
       layoutType: "ltr",
       isFullScreen: false,
       currentRouteName: "default",
+      showProfileDropdown: false,
     };
   },
   components: {
@@ -154,6 +161,14 @@ export default {
   },
   methods: {
     ...mapActions("user", ["removeUserInfo", "setUserInfo"]),
+    toggleProfileDropdown(event, status) {
+      event.preventDefault();
+      if (status != undefined) {
+        this.showProfileDropdown = status;
+      } else {
+        this.showProfileDropdown = !this.showProfileDropdown;
+      }
+    },
     toggle_sidebar() {
       this.$store.dispatch("menu/opensidebar");
     },

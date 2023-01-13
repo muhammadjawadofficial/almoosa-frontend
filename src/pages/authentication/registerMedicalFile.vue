@@ -165,7 +165,7 @@ export default {
       } else if (this.registerFormState.phone_number == false) {
         if (!this.registerForm.phone_number)
           this.failureToast(this.$t("register.phoneRequired"));
-        else if (this.registerForm.phone_number.length < 10)
+        else if (this.registerForm.phone_number.length !== 10)
           this.failureToast(this.$t("register.phoneLength", { length: 10 }));
         else this.failureToast(this.$t("register.phoneValid"));
       }
