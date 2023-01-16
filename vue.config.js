@@ -1,6 +1,6 @@
 module.exports = {
     publicPath: "/",
-    outputDir: "dist",
+    outputDir: "dist/almoosa-frontend",
     devServer: {
         disableHostCheck: true
     }
