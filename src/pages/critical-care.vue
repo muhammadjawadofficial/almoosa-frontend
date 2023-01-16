@@ -44,7 +44,10 @@
                           {{ appointment.test_name.toLowerCase() }}
                         </div>
                         <div class="appointment-status">
-                          <div class="appointment-time-span">
+                          <div
+                            class="appointment-time-span"
+                            :class="{ 'report-icon': appointment.report_url }"
+                          >
                             <div v-if="appointment.mrno">
                               {{ $t("mrn_number") }} -
                               {{ appointment.mrno }}
@@ -52,7 +55,10 @@
                           </div>
                         </div>
                       </div>
-                      <div class="report-action-buttons">
+                      <div
+                        class="report-action-buttons"
+                        v-if="appointment.report_url"
+                      >
                         <div
                           class="view-report"
                           @click="viewReport(appointment)"
@@ -105,7 +111,10 @@
                           {{ appointment.test_name.toLowerCase() }}
                         </div>
                         <div class="appointment-status">
-                          <div class="appointment-time-span">
+                          <div
+                            class="appointment-time-span"
+                            :class="{ 'report-icon': appointment.report_url }"
+                          >
                             <div v-if="appointment.mrno">
                               {{ $t("mrn_number") }} -
                               {{ appointment.mrno }}
@@ -113,7 +122,10 @@
                           </div>
                         </div>
                       </div>
-                      <div class="report-action-buttons">
+                      <div
+                        class="report-action-buttons"
+                        v-if="appointment.report_url"
+                      >
                         <div
                           class="view-report"
                           @click="viewReport(appointment)"
@@ -281,7 +293,9 @@ export default {
     gap: 2rem;
     top: 1.875rem;
     bottom: 1.875rem;
-    right: 6rem !important;
+    &.report-icon {
+      right: 6rem !important;
+    }
     height: fit-content;
     margin: auto;
   }
