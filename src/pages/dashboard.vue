@@ -94,7 +94,7 @@
                     </div>
                   </div>
                   <div
-                    class="appointment-card warning"
+                    class="appointment-card default"
                     @click="viewDetails(appointment)"
                   >
                     <div class="doctor-avatar">
