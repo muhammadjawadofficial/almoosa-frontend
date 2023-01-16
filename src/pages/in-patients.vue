@@ -7,7 +7,7 @@
       </div>
       <div class="search-input">
         <b-form-input
-          :placeholder="$t('doctorList.search')"
+          :placeholder="$t('criticalCare.search')"
           id="type-search"
           type="search"
           v-model="searchQuery"

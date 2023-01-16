@@ -20,134 +20,125 @@
           <b-card-body class="mt-0">
             <b-tabs pills slot="header" class="tabbed-card">
               <b-tab :title="$t('criticalCare.lab')">
-                <div
-                  class="appointment-list"
-                  :class="{
-                    noData:
-                      !filteredLabCriticalList ||
-                      !filteredLabCriticalList.length,
-                  }"
-                  @scroll="scroll"
-                >
+                <div class="loading no-data" v-if="paginatedLabList == null">
+                  {{ $t("loading") }}
+                </div>
+                <div class="no-data" v-else-if="!paginatedLabList.length">
+                  {{ $t("noData") }}
+                </div>
+                <div class="appointment-list" v-else>
                   <div
-                    class="loading no-data"
-                    v-if="filteredLabCriticalList == null"
+                    class="appointment-list-item"
+                    v-for="appointment in paginatedLabList"
+                    :key="'upcoming-appointment-id' + appointment.id"
                   >
-                    {{ $t("loading") }}
-                  </div>
-                  <div
-                    class="no-data"
-                    v-else-if="!filteredLabCriticalList.length"
-                  >
-                    {{ $t("noData") }}
-                  </div>
-                  <template v-else>
-                    <div
-                      class="appointment-list-item"
-                      v-for="appointment in filteredLabCriticalList"
-                      :key="'upcoming-appointment-id' + appointment.id"
-                    >
-                      <div class="appointment-card default">
-                        <div class="doctor-avatar">
-                          <img :src="getImageUrl(appointment.photo)" alt="" />
+                    <div class="appointment-card default">
+                      <div class="doctor-avatar">
+                        <img :src="getImageUrl(appointment.photo)" alt="" />
+                      </div>
+                      <div class="appointment-details">
+                        <div class="doctor-name">
+                          {{ appointment[getLocaleKey("patient_funll_name")] }}
                         </div>
-                        <div class="appointment-details">
-                          <div class="doctor-name">
-                            {{
-                              appointment[getLocaleKey("patient_funll_name")]
-                            }}
-                          </div>
-                          <div class="doctor-speciality">
-                            {{ appointment.test_name.toLowerCase() }}
-                          </div>
-                          <div class="appointment-status">
-                            <div class="appointment-time-span">
-                              <div v-if="appointment.mrno">
-                                {{ $t("mrn_number") }} -
-                                {{ appointment.mrno }}
-                              </div>
+                        <div class="doctor-speciality">
+                          {{ appointment.test_name.toLowerCase() }}
+                        </div>
+                        <div class="appointment-status">
+                          <div class="appointment-time-span">
+                            <div v-if="appointment.mrno">
+                              {{ $t("mrn_number") }} -
+                              {{ appointment.mrno }}
                             </div>
                           </div>
                         </div>
-                        <div class="report-action-buttons">
-                          <div
-                            class="view-report"
-                            @click="viewReport(appointment)"
-                          >
-                            <img
-                              src="../assets/images/stats.svg"
-                              alt="stats-img"
-                            />
-                          </div>
+                      </div>
+                      <div class="report-action-buttons">
+                        <div
+                          class="view-report"
+                          @click="viewReport(appointment)"
+                        >
+                          <img
+                            src="../assets/images/stats.svg"
+                            alt="stats-img"
+                          />
                         </div>
                       </div>
                     </div>
-                  </template>
+                  </div>
+                </div>
+                <div
+                  class="text-center"
+                  v-if="
+                    filteredLabCriticalList && filteredLabCriticalList.length
+                  "
+                >
+                  <button
+                    class="btn btn-secondary btn-pill"
+                    @click="loadMore('lab')"
+                  >
+                    Load More
+                  </button>
                 </div>
               </b-tab>
               <b-tab :title="$t('criticalCare.radiology')">
-                <div
-                  class="appointment-list"
-                  :class="{
-                    noData:
-                      !filteredRadCriticalList ||
-                      !filteredRadCriticalList.length,
-                  }"
-                >
+                <div class="loading no-data" v-if="paginatedRadList == null">
+                  {{ $t("loading") }}
+                </div>
+                <div class="no-data" v-else-if="!paginatedRadList.length">
+                  {{ $t("noData") }}
+                </div>
+                <div class="appointment-list" v-else>
                   <div
-                    class="loading no-data"
-                    v-if="filteredRadCriticalList == null"
+                    class="appointment-list-item"
+                    v-for="appointment in paginatedRadList"
+                    :key="'upcoming-appointment-id' + appointment.id"
                   >
-                    {{ $t("loading") }}
-                  </div>
-                  <div
-                    class="no-data"
-                    v-else-if="!filteredRadCriticalList.length"
-                  >
-                    {{ $t("noData") }}
-                  </div>
-                  <template v-else>
-                    <div
-                      class="appointment-list-item"
-                      v-for="appointment in filteredRadCriticalList"
-                      :key="'upcoming-appointment-id' + appointment.id"
-                    >
-                      <div class="appointment-card default">
-                        <div class="doctor-avatar">
-                          <img :src="getImageUrl(appointment.photo)" alt="" />
+                    <div class="appointment-card default">
+                      <div class="doctor-avatar">
+                        <img :src="getImageUrl(appointment.photo)" alt="" />
+                      </div>
+                      <div class="appointment-details">
+                        <div class="doctor-name">
+                          {{ appointment[getLocaleKey("patient_funll_name")] }}
                         </div>
-                        <div class="appointment-details">
-                          <div class="doctor-name">
-                            {{
-                              appointment[getLocaleKey("patient_funll_name")]
-                            }}
-                          </div>
-                          <div class="doctor-speciality">
-                            {{ appointment.test_name.toLowerCase() }}
-                          </div>
-                          <div class="appointment-status">
-                            <div class="appointment-time-span">
-                              <div v-if="appointment.mrno">
-                                {{ $t("mrn_number") }} -
-                                {{ appointment.mrno }}
-                              </div>
+                        <div class="doctor-speciality">
+                          {{ appointment.test_name.toLowerCase() }}
+                        </div>
+                        <div class="appointment-status">
+                          <div class="appointment-time-span">
+                            <div v-if="appointment.mrno">
+                              {{ $t("mrn_number") }} -
+                              {{ appointment.mrno }}
                             </div>
                           </div>
                         </div>
-                        <div class="report-action-buttons">
-                          <div
-                            class="view-report"
-                            @click="viewReport(appointment)"
-                          >
-                            <img
-                              src="../assets/images/stats.svg"
-                              alt="stats-img"
-                            />
-                          </div>
+                      </div>
+                      <div class="report-action-buttons">
+                        <div
+                          class="view-report"
+                          @click="viewReport(appointment)"
+                        >
+                          <img
+                            src="../assets/images/stats.svg"
+                            alt="stats-img"
+                          />
                         </div>
                       </div>
                     </div>
-                  </template>
+                  </div>
+                </div>
+                <div
+                  class="text-center"
+                  v-if="
+                    filteredRadCriticalList && filteredRadCriticalList.length
+                  "
+                >
+                  <button
+                    class="btn btn-secondary btn-pill"
+                    @click="loadMore('rad')"
+                  >
+                    Load More
+                  </button>
                 </div>
               </b-tab>
             </b-tabs>
@@ -168,6 +159,8 @@ export default {
       radCriticalList: null,
       filteredLabCriticalList: null,
       filteredRadCriticalList: null,
+      paginatedLabList: null,
+      paginatedRadList: null,
       searchQuery: "",
     };
   },
@@ -186,32 +179,28 @@ export default {
           this.getFullName(x).toLowerCase().includes(val.toLowerCase())
         ),
       ];
+      this.paginatedLabList = [];
+      this.paginatedRadList = [];
+      this.loadMore("lab");
+      this.loadMore("rad");
     },
   },
   computed: {
     ...mapGetters("user", ["getUserInfo"]),
   },
   methods: {
-    scroll(e) {
-      var scrollBar = e.target;
-      if (
-        scrollBar.scrollTop + scrollBar.clientHeight >=
-        scrollBar.scrollHeight - 20
-      ) {
-        var t = new Date().getTime();
-        if (t - this.lastScrollUpdate > 3000) {
-          this.lastScrollUpdate = t;
-          console.log(
-            "reached end: " +
-              scrollBar.scrollTop +
-              " " +
-              scrollBar.clientHeight +
-              " " +
-              scrollBar.scrollHeight
-          );
-          //TODO: load more data
-        } else {
-          console.log("< 3sec between scoll. no update");
+    loadMore(name) {
+      if (name == "rad") {
+        for (let i = 0; i < 5; i++) {
+          if (this.filteredRadCriticalList.length) {
+            this.paginatedRadList.push(this.filteredRadCriticalList.shift());
+          }
+        }
+      } else if (name == "lab") {
+        for (let i = 0; i < 5; i++) {
+          if (this.filteredLabCriticalList.length) {
+            this.paginatedLabList.push(this.filteredLabCriticalList.shift());
+          }
         }
       }
     },
@@ -242,6 +231,8 @@ export default {
             let data = labResponse.data.data.items;
             this.labCriticalList = [...data];
             this.filteredLabCriticalList = [...this.labCriticalList];
+            this.paginatedLabList = [];
+            this.loadMore("lab");
           } else {
             this.failureToast(labResponse.data.messsage);
           }
@@ -250,6 +241,8 @@ export default {
             let data = radResponse.data.data.items;
             this.radCriticalList = [...data];
             this.filteredRadCriticalList = [...this.radCriticalList];
+            this.paginatedRadList = [];
+            this.loadMore("rad");
           } else {
             this.failureToast(radResponse.data.messsage);
           }
