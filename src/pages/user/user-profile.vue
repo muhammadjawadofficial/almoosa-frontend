@@ -202,47 +202,6 @@
           <div class="profile-info" v-else>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
-                <img src="../../assets/images/heart-vitals-bg.svg" alt="" />
-              </div>
-              <div class="profile-info-card-detail">
-                <div class="profile-info-card-detail-title">
-                  {{ $t("profile.speciality") }}
-                </div>
-                <div
-                  class="profile-info-card-detail-value"
-                  :class="{ inactive: !isEditing }"
-                >
-                  <multiselect
-                    v-model="doctor.speciality"
-                    :disabled="!isEditing"
-                    :options="specialities"
-                    :placeholder="
-                      $t('profile.select') + ' ' + $t('profile.speciality')
-                    "
-                    track-by="id"
-                    label="title"
-                    :selectLabel="$t('selectLabel')"
-                    :selectedLabel="$t('selectedLabel')"
-                    :deselectLabel="$t('deselectLabel')"
-                  ></multiselect>
-                  <div
-                    class="custom-state-invalid icon"
-                    :class="{
-                      'is-invalid': doctorState.specialityState == false,
-                    }"
-                  ></div>
-                </div>
-              </div>
-              <div class="profile-info-card-option">
-                <img
-                  src="../../assets/images/pencil.svg"
-                  alt=""
-                  v-if="isEditing"
-                />
-              </div>
-            </div>
-            <div class="profile-info-card">
-              <div class="profile-info-card-logo">
                 <img src="../../assets/images/location-bg.svg" alt="" />
               </div>
               <div class="profile-info-card-detail">
@@ -285,22 +244,35 @@
             </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
-                <img src="../../assets/images/user-id-bg.svg" alt="" />
+                <img src="../../assets/images/heart-vitals-bg.svg" alt="" />
               </div>
               <div class="profile-info-card-detail">
                 <div class="profile-info-card-detail-title">
-                  {{ $t("profile.degree") }}
+                  {{ $t("profile.speciality") }}
                 </div>
                 <div
                   class="profile-info-card-detail-value"
                   :class="{ inactive: !isEditing }"
                 >
-                  <b-form-input
-                    v-model="doctor.degree"
-                    :state="doctorState.degreeState"
-                    :placeholder="$t('profile.degree')"
+                  <multiselect
+                    v-model="doctor.speciality"
                     :disabled="!isEditing"
-                  ></b-form-input>
+                    :options="specialities"
+                    :placeholder="
+                      $t('profile.select') + ' ' + $t('profile.speciality')
+                    "
+                    track-by="id"
+                    label="title"
+                    :selectLabel="$t('selectLabel')"
+                    :selectedLabel="$t('selectedLabel')"
+                    :deselectLabel="$t('deselectLabel')"
+                  ></multiselect>
+                  <div
+                    class="custom-state-invalid icon"
+                    :class="{
+                      'is-invalid': doctorState.specialityState == false,
+                    }"
+                  ></div>
                 </div>
               </div>
               <div class="profile-info-card-option">
@@ -645,7 +617,7 @@ export default {
     },
     getUserData() {
       this.setLoadingState(true);
-      userService.getProfileById(this.getUserInfo.id).then(
+      userService.getProfileById(this.getUserInfo.mrn_number).then(
         (res) => {
           if (res.data.status) {
             this.updateUserInfo(res.data.data.items[0]);

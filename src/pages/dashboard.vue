@@ -93,10 +93,7 @@
                       }}
                     </div>
                   </div>
-                  <div
-                    class="appointment-card default"
-                    @click="viewDetails(appointment)"
-                  >
+                  <div class="appointment-card default">
                     <div class="doctor-avatar">
                       <img :src="getImageUrl(appointment.patient)" alt="" />
                     </div>
@@ -171,7 +168,7 @@
                 <div class="sub-title">
                   {{
                     $t(
-                      "modules.description.Discover the best doctors in Almoosa Specialist Hospital"
+                      "modules.description.Discover the best doctors in Almoosa Health Group"
                     )
                   }}
                 </div>
@@ -189,7 +186,7 @@
                 <div class="sub-title">
                   {{
                     $t(
-                      "modules.description.Discover the best doctors in Almoosa Specialist Hospital"
+                      "modules.description.Discover the best doctors in Almoosa Health Group"
                     )
                   }}
                 </div>
@@ -208,7 +205,7 @@
                 <div class="sub-title">
                   {{
                     $t(
-                      "modules.description.Discover the best doctors in Almoosa Specialist Hospital"
+                      "modules.description.Discover the best doctors in Almoosa Health Group"
                     )
                   }}
                 </div>
@@ -296,7 +293,7 @@ export default {
           guardianComponents: true,
         },
         {
-          text: "My Medication",
+          text: "My Medications",
           icon: "medical-jar-svg",
           link: "My Medication",
         },
@@ -397,8 +394,14 @@ export default {
         }
       );
     },
-    makeCall() {
-      this.navigateTo("Connect");
+    makeCall(appointment) {
+      this.navigateTo("Connect", {
+        connectId: this.createRoomId(
+          appointment.id,
+          appointment.doctor_id,
+          appointment.patient_id
+        ),
+      });
     },
   },
 };

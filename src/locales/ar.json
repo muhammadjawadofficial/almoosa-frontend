@@ -67,7 +67,7 @@
       "iDontHaveMedicalFile": "ليس لدي ملف طبي",
       "medicalFileText": "لقد تم تسجيلك بنجاح. تمت مشاركة بيانات اعتماد تطبيقات ASH الخاصة بك على بريدك الإلكتروني المسجل ورقم هاتفك",
       "medicalFileAlreadyExistTitle": "مسجل بالفعل",
-      "medicalFileAlreadyExistText": "يوجد بالفعل مستخدم بالتفاصيل المذكورة. استخدم بيانات الاعتماد المسجلة الخاصة بك لاستخدام تطبيق مستشفى الموسى التخصصي"
+      "medicalFileAlreadyExistText": "يوجد بالفعل مستخدم بالتفاصيل المذكورة. استخدم بيانات الاعتماد المسجلة الخاصة بك لاستخدام تطبيق مجموعة الموسى الصحية"
     },
     "saudiId": "الهوية الوطنية",
     "nationalId": "الرقم القومي",
@@ -177,7 +177,7 @@
     "Upcoming Appointment": "موعدك القادم",
     "Lab Works": "المختبر",
     "Radiology Reports": "تقارير الأشعة",
-    "My Medication": "الأدوية",
+    "My Medications": "الأدوية",
     "Medical Insurance": "التأمين الطبي",
     "My Timelines": "تاريخك الطبي",
     "Health Education": "التثقيف الطبي",
@@ -191,7 +191,7 @@
     "Critical Care": "عناية حرجة",
     "Contact Us": "تواصل معنا",
     "description": {
-      "Discover the best doctors in Almoosa Specialist Hospital": "اكتشف أفضل الأطباء في مستشفى الموسى التخصصي",
+      "Discover the best doctors in Almoosa Health Group": "اكتشف أفضل الأطباء في مجموعة الموسى الصحية",
       "View your complete upcoming appointments": "عرض كامل المواعيد القادمة الخاصة بك",
       "View your all inpatients data here": "عرض جميع بيانات المرضى الداخليين الخاصة بك هنا",
       "View your all critical outpatients data here": "جميع بيانات المرضى الخارجيين الهامة هنا"
@@ -314,7 +314,7 @@
     "search": "ابحث عن التقارير"
   },
   "footer": {
-    "allRights": "جميع الحقوق محفوظة لمستشفى الموسى التخصصي"
+    "allRights": "جميع الحقوق محفوظة مجموعة الموسى الصحية"
   },
   "bookAppointment": {
     "success": "تم حجز موعدك",
@@ -493,7 +493,7 @@
   "cantJoinCallEarly": "يمكن فقط الانضمام إلى الاجتماع قبل 15 دقيقة من وقت البدء المجدول",
   "cantJoinCallLate": "لا يمكن الانضمام إلى الاجتماع بعد الوقت المحدد",
   "back": "للخلف",
-  "ash": "مستشفى الموسى التخصصي",
+  "ash": "مجموعة الموسى الصحية",
   "loading": "تحميل",
   "success": "نجاح",
   "failure": "باءت بالفشل",

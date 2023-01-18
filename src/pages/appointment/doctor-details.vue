@@ -16,7 +16,11 @@
                   {{ getFullName(doctor) }}
                 </div>
                 <div class="doctor-details-card-header-right-info-speciality">
-                  {{ doctor.speciality ? doctor.speciality.title : "N/A" }}
+                  {{
+                    doctor.speciality
+                      ? doctor.speciality[getLocaleKey("title")]
+                      : "N/A"
+                  }}
                 </div>
               </div>
               <div
@@ -116,10 +120,10 @@
                     {{ $t("doctorDetail.aboutDoctor") }}
                   </div>
                   <div class="card-paragraph">
-                    <div>
+                    <!-- <div>
                       {{ $t("doctorDetail.degree") }}:
                       {{ doctor.degree || "N/A" }}
-                    </div>
+                    </div> -->
                     <div>
                       {{ $t("doctorDetail.expertise") }}:
                       {{ doctor.expertise || "N/A" }}
@@ -349,7 +353,7 @@ export default {
             .updateAppointment(
               this.getIsReschedule,
               this.selectedTimeSlot,
-              this.getUserInfo.id,
+              this.getUserInfo.mrn_number,
               this.getBookingMethod,
               this.selectedDate
             )

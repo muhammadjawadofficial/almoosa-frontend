@@ -179,7 +179,7 @@ export default {
       this.setPaymentObject(obj);
       this.navigateTo("Select Payment Method");
     },
-    makeCall() {
+    makeCall(appointment) {
       if (this.details.status.toLowerCase() !== "paid") {
         this.failureToast(this.$t("cantJoinCallPaymetPending"));
         return;
@@ -203,7 +203,13 @@ export default {
         ).then((res) => {
           if (res.value) {
             localStorage.setItem("doctor", this.details.doctor_id);
-            this.navigateTo("Connect");
+            this.navigateTo("Connect", {
+              connectId: this.createRoomId(
+                appointment.id,
+                appointment.doctor_id,
+                appointment.patient_id
+              ),
+            });
           }
         });
       }
@@ -223,7 +229,7 @@ export default {
         this.$t("upcomingAppointment.modal.confirm"),
         this.$t("upcomingAppointment.modal.confirmText"),
         "m-calendar-cancel-confirm",
-        this.$t("cancel"),
+        this.$t("yes"),
         this.$t("appointmentDetail.reschedule")
       ).then((result) => {
         if (result.value) {

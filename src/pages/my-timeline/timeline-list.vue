@@ -23,18 +23,6 @@
               v-for="(timeline, index) in timelineList"
               :key="'upcoming-appointment-id' + index + timeline.id"
             >
-              <div class="appointment-time">
-                <div class="appointment-time-day">
-                  {{ getDate(timeline.start_date) }}
-                </div>
-                <div class="appointment-time-time">
-                  {{
-                    timeline.start_date
-                      ? getTimeFromDate(timeline.start_date, true)
-                      : ""
-                  }}
-                </div>
-              </div>
               <div class="appointment-card default">
                 <div class="doctor-avatar">
                   <img
@@ -54,20 +42,6 @@
                   </div>
                   <div class="doctor-speciality">
                     {{ timeline[getLocaleKey('doctor_name')] }}
-                  </div>
-                  <div class="appointment-status">
-                    <div class="appointment-time-span">
-                      {{
-                        timeline.start_date
-                          ? getTimeFromDate(timeline.start_date, true) + " - "
-                          : ""
-                      }}
-                      {{
-                        timeline.end_date
-                          ? getTimeFromDate(timeline.end_date, true)
-                          : ""
-                      }}
-                    </div>
                   </div>
                   <button
                     class="btn start-call-button"

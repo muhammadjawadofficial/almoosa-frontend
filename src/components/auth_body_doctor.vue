@@ -17,7 +17,7 @@
             </div>
             <div class="login-dashboard-left--top-section--logo-content">
               <div class="welcome-text">Welcome to</div>
-              <div>AlMoosa Specialist Hospital!</div>
+              <div>Almoosa Health Group!</div>
             </div>
           </div>
           <div class="login-dashboard-left--bottom-section">

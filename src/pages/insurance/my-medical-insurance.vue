@@ -160,8 +160,8 @@ export default {
     getInsurances() {
       this.setLoadingState(true);
       Promise.all([
-        insuranceService.fetchInsurances(this.getUserInfo.id),
-        insuranceService.fetchInsuranceServices(this.getUserInfo.id),
+        insuranceService.fetchInsurances(this.getUserInfo.mrn_number),
+        insuranceService.fetchInsuranceServices(this.getUserInfo.mrn_number),
       ])
         .then((response) => {
           let myInsurances = response[0];

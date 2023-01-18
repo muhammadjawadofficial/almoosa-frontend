@@ -235,7 +235,7 @@ export default {
     align-items: center;
     // height: 188px;
     padding: 3rem 3rem 4rem;
-    background: url("../assets/images/login/slider/slide1.png");
+    background: url("../assets/images/login/slider/slide2.png");
     background-position: top right;
     background-repeat: no-repeat;
     background-size: cover;
@@ -327,7 +327,7 @@ export default {
 }
 .login-dashboard-right {
   max-height: 100vh;
-  overflow: auto;
+  overflow: overlay;
 }
 .full-height {
   min-height: 100vh;

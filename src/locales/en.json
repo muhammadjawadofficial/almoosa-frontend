@@ -177,7 +177,7 @@
     "Upcoming Appointment": "Upcoming Appointment",
     "Lab Works": "Lab Works",
     "Radiology Reports": "Radiology Reports",
-    "My Medication": "My Medication",
+    "My Medications": "My Medications",
     "Medical Insurance": "Medical Insurance",
     "My Timelines": "My Timelines",
     "Health Education": "Health Education",
@@ -191,7 +191,7 @@
     "Critical Care": "Critical Care",
     "Contact Us": "Contact Us",
     "description": {
-      "Discover the best doctors in Almoosa Specialist Hospital": "Discover the best doctors in Almoosa Specialist Hospital",
+      "Discover the best doctors in Almoosa Health Group": "Discover the best doctors in Almoosa Health Group",
       "View your complete upcoming appointments": "View your complete upcoming appointments",
       "View your all inpatients data here": "View your all inpatients data here",
       "View your all critical outpatients data here": "View your all critical outpatients data here"
@@ -356,7 +356,7 @@
     "search": "Search Reports"
   },
   "footer": {
-    "allRights": "All Rights Reserved By Almoosa Specialist Hospital"
+    "allRights": "All Rights Reserved By Almoosa Health Group"
   },
   "rating": {
     "title": "Rate Our Physician",
@@ -493,7 +493,7 @@
   "cantJoinCallEarly": "Meeting can only be joined before 15 minutes of the scheduled start time",
   "cantJoinCallLate": "Meeting cannot be joined after the scheduled time",
   "back": "Back",
-  "ash": "Almoosa Specialist Hospital",
+  "ash": "Almoosa Health Group",
   "loading": "Loading",
   "success": "Success",
   "failure": "Failed",

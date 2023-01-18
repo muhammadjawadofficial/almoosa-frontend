@@ -99,7 +99,7 @@ const routes = [
         name: 'Coming Soon',
         component: ComingSoon,
         meta: {
-          title: 'Coming Soon | Almoosa Specialist Hospital'
+          title: 'Coming Soon | Almoosa Health Group'
         }
       },
       {
@@ -107,7 +107,7 @@ const routes = [
         name: 'default',
         component: Dashboard,
         meta: {
-          title: 'Dashboard | Almoosa Specialist Hospital',
+          title: 'Dashboard | Almoosa Health Group',
         }
       },
       {
@@ -115,7 +115,7 @@ const routes = [
         name: 'Profile',
         component: Profile,
         meta: {
-          title: 'View Profile | Almoosa Specialist Hospital',
+          title: 'View Profile | Almoosa Health Group',
         }
       },
       {
@@ -123,7 +123,7 @@ const routes = [
         name: 'Find A Specialist',
         component: doctorList,
         meta: {
-          title: 'Find A Specialist | Almoosa Specialist Hospital',
+          title: 'Find A Specialist | Almoosa Health Group',
         }
       },
       {
@@ -131,7 +131,7 @@ const routes = [
         name: 'Specialist Details',
         component: doctorDetails,
         meta: {
-          title: 'Specialist Details | Almoosa Specialist Hospital',
+          title: 'Specialist Details | Almoosa Health Group',
         }
       },
       {
@@ -143,7 +143,7 @@ const routes = [
             name: 'Payment Success',
             component: paymentSuccess,
             meta: {
-              title: 'Payment Success | Almoosa Specialist Hospital',
+              title: 'Payment Success | Almoosa Health Group',
             }
           },
           {
@@ -151,7 +151,7 @@ const routes = [
             name: 'Payment Failure',
             component: paymentFailure,
             meta: {
-              title: 'Payment Failure | Almoosa Specialist Hospital',
+              title: 'Payment Failure | Almoosa Health Group',
             }
           },
           {
@@ -164,7 +164,7 @@ const routes = [
                 name: 'Upcoming Appointment',
                 component: UpcomingAppointment,
                 meta: {
-                  title: 'Upcoming Appointment | Almoosa Specialist Hospital',
+                  title: 'Upcoming Appointment | Almoosa Health Group',
                 }
               },
               {
@@ -172,7 +172,7 @@ const routes = [
                 name: 'Appointment Detail',
                 component: appointmentDetail,
                 meta: {
-                  title: 'Appointment Detail | Almoosa Specialist Hospital',
+                  title: 'Appointment Detail | Almoosa Health Group',
                 }
               },
               {
@@ -180,7 +180,7 @@ const routes = [
                 name: 'Appointment History',
                 component: appointmentHistory,
                 meta: {
-                  title: 'Appointment History | Almoosa Specialist Hospital',
+                  title: 'Appointment History | Almoosa Health Group',
                 }
               },
               {
@@ -188,7 +188,7 @@ const routes = [
                 name: 'Find Specialist',
                 component: findSpecialist,
                 meta: {
-                  title: 'Find Specialist | Almoosa Specialist Hospital',
+                  title: 'Find Specialist | Almoosa Health Group',
                 },
               },
               {
@@ -196,7 +196,7 @@ const routes = [
                 name: 'Doctor List',
                 component: doctorList,
                 meta: {
-                  title: 'Find Specialist | Almoosa Specialist Hospital',
+                  title: 'Find Specialist | Almoosa Health Group',
                 }
               },
               {
@@ -204,7 +204,7 @@ const routes = [
                 name: 'Doctor Details',
                 component: doctorDetails,
                 meta: {
-                  title: 'Doctor Details | Almoosa Specialist Hospital',
+                  title: 'Doctor Details | Almoosa Health Group',
                 }
               },
               {
@@ -212,7 +212,7 @@ const routes = [
                 name: 'Book Appointment',
                 component: BookAppointment,
                 meta: {
-                  title: 'Book Appointment | Almoosa Specialist Hospital',
+                  title: 'Book Appointment | Almoosa Health Group',
                 }
               },
               {
@@ -220,7 +220,7 @@ const routes = [
                 name: 'Select Payment Method',
                 component: selectPaymentMethod,
                 meta: {
-                  title: 'Select Payment Method | Almoosa Specialist Hospital',
+                  title: 'Select Payment Method | Almoosa Health Group',
                 }
               },
               {
@@ -228,17 +228,17 @@ const routes = [
                 name: 'Pay Now',
                 component: payNow,
                 meta: {
-                  title: 'Pay Now | Almoosa Specialist Hospital',
+                  title: 'Pay Now | Almoosa Health Group',
                 }
               },
             ]
           },
           {
-            path: 'connect',
+            path: 'connect/:connectId',
             component: Iframe,
             name: 'Connect',
             meta: {
-              title: 'Connect | Almoosa Specialist Hospital',
+              title: 'Connect | Almoosa Health Group',
             }
           },
           {
@@ -246,7 +246,7 @@ const routes = [
             component: callEnd,
             name: 'Rate Doctor',
             meta: {
-              title: 'Rate Doctor | Almoosa Specialist Hospital',
+              title: 'Rate Doctor | Almoosa Health Group',
             }
           },
         ]
@@ -260,7 +260,7 @@ const routes = [
             name: 'Promotions',
             component: promotionsList,
             meta: {
-              title: 'Promotions | Almoosa Specialist Hospital',
+              title: 'Promotions | Almoosa Health Group',
             },
           },
           {
@@ -268,7 +268,7 @@ const routes = [
             name: 'Promotion Details',
             component: promotionsDetails,
             meta: {
-              title: 'Promotion Details | Almoosa Specialist Hospital',
+              title: 'Promotion Details | Almoosa Health Group',
             },
           }
         ]
@@ -283,7 +283,7 @@ const routes = [
             name: 'Lab Work Doctors',
             component: labWorksDoctors,
             meta: {
-              title: 'Lab Work - Select Doctor | Almoosa Specialist Hospital',
+              title: 'Lab Work - Select Doctor | Almoosa Health Group',
             },
           },
           {
@@ -291,7 +291,7 @@ const routes = [
             name: 'Lab Work Reports',
             component: labWorksReports,
             meta: {
-              title: 'Lab Work - Reports | Almoosa Specialist Hospital',
+              title: 'Lab Work - Reports | Almoosa Health Group',
             },
           },
         ]
@@ -306,7 +306,7 @@ const routes = [
             name: 'Radiology Report Doctors',
             component: radiologyReportDoctors,
             meta: {
-              title: 'Radiology Report - Select Doctor | Almoosa Specialist Hospital',
+              title: 'Radiology Report - Select Doctor | Almoosa Health Group',
             },
           },
           {
@@ -314,7 +314,7 @@ const routes = [
             name: 'Radiology Reports',
             component: radiologyReportReports,
             meta: {
-              title: 'Radiology Report - Reports | Almoosa Specialist Hospital',
+              title: 'Radiology Report - Reports | Almoosa Health Group',
             },
           },
         ]
@@ -324,7 +324,7 @@ const routes = [
         name: 'Critical Care',
         component: CriticalCare,
         meta: {
-          title: 'Critical Care Patients - Reports | Almoosa Specialist Hospital',
+          title: 'Critical Care Patients - Reports | Almoosa Health Group',
         },
       },
       {
@@ -332,7 +332,7 @@ const routes = [
         name: 'InPatients',
         component: InPatients,
         meta: {
-          title: 'View InPatients - Reports | Almoosa Specialist Hospital',
+          title: 'View InPatients - Reports | Almoosa Health Group',
         },
       },
       {
@@ -345,7 +345,7 @@ const routes = [
             name: 'Health Education List',
             component: healthEducationList,
             meta: {
-              title: 'Health Education | Almoosa Specialist Hospital',
+              title: 'Health Education | Almoosa Health Group',
             },
           },
           {
@@ -353,7 +353,7 @@ const routes = [
             name: 'Health Education Details',
             component: healthEducationDetails,
             meta: {
-              title: 'Health Education Details | Almoosa Specialist Hospital',
+              title: 'Health Education Details | Almoosa Health Group',
               public: true
             },
           },
@@ -369,7 +369,7 @@ const routes = [
             name: 'Services Packages List',
             component: servicesPackagesList,
             meta: {
-              title: 'Services Packages | Almoosa Specialist Hospital',
+              title: 'Services Packages | Almoosa Health Group',
             },
           },
           {
@@ -377,7 +377,7 @@ const routes = [
             name: 'Services Packages Details',
             component: servicesPackagesDetails,
             meta: {
-              title: 'Services Packages Details | Almoosa Specialist Hospital',
+              title: 'Services Packages Details | Almoosa Health Group',
               public: true
             },
           },
@@ -393,7 +393,7 @@ const routes = [
             name: 'Medical Insurance List',
             component: insuranceMyMedical,
             meta: {
-              title: 'Medical Insurance | Almoosa Specialist Hospital',
+              title: 'Medical Insurance | Almoosa Health Group',
             },
           },
           {
@@ -401,7 +401,7 @@ const routes = [
             name: 'Add New Insurance',
             component: addNewInsurance,
             meta: {
-              title: 'Add New Insurance | Almoosa Specialist Hospital',
+              title: 'Add New Insurance | Almoosa Health Group',
             },
           },
         ]
@@ -416,7 +416,7 @@ const routes = [
             name: 'My Timeline List',
             component: myTimelineList,
             meta: {
-              title: 'My Timeline | Almoosa Specialist Hospital',
+              title: 'My Timeline | Almoosa Health Group',
             },
           },
           {
@@ -424,7 +424,7 @@ const routes = [
             name: 'My Timeline Details',
             component: myTimelineDetails,
             meta: {
-              title: 'My Timeline Details | Almoosa Specialist Hospital',
+              title: 'My Timeline Details | Almoosa Health Group',
             },
           },
         ]
@@ -439,7 +439,7 @@ const routes = [
             name: 'My Medication Sessions',
             component: myMedicationSessionList,
             meta: {
-              title: 'My Medication Sessions | Almoosa Specialist Hospital',
+              title: 'My Medication Sessions | Almoosa Health Group',
             },
           },
           {
@@ -447,7 +447,7 @@ const routes = [
             name: 'My Medication List',
             component: myMedicationList,
             meta: {
-              title: 'My Medications | Almoosa Specialist Hospital',
+              title: 'My Medications | Almoosa Health Group',
             },
           },
           {
@@ -455,7 +455,7 @@ const routes = [
             name: 'My Medication Details',
             component: myMedicationDetails,
             meta: {
-              title: 'My Medication Details | Almoosa Specialist Hospital',
+              title: 'My Medication Details | Almoosa Health Group',
             },
           },
         ]
@@ -470,7 +470,7 @@ const routes = [
             name: 'Family Members List',
             component: familyMembersList,
             meta: {
-              title: 'Family Members | Almoosa Specialist Hospital',
+              title: 'Family Members | Almoosa Health Group',
             },
           },
           {
@@ -478,7 +478,7 @@ const routes = [
             name: 'Family Members Create',
             component: familyMembersForm,
             meta: {
-              title: 'Add Family Member | Almoosa Specialist Hospital',
+              title: 'Add Family Member | Almoosa Health Group',
             },
           },
         ]
@@ -499,7 +499,7 @@ const routes = [
             name: 'Login Dashboard',
             component: LoginDashboard,
             meta: {
-              title: 'Login Dashboard | Almoosa Specialist Hospital',
+              title: 'Login Dashboard | Almoosa Health Group',
               public: true
             }
           },
@@ -508,7 +508,7 @@ const routes = [
             name: 'Login',
             component: Login,
             meta: {
-              title: 'Login | Almoosa Specialist Hospital',
+              title: 'Login | Almoosa Health Group',
               public: true
             }
           },
@@ -517,7 +517,7 @@ const routes = [
             name: 'OTP',
             component: OTP,
             meta: {
-              title: 'OTP | Almoosa Specialist Hospital',
+              title: 'OTP | Almoosa Health Group',
               public: true,
               hideButtons: true
             }
@@ -527,7 +527,7 @@ const routes = [
             name: 'Forgot Password',
             component: ForgotPassword,
             meta: {
-              title: 'Forgot Password | Almoosa Specialist Hospital',
+              title: 'Forgot Password | Almoosa Health Group',
               public: true
             }
           },
@@ -536,7 +536,7 @@ const routes = [
             name: 'New Password',
             component: NewPassword,
             meta: {
-              title: 'New Password | Almoosa Specialist Hospital',
+              title: 'New Password | Almoosa Health Group',
               public: true
             }
           },
@@ -549,7 +549,7 @@ const routes = [
                 name: 'Register',
                 component: Register,
                 meta: {
-                  title: 'Register | Almoosa Specialist Hospital',
+                  title: 'Register | Almoosa Health Group',
                   public: true
                 }
               },
@@ -558,7 +558,7 @@ const routes = [
                 name: 'Register Medical File',
                 component: RegisterMedicalFile,
                 meta: {
-                  title: 'Register via Medical File | Almoosa Specialist Hospital',
+                  title: 'Register via Medical File | Almoosa Health Group',
                   public: true
                 }
               }
@@ -569,7 +569,7 @@ const routes = [
             name: 'Terms and Condition',
             component: TermsAndCondition,
             meta: {
-              title: 'Terms and Condition | Almoosa Specialist Hospital',
+              title: 'Terms and Condition | Almoosa Health Group',
               public: true,
               hideButtons: true
             }
@@ -583,7 +583,7 @@ const routes = [
                 name: 'Coming Soon Guest',
                 component: ComingSoon,
                 meta: {
-                  title: 'Coming Soon | Almoosa Specialist Hospital',
+                  title: 'Coming Soon | Almoosa Health Group',
                   public: true
                 }
               },
@@ -600,7 +600,7 @@ const routes = [
                         name: 'Find Specialist Guest',
                         component: findSpecialist,
                         meta: {
-                          title: 'Find Specialist | Almoosa Specialist Hospital',
+                          title: 'Find Specialist | Almoosa Health Group',
                           public: true
                         }
                       },
@@ -609,7 +609,7 @@ const routes = [
                         name: 'Doctor List Guest',
                         component: doctorList,
                         meta: {
-                          title: 'Find Specialist | Almoosa Specialist Hospital',
+                          title: 'Find Specialist | Almoosa Health Group',
                           public: true
                         }
                       },
@@ -618,7 +618,7 @@ const routes = [
                         name: 'Doctor Details Guest',
                         component: doctorDetails,
                         meta: {
-                          title: 'Doctor Details | Almoosa Specialist Hospital',
+                          title: 'Doctor Details | Almoosa Health Group',
                           public: true
                         }
                       },
@@ -631,7 +631,7 @@ const routes = [
                 name: 'Find A Specialist Guest',
                 component: doctorList,
                 meta: {
-                  title: 'Find A Specialist | Almoosa Specialist Hospital',
+                  title: 'Find A Specialist | Almoosa Health Group',
                   public: true
                 }
               },
@@ -640,7 +640,7 @@ const routes = [
                 name: 'Specialist Details Guest',
                 component: doctorDetails,
                 meta: {
-                  title: 'Specialist Details | Almoosa Specialist Hospital',
+                  title: 'Specialist Details | Almoosa Health Group',
                   public: true
                 }
               },
@@ -655,7 +655,7 @@ const routes = [
                     name: 'Health Education List Guest',
                     component: healthEducationList,
                     meta: {
-                      title: 'Health Education | Almoosa Specialist Hospital',
+                      title: 'Health Education | Almoosa Health Group',
                       public: true,
                     },
                   },
@@ -664,7 +664,7 @@ const routes = [
                     name: 'Health Education Details Guest',
                     component: healthEducationDetails,
                     meta: {
-                      title: 'Health Education Details | Almoosa Specialist Hospital',
+                      title: 'Health Education Details | Almoosa Health Group',
                       public: true
                     },
                   },

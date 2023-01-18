@@ -6,7 +6,11 @@
     />
     <div class="row">
       <div class="col-lg-6">
-        <div class="accordion mt-4" role="tablist" v-if="parsedDetails">
+        <div
+          class="accordion mt-4"
+          role="tablist"
+          v-if="getSelectedTimeline || sections"
+        >
           <b-card no-body class="transparent mb-2" v-if="getSelectedTimeline">
             <b-card-header header-tag="header" class="p-1" role="tab">
               <b-button block variant="primary">
@@ -36,7 +40,7 @@
                 role="tab"
               >
                 <b-button block v-b-toggle="'accordion-' + index">
-                  {{ section.title }}
+                  {{ section[getLocaleKey("title")] || 'N/A' }}
                   <div class="icon"></div>
                 </b-button>
               </b-card-header>
@@ -124,12 +128,10 @@ export default {
               this.timelineDetails = data;
               if (data) {
                 let sections = [];
-                let topHeading = "hello";
-                let bottomSections = [];
-
                 data.forEach((item) => {
                   let section = {
                     title: item.title,
+                    title_ar: item.title_ar,
                     value: [],
                   };
                   if (item.data.length) {
@@ -148,16 +150,6 @@ export default {
                   sections.push(section);
                 });
                 this.sections = sections;
-                // let parsedTopHeading = Object.keys(topHeading).map((x) => {
-                //   return {
-                //     key: x,
-                //     value: topHeading[x],
-                //   };
-                // });
-                this.parsedDetails = {
-                  heading: topHeading,
-                  sections: bottomSections,
-                };
               }
             } else {
               this.failureToast(response.data.messsage);

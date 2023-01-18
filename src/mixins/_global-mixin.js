@@ -324,6 +324,9 @@ export default {
             }
             this.$router.push(obj);
         },
+        createRoomId(appointment_id, doctor_id, patient_id) {
+            return appointment_id + "_" + doctor_id + "_" + patient_id;
+        },
         isEqual(obj1, obj2) {
             /**
              * compare obj1 and obj2 and return true if they are equal
