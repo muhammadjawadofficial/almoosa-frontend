@@ -81,9 +81,9 @@
             {{ $t("back") }}
           </button>
         </div>
-        <div class="sign-up-link w200" @click="navigateTo('Login')">
-          {{ $t("register.alreadyHaveAnAccount") }}
-          <span class="w500">{{ $t("register.login") }}</span>
+        <div class="sign-up-link w200" @click="navigateTo('Register')">
+          {{ $t("register.dontHaveAFile") }}
+          <span class="w500">{{ $t("login.signUp") }}</span>
         </div>
       </div>
     </div>
