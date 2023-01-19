@@ -1,8 +1,9 @@
 <template>
   <div class="connect-container full-height-container d-flex iframe-loading">
     <iframe
+      v-if="getRoomUrl"
       @load="iframeIsLoaded"
-      :src="`https://devbatch-telemedicine.loca.lt/room/almoosa`"
+      :src="getRoomUrl"
       allow="camera;microphone"
       class="full-height-container mt-0 w-100"
       frameborder="0"
@@ -13,6 +14,21 @@
 
 <script>
 export default {
+  data() {
+    return {
+      roomId: "almoosa",
+    };
+  },
+  computed: {
+    getRoomUrl() {
+      console.log(this.$route.params)
+      return (
+        process.env.VUE_APP_TELE_BASE_URL +
+        "/room/almoosa" +
+        this.$route.params.connectId
+      );
+    },
+  },
   methods: {
     iframeIsLoaded() {
       this.setLoadingState(false);

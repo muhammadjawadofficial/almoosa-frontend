@@ -3,7 +3,7 @@ import Vue from "vue";
 export default {
     namespaced: true,
     state: {
-        selectedAppointment: null,
+        selectedAppointment: {"id":4844715,"doctor_id":"00915","type":"ONLINE","booked_date":"2023-01-19T14:15:00.000Z","start_time":"2023-01-19T14:15:00.000Z","end_time":"2023-01-19T14:30:00.000Z","amount":0,"status":"UNPAID","doctor":{"id":"00915","email_address":null,"speciality_id":42,"first_name":"Rania","middle_name":"Saad","family_name":null,"first_name_ar":"رانيه","middle_name_ar":"سعد","family_name_ar":null,"phone_number":"0540459905","gender":"Female","location":null,"degree":null,"expertise":null,"photo":"https://portal.almoosahospital.com.sa:152/assets/images/doctors/915.JPG","speciality":"Dermatology","speciality_ar":"عيادة الجلديه"}},
         booking: {
             type: null,
             speciality: null,

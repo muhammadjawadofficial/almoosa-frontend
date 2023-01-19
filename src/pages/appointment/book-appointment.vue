@@ -301,11 +301,13 @@ export default {
             if (response.status) {
               if (method == "payNow") {
                 let appointment = response.data.items[0];
+                appointment.doctor = this.getBookingDoctor;
                 this.setSelectedAppointment(appointment);
                 this.checkAndDeductLoyaltyPoints();
                 let obj = {
                   amount: appointment.amount,
                   appointment_id: appointment.id,
+                  payLater: true
                 };
                 this.setPaymentObject(obj);
                 this.navigateTo("Select Payment Method");

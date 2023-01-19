@@ -44,7 +44,7 @@
             {{ getFullName(doctor) }}
           </div>
           <div class="doctor-speciality">
-            {{ doctor.speciality[getLocaleKey("title", "lower", "", "_ar")] }}
+            {{ doctor.speciality[getLocaleKey("title")] }}
           </div>
           <button
             class="btn btn-primary make-appointment"

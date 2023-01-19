@@ -18,6 +18,7 @@
             :num-inputs="4"
             :should-auto-focus="true"
             :is-input-num="true"
+            input-type="number"
             @on-change="handleOnChange"
           />
         </div>
@@ -55,8 +56,8 @@ export default {
     return {
       otp: "",
       userId: "",
-      phone: "+966***********",
-      email: "*******@*****.com",
+      phone: null,
+      email: null,
       isResetPassword: false,
       resendTime: 60,
       time: null,
@@ -98,11 +99,11 @@ export default {
     processData() {
       if (process.env.NODE_ENV !== "Production") {
         let otp = ("" + this.getOtp.otp_code).split("").map((x) => x);
-        this.$refs.otpInput.otp = otp;
+        this.$refs.otpInput.otp = [...otp];
         this.otp = this.getOtp.otp_code;
       }
-      this.phone = this.getOtp.phone_number || this.phone;
-      this.email = this.getOtp.email_address || this.email;
+      this.phone = this.getOtp.phone_number;
+      this.email = this.getOtp.email_address;
       if (this.getUserId) {
         this.userId = this.getUserId;
         this.setUserId("");
@@ -235,6 +236,17 @@ export default {
       &:hover {
         outline-color: transparent;
         border-color: transparent;
+      }
+
+      /* Chrome, Safari, Edge, Opera */
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        display: none;
+      }
+
+      /* Firefox */
+      &[type="number"] {
+        -moz-appearance: textfield;
       }
     }
   }

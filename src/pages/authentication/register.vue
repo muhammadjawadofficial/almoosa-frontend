@@ -206,6 +206,7 @@
               }}
             </div>
             <vue-dropzone
+              v-if="showDropzone"
               @vdropzone-file-added="fileUpload"
               @vdropzone-removed-file="removeFile"
               :options="validationdropzoneOptions"
@@ -303,6 +304,7 @@ export default {
           validation: 10,
         },
       ],
+      showDropzone: false,
       validationdropzoneOptions: {
         url: "http://localhost:8080",
         thumbnailWidth: 150,
@@ -337,6 +339,7 @@ export default {
     },
   },
   mounted() {
+    this.showDropzone = true;
     this.selectedItem = this.selectedOption;
     this.checkDropdownValues();
   },
@@ -400,7 +403,11 @@ export default {
           if (res.data.status) {
             this.registerForm.card_id = res.data.data.id;
             this.registerFormState.card_id = this.registerForm.card_id != null;
-            this.successToast(this.$t("register.idUploadSuccessMessage"));
+            this.successToast(
+              this.$t(
+                "register." + this.selectedOption.text + "UploadSuccessMessage"
+              )
+            );
           } else {
             this.failureToast(res.data.message);
           }
@@ -460,7 +467,9 @@ export default {
       } else if (!this.registerFormState.location) {
         this.failureToast(this.$t("register.locationRequired"));
       } else if (!this.registerFormState.card_id) {
-        this.failureToast(this.$t("register.cardIdRequired"));
+        this.failureToast(
+          this.$t("register. " + this.selectedOption.text + "PhotoRequired")
+        );
       }
 
       return !Object.values(this.registerFormState).includes(false);
@@ -529,6 +538,12 @@ export default {
         }
       );
     },
+    refreshDropzone() {
+      this.showDropzone = false;
+      setTimeout(() => {
+        this.showDropzone = true;
+      }, 200);
+    },
     itemSelected(item) {
       this.selectedItem = item;
       if (item.autofill) {
@@ -541,6 +556,10 @@ export default {
       } else {
         this.registerForm.nationality = null;
       }
+      this.userId = "";
+      this.refreshDropzone();
+      this.fileToUpload = [];
+      this.$refs.fileUpload.removeAllFiles();
       this.loginOptions.forEach((option) => {
         delete this.registerForm[option.method];
       });
@@ -587,5 +606,8 @@ export default {
 }
 .custom-state-invalid {
   z-index: 1;
+}
+.file-upload-container {
+  min-height: 4.3rem;
 }
 </style>

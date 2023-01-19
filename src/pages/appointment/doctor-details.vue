@@ -18,7 +18,7 @@
                 <div class="doctor-details-card-header-right-info-speciality">
                   {{
                     doctor.speciality
-                      ? doctor.speciality[getLocaleKey("title")]
+                      ? doctor.speciality[getLocaleKey("title")] || doctor[getLocaleKey("speciality")]
                       : "N/A"
                   }}
                 </div>

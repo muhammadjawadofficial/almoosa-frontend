@@ -76,11 +76,7 @@
                           </div>
                         </div>
                         <div class="doctor-speciality" v-else>
-                          {{
-                            appointment.doctor[
-                              getLocaleKey("speciality", "lower", "", "_ar")
-                            ]
-                          }}
+                          {{ appointment.doctor[getLocaleKey("speciality")] }}
                           {{
                             appointment.doctor.location
                               ? ", " + appointment.doctor.location
@@ -180,11 +176,7 @@
                           </div>
                         </div>
                         <div class="doctor-speciality" v-else>
-                          {{
-                            appointment.doctor[
-                              getLocaleKey("speciality", "lower", "", "_ar")
-                            ]
-                          }}
+                          {{ appointment.doctor[getLocaleKey("speciality")] || appointment[getLocaleKey("speciality")] }}
                           {{
                             appointment.doctor.location
                               ? ", " + appointment.doctor.location

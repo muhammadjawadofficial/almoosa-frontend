@@ -25,58 +25,53 @@
     </div>
     <b-card header-tag="div" no-body class="ash-card simple transparent">
       <b-card-body class="py-0 px-3 mt-4">
-        <div
-          class="appointment-list"
-          :class="{ 'no-data': !filteredList || !filteredList.length }"
-        >
-          <div class="loading no-data" v-if="filteredList == null">
-            {{ $t("loading") }}
-          </div>
-          <div class="no-data" v-else-if="!filteredList.length">
-            {{ $t("noData") }}
-          </div>
-          <template v-else>
-            <div
-              class="appointment-list-item"
-              v-for="(report, index) in filteredList"
-              :key="'upcoming-appointment-id' + index + report.id"
-            >
-              <div class="appointment-card default">
-                <div class="doctor-avatar transparent">
-                  <lab-bg-svg />
+        <div class="loading no-data" v-if="filteredList == null">
+          {{ $t("loading") }}
+        </div>
+        <div class="no-data" v-else-if="!filteredList.length">
+          {{ $t("noData") }}
+        </div>
+        <div class="appointment-list" v-else>
+          <div
+            class="appointment-list-item"
+            v-for="(report, index) in filteredList"
+            :key="'upcoming-appointment-id' + index + report.id"
+          >
+            <div class="appointment-card default">
+              <div class="doctor-avatar transparent">
+                <lab-bg-svg />
+              </div>
+              <div class="appointment-details">
+                <div class="doctor-name">
+                  {{ report.title }}
                 </div>
-                <div class="appointment-details">
-                  <div class="doctor-name">
-                    {{ report.title }}
-                  </div>
-                  <div class="doctor-speciality">
-                    {{ getLongDateAndTimeFromDate(report.dated, true) }}
-                  </div>
-                  <div class="appointment-status">
-                    {{ report.result }}
-                  </div>
+                <div class="doctor-speciality">
+                  {{ getLongDateAndTimeFromDate(report.dated, true) }}
                 </div>
-                <div
-                  class="report-action-buttons"
-                  v-if="
-                    showActionButtons &&
-                    report.report_file &&
-                    report.report_file.path
-                  "
-                >
-                  <div class="view-report" @click="viewReport(report)">
-                    <img src="../../assets/images/stats.svg" alt="stats-img" />
-                  </div>
-                  <div class="download-report" @click="downloadReport(report)">
-                    <img
-                      src="../../assets/images/download.svg"
-                      alt="download-img"
-                    />
-                  </div>
+                <div class="appointment-status">
+                  {{ report.result }}
+                </div>
+              </div>
+              <div
+                class="report-action-buttons"
+                v-if="
+                  showActionButtons &&
+                  report.report_file &&
+                  report.report_file.path
+                "
+              >
+                <div class="view-report" @click="viewReport(report)">
+                  <img src="../../assets/images/stats.svg" alt="stats-img" />
+                </div>
+                <div class="download-report" @click="downloadReport(report)">
+                  <img
+                    src="../../assets/images/download.svg"
+                    alt="download-img"
+                  />
                 </div>
               </div>
             </div>
-          </template>
+          </div>
         </div>
       </b-card-body>
     </b-card>
@@ -128,11 +123,13 @@ export default {
               this.reports = [...data];
               this.filteredList = [...data];
             } else {
+              this.reports = [];
               this.failureToast(response.data.messsage);
             }
             this.setLoadingState(false);
           },
           (error) => {
+            this.reports = [];
             this.setLoadingState(false);
             if (!this.isAPIAborted(error)) this.failureToast();
           }

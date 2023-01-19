@@ -56,9 +56,9 @@
                 </div>
                 <div class="appointment-detail--value" v-else>
                   {{
-                    details.doctor[
-                      getLocaleKey("speciality", "lower", "", "_ar")
-                    ] || "N/A"
+                    details.doctor.speciality[getLocaleKey("title")] ||
+                    details.doctor[getLocaleKey("speciality")] ||
+                    "N/A"
                   }}
                 </div>
               </div>
@@ -108,9 +108,7 @@
                     @click="makeCall(details)"
                     v-if="
                       details.type.toLowerCase() == 'online' &&
-                      !getUserInfo.isDependent &&
-                      details.status &&
-                      details.status.toLowerCase() == 'paid'
+                      !getUserInfo.isDependent
                     "
                   >
                     {{ $t("appointmentDetail.joinCall") }}
@@ -180,10 +178,10 @@ export default {
       this.navigateTo("Select Payment Method");
     },
     makeCall(appointment) {
-      if (this.details.status.toLowerCase() !== "paid") {
-        this.failureToast(this.$t("cantJoinCallPaymetPending"));
-        return;
-      }
+      // if (this.details.status.toLowerCase() !== "paid") {
+      //   this.failureToast(this.$t("cantJoinCallPaymetPending"));
+      //   return;
+      // }
       if (
         this.isAllowedToCall(
           this.details.booked_date,
@@ -265,11 +263,7 @@ export default {
     ...mapGetters("appointment", ["getSelectedAppointment", "getIsReschedule"]),
     ...mapGetters("user", ["getUserInfo"]),
     doctorSpeciality() {
-      return (
-        this.getUserInfo.speciality[
-          this.getLocaleKey("title", "lower", "", "_ar")
-        ] || "N/A"
-      );
+      return this.getUserInfo.speciality[this.getLocaleKey("title")] || "N/A";
     },
   },
 };

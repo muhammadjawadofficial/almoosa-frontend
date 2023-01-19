@@ -114,11 +114,15 @@ export default {
               this.reportAppointments = [...data];
               this.filteredDoctors = [...data];
             } else {
+              this.reportAppointments = [];
+              this.filteredDoctors = [];
               this.failureToast(response.data.messsage);
             }
             this.setLoadingState(false);
           },
           (error) => {
+            this.reportAppointments = [];
+            this.filteredDoctors = [];
             this.setLoadingState(false);
             if (!this.isAPIAborted(error)) this.failureToast();
           }

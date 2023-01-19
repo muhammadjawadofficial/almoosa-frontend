@@ -179,7 +179,11 @@ export default {
       if (!this.usernameState) {
         if (this.username == "")
           this.failureToast(
-            this.$t("register." + this.selectedItem.errorKey + "Required")
+            this.$t(
+              "register." +
+                (this.isDoctor ? "physicianId" : this.selectedItem.errorKey) +
+                "Required"
+            )
           );
         else {
           this.failureToast(
@@ -260,7 +264,8 @@ export default {
           this.setLoadingState(false);
         },
         (error) => {
-          if (!this.isAPIAborted(error)) this.failureToast(error.response && error.response.data.message);
+          if (!this.isAPIAborted(error))
+            this.failureToast(error.response && error.response.data.message);
           this.setLoadingState(false);
         }
       );

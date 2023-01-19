@@ -113,7 +113,7 @@
               <img :src="getSpecialityIcon(speciality.title)" alt="icon" />
             </div>
             <div class="speciality-label">
-              {{ speciality[getLocaleKey("title", "lower", "", "_ar")] }}
+              {{ speciality[getLocaleKey("title")] }}
             </div>
           </div>
           <div class="loading pt-0 no-data" v-if="specialities == null">

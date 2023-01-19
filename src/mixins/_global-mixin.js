@@ -474,27 +474,24 @@ export default {
         },
         isAllowedToCall(date, start, end) {
             /**
-             * @param date: date in string format
-             * @param start: start time in string format with format hh:mm:ss
-             * @param end: end time in string format with format hh:mm:ss
+             * @param date: date in string format with date & time
+             * @param start: start time in string format with date & time
+             * @param end: end time in string format with date & time
              * @returns boolean
              */
-            let startTime = start.split(":");
-            let endTime = end.split(":");
 
-            let now = this.moment().utc();
-            let bookDate = this.moment(date).utc().startOf('day')
+            let now = this.moment().utcOffset(0, true);
 
-            let bookDateWithStartTime = this.moment(bookDate).add(startTime[0], 'hours').add(startTime[1], 'minutes');
-            let bookDateWithEndTime = this.moment(bookDate).add(endTime[0], 'hours').add(endTime[1], 'minutes');
+            let bookDateWithStartTime = this.moment(start).utc().add(-15, 'minutes');
+            let bookDateWithEndTime = this.moment(end).utc();
 
-            let allowedStartLimit = bookDateWithStartTime.add(-15, 'minutes');
+            let allowedStartLimit = bookDateWithStartTime;
             let allowedEndLimit = bookDateWithEndTime;
 
-            if (now.isBefore(allowedStartLimit)) {
+            if (now < allowedStartLimit) {
                 this.failureToast(this.$t("cantJoinCallEarly"));
                 return false;
-            } else if (now.isAfter(allowedEndLimit)) {
+            } else if (now > allowedEndLimit) {
                 this.failureToast(this.$t("cantJoinCallLate"));
                 return false;
             } else {
