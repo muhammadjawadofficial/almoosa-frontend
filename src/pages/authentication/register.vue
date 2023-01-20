@@ -287,20 +287,20 @@ export default {
       approveFromHISFlow: true,
       loginOptions: [
         {
-          value: 2,
-          text: "iqamaId",
-          method: "iqama",
-          placeholder: "enterLoginId",
-          type: constants.loginByOTP,
-          validation: 10,
-        },
-        {
           value: 6,
           text: "saudiId",
           method: "saudi_id",
           placeholder: "enterLoginId",
           type: constants.loginByOTP,
           autofill: "saudi",
+          validation: 10,
+        },
+        {
+          value: 2,
+          text: "iqamaId",
+          method: "iqama",
+          placeholder: "enterLoginId",
+          type: constants.loginByOTP,
           validation: 10,
         },
       ],
@@ -372,7 +372,12 @@ export default {
         },
         (error) => {
           console.error(error);
-          if (!this.isAPIAborted(error)) this.failureToast();
+          if (!this.isAPIAborted(error)) 
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
           this.setLoadingState(false);
         }
       );
@@ -415,7 +420,12 @@ export default {
         },
         (error) => {
           console.error(error);
-          if (!this.isAPIAborted(error)) this.failureToast();
+          if (!this.isAPIAborted(error)) 
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
           this.setLoadingState(false);
         }
       );

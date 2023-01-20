@@ -319,13 +319,18 @@ export default {
                 });
               }
             } else {
-              this.failureToast(response.message);
+              this.failureToast(response.data.message);
             }
             this.setLoadingState(false);
           },
           (error) => {
             console.error(error);
-            if (!this.isAPIAborted(error)) this.failureToast();
+            if (!this.isAPIAborted(error)) 
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );;
             this.setLoadingState(false);
           }
         );
@@ -373,13 +378,18 @@ export default {
                     this.navigateTo("Appointment Detail");
                   });
                 } else {
-                  this.failureToast(response.message);
+                  this.failureToast(response.data.message);
                 }
                 this.setLoadingState(false);
               },
               (error) => {
                 console.error(error);
-                if (!this.isAPIAborted(error)) this.failureToast();
+                if (!this.isAPIAborted(error)) 
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
                 this.setLoadingState(false);
               }
             );

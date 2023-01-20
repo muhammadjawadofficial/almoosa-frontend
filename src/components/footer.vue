@@ -6,9 +6,27 @@
           <div class="col-md-12 footer-copyright text-center">
             <p class="mb-0">{{ $t("footer.allRights") }}</p>
             <div class="footer-icons">
-              <i class="fa fa-twitter"></i>
-              <i class="fa fa-linkedin"></i>
-              <i class="fa fa-facebook"></i>
+              <a href="https://twitter.com/almoosahospital" target="_blank">
+                <i class="fa fa-twitter"></i>
+              </a>
+              <a
+                href="https://www.linkedin.com/company/almoosa-specialist-hospital/"
+                target="_blank"
+              >
+                <i class="fa fa-linkedin"></i>
+              </a>
+              <a
+                href="https://www.instagram.com/almoosahospital/"
+                target="_blank"
+              >
+                <i class="fa fa-instagram"></i>
+              </a>
+              <a
+                href="https://www.youtube.com/channel/UCspHgrLVKETE06FNIFcBy3A"
+                target="_blank"
+              >
+                <i class="fa fa-youtube"></i>
+              </a>
             </div>
           </div>
         </div>

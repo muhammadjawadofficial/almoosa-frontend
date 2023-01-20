@@ -19,6 +19,14 @@
             v-for="(timeline, index) in timelineList"
             :key="'upcoming-appointment-id' + index + timeline.id"
           >
+            <div class="appointment-time">
+              <div class="appointment-time-day">
+                {{ getDate(timeline.start_date) }}
+              </div>
+              <div class="appointment-time-time">
+                {{ getTimeFromDate(timeline.start_date, true) }}
+              </div>
+            </div>
             <div class="appointment-card default">
               <div class="doctor-avatar">
                 <img
@@ -90,7 +98,12 @@ export default {
           this.timelineList = [];
           this.filteredDoctors = [];
           this.setLoadingState(false);
-          if (!this.isAPIAborted(error)) this.failureToast();
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
         }
       );
     },

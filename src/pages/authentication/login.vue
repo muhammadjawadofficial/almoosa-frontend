@@ -124,13 +124,13 @@ export default {
       selectedItem: {},
       loginOptions: [
         {
-          value: 1,
-          text: "proceedWithMRN",
-          method: "mrn_number",
+          value: 6,
+          text: "proceedWithSaudiId",
+          method: "saudi_id",
           placeholder: "enterLoginId",
-          type: constants.loginByPassword,
-          errorKey: "mrn",
-          validation: 7,
+          type: constants.loginByOTP,
+          errorKey: "saudiId",
+          validation: 10,
         },
         {
           value: 2,
@@ -142,13 +142,13 @@ export default {
           validation: 10,
         },
         {
-          value: 6,
-          text: "proceedWithSaudiId",
-          method: "saudi_id",
+          value: 1,
+          text: "proceedWithMRN",
+          method: "mrn_number",
           placeholder: "enterLoginId",
-          type: constants.loginByOTP,
-          errorKey: "saudiId",
-          validation: 10,
+          type: constants.loginByPassword,
+          errorKey: "mrn",
+          validation: 7,
         },
       ],
     };
@@ -256,7 +256,12 @@ export default {
               this.setUserInfo(data.user);
               this.navigateTo("default");
             } else {
-              this.failureToast();
+              
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
             }
           } else {
             this.failureToast(response.data.message);

@@ -46,6 +46,7 @@
     "verify": "Verify",
     "didntReceiveACode": "Didn't receive a code?",
     "resend": "Resend",
+    "resendIn": "Resend in",
     "letsConsult": "Let's Consult With Our Specialist Today",
     "setNewPassword": "Set New Password",
     "setNewPasswordDescription": "Set new password for your account and use the latest password for login",
@@ -62,7 +63,7 @@
       "title": "Registered Successfully",
       "text": "You have been registered, the submitted information will be reviewed by the hospital and we will get back to you. Meanwhile you can enjoy our pre-login features",
       "ok": "Contact us",
-      "selectToContinue": "Do you have a medical file? Register now",
+      "selectToContinue": "Do you have a medical file?",
       "iHaveMedicalFile": "I have a medical file",
       "iDontHaveMedicalFile": "I don't have a medical file",
       "medicalFileText": "You have been registered successfully. Your ASH Apps credentials have been shared on your registered email and phone number",
@@ -213,19 +214,19 @@
       "delete": "Appointment Cancelled",
       "deleteText": "Your appointment has been cancelled",
       "confirm": "Hey, Wait!",
-      "confirmText": "Are you sure, you want to cancel your appointment? You can reschedule your appointment based on your availability"
+      "confirmText": "Are you sure, you want to cancel your appointment?"
     }
   },
   "appointmentDetail": {
     "heading": "Appointment Detail",
     "subHeading": "View your appointments history",
-    "appointment": "Appointment",
-    "specialist": "Specialist",
+    "appointment": "Appointment Type",
+    "specialist": "Physician",
     "patient": "Patient",
-    "medicalType": "Medical Type",
+    "medicalType": "Specialty",
     "token": "Token",
     "dateTime": "Date & Time",
-    "reschedule": "Reschedule",
+    "reschedule": "Reschedule Appointment",
     "cancelAppointment": "Cancel Appointment",
     "joinCall": "Join Call",
     "chatWithDoctor": "Chat With Doctor",
@@ -237,7 +238,7 @@
   },
   "findSpecialist": {
     "specialities": "Specialities",
-    "findSpecialist": "Find specialist by selecting category",
+    "findSpecialist": "Find specialist by selecting speciality",
     "selectDateTime": "Select Date & Time",
     "selectDate": "Select Appointment Date",
     "findMySpecialist": "Find My Specialist",
@@ -277,48 +278,6 @@
     "nationality": "Nationality",
     "languages": "Languages",
     "ageGroups": "Patient Age Groups"
-  },
-  "bookAppointment": {
-    "success": "Your Appointment has been booked successfully!",
-    "info": "To confirm your appointment, complete the payment process.",
-    "appointment": "Appointment Type",
-    "onsite": "On-site",
-    "online": "Virtual",
-    "virtual": "Virtual",
-    "specialist": "Specialist",
-    "dateTime": "Date & Time",
-    "payment": "Payment",
-    "payNow": "Pay Now",
-    "payLater": "Pay Later",
-    "modal": {
-      "confirmed": "Appointment Confirmed",
-      "confirmedText": "Your appointment status will be shown as Pending unless you pay for the appointment",
-      "reschedule": "Appointment Rescheduled",
-      "rescheduleText": "Your appointment has been rescheduled successfully"
-    }
-  },
-  "selectPaymentMethod": {
-    "title": "Choose Your Payment Method",
-    "applePay": "Apple Pay",
-    "card": "Credit/Debit Card",
-    "insurance": "Pay Via Insurance",
-    "tamara": "Pay Via Tamara",
-    "payCash": "Pay via Credit/Debit/Apple Pay",
-    "chooseCash": "Choose Your Cash Method",
-    "chooseInsurance": "Pay Your Bills Via Medical Insurance",
-    "chooseTamara": "Pay Your Bills Via Tamara in Installments",
-    "paymentSuccessful": "Payment Successful",
-    "paymentSuccessfulText": "Your have paid for the appointment successfully",
-    "paymentFailed": "Payment Failed",
-    "paymentFailedText": "Your payment has been failed",
-    "currentBalance": "Current Balance",
-    "useWalletAmount": "Use Wallet Amount",
-    "fullyCovered": "Fully Covered",
-    "receiptDetails": "Receipt Details",
-    "appointmentAmount": "Appointment Amount",
-    "insuranceCanCoverUpto": "Insurance can cover upto",
-    "walletAmount": "Wallet Amount",
-    "amountPayable": "Amount Payable"
   },
   "promotions": {
     "title": "Promotions List",
@@ -363,6 +322,48 @@
   },
   "footer": {
     "allRights": "All Rights Reserved By Almoosa Health Group"
+  },
+  "bookAppointment": {
+    "success": "Your Appointment has been booked successfully!",
+    "info": "To confirm your appointment, complete the payment process.",
+    "appointment": "Appointment Type",
+    "onsite": "On-site",
+    "online": "Virtual",
+    "virtual": "Virtual",
+    "specialist": "Specialist",
+    "dateTime": "Date & Time",
+    "payment": "Payment",
+    "payNow": "Pay Now",
+    "payLater": "Pay Later",
+    "modal": {
+      "confirmed": "Appointment Confirmed",
+      "confirmedText": "Your appointment status will be shown as Pending unless you pay for the appointment",
+      "reschedule": "Appointment Rescheduled",
+      "rescheduleText": "Your appointment has been rescheduled successfully"
+    }
+  },
+  "selectPaymentMethod": {
+    "title": "Choose Your Payment Method",
+    "applePay": "Apple Pay",
+    "card": "Credit/Debit Card",
+    "insurance": "Pay Via Insurance",
+    "tamara": "Pay Via Tamara",
+    "payCash": "Pay via Credit/Debit/Apple Pay",
+    "chooseCash": "Choose Your Cash Method",
+    "chooseInsurance": "Pay Your Bills Via Medical Insurance",
+    "chooseTamara": "Pay Your Bills Via Tamara in Installments",
+    "paymentSuccessful": "Payment Successful",
+    "paymentSuccessfulText": "Payment is Successful",
+    "paymentFailed": "Payment Failed",
+    "paymentFailedText": "Your payment has been failed",
+    "currentBalance": "Current Balance",
+    "useWalletAmount": "Use Wallet Amount",
+    "fullyCovered": "Fully Covered",
+    "receiptDetails": "Receipt Details",
+    "appointmentAmount": "Appointment Amount",
+    "insuranceCanCoverUpto": "Insurance can cover upto",
+    "walletAmount": "Wallet Amount",
+    "amountPayable": "Amount Payable"
   },
   "rating": {
     "title": "Rate Our Physician",
@@ -487,8 +488,8 @@
     "rejected": "Rejected"
   },
   "comingSoon": {
-    "coming": "Coming",
-    "soon": "Soon...",
+    "coming": "Stay Tuned For",
+    "soon": "Our New Services",
     "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "buttonText": "Back to Dashboard"
   },
@@ -515,8 +516,6 @@
   "imageNotLoaded": "image-not-loaded",
   "typeToSearch": "Type to Search",
   "clear": "Clear",
-  "invalidInput": "Please provide a valid input value",
-  "validInput": "Looks Good",
   "perPage": "Per Page",
   "create": "Create",
   "update": "Update",

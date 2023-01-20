@@ -187,7 +187,7 @@ export default {
       this.navigateTo("My Medication Sessions");
       return;
     }
-    this.fetchTimelines();
+    this.fetchMedications();
   },
   computed: {
     ...mapGetters("user", ["getUserInfo"]),
@@ -212,7 +212,7 @@ export default {
           slots.evening_reminder;
       }
     },
-    fetchTimelines() {
+    fetchMedications() {
       this.setLoadingState(true);
       medicationService
         .getMedications(this.getSelectedMedicationSession.id)
@@ -223,14 +223,22 @@ export default {
               this.medicationList = [...data];
               this.filterMedications();
             } else {
+              this.medicationList = [];
+              this.filterMedications();
               this.failureToast(response.data.messsage);
             }
             this.setLoadingState(false);
           },
           (error) => {
             this.setLoadingState(false);
-            if (!this.isAPIAborted(error)) this.failureToast();
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
             this.medicationList = [];
+            this.filterMedications();
           }
         );
     },

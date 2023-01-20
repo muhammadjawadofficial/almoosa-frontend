@@ -82,6 +82,8 @@ import familyMembersModule from '../pages/family-members'
 import familyMembersList from '../pages/family-members/family-member-list'
 import familyMembersForm from '../pages/family-members/family-member-form'
 
+import VirtualTour from '../pages/virtual-tour'
+
 import { userService } from '../services';
 
 // component
@@ -482,6 +484,14 @@ const routes = [
             },
           },
         ]
+      },
+      {
+        path: "virtual-tour",
+        name: 'Virtual Tour',
+        component: VirtualTour,
+        meta: {
+          title: 'Virtual Tour | Almoosa Health Group',
+        },
       },
     ]
   },

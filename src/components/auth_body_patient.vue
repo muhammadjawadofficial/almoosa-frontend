@@ -165,7 +165,7 @@ export default {
     checkConditions(route) {
       this.showButtons = !route.meta.hideButtons;
       this.showSlider = route.name == "Login Dashboard";
-      this.showLoginRegister = this.showSlider || route.path.includes("guest");
+      this.showLoginRegister = this.showSlider;
     },
     switchLanguage(layout) {
       if (layout) {

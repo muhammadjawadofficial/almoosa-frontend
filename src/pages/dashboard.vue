@@ -271,7 +271,7 @@ export default {
         {
           text: "View Family Member",
           icon: "family-svg",
-          link: "Family Members",
+          // link: "Family Members",
         },
         {
           text: "Upcoming Appointment",
@@ -321,7 +321,7 @@ export default {
         {
           text: "Get Service & Package",
           icon: "briefcase-svg",
-          link: "Services Packages",
+          // link: "Services Packages",
         },
         {
           text: "Emergency Consultations",
@@ -330,6 +330,7 @@ export default {
         {
           text: "Virtual Tour",
           icon: "user-tag-svg",
+          link: "Virtual Tour"
         },
       ],
       todayAppointments: null,

@@ -154,7 +154,12 @@ export default {
         (error) => {
           console.error(error);
           this.filteredDoctors = [];
-          if (!this.isAPIAborted(error)) this.failureToast();
+          if (!this.isAPIAborted(error)) 
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
           this.setLoadingState(false);
         }
       );

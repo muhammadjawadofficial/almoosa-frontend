@@ -372,12 +372,16 @@ export default {
               this.walletAmount = 0;
             }
           }
-
           let insurances = res[1].data.data;
           this.patientInsurances = [...insurances.items];
         })
         .catch((error) => {
-          if (!this.isAPIAborted(error)) this.failureToast();
+          if (!this.isAPIAborted(error)) 
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
           this.setLoadingState(false);
         })
         .finally(() => {
@@ -455,7 +459,12 @@ export default {
           this.setAppointmentAmount();
         })
         .catch((error) => {
-          if (!this.isAPIAborted(error)) this.failureToast();
+          if (!this.isAPIAborted(error)) 
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
           this.setLoadingState(false);
         })
         .finally(() => {

@@ -33,7 +33,7 @@
           </button>
         </div>
         <div class="sign-up-link w200" v-if="time">
-          Resend in
+          {{ $t('login.resendIn') }}
           <span class="w500">
             {{ translateNumber("00:" + (time > 10 ? "" : "0") + time) }}
           </span>
@@ -184,7 +184,12 @@ export default {
         },
         (error) => {
           console.error(error);
-          if (!this.isAPIAborted(error)) this.failureToast();
+          if (!this.isAPIAborted(error)) 
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
           this.setLoadingState(false);
         }
       );

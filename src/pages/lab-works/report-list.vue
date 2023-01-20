@@ -126,7 +126,12 @@ export default {
         (error) => {
           this.reports = [];
           this.setLoadingState(false);
-          if (!this.isAPIAborted(error)) this.failureToast();
+          if (!this.isAPIAborted(error)) 
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
         }
       );
     },

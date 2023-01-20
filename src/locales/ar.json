@@ -46,6 +46,7 @@
     "verify": "للتأكيد",
     "didntReceiveACode": "لم تستلم الكود?",
     "resend": "أعداة ارسال الكود",
+    "resendIn": "أعداة ارسال الكود بعد",
     "letsConsult": "استشر طبيبك اليوم",
     "setNewPassword": "تعيين كلمة مرور جديدة",
     "setNewPasswordDescription": "قم بتعيين كلمة مرور جديدة لحسابك واستخدم أحدث كلمة مرور لتسجيل الدخول",
@@ -60,9 +61,9 @@
   "register": {
     "modal": {
       "title": "تم التسجيل بنجاح",
-      "text": "تم تسجيلك بنجاح ، سيتم مراجعة المعلومات المُقدمة من قِبل المستشفى واعلامك بالمستجدات ، في هذه الأثناء يمكنك الاستمتاع بالمزايا العامة على التطبيق",
+      "text": "تم تسجيلك بنجاح، سيتم مراجعة طلبك و سوف نوافيكم بالمستجدات. في هذه الأثناء يمكنك الاستمتاع بالمزايا العامة على التطبيق.",
       "ok": "اتصل بنا",
-      "selectToContinue": "هل لديك ملف طبي؟ سجل الأن",
+      "selectToContinue": "هل لديك ملف طبي؟",
       "iHaveMedicalFile": "لدي ملف طبي",
       "iDontHaveMedicalFile": "ليس لدي ملف طبي",
       "medicalFileText": "لقد تم تسجيلك بنجاح. تمت مشاركة بيانات اعتماد تطبيقات ASH الخاصة بك على بريدك الإلكتروني المسجل ورقم هاتفك",
@@ -100,7 +101,7 @@
     "familyNameRequired": "اسم العائلة مطلوب",
     "emailValid": "البريد الإلكتروني غير صالح",
     "phoneRequired": "رقم الهاتف مطلوب",
-    "phoneValid": "رقم الهاتف غير صالح",
+    "phoneValid": "رقم الجوال غير صحيح",
     "phoneLength": "يجب أن يكون رقم الهاتف {length} أرقام",
     "genderRequired": "الجنس مطلوب",
     "dobRequired": "تاريخ الميلاد مطلوب",
@@ -114,6 +115,8 @@
     "physicianIdRequired": "معرف الطبيب مطلوب",
     "passwordRequired": "كلمة المرور مطلوبة",
     "cardIdRequired": "صورة هوية الإقامة مطلوبة",
+    "iqamaIdPhotoRequired": "صورة معرف الإقامة مطلوبة",
+    "saudiIdPhotoRequired": "صورة الهوية الوطنية مطلوبة",
     "nationalityRequired": "الجنسية مطلوبة",
     "phoneEmailRequired": "البريد الإلكتروني أو رقم الهاتف مطلوب",
     "phoneEmailValid": "البريد الإلكتروني أو رقم الهاتف غير صالح",
@@ -153,7 +156,7 @@
     "noData": "لا يوجد إشعارات جديدة",
     "today": "اليوم",
     "home": "الرئيسية",
-    "bookings": "احجز موعدك",
+    "bookings": "مواعيدي",
     "emergencyConsultations": "استشارات الطوارئ",
     "contactUs": "تواصل معنا",
     "logOut": "تسجيل خروج",
@@ -209,21 +212,21 @@
     "appointmentTimeline": "الجدول الزمني لتاريخ الموعد",
     "modal": {
       "delete": "تم إلغاء الموعد",
-      "deleteText": "تم إلغاء موعدك",
+      "deleteText": "تم إلغاء موعدك بنجاح",
       "confirm": "مهلا انتظر!",
-      "confirmText": "هل أنت متأكد أنك تريد إلغاء موعدك؟ يمكنك إعادة جدولة موعدك بما يناسبك"
+      "confirmText": "هل أنت متأكد من إلغاء موعدك؟"
     }
   },
   "appointmentDetail": {
     "heading": "تفاصيل الموعد",
     "subHeading": "عرض المواعيد السابقة",
-    "appointment": "ميعاد",
-    "specialist": "متخصص",
+    "appointment": "نوع الموعد",
+    "specialist": "الطبيب",
     "patient": "المريض",
-    "medicalType": "النوع الطبي",
+    "medicalType": "التخصص",
     "token": "محجوز",
     "dateTime": "التاريخ والوقت",
-    "reschedule": "إعادة الجدولة",
+    "reschedule": "تغير الموعد",
     "cancelAppointment": "إلغاء الموعد",
     "joinCall": "الانضمام إلى المكالمة",
     "chatWithDoctor": "الدردشة مع الطبيب",
@@ -235,11 +238,11 @@
   },
   "findSpecialist": {
     "specialities": "التخصصات الصحية",
-    "findSpecialist": "ابحث عن طبيبك باختيار التخصص الصحي",
+    "findSpecialist": "ابحث عن طبيبك باختيار التخصص الطبي و ليس الصحي",
     "selectDateTime": "اختر تاريخ الموعد",
     "selectDate": "اختر تاريخ الموعد",
     "findMySpecialist": "ابحث عن الاختصاصي الخاص بي",
-    "chooseLocation": "اختيار موقع",
+    "chooseLocation": "اختر الموقع",
     "searchSpeciality": "البحث عن التخصص الصحي",
     "error": {
       "location": "حدد الموقع أولاً",
@@ -251,11 +254,11 @@
   "doctorList": {
     "title": "جدولة موعد",
     "makeAppointment": "حدد موعدًا",
-    "search": "ابحث عن الطبيب",
+    "search": "ابحث عن طبيبك",
     "bookingDate": "تاريخ الحجز",
     "timeSlots": "المواعيد المتاحة",
     "bookAppointment": "احجز موعدًا",
-    "viewDetails": "عرض التفاصيل",
+    "viewDetails": "عن طبيبك",
     "physicianList": "قائمة الأطباء",
     "noData": "لم يتم العثور على طبيب في معايير الاختيار الحالية"
   },
@@ -336,7 +339,7 @@
       "confirmed": "تم تأكيد الموعد",
       "confirmedText": "ستظهر حالة موعدك معلق إلا إذا دفعت مقابل الموعد",
       "reschedule": "تمت إعادة جدولة الموعد",
-      "rescheduleText": "تم إعادة جدولة موعدك بنجاح"
+      "rescheduleText": "تم تغير موعدك بنجاح"
     }
   },
   "selectPaymentMethod": {
@@ -350,7 +353,7 @@
     "chooseInsurance": "دفع فواتيرك عن طريق التأمين الطبي",
     "chooseTamara": "ادفع فواتيرك عن طريق تمارا بالتقسيط",
     "paymentSuccessful": "تم الدفع بنجاح",
-    "paymentSuccessfulText": "لقد دفعت مقابل الموعد بنجاح",
+    "paymentSuccessfulText": "تمت عملية الدفع بنجاح",
     "paymentFailed": "فشلت عملية الدفع",
     "paymentFailedText": "لقد فشلت عملية الدفع الخاصة بك",
     "currentBalance": "الرصيد الحالي",
@@ -390,7 +393,7 @@
     "approvals": "الموافقات",
     "addNewInsurance": "إضافة تأمين جديد",
     "medicalSupport": "دعم طبي",
-    "policyNum": "رقم مركز الشرطه",
+    "policyNum": "رقم بوليصة التأمين",
     "planDetails": "تفاصيل الخطة",
     "lastUpdate": "آخر تحديث في",
     "insuranceCompnayName": "اسم شركة التأمين",
@@ -481,12 +484,12 @@
   },
   "approvalStatus": {
     "sent_for_approval": "تم إرسالها للموافقة",
-    "approved": "وافقت",
+    "approved": "تمت الموافقة",
     "rejected": "مرفوض"
   },
   "comingSoon": {
-    "coming": "",
-    "soon": "قريباً",
+    "coming": "ترقبوا",
+    "soon": "خدماتنا الجديدة",
     "text": "هذه الخاصية قادمة قريبا",
     "buttonText": "الرئيسة"
   },

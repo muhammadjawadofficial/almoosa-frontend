@@ -3,7 +3,6 @@
     <back-navigation
       backLink="Upcoming Appointment"
       :title="$t('appointmentDetail.heading')"
-      :subTitle="$t('appointmentDetail.subHeading')"
     />
     <div class="search-box top-padding">
       <button
@@ -62,7 +61,7 @@
                   }}
                 </div>
               </div>
-              <div class="appointment-detail--sepecialist">
+              <div class="appointment-detail--sepecialist" v-if="false">
                 <div class="appointment-detail--label">
                   {{ $t("appointmentDetail.token") }}
                 </div>
@@ -227,7 +226,7 @@ export default {
         this.$t("upcomingAppointment.modal.confirm"),
         this.$t("upcomingAppointment.modal.confirmText"),
         "m-calendar-cancel-confirm",
-        this.$t("yes"),
+        this.$t("cancel"),
         this.$t("appointmentDetail.reschedule")
       ).then((result) => {
         if (result.value) {
@@ -243,13 +242,18 @@ export default {
                   "m-calendar-cancel"
                 );
               } else {
-                this.failureToast(response.message);
+                this.failureToast(response.data.message);
               }
               this.setLoadingState(false);
             },
             (error) => {
               console.error(error);
-              if (!this.isAPIAborted(error)) this.failureToast();
+              if (!this.isAPIAborted(error)) 
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );;
               this.setLoadingState(false);
             }
           );

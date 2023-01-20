@@ -178,7 +178,12 @@ export default {
           }
         })
         .catch((error) => {
-          if (!this.isAPIAborted(error)) this.failureToast();
+          if (!this.isAPIAborted(error)) 
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
         })
         .finally(() => {
           this.setLoadingState(false);

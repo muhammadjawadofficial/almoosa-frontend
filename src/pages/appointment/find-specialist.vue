@@ -9,6 +9,30 @@
   >
     <back-navigation />
     <div
+      class="datetime-section find-specialist-container-section block-section"
+    >
+      <div class="heading-section">
+        <div class="heading-icon">
+          <img src="../../assets/images/calendar.svg" alt="calendar-icon" />
+        </div>
+        <div class="heading-text">
+          <div class="heading-title">
+            {{ $t("findSpecialist.selectDateTime") }}
+          </div>
+          <div class="heading-subTitle">
+            {{ getLongMonthDayFromDate(selectedDate) }}
+          </div>
+        </div>
+      </div>
+      <div class="body-section">
+        <ash-datepicker
+          :placeholder="$t('findSpecialist.selectDate')"
+          v-model="selectedDate"
+          disableDate="forward"
+        />
+      </div>
+    </div>
+    <div
       v-if="getBookingMethod == 'onsite'"
       class="location-section find-specialist-container-section block-section"
     >
@@ -19,9 +43,6 @@
         <div class="heading-text">
           <div class="heading-title">
             {{ $t("findSpecialist.chooseLocation") }}
-          </div>
-          <div class="heading-subTitle">
-            {{ $t("ash") }}
           </div>
         </div>
       </div>
@@ -83,10 +104,7 @@
           </div>
         </div>
       </div>
-      <div
-        class="search-box"
-        :class="{ 'top-no-padding': getBookingMethod == 'online' }"
-      >
+      <div class="search-box">
         <div class="search-icon">
           <i class="fa fa-search" aria-hidden="true"></i>
         </div>
@@ -126,30 +144,6 @@
             {{ $t("noRecord") }}
           </div>
         </div>
-      </div>
-    </div>
-    <div
-      class="datetime-section find-specialist-container-section block-section"
-    >
-      <div class="heading-section">
-        <div class="heading-icon">
-          <img src="../../assets/images/calendar.svg" alt="calendar-icon" />
-        </div>
-        <div class="heading-text">
-          <div class="heading-title">
-            {{ $t("findSpecialist.selectDateTime") }}
-          </div>
-          <div class="heading-subTitle">
-            {{ getLongMonthDayFromDate(selectedDate) }}
-          </div>
-        </div>
-      </div>
-      <div class="body-section">
-        <ash-datepicker
-          :placeholder="$t('findSpecialist.selectDate')"
-          v-model="selectedDate"
-          disableDate="forward"
-        />
       </div>
     </div>
     <div
@@ -241,14 +235,19 @@ export default {
             this.filteredSpecialities = [...this.specialities];
           } else {
             this.specialities = [];
-            this.failureToast(specialitiesResponse.message);
+            this.failureToast(specialitiesResponse.data.message);
           }
           this.setLoadingState(false);
         })
         .catch((error) => {
           this.clinics = [];
           this.specialities = [];
-          if (!this.isAPIAborted(error)) this.failureToast();
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
           this.setLoadingState(false);
         });
       let today = new Date();

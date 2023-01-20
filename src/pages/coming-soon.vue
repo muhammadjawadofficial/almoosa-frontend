@@ -5,7 +5,6 @@
       <span class="font-primary">{{ $t("comingSoon.soon") }}</span>
     </div>
     <div class="sub-heading text-center">
-      {{ $t("comingSoon.text") }}
       <div>
         <button class="btn btn-secondary mt-3" @click="navigateTo('default')">
           {{ $t("comingSoon.buttonText") }}
@@ -54,11 +53,13 @@ export default {
     font-size: 0.5em;
   }
   .heading {
-    font-size: 4.5em;
-    letter-spacing: 0.09em;
+    font-size: 4em;
     line-height: 1;
     gap: 0.3em;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
   }
   .sub-heading {
     font-size: 1em;

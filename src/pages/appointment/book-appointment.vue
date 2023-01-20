@@ -245,7 +245,12 @@ export default {
         },
         (error) => {
           this.setLoadingState(false);
-          if (!this.isAPIAborted(error)) this.failureToast();
+          if (!this.isAPIAborted(error)) 
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );;
         }
       );
     },
@@ -315,13 +320,18 @@ export default {
                 this.showModal();
               }
             } else {
-              this.failureToast(response.message);
+              this.failureToast(response.data.message);
             }
             this.setLoadingState(false);
           },
           (error) => {
             console.error(error);
-            if (!this.isAPIAborted(error)) this.failureToast();
+            if (!this.isAPIAborted(error)) 
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );;
             this.setLoadingState(false);
           }
         );
@@ -378,7 +388,12 @@ export default {
               },
               (error) => {
                 this.setLoadingState(false);
-                if (!this.isAPIAborted(error)) this.failureToast();
+                if (!this.isAPIAborted(error)) 
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );;
               }
             );
           });

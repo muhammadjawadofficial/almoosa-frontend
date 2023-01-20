@@ -73,7 +73,7 @@ const messages = { en: en, ar: ar };
 const locale = (localStorage.getItem('currentLanguage') && localeOptions.filter(x => x.id === localStorage.getItem('currentLanguage')).length > 0) ? localStorage.getItem('currentLanguage') : defaultLocale;
 const i18n = new VueI18n({
   locale: locale,
-  fallbackLocale: 'en',
+  fallbackLocale: 'ar',
   messages,
   silentTranslationWarn: true
 });
