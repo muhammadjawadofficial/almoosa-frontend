@@ -1,5 +1,5 @@
 <template>
-  <div class="connect-container full-height-container d-flex iframe-loading">
+  <div class="connect-container full-height-container h-100 d-flex iframe-loading">
     <iframe
       v-if="getRoomUrl"
       @load="iframeIsLoaded"

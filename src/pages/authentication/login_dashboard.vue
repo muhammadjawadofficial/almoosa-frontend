@@ -56,6 +56,7 @@ export default {
         {
           text: "Virtual Tour",
           icon: "user-tag-svg",
+          link: "Virtual Tour Guest"
         },
         {
           text: "Emergency Consultations",

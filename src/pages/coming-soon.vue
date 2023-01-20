@@ -37,7 +37,7 @@ export default {
   gap: 0.75em;
   font-size: 1rem;
   &.guest {
-    height: 75vh;
+    height: 95vh;
     @media (max-width: 1200px) {
       height: 65vh;
     }

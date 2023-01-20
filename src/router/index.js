@@ -654,7 +654,6 @@ const routes = [
                   public: true
                 }
               },
-
               {
                 path: 'health-education',
                 component: healthEducationModule,
@@ -679,6 +678,15 @@ const routes = [
                     },
                   },
                 ]
+              },
+              {
+                path: "virtual-tour",
+                name: 'Virtual Tour Guest',
+                component: VirtualTour,
+                meta: {
+                  title: 'Virtual Tour | Almoosa Health Group',
+                  public: true,
+                },
               },
             ]
           },
