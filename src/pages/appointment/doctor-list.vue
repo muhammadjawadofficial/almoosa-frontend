@@ -10,7 +10,7 @@
         isBookingFlow ? $t('doctorList.title') : $t('doctorList.physicianList')
       "
     />
-    <div class="search-box" :class="{'top-padding': !getIsGuest}">
+    <div class="search-box" :class="{ 'top-padding': !getIsGuest }">
       <div class="search-icon">
         <i class="fa fa-search" aria-hidden="true"></i>
       </div>
@@ -28,7 +28,12 @@
       <div class="no-data" v-if="filteredDoctors == null">
         {{ $t("loading") }}
       </div>
-      <template v-else-if="filteredDoctors && filteredDoctors.length">
+      <template v-else-if="!filteredDoctors.length">
+        <div class="no-data">
+          {{ $t(searchDoctorQuery ? "noRecord" : "doctorList.noData") }}
+        </div>
+      </template>
+      <template v-else>
         <div
           class="doctor-card"
           v-for="doctor in filteredDoctors"
@@ -52,11 +57,6 @@
           >
             {{ $t("doctorList.viewDetails") }}
           </button>
-        </div>
-      </template>
-      <template v-else>
-        <div class="no-data">
-          {{ $t(searchDoctorQuery ? "noRecord" : "doctorList.noData") }}
         </div>
       </template>
     </div>
