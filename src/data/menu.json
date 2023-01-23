@@ -148,17 +148,6 @@
             "active": false,
             "disabled": false,
             "path": "/virtual-tour"
-        },
-        {
-            "title": "View Promotions",
-            "title_ar": "العروض و الخدمات",
-            "icon": "promotions-svg",
-            "type": "link",
-            "badgeType": "primary",
-            "badgeValue": "",
-            "active": false,
-            "disabled": false,
-            "path": "/promotions/"
         }
     ]
 }
