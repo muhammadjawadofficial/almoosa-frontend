@@ -47,6 +47,11 @@
                 <div class="doctor-speciality">
                   {{ timeline[getLocaleKey("doctor_name")] }}
                 </div>
+                <div class="appointment-status success">
+                  <div class="appointment-time-span">
+                    {{$t('myTimeline.episode') + ': ' + timeline.episode_status }}
+                  </div>
+                </div>
                 <button
                   class="btn start-call-button"
                   @click="viewDetails(timeline)"
@@ -114,3 +119,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.appointment-time-span {
+  position: unset !important;
+}
+</style>

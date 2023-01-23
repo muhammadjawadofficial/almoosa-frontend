@@ -408,7 +408,8 @@
     "title": "تاريخك الطبي",
     "details": "تفاصيل الجدول الزمني الخاص بي",
     "viewDetails": "عرض التفاصيل",
-    "appointmentSession": "جلسة التعيين"
+    "appointmentSession": "جلسة التعيين",
+    "episode": "حلقة"
   },
   "myMedication": {
     "title": "الأدوية",

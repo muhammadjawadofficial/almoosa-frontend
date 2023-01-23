@@ -408,7 +408,8 @@
     "title": "My Timeline",
     "details": "My Timeline Details",
     "viewDetails": "View Details",
-    "appointmentSession": "Appointment Session"
+    "appointmentSession": "Appointment Session",
+    "episode": "Episode"
   },
   "myMedication": {
     "title": "Medications",

@@ -17,7 +17,7 @@
                 <div>
                   <img src="../../assets/images/heart-beat.svg" alt="heart" />
                   {{ $t("appointmentDetail.medicalType") }}:
-                  {{ getSelectedTimeline.department }}
+                  {{ getSelectedTimeline[getLocaleKey('department')] }}
                 </div>
                 <div class="info">
                   <img src="../../assets/images/hashtag.svg" alt="heart" />
