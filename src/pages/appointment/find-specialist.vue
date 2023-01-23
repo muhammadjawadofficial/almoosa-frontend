@@ -66,7 +66,7 @@
                 <div class="location-card-details-info-address">
                   {{ clinic.address }}
                 </div>
-                <div class="location-card-details-info-timing">
+                <div class="location-card-details-info-timing d-none">
                   {{ clinic.timing }}
                 </div>
               </div>
@@ -215,7 +215,7 @@ export default {
       this.setLoadingState(true);
       Promise.all([
         this.getBookingMethod == "onsite"
-          ? appointmentService.getClinics()
+          ? appointmentService.getClinicsV1()
           : null,
         appointmentService.getSpecialities(),
       ])

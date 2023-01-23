@@ -752,7 +752,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         &-section {
             display: flex;
             gap: 1rem;
-            &:not(:has(.heading-text .heading-subTitle)){
+            &:not(:has(.heading-text .heading-subTitle)) {
                 align-items: center;
                 .heading-icon {
                     display: flex;
@@ -1862,6 +1862,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             color: $black;
             line-height: 1.1em;
             font-family: $font-diodrum-medium;
+            > * {
+                text-align: center !important;
+            }
             .swal-title {
                 margin-block-start: 0.5rem;
                 margin-block-end: 1.5rem;
@@ -1917,6 +1920,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             }
         }
     }
+}
+.toasted {
+    padding-block: 10px;
 }
 .page-body-container {
     padding-top: 4.5rem;

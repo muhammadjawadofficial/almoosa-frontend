@@ -45,8 +45,8 @@
     "codeSentMessage": "تم ارسال كود مكون من 4 أرقام  على رقم جوالك",
     "verify": "للتأكيد",
     "didntReceiveACode": "لم تستلم الكود?",
-    "resend": "أعداة ارسال الكود",
-    "resendIn": "أعداة ارسال الكود بعد",
+    "resend": "إعادة إرسال",
+    "resendIn": "إعادة إرسال بعد",
     "letsConsult": "استشر طبيبك اليوم",
     "setNewPassword": "تعيين كلمة مرور جديدة",
     "setNewPasswordDescription": "قم بتعيين كلمة مرور جديدة لحسابك واستخدم أحدث كلمة مرور لتسجيل الدخول",
@@ -179,7 +179,7 @@
   "modules": {
     "Virtual Consultations": "موعد افتراضي",
     "On-site Consultations": "موعد في العيادة",
-    "Check Symptoms": "مدقق الأعراض",
+    "Check Symptoms": "فاحص الاعراض",
     "View Family Member": "أفراد عائلتك",
     "Upcoming Appointment": "موعدك القادم",
     "Lab Works": "المختبر",
@@ -238,12 +238,12 @@
   },
   "findSpecialist": {
     "specialities": "التخصصات الصحية",
-    "findSpecialist": "ابحث عن طبيبك باختيار التخصص الطبي و ليس الصحي",
+    "findSpecialist": "ابحث عن طبيبك باختيار التخصص الطبي",
     "selectDateTime": "اختر تاريخ الموعد",
     "selectDate": "اختر تاريخ الموعد",
     "findMySpecialist": "ابحث عن الاختصاصي الخاص بي",
     "chooseLocation": "اختر الموقع",
-    "searchSpeciality": "البحث عن التخصص الصحي",
+    "searchSpeciality": "ابحث عن طبيبك باختيار التخصص الطبي",
     "error": {
       "location": "حدد الموقع أولاً",
       "speciality": "حدد التخصص أولا",
@@ -257,7 +257,7 @@
     "search": "ابحث عن طبيبك",
     "bookingDate": "تاريخ الحجز",
     "timeSlots": "المواعيد المتاحة",
-    "bookAppointment": "احجز موعدًا",
+    "bookAppointment": "حجز موعد",
     "viewDetails": "عن طبيبك",
     "physicianList": "قائمة الأطباء",
     "noData": "لم يتم العثور على طبيب في معايير الاختيار الحالية"
@@ -272,10 +272,10 @@
       "noData": "لا توجد فترات زمنية في هذا التاريخ المحدد",
       "notSelected": "الرجاء تحديد فترة زمنية"
     },
-    "aboutDoctor": "عن دكتور",
+    "aboutDoctor": "عن الطبيب",
     "degree": "درجة",
     "expertise": "مجالات الخبرة",
-    "nationality": "جنسية",
+    "nationality": "الجنسية",
     "languages": "اللغات",
     "ageGroups": "الفئات العمرية للمريض"
   },
@@ -337,7 +337,7 @@
     "payLater": "ادفع لاحقا",
     "modal": {
       "confirmed": "تم تأكيد الموعد",
-      "confirmedText": "ستظهر حالة موعدك معلق إلا إذا دفعت مقابل الموعد",
+      "confirmedText": "تم حجز موعدك بنجاح",
       "reschedule": "تمت إعادة جدولة الموعد",
       "rescheduleText": "تم تغير موعدك بنجاح"
     }
@@ -394,7 +394,7 @@
     "addNewInsurance": "إضافة تأمين جديد",
     "medicalSupport": "دعم طبي",
     "policyNum": "رقم بوليصة التأمين",
-    "planDetails": "تفاصيل الخطة",
+    "planDetails": "فئة التأمين",
     "lastUpdate": "آخر تحديث في",
     "insuranceCompnayName": "اسم شركة التأمين",
     "nationalId": "رقم الهوية الوطنية / رقم الإقامة",
@@ -537,6 +537,6 @@
   "selectLabel": "اضغط على دخل لتحديد",
   "selectedLabel": "المحدد",
   "deselectLabel": "اضغط على دخل للإزالة",
-  "dr": "دكتور",
+  "dr": "الطبيب",
   "notAddedYet": "لم يتم إضافته بعد"
 }

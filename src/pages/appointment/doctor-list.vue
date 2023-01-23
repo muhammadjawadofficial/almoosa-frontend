@@ -30,7 +30,7 @@
       </div>
       <template v-else-if="!filteredDoctors.length">
         <div class="no-data">
-          {{ $t(searchDoctorQuery ? "noRecord" : "doctorList.noData") }}
+          {{ $t(!searchDoctorQuery ? "noRecord" : "doctorList.noData") }}
         </div>
       </template>
       <template v-else>

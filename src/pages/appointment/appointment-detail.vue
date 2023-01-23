@@ -242,7 +242,7 @@ export default {
                   "m-calendar-cancel"
                 );
               } else {
-                this.failureToast(response.data.message);
+                this.failureToast(response.message);
               }
               this.setLoadingState(false);
             },

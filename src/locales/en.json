@@ -337,7 +337,7 @@
     "payLater": "Pay Later",
     "modal": {
       "confirmed": "Appointment Confirmed",
-      "confirmedText": "Your appointment status will be shown as Pending unless you pay for the appointment",
+      "confirmedText": "Your appointment has been booked",
       "reschedule": "Appointment Rescheduled",
       "rescheduleText": "Your appointment has been rescheduled successfully"
     }

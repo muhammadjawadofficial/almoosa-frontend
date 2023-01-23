@@ -319,7 +319,7 @@ export default {
                 });
               }
             } else {
-              this.failureToast(response.data.message);
+              this.failureToast(response.message);
             }
             this.setLoadingState(false);
           },
@@ -378,7 +378,7 @@ export default {
                     this.navigateTo("Appointment Detail");
                   });
                 } else {
-                  this.failureToast(response.data.message);
+                  this.failureToast(response.message);
                 }
                 this.setLoadingState(false);
               },

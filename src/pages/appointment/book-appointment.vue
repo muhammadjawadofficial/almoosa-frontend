@@ -320,12 +320,12 @@ export default {
                 this.showModal();
               }
             } else {
-              this.failureToast(response.data.message);
+              this.failureToast(response.message);
             }
             this.setLoadingState(false);
           },
           (error) => {
-            console.error(error);
+            console.error(error.response);
             if (!this.isAPIAborted(error)) 
               this.failureToast(
                 error.response &&

@@ -26,7 +26,7 @@ export const apiPath = {
 
     loginOtp: {
         resend: getApiObject("post", "otp/send"),
-        verify: getApiObject("post", "otp/verify"),
+        verify: getApiObject("post", "otp/verify", "v2"),
     },
 
     appointment: {

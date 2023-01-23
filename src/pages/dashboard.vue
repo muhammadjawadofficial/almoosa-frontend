@@ -277,7 +277,7 @@ export default {
           text: "Upcoming Appointment",
           icon: "calendar-svg",
           link: "Upcoming Appointment",
-          param: { method: "online" },
+          param: { method: "onsite" },
           guardianComponents: true,
         },
         {
@@ -313,11 +313,10 @@ export default {
           icon: "atom-svg",
           link: "Health Education",
         },
-        // {
-        //   text: "View Promotions",
-        //   icon: "promotions-svg",
-        //   link: "Promotions",
-        // },
+        {
+          text: "View Promotions",
+          icon: "promotions-svg",
+        },
         {
           text: "Get Service & Package",
           icon: "briefcase-svg",
