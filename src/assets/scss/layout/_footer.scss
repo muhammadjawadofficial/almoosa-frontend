@@ -24,7 +24,7 @@
 .footer-icons {
   display: flex;
   gap: 0.5rem;
-  i {
+  a {
     width: 2rem;
     aspect-ratio: 1;
     background: $white 0% 0% no-repeat padding-box;
@@ -37,10 +37,20 @@
     cursor: pointer;
     transition: 0.3s all;
     font-size: 1rem;
-    &:hover{
+    i {
+      width: 1rem;
+      height: 1rem;
+      display: grid;
+      place-content: center;
+      transition: 0.1s all;
+    }
+    &:hover {
       background-color: $primary-color;
       color: $white;
-      font-size: 1.2rem;
+      i {
+        // font-size: 1.2rem;
+        transform: scale(1.2);
+      }
     }
   }
 }
