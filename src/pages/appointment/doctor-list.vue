@@ -147,19 +147,19 @@ export default {
             this.setDoctorsList(response.data.items);
             this.filteredDoctors = [...response.data.items];
           } else {
+            this.filteredDoctors = [];
             this.failureToast(response.message);
           }
           this.setLoadingState(false);
         },
         (error) => {
-          console.error(error);
           this.filteredDoctors = [];
-          if (!this.isAPIAborted(error)) 
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
           this.setLoadingState(false);
         }
       );

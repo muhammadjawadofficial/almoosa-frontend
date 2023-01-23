@@ -478,7 +478,7 @@ export default {
         this.failureToast(this.$t("register.locationRequired"));
       } else if (!this.registerFormState.card_id) {
         this.failureToast(
-          this.$t("register. " + this.selectedOption.text + "PhotoRequired")
+          this.$t("register." + this.selectedOption.text + "PhotoRequired")
         );
       }
 

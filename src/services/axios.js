@@ -12,8 +12,4 @@ let resetCancellation = function () {
     controller = new AbortController();
 }
 
-controller.signal.addEventListener('abort', () => {
-    console.log(controller.signal.aborted, 'aborted');
-});
-
 export { axios, source, controller, resetCancellation };
