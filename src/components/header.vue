@@ -18,16 +18,24 @@
             {{ $t("header.home") }}
           </li>
           <li
-            @click="loadComponent('/appointment/online/upcoming')"
+            @click="loadComponent('/appointment/onsite/upcoming')"
             class="nav-link d-lg-block d-none"
             :class="{ active: currentRouteName == 'Upcoming Appointment' }"
           >
             {{ $t("header.bookings") }}
           </li>
-          <li class="nav-link d-lg-block d-none">
+          <li
+            @click="loadComponent('/coming-soon/')"
+            class="nav-link d-lg-block d-none"
+          >
             {{ $t("header.emergencyConsultations") }}
           </li>
-          <li class="nav-link d-lg-block d-none">
+          <li
+            class="nav-link d-lg-block d-none"
+            @click="
+              loadComponent('https://almoosahospital.org/en/contact-us/', true)
+            "
+          >
             {{ $t("header.contactUs") }}
           </li>
         </template>
@@ -269,7 +277,11 @@ export default {
       this.setUserInfo(guardianInfo);
       this.navigateTo("default");
     },
-    loadComponent(path) {
+    loadComponent(path, external = false) {
+      if (external) {
+        window.open(path, "_blank");
+        return;
+      }
       if (!this.isSideBarOpen) this.toggle_sidebar();
       this.setNavActive({ path });
       if (this.$route.path != path) this.$router.push(path);

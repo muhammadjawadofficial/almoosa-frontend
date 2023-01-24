@@ -24,7 +24,7 @@
                 <div class="name">
                   <div class="title">
                     {{
-                      getSelectedMedication.title +
+                      (getSelectedMedication.title || "") +
                       " " +
                       getSelectedMedication.variation
                     }}
@@ -35,13 +35,16 @@
                 </div>
               </div>
               <div class="header-section--button">
-                <button class="btn btn-primary btn-pill" @click="setReminder">
+                <button class="btn btn-primary btn-pill" @click="setReminder" v-if="false">
                   {{ $t("myMedication.setReminder") }}
                 </button>
               </div>
             </div>
             <div class="appointment-detail mt-5">
-              <div class="appointment-detail--type">
+              <div
+                class="appointment-detail--type"
+                v-if="getSelectedMedication.instructions"
+              >
                 <div class="appointment-detail--label">
                   {{ $t("myMedication.doctorInstruction") }}
                 </div>

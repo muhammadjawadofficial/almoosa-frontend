@@ -358,29 +358,36 @@ export default {
     },
     checkDropdownValues() {
       this.setLoadingState(true);
-      authService.getNationalities().then(
-        (res) => {
-          if (res.data.status) {
-            let data = res.data.data;
-            if (data) {
-              this.nationalities = data.items;
+      authService
+        .getNationalities()
+        .then(
+          (res) => {
+            if (res.data.status) {
+              let data = res.data.data;
+              if (data) {
+                this.nationalities = data.items;
+              }
+            } else {
+              this.failureToast(res.data.message);
             }
-          } else {
-            this.failureToast(res.data.message);
-          }
-          this.setLoadingState(false);
-        },
-        (error) => {
-          console.error(error);
+            this.setLoadingState(false);
+          },
+          (error) => {
+            console.error(error);
+            if (!this.isAPIAborted(error))
           if (!this.isAPIAborted(error)) 
+            if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
                   error.response.data &&
                   error.response.data.message
               );
-          this.setLoadingState(false);
-        }
-      );
+            this.setLoadingState(false);
+          }
+        )
+        .finally(() => {
+          this.itemSelected(this.selectedOption);
+        });
     },
     formatNumber(number, input) {
       if (
@@ -420,12 +427,12 @@ export default {
         },
         (error) => {
           console.error(error);
-          if (!this.isAPIAborted(error)) 
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
           this.setLoadingState(false);
         }
       );
@@ -568,8 +575,10 @@ export default {
       }
       this.userId = "";
       this.refreshDropzone();
-      this.fileToUpload = [];
-      this.$refs.fileUpload.removeAllFiles();
+      if (this.fileToUpload.length > 0) {
+        this.fileToUpload = [];
+        this.$refs.fileUpload.removeAllFiles();
+      }
       this.loginOptions.forEach((option) => {
         delete this.registerForm[option.method];
       });

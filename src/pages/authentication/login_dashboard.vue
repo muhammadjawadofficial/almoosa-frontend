@@ -56,7 +56,7 @@ export default {
         {
           text: "Virtual Tour",
           icon: "user-tag-svg",
-          link: "Virtual Tour Guest"
+          link: "Virtual Tour Guest",
         },
         {
           text: "Emergency Consultations",
@@ -65,6 +65,8 @@ export default {
         {
           text: "Contact Us",
           icon: "laptop-svg",
+          link: "https://almoosahospital.org/en/contact-us/",
+          external: true,
         },
         {
           text: "Find Specialist",
@@ -89,11 +91,7 @@ export default {
     },
     loadModule(item) {
       if (item.link) {
-        if (item.param) {
-          this.navigateTo(item.link, item.param);
-        } else {
-          this.navigateTo(item.link);
-        }
+        this.navigateTo(item.link, item.param, item.external);
       } else {
         this.navigateTo("Coming Soon Guest");
       }

@@ -252,11 +252,14 @@ export default {
           if (response.data.status) {
             let data = response.data.data;
             if (data.access_token) {
-              userService.storeLoginInfo(data.user, data.access_token);
-              this.setUserInfo(data.user);
-              this.navigateTo("default");
+              if (data.user && data.user.id) {
+                userService.storeLoginInfo(data.user, data.access_token);
+                this.setUserInfo(data.user);
+                this.navigateTo("default");
+              } else {
+                this.failureToast();
+              }
             } else {
-              
               this.failureToast(
                 error.response &&
                   error.response.data &&

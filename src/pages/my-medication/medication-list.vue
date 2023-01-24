@@ -75,6 +75,7 @@
                       <span
                         class="btn start-call-button w200"
                         @click.stop="setReminder(medication)"
+                        v-if="false"
                       >
                         {{ $t("myMedication.setReminder") }}
                       </span>

@@ -237,7 +237,7 @@
               :key="'dashboard-item-' + index"
               @click="
                 item.link
-                  ? navigateTo(item.link, item.param)
+                  ? navigateTo(item.link, item.param, item.external)
                   : navigateTo('Coming Soon')
               "
             >

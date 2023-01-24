@@ -314,7 +314,11 @@ export default {
         navigateBack() {
             this.$router.go(-1);
         },
-        navigateTo(name, params = null) {
+        navigateTo(name, params = null, external = false) {
+            if (external) {
+                window.open(name, '_blank')
+                return;
+            }
             if (this.$route.name == name && this.isEqual(this.$route.params, params)) {
                 return;
             }

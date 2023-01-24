@@ -107,7 +107,9 @@
                     @click="makeCall(details)"
                     v-if="
                       details.type.toLowerCase() == 'online' &&
-                      !getUserInfo.isDependent
+                      !getUserInfo.isDependent &&
+                      details.status &&
+                      details.status.toLowerCase() == 'paid'
                     "
                   >
                     {{ $t("appointmentDetail.joinCall") }}
@@ -177,10 +179,10 @@ export default {
       this.navigateTo("Select Payment Method");
     },
     makeCall(appointment) {
-      // if (this.details.status.toLowerCase() !== "paid") {
-      //   this.failureToast(this.$t("cantJoinCallPaymetPending"));
-      //   return;
-      // }
+      if (this.details.status.toLowerCase() !== "paid") {
+        this.failureToast(this.$t("cantJoinCallPaymetPending"));
+        return;
+      }
       if (
         this.isAllowedToCall(
           this.details.booked_date,

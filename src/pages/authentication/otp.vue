@@ -33,7 +33,7 @@
           </button>
         </div>
         <div class="sign-up-link w200" v-if="time">
-          {{ $t('login.resendIn') }}
+          {{ $t("login.resendIn") }}
           <span class="w500">
             {{ translateNumber("00:" + (time > 10 ? "" : "0") + time) }}
           </span>
@@ -149,12 +149,16 @@ export default {
                   this.navigateTo("Login Dashboard");
                 } else {
                   this.setAuthState(constants.auth.login);
-                  userService.storeLoginInfo(data.user, data.access_token);
-                  this.setUserInfo(data.user);
-                  if (data.user.is_privacy_agreed) {
-                    this.navigateTo("default");
+                  if (data.user && data.user.id) {
+                    userService.storeLoginInfo(data.user, data.access_token);
+                    this.setUserInfo(data.user);
+                    if (data.user.is_privacy_agreed) {
+                      this.navigateTo("default");
+                    } else {
+                      this.navigateTo("Terms and Condition");
+                    }
                   } else {
-                    this.navigateTo("Terms and Condition");
+                    this.failureToast();
                   }
                 }
               }
@@ -184,12 +188,12 @@ export default {
         },
         (error) => {
           console.error(error);
-          if (!this.isAPIAborted(error)) 
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
           this.setLoadingState(false);
         }
       );
