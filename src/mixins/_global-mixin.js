@@ -527,7 +527,7 @@ export default {
             if (!fullName) {
                 fullName = parseName(user.first_name) + parseName(user.middle_name) + parseName(user.family_name)
             }
-            if (fullName && !user.mrn_number) {
+            if (fullName && user.role_id == 4) {
                 fullName = this.$t('dr') + " " + fullName.trim();
             }
             return fullName || 'N/A';
