@@ -43,26 +43,39 @@ const userRole = 'userRole';
 
 const paymentToBeBook = 'booking'
 
+let userDataStorage = sessionStorage;
+
 function isAuthenticatedUser() {
-    return !!localStorage.getItem(jwtTokenKey);
+    if (localStorage.getItem(jwtTokenKey)) {
+        userDataStorage = localStorage;
+    } else {
+        userDataStorage = sessionStorage;
+    }
+
+    return !!userDataStorage.getItem(jwtTokenKey);
 }
 
-function storeLoginInfo(user, token) {
+function storeLoginInfo(user, token, rememberMe = false) {
+    if (rememberMe) {
+        userDataStorage = localStorage;
+    }
     // store user details and jwt token in local storage to keep user logged in between page refreshes
-    localStorage.setItem(userInfo, JSON.stringify(user));
-    localStorage.setItem(jwtTokenKey, token);
+    userDataStorage.setItem(userInfo, JSON.stringify(user));
+    userDataStorage.setItem(jwtTokenKey, token);
 }
 
 function removeLoginInfo() {
+    sessionStorage.removeItem(userInfo);
+    sessionStorage.removeItem(jwtTokenKey);
     localStorage.removeItem(userInfo);
     localStorage.removeItem(jwtTokenKey);
 }
 
 function currentUser() {
-    return JSON.parse(localStorage.getItem(userInfo));
+    return JSON.parse(userDataStorage.getItem(userInfo));
 }
 function storeUserInfo(user) {
-    localStorage.setItem(userInfo, JSON.stringify(user));
+    userDataStorage.setItem(userInfo, JSON.stringify(user));
 }
 function getGuardianInfo() {
     return JSON.parse(localStorage.getItem(guardianInfo));
@@ -73,15 +86,14 @@ function storeGuardianInfo(user) {
 function removeGuardianInfo() {
     localStorage.removeItem(guardianInfo);
 }
-
 function getToken() {
-    return localStorage.getItem(jwtTokenKey);
+    return userDataStorage.getItem(jwtTokenKey);
 }
 function removeToken() {
-    return localStorage.removeItem(jwtTokenKey);
+    return userDataStorage.removeItem(jwtTokenKey);
 }
 function setToken(token) {
-    return localStorage.setItem(jwtTokenKey, token);
+    return userDataStorage.setItem(jwtTokenKey, token);
 }
 function setSelectedLayout(lang) {
     return localStorage.setItem(preferredLayout, lang);

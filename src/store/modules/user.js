@@ -15,7 +15,9 @@ export default {
     },
     actions: {
         setLoading({ commit }, data) {
-            commit('SET_LOADING', data)
+            setTimeout(() => {
+                commit('SET_LOADING', data)
+            }, data ? 100 : 0);
         },
         setOtp({ commit }, data) {
             commit('SET_OTP', data)

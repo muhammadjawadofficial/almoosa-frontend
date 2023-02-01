@@ -253,7 +253,7 @@ export default {
             let data = response.data.data;
             if (data.access_token) {
               if (data.user && data.user.id) {
-                userService.storeLoginInfo(data.user, data.access_token);
+                userService.storeLoginInfo(data.user, data.access_token, this.rememberMe);
                 this.setUserInfo(data.user);
                 this.navigateTo("default");
               } else {

@@ -100,13 +100,17 @@ export default {
               this.timelineList = [...data];
               this.filteredDoctors = [...data];
             } else {
+              this.timelineList = [];
+              this.filteredDoctors = [];
               this.failureToast(response.data.messsage);
             }
             this.setLoadingState(false);
           },
           (error) => {
+            this.timelineList = [];
+            this.filteredDoctors = [];
             this.setLoadingState(false);
-            if (!this.isAPIAborted(error)) 
+            if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
                   error.response.data &&
