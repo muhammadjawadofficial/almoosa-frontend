@@ -107,9 +107,7 @@
                     @click="makeCall(details)"
                     v-if="
                       details.type.toLowerCase() == 'online' &&
-                      !getUserInfo.isDependent &&
-                      details.status &&
-                      details.status.toLowerCase() == 'paid'
+                      !getUserInfo.isDependent
                     "
                   >
                     {{ $t("appointmentDetail.joinCall") }}
@@ -208,6 +206,7 @@ export default {
                 appointment.doctor_id,
                 appointment.patient_id
               ),
+              name: this.getFullName(this.getUserInfo),
             });
           }
         });
@@ -250,12 +249,12 @@ export default {
             },
             (error) => {
               console.error(error);
-              if (!this.isAPIAborted(error)) 
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );;
+              if (!this.isAPIAborted(error))
+                this.failureToast(
+                  error.response &&
+                    error.response.data &&
+                    error.response.data.message
+                );
               this.setLoadingState(false);
             }
           );

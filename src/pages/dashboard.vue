@@ -329,7 +329,7 @@ export default {
         {
           text: "Virtual Tour",
           icon: "user-tag-svg",
-          link: "Virtual Tour"
+          link: "Virtual Tour",
         },
       ],
       todayAppointments: null,
@@ -401,6 +401,7 @@ export default {
           appointment.doctor_id,
           appointment.patient_id
         ),
+        name: this.getFullName(this.getUserInfo),
       });
     },
   },
