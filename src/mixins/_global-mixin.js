@@ -329,7 +329,7 @@ export default {
             this.$router.push(obj);
         },
         createRoomId(appointment_id, doctor_id, patient_id) {
-            return appointment_id + "_" + doctor_id + "_" + patient_id;
+            return patient_id + "-" + doctor_id;
         },
         isEqual(obj1, obj2) {
             /**

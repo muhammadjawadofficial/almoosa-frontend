@@ -24,7 +24,7 @@ export default {
       console.log(this.$route.params)
       return (
         process.env.VUE_APP_TELE_BASE_URL +
-        "/room/almoosa" +
+        "/room/" +
         this.$route.params.connectId
       );
     },
