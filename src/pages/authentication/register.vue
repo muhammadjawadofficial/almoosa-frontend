@@ -167,7 +167,15 @@
               :selectLabel="$t('selectLabel')"
               :selectedLabel="$t('selectedLabel')"
               :deselectLabel="$t('deselectLabel')"
-            ></multiselect>
+            >
+              <template slot="singleLabel" slot-scope="props">
+                {{ props.option[getLocaleKey("nationality")] }}
+              </template>
+
+              <template slot="option" slot-scope="props">
+                {{ props.option[getLocaleKey("nationality")] }}
+              </template>
+            </multiselect>
             <div
               class="custom-state-invalid icon"
               :class="{
@@ -375,13 +383,13 @@ export default {
           (error) => {
             console.error(error);
             if (!this.isAPIAborted(error))
-          if (!this.isAPIAborted(error)) 
-            if (!this.isAPIAborted(error))
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
+              if (!this.isAPIAborted(error))
+                if (!this.isAPIAborted(error))
+                  this.failureToast(
+                    error.response &&
+                      error.response.data &&
+                      error.response.data.message
+                  );
             this.setLoadingState(false);
           }
         )
