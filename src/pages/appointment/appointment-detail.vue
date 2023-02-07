@@ -107,7 +107,9 @@
                     @click="makeCall(details)"
                     v-if="
                       details.type.toLowerCase() == 'online' &&
-                      !getUserInfo.isDependent
+                      !getUserInfo.isDependent &&
+                      details.status &&
+                      details.status.toLowerCase() == 'paid'
                     "
                   >
                     {{ $t("appointmentDetail.joinCall") }}
