@@ -18,7 +18,8 @@
                 <div class="doctor-details-card-header-right-info-speciality">
                   {{
                     doctor.speciality
-                      ? doctor.speciality[getLocaleKey("title")] || doctor[getLocaleKey("speciality")]
+                      ? doctor.speciality[getLocaleKey("title")] ||
+                        doctor[getLocaleKey("speciality")]
                       : "N/A"
                   }}
                 </div>
@@ -217,7 +218,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { appointmentService } from "../../services";
+import { appointmentService, userService } from "../../services";
 export default {
   data() {
     return {
@@ -273,9 +274,35 @@ export default {
     initializeData() {
       this.doctor = this.getBookingDoctor;
       this.selectedDate = this.removeDateTime(this.getBookingDate);
-      if (this.doctor && this.isBookingFlow) {
-        this.fetchTimeslots();
-      }
+
+      this.setLoadingState(true);
+      userService
+        .getProfileById(this.getBookingDoctor.id)
+        .then((res) => {
+          let response = res.data;
+          if (response.status) {
+            let profile = response.data.items[0];
+            if (profile) {
+              this.doctor = profile;
+            }
+            if (this.doctor && this.isBookingFlow) {
+              this.fetchTimeslots();
+            }
+          } else {
+            this.failureToast(response.data.message);
+          }
+        })
+        .catch((error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        })
+        .finally(() => {
+          this.setLoadingState(false);
+        });
     },
     bookingDateChanged(val) {
       this.selectedDate = val;
@@ -325,12 +352,12 @@ export default {
           },
           (error) => {
             console.error(error);
-            if (!this.isAPIAborted(error)) 
+            if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
                   error.response.data &&
                   error.response.data.message
-              );;
+              );
             this.setLoadingState(false);
           }
         );
@@ -383,13 +410,12 @@ export default {
                 this.setLoadingState(false);
               },
               (error) => {
-                console.error(error);
-                if (!this.isAPIAborted(error)) 
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
+                if (!this.isAPIAborted(error))
+                  this.failureToast(
+                    error.response &&
+                      error.response.data &&
+                      error.response.data.message
+                  );
                 this.setLoadingState(false);
               }
             );

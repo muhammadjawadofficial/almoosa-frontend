@@ -164,7 +164,7 @@ export default {
                 error.response &&
                   error.response.data &&
                   error.response.data.message
-              );;
+              );
           }
         );
     },

@@ -48,9 +48,12 @@
                 <div class="appointment-details">
                   <div class="doctor-name">
                     {{
-                      $t("bookAppointment." + appointment.type.toLowerCase())
+                      appointment.doctor[getLocaleKey("speciality")]
+                        ? appointment.doctor[getLocaleKey("speciality")] +
+                          " " +
+                          $t("myMedication.appointmentSession")
+                        : "N/A"
                     }}
-                    {{ $t("radiologyReport.appointmentSession") }}
                   </div>
                   <div class="doctor-speciality">
                     {{ getFullName(appointment.doctor) }}
@@ -124,7 +127,7 @@ export default {
             this.reportAppointments = [];
             this.filteredDoctors = [];
             this.setLoadingState(false);
-            if (!this.isAPIAborted(error)) 
+            if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
                   error.response.data &&

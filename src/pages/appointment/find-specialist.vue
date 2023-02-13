@@ -128,7 +128,7 @@
             @click="setSelectedSpeciality(speciality)"
           >
             <div class="speciality-image">
-              <img :src="getSpecialityIcon(speciality.title)" alt="icon" />
+              <img :src="getImageUrl(speciality.icon)" alt="icon" />
             </div>
             <div class="speciality-label">
               {{ speciality[getLocaleKey("title")] }}
@@ -217,7 +217,7 @@ export default {
         this.getBookingMethod == "onsite"
           ? appointmentService.getClinicsV1()
           : null,
-        appointmentService.getSpecialities(),
+        appointmentService.getSpecialitiesV1(),
       ])
         .then((res) => {
           if (this.getBookingMethod == "onsite") {

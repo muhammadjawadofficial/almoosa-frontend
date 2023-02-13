@@ -250,7 +250,7 @@ export default {
                 error.response &&
                   error.response.data &&
                   error.response.data.message
-              );;
+              );
         }
       );
     },
@@ -331,7 +331,7 @@ export default {
                 error.response &&
                   error.response.data &&
                   error.response.data.message
-              );;
+              );
             this.setLoadingState(false);
           }
         );
@@ -393,7 +393,7 @@ export default {
                 error.response &&
                   error.response.data &&
                   error.response.data.message
-              );;
+              );
               }
             );
           });

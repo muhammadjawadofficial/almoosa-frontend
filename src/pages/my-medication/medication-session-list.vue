@@ -41,8 +41,13 @@
                 </div>
                 <div class="appointment-details">
                   <div class="doctor-name">
-                    {{ $t("bookAppointment." + timeline.type.toLowerCase()) }}
-                    {{ $t("myMedication.appointmentSession") }}
+                    {{
+                      timeline.doctor[getLocaleKey("speciality")]
+                        ? timeline.doctor[getLocaleKey("speciality")] +
+                          " " +
+                          $t("myMedication.appointmentSession")
+                        : "N/A"
+                    }}
                   </div>
                   <div class="doctor-speciality">
                     {{ getFullName(timeline.doctor) }}

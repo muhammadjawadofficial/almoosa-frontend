@@ -132,8 +132,8 @@
               </template>
               <template slot="option" slot-scope="props">
                 {{ $t("register." + props.option) }}
-              </template></multiselect
-            >
+              </template>
+            </multiselect>
             <div
               class="custom-state-invalid icon"
               :class="{
