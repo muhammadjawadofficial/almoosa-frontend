@@ -32,9 +32,8 @@
           </li>
           <li
             class="nav-link d-lg-block d-none"
-            @click="
-              loadComponent('https://almoosahospital.org/en/contact-us/', true)
-            "
+            @click="loadComponent('/contact-us')"
+            :class="{ active: currentRouteName == 'Contact Us' }"
           >
             {{ $t("header.contactUs") }}
           </li>
@@ -60,7 +59,11 @@
                 {{ getFullName(getUserInfo) }}</span
               >
             </div>
-            <img class="b-r-round" :src="getImageUrl(getUserInfo)" alt="" />
+            <img
+              class="b-r-round"
+              :src="getImageUrl(getUserInfo.photo)"
+              alt=""
+            />
           </div>
           <ul class="profile-dropdown onhover-show-div">
             <span class="sec-heading w500">{{ $t("header.settings") }}</span>

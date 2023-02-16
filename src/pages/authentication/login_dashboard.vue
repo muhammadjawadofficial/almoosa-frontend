@@ -65,8 +65,7 @@ export default {
         {
           text: "Contact Us",
           icon: "laptop-svg",
-          link: "https://almoosahospital.org/en/contact-us/",
-          external: true,
+          link: "Contact Us Guest",
         },
         {
           text: "Find Specialist",

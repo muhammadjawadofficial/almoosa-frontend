@@ -186,7 +186,9 @@ export default {
     searchQuery(val) {
       this.filteredSpecialities = [
         ...this.specialities.filter((x) =>
-          x.title.toLowerCase().includes(val.toLowerCase())
+          x[this.getLocaleKey("title")]
+            .toLowerCase()
+            .includes(val.toLowerCase())
         ),
       ];
     },

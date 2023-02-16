@@ -5,7 +5,7 @@
         <div class="standard-width page-body-container">
           <div class="doctor-details-card-header">
             <div class="doctor-details-card-header-image">
-              <img :src="getImageUrl(getUserInfo)" alt="doctor-image" />
+              <img :src="getImageUrl(getUserInfo.photo)" alt="doctor-image" />
               <label for="user-profile-picture-upload">
                 {{ $t("profile.uploadPicture") }}
                 <input
@@ -797,7 +797,7 @@ export default {
     },
     updateProfilePicture(data, data_id) {
       this.setLoadingState(true);
-      userService.updateProfile(data_id).then(
+      userService.updateV1Profile(data_id).then(
         (res) => {
           if (res.data.status) {
             let obj = { ...data };

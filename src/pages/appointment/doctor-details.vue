@@ -125,20 +125,28 @@
                       {{ $t("doctorDetail.degree") }}:
                       {{ doctor.degree || "N/A" }}
                     </div> -->
-                    <div>
-                      {{ $t("doctorDetail.expertise") }}:
-                      {{ doctor.expertise || "N/A" }}
-                    </div>
-                    <div>
-                      {{ $t("doctorDetail.nationality") }}:
-                      {{
-                        (doctor.nationality &&
-                          doctor.nationality.nationality) ||
-                        "N/A"
-                      }}
-                    </div>
                   </div>
                   <div class="appointment-list">
+                    <div class="appointment-list-item">
+                      <div class="hospital-name">
+                        {{ $t("doctorDetail.expertise") }}:
+                      </div>
+                      <div class="hospital-address" style="max-width: 100%">
+                        {{ doctor.expertise || "N/A" }}
+                      </div>
+                    </div>
+                    <div class="appointment-list-item">
+                      <div class="hospital-name">
+                        {{ $t("doctorDetail.nationality") }}:
+                      </div>
+                      <div class="hospital-address">
+                        {{
+                          (doctor.nationality &&
+                            doctor.nationality.nationality) ||
+                          "N/A"
+                        }}
+                      </div>
+                    </div>
                     <div class="appointment-list-item">
                       <div class="hospital-name">
                         {{ $t("doctorDetail.languages") }}

@@ -33,6 +33,7 @@
               min-width: var(--time-width);
               &-day {
                 font-size: 1.25rem;
+                // white-space: initial;
               }
               &-time {
                 font-size: 0.75rem;

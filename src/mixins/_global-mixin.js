@@ -104,7 +104,7 @@ export default {
              * @param {string} string
              * @returns {string}
              */
-            let regex = /[^a-zA-Z ]/g;
+            let regex = this.getCurrentLang() == "en" ? /[^a-zA-Z ]/g : /[^ء-ي ]/g;
             return string.replace(regex, "");
         },
 

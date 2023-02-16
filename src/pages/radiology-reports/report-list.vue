@@ -100,7 +100,9 @@ export default {
     searchReportQuery(val) {
       this.filteredList = [
         ...this.reports.filter((x) =>
-          x.title.toLowerCase().includes(val.toLowerCase())
+          x[this.getLocaleKey("title")]
+            .toLowerCase()
+            .includes(val.toLowerCase())
         ),
       ];
     },
@@ -131,7 +133,7 @@ export default {
           (error) => {
             this.reports = [];
             this.setLoadingState(false);
-            if (!this.isAPIAborted(error)) 
+            if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
                   error.response.data &&

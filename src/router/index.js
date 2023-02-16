@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from "vue-router";
 
 import ComingSoon from '../pages/coming-soon'
+import ContactUs from '../pages/contact-us'
 
 import Body from '../components/body'
 import AuthBody from '../components/auth_body'
@@ -102,6 +103,16 @@ const routes = [
         component: ComingSoon,
         meta: {
           title: 'Coming Soon | Almoosa Health Group'
+        }
+      },
+      {
+        path: 'contact-us',
+        name: 'Contact Us',
+        component: ContactUs,
+        meta: {
+          title: 'Contact Us | Almoosa Health Group',
+          public: true,
+          hideButtons: true
         }
       },
       {
@@ -595,6 +606,15 @@ const routes = [
                 meta: {
                   title: 'Coming Soon | Almoosa Health Group',
                   public: true
+                }
+              },
+              {
+                path: 'contact-us',
+                name: 'Contact Us Guest',
+                component: ContactUs,
+                meta: {
+                  title: 'Contact Us | Almoosa Health Group',
+                  public: true,
                 }
               },
               {
