@@ -119,6 +119,10 @@ export default {
           (response) => {
             if (response.data.status) {
               this.resetAuthState();
+              this.successIconModal(
+                this.$t("login.resetPasswordModalTitle"),
+                this.$t("login.resetPasswordModalText"),
+              );
               this.navigateTo("Login");
             } else {
               this.failureToast(response.data.message);

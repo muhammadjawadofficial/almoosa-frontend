@@ -171,7 +171,10 @@ export default {
       this.usernameState =
         this.username != "" &&
         (this.isDoctor || this.username.length == this.selectedItem.validation);
-      if (this.selectedItem.type == constants.loginByPassword) {
+      if (
+        this.selectedItem.type == constants.loginByPassword ||
+        this.isDoctor
+      ) {
         this.passwordState = this.password != "";
       } else {
         this.passwordState = true;
@@ -253,7 +256,11 @@ export default {
             let data = response.data.data;
             if (data.access_token) {
               if (data.user && data.user.id) {
-                userService.storeLoginInfo(data.user, data.access_token, this.rememberMe);
+                userService.storeLoginInfo(
+                  data.user,
+                  data.access_token,
+                  this.rememberMe
+                );
                 this.setUserInfo(data.user);
                 this.navigateTo("default");
               } else {

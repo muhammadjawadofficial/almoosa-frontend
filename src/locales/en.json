@@ -56,7 +56,9 @@
     "enterNewPassword": "Enter New Password",
     "confirmPassword": "Confirm Password",
     "setPassword": "Set Password",
-    "otpRequired": "Please enter OTP to proceed"
+    "otpRequired": "Please enter OTP to proceed",
+    "resetPasswordModalTitle": "Reset Successfully",
+    "resetPasswordModalText": "Your password has been reset successfully. Go to your login screen and login with the latest password"
   },
   "register": {
     "modal": {

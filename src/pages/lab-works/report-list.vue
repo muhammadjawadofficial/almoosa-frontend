@@ -81,8 +81,8 @@ import { reportService, userService } from "../../services";
 export default {
   data() {
     return {
-      reports: [],
-      filteredList: [],
+      reports: null,
+      filteredList: null,
       searchReportQuery: "",
       showActionButtons: false,
     };
@@ -121,12 +121,14 @@ export default {
             this.filteredList = [...data];
           } else {
             this.reports = [];
+            this.filteredList = [];
             this.failureToast(response.data.messsage);
           }
           this.setLoadingState(false);
         },
         (error) => {
           this.reports = [];
+          this.filteredList = [];
           this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
