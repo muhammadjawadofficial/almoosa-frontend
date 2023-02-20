@@ -4,33 +4,35 @@
     <div class="sub-heading w200">
       {{ $t("termsAndConditions.mustAgree") }}
     </div>
-    <div class="text">
-      It is a long established fact that a reader will be distracted by the
-      readable content of a page when looking at its layout. The point of using
-      Lorem Ipsum is that it has a more-or-less normal distribution of letters,
-      as opposed to using 'Content here, content here', making it look like
-      readable English. Many desktop publishing packages and web page editors
-      now use Lorem Ipsum as their default model text, and a search for 'lorem
-      ipsum' will uncover many web sites still in their infancy. Various
-      versions have evolved over the years, sometimes by accident, sometimes on
-      purpose (injected humour and the like).
-    </div>
-    <div class="text">
-      It is a long established fact that a reader will be distracted by the
-      readable content of a page when looking at its layout. The point of using
-      Lorem Ipsum is that it has a more-or-less normal distribution of letters,
-      as opposed to using 'Content here, content here', making it.
-    </div>
-    <div class="text">
-      It is a long established fact that a reader will be distracted by the
-      readable content of a page when looking at its layout. The point of using
-      Lorem Ipsum is that it has a more-or-less normal distribution of letters,
-      as opposed to using 'Content here, content here', making it look like
-      readable English. Many desktop publishing packages and web page editors
-      now use Lorem Ipsum as their default model text, and a search for 'lorem
-      ipsum' will uncover many web sites still in their infancy. Various
-      versions have evolved over the years, sometimes by accident, sometimes on
-      purpose (injected humour and the like).
+    <div
+      class="text"
+      v-for="(terms, termIndex) in agreement"
+      :key="getTitle(termIndex)"
+    >
+      <div class="text-heading" v-if="terms.title">
+        {{ $t(getTitle(termIndex)) }}
+      </div>
+      <template v-if="terms.description">
+        {{ $t(getDescription(termIndex)) }}
+      </template>
+      <template v-if="terms.points">
+        <ul>
+          <li
+            v-for="(point, pointIndex) in terms.points"
+            :key="getPoint(termIndex, pointIndex)"
+          >
+            {{ $t(getPoint(termIndex, pointIndex)) }}
+            <ul v-if="point.sub">
+              <li
+                v-for="subPoint in point.sub"
+                :key="getSubPoint(termIndex, pointIndex, subPoint)"
+              >
+                {{ $t(getSubPoint(termIndex, pointIndex, subPoint)) }}
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </template>
     </div>
     <div class="agree-terms">
       <div class="mt-5">
@@ -64,6 +66,27 @@ export default {
     return {
       agreeTerms: false,
       submitted: false,
+      agreement: [
+        {
+          description: "description",
+        },
+        {
+          title: "title",
+          points: [{ sub: 0 }, { sub: 3 }],
+        },
+        {
+          title: "title",
+          points: [{ sub: 0 }, { sub: 4 }, { sub: 0 }, { sub: 0 }, { sub: 0 }],
+        },
+        {
+          title: "title",
+          points: [{ sub: 4 }, { sub: 0 }, { sub: 0 }],
+        },
+        {
+          title: "title",
+          description: "description",
+        },
+      ],
     };
   },
   computed: {
@@ -78,6 +101,30 @@ export default {
   methods: {
     ...mapActions("user", ["removeUserInfo"]),
     ...mapActions("user", ["updateUserInfo", "setUserInfo"]),
+    getTitle(index) {
+      return "termsAndConditions.sections.section" + index + ".title";
+    },
+    getDescription(index) {
+      return "termsAndConditions.sections.section" + index + ".description";
+    },
+    getPoint(index, pointIndex) {
+      return (
+        "termsAndConditions.sections.section" +
+        index +
+        ".points.point" +
+        (pointIndex + 1)
+      );
+    },
+    getSubPoint(index, pointIndex, subPointIndex) {
+      return (
+        "termsAndConditions.sections.section" +
+        index +
+        ".points.point" +
+        (pointIndex + 1) +
+        "-" +
+        subPointIndex
+      );
+    },
     validateFields() {
       return !!this.agreeTerms;
     },
@@ -108,12 +155,12 @@ export default {
         },
         (error) => {
           this.setLoadingState(false);
-          if (!this.isAPIAborted(error)) 
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
           console.error(error);
         }
       );
@@ -151,6 +198,17 @@ export default {
   font-family: "DiodrumArabicMedium";
   color: black;
   margin-top: 1rem;
+  .text-heading {
+    font-size: 1.25rem;
+    font-family: "DiodrumArabicBold";
+    color: var(--theme-default);
+    text-decoration: underline;
+  }
+  ul,
+  ol {
+    list-style: revert;
+    padding-inline-start: 2rem;
+  }
 }
 @media (max-width: 991px) {
   .login-card {

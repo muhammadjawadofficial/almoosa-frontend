@@ -207,11 +207,12 @@ export default {
     setReminder() {
       this.setLoadingState(true);
       let obj = {
+        his_medication_id: this.getSelectedMedication.id,
         morning_reminder: this.selectedTimeslot.morning,
         afternoon_reminder: this.selectedTimeslot.afternoon,
         evening_reminder: this.selectedTimeslot.evening,
       };
-      medicationService.setReminder(this.medicationId, obj).then(
+      medicationService.setReminder(obj).then(
         (response) => {
           if (response.data.status) {
             this.$emit("update", obj);
@@ -228,12 +229,12 @@ export default {
         },
         (error) => {
           this.setLoadingState(false);
-          if (!this.isAPIAborted(error)) 
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
         }
       );
     },
@@ -259,12 +260,12 @@ export default {
         },
         (error) => {
           // this.setLoadingState(false);
-          if (!this.isAPIAborted(error)) 
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
         }
       );
     },

@@ -61,7 +61,7 @@
               </div>
               <div class="location-card-details-info">
                 <div class="location-card-details-info-name">
-                  {{ clinic.title }}
+                  {{ clinic[getLocaleKey("title")] }}
                 </div>
                 <div class="location-card-details-info-address">
                   {{ clinic.address }}

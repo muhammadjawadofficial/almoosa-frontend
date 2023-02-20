@@ -35,7 +35,7 @@
                 </div>
               </div>
               <div class="header-section--button">
-                <button class="btn btn-primary btn-pill" @click="setReminder" v-if="false">
+                <button class="btn btn-primary btn-pill" @click="setReminder">
                   {{ $t("myMedication.setReminder") }}
                 </button>
               </div>
@@ -117,6 +117,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { medicationService } from "../../services";
 import SetReminderModal from "./set-reminder-modal.vue";
 export default {
   components: {
@@ -129,6 +130,7 @@ export default {
     if (!this.getSelectedMedication) {
       this.navigateTo("My Medication List");
     }
+    this.fetchMedicationDetail();
   },
   methods: {
     ...mapActions("myMedication", ["setSelectedMedication"]),
@@ -137,6 +139,37 @@ export default {
     },
     handleSlotUpdate(slots) {
       this.setSelectedMedication({ ...this.getSelectedMedication, ...slots });
+    },
+    fetchMedicationDetail() {
+      this.setLoadingState(true);
+      medicationService
+        .getMedicationDetails(this.getSelectedMedication.id)
+        .then(
+          (response) => {
+            if (response.data.status) {
+              if (response.data.data.items) {
+                this.setSelectedMedication({
+                  ...this.getSelectedMedication,
+                  ...response.data.data.items[0],
+                });
+              }
+            } else {
+              this.medicationList = [];
+              this.failureToast(response.data.messsage);
+            }
+            this.setLoadingState(false);
+          },
+          (error) => {
+            this.setLoadingState(false);
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
+            this.medicationList = [];
+          }
+        );
     },
     requestRefill() {
       this.successIconModal(

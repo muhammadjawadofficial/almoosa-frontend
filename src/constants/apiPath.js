@@ -74,9 +74,10 @@ export const apiPath = {
     reports: {
         getAppointmentHistory: (id) => getApiObject("get", "appointments/history?mrn_number=" + id, "v2"),
         getAppointmentMedication: (id) => getApiObject("get", "appointments/with-medications?mrn_number=" + id, "v2"),
-        getMedications: (id) => getApiObject("get", "medications?appointment_id=" + id + "&is_active=2  ", "v2"),
+        getMedications: (id) => getApiObject("get", "medications?appointment_id=" + id + "&is_active=2", "v2"),
+        getMedicationReminders: (id) => getApiObject("get", "medication-reminders?his_medication_id=" + id),
         getReminderSlots: getApiObject("get", "reminder-slots"),
-        setReminder: (id) => getApiObject("patch", "medications/" + id),
+        setReminder: getApiObject("post", "medication-reminders"),
         appointmentWithReports: (id) => getApiObject("get", "appointments/reports?mrn_number=" + id, "v2"),
         reportsWithAppointments: (id) => getApiObject("get", "reports?appointment_id=" + id, "v2"),
     },
