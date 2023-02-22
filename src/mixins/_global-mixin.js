@@ -535,13 +535,19 @@ export default {
         isAPIAborted(error) {
             return axios.isCancel(error)
         },
-        doPayment() {
-            this.setLoadingState(true);
-            let booking = userService.getBooking();
+        setBookingState() {
+            userService.getBooking();
             userService.removeBooking();
             if (!booking) {
                 booking = this.getSelectedAppointment;
             }
+            this.setSelectedAppointment({ ...booking });
+
+            return booking;
+        },
+        doPayment() {
+            this.setLoadingState(true);
+            let booking = this.setBookingState();
             let paymentVerifyObject = JSON.parse(
                 localStorage.getItem("paymentVerifyObject")
             );

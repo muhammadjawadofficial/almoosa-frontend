@@ -11,6 +11,7 @@ export default {
   },
   methods: {
     showModal() {
+      this.setBookingState();
       this.successIconModal(
         this.$t("selectPaymentMethod.paymentFailed"),
         this.$t("selectPaymentMethod.paymentFailedText"),
