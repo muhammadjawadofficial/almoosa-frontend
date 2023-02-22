@@ -536,7 +536,7 @@ export default {
             return axios.isCancel(error)
         },
         setBookingState() {
-            userService.getBooking();
+            let booking = userService.getBooking();
             userService.removeBooking();
             if (!booking) {
                 booking = this.getSelectedAppointment;
