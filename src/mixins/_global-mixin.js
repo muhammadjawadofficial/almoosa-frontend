@@ -593,6 +593,23 @@ export default {
                 this.setLoadingState(true);
                 if (!this.isAPIAborted(error)) this.failureToast(error.response.data && error.response.data.message);
             });
+        },
+        setAppLanguageFromRoute() {
+            this.hideBackLink = !!this.$route.meta.hideButtons;
+            let lang = this.$route.query.lang;
+            if (!lang) {
+                if (userService.getSelectedLayout()) {
+                    lang = userService.getSelectedLayout() == "ltr" ? "en" : "ar";
+                } else {
+                    lang = this.$i18n.locale;
+                }
+            }
+            if (lang) {
+                this.$i18n.locale = lang;
+                let layoutType = lang == "en" ? "ltr" : "rtl";
+                this.$store.dispatch("layout/setLayoutType", layoutType);
+                userService.setSelectedLayout(layoutType);
+            }
         }
     },
 }

@@ -83,22 +83,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$route);
-    this.hideBackLink = !!this.$route.meta.hideButtons;
-    let lang = this.$route.query.lang;
-    if (!lang) {
-      if (userService.getSelectedLayout()) {
-        lang = userService.getSelectedLayout() == "ltr" ? "en" : "ar";
-      } else {
-        lang = this.$i18n.locale;
-      }
-    }
-    if (lang) {
-      this.$i18n.locale = lang;
-      let layoutType = lang == "en" ? "ltr" : "rtl";
-      this.$store.dispatch("layout/setLayoutType", layoutType);
-      userService.setSelectedLayout(layoutType);
-    }
+    this.setAppLanguageFromRoute();
   },
 };
 </script>
