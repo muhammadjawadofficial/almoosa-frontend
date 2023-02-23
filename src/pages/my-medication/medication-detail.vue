@@ -1,17 +1,11 @@
 <template>
-  <div
-    class="
-      appointment-detail-container
-      medication-detail-container
-      page-body-container
-      standard-width
-    "
-    v-if="getSelectedMedication"
-  >
-    <back-navigation
-      backLink="My Medication List"
-      :title="$t('myMedication.medicationDetails')"
-    />
+  <div class="
+                                                          appointment-detail-container
+                                                          medication-detail-container
+                                                          page-body-container
+                                                          standard-width
+                                                        " v-if="getSelectedMedication">
+    <back-navigation backLink="My Medication List" :title="$t('myMedication.medicationDetails')" />
     <div class="row">
       <div class="col-sm-12">
         <b-card header-tag="div" no-body class="ash-card card-rounded">
@@ -41,10 +35,7 @@
               </div>
             </div>
             <div class="appointment-detail mt-5">
-              <div
-                class="appointment-detail--type"
-                v-if="getSelectedMedication.instructions"
-              >
+              <div class="appointment-detail--type" v-if="getSelectedMedication.instructions">
                 <div class="appointment-detail--label">
                   {{ $t("myMedication.doctorInstruction") }}
                 </div>
@@ -60,38 +51,29 @@
                   {{ getSelectedMedication.description }}
                 </div>
                 <div class="appointment-detail--value--details mt-3">
-                  <span
-                    v-if="getSelectedMedication.morning_reminder"
-                    class="btn btn-secondary btn-pill"
-                    >{{
-                      translateNumber(
-                        removeSecondsFromTimeString(
-                          getSelectedMedication.morning_reminder
-                        )
+                  <span v-if="getSelectedMedication.morning_reminder" class="btn btn-secondary btn-pill">{{
+                    translateNumber(
+                      removeSecondsFromTimeString(
+                        getSelectedMedication.morning_reminder
                       )
-                    }}
+                    )
+                  }}
                   </span>
-                  <span
-                    v-if="getSelectedMedication.afternoon_reminder"
-                    class="btn btn-dark-blue btn-pill"
-                    >{{
-                      translateNumber(
-                        removeSecondsFromTimeString(
-                          getSelectedMedication.afternoon_reminder
-                        )
+                  <span v-if="getSelectedMedication.afternoon_reminder" class="btn btn-dark-blue btn-pill">{{
+                    translateNumber(
+                      removeSecondsFromTimeString(
+                        getSelectedMedication.afternoon_reminder
                       )
-                    }}
+                    )
+                  }}
                   </span>
-                  <span
-                    v-if="getSelectedMedication.evening_reminder"
-                    class="btn btn-primary btn-pill"
-                    >{{
-                      translateNumber(
-                        removeSecondsFromTimeString(
-                          getSelectedMedication.evening_reminder
-                        )
+                  <span v-if="getSelectedMedication.evening_reminder" class="btn btn-primary btn-pill">{{
+                    translateNumber(
+                      removeSecondsFromTimeString(
+                        getSelectedMedication.evening_reminder
                       )
-                    }}
+                    )
+                  }}
                   </span>
                 </div>
               </div>
@@ -99,19 +81,21 @@
           </b-card-body>
         </b-card>
         <div class="appointment--action-buttons">
-          <button class="btn btn-secondary" @click="requestRefill">
+          <button class="btn btn-secondary" @click="showRequestRefillModal"
+            v-if="!getRefillRequest.length">
             {{ $t("myMedication.requestRefill") }}
+          </button>
+          <button class="btn btn-secondary" @click="showRequestDeliveryModal"
+            v-if="!getDeliveryRequest.length">
+            {{ $t("myMedication.requestDelivery") }}
           </button>
         </div>
       </div>
     </div>
-    <set-reminder-modal
-      :medicationId="getSelectedMedication.id"
+    <set-reminder-modal :medicationId="getSelectedMedication.id"
       :selectedMorningSlot="getSelectedMedication.morning_reminder"
       :selectedAfternoonSlot="getSelectedMedication.afternoon_reminder"
-      :selectedEveningSlot="getSelectedMedication.evening_reminder"
-      @update="handleSlotUpdate"
-    />
+      :selectedEveningSlot="getSelectedMedication.evening_reminder" @update="handleSlotUpdate" />
   </div>
 </template>
 
@@ -120,11 +104,22 @@ import { mapActions, mapGetters } from "vuex";
 import { medicationService } from "../../services";
 import SetReminderModal from "./set-reminder-modal.vue";
 export default {
+  data() {
+    return {
+      medicationRequests: null,
+    }
+  },
   components: {
     SetReminderModal,
   },
   computed: {
     ...mapGetters("myMedication", ["getSelectedMedication"]),
+    getRefillRequest() {
+      return !this.medicationRequests || this.medicationRequests.filter(item => item.status === "pending" && item.is_delivery == false);
+    },
+    getDeliveryRequest() {
+      return !this.medicationRequests || this.medicationRequests.filter(item => item.status === "pending" && item.is_delivery == true);
+    }
   },
   mounted() {
     if (!this.getSelectedMedication) {
@@ -141,37 +136,46 @@ export default {
       this.setSelectedMedication({ ...this.getSelectedMedication, ...slots });
     },
     fetchMedicationDetail() {
-      this.setLoadingState(true);
-      medicationService
-        .getMedicationDetails(this.getSelectedMedication.id)
-        .then(
-          (response) => {
-            if (response.data.status) {
-              if (response.data.data.items) {
-                this.setSelectedMedication({
-                  ...this.getSelectedMedication,
-                  ...response.data.data.items[0],
-                });
-              }
-            } else {
-              this.medicationList = [];
-              this.failureToast(response.data.messsage);
-            }
-            this.setLoadingState(false);
-          },
-          (error) => {
-            this.setLoadingState(false);
-            if (!this.isAPIAborted(error))
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
-            this.medicationList = [];
+      Promise.all([
+        medicationService.getMedicationDetails(this.getSelectedMedication.id),
+        medicationService.getMedicationRequest(this.getSelectedMedication.id)
+      ]).then(res => {
+        let response = res[0];
+        if (response.data.status) {
+          if (response.data.data.items && response.data.data.items.length) {
+            this.setSelectedMedication({
+              ...this.getSelectedMedication,
+              ...response.data.data.items[0],
+            });
           }
-        );
+        } else {
+          this.failureToast(response.data.messsage);
+        }
+
+        let requests = res[1];
+        if (requests.data.status) {
+          if (requests.data.data.items && requests.data.data.items.length) {
+            this.medicationRequests = requests.data.data.items
+          }
+        } else {
+          this.medicationRequests = [];
+          this.failureToast(requests.data.messsage);
+        }
+
+      }).catch(error => {
+        this.setLoadingState(false);
+        this.medicationRequests = [];
+        if (!this.isAPIAborted(error))
+          this.failureToast(
+            error.response &&
+            error.response.data &&
+            error.response.data.message
+          );
+      }).finally(() => {
+        this.setLoadingState(false);
+      });
     },
-    requestRefill() {
+    showRequestRefillModal() {
       this.successIconModal(
         this.$t("myMedication.modal.requestTitle"),
         this.$t("myMedication.modal.requestText"),
@@ -179,16 +183,53 @@ export default {
         this.$t("myMedication.modal.requestButton")
       ).then((modalResponse) => {
         if (modalResponse.value) {
-          this.successIconModal(
-            this.$t("myMedication.modal.requestTitle"),
-            this.$t("myMedication.modal.requestSuccess"),
-            "m-pill"
-          ).then(() => {
-            this.navigateTo("My Medication List");
-          });
+          showMedicationModal(true);
         }
       });
     },
+    showRequestDeliveryModal() {
+      this.successIconModal(
+        this.$t("myMedication.modal.requestDeliveryTitle"),
+        this.$t("myMedication.modal.requestDeliveryText"),
+        "m-pill",
+        this.$t("myMedication.modal.requestButton")
+      ).then((modalResponse) => {
+        if (modalResponse.value) {
+          showMedicationModal(true);
+        }
+      });
+    },
+    showMedicationModal(delivery = false) {
+      this.setLoadingState(true);
+      medicationService.requestMedication({
+        medication_id: this.getSelectedMedication.id,
+        is_delivery: delivery,
+      }).then(
+        (response) => {
+          if (response.data.status) {
+            this.successIconModal(
+              this.$t("myMedication.modal.requestTitle"),
+              this.$t("myMedication.modal.requestSuccess"),
+              "m-pill"
+            ).then(() => {
+              this.navigateTo("My Medication List");
+            });
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+          this.setLoadingState(false);
+        },
+        (error) => {
+          this.setLoadingState(false);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+              error.response.data &&
+              error.response.data.message
+            );
+        }
+      );
+    }
   },
 };
 </script>
@@ -199,60 +240,74 @@ export default {
   flex-wrap: wrap;
   gap: 0.5rem;
 }
+
 .appointment-detail {
   &--label {
     font-size: 1.25rem;
     color: black;
   }
+
   &--value {
     color: #8696b8;
   }
 }
+
 .header-section {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
+
   @media (max-width: 700px) {
     &--button {
       width: 100%;
       text-align: end;
     }
   }
+
   @media (max-width: 325px) {
     justify-content: center;
+
     &--button {
       text-align: center;
     }
   }
+
   &--info {
     display: flex;
     align-items: center;
     gap: 1rem;
+
     @media (max-width: 325px) {
       flex-direction: column;
     }
+
     :deep {
       .svg-icon-fill {
         fill: var(--theme-default);
       }
+
       .svg-icon-fill-bg {
         fill: #fbfaf7;
       }
     }
+
     .icon {
       width: 109px;
       height: 109px;
+
       svg {
         width: 100%;
         height: 100%;
         aspect-ratio: 1;
       }
     }
+
     .title {
       font-size: 1.813rem;
     }
+
     .subTitle {
       font-size: 1rem;
       color: #8696b8;
