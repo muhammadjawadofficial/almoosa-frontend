@@ -203,7 +203,7 @@ export default {
     setReminder() {
       this.setLoadingState(true);
       let obj = {
-        his_medication_id: this.getSelectedMedication.id,
+        his_medication_id: '' + this.getSelectedMedication.id,
         morning_reminder: this.selectedTimeslot.morning,
         afternoon_reminder: this.selectedTimeslot.afternoon,
         evening_reminder: this.selectedTimeslot.evening,
