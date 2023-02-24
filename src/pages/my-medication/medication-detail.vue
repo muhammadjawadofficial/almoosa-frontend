@@ -217,7 +217,7 @@ export default {
         this.$t("myMedication.modal.requestButton")
       ).then((modalResponse) => {
         if (modalResponse.value) {
-          showMedicationModal(true);
+          this.showMedicationModal(true);
         }
       });
     },
