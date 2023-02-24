@@ -10,12 +10,7 @@
     @show="resetSelection"
   >
     <div
-      class="
-        swal2-container swal2-center
-        swal-custom-icon-top-padding
-        swal2-shown
-        custom-swal2
-      "
+      class="swal2-container swal2-center swal-custom-icon-top-padding swal2-shown custom-swal2"
       style="overflow-y: auto"
     >
       <div
@@ -147,8 +142,9 @@
             "
             @click="setReminder"
           >
-            Set Reminder</button
-          ><button
+            {{ $t("myMedication.setReminder") }}
+          </button>
+          <button
             type="button"
             class="swal2-cancel swal2-styled"
             aria-label=""
@@ -280,5 +276,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

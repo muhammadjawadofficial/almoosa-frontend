@@ -5075,6 +5075,10 @@
     direction: ltr;
     text-align: right;
   }
+  .multiselect .multiselect__select{
+    right: unset !important;
+    left: 0;
+  }
 }
 
 /**=====================

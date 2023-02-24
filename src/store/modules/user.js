@@ -83,7 +83,7 @@ export default {
             Vue.set(state, 'userInfo', null);
         },
         UPDATE_USER_INFO(state, userInfo) {
-            Vue.set(state, 'userInfo', { ...state.userInfo, ...userInfo });
+            Vue.set(state, 'userInfo', { ...state.userInfo, ...userInfo, id: state.userInfo.id });
             userService.storeUserInfo(state.userInfo);
         },
         SET_IS_GUEST(state, isGuest) {

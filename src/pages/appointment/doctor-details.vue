@@ -291,7 +291,8 @@ export default {
           if (response.status) {
             let profile = response.data.items[0];
             if (profile) {
-              this.doctor = profile;
+              this.doctor = { ...profile, ...this.getBookingDoctor };
+              delete this.doctor.photo;
             }
             if (this.doctor && this.isBookingFlow) {
               this.fetchTimeslots();
@@ -453,6 +454,7 @@ export default {
 <style lang="scss" scoped>
 .custom-login-input-groups {
   padding: 0.4rem 0.7rem;
+
   &::before {
     opacity: 1;
     z-index: 0;
@@ -460,9 +462,11 @@ export default {
     border: 1px solid #707070;
     border-radius: 5px;
   }
+
   #datepicker-placeholder__outer_ {
     padding: 0;
   }
+
   max-width: 22.875rem;
 }
 </style>
