@@ -622,7 +622,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         color: $primary-color;
     }
     &--value {
-        text-transform: capitalize;
+        // text-transform: capitalize;
         font-family: $font-diodrum-medium;
     }
     &--status {
@@ -1976,7 +1976,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 100%;
     text-align: start;
 }
-
+.text-transform-unset{
+    text-transform: unset !important;
+}
 html {
     font-size: var(--globalFontSize);
     --globalFontSize: 16px;

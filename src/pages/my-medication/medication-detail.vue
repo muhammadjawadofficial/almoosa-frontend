@@ -54,7 +54,7 @@
                 <div class="appointment-detail--value">
                   {{ getSelectedMedication.description }}
                 </div>
-                <div class="appointment-detail--value--details mt-3">
+                <div class="appointment-detail--value--details mt-5">
                   <span
                     v-if="getSelectedMedication.morning_reminder"
                     class="btn btn-secondary btn-pill"
@@ -95,14 +95,14 @@
         </b-card>
         <div class="appointment--action-buttons">
           <button
-            class="btn btn-secondary"
+            class="btn btn-secondary text-transform-unset"
             @click="showRequestRefillModal"
             v-if="!getRefillRequest.length"
           >
             {{ $t("myMedication.requestRefill") }}
           </button>
           <button
-            class="btn btn-secondary"
+            class="btn btn-secondary text-transform-unset"
             @click="showRequestDeliveryModal"
             v-if="!getDeliveryRequest.length"
           >
@@ -217,7 +217,7 @@ export default {
         this.$t("myMedication.modal.requestButton")
       ).then((modalResponse) => {
         if (modalResponse.value) {
-          this.showMedicationModal(true);
+          this.showMedicationModal(false);
         }
       });
     },

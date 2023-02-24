@@ -53,7 +53,9 @@
                         timeslot.reminder_time == selectedTimeslot.morning,
                     }"
                     v-for="timeslot in timeslots.morning"
-                    @click="selectedTimeslot.morning = timeslot.reminder_time"
+                    @click="
+                      handleReminderClick('morning', timeslot.reminder_time)
+                    "
                     :key="'morning-timeslot-' + timeslot.id"
                   >
                     {{
@@ -85,7 +87,9 @@
                     }"
                     v-for="timeslot in timeslots.afternoon"
                     :key="'afternoon-timeslot-' + timeslot.id"
-                    @click="selectedTimeslot.afternoon = timeslot.reminder_time"
+                    @click="
+                      handleReminderClick('afternoon', timeslot.reminder_time)
+                    "
                   >
                     {{
                       translateNumber(
@@ -116,7 +120,9 @@
                     }"
                     v-for="timeslot in timeslots.evening"
                     :key="'evening-timeslot-' + timeslot.id"
-                    @click="selectedTimeslot.evening = timeslot.reminder_time"
+                    @click="
+                      handleReminderClick('evening', timeslot.reminder_time)
+                    "
                   >
                     {{
                       translateNumber(
@@ -203,7 +209,7 @@ export default {
     setReminder() {
       this.setLoadingState(true);
       let obj = {
-        his_medication_id: '' + this.getSelectedMedication.id,
+        his_medication_id: "" + this.getSelectedMedication.id,
         morning_reminder: this.selectedTimeslot.morning,
         afternoon_reminder: this.selectedTimeslot.afternoon,
         evening_reminder: this.selectedTimeslot.evening,
@@ -271,6 +277,13 @@ export default {
         afternoon: this.selectedAfternoonSlot,
         evening: this.selectedEveningSlot,
       };
+    },
+    handleReminderClick(type, time) {
+      if (this.selectedTimeslot[type] == time) {
+        this.selectedTimeslot[type] = null;
+        return;
+      }
+      this.selectedTimeslot[type] = time;
     },
   },
 };
