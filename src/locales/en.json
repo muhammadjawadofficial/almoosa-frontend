@@ -596,5 +596,7 @@
   "selectedLabel": "Selected",
   "deselectLabel": "Press enter to remove",
   "dr": "Dr.",
-  "notAddedYet": "Not Added Yet"
+  "notAddedYet": "Not Added Yet",
+  "english": "English",
+  "arabic": "Arabic"
 }

@@ -104,10 +104,10 @@
                         :key="'doctor-' + doctor.id + 'clinic-' + clinic.id"
                       >
                         <div class="hospital-name">
-                          {{ clinic.title }}
+                          {{ clinic[getLocaleKey("title")] }}
                         </div>
                         <div class="hospital-address">
-                          {{ clinic.address }}
+                          {{ clinic[getLocaleKey("address")] }}
                         </div>
                       </div>
                     </div>
@@ -131,9 +131,22 @@
                       <div class="hospital-name">
                         {{ $t("doctorDetail.expertise") }}:
                       </div>
-                      <div class="hospital-address" style="max-width: 100%">
-                        {{ doctor.expertise || "N/A" }}
-                      </div>
+                      <template v-if="doctor[getLocaleKey('expertise')]">
+                        <div
+                          class="hospital-address"
+                          v-for="expertise in doctor[
+                            getLocaleKey('expertise')
+                          ].split(',')"
+                          :key="'expertise-' + expertise.trim()"
+                        >
+                          {{ expertise }}
+                        </div>
+                      </template>
+                      <template v-else>
+                        <div class="hospital-address no-data pt-0">
+                          {{ $t("noData") }}
+                        </div>
+                      </template>
                     </div>
                     <div class="appointment-list-item">
                       <div class="hospital-name">
@@ -142,7 +155,7 @@
                       <div class="hospital-address">
                         {{
                           (doctor.nationality &&
-                            doctor.nationality.nationality) ||
+                            doctor.nationality[getLocaleKey("nationality")]) ||
                           "N/A"
                         }}
                       </div>
@@ -151,10 +164,12 @@
                       <div class="hospital-name">
                         {{ $t("doctorDetail.languages") }}
                       </div>
-                      <template v-if="doctor.languages">
+                      <template v-if="doctor[getLocaleKey('languages')]">
                         <div
                           class="hospital-address"
-                          v-for="language in doctor.languages.split(',')"
+                          v-for="language in doctor[
+                            getLocaleKey('languages')
+                          ].split(',')"
                           :key="'language-' + language.trim()"
                         >
                           {{ language }}
@@ -170,12 +185,14 @@
                       <div class="hospital-name">
                         {{ $t("doctorDetail.ageGroups") }}
                       </div>
-                      <template v-if="doctor.consulting_age_group">
+                      <template
+                        v-if="doctor[getLocaleKey('consulting_age_group')]"
+                      >
                         <div
                           class="hospital-address"
-                          v-for="ageGroup in doctor.consulting_age_group.split(
-                            ','
-                          )"
+                          v-for="ageGroup in doctor[
+                            getLocaleKey('consulting_age_group')
+                          ].split(',')"
                           :key="'ageGroup-' + ageGroup.trim()"
                         >
                           {{ ageGroup }}
@@ -291,7 +308,11 @@ export default {
           if (response.status) {
             let profile = response.data.items[0];
             if (profile) {
-              this.doctor = { ...profile, ...this.getBookingDoctor };
+              this.doctor = {
+                ...profile,
+                id: this.getBookingDoctor.id,
+                profile_photo_url: this.getBookingDoctor.profile_photo_url,
+              };
               delete this.doctor.photo;
             }
             if (this.doctor && this.isBookingFlow) {

@@ -596,5 +596,7 @@
   "selectedLabel": "المحدد",
   "deselectLabel": "اضغط على دخل للإزالة",
   "dr": "الطبيب",
-  "notAddedYet": "لم يتم إضافته بعد"
+  "notAddedYet": "لم يتم إضافته بعد",
+  "english": "الإنجليزية",
+  "arabic": "العربية"
 }
