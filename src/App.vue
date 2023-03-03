@@ -42,7 +42,7 @@ export default {
       }, 1000);
     },
     isNotProduction() {
-      return process.env.NODE_ENV == "production";
+      return process.env.NODE_ENV !== "production";
     },
   },
 };
