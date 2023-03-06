@@ -20,6 +20,15 @@
         </span>
       </b-tooltip>
     </div>
+
+    <a
+      href="https://wa.link/h6lwse"
+      target="_blank"
+      class="floating-whatsapp-icon"
+      rel="noopener noreferrer"
+    >
+    <img src="./assets/images/whatsapp.svg" alt="whatsapp" />
+    </a>
   </div>
 </template>
 
@@ -89,6 +98,22 @@ export default {
         color: white;
       }
     }
+  }
+}
+.floating-whatsapp-icon {
+  position: fixed;
+  z-index: 999999;
+  bottom: 25px;
+  right: 80px;
+  font-size: 2rem;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    width: 100%;
   }
 }
 </style>

@@ -79,6 +79,10 @@ export default {
           icon: "fa fa-youtube",
           link: "https://www.youtube.com/channel/UCspHgrLVKETE06FNIFcBy3A",
         },
+        {
+          icon: "fa fa-whatsapp",
+          link: "https://wa.link/h6lwse",
+        },
       ],
     };
   },
