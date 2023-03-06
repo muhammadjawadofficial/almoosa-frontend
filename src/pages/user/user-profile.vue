@@ -447,21 +447,21 @@
             </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
-                <img src="../../assets/images/translate-bg-sec.svg" alt="" />
+                <img src="../../assets/images/family-bg-sec.svg" alt="" />
               </div>
               <div class="profile-info-card-detail">
                 <div class="profile-info-card-detail-title">
-                  {{ $t("profile.languages") + " - " + $t("arabic") }}
+                  {{ $t("profile.consulting") + " - " + $t("arabic") }}
                 </div>
                 <div
                   class="profile-info-card-detail-value forceRtl"
                   :class="{ inactive: !isEditing }"
                 >
                   <b-form-input
-                    v-model="doctor.languagesAr"
-                    :state="doctorState.languagesArState"
+                    v-model="doctor.consultingAr"
+                    :state="doctorState.consultingArState"
                     :placeholder="
-                      $t('profile.languages') + ' - ' + $t('arabic')
+                      $t('profile.consulting') + ' - ' + $t('arabic')
                     "
                     :disabled="!isEditing"
                   ></b-form-input>
@@ -477,21 +477,21 @@
             </div>
             <div class="profile-info-card">
               <div class="profile-info-card-logo">
-                <img src="../../assets/images/family-bg.svg" alt="" />
+                <img src="../../assets/images/translate-bg.svg" alt="" />
               </div>
               <div class="profile-info-card-detail">
                 <div class="profile-info-card-detail-title">
-                  {{ $t("profile.consulting") + " - " + $t("arabic") }}
+                  {{ $t("profile.languages") + " - " + $t("arabic") }}
                 </div>
                 <div
                   class="profile-info-card-detail-value forceRtl"
                   :class="{ inactive: !isEditing }"
                 >
                   <b-form-input
-                    v-model="doctor.consultingAr"
-                    :state="doctorState.consultingArState"
+                    v-model="doctor.languagesAr"
+                    :state="doctorState.languagesArState"
                     :placeholder="
-                      $t('profile.consulting') + ' - ' + $t('arabic')
+                      $t('profile.languages') + ' - ' + $t('arabic')
                     "
                     :disabled="!isEditing"
                   ></b-form-input>
