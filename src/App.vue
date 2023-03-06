@@ -34,15 +34,17 @@ export default {
   mounted() {
     this.timeOut();
   },
+  computed: {
+    isNotProduction() {
+      return process.env.NODE_ENV !== "production";
+    },
+  },
   methods: {
     timeOut() {
       let self = this;
       setTimeout(function () {
         self.show = false;
       }, 1000);
-    },
-    isNotProduction() {
-      return process.env.NODE_ENV !== "production";
     },
   },
 };
