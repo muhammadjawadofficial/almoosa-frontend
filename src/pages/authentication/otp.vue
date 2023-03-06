@@ -97,7 +97,7 @@ export default {
       this.setAuthState(null);
     },
     processData() {
-      if (process.env.NODE_ENV !== "Production") {
+      if (process.env.NODE_ENV !== "production") {
         let otp = ("" + this.getOtp.otp_code).split("").map((x) => x);
         this.$refs.otpInput.otp = [...otp];
         this.otp = this.getOtp.otp_code;
