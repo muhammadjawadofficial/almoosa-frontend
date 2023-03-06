@@ -59,10 +59,6 @@ export default {
           link: "Virtual Tour Guest",
         },
         {
-          text: "Emergency Consultations",
-          icon: "call-help-svg",
-        },
-        {
           text: "Contact Us",
           icon: "laptop-svg",
           link: "Contact Us Guest",

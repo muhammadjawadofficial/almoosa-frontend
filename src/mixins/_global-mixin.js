@@ -518,7 +518,7 @@ export default {
                 }
             })
         },
-        getFullName(user) {
+        getFullName(user, prepend = "") {
             if (!user) {
                 return 'N/A'
             }
@@ -527,8 +527,12 @@ export default {
             if (!fullName) {
                 fullName = parseName(user.first_name) + parseName(user.middle_name) + parseName(user.family_name)
             }
-            if (fullName && user.role_id == 4) {
-                fullName = this.$t('dr') + " " + fullName.trim();
+            if (prepend) {
+                fullName = prepend + " " + fullName.trim();
+            } else {
+                if (fullName && user.role_id == 4) {
+                    fullName = this.$t('dr') + " " + fullName.trim();
+                }
             }
             return fullName || 'N/A';
         },

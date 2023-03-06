@@ -50,7 +50,7 @@
                     }}
                   </div>
                   <div class="doctor-speciality">
-                    {{ getFullName(timeline.doctor) }}
+                    {{ getFullName(timeline.doctor, $t("dr")) }}
                   </div>
                   <div class="appointment-status">
                     <div class="appointment-time-span">

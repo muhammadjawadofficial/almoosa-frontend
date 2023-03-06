@@ -530,7 +530,7 @@
   },
   "paymentStatus": {
     "unpaid": "غير مدفوع",
-    "paid": "مؤكد",
+    "paid": "مدفوع",
     "cancelled": "ألغيت",
     "success": "مكتمل"
   },

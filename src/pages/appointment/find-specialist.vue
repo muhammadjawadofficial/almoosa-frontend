@@ -55,7 +55,7 @@
                 </div>
               </div>
             </div>
-            <div class="location-card-map">
+            <div class="location-card-map" v-if="false">
               <img :src="getImageUrl(clinic.map_image)" alt="clinic-map-image" />
             </div>
           </div>
@@ -114,7 +114,7 @@
     </div>
     <div class="datetime-section find-specialist-container-section block-section">
       <button @click="findSpecialist" class="btn btn-secondary">
-        {{ $t("continue") }}
+        {{ $t("modules.Find Specialist") }}
       </button>
     </div>
   </div>

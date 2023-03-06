@@ -1,10 +1,6 @@
 <template>
   <div
-    class="
-      radiology-report-doctors-container
-      page-body-container
-      standard-width
-    "
+    class="radiology-report-doctors-container page-body-container standard-width"
   >
     <back-navigation :title="$t('radiologyReport.title')" />
     <b-card
@@ -56,7 +52,7 @@
                     }}
                   </div>
                   <div class="doctor-speciality">
-                    {{ getFullName(appointment.doctor) }}
+                    {{ getFullName(appointment.doctor, $t("dr")) }}
                   </div>
                   <div class="appointment-status">
                     <div class="appointment-time-span">

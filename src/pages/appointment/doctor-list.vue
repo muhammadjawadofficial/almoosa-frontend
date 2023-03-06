@@ -6,9 +6,7 @@
           ? 'Find Specialist' + (getIsGuest ? ' Guest' : '')
           : 'default'
       "
-      :title="
-        isBookingFlow ? $t('doctorList.title') : $t('doctorList.physicianList')
-      "
+      :title="$t('doctorList.physicianList')"
     />
     <div class="search-box" :class="{ 'top-padding': !getIsGuest }">
       <div class="search-icon">
@@ -46,7 +44,7 @@
             />
           </div>
           <div class="doctor-name">
-            {{ getFullName(doctor) }}
+            {{ getFullName(doctor, $t("dr")) }}
           </div>
           <div class="doctor-speciality">
             {{ doctor.speciality[getLocaleKey("title")] }}
@@ -119,7 +117,7 @@ export default {
     ]),
     setSelectedDoctor(doctor) {
       this.setBookingDoctor(doctor);
-      console.log('doctor', doctor)
+      console.log("doctor", doctor);
       this.setBookingStartTime(null);
       this.setBookingEndTime(null);
       this.setBookingAmount(100);

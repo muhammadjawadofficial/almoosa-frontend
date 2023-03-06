@@ -31,11 +31,11 @@
                   <span class="multiselect__prepend-icon">
                     <username-svg />
                   </span>
-                  {{ $t("register." + props.option.text) }}
+                  {{ $t("login." + props.option.text) }}
                 </div>
               </template>
               <template slot="option" slot-scope="props">
-                {{ $t("register." + props.option.text) }}
+                {{ $t("login." + props.option.text) }}
               </template>
             </multiselect>
             <div
@@ -115,17 +115,24 @@ export default {
       loginOptions: [
         {
           value: 6,
-          text: "saudiId",
+          text: "proceedWithSaudiId",
           method: "saudi_id",
           placeholder: "enterId",
           validation: 10,
         },
         {
           value: 2,
-          text: "iqamaId",
+          text: "proceedWithIqamaId",
           method: "iqama",
           placeholder: "enterId",
           validation: 10,
+        },
+        {
+          value: 3,
+          text: "proceedWithMRN",
+          method: "mrn_number",
+          placeholder: "enterId",
+          validation: 7,
         },
       ],
     };

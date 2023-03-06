@@ -36,20 +36,16 @@
               </div>
               <div class="appointment-details">
                 <div class="doctor-name">
-                  {{
-                    timeline[getLocaleKey("department")]
-                      ? timeline[getLocaleKey("department")] +
-                        " " +
-                        $t("myTimeline.appointmentSession")
-                      : "N/A"
-                  }}
+                  {{ timeline[getLocaleKey("department")] || "N/A" }}
                 </div>
                 <div class="doctor-speciality">
                   {{ timeline[getLocaleKey("doctor_name")] }}
                 </div>
                 <div class="appointment-status success">
                   <div class="appointment-time-span">
-                    {{$t('myTimeline.episode') + ': ' + timeline.episode_status }}
+                    {{
+                      $t("myTimeline.episode") + ": " + timeline.episode_status
+                    }}
                   </div>
                 </div>
                 <button

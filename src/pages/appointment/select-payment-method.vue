@@ -202,7 +202,7 @@
       </div>
       <div class="col-lg-7 appointment--action-buttons" v-else>
         <button class="btn btn-secondary" @click="createPayment">
-          {{ $t("doctorList.bookAppointment") }}
+          {{ $t("bookAppointment.payNow") }}
         </button>
       </div>
 

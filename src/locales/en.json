@@ -239,7 +239,7 @@
     "Get Service & Package": "Get Service&nbsp;&&nbsp;Package",
     "Emergency Consultations": "Emergency Consultations",
     "Virtual Tour": "Virtual Tour",
-    "Find Specialist": "Find Specialist",
+    "Find Specialist": "Find Your Doctor",
     "View Appointments": "View Appointments",
     "View Inpatients": "View Inpatients",
     "Critical Care": "Critical Care",
@@ -306,7 +306,7 @@
     "timeSlots": "Available Time Slots",
     "bookAppointment": "Book an Appointment",
     "viewDetails": "View Details",
-    "physicianList": "Physician List",
+    "physicianList": "Our Doctors",
     "noData": "No doctor found in the current selection criteria"
   },
   "doctorDetail": {

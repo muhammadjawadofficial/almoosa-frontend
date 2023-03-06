@@ -264,21 +264,14 @@ export default {
     return {
       dashboardItems: [
         {
-          text: "Check Symptoms",
-          icon: "symptom-svg",
-          unique: true,
+          text: "My Timelines",
+          icon: "timeline-svg",
+          link: "My Timeline",
         },
         {
-          text: "View Family Member",
-          icon: "family-svg",
-          // link: "Family Members",
-        },
-        {
-          text: "Upcoming Appointment",
-          icon: "calendar-svg",
-          link: "Upcoming Appointment",
-          param: { method: "onsite" },
-          guardianComponents: true,
+          text: "My Medications",
+          icon: "medical-jar-svg",
+          link: "My Medication",
         },
         {
           text: "Lab Works",
@@ -293,9 +286,11 @@ export default {
           guardianComponents: true,
         },
         {
-          text: "My Medications",
-          icon: "medical-jar-svg",
-          link: "My Medication",
+          text: "Upcoming Appointment",
+          icon: "calendar-svg",
+          link: "Upcoming Appointment",
+          param: { method: "onsite" },
+          guardianComponents: true,
         },
         {
           text: "Medical Insurance",
@@ -304,23 +299,28 @@ export default {
           guardianComponents: true,
         },
         {
-          text: "My Timelines",
-          icon: "timeline-svg",
-          link: "My Timeline",
-        },
-        {
           text: "Health Education",
           icon: "atom-svg",
           link: "Health Education",
+        },
+        {
+          text: "Get Service & Package",
+          icon: "briefcase-svg",
+          // link: "Services Packages",
+        },
+        {
+          text: "View Family Member",
+          icon: "family-svg",
+          // link: "Family Members",
         },
         {
           text: "View Promotions",
           icon: "promotions-svg",
         },
         {
-          text: "Get Service & Package",
-          icon: "briefcase-svg",
-          // link: "Services Packages",
+          text: "Check Symptoms",
+          icon: "symptom-svg",
+          unique: true,
         },
         {
           text: "Emergency Consultations",

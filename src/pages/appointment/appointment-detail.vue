@@ -28,7 +28,9 @@
                 <div class="appointment-detail--value">
                   {{
                     details.type
-                      ? $t("bookAppointment." + details.type.toLowerCase())
+                      ? $t("bookAppointment." + details.type.toLowerCase()) +
+                        " " +
+                        $t("appointmentDetail.consultation")
                       : "N/A"
                   }}
                 </div>
@@ -43,7 +45,12 @@
                   }}
                 </div>
                 <div class="appointment-detail--value">
-                  {{ getFullName(details[isDoctor ? "patient" : "doctor"]) }}
+                  {{
+                    getFullName(
+                      details[isDoctor ? "patient" : "doctor"],
+                      isDoctor ? "" : $t("dr")
+                    )
+                  }}
                 </div>
               </div>
               <div class="appointment-detail--sepecialist">
@@ -229,7 +236,7 @@ export default {
         this.$t("upcomingAppointment.modal.confirm"),
         this.$t("upcomingAppointment.modal.confirmText"),
         "m-calendar-cancel-confirm",
-        this.$t("cancel"),
+        this.$t("yes"),
         this.$t("appointmentDetail.reschedule")
       ).then((result) => {
         if (result.value) {
