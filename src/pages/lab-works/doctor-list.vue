@@ -42,11 +42,7 @@
                 <div class="appointment-details">
                   <div class="doctor-name">
                     {{
-                      appointment.doctor[getLocaleKey("speciality")]
-                        ? appointment.doctor[getLocaleKey("speciality")] +
-                          " " +
-                          $t("myMedication.appointmentSession")
-                        : "N/A"
+                      appointment.doctor[getLocaleKey("speciality")] || "N/A"
                     }}
                   </div>
                   <div class="doctor-speciality">
