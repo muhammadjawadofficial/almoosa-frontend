@@ -97,9 +97,7 @@ export default {
     searchReportQuery(val) {
       this.filteredList = [
         ...this.reports.filter((x) =>
-          x[this.getLocaleKey("title")]
-            .toLowerCase()
-            .includes(val.toLowerCase())
+          x.title.toLowerCase().includes(val.toLowerCase())
         ),
       ];
     },
