@@ -29,6 +29,9 @@
                 <div class="appointment-time-day">
                   {{ getDate(appointment.booked_date) }}
                 </div>
+                <div class="appointment-time-day">
+                  {{ getYear(appointment.booked_date) }}
+                </div>
                 <div class="appointment-time-time">
                   {{
                     appointment.start_time

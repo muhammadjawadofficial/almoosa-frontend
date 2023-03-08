@@ -5,7 +5,7 @@
       {{ $t("login.codeSentMessage") }}
     </div>
     <div class="sub-heading font-primary w500">
-      {{ phone }} {{ email ? "& " + email : "" }}
+      {{ translateNumber(phone) }} {{ email ? "& " + email : "" }}
     </div>
     <div class="login-form">
       <div class="row">

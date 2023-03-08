@@ -104,7 +104,7 @@ export default {
   position: fixed;
   z-index: 999999;
   bottom: 25px;
-  right: 80px;
+  right: 30px;
   font-size: 2rem;
   cursor: pointer;
   border-radius: 50%;

@@ -23,6 +23,9 @@
               <div class="appointment-time-day">
                 {{ getDate(timeline.start_date) }}
               </div>
+              <div class="appointment-time-day">
+                {{ getYear(timeline.booked_date) }}
+              </div>
               <div class="appointment-time-time">
                 {{ getTimeFromDate(timeline.start_date, true) }}
               </div>

@@ -39,6 +39,9 @@
                       <div class="appointment-time-day">
                         {{ getDate(appointment.booked_date) }}
                       </div>
+                      <div class="appointment-time-day">
+                        {{ getYear(appointment.booked_date) }}
+                      </div>
                       <div class="appointment-time-time">
                         {{ getTimeFromDate(appointment.start_time, true) }}
                       </div>
@@ -139,6 +142,9 @@
                       <div class="appointment-time-day">
                         {{ getDate(appointment.booked_date) }}
                       </div>
+                      <div class="appointment-time-day">
+                        {{ getYear(appointment.booked_date) }}
+                      </div>
                       <div class="appointment-time-time">
                         {{ getTimeFromDate(appointment.start_time, true) }}
                       </div>
@@ -176,7 +182,10 @@
                           </div>
                         </div>
                         <div class="doctor-speciality" v-else>
-                          {{ appointment.doctor[getLocaleKey("speciality")] || appointment[getLocaleKey("speciality")] }}
+                          {{
+                            appointment.doctor[getLocaleKey("speciality")] ||
+                            appointment[getLocaleKey("speciality")]
+                          }}
                           {{
                             appointment.doctor.location
                               ? ", " + appointment.doctor.location
@@ -318,12 +327,12 @@ export default {
         (error) => {
           this.appointmentStatus = null;
           this.setLoadingState(false);
-          if (!this.isAPIAborted(error)) 
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
         }
       );
     },

@@ -42,7 +42,7 @@
     "enterRegisterId": "أدخل بريدك الإلكتروني المسجل أو رقم هاتفك",
     "enterResetPasswordId": "أدخل البريد الإلكتروني / رقم الهاتف",
     "sendCode": "أرسل الرمز",
-    "codeSentMessage": "تم ارسال كود مكون من 4 أرقام  على رقم جوالك",
+    "codeSentMessage": "تم ارسال كود مكون من ٤ أرقام  على رقم جوالك",
     "verify": "للتأكيد",
     "didntReceiveACode": "لم تستلم الكود?",
     "resend": "إعادة إرسال",

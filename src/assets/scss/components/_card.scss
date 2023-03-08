@@ -298,8 +298,10 @@
           }
           .appointment {
             &-card {
-              margin-inline-start: 2.375rem;
-              width: calc(100% - 2.375rem - var(--time-width));
+              --margin-inline: 2.375rem;
+              // --margin-inline: 0px;
+              margin-inline-start: var(--margin-inline);
+              width: calc(100% - var(--margin-inline) - var(--time-width));
             }
           }
           .service-details {

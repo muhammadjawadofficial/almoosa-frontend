@@ -18,6 +18,9 @@ export default {
             return (roleLS == 4 || (roleS && roleS.includes('doc')))
         },
     },
+    mounted(){
+        this.moment.locale(this.$i18n.locale)
+    },
     watch: {
         "$i18n.locale": function (val) {
             this.moment.locale(val)
@@ -372,6 +375,17 @@ export default {
                 return this.$t('header.today');
             } else {
                 return date.format("DD MMM");
+            }
+        },
+        getYear(dateString, utc = true) {
+            let date = this.moment(dateString);
+            if (utc) {
+                date = date.utc();
+            }
+            if (this.moment(date).isSame(new Date(), "day")) {
+                return;
+            } else {
+                return date.format("YYYY");
             }
         },
         getTimeFromDate(date, includeAmPm = false) {
