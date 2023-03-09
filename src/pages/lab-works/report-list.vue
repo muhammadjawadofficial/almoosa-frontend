@@ -31,21 +31,24 @@
             v-for="(report, index) in filteredList"
             :key="'upcoming-appointment-id' + index + report.id"
           >
-            <div class="appointment-card default">
+            <div
+              class="appointment-card"
+              :class="getStatusClass(report.result)"
+            >
               <div class="doctor-avatar transparent">
                 <lab-bg-svg />
               </div>
               <div class="appointment-details">
                 <div class="doctor-name">
-                  {{ report.title }}
+                  {{ report.test_name }}
                 </div>
                 <div class="doctor-speciality">
                   {{ getLongDateAndTimeFromDate(report.dated, true) }}
                 </div>
-                <div
-                  class="appointment-status"
-                  :class="getStatusClass(report.result)"
-                >
+                <div class="doctor-speciality">
+                  {{ report.normal_range }}
+                </div>
+                <div class="appointment-status">
                   {{ report.result }}
                 </div>
               </div>
@@ -139,11 +142,11 @@ export default {
     },
     getStatusClass(status) {
       if (status.toLowerCase() === "normal") {
-        return "normal";
+        return "success";
       } else if (status.toLowerCase() === "abnormal") {
-        return "abnormal";
+        return "warning";
       } else {
-        return "pending";
+        return "danger";
       }
     },
     viewReport(report) {

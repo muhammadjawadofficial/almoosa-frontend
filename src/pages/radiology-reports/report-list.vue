@@ -33,16 +33,22 @@
             v-for="(report, index) in filteredList"
             :key="'upcoming-appointment-id' + index + report.id"
           >
-            <div class="appointment-card default">
+            <div
+              class="appointment-card"
+              :class="getStatusClass(report.result)"
+            >
               <div class="doctor-avatar transparent">
                 <lab-bg-svg />
               </div>
               <div class="appointment-details">
                 <div class="doctor-name">
-                  {{ report.title }}
+                  {{ report.test_name }}
                 </div>
                 <div class="doctor-speciality">
                   {{ getLongDateAndTimeFromDate(report.dated, true) }}
+                </div>
+                <div class="doctor-speciality">
+                  {{ report.normal_range || "N/A" }}
                 </div>
                 <div class="appointment-status">
                   {{ report.result }}
@@ -147,6 +153,15 @@ export default {
         url: report.report_file.path,
       };
       userService.downloadFile(file);
+    },
+    getStatusClass(status) {
+      if (status.toLowerCase() === "normal") {
+        return "success";
+      } else if (status.toLowerCase() === "abnormal") {
+        return "warning";
+      } else {
+        return "danger";
+      }
     },
   },
 };

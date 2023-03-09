@@ -323,10 +323,6 @@ export default {
           unique: true,
         },
         {
-          text: "Emergency Consultations",
-          icon: "call-help-svg",
-        },
-        {
           text: "Virtual Tour",
           icon: "user-tag-svg",
           link: "Virtual Tour",

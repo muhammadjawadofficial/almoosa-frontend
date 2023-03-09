@@ -18,7 +18,7 @@ export default {
             return (roleLS == 4 || (roleS && roleS.includes('doc')))
         },
     },
-    mounted(){
+    mounted() {
         this.moment.locale(this.$i18n.locale)
     },
     watch: {
@@ -427,6 +427,9 @@ export default {
                 return this.moment(date).locale(locale || this.getCurrentLang()).utc().format(format);
             }
             return this.moment(date).locale(locale || this.getCurrentLang()).format(format);
+        },
+        formatDateTime(date, utc = true) {
+            return this.dateFormatter(date, 'DD/MM/YYYY hh:mm A', utc);
         },
         formatLongDayDateFromDate(date, utc = true) {
             return this.dateFormatter(date, 'dddd, MMMM DD', utc);

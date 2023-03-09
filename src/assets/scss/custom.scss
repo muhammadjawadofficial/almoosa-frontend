@@ -934,6 +934,29 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             width: calc(min(20.5em, 100%));
             display: flex;
             flex-direction: column;
+            overflow: hidden;
+            &.unavailable {
+                pointer-events: none !important;
+                position: relative;
+                &::after {
+                    content: "Unavailable";
+                    position: absolute;
+                    inset: 0;
+                    display: grid;
+                    place-content: center;
+                    font-size: 2rem;
+                    color: $tertiary-color;
+                    opacity: 1;
+                    z-index: 1;
+                }
+                &::before {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    background-color: $secondary-color;
+                    opacity: 0.4;
+                }
+            }
             .doctor {
                 &-image {
                     width: 17.5em;

@@ -49,6 +49,17 @@
                       </div>
                       <div class="appointment-status">
                         <div class="appointment-time-span">
+                          <span>
+                            {{ formatDateTime(medication.start_date) }}
+                          </span>
+                          -
+                          <span>
+                            {{ formatDateTime(medication.end_date) }}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="appointment-status" v-if="false">
+                        <div class="appointment-time-span">
                           {{
                             medication.morning_reminder
                               ? removeSecondsFromTimeString(
@@ -261,3 +272,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.appointment-time-span span {
+  white-space: nowrap;
+}
+</style>
