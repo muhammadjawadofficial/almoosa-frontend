@@ -22,17 +22,19 @@
     </div>
 
     <a
+      v-if="isAuthenticated"
       href="https://wa.link/h6lwse"
       target="_blank"
       class="floating-whatsapp-icon"
       rel="noopener noreferrer"
     >
-    <img src="./assets/images/whatsapp.svg" alt="whatsapp" />
+      <img src="./assets/images/whatsapp.svg" alt="whatsapp" />
     </a>
   </div>
 </template>
 
 <script>
+import { userService } from "./services";
 export default {
   name: "app",
   data() {
@@ -46,6 +48,9 @@ export default {
   computed: {
     isNotProduction() {
       return process.env.NODE_ENV !== "production";
+    },
+    isAuthenticated() {
+      return userService.isAuthenticatedUser();
     },
   },
   methods: {
