@@ -334,10 +334,10 @@ const routes = [
       },
       {
         path: "critical-care",
-        name: 'Critical Care',
+        name: 'Critical Results',
         component: CriticalCare,
         meta: {
-          title: 'Critical Care Patients - Reports | Almoosa Health Group',
+          title: 'Critical Results Patients - Reports | Almoosa Health Group',
         },
       },
       {
@@ -367,7 +367,8 @@ const routes = [
             component: healthEducationDetails,
             meta: {
               title: 'Health Education Details | Almoosa Health Group',
-              public: true
+              public: true,
+              hideWhatsapp: true
             },
           },
         ]

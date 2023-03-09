@@ -73,11 +73,22 @@
                             )
                           }}
                         </div>
-                        <div class="doctor-speciality" v-if="isDoctor">
-                          <div>
-                            {{ getPatientSubDetails(appointment.patient) }}
+                        <template v-if="isDoctor">
+                          <div class="doctor-speciality">
+                            <div>
+                              {{ getPatientSubDetails(appointment.patient) }}
+                            </div>
                           </div>
-                        </div>
+                          <div class="doctor-speciality">
+                            <div>
+                              {{
+                                $t("gender") +
+                                ": " +
+                                $t(appointment.patient.gender.toLowerCase())
+                              }}
+                            </div>
+                          </div>
+                        </template>
                         <div class="doctor-speciality" v-else>
                           {{ appointment.doctor[getLocaleKey("speciality")] }}
                           {{
@@ -100,7 +111,9 @@
                           </div>
                           <template v-if="isDoctor">
                             {{
-                              getYears(appointment.patient.dob) +
+                              translateNumber(
+                                getYears(appointment.patient.dob)
+                              ) +
                               " " +
                               $t("years")
                             }}
@@ -176,11 +189,25 @@
                             )
                           }}
                         </div>
-                        <div class="doctor-speciality" v-if="isDoctor">
-                          <div>
-                            {{ getPatientSubDetails(appointment.patient) }}
+                        <template v-if="isDoctor">
+                          <div class="doctor-speciality">
+                            <div>
+                              {{ getPatientSubDetails(appointment.patient) }}
+                            </div>
                           </div>
-                        </div>
+                          <div class="doctor-speciality">
+                            <div>
+                              {{
+                                $t("gender") +
+                                ": " +
+                                $t(
+                                  "register." +
+                                    appointment.patient.gender.toLowerCase()
+                                )
+                              }}
+                            </div>
+                          </div>
+                        </template>
                         <div class="doctor-speciality" v-else>
                           {{
                             appointment.doctor[getLocaleKey("speciality")] ||
@@ -206,7 +233,9 @@
                           </div>
                           <template v-if="isDoctor">
                             {{
-                              getYears(appointment.patient.dob) +
+                              translateNumber(
+                                getYears(appointment.patient.dob)
+                              ) +
                               " " +
                               $t("years")
                             }}
@@ -297,7 +326,10 @@ export default {
       } else if (patient.iqama) {
         selected = "iqama";
       }
-      if (selected) return this.$t(selected) + " - " + patient[selected];
+      if (selected)
+        return (
+          this.$t(selected) + ": " + this.translateNumber(patient[selected])
+        );
       return "";
     },
     getAppointments() {

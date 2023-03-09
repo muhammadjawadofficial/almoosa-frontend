@@ -236,13 +236,13 @@
     "My Timelines": "My Timelines",
     "Health Education": "Health Education",
     "View Promotions": "View Promotions",
-    "Get Service & Package": "Get Service&nbsp;&&nbsp;Package",
+    "Service & Package": "Service&nbsp;&&nbsp;Package",
     "Emergency Consultations": "Emergency Consultations",
     "Virtual Tour": "Virtual Tour",
     "Find Specialist": "Find Your Doctor",
     "View Appointments": "View Appointments",
     "View Inpatients": "View Inpatients",
-    "Critical Care": "Critical Care",
+    "Critical Results": "Critical Results",
     "Contact Us": "Contact Us",
     "description": {
       "Discover the best doctors in Almoosa Health Group": "Discover the best doctors in Almoosa Health Group",
@@ -598,5 +598,7 @@
   "dr": "Dr.",
   "notAddedYet": "Not Added Yet",
   "english": "English",
-  "arabic": "Arabic"
+  "arabic": "Arabic",
+  "gender": "Gender",
+  "age": "Age"
 }

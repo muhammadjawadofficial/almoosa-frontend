@@ -36,7 +36,10 @@
           class="doctor-card"
           v-for="doctor in filteredDoctors"
           :key="'doctor-card-' + doctor.id"
-          :class="{ 'unavailable': !doctor.free_slots }"
+          :class="{
+            unavailable: doctor.has_schedule == 'NO',
+            'fully-booked': doctor.doctor_availability == 'NO',
+          }"
         >
           <div class="doctor-image">
             <img

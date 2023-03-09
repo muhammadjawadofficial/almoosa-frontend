@@ -53,6 +53,36 @@
                   }}
                 </div>
               </div>
+              <template v-if="isDoctor">
+                <div class="appointment-detail--sepecialist">
+                  <div class="appointment-detail--label">
+                    {{ $t("mrn_number") }}
+                  </div>
+                  <div class="appointment-detail--value">
+                    {{ translateNumber(details.patient.mrn_number) }}
+                  </div>
+                </div>
+                <div class="appointment-detail--sepecialist">
+                  <div class="appointment-detail--label">
+                    {{ $t("gender") }}
+                  </div>
+                  <div class="appointment-detail--value">
+                    {{ $t("register." + details.patient.gender.toLowerCase()) }}
+                  </div>
+                </div>
+                <div class="appointment-detail--sepecialist">
+                  <div class="appointment-detail--label">
+                    {{ $t("age") }}
+                  </div>
+                  <div class="appointment-detail--value">
+                    {{
+                      translateNumber(getYears(details.patient.dob)) +
+                      " " +
+                      $t("years")
+                    }}
+                  </div>
+                </div>
+              </template>
               <div class="appointment-detail--sepecialist">
                 <div class="appointment-detail--label">
                   {{ $t("appointmentDetail.medicalType") }}
@@ -67,12 +97,6 @@
                     "N/A"
                   }}
                 </div>
-              </div>
-              <div class="appointment-detail--sepecialist" v-if="false">
-                <div class="appointment-detail--label">
-                  {{ $t("appointmentDetail.token") }}
-                </div>
-                <div class="appointment-detail--value">4D</div>
               </div>
               <div class="appointment-detail--sepecialist">
                 <div class="appointment-detail--label">

@@ -22,7 +22,7 @@
     </div>
 
     <a
-      v-if="isAuthenticated"
+      v-if="!currentRoute.meta.hideWhatsapp"
       href="https://wa.link/h6lwse"
       target="_blank"
       class="floating-whatsapp-icon"
@@ -40,10 +40,17 @@ export default {
   data() {
     return {
       show: true,
+      currentRoute: null,
     };
   },
   mounted() {
     this.timeOut();
+    this.setCurrentRoute(this.$route);
+  },
+  watch: {
+    $route: function (val) {
+      this.setCurrentRoute(val);
+    },
   },
   computed: {
     isNotProduction() {
@@ -54,6 +61,10 @@ export default {
     },
   },
   methods: {
+    setCurrentRoute(route) {
+      this.currentRoute = route;
+      console.log(route);
+    },
     timeOut() {
       let self = this;
       setTimeout(function () {

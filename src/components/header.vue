@@ -25,12 +25,6 @@
             {{ $t("header.bookings") }}
           </li>
           <li
-            @click="loadComponent('/coming-soon/')"
-            class="nav-link d-lg-block d-none"
-          >
-            {{ $t("header.emergencyConsultations") }}
-          </li>
-          <li
             class="nav-link d-lg-block d-none"
             @click="loadComponent('/contact-us')"
             :class="{ active: currentRouteName == 'Contact Us' }"

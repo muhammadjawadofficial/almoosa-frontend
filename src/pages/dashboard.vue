@@ -39,10 +39,10 @@
           </div>
           <div
             class="consultation-section--blocks--single large tertiary"
-            @click="navigateTo('Critical Care')"
+            @click="navigateTo('Critical Results')"
           >
             <div class="title">
-              {{ $t("modules.Critical Care") }}
+              {{ $t("modules.Critical Results") }}
               <div class="sub-title">
                 {{
                   $t(
@@ -304,7 +304,7 @@ export default {
           link: "Health Education",
         },
         {
-          text: "Get Service & Package",
+          text: "Service & Package",
           icon: "briefcase-svg",
           // link: "Services Packages",
         },

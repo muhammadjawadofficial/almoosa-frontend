@@ -36,7 +36,7 @@
             "path": "/symptom-checker"
         },
         {
-            "title": "Find Specialist",
+            "title": "Find Your Doctor",
             "title_ar": "ابحث عن طبيبك",
             "icon": "heart-checkup-svg",
             "type": "link",

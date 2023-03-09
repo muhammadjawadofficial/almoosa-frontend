@@ -5075,9 +5075,25 @@
     direction: ltr;
     text-align: right;
   }
-  .multiselect .multiselect__select{
+  .multiselect .multiselect__select {
     right: unset !important;
     left: 0;
+  }
+  .doctor-list-container {
+    .doctor-card-container {
+      .doctor-card {
+        &.unavailable {
+          &::after {
+            content: "غير متوفره";
+          }
+        }
+        &.fully-booked {
+          &::after {
+            content: "محجوز بالكامل";
+          }
+        }
+      }
+    }
   }
 }
 

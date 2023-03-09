@@ -236,13 +236,13 @@
     "My Timelines": "تاريخك الطبي",
     "Health Education": "التثقيف الطبي",
     "View Promotions": "العروض و الخدمات",
-    "Get Service & Package": "الخدمات والباقات",
+    "Service & Package": "الخدمات والباقات",
     "Emergency Consultations": "الاستشارات الطارئة",
     "Virtual Tour": "جولة افتراضية",
     "Find Specialist": "ابحث عن طبيبك",
     "View Appointments": "عرض المواعيد",
     "View Inpatients": "عرض في المرضى",
-    "Critical Care": "عناية حرجة",
+    "Critical Results": "النتائج الهامة",
     "Contact Us": "تواصل معنا",
     "description": {
       "Discover the best doctors in Almoosa Health Group": "اكتشف أفضل الأطباء في مجموعة الموسى الصحية",
@@ -595,8 +595,10 @@
   "selectLabel": "اضغط على دخل لتحديد",
   "selectedLabel": "المحدد",
   "deselectLabel": "اضغط على دخل للإزالة",
-  "dr": "الطبيب",
+  "dr": "د.",
   "notAddedYet": "لم يتم إضافته بعد",
   "english": "الإنجليزية",
-  "arabic": "العربية"
+  "arabic": "العربية",
+  "gender": "الجنس",
+  "age": "عمر"
 }

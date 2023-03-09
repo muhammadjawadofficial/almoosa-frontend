@@ -935,11 +935,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            &.unavailable {
+            &.unavailable, &.fully-booked{
                 pointer-events: none !important;
                 position: relative;
                 &::after {
-                    content: "Unavailable";
                     position: absolute;
                     inset: 0;
                     display: grid;
@@ -955,6 +954,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     inset: 0;
                     background-color: $secondary-color;
                     opacity: 0.4;
+                }
+            }
+            &.unavailable {
+                &::after {
+                    content: "Unavailable";
+                }
+            }
+            &.fully-booked {
+                &::after {
+                    content: "Fully Booked";
                 }
             }
             .doctor {
