@@ -173,7 +173,6 @@ export default {
       } else {
         this.layoutType = this.layoutType == "ltr" ? "rtl" : "ltr";
       }
-      console.log(this.layoutType);
       this.$store.dispatch("layout/setLayoutType", this.layoutType);
       this.$i18n.locale = this.layoutType == "rtl" ? "ar" : "en";
       userService.setSelectedLayout(this.layoutType);

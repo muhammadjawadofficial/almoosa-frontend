@@ -121,7 +121,6 @@ export default {
     ]),
     setSelectedDoctor(doctor) {
       this.setBookingDoctor(doctor);
-      console.log("doctor", doctor);
       this.setBookingStartTime(null);
       this.setBookingEndTime(null);
       this.setBookingAmount(100);

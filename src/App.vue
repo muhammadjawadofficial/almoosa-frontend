@@ -63,7 +63,6 @@ export default {
   methods: {
     setCurrentRoute(route) {
       this.currentRoute = route;
-      console.log(route);
     },
     timeOut() {
       let self = this;

@@ -21,7 +21,6 @@ export default {
   },
   computed: {
     getRoomUrl() {
-      console.log(this.$route.params);
       return (
         process.env.VUE_APP_TELE_BASE_URL +
         "room/" +

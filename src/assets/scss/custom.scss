@@ -1773,9 +1773,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     display: flex;
     gap: 0.5rem;
     align-items: flex-start;
-    & + & {
-        margin-top: 1.5rem;
-    }
     .content {
         .title {
             font-size: 1rem;
@@ -1901,6 +1898,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             color: $black;
             line-height: 1.1em;
             font-family: $font-diodrum-medium;
+            z-index: 2;
             > * {
                 text-align: center !important;
             }

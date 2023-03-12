@@ -188,9 +188,9 @@ function getServiceBaseRate(mrn, doctorId, appointmentId) {
 function getPaymentAmount(mrn, appointmentId, schemeId, serviceId) {
     let data = {
         "Mrno": mrn,
-        "ApptAllocationID": appointmentId,
-        "PatientSchemeID": schemeId,
-        "ServiceID": serviceId,
+        "ApptAllocationID": '' + appointmentId,
+        "PatientSchemeID": '' + schemeId,
+        "ServiceID": '' + serviceId,
     }
     return axios({
         method: apiPath.user.getPaymentAmount.method,

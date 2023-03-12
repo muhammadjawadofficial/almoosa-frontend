@@ -8,8 +8,9 @@ export const medicationService = {
     getMedicationDetails,
     getMedicationRequest,
     getReminderSlots,
-    setReminder,
-    requestMedication
+    updateReminder,
+    requestMedication,
+    createMedicationWithReminder
 }
 
 function getAppointmentHistory(id) {
@@ -48,10 +49,17 @@ function getReminderSlots() {
         url: apiPath.reports.getReminderSlots.url,
     })
 }
-function setReminder(data) {
+function createMedicationWithReminder(data) {
     return axios({
-        method: apiPath.reports.setReminder.method,
-        url: apiPath.reports.setReminder.url,
+        method: apiPath.reports.createMedication.method,
+        url: apiPath.reports.createMedication.url,
+        data
+    })
+}
+function updateReminder(data, id) {
+    return axios({
+        method: apiPath.reports.updateReminder(id).method,
+        url: apiPath.reports.updateReminder(id).url,
         data
     })
 }

@@ -56,34 +56,45 @@
                 </div>
                 <div class="appointment-detail--value--details mt-5">
                   <span
-                    v-if="getSelectedMedication.morning_reminder"
+                    v-if="medicationReminders.morning_reminder"
                     class="btn btn-secondary btn-pill"
                     >{{
                       translateNumber(
                         removeSecondsFromTimeString(
-                          getSelectedMedication.morning_reminder
+                          medicationReminders.morning_reminder
                         )
                       )
                     }}
                   </span>
                   <span
-                    v-if="getSelectedMedication.afternoon_reminder"
+                    v-if="medicationReminders.afternoon_reminder"
                     class="btn btn-dark-blue btn-pill"
                     >{{
                       translateNumber(
                         removeSecondsFromTimeString(
-                          getSelectedMedication.afternoon_reminder
+                          medicationReminders.afternoon_reminder
                         )
                       )
                     }}
                   </span>
                   <span
-                    v-if="getSelectedMedication.evening_reminder"
+                    v-if="medicationReminders.evening_reminder"
                     class="btn btn-primary btn-pill"
                     >{{
                       translateNumber(
                         removeSecondsFromTimeString(
-                          getSelectedMedication.evening_reminder
+                          medicationReminders.evening_reminder
+                        )
+                      )
+                    }}
+                  </span>
+                  <span
+                    v-if="medicationReminders.night_reminder"
+                    class="btn btn-primary btn-pill"
+                    >{{
+                      translateNumber(
+                        removeSecondsFromTimeString(
+                          medicationReminders.night_reminder
                         )
                       )
                     }}
@@ -112,10 +123,12 @@
       </div>
     </div>
     <set-reminder-modal
-      :medicationId="getSelectedMedication.id"
-      :selectedMorningSlot="getSelectedMedication.morning_reminder"
-      :selectedAfternoonSlot="getSelectedMedication.afternoon_reminder"
-      :selectedEveningSlot="getSelectedMedication.evening_reminder"
+      :medicationId="medicationReminders.id"
+      :selectedMorningSlot="medicationReminders.morning_reminder"
+      :selectedAfternoonSlot="medicationReminders.afternoon_reminder"
+      :selectedEveningSlot="medicationReminders.evening_reminder"
+      :selectedNightSlot="medicationReminders.night_reminder"
+      :numberOfDosage="numberOfDosage"
       @update="handleSlotUpdate"
     />
   </div>
@@ -129,13 +142,18 @@ export default {
   data() {
     return {
       medicationRequests: null,
+      numberOfDosage: 0,
+      medicationReminders: {},
     };
   },
   components: {
     SetReminderModal,
   },
   computed: {
-    ...mapGetters("myMedication", ["getSelectedMedication"]),
+    ...mapGetters("myMedication", [
+      "getSelectedMedication",
+      "getSelectedMedicationSession",
+    ]),
     getRefillRequest() {
       return (
         !this.medicationRequests ||
@@ -158,6 +176,7 @@ export default {
       this.navigateTo("My Medication List");
     }
     this.fetchMedicationDetail();
+    this.calculateDosage();
   },
   methods: {
     ...mapActions("myMedication", ["setSelectedMedication"]),
@@ -165,7 +184,21 @@ export default {
       this.$bvModal.show("setReminderCustomModal");
     },
     handleSlotUpdate(slots) {
-      this.setSelectedMedication({ ...this.getSelectedMedication, ...slots });
+      this.medicationReminders = { ...slots };
+    },
+    calculateDosage() {
+      let description = this.getSelectedMedication.description.toLowerCase();
+      if (description.includes("once")) {
+        this.numberOfDosage = 1;
+      } else if (description.includes("twice")) {
+        this.numberOfDosage = 2;
+      } else if (description.includes("thrice")) {
+        this.numberOfDosage = 3;
+      } else if (description.includes("four times")) {
+        this.numberOfDosage = 4;
+      } else {
+        this.numberOfDosage = 4;
+      }
     },
     fetchMedicationDetail() {
       Promise.all([
@@ -176,10 +209,11 @@ export default {
           let response = res[0];
           if (response.data.status) {
             if (response.data.data.items && response.data.data.items.length) {
-              this.setSelectedMedication({
-                ...this.getSelectedMedication,
-                ...response.data.data.items[0],
-              });
+              // this.setSelectedMedication({
+              //   ...this.getSelectedMedication,
+              //   ...response.data.data.items[0],
+              // });
+              this.medicationReminders = response.data.data.items[0];
             }
           } else {
             this.failureToast(response.data.messsage);

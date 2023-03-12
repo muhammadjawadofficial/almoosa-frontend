@@ -600,5 +600,6 @@
   "english": "English",
   "arabic": "Arabic",
   "gender": "Gender",
-  "age": "Age"
+  "age": "Age",
+  "dosage": "Dosage"
 }

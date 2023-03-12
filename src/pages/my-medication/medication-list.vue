@@ -83,13 +83,6 @@
                           }}
                         </div>
                       </div>
-                      <span
-                        class="btn start-call-button w200"
-                        @click.stop="setReminder(medication)"
-                        v-if="false"
-                      >
-                        {{ $t("myMedication.setReminder") }}
-                      </span>
                     </div>
                   </div>
                 </div>
@@ -163,24 +156,13 @@
         </b-tabs>
       </b-card-body>
     </b-card>
-    <set-reminder-modal
-      :medicationId="selectedMedication.id"
-      :selectedMorningSlot="selectedMedication.morning_reminder"
-      :selectedAfternoonSlot="selectedMedication.afternoon_reminder"
-      :selectedEveningSlot="selectedMedication.evening_reminder"
-      @update="handleSlotUpdate"
-    />
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
 import { medicationService } from "../../services";
-import SetReminderModal from "./set-reminder-modal.vue";
 export default {
-  components: {
-    SetReminderModal,
-  },
   data() {
     return {
       medicationList: null,
@@ -207,10 +189,6 @@ export default {
   },
   methods: {
     ...mapActions("myMedication", ["setSelectedMedication"]),
-    setReminder(medication) {
-      this.selectedMedication = medication;
-      this.$bvModal.show("setReminderCustomModal");
-    },
     handleSlotUpdate(slots) {
       let findIndex = this.medicationList.findIndex(
         (x) => x.id == this.selectedMedication.id

@@ -96,16 +96,16 @@
                       </div>
                       <div class="appointment-details">
                         <div class="doctor-name w600">
-                          {{ insurance.service_name }}
+                          {{ insurance.company_name }}
                         </div>
                         <div class="doctor-speciality">
-                          {{ insurance.medical_support }}
+                          {{ insurance.service_name }}
                         </div>
                         <div class="last-update-on w200">
                           {{ $t("insurance.lastUpdate") }}
                         </div>
                         <div class="date-time w200">
-                          {{ getLongDateAndTimeFromDate(insurance.updated_at) }}
+                          {{ getLongDateAndTimeFromDate(insurance.last_update_on_date, true) }}
                         </div>
                         <button class="btn start-call-button">
                           {{
