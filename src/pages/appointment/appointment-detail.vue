@@ -237,7 +237,7 @@ export default {
               connectId: this.createRoomId(
                 appointment.id,
                 appointment.doctor_id,
-                appointment.patient_id
+                this.getUserInfo.mrn_number
               ),
               name: this.getFullName(this.getUserInfo),
             });
