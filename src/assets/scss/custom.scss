@@ -956,14 +956,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     opacity: 0.4;
                 }
             }
-            &.unavailable {
-                &::after {
-                    content: "Unavailable";
-                }
-            }
             &.fully-booked {
                 &::after {
                     content: "Fully Booked";
+                }
+            }
+            &.unavailable {
+                &::after {
+                    content: "Unavailable";
                 }
             }
             .doctor {
@@ -1786,7 +1786,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .reminder-timeslots {
     display: flex;
     gap: 1rem;
-    margin-top: 0.75rem;
+    // margin-top: 0.75rem;
     @media (max-width: 525px) {
         gap: 0.5rem;
     }
@@ -1800,24 +1800,31 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         border-radius: 0.5rem;
         cursor: pointer;
         &.primary {
-            background-color: lighten($color: $primary-color, $amount: 45%);
-            color: $primary-color;
+            background-color: $primary-color;
+            color: $white;
             &.active {
                 background-color: $primary-color;
             }
         }
         &.secondary {
-            background-color: lighten($color: $secondary-color, $amount: 45%);
-            color: $secondary-color;
+            background-color: $secondary-color;
+            color: $white;
             &.active {
                 background-color: $secondary-color;
             }
         }
         &.dark-blue {
-            background-color: lighten($color: $dark-blue-color, $amount: 45%);
-            color: $dark-blue-color;
+            background-color: $dark-blue-color;
+            color: $white;
             &.active {
                 background-color: $dark-blue-color;
+            }
+        }
+        &.tertiary {
+            background-color: $tertiary-color;
+            color: $black;
+            &.active {
+                background-color: $tertiary-color;
             }
         }
         &.active {

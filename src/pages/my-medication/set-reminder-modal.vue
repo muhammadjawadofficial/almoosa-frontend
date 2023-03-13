@@ -34,7 +34,7 @@
         </div>
         <div class="swal2-content">
           <div id="swal2-content" class="row" style="">
-            <div class="daypart-section col-sm-6">
+            <div class="daypart-section col-sm-12">
               <div class="logo">
                 <img src="../../assets/images/alarm-clock.svg" alt="" />
               </div>
@@ -52,7 +52,7 @@
                     :placeholder="$t('selectOptionLabel')"
                     :selectLabel="$t('selectLabel')"
                     :selectedLabel="$t('selectedLabel')"
-                    :deselectLabel="$t('deselectLabel')"
+                    :deselectLabel="''"
                   >
                     <template slot="singleLabel" slot-scope="props">
                       {{ translateNumber(props.option) }}
@@ -64,7 +64,7 @@
                 </div>
               </div>
             </div>
-            <div class="daypart-section col-sm-6" v-if="numberOfDosage > 1">
+            <div class="daypart-section col-sm-12" v-if="numberOfDosage > 1">
               <div class="logo">
                 <img src="../../assets/images/alarm-clock.svg" alt="" />
               </div>
@@ -79,7 +79,7 @@
                 </div>
               </div>
             </div>
-            <div class="daypart-section col-sm-6" v-if="numberOfDosage > 2">
+            <div class="daypart-section col-sm-12" v-if="numberOfDosage > 2">
               <div class="logo">
                 <img src="../../assets/images/alarm-clock.svg" alt="" />
               </div>
@@ -94,7 +94,7 @@
                 </div>
               </div>
             </div>
-            <div class="daypart-section col-sm-6" v-if="numberOfDosage > 3">
+            <div class="daypart-section col-sm-12" v-if="numberOfDosage > 3">
               <div class="logo">
                 <img src="../../assets/images/alarm-clock.svg" alt="" />
               </div>
@@ -103,7 +103,7 @@
                   {{ $t("dosage") + " " + translateNumber(4) }}
                 </div>
                 <div class="reminder-timeslots">
-                  <div class="timeslot primary">
+                  <div class="timeslot tertiary">
                     {{ translateNumber(selectedTimeslot.night || "--:--") }}
                   </div>
                 </div>
@@ -246,9 +246,16 @@ export default {
       this.setLoadingState(true);
       let obj = {
         morning_reminder: this.selectedTimeslot.morning,
-        afternoon_reminder: this.selectedTimeslot.afternoon,
-        evening_reminder: this.selectedTimeslot.evening,
       };
+      if (this.numberOfDosage > 1) {
+        obj.afternoon_reminder = this.selectedTimeslot.afternoon;
+      }
+      if (this.numberOfDosage > 2) {
+        obj.evening_reminder = this.selectedTimeslot.evening;
+      }
+      if (this.numberOfDosage > 3) {
+        obj.night_reminder = this.selectedTimeslot.night;
+      }
       medicationService.updateReminder(obj, this.medicationId).then(
         (response) => {
           if (response.data.status) {
@@ -360,4 +367,29 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  .title {
+    width: 5rem;
+  }
+}
+.multiselect {
+  &:deep(.multiselect__single) {
+    text-align: center;
+    padding-inline-start: 40px;
+  }
+}
+.daypart-section {
+  align-items: center;
+  margin-top: 0.5rem;
+}
+.reminder-timeslots {
+  width: 15rem;
+  .timeslot {
+    width: 100%;
+  }
+}
+</style>

@@ -5082,14 +5082,14 @@
   .doctor-list-container {
     .doctor-card-container {
       .doctor-card {
-        &.unavailable {
-          &::after {
-            content: "غير متوفره";
-          }
-        }
         &.fully-booked {
           &::after {
             content: "محجوز بالكامل";
+          }
+        }
+        &.unavailable {
+          &::after {
+            content: "غير متوفره";
           }
         }
       }
