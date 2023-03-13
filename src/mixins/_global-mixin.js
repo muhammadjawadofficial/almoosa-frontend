@@ -6,7 +6,8 @@ export default {
     data() {
         return {
             restartEnabled: false,
-            checkRoleFromUser: false
+            checkRoleFromUser: false,
+            browserTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         }
     },
     computed: {
@@ -422,11 +423,11 @@ export default {
             }
             return this.translateNumber(parsedString);
         },
-        dateFormatter(date, format = 'MMMM Do YYYY, h:mm A', utc = false, locale) {
+        dateFormatter(date, format = 'MMMM Do YYYY, h:mm A', utc = false, locale, tz = this.browserTimezone) {
             if (utc) {
-                return this.moment(date).locale(locale || this.getCurrentLang()).utc().format(format);
+                return this.moment(date).tz(tz).locale(locale || this.getCurrentLang()).utc().format(format);
             }
-            return this.moment(date).locale(locale || this.getCurrentLang()).format(format);
+            return this.moment(date).tz(tz).locale(locale || this.getCurrentLang()).format(format);
         },
         formatDateTime(date, utc = true) {
             return this.dateFormatter(date, 'DD/MM/YYYY hh:mm A', utc);
@@ -456,7 +457,7 @@ export default {
             return this.dateFormatter(date, 'MMMM YYYY - hh:mm A', utc)
         },
         formatReceiptDateTime(date, utc = false) {
-            return this.dateFormatter(date, 'YYYY-MM-DD HH:mm:ss', utc, "en")
+            return this.dateFormatter(date, 'YYYY-MM-DD HH:mm:ss', utc, "en", "Asia/Riyadh")
         },
         isDateSame(date1, date2) {
             let fdate1 = this.formatDate(new Date(date1));

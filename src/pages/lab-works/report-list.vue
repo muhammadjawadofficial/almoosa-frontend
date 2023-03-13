@@ -49,7 +49,7 @@
                   {{ report.normal_range }}
                 </div>
                 <div class="appointment-status">
-                  {{ report.result }}
+                  {{ report.result + " - " + (report.report_result || "N/A") }}
                 </div>
               </div>
               <div

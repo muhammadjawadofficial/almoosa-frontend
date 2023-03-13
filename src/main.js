@@ -11,7 +11,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import Toasted from 'vue-toasted';
 import VueApexCharts from 'vue-apexcharts';
 import VueExcelXlsx from "vue-excel-xlsx";
-import moment from 'moment'
+import moment from 'moment-timezone'
 import PerPage from "./components/per_page"
 import ASHDatePicker from "./components/ash_datepicker"
 import Multiselect from "vue-multiselect";

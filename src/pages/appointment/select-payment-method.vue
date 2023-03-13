@@ -1,11 +1,6 @@
 <template>
   <div
-    class="
-      select-payment-method-container
-      only-back-container
-      standard-width
-      page-body-container
-    "
+    class="select-payment-method-container only-back-container standard-width page-body-container"
   >
     <back-navigation
       :backLink="
@@ -376,12 +371,12 @@ export default {
           this.patientInsurances = [...insurances.items];
         })
         .catch((error) => {
-          if (!this.isAPIAborted(error)) 
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
           this.setLoadingState(false);
         })
         .finally(() => {
@@ -459,12 +454,12 @@ export default {
           this.setAppointmentAmount();
         })
         .catch((error) => {
-          if (!this.isAPIAborted(error)) 
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
           this.setLoadingState(false);
         })
         .finally(() => {
@@ -483,7 +478,8 @@ export default {
           : this.serviceBaseRate.service_tax,
         service_net_amount: this.paymentAmount
           ? this.paymentAmount.NetAmount
-          : this.serviceBaseRate.discount + this.serviceBaseRate.service_tax,
+          : this.serviceBaseRate.patient_amount +
+            this.serviceBaseRate.service_tax,
         patient_amount: this.paymentAmount
           ? this.paymentAmount.PatientShare
           : this.serviceBaseRate.patient_amount,
@@ -498,7 +494,7 @@ export default {
           ? this.selectedInsurance.scheme_id
           : 1,
         wallet_payment_amount: this.getWalletDeductionAmount(),
-        gateway_payment_amount: 4.5,
+        gateway_payment_amount: this.appointmentAmount,
         gateway_payment_ref: "GATEWAY TRX REF",
         receipt_date: this.formatReceiptDateTime(new Date()),
       };
