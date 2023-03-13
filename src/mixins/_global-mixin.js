@@ -393,6 +393,9 @@ export default {
             return this.moment(date).utc().format("hh:mm" + (includeAmPm ? " A" : ""));
         },
         removeSecondsFromTimeString(timeString, onlySplice = false, translate = true) {
+            if(timeString == '--:--'){
+                return '--:--';
+            }
             let timeArray = timeString.split(":");
             let hh = timeArray[0];
             let mm = timeArray[1];

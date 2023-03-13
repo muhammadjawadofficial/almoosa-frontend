@@ -5084,12 +5084,12 @@
       .doctor-card {
         &.fully-booked {
           &::after {
-            content: "محجوز بالكامل";
+            content: "جميع المواعيد محجوزة";
           }
         }
         &.unavailable {
           &::after {
-            content: "غير متوفره";
+            content: "غير متاح في التاريخ المحدد";
           }
         }
       }

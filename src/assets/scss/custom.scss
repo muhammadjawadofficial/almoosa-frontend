@@ -947,6 +947,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     color: $tertiary-color;
                     opacity: 1;
                     z-index: 1;
+                    text-align: center;
                 }
                 &::before {
                     content: "";
@@ -963,7 +964,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             }
             &.unavailable {
                 &::after {
-                    content: "Unavailable";
+                    content: "Unavailable on Selected Date";
                 }
             }
             .doctor {
@@ -1821,10 +1822,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             }
         }
         &.tertiary {
-            background-color: $tertiary-color;
-            color: $black;
+            background-color: #f8d62b;
+            color: $white;
             &.active {
-                background-color: $tertiary-color;
+                background-color: #f8d62b;
             }
         }
         &.active {

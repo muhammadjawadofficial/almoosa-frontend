@@ -466,7 +466,7 @@
     "appointmentSession": "جلسة التعيين",
     "currentMedication": "الأدوية الحالية",
     "pastMedication": "الأدوية السابقة",
-    "setReminder": "تعيين تذكير",
+    "setReminder": "ضبط تنبيه",
     "requestRefill": "طلب إعادة التعبئة",
     "requestDelivery": "طلب التسليم",
     "doctorInstruction": "تعليمات الطبيب",
@@ -601,5 +601,6 @@
   "arabic": "العربية",
   "gender": "الجنس",
   "age": "عمر",
-  "dosage": "جرعة"
+  "dosage": "جرعة",
+  "range": "نطاق"
 }

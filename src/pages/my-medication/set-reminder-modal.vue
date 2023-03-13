@@ -50,15 +50,23 @@
                     @input="itemSelected"
                     :allowEmpty="false"
                     :placeholder="$t('selectOptionLabel')"
-                    :selectLabel="$t('selectLabel')"
-                    :selectedLabel="$t('selectedLabel')"
+                    :selectLabel="''"
+                    :selectedLabel="''"
                     :deselectLabel="''"
                   >
                     <template slot="singleLabel" slot-scope="props">
-                      {{ translateNumber(props.option) }}
+                      {{
+                        translateNumber(
+                          removeSecondsFromTimeString(props.option)
+                        )
+                      }}
                     </template>
                     <template slot="option" slot-scope="props">
-                      {{ translateNumber(props.option) }}
+                      {{
+                        translateNumber(
+                          removeSecondsFromTimeString(props.option)
+                        )
+                      }}
                     </template>
                   </multiselect>
                 </div>
@@ -74,7 +82,13 @@
                 </div>
                 <div class="reminder-timeslots">
                   <div class="timeslot dark-blue">
-                    {{ translateNumber(selectedTimeslot.afternoon || "--:--") }}
+                    {{
+                      translateNumber(
+                        removeSecondsFromTimeString(
+                          selectedTimeslot.afternoon || "--:--"
+                        )
+                      )
+                    }}
                   </div>
                 </div>
               </div>
@@ -89,7 +103,13 @@
                 </div>
                 <div class="reminder-timeslots">
                   <div class="timeslot primary">
-                    {{ translateNumber(selectedTimeslot.evening || "--:--") }}
+                    {{
+                      translateNumber(
+                        removeSecondsFromTimeString(
+                          selectedTimeslot.evening || "--:--"
+                        )
+                      )
+                    }}
                   </div>
                 </div>
               </div>
@@ -104,7 +124,13 @@
                 </div>
                 <div class="reminder-timeslots">
                   <div class="timeslot tertiary">
-                    {{ translateNumber(selectedTimeslot.night || "--:--") }}
+                    {{
+                      translateNumber(
+                        removeSecondsFromTimeString(
+                          selectedTimeslot.night || "--:--"
+                        )
+                      )
+                    }}
                   </div>
                 </div>
               </div>
@@ -332,7 +358,7 @@ export default {
     fetchTimeslots() {
       this.timeslots.morning = [];
       for (let index = 0; index < 24; index++) {
-        const hour = index + 1;
+        const hour = index;
         const parseHour = hour < 10 ? "0" + hour : hour;
         this.timeslots.morning.push(parseHour + ":00");
       }
@@ -379,7 +405,7 @@ export default {
 .multiselect {
   &:deep(.multiselect__single) {
     text-align: center;
-    padding-inline-start: 40px;
+    // padding-inline-start: 40px;
   }
 }
 .daypart-section {
@@ -387,9 +413,7 @@ export default {
   margin-top: 0.5rem;
 }
 .reminder-timeslots {
-  width: 15rem;
   .timeslot {
-    width: 100%;
   }
 }
 </style>

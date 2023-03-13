@@ -42,11 +42,11 @@
                 <div class="doctor-name">
                   {{ report.test_name }}
                 </div>
-                <div class="doctor-speciality">
+                <div class="doctor-speciality text-muted">
                   {{ getLongDateAndTimeFromDate(report.dated, true) }}
                 </div>
-                <div class="doctor-speciality">
-                  {{ report.normal_range }}
+                <div class="doctor-speciality text-muted">
+                  {{ $t("range") + ": " + report.normal_range }}
                 </div>
                 <div class="appointment-status">
                   {{ report.result + " - " + (report.report_result || "N/A") }}

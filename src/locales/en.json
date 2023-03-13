@@ -601,5 +601,6 @@
   "arabic": "Arabic",
   "gender": "Gender",
   "age": "Age",
-  "dosage": "Dosage"
+  "dosage": "Dosage",
+  "range": "Range"
 }

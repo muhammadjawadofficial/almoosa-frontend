@@ -90,7 +90,7 @@
                   </span>
                   <span
                     v-if="medicationReminders.night_reminder"
-                    class="btn btn-tertiary btn-pill"
+                    class="btn btn-warning btn-pill"
                     >{{
                       translateNumber(
                         removeSecondsFromTimeString(
