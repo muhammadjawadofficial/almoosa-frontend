@@ -414,7 +414,7 @@ export default {
       this.setAppointmentAmount();
       if (item.isOnlinePayment) {
         let obj = {
-          amount: Math.floor(+this.appointmentAmount),
+          amount: (+this.appointmentAmount).toFixed(2),
           appointment_id: this.getPaymentObject.appointment_id,
           currency: item.currency.toUpperCase(),
         };
