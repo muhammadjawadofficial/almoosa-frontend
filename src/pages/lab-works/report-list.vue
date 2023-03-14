@@ -87,7 +87,7 @@ export default {
       reports: null,
       filteredList: null,
       searchReportQuery: "",
-      showActionButtons: false,
+      showActionButtons: true,
     };
   },
   mounted() {
@@ -100,7 +100,7 @@ export default {
     searchReportQuery(val) {
       this.filteredList = [
         ...this.reports.filter((x) =>
-          x.title.toLowerCase().includes(val.toLowerCase())
+          x.test_name.toLowerCase().includes(val.toLowerCase())
         ),
       ];
     },
