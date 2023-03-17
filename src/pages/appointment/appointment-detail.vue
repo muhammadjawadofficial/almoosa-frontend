@@ -28,9 +28,7 @@
                 <div class="appointment-detail--value">
                   {{
                     details.type
-                      ? $t("bookAppointment." + details.type.toLowerCase()) +
-                        " " +
-                        $t("appointmentDetail.consultation")
+                      ? $t("bookAppointment." + details.type.toLowerCase())
                       : "N/A"
                   }}
                 </div>

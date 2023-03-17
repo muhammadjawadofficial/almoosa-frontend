@@ -59,7 +59,9 @@
               <div class="carousel-item active">
                 <div class="login-dashboard-slide">
                   <div class="login-dashboard-slide--content">
-                    {{ $t("dashboard.helpMillions") }}
+                    <pre>
+                      {{ $t("dashboard.helpMillions") }}
+                    </pre>
                   </div>
                 </div>
               </div>
@@ -240,11 +242,23 @@ export default {
     background-size: cover;
     width: 100%;
     &--content {
-      width: 23.625rem;
+      // width: 23.625rem;
       color: white;
       font-size: 2.563rem;
       line-height: 3.063rem;
       font-weight: bold;
+      pre {
+        font: inherit;
+        color: inherit;
+        white-space: pre-line;
+        padding: 0;
+        margin: 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
   }
   .swiper-pagination {

@@ -35,7 +35,7 @@ export const apiPath = {
         clinicsV1: getApiObject("get", "clinics"),
         specialities: getApiObject("get", "specialities", "v2"),
         specialitiesV1: getApiObject("get", "specialities"),
-        findDoctors: (speciality, date, clinic) => {
+        findDoctors: (speciality, date, clinic, bookingType, currentLang) => {
             let queryString = '?';
             if (speciality) {
                 queryString += "speciality_id=" + speciality;
@@ -45,6 +45,12 @@ export const apiPath = {
             }
             if (clinic) {
                 queryString += (queryString != "?" ? '&' : '') + "clinic_id=" + clinic;
+            }
+            if (bookingType) {
+                queryString += (queryString != "?" ? '&' : '') + "appointment_type=" + bookingType.toUpperCase();
+            }
+            if (currentLang) {
+                queryString += (queryString != "?" ? '&' : '') + "language=" + currentLang.toUpperCase();
             }
             if (queryString == "?") {
                 queryString = '';

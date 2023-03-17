@@ -51,7 +51,6 @@
                     }"
                   >
                     {{ $t("bookAppointment." + timeline.type.toLowerCase()) }}
-                    {{ $t("appointmentDetail.consultation") }}
                   </div>
                   <div class="appointment-detail-section mt-3">
                     <div class="appointment-detail-section-title">

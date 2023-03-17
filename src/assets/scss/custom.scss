@@ -2024,6 +2024,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .text-transform-unset {
     text-transform: unset !important;
 }
+.swiper-slide {
+    height: initial;
+    * {
+        height: 100%;
+    }
+}
 .forceLtr {
     direction: ltr;
 }

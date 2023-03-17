@@ -53,10 +53,10 @@ function getSpecialitiesV1() {
     })
 }
 
-function findDoctors(speciality, date, clinic) {
+function findDoctors(speciality, date, clinic, bookingType, currentLang) {
     return axios({
-        method: apiPath.appointment.findDoctors(speciality, date, clinic).method,
-        url: apiPath.appointment.findDoctors(speciality, date, clinic).url
+        method: apiPath.appointment.findDoctors(speciality, date, clinic, bookingType, currentLang).method,
+        url: apiPath.appointment.findDoctors(speciality, date, clinic, bookingType, currentLang).url
     })
 }
 

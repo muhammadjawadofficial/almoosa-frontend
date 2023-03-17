@@ -142,7 +142,7 @@ export default {
         }
       }
       this.setLoadingState(true);
-      appointmentService.findDoctors(speciality, date, clinic).then(
+      appointmentService.findDoctors(speciality, date, clinic, this.getBookingMethod, this.getCurrentLang()).then(
         (res) => {
           let response = res.data;
           if (response.status) {
