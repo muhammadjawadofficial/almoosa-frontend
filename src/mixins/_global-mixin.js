@@ -340,6 +340,10 @@ export default {
              * compare obj1 and obj2 and return true if they are equal
              */
 
+            if (obj1 == obj2 || !obj1 || !obj2) {
+                return true;
+            }
+
             // Create arrays of property names
             let aProps = Object.getOwnPropertyNames(obj1);
             let bProps = Object.getOwnPropertyNames(obj2);
@@ -393,7 +397,7 @@ export default {
             return this.moment(date).utc().format("hh:mm" + (includeAmPm ? " A" : ""));
         },
         removeSecondsFromTimeString(timeString, onlySplice = false, translate = true) {
-            if(timeString == '--:--'){
+            if (timeString == '--:--') {
                 return '--:--';
             }
             let timeArray = timeString.split(":");

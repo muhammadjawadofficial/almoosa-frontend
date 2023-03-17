@@ -1027,8 +1027,6 @@
       .main-banner-text {
         font-size: 2.625rem;
         line-height: 3.25rem;
-        width: 24rem;
-        bottom: 0;
       }
     }
   }
@@ -3061,6 +3059,14 @@
 }
 
 @media only screen and (max-width: 768px) {
+  div.main-banner {
+    .background-image {
+      .main-banner-text {
+        bottom: 0;
+        white-space: unset;
+      }
+    }
+  }
   .report-action-buttons {
     flex-direction: column;
   }

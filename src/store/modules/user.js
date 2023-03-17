@@ -11,7 +11,8 @@ export default {
         userRole: "patient",
         notification: [],
         userInfo: null,
-        isGuest: true
+        isGuest: true,
+        mainBanner: null
     },
     actions: {
         setLoading({ commit }, data) {
@@ -46,6 +47,9 @@ export default {
         },
         setIsGuest({ commit }, data) {
             commit('SET_IS_GUEST', data)
+        },
+        setMainBanner({ commit }, data) {
+            commit('SET_MAIN_BANNER', data)
         },
     },
     mutations: {
@@ -89,6 +93,9 @@ export default {
         SET_IS_GUEST(state, isGuest) {
             state.isGuest = isGuest
         },
+        SET_MAIN_BANNER(state, mainBanner) {
+            state.mainBanner = mainBanner
+        },
     },
     getters: {
         getLoading: (state) => state.loading,
@@ -99,5 +106,6 @@ export default {
         getNotification: (state) => state.notification,
         getUserInfo: (state) => state.userInfo,
         getIsGuest: (state) => state.isGuest,
+        getMainBanner: (state) => state.mainBanner,
     }
 };

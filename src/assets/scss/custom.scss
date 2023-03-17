@@ -935,7 +935,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            &.unavailable, &.fully-booked{
+            &.unavailable,
+            &.fully-booked {
                 pointer-events: none !important;
                 position: relative;
                 &::after {
@@ -1019,14 +1020,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             bottom: 50px;
             display: flex;
             align-items: center;
-            width: 34rem;
+            // width: 34rem;
+            white-space: pre-line;
         }
-    }
-    .consultation-section {
-        transform: translateY(-50px);
-        padding-block: 0;
-        &--blocks {
-            justify-content: center;
+        & + .consultation-section {
+            transform: translateY(-50px);
+            padding-block: 0;
+            &--blocks {
+                justify-content: center;
+            }
         }
     }
 }
@@ -1373,7 +1375,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                 color: $black;
                 position: relative;
                 > textarea {
-                     margin-block: 0.3rem;
+                    margin-block: 0.3rem;
                 }
                 > input,
                 > textarea {

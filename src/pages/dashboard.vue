@@ -139,15 +139,15 @@
     </template>
     <template v-else>
       <div class="main-banner">
-        <div class="background-image">
+        <div class="background-image" v-if="getMainBanner">
           <img
-            src="../assets/images/banners/banner-main.png"
+            :src="getImageUrl(getMainBanner.image)"
             alt="main-banner"
             class="img-fluid w-100"
           />
           <div class="standard-width">
             <div class="main-banner-text w600">
-              {{ $t("dashboard.helpMillions") }}
+              {{ getMainBanner[getLocaleKey("text")] }}
             </div>
           </div>
         </div>
@@ -258,7 +258,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { appointmentService } from "../services";
+import { appointmentService, userService } from "../services";
 export default {
   data() {
     return {
@@ -361,13 +361,44 @@ export default {
           console.log("An error occurred while retrieving token. ", err);
         });
     }
+    this.fetchBanner();
   },
   computed: {
-    ...mapGetters("user", ["getUserInfo"]),
+    ...mapGetters("user", ["getUserInfo", "getMainBanner"]),
     ...mapGetters("appointment", ["getBookingMethod"]),
   },
   methods: {
     ...mapActions("appointment", ["setBookingMethod", "setDoctorsList"]),
+    ...mapActions("user", ["setMainBanner"]),
+    fetchBanner() {
+      if (!this.getMainBanner) {
+        this.setLoadingState(true);
+        let query = "?type=MAIN";
+        userService.getBanner(query).then(
+          (res) => {
+            if (res.data.status) {
+              let banner = res.data.data.items[0];
+              if (banner) {
+                this.setMainBanner(banner);
+              }
+            } else {
+              this.failureToast(res.data.message);
+            }
+            this.setLoadingState(false);
+          },
+          (error) => {
+            this.setLoadingState(false);
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
+            console.error(error);
+          }
+        );
+      }
+    },
     findSpecialist() {
       this.navigateTo("Find A Specialist");
     },

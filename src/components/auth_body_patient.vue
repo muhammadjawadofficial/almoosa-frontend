@@ -44,18 +44,25 @@
         <div @click="switchLanguage()" class="language-switcher">
           {{ layoutType == "ltr" ? "ع" : "En" }}
         </div>
-        <div class="carousel-inner" v-if="showSlider">
+        <div class="carousel-inner" v-if="showSlider && banners.length">
           <swiper class="swiper" :options="swiperOption" :slides-per-view="1">
-            <swiper-slide>
+            <swiper-slide v-for="slide in banners" :key="'slide-' + slide.id">
               <div class="carousel-item active">
-                <div class="login-dashboard-slide">
+                <div
+                  class="login-dashboard-slide"
+                  :style="
+                    '--background-image-url:url(' +
+                    getImageUrl(slide.image) +
+                    ')'
+                  "
+                >
                   <div class="login-dashboard-slide--content">
-                    {{ $t("dashboard.helpMillions") }}
+                    <pre>{{ slide[getLocaleKey("text")] }}</pre>
                   </div>
                 </div>
               </div>
             </swiper-slide>
-            <swiper-slide>
+            <!-- <swiper-slide>
               <div class="carousel-item active">
                 <div class="login-dashboard-slide">
                   <div class="login-dashboard-slide--content">
@@ -74,7 +81,7 @@
                   </div>
                 </div>
               </div>
-            </swiper-slide>
+            </swiper-slide> -->
             <div class="swiper-pagination" slot="pagination"></div>
           </swiper>
         </div>
@@ -134,6 +141,7 @@ export default {
           prevEl: `.prev-${this.id}`,
         },
       },
+      banners: [],
     };
   },
   watch: {
@@ -161,9 +169,36 @@ export default {
       this.setUserRole(LSRole == 4 ? "doctor" : "patient");
     }
     this.checkConditions(this.$route);
+    this.fetchBanner();
   },
   methods: {
     ...mapActions("user", ["setUserRole"]),
+    fetchBanner() {
+      if (!this.banners.length) {
+        this.setLoadingState(true);
+        let query = "?type=PROMOTIONAL";
+        userService.getBanner(query).then(
+          (res) => {
+            if (res.data.status) {
+              this.banners = res.data.data.items;
+            } else {
+              this.failureToast(res.data.message);
+            }
+            this.setLoadingState(false);
+          },
+          (error) => {
+            this.setLoadingState(false);
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
+            console.error(error);
+          }
+        );
+      }
+    },
     checkConditions(route) {
       this.showButtons = !route.meta.hideButtons;
       this.showSlider = route.name == "Login Dashboard";
@@ -232,11 +267,12 @@ export default {
 .swiper-container {
   border-radius: 1.25rem;
   .login-dashboard-slide {
+    --background-image-url: url("../assets/images/login/slider/slide2.png");
     display: flex;
     align-items: center;
     // height: 188px;
     padding: 3rem 3rem 4rem;
-    background: url("../assets/images/login/slider/slide2.png");
+    background: var(--background-image-url);
     background-position: top right;
     background-repeat: no-repeat;
     background-size: cover;

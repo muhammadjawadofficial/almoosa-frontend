@@ -28,7 +28,8 @@ export const userService = {
     getProfileById,
     getUserWalletAmount,
     getServiceBaseRate,
-    getPaymentAmount
+    getPaymentAmount,
+    getBanner
 };
 
 import axios from "axios";
@@ -198,5 +199,11 @@ function getPaymentAmount(mrn, appointmentId, schemeId, serviceId) {
         // method: "get",
         // url: 'http://localhost:8008/paymentAmount.json',
         data
+    })
+}
+function getBanner(query) {
+    return axios({
+        method: apiPath.user.getBanner(query).method,
+        url: apiPath.user.getBanner(query).url,
     })
 }

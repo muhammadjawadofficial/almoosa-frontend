@@ -98,6 +98,7 @@ export const apiPath = {
         getDoctorProfile: (id) => getApiObject("get", "users?id=" + id),
         getProfileById: (id) => getApiObject("get", "users/?id=" + id),
         getWalletAmount: (id) => getApiObject("get", "payments/wallet?mrn_number=" + id, "v2"),
+        getBanner: (query) => getApiObject("get", "banner" + query),
         getServiceBaseRate: getApiObject("post", "payments/service/rate", "v2"),
         getPaymentAmount: getApiObject("post", "payments/amount", "v2"),
     },
