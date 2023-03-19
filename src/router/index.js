@@ -247,7 +247,7 @@ const routes = [
             ]
           },
           {
-            path: 'connect/:connectId',
+            path: 'connect/call/:connectId',
             component: Iframe,
             name: 'Connect',
             meta: {
