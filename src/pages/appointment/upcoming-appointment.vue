@@ -69,7 +69,8 @@
                         <div class="doctor-name">
                           {{
                             getFullName(
-                              appointment[isDoctor ? "patient" : "doctor"]
+                              appointment[isDoctor ? "patient" : "doctor"],
+                              $t("dr")
                             )
                           }}
                         </div>
@@ -185,7 +186,8 @@
                         <div class="doctor-name">
                           {{
                             getFullName(
-                              appointment[isDoctor ? "patient" : "doctor"]
+                              appointment[isDoctor ? "patient" : "doctor"],
+                              $t("dr")
                             )
                           }}
                         </div>
