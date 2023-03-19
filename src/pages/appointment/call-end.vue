@@ -17,10 +17,12 @@ export default {
         this.$t("rating.success"),
         this.$t("rating.deny"),
         doctor_id
-      );
+      ).then(() => {
+        this.setLoadingState(false);
+      });
     }
-    this.navigateTo("default");
     this.setLoadingState(false);
+    this.navigateTo("default");
   },
 };
 </script>
