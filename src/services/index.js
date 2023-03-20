@@ -10,3 +10,4 @@ export * from './medication.service';
 export * from './services-packages.service';
 export * from './family-member.service';
 export * from './timeline.service';
+export * from './cms-pages.service';

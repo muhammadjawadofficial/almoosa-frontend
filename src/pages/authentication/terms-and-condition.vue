@@ -1,5 +1,38 @@
 <template>
-  <div class="login-card">
+  <div class="login-card" v-if="termsAndConditionCMS">
+    <div class="heading w600">
+      {{ termsAndConditionCMS[getLocaleKey("page_title")] }}
+    </div>
+    <div class="sub-heading w200">
+      {{ termsAndConditionCMS[getLocaleKey("long_title")] }}
+    </div>
+    <div
+      class="text"
+      v-html="termsAndConditionCMS[getLocaleKey('long_text')]"
+    ></div>
+    <div class="agree-terms">
+      <div class="mt-5">
+        <b-form-checkbox
+          id="rememberMe"
+          v-model="agreeTerms"
+          :state="!submitted || agreeTerms == true"
+          name="rememberMe"
+          class="mt-3 custom-checkbox"
+        >
+          {{ $t("termsAndConditions.iAgree") }}
+        </b-form-checkbox>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 button-group">
+        <button class="btn btn-primary" @click="acceptTerms">
+          {{ $t("continue") }}
+        </button>
+        <!-- <button class="btn btn-secondary" @click="logout">Logout</button> -->
+      </div>
+    </div>
+  </div>
+  <div class="login-card" v-else>
     <div class="heading w600">{{ $t("termsAndConditions.privacyPolicy") }}</div>
     <div class="sub-heading w200">
       {{ $t("termsAndConditions.mustAgree") }}
@@ -60,7 +93,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { userService } from "../../services";
+import { cmsPagesService, userService } from "../../services";
 export default {
   data() {
     return {
@@ -87,6 +120,7 @@ export default {
           description: "description",
         },
       ],
+      termsAndConditionCMS: null,
     };
   },
   computed: {
@@ -97,6 +131,7 @@ export default {
     if (userService.currentUser().is_privacy_agreed || this.isDoctor) {
       this.navigateTo("default");
     }
+    this.getCmsPage("terms_and_conditions");
   },
   methods: {
     ...mapActions("user", ["removeUserInfo"]),
@@ -136,7 +171,30 @@ export default {
       }
       this.updateProfileInfo({ is_privacy_agreed: true });
     },
-
+    getCmsPage(type) {
+      this.setLoadingState(true);
+      cmsPagesService.fetchCmsPages("?type=" + type).then(
+        (res) => {
+          if (res.data.status) {
+            console.log();
+            this.termsAndConditionCMS = res.data.data.items[0];
+          } else {
+            this.failureToast(res.data.message);
+          }
+          this.setLoadingState(false);
+        },
+        (error) => {
+          this.setLoadingState(false);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+          console.error(error);
+        }
+      );
+    },
     updateProfileInfo(data) {
       if (!this.getUserInfo) {
         this.navigateTo("Login Dashboard");
@@ -198,16 +256,45 @@ export default {
   font-family: "DiodrumArabicMedium";
   color: black;
   margin-top: 1rem;
-  .text-heading {
-    font-size: 1.25rem;
-    font-family: "DiodrumArabicBold";
-    color: var(--theme-default);
-    text-decoration: underline;
-  }
-  ul,
-  ol {
-    list-style: revert;
-    padding-inline-start: 2rem;
+  :deep {
+    p {
+      margin-bottom: 0;
+    }
+    .text-heading,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-size: 1.25rem;
+      font-family: "DiodrumArabicBold";
+      color: var(--theme-default);
+      text-decoration: underline;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      margin-top: 1rem;
+    }
+    & > * {
+      font-size: inherit;
+      font-family: inherit;
+      color: inherit;
+      letter-spacing: inherit;
+      line-height: inherit;
+    }
+    ul,
+    ol {
+      list-style: revert;
+      padding-inline-start: 2rem;
+      li {
+        &.ql-indent-1 {
+          margin-inline-start: 2rem;
+        }
+      }
+    }
   }
 }
 @media (max-width: 991px) {

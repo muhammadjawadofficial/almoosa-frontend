@@ -514,7 +514,7 @@ export default {
         if (form[key] === null || form[key] === undefined || form[key] === "") {
           delete form[key];
         } else if (key === "nationality") {
-          form[key] = form[key].code;
+          form[key] = form[key].id;
         }
       });
       authService.register(form).then(
