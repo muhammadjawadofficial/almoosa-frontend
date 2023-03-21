@@ -76,6 +76,7 @@ export default {
     };
   },
   mounted() {
+    userService.removeLoginInfo();
     let routeParams = this.$route.query;
     console.log(routeParams);
     if (routeParams.email && routeParams.otp_code) {
