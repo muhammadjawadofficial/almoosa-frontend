@@ -5,6 +5,13 @@
       {{ $t("login.setNewPasswordDescription") }}
     </div>
     <div class="login-form">
+      <b-form-input
+        v-model="userId.email_address"
+        type="text"
+        name="username"
+        autocomplete="username"
+        hidden
+      ></b-form-input>
       <div class="row">
         <div class="col-md-5" @keydown.enter="doVerify">
           <b-input-group class="custom-login-input-groups">
@@ -14,6 +21,8 @@
             <b-form-input
               v-model="password"
               type="password"
+              name="password"
+              autocomplete="password"
               :placeholder="$t('login.enterNewPassword')"
               :state="passwordState"
             ></b-form-input>
