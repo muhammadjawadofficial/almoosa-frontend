@@ -67,7 +67,16 @@ export default {
     };
   },
   mounted() {
-    if (!this.getUserId) {
+    let routeParams = this.$route.query;
+    console.log(routeParams);
+    if (routeParams.email && routeParams.otp_code) {
+      this.userId = {
+        email_address: routeParams.email,
+      };
+      this.otp = routeParams.otp_code;
+      this.isResetPassword = true;
+      this.setUserId("");
+    } else if (!this.getUserId) {
       if (userService.isAuthenticatedUser()) {
         this.navigateTo("default");
       } else {
@@ -108,32 +117,33 @@ export default {
       if (!this.validateForm()) {
         return;
       }
+      let payload = {
+        ...this.userId,
+        otp_code: this.otp,
+        password: this.password,
+      };
+      console.log(payload);
+      return;
       this.setLoadingState(true);
-      authService
-        .resetPassword({
-          ...this.userId,
-          otp_code: this.otp,
-          password: this.password,
-        })
-        .then(
-          (response) => {
-            if (response.data.status) {
-              this.resetAuthState();
-              this.successIconModal(
-                this.$t("login.resetPasswordModalTitle"),
-                this.$t("login.resetPasswordModalText"),
-              );
-              this.navigateTo("Login");
-            } else {
-              this.failureToast(response.data.message);
-            }
-            this.setLoadingState(false);
-          },
-          (error) => {
-            this.setLoadingState(false);
-            console.error(error);
+      authService.resetPassword(payload).then(
+        (response) => {
+          if (response.data.status) {
+            this.resetAuthState();
+            this.successIconModal(
+              this.$t("login.resetPasswordModalTitle"),
+              this.$t("login.resetPasswordModalText")
+            );
+            this.navigateTo("Login");
+          } else {
+            this.failureToast(response.data.message);
           }
-        );
+          this.setLoadingState(false);
+        },
+        (error) => {
+          this.setLoadingState(false);
+          console.error(error);
+        }
+      );
     },
   },
 };
