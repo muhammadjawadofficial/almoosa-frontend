@@ -122,8 +122,6 @@ export default {
         otp_code: this.otp,
         password: this.password,
       };
-      console.log(payload);
-      return;
       this.setLoadingState(true);
       authService.resetPassword(payload).then(
         (response) => {
