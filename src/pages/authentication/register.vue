@@ -152,7 +152,7 @@
               v-model="registerForm.nationality"
               :options="nationalities"
               label="nationality"
-              track-by="code"
+              track-by="id"
               :placeholder="$t('register.selectNationality')"
               :selectLabel="$t('selectLabel')"
               :selectedLabel="$t('selectedLabel')"
@@ -423,7 +423,7 @@ export default {
     checkDropdownValues() {
       this.setLoadingState(true);
       authService
-        .getNationalities()
+        .getNationalitiesV1()
         .then(
           (res) => {
             if (res.data.status) {
@@ -584,7 +584,7 @@ export default {
         if (form[key] === null || form[key] === undefined || form[key] === "") {
           delete form[key];
         } else if (key === "nationality") {
-          form[key] = form[key].id;
+          form["nationality_id"] = form[key].id;
         }
       });
       authService.register(form).then(
