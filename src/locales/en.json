@@ -81,6 +81,12 @@
     "familyName": "Family Name",
     "emailAddress": "Email Address",
     "phoneNumber": "Phone Number",
+    "secondaryPhoneNumber": "Secondary Phone Number",
+    "primary": "Primary",
+    "secondary": "Secondary",
+    "city": "City",
+    "area": "Area",
+    "district": "District",
     "selectGender": "Select Gender",
     "selectNationality": "Select Nationality",
     "addDOB": "Add DOB",
@@ -194,6 +200,10 @@
     "expertise": "Areas of Expertise",
     "languages": "Languages",
     "consulting": "Consulting Age Groups",
+    "city": "City",
+    "area": "Area",
+    "district": "District",
+    "secondaryPhoneNumber": "Secondary Phone Number",
     "select": "Select"
   },
   "header": {
@@ -602,5 +612,7 @@
   "gender": "Gender",
   "age": "Age",
   "dosage": "Dosage",
-  "range": "Range"
+  "range": "Range",
+  "reportDetails": "Report Details",
+  "viewReport": "View Report"
 }

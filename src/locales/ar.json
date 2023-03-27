@@ -81,6 +81,12 @@
     "familyName": "اسم العائلة",
     "emailAddress": "عنوان البريد الإلكتروني",
     "phoneNumber": "رقم الهاتف",
+    "secondaryPhoneNumber": "رقم الهاتف الثانوي",
+    "primary": "الرئيسي",
+    "secondary": "الثانوي",
+    "city": "المدينة",
+    "area": "المنطقة",
+    "district": "الحي",
     "selectGender": "الجنس",
     "selectNationality": "اختر الجنسية",
     "addDOB": "تاريخ الميلاد",
@@ -194,6 +200,10 @@
     "expertise": "مجالات الخبرة",
     "languages": "اللغات",
     "consulting": "الفئات العمرية للاستشارات",
+    "city": "المدينة",
+    "area": "المنطقة",
+    "district": "الحي",
+    "secondaryPhoneNumber": "رقم الهاتف الثانوي",
     "select": "اختار"
   },
   "header": {
@@ -602,5 +612,7 @@
   "gender": "الجنس",
   "age": "عمر",
   "dosage": "جرعة",
-  "range": "نطاق"
+  "range": "نطاق",
+  "reportDetails": "تفاصيل التقرير",
+  "viewReport": "عرض التقرير"
 }

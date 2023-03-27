@@ -122,6 +122,7 @@ function setBooking(booking) {
 }
 function downloadFile(file) {
     let fileName = file.name;
+    let downloadSuccess = false;
     axios({
         url: file.url,
         method: "GET",
@@ -134,7 +135,11 @@ function downloadFile(file) {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        downloadSuccess = true;
+    }).catch(() => {
+        downloadSuccess = false;
     });
+    return downloadSuccess
 }
 function updateProfile(profile) {
     return axios({

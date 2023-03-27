@@ -100,7 +100,7 @@ export default {
     ...mapGetters("user", ["getUserInfo"]),
   },
   methods: {
-    ...mapActions("radiologyReport", ["setSelectedRadiologyReport"]),
+    ...mapActions("radiologyReport", ["setSelectedRadiologyReportSession"]),
     fetchAppointments() {
       this.setLoadingState(true);
       reportService
@@ -132,7 +132,7 @@ export default {
         );
     },
     viewDetails(appointment) {
-      this.setSelectedRadiologyReport(appointment);
+      this.setSelectedRadiologyReportSession(appointment);
       this.navigateTo("Radiology Reports");
     },
   },

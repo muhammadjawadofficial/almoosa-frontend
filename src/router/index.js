@@ -40,10 +40,12 @@ import promotionsDetails from '../pages/promotions/promotions-details'
 import labWorksModule from '../pages/lab-works'
 import labWorksDoctors from '../pages/lab-works/doctor-list'
 import labWorksReports from '../pages/lab-works/report-list'
+import labWorksDetails from '../pages/lab-works/report-detail'
 
 import radiologyReportModule from '../pages/radiology-reports'
 import radiologyReportDoctors from '../pages/radiology-reports/doctor-list'
 import radiologyReportReports from '../pages/radiology-reports/report-list'
+import radiologyReportDetails from '../pages/radiology-reports/report-detail'
 
 import healthEducationModule from '../pages/health-education'
 import healthEducationList from '../pages/health-education/health-education-list'
@@ -307,6 +309,14 @@ const routes = [
               title: 'Lab Work - Reports | Almoosa Health Group',
             },
           },
+          {
+            path: "reports/details",
+            name: 'Lab Work Report Details',
+            component: labWorksDetails,
+            meta: {
+              title: 'Lab Work - Report Details | Almoosa Health Group',
+            },
+          },
         ]
       },
       {
@@ -328,6 +338,14 @@ const routes = [
             component: radiologyReportReports,
             meta: {
               title: 'Radiology Report - Reports | Almoosa Health Group',
+            },
+          },
+          {
+            path: "reports/details",
+            name: 'Radiology Report Details',
+            component: radiologyReportDetails,
+            meta: {
+              title: 'Radiology Report - Details | Almoosa Health Group',
             },
           },
         ]

@@ -108,16 +108,72 @@
               </div>
               <div class="profile-info-card-detail">
                 <div class="profile-info-card-detail-title">
-                  {{ $t("profile.address") }}
+                  {{ $t("profile.area") }}
                 </div>
                 <div
                   class="profile-info-card-detail-value"
                   :class="{ inactive: !isEditing }"
                 >
                   <b-form-input
-                    v-model="address"
-                    :state="addressState"
-                    :placeholder="$t('profile.address')"
+                    v-model="area"
+                    :state="areaState"
+                    :placeholder="$t('profile.area')"
+                    :disabled="!isEditing"
+                  ></b-form-input>
+                </div>
+              </div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/home.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.city") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="city"
+                    :state="cityState"
+                    :placeholder="$t('profile.city')"
+                    :disabled="!isEditing"
+                  ></b-form-input>
+                </div>
+              </div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/home.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.district") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="district"
+                    :state="districtState"
+                    :placeholder="$t('profile.district')"
                     :disabled="!isEditing"
                   ></b-form-input>
                 </div>
@@ -164,7 +220,39 @@
                     v-if="isEditing"
                   ></b-form-input>
                   <div class="profile-info-card-detail-value" v-else>
-                    {{ translateNumber(phoneNumber) }}
+                    {{ translateNumber(phoneNumber || "N/A") }}
+                  </div>
+                </div>
+              </div>
+              <div class="profile-info-card-option">
+                <img
+                  src="../../assets/images/pencil.svg"
+                  alt=""
+                  v-if="isEditing"
+                />
+              </div>
+            </div>
+            <div class="profile-info-card">
+              <div class="profile-info-card-logo">
+                <img src="../../assets/images/call.svg" alt="" />
+              </div>
+              <div class="profile-info-card-detail">
+                <div class="profile-info-card-detail-title">
+                  {{ $t("profile.secondaryPhoneNumber") }}
+                </div>
+                <div
+                  class="profile-info-card-detail-value"
+                  :class="{ inactive: !isEditing }"
+                >
+                  <b-form-input
+                    v-model="secondaryPhoneNumber"
+                    :state="secondaryPhoneNumberState"
+                    :placeholder="$t('profile.secondaryPhoneNumber')"
+                    :formatter="formatNumber"
+                    v-if="isEditing"
+                  ></b-form-input>
+                  <div class="profile-info-card-detail-value" v-else>
+                    {{ translateNumber(secondaryPhoneNumber || "N/A") }}
                   </div>
                 </div>
               </div>
@@ -534,10 +622,16 @@ export default {
     return {
       user: null,
       isEditing: false,
-      address: "",
-      addressState: null,
+      areaState: null,
+      area: "",
+      cityState: null,
+      city: "",
+      districtState: null,
+      district: "",
       phoneNumber: "",
       phoneNumberState: null,
+      secondaryPhoneNumber: "",
+      secondaryPhoneNumberState: null,
       doctor: {
         clinics: [],
         speciality: {},
@@ -577,15 +671,15 @@ export default {
   },
   computed: {
     ...mapGetters("user", ["getUserInfo"]),
-    validPhoneNumber() {
-      // let regex = /^(009665|9665|\+9665|05|5)([503649187])(\d{7})$/;
-      let regex = /^(05)([503649187])(\d{7})$/;
-      let result = this.phoneNumber.match(regex);
-      return !!(result && result.length);
-    },
   },
   methods: {
     ...mapActions("user", ["updateUserInfo", "setUserInfo"]),
+    validPhoneNumber(phoneNumber) {
+      // let regex = /^(009665|9665|\+9665|05|5)([503649187])(\d{7})$/;
+      let regex = /^(05)([503649187])(\d{7})$/;
+      let result = phoneNumber.match(regex);
+      return !!(result && result.length);
+    },
     changeProfilePicture(e) {
       let file = e.target.files[0];
       if (!file) {
@@ -787,10 +881,17 @@ export default {
           consultingArState: null,
         };
       } else {
-        this.address = this.getUserInfo.location;
+        this.area = this.getUserInfo.area;
+        this.city = this.getUserInfo.city;
+        this.district = this.getUserInfo.district;
         this.phoneNumber = this.getUserInfo.phone_number;
-        this.addressState = null;
+        this.secondaryPhoneNumber = this.getUserInfo.secondary_phone_number;
+
+        this.areaState = null;
+        this.cityState = null;
+        this.districtState = null;
         this.phoneNumberState = null;
+        this.secondaryPhoneNumberState = null;
       }
       this.isEditing = false;
     },
@@ -816,9 +917,20 @@ export default {
           this.doctor.consultingAr != "" && !!this.doctor.consultingAr;
         return !Object.values(this.doctorState).includes(false);
       } else {
-        this.addressState = this.address != "";
-        this.phoneNumberState = this.validPhoneNumber;
-        return this.addressState && this.phoneNumberState;
+        this.areaState = this.area != "";
+        this.cityState = this.city != "";
+        this.districtState = this.district != "";
+        this.phoneNumberState = this.validPhoneNumber(this.phoneNumber);
+        this.secondaryPhoneNumberState = this.validPhoneNumber(
+          this.secondaryPhoneNumber
+        );
+        return (
+          this.areaState &&
+          this.cityState &&
+          this.districtState &&
+          this.phoneNumberState &&
+          this.secondaryPhoneNumberState
+        );
       }
     },
     editProfile() {
@@ -863,8 +975,11 @@ export default {
           }
         } else {
           updateUserObj = {
-            address: this.address,
+            area: this.area,
+            city: this.city,
+            district: this.district,
             mobile_number: this.phoneNumber,
+            secondary_phone_number: this.secondaryPhoneNumber,
             mrn_number: this.getUserInfo.mrn_number,
           };
         }

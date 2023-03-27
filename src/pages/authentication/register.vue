@@ -103,16 +103,6 @@
           </b-input-group>
         </div>
         <div class="col-xl-6 col-lg-12 col-md-6">
-          <b-input-group class="custom-login-input-groups">
-            <b-form-input
-              v-model="registerForm.phone_number"
-              :state="registerFormState.phone_number"
-              :placeholder="$t('register.phoneNumber')"
-              :formatter="phoneNumberCharactersOnly"
-            ></b-form-input>
-          </b-input-group>
-        </div>
-        <div class="col-xl-4 col-lg-12 col-md-6">
           <div class="custom-login-input-groups">
             <multiselect
               v-model="registerForm.gender"
@@ -184,7 +174,66 @@
             ></div>
           </div>
         </div>
-        <div class="col-xl-12 col-lg-12 col-md-12">
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <div class="form-label">{{ $t("register.phoneNumber") }}</div>
+        </div>
+        <div class="col-xl-6 col-lg-12 col-md-6">
+          <b-input-group class="custom-login-input-groups">
+            <b-form-input
+              v-model="registerForm.phone_number"
+              :state="registerFormState.phone_number"
+              :placeholder="$t('register.primary')"
+              :formatter="phoneNumberCharactersOnly"
+            ></b-form-input>
+          </b-input-group>
+        </div>
+        <div class="col-xl-6 col-lg-12 col-md-6">
+          <b-input-group class="custom-login-input-groups">
+            <b-form-input
+              v-model="registerForm.secondary_phone_number"
+              :state="registerFormState.secondary_phone_number"
+              :placeholder="$t('register.secondary')"
+              :formatter="phoneNumberCharactersOnly"
+            ></b-form-input>
+          </b-input-group>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <div class="form-label">{{ $t("profile.address") }}</div>
+        </div>
+        <div class="col-xl-4 col-lg-12 col-md-6">
+          <b-input-group class="custom-login-input-groups">
+            <b-form-input
+              v-model="registerForm.area"
+              :state="registerFormState.area"
+              :placeholder="$t('register.area')"
+            ></b-form-input>
+          </b-input-group>
+        </div>
+        <div class="col-xl-4 col-lg-12 col-md-6">
+          <b-input-group class="custom-login-input-groups">
+            <b-form-input
+              v-model="registerForm.city"
+              :state="registerFormState.city"
+              :placeholder="$t('register.city')"
+            ></b-form-input>
+          </b-input-group>
+        </div>
+        <div class="col-xl-4 col-lg-12 col-md-6">
+          <b-input-group class="custom-login-input-groups">
+            <b-form-input
+              v-model="registerForm.district"
+              :state="registerFormState.district"
+              :placeholder="$t('register.district')"
+            ></b-form-input>
+          </b-input-group>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-xl-12 col-lg-12 col-md-12" v-if="false">
           <b-input-group class="custom-login-input-groups">
             <b-form-input
               v-model="registerForm.location"
@@ -265,6 +314,10 @@ export default {
         family_name: "",
         email_address: "",
         phone_number: "",
+        secondary_phone_number: "",
+        area: "",
+        city: "",
+        district: "",
         gender: "",
         dob: "",
         location: "",
@@ -277,9 +330,12 @@ export default {
         family_name: null,
         email_address: null,
         phone_number: null,
+        secondary_phone_number: null,
+        area: null,
+        city: null,
+        district: null,
         gender: null,
         dob: null,
-        location: null,
         userId: null,
         card_id: null,
         nationality: null,
@@ -336,15 +392,6 @@ export default {
       }
       return false;
     },
-    validPhoneNumber() {
-      if (this.formSubmitted) {
-        // let regex = /^(009665|9665|\+9665|05|5)([503649187])(\d{7})$/;
-        let regex = /^(05)([503649187])(\d{7})$/;
-        let result = this.registerForm.phone_number.match(regex);
-        return !!(result && result.length);
-      }
-      return false;
-    },
   },
   mounted() {
     this.showDropzone = true;
@@ -353,6 +400,15 @@ export default {
   },
   methods: {
     ...mapActions("user", ["setOtp", "setUserId", "setAuthState"]),
+    validPhoneNumber(phoneNumber) {
+      if (this.formSubmitted) {
+        // let regex = /^(009665|9665|\+9665|05|5)([503649187])(\d{7})$/;
+        let regex = /^(05)([503649187])(\d{7})$/;
+        let result = phoneNumber.match(regex);
+        return !!(result && result.length);
+      }
+      return false;
+    },
     nextDateDisabled(ymd, date) {
       const today = new Date();
 
@@ -450,10 +506,17 @@ export default {
       this.registerFormState.first_name = form.first_name != "";
       this.registerFormState.family_name = form.family_name != "";
       this.registerFormState.email_address = this.validEmailAddress;
-      this.registerFormState.phone_number = this.validPhoneNumber;
+      this.registerFormState.phone_number = this.validPhoneNumber(
+        form.phone_number
+      );
+      this.registerFormState.secondary_phone_number = this.validPhoneNumber(
+        form.secondary_phone_number
+      );
+      this.registerFormState.area = form.area != "";
+      this.registerFormState.city = form.city != "";
+      this.registerFormState.district = form.district != "";
       this.registerFormState.gender = form.gender != "";
       this.registerFormState.dob = form.dob != "";
-      this.registerFormState.location = form.location != "";
       this.registerFormState.userId =
         this.userId != "" && this.userId.length == this.selectedItem.validation;
       this.registerFormState.card_id = form.card_id != null;
@@ -489,8 +552,6 @@ export default {
         this.failureToast(this.$t("register.dobRequired"));
       } else if (!this.registerFormState.nationality) {
         this.failureToast(this.$t("register.nationalityRequired"));
-      } else if (!this.registerFormState.location) {
-        this.failureToast(this.$t("register.locationRequired"));
       } else if (!this.registerFormState.card_id) {
         this.failureToast(
           this.$t("register." + this.selectedOption.text + "PhotoRequired")
@@ -507,9 +568,18 @@ export default {
       if (!this.validateForm()) {
         return;
       }
+      this.registerForm.location =
+        this.registerForm.area +
+        ", " +
+        this.registerForm.city +
+        ", " +
+        this.registerForm.district;
       this.registerForm[this.selectedItem.method] = +this.userId;
       this.setLoadingState(true);
-      let form = { ...this.registerForm };
+      let form = {
+        ...this.registerForm,
+        primary_phone_number: this.registerForm.phone_number,
+      };
       Object.keys(form).forEach((key) => {
         if (form[key] === null || form[key] === undefined || form[key] === "") {
           delete form[key];
@@ -636,5 +706,10 @@ export default {
 }
 .file-upload-container {
   min-height: 4.3rem;
+}
+
+.form-label {
+  font-size: 1.75rem;
+  font-family: "DiodrumArabicMedium";
 }
 </style>

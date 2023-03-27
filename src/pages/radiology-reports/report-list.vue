@@ -32,6 +32,7 @@
             class="appointment-list-item"
             v-for="(report, index) in filteredList"
             :key="'upcoming-appointment-id' + index + report.id"
+            @click="viewDetails(report)"
           >
             <div
               class="appointment-card"
@@ -47,11 +48,8 @@
                 <div class="doctor-speciality">
                   {{ getLongDateAndTimeFromDate(report.dated, true) }}
                 </div>
-                <div class="doctor-speciality">
-                  {{ report.normal_range || "N/A" }}
-                </div>
                 <div class="appointment-status">
-                  {{ report.result + " - " + (report.report_result || "N/A") }}
+                  {{ report.result }}
                 </div>
               </div>
               <div
@@ -62,10 +60,14 @@
                   report.report_file.path
                 "
               >
-                <div class="view-report" @click="viewReport(report)">
+                <div class="view-report" @click.stop="viewReport(report)">
                   <img src="../../assets/images/stats.svg" alt="stats-img" />
                 </div>
-                <div class="download-report" @click="downloadReport(report)">
+                <div
+                  class="download-report"
+                  @click.stop="downloadReport(report)"
+                  v-if="false"
+                >
                   <img
                     src="../../assets/images/download.svg"
                     alt="download-img"
@@ -81,7 +83,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import { reportService, userService } from "../../services";
 export default {
   data() {
@@ -89,14 +91,14 @@ export default {
       reports: null,
       filteredList: null,
       searchReportQuery: "",
-      showActionButtons: false,
+      showActionButtons: true,
     };
   },
   mounted() {
     this.initializeData();
   },
   computed: {
-    ...mapGetters("radiologyReport", ["getSelectedRadiologyReport"]),
+    ...mapGetters("radiologyReport", ["getSelectedRadiologyReportSession"]),
   },
   watch: {
     searchReportQuery(val) {
@@ -108,14 +110,15 @@ export default {
     },
   },
   methods: {
+    ...mapActions("radiologyReport", ["setSelectedRadiologyReport"]),
     initializeData() {
-      if (!this.getSelectedRadiologyReport) {
+      if (!this.getSelectedRadiologyReportSession) {
         this.navigateTo("Radiology Report Doctors");
         return;
       }
       this.setLoadingState(true);
       reportService
-        .getReportsWithAppointments(this.getSelectedRadiologyReport.id)
+        .getReportsWithAppointments(this.getSelectedRadiologyReportSession.id)
         .then(
           (response) => {
             if (response.data.status) {
@@ -144,13 +147,17 @@ export default {
           }
         );
     },
+    viewDetails(report) {
+      this.setSelectedRadiologyReport(report);
+      this.navigateTo("Radiology Report Details");
+    },
     viewReport(report) {
-      window.open(report.report_file.path, "_blank");
+      window.open(report.report_url, "_blank");
     },
     downloadReport(report) {
       let file = {
         name: report.report_file.filename,
-        url: report.report_file.path,
+        url: report.report_url,
       };
       userService.downloadFile(file);
     },

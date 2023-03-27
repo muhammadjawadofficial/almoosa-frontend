@@ -60,10 +60,18 @@
                   report.report_file.path
                 "
               >
-                <div class="view-report" @click="viewReport(report)">
+                <div
+                  class="view-report"
+                  @click.stop="viewReport(report)"
+                  v-if="report.report_url"
+                >
                   <img src="../../assets/images/stats.svg" alt="stats-img" />
                 </div>
-                <div class="download-report" @click="downloadReport(report)">
+                <div
+                  class="download-report"
+                  @click.stop="downloadReport(report)"
+                  v-if="false"
+                >
                   <img
                     src="../../assets/images/download.svg"
                     alt="download-img"
@@ -79,7 +87,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import { reportService, userService } from "../../services";
 export default {
   data() {
@@ -106,6 +114,11 @@ export default {
     },
   },
   methods: {
+    ...mapActions("labwork", ["setSelectedLabWorkReport"]),
+    viewDetails(report) {
+      this.setSelectedLabWorkReport(report);
+      this.navigateTo("Lab Work Report Details");
+    },
     initializeData() {
       if (!this.getSelectedLabWork) {
         this.navigateTo("Lab Work Doctors");
@@ -150,12 +163,12 @@ export default {
       }
     },
     viewReport(report) {
-      window.open(report.report_file.path, "_blank");
+      window.open(report.report_url, "_blank");
     },
     downloadReport(report) {
       let file = {
         name: report.report_file.filename,
-        url: report.report_file.path,
+        url: report.report_url,
       };
       userService.downloadFile(file);
     },
