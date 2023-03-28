@@ -46,9 +46,7 @@
                 </div>
                 <div class="appointment-status success">
                   <div class="appointment-time-span">
-                    {{
-                      $t("myTimeline.episode") + ": " + timeline.episode_status
-                    }}
+                    {{ timeline.episode_status }}
                   </div>
                 </div>
                 <button

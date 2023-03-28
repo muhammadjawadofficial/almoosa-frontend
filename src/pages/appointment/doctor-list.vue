@@ -41,6 +41,10 @@
             'fully-booked': doctor.doctor_availability == 'NO',
           }"
         >
+          <!-- :class="{
+            'disable-card':
+              doctor.has_schedule == 'NO' || doctor.doctor_availability == 'NO',
+          }" -->
           <div class="doctor-image">
             <img
               :src="getImageUrl(doctor.photo || doctor)"
@@ -57,6 +61,13 @@
             class="btn btn-primary make-appointment"
             @click="setSelectedDoctor(doctor)"
           >
+            <!-- {{
+              doctor.has_schedule == "NO"
+                ? $t("doctorUnavailable")
+                : doctor.doctor_availability == "NO"
+                ? $t("doctorFullyBooked")
+                : $t("doctorList.viewDetails")
+            }} -->
             {{ $t("doctorList.viewDetails") }}
           </button>
         </div>
@@ -142,29 +153,37 @@ export default {
         }
       }
       this.setLoadingState(true);
-      appointmentService.findDoctors(speciality, date, clinic, this.getBookingMethod, this.getCurrentLang()).then(
-        (res) => {
-          let response = res.data;
-          if (response.status) {
-            this.setDoctorsList(response.data.items);
-            this.filteredDoctors = [...response.data.items];
-          } else {
+      appointmentService
+        .findDoctors(
+          speciality,
+          date,
+          clinic,
+          this.getBookingMethod,
+          this.getCurrentLang()
+        )
+        .then(
+          (res) => {
+            let response = res.data;
+            if (response.status) {
+              this.setDoctorsList(response.data.items);
+              this.filteredDoctors = [...response.data.items];
+            } else {
+              this.filteredDoctors = [];
+              this.failureToast(response.message);
+            }
+            this.setLoadingState(false);
+          },
+          (error) => {
             this.filteredDoctors = [];
-            this.failureToast(response.message);
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
+            this.setLoadingState(false);
           }
-          this.setLoadingState(false);
-        },
-        (error) => {
-          this.filteredDoctors = [];
-          if (!this.isAPIAborted(error))
-            this.failureToast(
-              error.response &&
-                error.response.data &&
-                error.response.data.message
-            );
-          this.setLoadingState(false);
-        }
-      );
+        );
     },
   },
 };

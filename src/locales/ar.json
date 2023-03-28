@@ -440,7 +440,7 @@
     "title": "المرضى الداخليين"
   },
   "healthEducation": {
-    "title": "التثقيف الصحي",
+    "title": "التثقيف الطبي",
     "viewDetails": "عرض التفاصيل",
     "noData": "لا توجد بيانات تم تحميلها حتى الآن"
   },
@@ -614,5 +614,7 @@
   "dosage": "جرعة",
   "range": "نطاق",
   "reportDetails": "تفاصيل التقرير",
-  "viewReport": "عرض التقرير"
+  "viewReport": "عرض التقرير",
+  "doctorUnavailable": "غير متاح في هذا اليوم",
+  "doctorFullyBooked": "جميع المواعيد محجوزة"
 }

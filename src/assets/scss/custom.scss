@@ -968,6 +968,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     content: "Unavailable on Selected Date";
                 }
             }
+            &.disable-card {
+                pointer-events: none;
+                & > button {
+                    opacity: 0.8;
+                }
+            }
             .doctor {
                 &-image {
                     width: 17.5em;

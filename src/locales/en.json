@@ -614,5 +614,7 @@
   "dosage": "Dosage",
   "range": "Range",
   "reportDetails": "Report Details",
-  "viewReport": "View Report"
+  "viewReport": "View Report",
+  "doctorUnavailable": "Unavailable on Selected Date",
+  "doctorFullyBooked": "Fully Booked"
 }
