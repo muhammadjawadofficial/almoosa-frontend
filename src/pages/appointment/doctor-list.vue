@@ -37,19 +37,32 @@
           v-for="doctor in filteredDoctors"
           :key="'doctor-card-' + doctor.id"
           :class="{
-            unavailable: doctor.has_schedule == 'NO',
-            'fully-booked': doctor.doctor_availability == 'NO',
-          }"
-        >
-          <!-- :class="{
+            // unavailable: doctor.has_schedule == 'NO',
+            // 'fully-booked': doctor.doctor_availability == 'NO',
             'disable-card':
               doctor.has_schedule == 'NO' || doctor.doctor_availability == 'NO',
-          }" -->
+          }"
+        >
           <div class="doctor-image">
             <img
               :src="getImageUrl(doctor.photo || doctor)"
               alt="doctor-image"
             />
+            <div
+              class="doctor-availability"
+              v-if="
+                doctor.has_schedule == 'NO' ||
+                doctor.doctor_availability == 'NO'
+              "
+            >
+              {{
+                doctor.has_schedule == "NO"
+                  ? $t("doctorUnavailable")
+                  : doctor.doctor_availability == "NO"
+                  ? $t("doctorFullyBooked")
+                  : ""
+              }}
+            </div>
           </div>
           <div class="doctor-name">
             {{ getFullName(doctor, $t("dr")) }}

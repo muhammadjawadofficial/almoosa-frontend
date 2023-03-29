@@ -927,8 +927,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         margin-top: 2.5em;
         font-size: 1rem;
         .doctor-card {
+            --doctor-card-padding: 1.5em;
             border: 1px solid #cbc0a9;
-            padding: 1.5em;
+            padding: var(--doctor-card-padding);
             border-radius: 0.5em;
             // margin-bottom: 3em;
             width: calc(min(20.5em, 100%));
@@ -976,15 +977,28 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             }
             .doctor {
                 &-image {
-                    width: 17.5em;
+                    // width: 17.5em;
                     width: calc(min(17.5em, 100%));
                     height: 15.125em;
                     margin-bottom: 1.125em;
                     display: flex;
                     justify-content: center;
-                    overflow: hidden;
+                    // overflow: hidden;
+                    position: relative;
                     img {
                         height: 100%;
+                    }
+                    .doctor-availability {
+                        position: absolute;
+                        bottom: 0;
+                        width: calc(100% + var(--doctor-card-padding) * 2);
+                        text-align: center;
+                        background: rgba($secondary-color, 0.5);
+                        color: var(--theme-tertiary);
+                        padding: 0.5em;
+                        font-size: 1.25em;
+                        left: calc(var(--doctor-card-padding) * -1);
+                        right: calc(var(--doctor-card-padding) * -1);
                     }
                 }
                 &-name {
