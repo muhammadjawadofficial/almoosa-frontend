@@ -202,7 +202,7 @@
       </div>
 
       <div
-        class="receipt-details col-lg-4 pt-5"
+        class="receipt-details col-lg-4 py-5"
         v-if="serviceBaseRate && serviceBaseRate.patient_amount"
       >
         <div class="heading">
@@ -548,9 +548,11 @@ export default {
   }
 }
 .receipt-details {
-  position: absolute;
-  top: 0;
-  right: 0;
+  @media (min-width: 992px) {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
   .heading {
     font-size: 1.75rem;
     padding-block: 0.5rem;
