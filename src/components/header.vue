@@ -63,7 +63,7 @@
             <span class="sec-heading w500">{{ $t("header.settings") }}</span>
             <hr />
             <li v-if="!getUserInfo.isDependent">
-              <a class="" @click="toggleLayout()">
+              <a class="" @click="changePassword()">
                 <span class="profile-dropdown-menu-icon">
                   <lock-svg />
                 </span>
@@ -113,6 +113,7 @@
         </div>
       </ul>
     </div>
+    <change-password-modal />
   </div>
 </template>
 <script>
@@ -120,6 +121,7 @@ let body = document.getElementsByTagName("body")[0];
 import { mapActions, mapGetters, mapState } from "vuex";
 import { userService } from "../services";
 import Notifications from "./notifications";
+import ChangePasswordModal from "../pages/change-password-modal.vue";
 export default {
   name: "Search",
   data() {
@@ -145,6 +147,7 @@ export default {
   },
   components: {
     Notifications,
+    ChangePasswordModal,
   },
   computed: {
     ...mapState({
@@ -173,6 +176,9 @@ export default {
       } else {
         this.showProfileDropdown = !this.showProfileDropdown;
       }
+    },
+    changePassword() {
+      this.$bvModal.show("changePasswordCustomModal");
     },
     toggle_sidebar() {
       this.$store.dispatch("menu/opensidebar");

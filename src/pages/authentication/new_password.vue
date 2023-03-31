@@ -6,7 +6,7 @@
     </div>
     <div class="login-form">
       <b-form-input
-        v-model="userId.email_address"
+        v-model="emailAddress"
         type="text"
         name="username"
         autocomplete="username"
@@ -66,6 +66,7 @@ export default {
     return {
       otp: "",
       userId: "",
+      emailAddress: "",
       password: "",
       passwordState: null,
       confirmPassword: "",
@@ -78,7 +79,6 @@ export default {
   mounted() {
     userService.removeLoginInfo();
     let routeParams = this.$route.query;
-    console.log(routeParams);
     if (routeParams.email && routeParams.otp_code) {
       this.userId = {
         email_address: routeParams.email,
@@ -96,7 +96,7 @@ export default {
       this.userId = this.getUserId;
       this.otp = this.getOtp.otp_code;
       this.isResetPassword = this.getUserId.resetPassword || false;
-      this.setUserId("");
+      // this.setUserId("");
     }
   },
   computed: {

@@ -11,6 +11,7 @@ export const authService = {
     resendOtp,
     verifyOtp,
     resetPassword,
+    changePassword,
     getNationalities,
     getNationalitiesV1,
     getDepartments
@@ -91,6 +92,13 @@ function resetPassword(data) {
     return axios({
         method: apiPath.login.resetPassword.method,
         url: apiPath.login.resetPassword.url,
+        data
+    })
+}
+function changePassword(data) {
+    return axios({
+        method: apiPath.login.changePassword.method,
+        url: apiPath.login.changePassword.url,
         data
     })
 }

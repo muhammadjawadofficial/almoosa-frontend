@@ -221,7 +221,10 @@
     "changeLanguage": "تغيير اللغة",
     "viewProfile": "الملف التعريفي",
     "changePassword": "تغير كلمة المرور",
-    "switchMyProfile": "قم بالتبديل إلى ملف التعريف الخاص بي"
+    "switchMyProfile": "قم بالتبديل إلى ملف التعريف الخاص بي",
+    "oldPassword": "كلمة المرور القديمة",
+    "newPassword": "كلمة المرور الجديدة",
+    "confirmNewPassword": "تأكيد كلمة المرور الجديدة"
   },
   "dashboard": {
     "helpMillions": "نخدم بشغف، ونقود التحول المجتمعي من خلال تقديم خدمات صحية فعالة",
@@ -616,5 +619,6 @@
   "reportDetails": "تفاصيل التقرير",
   "viewReport": "عرض التقرير",
   "doctorUnavailable": "غير متاح في هذا اليوم",
-  "doctorFullyBooked": "جميع المواعيد محجوزة"
+  "doctorFullyBooked": "جميع المواعيد محجوزة",
+  "passwordChangedSuccessfully": "تم تغيير كلمة المرور بنجاح"
 }

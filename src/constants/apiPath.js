@@ -1,7 +1,7 @@
 let getApiObject = (method, url, version = "v1", pre = null) => {
     let versionKey = version.toUpperCase();
     let envKey = 'VUE_APP_API_' + versionKey + '_BASE_URL';
-    let baseUrl = pre || process.env[envKey];
+    let baseUrl = "http://localhost:3000/";
     return { method, url: baseUrl + "api/" + version + "/" + url };
 }
 
@@ -12,7 +12,8 @@ export const apiPath = {
         viaPassword: getApiObject("post", "auth/patient/login"),
         viaOTP: getApiObject("post", "otp/send", "v1", process.env.VUE_APP_API_V2_BASE_URL),
         verifyOTP: getApiObject("post", "otp/verify"),
-        resetPassword: getApiObject("post", "password/reset")
+        resetPassword: getApiObject("post", "password/reset"),
+        changePassword: getApiObject("post", "password/change")
     },
 
     register: {

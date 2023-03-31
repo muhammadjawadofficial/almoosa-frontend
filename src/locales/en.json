@@ -221,7 +221,10 @@
     "changeLanguage": "Change Language",
     "viewProfile": "View My Profile",
     "changePassword": "Change Password",
-    "switchMyProfile": "Switch to My Profile"
+    "switchMyProfile": "Switch to My Profile",
+    "oldPassword": "Old Password",
+    "newPassword": "New Password",
+    "confirmNewPassword": "Confirm New Password"
   },
   "dashboard": {
     "helpMillions": "Help Millions People everywhere, everytime!",
@@ -616,5 +619,6 @@
   "reportDetails": "Report Details",
   "viewReport": "View Report",
   "doctorUnavailable": "Unavailable on Selected Date",
-  "doctorFullyBooked": "Fully Booked"
+  "doctorFullyBooked": "Fully Booked",
+  "passwordChangedSuccessfully": "Password Changed Successfully"
 }
