@@ -154,7 +154,8 @@ export default {
       );
     },
     getStatusClass(status) {
-      if (status.toLowerCase() === "normal") {
+      if (!status) return "success";
+      else if (status.toLowerCase() === "normal") {
         return "success";
       } else if (status.toLowerCase() === "abnormal") {
         return "warning";

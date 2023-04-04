@@ -162,7 +162,9 @@ export default {
       userService.downloadFile(file);
     },
     getStatusClass(status) {
-      if (status.toLowerCase() === "normal") {
+      if (!status) {
+        return "warning";
+      } else if (status.toLowerCase() === "normal") {
         return "success";
       } else if (status.toLowerCase() === "abnormal") {
         return "warning";
