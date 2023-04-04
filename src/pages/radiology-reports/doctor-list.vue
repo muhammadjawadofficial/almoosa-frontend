@@ -104,7 +104,7 @@ export default {
     fetchAppointments() {
       this.setLoadingState(true);
       reportService
-        .getAppointmentsWithReports(this.getUserInfo.mrn_number, "radiology")
+        .getAppointmentsWithReports(this.getUserInfo.mrn_number, "rad")
         .then(
           (response) => {
             if (response.data.status) {

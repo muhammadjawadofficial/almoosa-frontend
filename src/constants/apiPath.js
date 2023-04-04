@@ -88,7 +88,7 @@ export const apiPath = {
         updateReminder: (id) => getApiObject("patch", "medications/" + id),
         createMedication: getApiObject("post", "medications"),
         medicationRequest: getApiObject("post", "medication-refills"),
-        appointmentWithReports: (id) => getApiObject("get", "appointments/reports?mrn_number=" + id, "v2"),
+        appointmentWithReports: (id, type) => getApiObject("get", "appointments/reports?mrn_number=" + id + "&type=" + type, "v2"),
         reportsWithAppointments: (id) => getApiObject("get", "reports?appointment_id=" + id, "v2"),
     },
 
