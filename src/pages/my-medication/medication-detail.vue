@@ -277,7 +277,9 @@ export default {
           patient_name: this.getFullName(this.getUserInfo, "", ""),
           patient_name_ar: this.getFullName(this.getUserInfo, "", "_ar"),
           phone_number: this.getUserInfo.phone_number,
-          clinic_id: null,
+          clinic_id:
+            this.getSelectedMedicationSession.doctor &&
+            this.getSelectedMedicationSession.doctor.speciality_id,
           doctor_name: this.getFullName(
             this.getSelectedMedicationSession.doctor,
             "",
