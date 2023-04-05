@@ -643,7 +643,7 @@ export default {
       this.selectedItem = item;
       if (item.autofill) {
         let nationality = this.nationalities.find(
-          (n) => n.code.toLowerCase() == item.autofill
+          (n) => n.nationality.toLowerCase() == item.autofill
         );
         if (nationality) {
           this.registerForm.nationality = nationality;

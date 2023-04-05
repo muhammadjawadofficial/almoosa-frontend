@@ -29,7 +29,10 @@
                   {{ getLongDateAndTimeFromDate(details.dated, true) }}
                 </div>
               </div>
-              <div class="appointment-detail--action-buttons">
+              <div
+                class="appointment-detail--action-buttons"
+                v-if="details.result"
+              >
                 <button class="btn btn-info appointment-detail--status">
                   {{ details.result }}
                 </button>

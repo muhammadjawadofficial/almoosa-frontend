@@ -18,18 +18,6 @@
     </div>
     <div class="row">
       <div class="col-md-6">
-        <b-input-group class="custom-login-input-groups">
-          <b-form-input
-            type="number"
-            v-model="registerForm.national_id"
-            :state="registerFormState.national_id"
-            :placeholder="$t('insurance.nationalId')"
-          ></b-form-input>
-        </b-input-group>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
         <div class="custom-login-input-groups file-upload-container">
           <template v-if="fileToUpload.length">
             <div class="re-upload-icon">
@@ -52,6 +40,11 @@
             class="dropzone digits custom-file-upload"
           >
           </vue-dropzone>
+          <div
+            :class="{
+              'dropzone is-invalid': registerFormState.insurance_card_id == false,
+            }"
+          ></div>
         </div>
       </div>
     </div>
@@ -76,12 +69,11 @@ export default {
       showUpload: true,
       registerForm: {
         companyName: "",
-        national_id: "",
         insurance_card_id: "",
       },
       registerFormState: {
         companyName: null,
-        national_id: null,
+        insurance_card_id: null,
       },
       formSubmitted: false,
       validationdropzoneOptions: {
@@ -124,12 +116,12 @@ export default {
         },
         (error) => {
           console.error(error);
-          if (!this.isAPIAborted(error)) 
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
           this.setLoadingState(false);
         }
       );
@@ -137,7 +129,7 @@ export default {
     validateForm() {
       let form = this.registerForm;
       this.registerFormState.companyName = form.companyName != "";
-      this.registerFormState.national_id = form.national_id != "";
+      this.registerFormState.insurance_card_id = form.insurance_card_id != "";
 
       return !Object.values(this.registerFormState).includes(false);
     },
@@ -150,7 +142,6 @@ export default {
       let newInsurance = {
         patient_id: this.getUserInfo.id,
         company_name: this.registerForm.companyName,
-        national_id: this.registerForm.national_id,
       };
       if (this.registerForm.insurance_card_id) {
         newInsurance.insurance_card_id = this.registerForm.insurance_card_id;
@@ -175,12 +166,11 @@ export default {
     resetForm() {
       this.registerForm = {
         companyName: "",
-        national_id: "",
         insurance_card_id: "",
       };
       this.registerFormState = {
         companyName: null,
-        national_id: null,
+        insurance_card_id: null,
       };
       this.fileToUpload = [];
       this.$refs.fileUpload.removeAllFiles();

@@ -154,6 +154,7 @@ export default {
       "getSelectedMedication",
       "getSelectedMedicationSession",
     ]),
+    ...mapGetters("user", ["getUserInfo"]),
     getRefillRequest() {
       return (
         !this.medicationRequests ||
@@ -272,6 +273,21 @@ export default {
       medicationService
         .requestMedication({
           medication_id: this.getSelectedMedication.id,
+          mrn_number: this.getUserInfo.mrn_number,
+          patient_name: this.getFullName(this.getUserInfo, "", ""),
+          patient_name_ar: this.getFullName(this.getUserInfo, "", "_ar"),
+          phone_number: this.getUserInfo.phone_number,
+          clinic_id: null,
+          doctor_name: this.getFullName(
+            this.getSelectedMedicationSession.doctor,
+            "",
+            ""
+          ),
+          doctor_name_ar: this.getFullName(
+            this.getSelectedMedicationSession.doctor,
+            "",
+            "_ar"
+          ),
           is_delivery: delivery,
         })
         .then(

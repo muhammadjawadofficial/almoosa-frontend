@@ -543,12 +543,17 @@ export default {
                 }
             })
         },
-        getFullName(user, prepend = "") {
+        getFullName(user, prepend = "", locale = null) {
             if (!user) {
                 return 'N/A'
             }
             let parseName = (name) => name ? name + " " : "";
-            let fullName = parseName(user[this.getLocaleKey('first_name')]) + parseName(user[this.getLocaleKey('middle_name')]) + parseName(user[this.getLocaleKey('family_name')]);
+            let fullName = "";
+            if (locale != null) {
+                fullName = user['first_name' + locale] + " " + user['middle_name' + locale] + " " + user['family_name' + locale];
+            } else {
+                fullName = parseName(user[this.getLocaleKey('first_name')]) + parseName(user[this.getLocaleKey('middle_name')]) + parseName(user[this.getLocaleKey('family_name')]);
+            }
             if (!fullName) {
                 fullName = parseName(user.first_name) + parseName(user.middle_name) + parseName(user.family_name)
             }
