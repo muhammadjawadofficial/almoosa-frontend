@@ -118,6 +118,7 @@ export default {
           text: "proceedWithSaudiId",
           method: "saudi_id",
           placeholder: "enterId",
+          error: "saudiId",
           validation: 10,
         },
         {
@@ -125,6 +126,7 @@ export default {
           text: "proceedWithIqamaId",
           method: "iqama",
           placeholder: "enterId",
+          error: "iqamaId",
           validation: 10,
         },
         {
@@ -132,6 +134,7 @@ export default {
           text: "proceedWithMRN",
           method: "mrn_number",
           placeholder: "enterId",
+          error: "mrn",
           validation: 7,
         },
       ],
@@ -160,11 +163,11 @@ export default {
       if (!this.registerFormState.userId) {
         if (this.userId == "")
           this.failureToast(
-            this.$t("register." + this.selectedItem.text + "Required")
+            this.$t("register." + this.selectedItem.error + "Required")
           );
         else {
           this.failureToast(
-            this.$t("register." + this.selectedItem.text + "Length", {
+            this.$t("register." + this.selectedItem.error + "Length", {
               length: this.selectedItem.validation,
             })
           );

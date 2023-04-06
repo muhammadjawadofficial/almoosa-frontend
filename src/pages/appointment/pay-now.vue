@@ -35,6 +35,7 @@ export default {
       "getPaymentObject",
       "getSelectedAppointment",
     ]),
+    ...mapGetters("user", ["getUserInfo"]),
     getIframeUrl() {
       return (
         process.env.VUE_APP_API_V2_BASE_URL +
@@ -47,7 +48,11 @@ export default {
           : "") +
         "&appointment_id=" +
         this.getPaymentObject.appointment_id +
-        "&platform=web"
+        "&platform=web" +
+        "&doctor_id=" +
+        this.getSelectedAppointment.doctor_id +
+        "&patient_id=" +
+        this.getUserInfo.id
       );
     },
   },
