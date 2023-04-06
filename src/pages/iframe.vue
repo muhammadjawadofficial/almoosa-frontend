@@ -16,7 +16,8 @@
 export default {
   data() {
     return {
-      roomId: "almoosa",
+      roomId: "",
+      userName: "",
     };
   },
   computed: {
@@ -24,11 +25,11 @@ export default {
       return (
         process.env.VUE_APP_TELE_BASE_URL +
         "room/" +
-        this.$route.params.connectId +
+        this.roomId +
         "/" +
         this.getCurrentLang() +
         "?name=" +
-        this.$route.params.name
+        this.userName
       );
     },
   },
@@ -38,6 +39,18 @@ export default {
     },
   },
   mounted() {
+    let routeParms = this.$route.params;
+    if (routeParms && routeParms.connectId) {
+      this.roomId = routeParms.connectId;
+    }
+    if (routeParms && routeParms.name) {
+      this.userName = routeParms.name;
+    }
+
+    if (!this.roomId || !this.userName) {
+      this.navigateTo("default");
+      return;
+    }
     this.setLoadingState(true);
   },
 };
