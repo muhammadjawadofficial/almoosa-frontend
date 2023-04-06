@@ -128,7 +128,8 @@
     "nationalityRequired": "الجنسية مطلوبة",
     "phoneEmailRequired": "البريد الإلكتروني أو رقم الهاتف مطلوب",
     "phoneEmailValid": "البريد الإلكتروني أو رقم الهاتف غير صالح",
-    "register": "التسجيل"
+    "register": "التسجيل",
+    "alreadyExists": "عزيزي المراجع لديك ملف طبي، من فضلك قم بتسجيل بخيار (لدي ملف طبي)"
   },
   "termsAndConditions": {
     "privacyPolicy": "سياسة الخصوصية",

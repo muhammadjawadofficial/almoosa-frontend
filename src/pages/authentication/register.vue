@@ -622,7 +622,11 @@ export default {
                 );
             }
           } else {
-            this.failureToast(response.data.message);
+            if (response.data.message.toLowerCase().includes("user exist")) {
+              this.failureToast(this.$t("register.alreadyExists"));
+            } else {
+              this.failureToast(response.data.message);
+            }
           }
           this.setLoadingState(false);
         },

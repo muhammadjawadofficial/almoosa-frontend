@@ -128,7 +128,8 @@
     "nationalityRequired": "Nationality is required",
     "phoneEmailRequired": "Phone or Email is required",
     "phoneEmailValid": "Phone or Email is not valid",
-    "register": "Register"
+    "register": "Register",
+    "alreadyExists": "You have a medical File, please register for an account through (I have medical file option)"
   },
   "termsAndConditions": {
     "privacyPolicy": "Privacy Policy",
