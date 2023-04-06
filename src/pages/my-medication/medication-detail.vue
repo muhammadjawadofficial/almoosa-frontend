@@ -290,6 +290,8 @@ export default {
             "",
             "_ar"
           ),
+          medicine_name: this.getSelectedMedication.variation,
+          end_date: this.getSelectedMedication.end_date,
           is_delivery: delivery,
         })
         .then(
