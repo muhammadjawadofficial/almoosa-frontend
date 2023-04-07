@@ -788,7 +788,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     .location-card-container {
         display: flex;
         flex-wrap: wrap;
-        gap: 1rem;
+        gap: 1.5rem;
         .location-card {
             padding: 1rem;
             background: $secondary-color;
