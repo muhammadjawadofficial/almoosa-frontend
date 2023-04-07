@@ -833,18 +833,36 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     object-fit: cover;
                 }
             }
+            &.active,
+            &.disabled {
+                &::before {
+                    position: absolute;
+                    right: 0.75rem;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: contain;
+                }
+            }
             &.active {
                 &::before {
                     content: "";
                     width: 2.438rem;
                     aspect-ratio: 1;
-                    position: absolute;
                     top: -1.25rem;
-                    right: 0.75rem;
                     background-image: url(../images/check.svg);
-                    background-repeat: no-repeat;
-                    background-position: center;
-                    background-size: contain;
+                }
+            }
+            &.disabled {
+                cursor: default;
+                &::before {
+                    content: "Coming Soon";
+                    top: -1rem;
+                    text-align: center;
+                    padding: 0.3rem 1rem 0.3rem;
+                    background-color: $primary-color;
+                    border-radius: 50vw;
+                    display: grid;
+                    place-content: center;
                 }
             }
         }

@@ -4937,10 +4937,16 @@
   .find-specialist-container {
     .location-card-container .location-card,
     .specialities-container .speciality {
-      &.active {
+      &.active,
+      &.disabled {
         &::before {
           right: unset;
           left: 0.75rem;
+        }
+      }
+      &.disabled {
+        &:before {
+          content: "قريباً";
         }
       }
     }

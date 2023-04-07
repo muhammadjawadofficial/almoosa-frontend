@@ -1,12 +1,11 @@
 <template>
-  <div class="
-        find-specialist-container
-        only-back-container
-        page-body-container
-        standard-width
-      ">
+  <div
+    class="find-specialist-container only-back-container page-body-container standard-width"
+  >
     <back-navigation />
-    <div class="datetime-section find-specialist-container-section block-section">
+    <div
+      class="datetime-section find-specialist-container-section block-section"
+    >
       <div class="heading-section">
         <div class="heading-icon">
           <img src="../../assets/images/calendar.svg" alt="calendar-icon" />
@@ -21,10 +20,17 @@
         </div>
       </div>
       <div class="body-section">
-        <ash-datepicker :placeholder="$t('findSpecialist.selectDate')" v-model="selectedDate" disableDate="forward" />
+        <ash-datepicker
+          :placeholder="$t('findSpecialist.selectDate')"
+          v-model="selectedDate"
+          disableDate="forward"
+        />
       </div>
     </div>
-    <div v-if="getBookingMethod == 'onsite'" class="location-section find-specialist-container-section block-section">
+    <div
+      v-if="getBookingMethod == 'onsite'"
+      class="location-section find-specialist-container-section block-section"
+    >
       <div class="heading-section">
         <div class="heading-icon">
           <location-svg />
@@ -37,8 +43,13 @@
       </div>
       <div class="body-section">
         <div class="location-card-container">
-          <div class="location-card" :class="{ active: selectedClinic.id == clinic.id }" v-for="clinic in clinics"
-            :key="'find-specialist-clinic-' + clinic.id" @click="setSelectedClinic(clinic)">
+          <div
+            class="location-card"
+            :class="{ active: selectedClinic.id == clinic.id, disabled: !clinic.is_active }"
+            v-for="clinic in clinics"
+            :key="'find-specialist-clinic-' + clinic.id"
+            @click="setSelectedClinic(clinic)"
+          >
             <div class="location-card-details">
               <div class="location-card-details-image">
                 <img :src="getImageUrl(clinic.image)" alt="clinic-image" />
@@ -48,15 +59,18 @@
                   {{ clinic[getLocaleKey("title")] }}
                 </div>
                 <div class="location-card-details-info-address">
-                  {{ clinic[getLocaleKey('address')] }}
+                  {{ clinic[getLocaleKey("address")] }}
                 </div>
                 <div class="location-card-details-info-timing">
-                  {{ clinic[getLocaleKey('timing')] }}
+                  {{ clinic[getLocaleKey("timing")] }}
                 </div>
               </div>
             </div>
             <div class="location-card-map" v-if="false">
-              <img :src="getImageUrl(clinic.map_image)" alt="clinic-map-image" />
+              <img
+                :src="getImageUrl(clinic.map_image)"
+                alt="clinic-map-image"
+              />
             </div>
           </div>
           <div class="loading pt-0 no-data" v-if="clinics == null">
@@ -68,7 +82,10 @@
         </div>
       </div>
     </div>
-    <div class="specialist-section find-specialist-container-section block-section" style="position: relative">
+    <div
+      class="specialist-section find-specialist-container-section block-section"
+      style="position: relative"
+    >
       <div class="heading-section">
         <div class="heading-icon">
           <img src="../../assets/images/speciality.svg" alt="speciality-icon" />
@@ -87,15 +104,24 @@
           <i class="fa fa-search" aria-hidden="true"></i>
         </div>
         <div class="search-input">
-          <b-form-input :placeholder="$t('findSpecialist.searchSpeciality')" id="type-search" type="search"
-            v-model="searchQuery" :formatter="alphabetsOnly"></b-form-input>
+          <b-form-input
+            :placeholder="$t('findSpecialist.searchSpeciality')"
+            id="type-search"
+            type="search"
+            v-model="searchQuery"
+            :formatter="alphabetsOnly"
+          ></b-form-input>
         </div>
       </div>
       <div class="body-section">
         <div class="specialities-container">
-          <div class="speciality" :class="{ active: selectedSpeciality.id == speciality.id }"
-            v-for="speciality in filteredSpecialities" :key="'find-speciality-' + speciality.id"
-            @click="setSelectedSpeciality(speciality)">
+          <div
+            class="speciality"
+            :class="{ active: selectedSpeciality.id == speciality.id }"
+            v-for="speciality in filteredSpecialities"
+            :key="'find-speciality-' + speciality.id"
+            @click="setSelectedSpeciality(speciality)"
+          >
             <div class="speciality-image">
               <img :src="getImageUrl(speciality.icon)" alt="icon" />
             </div>
@@ -106,13 +132,18 @@
           <div class="loading pt-0 no-data" v-if="specialities == null">
             {{ $t("loading") }}
           </div>
-          <div class="no-data pt-0" v-else-if="!filteredSpecialities || !filteredSpecialities.length">
+          <div
+            class="no-data pt-0"
+            v-else-if="!filteredSpecialities || !filteredSpecialities.length"
+          >
             {{ $t("noRecord") }}
           </div>
         </div>
       </div>
     </div>
-    <div class="datetime-section find-specialist-container-section block-section">
+    <div
+      class="datetime-section find-specialist-container-section block-section"
+    >
       <button @click="findSpecialist" class="btn btn-secondary">
         {{ $t("modules.Find Specialist") }}
       </button>
@@ -211,8 +242,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-              error.response.data &&
-              error.response.data.message
+                error.response.data &&
+                error.response.data.message
             );
           this.setLoadingState(false);
         });
@@ -246,6 +277,7 @@ export default {
       }
     },
     setSelectedClinic(clinic) {
+      if (!clinic.is_active) return;
       this.selectedClinic = clinic;
     },
     setSelectedSpeciality(speciality) {
