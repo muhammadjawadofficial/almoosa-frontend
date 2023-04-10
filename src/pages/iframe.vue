@@ -26,10 +26,10 @@ export default {
         process.env.VUE_APP_TELE_BASE_URL +
         "room/" +
         this.roomId +
-        "/" +
-        this.getCurrentLang() +
         "?name=" +
-        this.userName
+        this.userName +
+        "&lng=" +
+        this.getCurrentLang()
       );
     },
   },
