@@ -143,6 +143,9 @@
                     >
                       {{ insurance.company_name }}
                     </div>
+                    <div v-if="!patientInsurances || !patientInsurances.length">
+                      {{ $t("noData") }}
+                    </div>
                   </div>
                 </template>
               </template>
@@ -263,6 +266,7 @@ export default {
       toggleOtherPaymentSection: false,
       selectedInsurance: null,
       walletAmount: 0,
+      actualWalletAmount: 0,
       insuranceAmount: null,
       appointmentAmount: 0,
       patientInsurances: null,
@@ -355,7 +359,8 @@ export default {
             let data = serviceBaseRate.data.items;
             if (data && data.length) {
               this.serviceBaseRate = data[0];
-              this.walletAmount = this.serviceBaseRate.advance_wallet;
+              this.walletAmount = 225;
+              this.actualWalletAmount = this.walletAmount;
               let patientAmount = this.serviceBaseRate.patient_amount;
               let obj = {
                 ...this.getPaymentObject,
@@ -384,10 +389,12 @@ export default {
         });
     },
     getWalletDeductionAmount() {
-      let appointmentAmount =
-        this.insuranceAmount == null
-          ? this.getPaymentObject.amount
-          : this.insuranceAmount;
+      console.log("this.insuranceAmount", this.insuranceAmount);
+      console.log("this.getPaymentObject.amount", this.getPaymentObject.amount);
+      console.log("this.walletAmount", this.walletAmount);
+      let appointmentAmount = !this.insuranceAmount
+        ? this.getPaymentObject.amount
+        : this.insuranceAmount;
       if (this.useWalletAmount) {
         return appointmentAmount >= this.walletAmount
           ? this.walletAmount
@@ -422,8 +429,7 @@ export default {
         if (item.title.includes("apple")) {
           obj.method = item.title.toUpperCase();
         }
-        this.setPaymentObject(obj);
-        this.createPayment();
+        this.createPayment(obj);
       } else {
         this.toggleOtherPaymentSection = !this.toggleOtherPaymentSection;
       }
@@ -434,6 +440,7 @@ export default {
         this.selectedInsurance = null;
         this.setAppointmentAmount();
         this.toggleOtherPaymentSection = false;
+        this.paymentAmount = null;
         return;
       }
       this.setLoadingState(true);
@@ -466,7 +473,7 @@ export default {
           this.setLoadingState(false);
         });
     },
-    createPayment() {
+    createPayment(paymentObj) {
       let paymentVerifyObject = {
         appointment_id: this.getSelectedAppointment.id,
         service_value: this.paymentAmount ? this.paymentAmount.Amount : 0,
@@ -503,6 +510,9 @@ export default {
         JSON.stringify(paymentVerifyObject)
       );
       if (this.appointmentAmount !== 0) {
+        if (paymentObj) {
+          this.setPaymentObject(paymentObj);
+        }
         this.navigateTo("Pay Now");
       } else {
         this.doPayment();

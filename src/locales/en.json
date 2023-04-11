@@ -621,5 +621,6 @@
   "viewReport": "View Report",
   "doctorUnavailable": "Unavailable on Selected Date",
   "doctorFullyBooked": "Fully Booked",
-  "passwordChangedSuccessfully": "Password Changed Successfully"
+  "passwordChangedSuccessfully": "Password Changed Successfully",
+  "loadMore": "Load More"
 }

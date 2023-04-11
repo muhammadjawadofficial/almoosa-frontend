@@ -38,12 +38,26 @@
                       </div>
                       <div class="appointment-details">
                         <div class="doctor-name">
-                          {{ appointment[getLocaleKey("patient_funll_name")] }}
+                          {{ appointment.test_name }}
                         </div>
                         <div class="doctor-speciality">
-                          {{ appointment.test_name.toLowerCase() }}
+                          {{ appointment[getLocaleKey("patient_full_name")] }}
+                        </div>
+                        <div class="doctor-speciality text-muted">
+                          {{
+                            getLongDateAndTimeFromDate(appointment.dated, true)
+                          }}
+                        </div>
+                        <div class="doctor-speciality text-muted">
+                          {{ $t("range") + ": " + appointment.normal_range }}
                         </div>
                         <div class="appointment-status">
+                          {{
+                            appointment.result +
+                            " - " +
+                            (appointment.result_criticality || "N/A")
+                          }}
+
                           <div
                             class="appointment-time-span"
                             :class="{ 'report-icon': appointment.report_url }"
@@ -82,7 +96,7 @@
                     class="btn btn-secondary btn-pill"
                     @click="loadMore('lab')"
                   >
-                    Load More
+                    {{ $t("loadMore") }}
                   </button>
                 </div>
               </b-tab>
@@ -105,12 +119,18 @@
                       </div>
                       <div class="appointment-details">
                         <div class="doctor-name">
-                          {{ appointment[getLocaleKey("patient_funll_name")] }}
+                          {{ appointment.test_name }}
                         </div>
                         <div class="doctor-speciality">
-                          {{ appointment.test_name.toLowerCase() }}
+                          {{ appointment[getLocaleKey("patient_full_name")] }}
+                        </div>
+                        <div class="doctor-speciality">
+                          {{
+                            getLongDateAndTimeFromDate(appointment.dated, true)
+                          }}
                         </div>
                         <div class="appointment-status">
+                          {{ appointment.result }}
                           <div
                             class="appointment-time-span"
                             :class="{ 'report-icon': appointment.report_url }"
@@ -149,7 +169,7 @@
                     class="btn btn-secondary btn-pill"
                     @click="loadMore('rad')"
                   >
-                    Load More
+                    {{ $t("loadMore") }}
                   </button>
                 </div>
               </b-tab>
@@ -264,12 +284,14 @@ export default {
           this.radCriticalList = [];
           this.filteredLabCriticalList = [];
           this.filteredRadCriticalList = [];
-          if (!this.isAPIAborted(error)) 
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
+          this.paginatedLabList = [];
+          this.paginatedRadList = [];
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
         })
         .finally(() => {
           this.setLoadingState(false);

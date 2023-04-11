@@ -621,5 +621,6 @@
   "viewReport": "عرض التقرير",
   "doctorUnavailable": "غير متاح في هذا اليوم",
   "doctorFullyBooked": "جميع المواعيد محجوزة",
-  "passwordChangedSuccessfully": "تم تغيير كلمة المرور بنجاح"
+  "passwordChangedSuccessfully": "تم تغيير كلمة المرور بنجاح",
+  "loadMore": "تحميل المزيد"
 }
