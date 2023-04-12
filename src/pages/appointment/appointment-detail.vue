@@ -177,6 +177,11 @@ export default {
   mounted() {
     this.initializeAppointmentDetails();
   },
+  watch: {
+    currentAppLang() {
+      this.initializeAppointmentDetails();
+    },
+  },
   methods: {
     ...mapActions("appointment", [
       "setSelectedAppointment",
@@ -192,11 +197,43 @@ export default {
     initializeAppointmentDetails() {
       this.details = this.getSelectedAppointment;
       if (!this.details) this.navigateTo("Upcoming Appointment");
-      this.instructions = [
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-        "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-      ];
+
+      if (this.details.type.toLowerCase() !== "online") return;
+
+      this.setLoadingState(true);
+      appointmentService
+        .getAppointmentInstructions(
+          "?title=" + this.getLocaleKey("TELE_INSTRUCTIONS", "", "_AR", "upper")
+        )
+        .then(
+          (res) => {
+            let response = res.data;
+            if (response.status) {
+              let instructions = "";
+              if (
+                response.data &&
+                response.data.items &&
+                response.data.items.length
+              ) {
+                instructions = response.data.items[0].value;
+                this.instructions = JSON.parse(instructions);
+              }
+            } else {
+              this.failureToast(response.message);
+            }
+            this.setLoadingState(false);
+          },
+          (error) => {
+            console.error(error);
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
+            this.setLoadingState(false);
+          }
+        );
     },
     makePayment() {
       let obj = {

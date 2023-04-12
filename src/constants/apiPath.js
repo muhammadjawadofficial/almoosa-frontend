@@ -67,6 +67,7 @@ export const apiPath = {
         ratePhysician: (id) => getApiObject("patch", "doctor/rating/" + id),
         fetchAppointmentHistory: (patient_id, doctor_id) => getApiObject("get", "appointments/history?mrn_number=" + patient_id + "&doctor_id=" + doctor_id, "v2"),
         createPayment: getApiObject("post", "payments/create", "v2"),
+        getInstructions: (query) => getApiObject("get", "system-settings" + query)
     },
 
     promotions: {

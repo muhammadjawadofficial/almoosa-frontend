@@ -18,6 +18,9 @@ export default {
             let roleS = this.getUserRole;
             return (roleLS == 4 || (roleS && roleS.includes('doc')))
         },
+        currentAppLang() {
+            return this.$i18n.locale;
+        },
     },
     mounted() {
         this.moment.locale(this.$i18n.locale)
@@ -57,7 +60,7 @@ export default {
                 path = process.env.VUE_APP_SERVER + profile.path;
             return path
         },
-        getLocaleKey: function (key, wordCase = "lower", enLocale = "", arLocale = "_ar") {
+        getLocaleKey: function (key, enLocale = "", arLocale = "_ar", wordCase = "camel") {
             let postKey = this.$i18n.locale == "ar" ? arLocale : enLocale;
             if (wordCase == "upper") {
                 postKey = postKey.toUpperCase();
@@ -65,9 +68,6 @@ export default {
                 postKey = postKey.toLowerCase();
             }
             return key + postKey;
-        },
-        getCurrentLang() {
-            return this.$i18n.locale;
         },
         numberOnly(number, input) {
             /**
@@ -108,7 +108,7 @@ export default {
              * @param {string} string
              * @returns {string}
              */
-            let regex = this.getCurrentLang() == "en" ? /[^a-zA-Z ]/g : /[^ء-ي ]/g;
+            let regex = this.currentAppLang == "en" ? /[^a-zA-Z ]/g : /[^ء-ي ]/g;
             return string.replace(regex, "");
         },
 
@@ -432,9 +432,9 @@ export default {
         },
         dateFormatter(date, format = 'MMMM Do YYYY, h:mm A', utc = false, locale, tz = this.browserTimezone) {
             if (utc) {
-                return this.moment(date).tz(tz).locale(locale || this.getCurrentLang()).utc().format(format);
+                return this.moment(date).tz(tz).locale(locale || this.currentAppLang).utc().format(format);
             }
-            return this.moment(date).tz(tz).locale(locale || this.getCurrentLang()).format(format);
+            return this.moment(date).tz(tz).locale(locale || this.currentAppLang).format(format);
         },
         formatDateTime(date, utc = true) {
             return this.dateFormatter(date, 'DD/MM/YYYY hh:mm A', utc);
@@ -477,7 +477,7 @@ export default {
         translateNumber(num) {
             let strNum = num + '';
             // e.g., 12:00AM
-            if (this.getCurrentLang() == "ar") {
+            if (this.currentAppLang == "ar") {
                 let ar = '٠١٢٣٤٥٦٧٨٩'.split('');
                 let en = '0123456789'.split('');
                 if (strNum.includes("PM")) {

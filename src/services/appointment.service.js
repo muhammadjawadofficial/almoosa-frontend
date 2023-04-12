@@ -15,7 +15,8 @@ export const appointmentService = {
     getTodayAppointment,
     ratePhysician,
     getAppointmentHistory,
-    createPayment
+    createPayment,
+    getAppointmentInstructions
 }
 
 function getUpcomingAppointemnts(id) {
@@ -141,5 +142,12 @@ function createPayment(data) {
         method: apiPath.appointment.createPayment.method,
         url: apiPath.appointment.createPayment.url,
         data
+    })
+}
+
+function getAppointmentInstructions(query) {
+    return axios({
+        method: apiPath.appointment.getInstructions(query).method,
+        url: apiPath.appointment.getInstructions(query).url
     })
 }

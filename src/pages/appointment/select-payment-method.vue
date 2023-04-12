@@ -116,7 +116,7 @@
                             'fa fa-chevron-' +
                             (toggleOtherPaymentSection
                               ? 'down'
-                              : getCurrentLang() == 'en'
+                              : currentAppLang == 'en'
                               ? 'right'
                               : 'left')
                           "
@@ -187,7 +187,7 @@
                     <i
                       :class="
                         'fa fa-chevron-' +
-                        (getCurrentLang() == 'en' ? 'right' : 'left')
+                        (currentAppLang == 'en' ? 'right' : 'left')
                       "
                       aria-hidden="true"
                     ></i>

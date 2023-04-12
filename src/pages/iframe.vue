@@ -29,7 +29,7 @@ export default {
         "?name=" +
         this.userName +
         "&lng=" +
-        this.getCurrentLang()
+        this.currentAppLang
       );
     },
   },

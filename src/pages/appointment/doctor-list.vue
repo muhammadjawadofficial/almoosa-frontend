@@ -172,7 +172,7 @@ export default {
           date,
           clinic,
           this.getBookingMethod,
-          this.getCurrentLang()
+          this.currentAppLang
         )
         .then(
           (res) => {

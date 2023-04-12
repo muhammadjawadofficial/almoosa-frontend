@@ -50,7 +50,7 @@
                 <i
                   :class="
                     'fa fa-chevron-' +
-                    (getCurrentLang() == 'en' ? 'right' : 'left')
+                    (currentAppLang == 'en' ? 'right' : 'left')
                   "
                   aria-hidden="true"
                 ></i>
@@ -97,7 +97,7 @@
                 <i
                   :class="
                     'fa fa-chevron-' +
-                    (getCurrentLang() == 'en' ? 'right' : 'left')
+                    (currentAppLang == 'en' ? 'right' : 'left')
                   "
                   aria-hidden="true"
                 ></i>

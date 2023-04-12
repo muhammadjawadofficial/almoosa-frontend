@@ -95,10 +95,10 @@ export default {
       this.$emit("change", date);
     },
     isLTR() {
-      return this.getCurrentLang() == "en";
+      return this.currentAppLang == "en";
     },
     isRTL() {
-      return this.getCurrentLang() != "ar";
+      return this.currentAppLang != "ar";
     },
     setLocale(locale) {
       let currentLocale = this.locales.find((x) => x.value.includes(locale));
