@@ -715,7 +715,7 @@ export default {
       Promise.all([
         authService.getNationalitiesV1(),
         appointmentService.getClinicsV1(),
-        appointmentService.getSpecialities(),
+        appointmentService.getSpecialities("?doctor_id=null&appointment_type=null&clinic_id=null"),
       ])
         .then((res) => {
           let nationalities = res[0];

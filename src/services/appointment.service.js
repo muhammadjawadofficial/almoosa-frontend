@@ -40,10 +40,10 @@ function getClinicsV1() {
     })
 }
 
-function getSpecialities() {
+function getSpecialities(query) {
     return axios({
-        method: apiPath.appointment.specialities.method,
-        url: apiPath.appointment.specialities.url
+        method: apiPath.appointment.specialities(query).method,
+        url: apiPath.appointment.specialities(query).url
     })
 }
 

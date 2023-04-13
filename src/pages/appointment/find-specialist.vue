@@ -45,7 +45,10 @@
         <div class="location-card-container">
           <div
             class="location-card"
-            :class="{ active: selectedClinic.id == clinic.id, disabled: !clinic.is_active }"
+            :class="{
+              active: selectedClinic.id == clinic.id,
+              disabled: !clinic.is_active,
+            }"
             v-for="clinic in clinics"
             :key="'find-specialist-clinic-' + clinic.id"
             @click="setSelectedClinic(clinic)"
@@ -208,13 +211,29 @@ export default {
       "setDoctorsList",
       "setBookingMethod",
     ]),
+    getSpecialityQuery() {
+      let query = "?";
+      let clinicId = "";
+      if (this.getBookingMethod)
+        query += "&appointment_type=" + this.getBookingMethod;
+      if (
+        this.getBookingMethod == "onsite" &&
+        (this.getBookingClinic || this.selectedClinic)
+      )
+        clinicId =
+          (this.getBookingClinic && this.getBookingClinic.id) ||
+          (this.selectedClinic && this.selectedClinic.id);
+      if (clinicId) query += "&clinic_id=" + clinicId;
+
+      return query;
+    },
     initializeData() {
       this.setLoadingState(true);
       Promise.all([
         this.getBookingMethod == "onsite"
           ? appointmentService.getClinicsV1()
           : null,
-        appointmentService.getSpecialitiesV1(),
+        appointmentService.getSpecialities(this.getSpecialityQuery()),
       ])
         .then((res) => {
           if (this.getBookingMethod == "onsite") {
@@ -278,7 +297,35 @@ export default {
     },
     setSelectedClinic(clinic) {
       if (!clinic.is_active) return;
+      let isNew = this.selectedClinic.id !== clinic.id;
       this.selectedClinic = clinic;
+      if (isNew) {
+        this.selectedSpeciality = {};
+        this.setLoadingState(true);
+        appointmentService
+          .getSpecialities(this.getSpecialityQuery())
+          .then((res) => {
+            let specialitiesResponse = res.data;
+            if (specialitiesResponse.status) {
+              this.specialities = specialitiesResponse.data.items;
+              this.filteredSpecialities = [...this.specialities];
+            } else {
+              this.specialities = [];
+              this.failureToast(specialitiesResponse.data.message);
+            }
+            this.setLoadingState(false);
+          })
+          .catch((error) => {
+            this.specialities = [];
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
+            this.setLoadingState(false);
+          });
+      }
     },
     setSelectedSpeciality(speciality) {
       this.selectedSpeciality = speciality;
