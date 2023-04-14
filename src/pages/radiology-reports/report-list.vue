@@ -49,7 +49,7 @@
                   {{ getLongDateAndTimeFromDate(report.dated, true) }}
                 </div>
                 <div class="appointment-status">
-                  {{ report.result }}
+                  {{ report[getLocaleKey("result")] }}
                 </div>
               </div>
               <div

@@ -49,7 +49,11 @@
                   {{ $t("range") + ": " + report.normal_range }}
                 </div>
                 <div class="appointment-status">
-                  {{ report.result + " - " + (report.report_result || "N/A") }}
+                  {{
+                    report[getLocaleKey("result")] +
+                    " - " +
+                    (report.report_result || "N/A")
+                  }}
                 </div>
               </div>
               <div
