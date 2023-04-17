@@ -64,13 +64,20 @@
                   report.report_file.path
                 "
               >
-                <div
+                <button
+                  v-if="report.report_url"
+                  class="btn start-call-button"
+                  @click.stop="viewReport(report)"
+                >
+                  {{ $t("viewReport") }}
+                </button>
+                <!-- <div
                   class="view-report"
                   @click.stop="viewReport(report)"
                   v-if="report.report_url"
                 >
                   <img src="../../assets/images/stats.svg" alt="stats-img" />
-                </div>
+                </div> -->
                 <div
                   class="download-report"
                   @click.stop="downloadReport(report)"
