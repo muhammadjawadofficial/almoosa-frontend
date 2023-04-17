@@ -622,5 +622,7 @@
   "doctorUnavailable": "Unavailable on Selected Date",
   "doctorFullyBooked": "Fully Booked",
   "passwordChangedSuccessfully": "Password Changed Successfully",
-  "loadMore": "Load More"
+  "loadMore": "Load More",
+  "admittedOn": "Admitted On",
+  "nursingStation": "Nursing Station"
 }

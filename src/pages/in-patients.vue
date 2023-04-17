@@ -40,22 +40,47 @@
                   <div class="doctor-name">
                     {{ getFullName(appointment) }}
                   </div>
-                  <div class="doctor-speciality">
-                    Intensive Care Unit
+                  <div class="appointment-status">
+                    {{ appointment[getLocaleKey("department")] }}
+                  </div>
+                  <div class="doctor-speciality" v-if="appointment.bed_number">
                     {{
-                      appointment.bed_number
-                        ? " - " + $t("bed") + " " + appointment.bed_number
-                        : ""
+                      $t("bed") + " " + translateNumber(appointment.bed_number)
+                    }}
+                  </div>
+                  <div
+                    class="doctor-speciality"
+                    v-if="appointment.nursing_station"
+                  >
+                    {{ $t("nursingStation") + ": " + appointment.nursing_station }}
+                  </div>
+                  <div
+                    class="doctor-speciality text-muted"
+                    v-if="appointment.admission_date"
+                  >
+                    {{
+                      $t("admittedOn") +
+                      ": " +
+                      formatDateTime(appointment.admission_date)
                     }}
                   </div>
                   <div class="appointment-status">
                     <div class="appointment-time-span">
                       <div v-if="appointment.mrn_number">
-                        {{ $t("mrn_number") }} - {{ appointment.mrn_number }}
+                        {{ $t("mrn_number") }} -
+                        {{ translateNumber(appointment.mrn_number) }}
                       </div>
                       <div>
-                        {{ appointment.gender }} -
-                        {{ getYears(appointment.dob) }} {{ $t("years") }}
+                        <template v-if="appointment.gender">
+                          {{
+                            $t("register." + appointment.gender.toLowerCase())
+                          }}
+                        </template>
+                        <template v-if="appointment.dob">
+                          -
+                          {{ translateNumber(getYears(appointment.dob)) }}
+                          {{ $t("years") }}
+                        </template>
                       </div>
                     </div>
                   </div>
@@ -112,12 +137,12 @@ export default {
         },
         (error) => {
           this.setLoadingState(false);
-          if (!this.isAPIAborted(error)) 
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
         }
       );
     },

@@ -622,5 +622,7 @@
   "doctorUnavailable": "غير متاح في هذا اليوم",
   "doctorFullyBooked": "جميع المواعيد محجوزة",
   "passwordChangedSuccessfully": "تم تغيير كلمة المرور بنجاح",
-  "loadMore": "تحميل المزيد"
+  "loadMore": "تحميل المزيد",
+  "admittedOn": "تم الإدخال في",
+  "nursingStation": "محطة التمريض"
 }
