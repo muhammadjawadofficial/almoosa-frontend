@@ -8,6 +8,7 @@ export default function setup() {
         const token = userService.getToken();
         config.signal = controller.signal;
         config.cancelToken = source.token;
+        config.headers['Accept-Language'] = userService.getStoredLang();
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }

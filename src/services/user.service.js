@@ -14,6 +14,7 @@ export const userService = {
     setToken,
     setSelectedLayout,
     getSelectedLayout,
+    getStoredLang,
     getRole,
     getUserRole,
     setRole,
@@ -101,6 +102,9 @@ function setSelectedLayout(lang) {
 }
 function getSelectedLayout() {
     return localStorage.getItem(preferredLayout);
+}
+function getStoredLang() {
+    return localStorage.getItem(preferredLayout) == 'ltr' ? 'en' : 'ar';
 }
 function getRole() {
     return localStorage.getItem(userRole);
