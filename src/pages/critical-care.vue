@@ -43,6 +43,13 @@
                         <div class="doctor-speciality">
                           {{ appointment[getLocaleKey("patient_full_name")] }}
                         </div>
+                        <div class="doctor-speciality" v-if="appointment.mrno">
+                          {{
+                            $t("mrn_number") +
+                            " - " +
+                            translateNumber(appointment.mrno)
+                          }}
+                        </div>
                         <div class="doctor-speciality text-muted">
                           {{
                             getLongDateAndTimeFromDate(appointment.dated, true)
@@ -57,31 +64,18 @@
                             " - " +
                             (appointment.result_criticality || "N/A")
                           }}
-
-                          <div
-                            class="appointment-time-span"
-                            :class="{ 'report-icon': appointment.report_url }"
-                          >
-                            <div v-if="appointment.mrno">
-                              {{ $t("mrn_number") }} -
-                              {{ appointment.mrno }}
-                            </div>
-                          </div>
                         </div>
                       </div>
                       <div
                         class="report-action-buttons"
                         v-if="appointment.report_url"
                       >
-                        <div
-                          class="view-report"
-                          @click="viewReport(appointment)"
+                        <button
+                          class="btn start-call-button"
+                          @click.stop="viewReport(appointment)"
                         >
-                          <img
-                            src="../assets/images/stats.svg"
-                            alt="stats-img"
-                          />
-                        </div>
+                          {{ $t("viewReport") }}
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -124,6 +118,13 @@
                         <div class="doctor-speciality">
                           {{ appointment[getLocaleKey("patient_full_name")] }}
                         </div>
+                        <div class="doctor-speciality" v-if="appointment.mrno">
+                          {{
+                            $t("mrn_number") +
+                            " - " +
+                            translateNumber(appointment.mrno)
+                          }}
+                        </div>
                         <div class="doctor-speciality">
                           {{
                             getLongDateAndTimeFromDate(appointment.dated, true)
@@ -131,22 +132,19 @@
                         </div>
                         <div class="appointment-status">
                           {{ appointment.result }}
-                          <div
-                            class="appointment-time-span"
-                            :class="{ 'report-icon': appointment.report_url }"
-                          >
-                            <div v-if="appointment.mrno">
-                              {{ $t("mrn_number") }} -
-                              {{ appointment.mrno }}
-                            </div>
-                          </div>
                         </div>
                       </div>
                       <div
                         class="report-action-buttons"
                         v-if="appointment.report_url"
                       >
-                        <div
+                        <button
+                          class="btn start-call-button"
+                          @click.stop="viewReport(appointment)"
+                        >
+                          {{ $t("viewReport") }}
+                        </button>
+                        <!-- <div
                           class="view-report"
                           @click="viewReport(appointment)"
                         >
@@ -154,7 +152,7 @@
                             src="../assets/images/stats.svg"
                             alt="stats-img"
                           />
-                        </div>
+                        </div> -->
                       </div>
                     </div>
                   </div>
