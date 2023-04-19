@@ -715,12 +715,12 @@ export default {
       Promise.all([
         authService.getNationalitiesV1(),
         appointmentService.getClinicsV1(),
-        appointmentService.getSpecialities("?doctor_id=null&appointment_type=null&clinic_id=null"),
+        // appointmentService.getSpecialities("?doctor_id=null&appointment_type=null&clinic_id=null"),
       ])
         .then((res) => {
           let nationalities = res[0];
           let clinics = res[1];
-          let specialities = res[2];
+          // let specialities = res[2];
           if (nationalities.data.status) {
             let data = nationalities.data.data;
             if (data) {
@@ -737,14 +737,14 @@ export default {
           } else {
             this.failureToast(clinics.data.message);
           }
-          if (specialities.data.status) {
-            let data = specialities.data.data;
-            if (data) {
-              this.specialities = data.items;
-            }
-          } else {
-            this.failureToast(specialities.data.message);
-          }
+          // if (specialities.data.status) {
+          //   let data = specialities.data.data;
+          //   if (data) {
+          //     this.specialities = data.items;
+          //   }
+          // } else {
+          //   this.failureToast(specialities.data.message);
+          // }
         })
         .catch((error) => {
           if (!this.isAPIAborted(error))

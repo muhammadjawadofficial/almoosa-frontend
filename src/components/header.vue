@@ -55,7 +55,7 @@
             </div>
             <img
               class="b-r-round"
-              :src="getImageUrl(getUserInfo.photo)"
+              :src="getImageUrl(getUserInfo)"
               alt=""
             />
           </div>

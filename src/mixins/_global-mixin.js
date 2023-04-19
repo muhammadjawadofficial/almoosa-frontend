@@ -54,10 +54,12 @@ export default {
                 return path;
             else if (typeof profile == 'string')
                 path = getPathFromUrl(profile);
-            else if (profile.profile_photo_url)
-                path = getPathFromUrl(profile.profile_photo_url)
             else if (profile.path)
                 path = process.env.VUE_APP_SERVER + profile.path;
+            else if (profile.photo && profile.photo.path)
+                path = process.env.VUE_APP_SERVER + profile.photo.path;
+            else if (profile.profile_photo_url)
+                path = getPathFromUrl(profile.profile_photo_url)
             return path
         },
         getLocaleKey: function (key, enLocale = "", arLocale = "_ar", wordCase = "camel") {
