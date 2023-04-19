@@ -9,6 +9,7 @@ export default function setup() {
         config.signal = controller.signal;
         config.cancelToken = source.token;
         config.headers['Accept-Language'] = userService.getStoredLang();
+        config.headers['bypass_ash_deprecated_version'] = 'true';
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }

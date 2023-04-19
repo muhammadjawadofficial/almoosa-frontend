@@ -453,8 +453,13 @@ export default {
         ),
       ])
         .then((res) => {
-          this.selectedInsurance = insurance;
           let paymentAmount = res[0].data.data;
+          if (paymentAmount.Message != "") {
+            this.failureToast(paymentAmount.Message);
+            this.setLoadingState(false);
+            return;
+          }
+          this.selectedInsurance = insurance;
           this.paymentAmount = paymentAmount;
           this.insuranceAmount =
             +paymentAmount.PatientShare + +paymentAmount.PatientTax;
