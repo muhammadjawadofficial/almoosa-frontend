@@ -359,7 +359,7 @@ export default {
             let data = serviceBaseRate.data.items;
             if (data && data.length) {
               this.serviceBaseRate = data[0];
-              this.walletAmount = 225;
+              this.walletAmount = this.serviceBaseRate.advance_wallet;
               this.actualWalletAmount = this.walletAmount;
               let patientAmount = this.serviceBaseRate.patient_amount;
               let obj = {
