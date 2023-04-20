@@ -52,7 +52,7 @@
                         </div>
                         <div class="doctor-speciality text-muted">
                           {{
-                            getLongDateAndTimeFromDate(appointment.dated, true)
+                            getLongDateAndTimeFromDate(appointment.entry_date, true)
                           }}
                         </div>
                         <div class="doctor-speciality text-muted">
@@ -127,7 +127,7 @@
                         </div>
                         <div class="doctor-speciality">
                           {{
-                            getLongDateAndTimeFromDate(appointment.dated, true)
+                            getLongDateAndTimeFromDate(appointment.entry_date, true)
                           }}
                         </div>
                         <div class="appointment-status">
