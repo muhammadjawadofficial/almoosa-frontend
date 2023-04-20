@@ -70,7 +70,7 @@
                           {{
                             getFullName(
                               appointment[isDoctor ? "patient" : "doctor"],
-                              $t("dr")
+                              isDoctor ? "" : $t("dr")
                             )
                           }}
                         </div>
@@ -187,7 +187,7 @@
                           {{
                             getFullName(
                               appointment[isDoctor ? "patient" : "doctor"],
-                              $t("dr")
+                              isDoctor ? "" : $t("dr")
                             )
                           }}
                         </div>
