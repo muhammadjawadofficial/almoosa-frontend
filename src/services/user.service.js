@@ -147,8 +147,8 @@ function downloadFile(file) {
 }
 function updateProfile(profile) {
     return axios({
-        method: apiPath.user.updateProfile(currentUser().id).method,
-        url: apiPath.user.updateProfile(currentUser().id).url,
+        method: apiPath.user.updateProfile(currentUser().mrn_number).method,
+        url: apiPath.user.updateProfile(currentUser().mrn_number).url,
         data: profile
     })
 }

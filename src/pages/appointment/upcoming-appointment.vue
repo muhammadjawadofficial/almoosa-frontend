@@ -80,7 +80,12 @@
                               {{ getPatientSubDetails(appointment.patient) }}
                             </div>
                           </div>
-                          <div class="doctor-speciality">
+                          <div
+                            class="doctor-speciality"
+                            v-if="
+                              appointment.patient && appointment.patient.gender
+                            "
+                          >
                             <div>
                               {{
                                 $t("gender") +
@@ -197,7 +202,12 @@
                               {{ getPatientSubDetails(appointment.patient) }}
                             </div>
                           </div>
-                          <div class="doctor-speciality">
+                          <div
+                            class="doctor-speciality"
+                            v-if="
+                              appointment.patient && appointment.patient.gender
+                            "
+                          >
                             <div>
                               {{
                                 $t("gender") +

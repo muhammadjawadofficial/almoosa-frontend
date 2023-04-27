@@ -6,7 +6,7 @@
           <div class="doctor-details-card-header">
             <div class="doctor-details-card-header-image">
               <img :src="getImageUrl(getUserInfo.photo)" alt="doctor-image" />
-              <label for="user-profile-picture-upload" v-if="!isDoctor">
+              <label for="user-profile-picture-upload">
                 {{ $t("profile.uploadPicture") }}
                 <input
                   type="file"
@@ -1026,8 +1026,9 @@ export default {
         (res) => {
           if (res.data.status) {
             let obj = { ...data };
-            let doctorObj = { photo: data.photo.path };
-            let saveObj = this.isDoctor ? doctorObj : obj;
+            // let doctorObj = { photo: data.photo.path };
+            let saveObj = obj;
+            // console.log(obj, doctorObj, saveObj)
             this.updateUserInfo({ ...saveObj });
             this.successToast(this.$t("profile.updateSuccess"));
             this.resetData();
