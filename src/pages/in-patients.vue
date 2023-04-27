@@ -52,7 +52,9 @@
                     class="doctor-speciality"
                     v-if="appointment.nursing_station"
                   >
-                    {{ $t("nursingStation") + ": " + appointment.nursing_station }}
+                    {{
+                      $t("nursingStation") + ": " + appointment.nursing_station
+                    }}
                   </div>
                   <div
                     class="doctor-speciality text-muted"
@@ -111,8 +113,10 @@ export default {
   watch: {
     searchQuery(val) {
       this.filteredPatients = [
-        ...this.patientList.filter((x) =>
-          this.getFullName(x).toLowerCase().includes(val.toLowerCase())
+        ...this.patientList.filter(
+          (x) =>
+            this.getFullName(x).toLowerCase().includes(val.toLowerCase()) ||
+            ("" + x.mrn_number).includes(val)
         ),
       ];
     },
