@@ -62,7 +62,7 @@
           <ul class="profile-dropdown onhover-show-div">
             <span class="sec-heading w500">{{ $t("header.settings") }}</span>
             <hr />
-            <li v-if="!getUserInfo.isDependent">
+            <li v-if="!getUserInfo.isDependent && !isDoctor">
               <a class="" @click="changePassword()">
                 <span class="profile-dropdown-menu-icon">
                   <lock-svg />

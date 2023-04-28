@@ -52,7 +52,10 @@
                         </div>
                         <div class="doctor-speciality text-muted">
                           {{
-                            getLongDateAndTimeFromDate(appointment.entry_date, true)
+                            getLongDateAndTimeFromDate(
+                              appointment.entry_date,
+                              true
+                            )
                           }}
                         </div>
                         <div class="doctor-speciality text-muted">
@@ -64,6 +67,25 @@
                             " - " +
                             (appointment.result_criticality || "N/A")
                           }}
+                        </div>
+                        <div class="appointment-status">
+                          <div class="appointment-time-span">
+                            <div>
+                              <template v-if="appointment.gender">
+                                {{
+                                  $t(
+                                    "register." +
+                                      appointment.gender.toLowerCase()
+                                  )
+                                }}
+                              </template>
+                              <template v-if="appointment.dob">
+                                -
+                                {{ translateNumber(getYears(appointment.dob)) }}
+                                {{ $t("years") }}
+                              </template>
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <div
@@ -127,7 +149,10 @@
                         </div>
                         <div class="doctor-speciality">
                           {{
-                            getLongDateAndTimeFromDate(appointment.entry_date, true)
+                            getLongDateAndTimeFromDate(
+                              appointment.entry_date,
+                              true
+                            )
                           }}
                         </div>
                         <div class="appointment-status">
