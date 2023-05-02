@@ -50,12 +50,14 @@
                             translateNumber(appointment.mrno)
                           }}
                         </div>
-                        <div class="doctor-speciality text-muted">
+                        <div
+                          class="doctor-speciality text-muted"
+                          v-if="appointment.phone_number"
+                        >
                           {{
-                            getLongDateAndTimeFromDate(
-                              appointment.entry_date,
-                              true
-                            )
+                            $t("register.phoneNumber") +
+                            " - " +
+                            translateNumber(appointment.phone_number)
                           }}
                         </div>
                         <div class="doctor-speciality text-muted">
@@ -66,6 +68,14 @@
                             appointment.result +
                             " - " +
                             (appointment.result_criticality || "N/A")
+                          }}
+                        </div>
+                        <div class="doctor-speciality text-muted">
+                          {{
+                            getLongDateAndTimeFromDate(
+                              appointment.entry_date,
+                              true
+                            )
                           }}
                         </div>
                         <div class="appointment-status">
@@ -147,7 +157,17 @@
                             translateNumber(appointment.mrno)
                           }}
                         </div>
-                        <div class="doctor-speciality">
+                        <div
+                          class="doctor-speciality text-muted"
+                          v-if="appointment.phone_number"
+                        >
+                          {{
+                            $t("register.phoneNumber") +
+                            " - " +
+                            translateNumber(appointment.phone_number)
+                          }}
+                        </div>
+                        <div class="doctor-speciality text-muted">
                           {{
                             getLongDateAndTimeFromDate(
                               appointment.entry_date,
