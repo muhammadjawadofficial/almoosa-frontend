@@ -115,7 +115,7 @@
           <button
             class="btn btn-secondary text-transform-unset"
             @click="showRequestDeliveryModal"
-            v-if="!getDeliveryRequest.length"
+            v-if="!getDeliveryRequest.length && false"
           >
             {{ $t("myMedication.requestDelivery") }}
           </button>

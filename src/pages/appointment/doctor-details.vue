@@ -312,8 +312,9 @@ export default {
                 ...profile,
                 id: this.getBookingDoctor.id,
                 profile_photo_url: this.getBookingDoctor.profile_photo_url,
+                speciality: this.getBookingDoctor.speciality,
+                speciality_ar: this.getBookingDoctor.speciality_ar,
               };
-              delete this.doctor.photo;
             }
             if (this.doctor && this.isBookingFlow) {
               this.fetchTimeslots();
