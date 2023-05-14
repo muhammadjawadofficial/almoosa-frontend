@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- Loader starts-->
-    <div class="loader-wrapper" :class="{ loderhide: !show && !getLoading }">
+    <div class="loader-wrapper" :class="{ loderhide: !show && !getLoading && false }">
       <div class="loader-index">
         <span>S</span>
       </div>
