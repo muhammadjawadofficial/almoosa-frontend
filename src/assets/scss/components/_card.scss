@@ -135,13 +135,18 @@
                 position: absolute;
                 bottom: 1.875rem;
                 right: 1.875rem;
+
+                .btn-secondary {
+                  @include theme-style-button($secondary-color);
+                }
               }
               &.success {
                 background-color: #76a762;
                 .appointment-status {
                   color: #76a762;
                 }
-                .btn.start-call-button {
+                .btn-conditional.start-call-button,
+                .start-call-button .btn-conditional {
                   @include theme-style-button(#76a762);
                 }
                 .svg-icon-fill {
@@ -153,7 +158,8 @@
                 .appointment-status {
                   color: #f79d31;
                 }
-                .btn.start-call-button {
+                .btn-conditional.start-call-button,
+                .start-call-button .btn-conditional {
                   @include theme-style-button(#f79d31);
                 }
                 .svg-icon-fill {
@@ -165,7 +171,8 @@
                 .appointment-status {
                   color: $danger-color;
                 }
-                .btn.start-call-button {
+                .btn-conditional.start-call-button,
+                .start-call-button .btn-conditional {
                   @include theme-style-button($danger-color);
                 }
                 .svg-icon-fill {
@@ -188,7 +195,8 @@
               &-card {
                 &.default {
                   background-color: #6ab654;
-                  .btn.start-call-button {
+                  .btn-conditional.start-call-button,
+                  .start-call-button .btn-conditional {
                     @include theme-style-button(#6ab654);
                   }
                   .svg-icon-fill {
@@ -203,7 +211,8 @@
               &-card {
                 &.default {
                   background-color: $secondary-color;
-                  .btn.start-call-button {
+                  .btn-conditional.start-call-button,
+                  .start-call-button .btn-conditional {
                     @include theme-style-button($secondary-color);
                   }
                   .svg-icon-fill {

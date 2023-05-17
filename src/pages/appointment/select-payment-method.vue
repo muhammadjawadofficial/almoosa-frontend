@@ -376,13 +376,13 @@ export default {
           this.patientInsurances = [...insurances.items];
         })
         .catch((error) => {
-          if (!this.isAPIAborted(error))
-            this.failureToast(
-              error.response &&
-                error.response.data &&
-                error.response.data.message
-            );
+          let message =
+            error.response &&
+            error.response.data &&
+            error.response.data.message;
+          if (!this.isAPIAborted(error)) this.failureToast(message);
           this.setLoadingState(false);
+          this.navigateBack();
         })
         .finally(() => {
           this.setLoadingState(false);

@@ -67,7 +67,7 @@
                     </div>
                   </div>
                   <button
-                    class="btn start-call-button"
+                    class="btn btn-conditional start-call-button"
                     @click="viewDetails(appointment)"
                   >
                     {{ $t("labWorks.viewDetails") }}

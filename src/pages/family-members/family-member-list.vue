@@ -1,11 +1,6 @@
 <template>
   <div
-    class="
-      my-medical-insurance-container
-      standard-width
-      page-body-container
-      login-form
-    "
+    class="my-medical-insurance-container standard-width page-body-container login-form"
   >
     <back-navigation :title="$t('familyMembers.title')" />
 
@@ -37,25 +32,42 @@
                 v-for="familyMember in familyMembers"
                 :key="'upcoming-appointment-id' + familyMember.id"
               >
-                <div class="appointment-card default">
+                <div
+                  class="appointment-card"
+                  :class="getStatusClass(familyMember.status)"
+                >
                   <div class="doctor-avatar transparent">
-                    <img :src="getImageUrl(familyMember.photo)" alt="photo" />
+                    <img
+                      :src="getImageUrl(familyMember.dependent.photo)"
+                      alt="photo"
+                    />
                   </div>
                   <div class="appointment-details">
                     <div class="doctor-name w600">
-                      {{ getFullName(familyMember) }}
+                      {{ getFullName(familyMember.dependent) }}
                     </div>
                     <div class="doctor-speciality">
                       {{
-                        $t("MRN") + ": " + (familyMember.mrn_number || "N/A")
+                        $t("MRN") +
+                        ": " +
+                        (familyMember.dependent.mrn_number || "N/A")
                       }}
                     </div>
-                    <button
-                      class="btn start-call-button"
-                      @click="loadFamilyMember(familyMember)"
-                    >
-                      {{ $t("familyMembers.switchProfile") }}
-                    </button>
+                    <div class="start-call-button">
+                      <button
+                        class="btn btn-conditional"
+                        @click="loadFamilyMember(familyMember.dependent)"
+                        v-if="familyMember.status == 'approved'"
+                      >
+                        {{ $t("familyMembers.switchProfile") }}
+                      </button>
+                      <button
+                        class="btn btn-secondary ml-3"
+                        @click="deleteFamilyMember(familyMember)"
+                      >
+                        {{ $t("familyMembers.deleteMember") }}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -98,26 +110,28 @@ export default {
     ...mapActions("user", ["setUserInfo"]),
     getFamilyMembers() {
       this.setLoadingState(true);
-      familyMemberService.fetchFamilyMembers().then(
-        (response) => {
-          if (response.data.status) {
-            this.familyMembers = response.data.data.items;
-          } else {
-            this.failureToast(response.data.message);
-          }
-          this.setLoadingState(false);
-        },
-        (error) => {
-          console.error(error);
-          if (!this.isAPIAborted(error)) 
+      familyMemberService
+        .fetchFamilyMembers("?guardian_id=" + this.getUserInfo.id)
+        .then(
+          (response) => {
+            if (response.data.status) {
+              this.familyMembers = response.data.data.items;
+            } else {
+              this.failureToast(response.data.message);
+            }
+            this.setLoadingState(false);
+          },
+          (error) => {
+            console.error(error);
+            if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
                   error.response.data &&
                   error.response.data.message
               );
-          this.setLoadingState(false);
-        }
-      );
+            this.setLoadingState(false);
+          }
+        );
     },
     loadFamilyMember(familyMember) {
       if (!this.getUserInfo.isDependent) {
@@ -126,12 +140,41 @@ export default {
       this.setUserInfo(familyMember);
       this.navigateTo("default");
     },
+    deleteFamilyMember(familyMember) {
+      this.confirmIconModal(
+        this.$t("familyMembers.confirmDelete"),
+        " ",
+        "m-info",
+        this.$t("delete")
+      ).then((res) => {
+        if (res.value) {
+          this.setLoadingState(true);
+          familyMemberService.deleteFamilyMember(familyMember).then(
+            (response) => {
+              if (response.data.status) {
+                this.successToast(this.$t("familyMembers.deletedSuccessfully"));
+                this.getFamilyMembers();
+              } else {
+                this.failureToast(response.data.message);
+                this.setLoadingState(false);
+              }
+            },
+            (error) => {
+              console.error(error);
+              if (!this.isAPIAborted(error))
+                this.failureToast(
+                  error.response &&
+                    error.response.data &&
+                    error.response.data.message
+                );
+              this.setLoadingState(false);
+            }
+          );
+        }
+      });
+    },
     getStatusClass(status) {
-      if (
-        status.toLowerCase() == "unpaid" ||
-        status.toLowerCase() == "sent for approval"
-      )
-        return "warning";
+      if (status.toLowerCase() == "pending") return "warning";
       else if (status.toLowerCase() == "rejected") return "danger";
       else return "success";
     },

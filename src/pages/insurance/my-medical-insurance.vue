@@ -107,7 +107,7 @@
                         <div class="date-time w200">
                           {{ getLongDateAndTimeFromDate(insurance.last_update_on_date, true) }}
                         </div>
-                        <button class="btn start-call-button">
+                        <button class="btn btn-conditional start-call-button">
                           {{
                             $t(
                               "approvalStatus." +

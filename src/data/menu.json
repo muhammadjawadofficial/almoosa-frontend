@@ -117,6 +117,17 @@
             "path": "/my-medication"
         },
         {
+            "title": "View Family Members",
+            "title_ar": "أفراد عائلتك",
+            "icon": "family-svg",
+            "type": "link",
+            "badgeType": "primary",
+            "badgeValue": "",
+            "active": false,
+            "disabled": false,
+            "path": "/family-members"
+        },
+        {
             "title": "Health Education",
             "title_ar": "التثقيف الطبي",
             "icon": "atom-svg",

@@ -540,7 +540,10 @@
     "enterId": "أدخل المعرف",
     "saudiId": "الهوية الوطنية",
     "iqamaId": "معرف الإقامة",
-    "switchProfile": "تبديل الملف الشخصي"
+    "switchProfile": "تبديل الملف الشخصي",
+    "deleteMember": "حذف العضو",
+    "confirmDelete": "هل أنت متأكد أنك تريد حذف هذا العضو؟",
+    "deletedSuccessfully": "تم حذف العضو بنجاح"
   },
   "paymentStatus": {
     "unpaid": "غير مدفوع",
@@ -624,5 +627,9 @@
   "passwordChangedSuccessfully": "تم تغيير كلمة المرور بنجاح",
   "loadMore": "تحميل المزيد",
   "admittedOn": "تم الإدخال في",
-  "nursingStation": "محطة التمريض"
+  "nursingStation": "محطة التمريض",
+  "pending": "قيد الانتظار",
+  "approved": "موافقة",
+  "rejected": "مرفوض",
+  "delete": "حذف"
 }

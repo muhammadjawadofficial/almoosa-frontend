@@ -540,7 +540,10 @@
     "enterId": "Enter ID",
     "saudiId": "Saudi ID",
     "iqamaId": "Iqama ID",
-    "switchProfile": "Switch Profile"
+    "switchProfile": "Switch Profile",
+    "deleteMember": "Delete Member",
+    "confirmDelete": "Are you sure you want to delete this member?",
+    "deletedSuccessfully": "Member Deleted Successfully"
   },
   "paymentStatus": {
     "unpaid": "Unpaid",
@@ -624,5 +627,9 @@
   "passwordChangedSuccessfully": "Password Changed Successfully",
   "loadMore": "Load More",
   "admittedOn": "Admitted On",
-  "nursingStation": "Nursing Station"
+  "nursingStation": "Nursing Station",
+  "pending": "Pending",
+  "approved": "Approved",
+  "rejected": "Rejected",
+  "delete": "Delete"
 }

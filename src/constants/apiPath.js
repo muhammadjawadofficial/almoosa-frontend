@@ -129,8 +129,9 @@ export const apiPath = {
     },
 
     familyMembers: {
-        fetch: getApiObject("get", "family-members"),
-        add: getApiObject("post", "family-members/add"),
+        fetch: (query) => getApiObject("get", "family-members/get/all" + query, "v2"),
+        add: getApiObject("post", "family-members/add", "v2"),
+        delete: (query) => getApiObject("delete", "family-members/delete" + query, "v2"),
     },
 
     cmsPages: {

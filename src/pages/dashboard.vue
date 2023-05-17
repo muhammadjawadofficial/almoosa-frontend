@@ -311,7 +311,7 @@ export default {
         {
           text: "View Family Member",
           icon: "family-svg",
-          // link: "Family Members",
+          link: "Family Members",
         },
         {
           text: "View Promotions",

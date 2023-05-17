@@ -103,7 +103,7 @@
                         v-if="appointment.report_url"
                       >
                         <button
-                          class="btn start-call-button"
+                          class="btn btn-conditional start-call-button"
                           @click.stop="viewReport(appointment)"
                         >
                           {{ $t("viewReport") }}
@@ -184,7 +184,7 @@
                         v-if="appointment.report_url"
                       >
                         <button
-                          class="btn start-call-button"
+                          class="btn btn-conditional start-call-button"
                           @click.stop="viewReport(appointment)"
                         >
                           {{ $t("viewReport") }}

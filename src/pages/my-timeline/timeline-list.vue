@@ -50,7 +50,7 @@
                   </div>
                 </div>
                 <button
-                  class="btn start-call-button"
+                  class="btn btn-conditional start-call-button"
                   @click="viewDetails(timeline)"
                 >
                   {{ $t("myTimeline.viewDetails") }}
