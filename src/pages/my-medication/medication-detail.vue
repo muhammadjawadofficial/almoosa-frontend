@@ -204,7 +204,7 @@ export default {
     fetchMedicationDetail() {
       Promise.all([
         medicationService.getMedicationDetails(this.getSelectedMedication.id),
-        medicationService.getMedicationRequest(this.getSelectedMedication.id),
+        medicationService.getMedicationRequest(this.getSelectedMedicationSession.id),
       ])
         .then((res) => {
           let response = res[0];
@@ -272,7 +272,7 @@ export default {
       this.setLoadingState(true);
       medicationService
         .requestMedication({
-          medication_id: this.getSelectedMedication.id,
+          medication_id: this.getSelectedMedicationSession.id,
           mrn_number: this.getUserInfo.mrn_number,
           patient_name: this.getFullName(this.getUserInfo, "", ""),
           patient_name_ar: this.getFullName(this.getUserInfo, "", "_ar"),
