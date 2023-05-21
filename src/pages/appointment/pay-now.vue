@@ -39,7 +39,7 @@ export default {
     getIframeUrl() {
       return (
         process.env.VUE_APP_API_V2_BASE_URL +
-        "sandbox/api/v1/payments?amount=" +
+        "api/v1/payments?amount=" +
         this.getPaymentObject.amount +
         "&currency=" +
         this.getPaymentObject.currency +
