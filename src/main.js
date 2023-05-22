@@ -19,6 +19,7 @@ import vue2Dropzone from 'vue2-dropzone';
 import "./components/svgIcons"
 import OtpInput from "@bachdgvn/vue-otp-input";
 import PxCard from './components/Pxcard.vue'
+import "@lottiefiles/lottie-player";
 
 
 import VueAnalytics from 'vue-analytics';

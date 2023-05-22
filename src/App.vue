@@ -2,9 +2,18 @@
   <div id="app">
     <!-- Loader starts-->
     <div class="loader-wrapper" :class="{ loderhide: !show && !getLoading }">
-      <div class="loader-index">
+      <lottie-player
+        autoplay
+        loop
+        mode="normal"
+        src="loader.json"
+        style="width: 320px"
+      >
+      </lottie-player>
+      <!-- Previous Loader (Build using HTML + CSS) -->
+      <!-- <div class="loader-index">
         <span>S</span>
-      </div>
+      </div> -->˝
     </div>
     <!-- Loader ends-->
     <router-view></router-view>

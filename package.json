@@ -21,6 +21,7 @@
     "@bachdgvn/vue-otp-input": "^1.0.8",
     "@ckeditor/ckeditor5-build-classic": "^12.4.0",
     "@ckeditor/ckeditor5-vue": "^1.0.0",
+    "@lottiefiles/lottie-player": "^1.7.1",
     "animate.css": "^3.7.2",
     "apexcharts": "^3.11.2",
     "auth0-js": "^9.11.3",
