@@ -515,7 +515,7 @@ export default {
             let allowedMinutes = 60;
 
             let bookDateWithStartTime = this.moment(start).utc().add(-allowedMinutes, 'minutes');
-            let bookDateWithEndTime = this.moment(end).utc().add(allowedMinutes, 'minutes');
+            let bookDateWithEndTime = this.moment(start).utc().add(allowedMinutes, 'minutes');
 
             let allowedStartLimit = bookDateWithStartTime;
             let allowedEndLimit = bookDateWithEndTime;
