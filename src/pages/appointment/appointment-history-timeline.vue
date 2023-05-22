@@ -136,7 +136,6 @@ export default {
   methods: {
     ...mapActions("myTimeline", ["setSelectedTimeline"]),
     fetchTimelines() {
-      this.setLoadingState(true);
       let obj = {
         mrn_number: this.getUserInfo.mrn_number,
         doctor_id: this.getSelectedAppointment.doctor_id,
@@ -157,11 +156,9 @@ export default {
             } else {
               this.failureToast(response.data.messsage);
             }
-            this.setLoadingState(false);
           },
           (error) => {
-            this.setLoadingState(false);
-            if (!this.isAPIAborted(error)) 
+            if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
                   error.response.data &&

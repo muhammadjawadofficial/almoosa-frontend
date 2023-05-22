@@ -207,7 +207,6 @@ export default {
   },
   methods: {
     setReminder() {
-      this.setLoadingState(true);
       let obj = {
         his_medication_id: "" + this.getSelectedMedication.id,
         morning_reminder: this.selectedTimeslot.morning,
@@ -227,10 +226,8 @@ export default {
           } else {
             this.failureToast(response.data.messsage);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
@@ -241,7 +238,6 @@ export default {
       );
     },
     fetchTimeslots() {
-      // this.setLoadingState(true);
       medicationService.getReminderSlots().then(
         (response) => {
           if (response.data.status) {
@@ -258,10 +254,8 @@ export default {
           } else {
             this.failureToast(response.data.messsage);
           }
-          // this.setLoadingState(false);
         },
         (error) => {
-          // this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

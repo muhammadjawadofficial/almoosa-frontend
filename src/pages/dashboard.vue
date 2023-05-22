@@ -372,7 +372,6 @@ export default {
     ...mapActions("user", ["setMainBanner"]),
     fetchBanner() {
       if (!this.getMainBanner) {
-        this.setLoadingState(true);
         let query = "?type=MAIN";
         userService.getBanner(query).then(
           (res) => {
@@ -384,10 +383,8 @@ export default {
             } else {
               this.failureToast(res.data.message);
             }
-            this.setLoadingState(false);
           },
           (error) => {
-            this.setLoadingState(false);
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&

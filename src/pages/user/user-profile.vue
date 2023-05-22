@@ -685,7 +685,6 @@ export default {
       if (!file) {
         return;
       }
-      this.setLoadingState(true);
       authService.uploadId(file).then(
         (res) => {
           if (res.data.status) {
@@ -696,7 +695,6 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           console.error(error);
@@ -706,12 +704,10 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
         }
       );
     },
     checkDropdownValues() {
-      this.setLoadingState(true);
       Promise.all([
         authService.getNationalitiesV1(),
         appointmentService.getClinicsV1(),
@@ -755,7 +751,6 @@ export default {
             );
         })
         .finally(() => {
-          this.setLoadingState(false);
           this.getProfileData();
         });
     },
@@ -780,7 +775,6 @@ export default {
       }
     },
     getDoctorProfile() {
-      this.setLoadingState(true);
       userService.getDoctorProfile(this.getUserInfo.id).then(
         (res) => {
           if (res.data.status) {
@@ -789,10 +783,8 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
@@ -804,7 +796,6 @@ export default {
       );
     },
     getLoggedInUserData() {
-      this.setLoadingState(true);
       userService
         .getProfile(
           this.isDoctor ? "doctor" : "patient",
@@ -818,10 +809,8 @@ export default {
             } else {
               this.failureToast(res.data.message);
             }
-            this.setLoadingState(false);
           },
           (error) => {
-            this.setLoadingState(false);
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
@@ -833,7 +822,6 @@ export default {
         );
     },
     getUserData() {
-      this.setLoadingState(true);
       userService.getProfileById(this.getUserInfo.mrn_number).then(
         (res) => {
           if (res.data.status) {
@@ -842,10 +830,8 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
@@ -993,7 +979,6 @@ export default {
       }
     },
     updateProfileInfo(data) {
-      this.setLoadingState(true);
       let v1;
       v1 = this.isDoctor
         ? userService.updateV1Profile(data)
@@ -1009,7 +994,6 @@ export default {
           }
         },
         (error) => {
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
@@ -1021,7 +1005,6 @@ export default {
       );
     },
     updateProfilePicture(data, data_id) {
-      this.setLoadingState(true);
       userService.updateV1Profile(data_id).then(
         (res) => {
           if (res.data.status) {
@@ -1035,10 +1018,8 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

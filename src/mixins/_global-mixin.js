@@ -198,7 +198,6 @@ export default {
                         return selectedRating != null
                     } else {
                         let success = false;
-                        this.setLoadingState(true);
                         appointmentService.ratePhysician(doctor_id, selectedRating).then(
                             (response) => {
                                 if (response.data.status) {
@@ -208,11 +207,9 @@ export default {
                                 } else {
                                     this.failureToast(response.data.message);
                                 }
-                                this.setLoadingState(false);
                             },
                             (err) => {
                                 this.failureToast(err.response && err.response.data.message);
-                                this.setLoadingState(false);
                             }
                         );
                         return success && selectedRating != null && selectedRating
@@ -583,7 +580,6 @@ export default {
             return booking;
         },
         doPayment() {
-            this.setLoadingState(true);
             let booking = this.setBookingState();
             let paymentVerifyObject = JSON.parse(
                 localStorage.getItem("paymentVerifyObject")
@@ -595,7 +591,6 @@ export default {
             }
             appointmentService.createPayment(paymentVerifyObject).then((res) => {
                 let response = res.data;
-                this.setLoadingState(false);
                 if (response && response.status) {
                     if (
                         response.data.items[0].operation_status
@@ -627,7 +622,6 @@ export default {
                     this.failureToast(response.message);
                 }
             }).catch(error => {
-                this.setLoadingState(true);
                 if (!this.isAPIAborted(error)) this.failureToast(error.response.data && error.response.data.message);
             });
         },

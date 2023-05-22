@@ -9,15 +9,22 @@
     <template v-else>
       <div class="main-banner">
         <div class="background-image">
-          <img :src="getImageUrl(educationContent.banner)" alt="main-banner" class="img-fluid w-100" />
+          <img
+            :src="getImageUrl(educationContent.banner)"
+            alt="main-banner"
+            class="img-fluid w-100"
+          />
           <div class="standard-width">
             <div class="main-banner-text w600" :class="{ 'px-3': getIsGuest }">
-              {{ educationContent[getLocaleKey('long_title')] }}
+              {{ educationContent[getLocaleKey("long_title")] }}
             </div>
           </div>
         </div>
       </div>
-      <div class="standard-width educational-content" v-html="educationContent[getLocaleKey('long_text')]"></div>
+      <div
+        class="standard-width educational-content"
+        v-html="educationContent[getLocaleKey('long_text')]"
+      ></div>
     </template>
   </div>
 </template>
@@ -39,7 +46,6 @@ export default {
   },
   methods: {
     initializeData() {
-      this.setLoadingState(true);
       healthEducationService
         .fetchHealthEducationsDetails(this.$route.params.id)
         .then(
@@ -50,15 +56,13 @@ export default {
             } else {
               this.failureToast(response.data.messsage);
             }
-            this.setLoadingState(false);
           },
           (error) => {
-            this.setLoadingState(false);
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
-                error.response.data &&
-                error.response.data.message
+                  error.response.data &&
+                  error.response.data.message
               );
           }
         );
@@ -118,7 +122,7 @@ export default {
         font-size: 2.625rem;
       }
 
-      >img {
+      > img {
         position: absolute;
         z-index: -1;
         height: 100%;
@@ -130,7 +134,7 @@ export default {
 @media (max-width: 992px) {
   .main-banner {
     .background-image {
-      >img {
+      > img {
         min-height: auto;
       }
     }

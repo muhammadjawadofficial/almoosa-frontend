@@ -172,7 +172,6 @@ export default {
       this.updateProfileInfo({ is_privacy_agreed: true });
     },
     getCmsPage(type) {
-      this.setLoadingState(true);
       cmsPagesService.fetchCmsPages("?type=" + type).then(
         (res) => {
           if (res.data.status) {
@@ -181,10 +180,8 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
@@ -200,7 +197,6 @@ export default {
         this.navigateTo("Login Dashboard");
         return;
       }
-      this.setLoadingState(true);
       userService.updateV1Profile(data).then(
         (res) => {
           if (res.data.status) {
@@ -209,10 +205,8 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

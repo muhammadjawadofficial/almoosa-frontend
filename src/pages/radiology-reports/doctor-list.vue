@@ -102,7 +102,6 @@ export default {
   methods: {
     ...mapActions("radiologyReport", ["setSelectedRadiologyReportSession"]),
     fetchAppointments() {
-      this.setLoadingState(true);
       reportService
         .getAppointmentsWithReports(this.getUserInfo.mrn_number, "rad")
         .then(
@@ -116,12 +115,10 @@ export default {
               this.filteredDoctors = [];
               this.failureToast(response.data.messsage);
             }
-            this.setLoadingState(false);
           },
           (error) => {
             this.reportAppointments = [];
             this.filteredDoctors = [];
-            this.setLoadingState(false);
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&

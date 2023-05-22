@@ -92,7 +92,6 @@ export default {
   methods: {
     ...mapActions("myMedication", ["setSelectedMedicationSession"]),
     fetchTimelines() {
-      this.setLoadingState(true);
       medicationService
         .getAppointmentMedication(this.getUserInfo.mrn_number)
         .then(
@@ -106,12 +105,10 @@ export default {
               this.filteredDoctors = [];
               this.failureToast(response.data.messsage);
             }
-            this.setLoadingState(false);
           },
           (error) => {
             this.timelineList = [];
             this.filteredDoctors = [];
-            this.setLoadingState(false);
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&

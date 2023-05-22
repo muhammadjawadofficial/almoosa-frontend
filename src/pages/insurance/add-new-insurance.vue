@@ -42,7 +42,8 @@
           </vue-dropzone>
           <div
             :class="{
-              'dropzone is-invalid': registerFormState.insurance_card_id == false,
+              'dropzone is-invalid':
+                registerFormState.insurance_card_id == false,
             }"
           ></div>
         </div>
@@ -101,7 +102,6 @@ export default {
         this.$refs.fileUpload.removeFile(this.fileToUpload[0]);
       }
 
-      this.setLoadingState(true);
       authService.uploadId(file).then(
         (res) => {
           if (res.data.status) {
@@ -112,7 +112,6 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           console.error(error);
@@ -122,7 +121,6 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
         }
       );
     },
@@ -138,7 +136,6 @@ export default {
       if (!this.validateForm()) {
         return;
       }
-      this.setLoadingState(true);
       let newInsurance = {
         patient_id: this.getUserInfo.id,
         company_name: this.registerForm.companyName,
@@ -154,12 +151,10 @@ export default {
           } else {
             this.failureToast(response.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           console.error(error);
           this.failureToast(error.response.data.message);
-          this.setLoadingState(false);
         }
       );
     },

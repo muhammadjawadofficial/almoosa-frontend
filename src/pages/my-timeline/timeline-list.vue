@@ -82,7 +82,6 @@ export default {
   methods: {
     ...mapActions("myTimeline", ["setSelectedTimeline"]),
     fetchTimelines() {
-      this.setLoadingState(true);
       timelineService.fetchTimelineSessions(this.getUserInfo.mrn_number).then(
         (response) => {
           if (response.data.status) {
@@ -94,12 +93,10 @@ export default {
             this.filteredDoctors = [];
             this.failureToast(response.data.messsage);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           this.timelineList = [];
           this.filteredDoctors = [];
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

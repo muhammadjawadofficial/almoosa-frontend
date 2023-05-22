@@ -300,7 +300,6 @@ export default {
       this.doctor = this.getBookingDoctor;
       this.selectedDate = this.removeDateTime(this.getBookingDate);
 
-      this.setLoadingState(true);
       userService
         .getProfileById(this.getBookingDoctor.id)
         .then((res) => {
@@ -330,9 +329,6 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-        })
-        .finally(() => {
-          this.setLoadingState(false);
         });
     },
     bookingDateChanged(val) {
@@ -341,7 +337,6 @@ export default {
     },
     fetchTimeslots() {
       this.selectedTimeSlotIndex = null;
-      this.setLoadingState(true);
       appointmentService
         .fetchTimeslots(
           this.doctor.id,
@@ -379,7 +374,6 @@ export default {
             } else {
               this.failureToast(response.message);
             }
-            this.setLoadingState(false);
           },
           (error) => {
             console.error(error);
@@ -389,7 +383,6 @@ export default {
                   error.response.data &&
                   error.response.data.message
               );
-            this.setLoadingState(false);
           }
         );
     },
@@ -411,7 +404,6 @@ export default {
         localStorage.setItem("url", "Doctor Details");
       } else if (this.getIsReschedule) {
         if (this.selectionSame()) {
-          this.setLoadingState(true);
           appointmentService
             .updateAppointment(
               this.getIsReschedule,
@@ -438,7 +430,6 @@ export default {
                 } else {
                   this.failureToast(response.message);
                 }
-                this.setLoadingState(false);
               },
               (error) => {
                 if (!this.isAPIAborted(error))
@@ -447,7 +438,6 @@ export default {
                       error.response.data &&
                       error.response.data.message
                   );
-                this.setLoadingState(false);
               }
             );
         }

@@ -281,7 +281,6 @@ export default {
     },
     fetchAppointments() {
       this.labCriticalList = null;
-      this.setLoadingState(true);
       let fromDate = this.removeDateTime(
         new Date().setFullYear(new Date().getFullYear() - 1)
       );
@@ -335,9 +334,6 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-        })
-        .finally(() => {
-          this.setLoadingState(false);
         });
     },
     viewReport(report) {

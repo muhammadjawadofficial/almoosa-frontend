@@ -3,8 +3,22 @@ import { userService } from './services';
 import router from './router';
 
 
-export default function setup() {
+export default function setup({ dispatch }) {
+    let requestsPending = 0;
+    const req = {
+        pending: () => {
+            requestsPending++;
+            dispatch(`user/setLoading`, true);
+        },
+        done: () => {
+            requestsPending--;
+            if (requestsPending <= 0) {
+                dispatch(`user/setLoading`, false);
+            }
+        }
+    };
     axios.interceptors.request.use(function (config) {
+        req.pending();
         const token = userService.getToken();
         config.signal = controller.signal;
         config.cancelToken = source.token;
@@ -19,12 +33,15 @@ export default function setup() {
         }
         return config;
     }, function (err) {
+        req.done();
         return Promise.reject(err);
     });
     axios.interceptors.response.use(function (response) {
+        req.done();
         checkAccess(response);
         return response;
     }, function (error) {
+        req.done();
         checkAccess(error.response);
         return Promise.reject(error);
     })

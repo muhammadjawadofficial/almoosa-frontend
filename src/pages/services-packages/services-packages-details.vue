@@ -1,11 +1,6 @@
 <template>
   <div
-    class="
-      doctor-list-container
-      standard-width
-      page-body-container
-      promotions-details-conatiner
-    "
+    class="doctor-list-container standard-width page-body-container promotions-details-conatiner"
   >
     <back-navigation
       :title="$t('servicesPackages.title')"
@@ -104,7 +99,6 @@ export default {
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
     initializeData() {
-      this.setLoadingState(true);
       this.packageInfo = this.getSelectedPackage;
       this.packageDetails = [];
       let details = this.getSelectedPackage.service_details;
@@ -119,7 +113,6 @@ export default {
           });
         }
       }
-      this.setLoadingState(false);
     },
     makePayment() {
       let obj = {

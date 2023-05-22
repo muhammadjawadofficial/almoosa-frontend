@@ -109,7 +109,6 @@ export default {
   methods: {
     ...mapActions("user", ["setUserInfo"]),
     getFamilyMembers() {
-      this.setLoadingState(true);
       familyMemberService
         .fetchFamilyMembers("?guardian_id=" + this.getUserInfo.id)
         .then(
@@ -119,7 +118,6 @@ export default {
             } else {
               this.failureToast(response.data.message);
             }
-            this.setLoadingState(false);
           },
           (error) => {
             console.error(error);
@@ -129,7 +127,6 @@ export default {
                   error.response.data &&
                   error.response.data.message
               );
-            this.setLoadingState(false);
           }
         );
     },
@@ -148,7 +145,6 @@ export default {
         this.$t("delete")
       ).then((res) => {
         if (res.value) {
-          this.setLoadingState(true);
           familyMemberService.deleteFamilyMember(familyMember).then(
             (response) => {
               if (response.data.status) {
@@ -156,7 +152,6 @@ export default {
                 this.getFamilyMembers();
               } else {
                 this.failureToast(response.data.message);
-                this.setLoadingState(false);
               }
             },
             (error) => {
@@ -167,7 +162,6 @@ export default {
                     error.response.data &&
                     error.response.data.message
                 );
-              this.setLoadingState(false);
             }
           );
         }

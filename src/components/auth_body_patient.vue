@@ -175,7 +175,6 @@ export default {
     ...mapActions("user", ["setUserRole"]),
     fetchBanner() {
       if (!this.banners.length) {
-        // this.setLoadingState(true);
         let query = "?type=PROMOTIONAL";
         userService.getBanner(query).then(
           (res) => {
@@ -184,10 +183,8 @@ export default {
             } else {
               this.failureToast(res.data.message);
             }
-            // this.setLoadingState(false);
           },
           (error) => {
-            // this.setLoadingState(false);
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&

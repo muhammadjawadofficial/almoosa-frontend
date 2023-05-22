@@ -228,7 +228,6 @@ export default {
       return query;
     },
     initializeData() {
-      this.setLoadingState(true);
       Promise.all([
         this.getBookingMethod == "onsite"
           ? appointmentService.getClinicsV1()
@@ -253,7 +252,6 @@ export default {
             this.specialities = [];
             this.failureToast(specialitiesResponse.data.message);
           }
-          this.setLoadingState(false);
         })
         .catch((error) => {
           this.clinics = [];
@@ -264,7 +262,6 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
         });
       let today = new Date();
       this.selectedDate = this.removeDateTime(today.setHours(0, 0, 0));
@@ -301,7 +298,6 @@ export default {
       this.selectedClinic = clinic;
       if (isNew) {
         this.selectedSpeciality = {};
-        this.setLoadingState(true);
         appointmentService
           .getSpecialities(this.getSpecialityQuery())
           .then((res) => {
@@ -313,7 +309,6 @@ export default {
               this.specialities = [];
               this.failureToast(specialitiesResponse.data.message);
             }
-            this.setLoadingState(false);
           })
           .catch((error) => {
             this.specialities = [];
@@ -323,7 +318,6 @@ export default {
                   error.response.data &&
                   error.response.data.message
               );
-            this.setLoadingState(false);
           });
       }
     },

@@ -223,7 +223,6 @@ export default {
       }
     },
     createMedicationWithReminder() {
-      this.setLoadingState(true);
       let obj = {
         title: this.getSelectedMedication.variation,
         variation: this.getSelectedMedication.variation,
@@ -255,10 +254,8 @@ export default {
           } else {
             this.failureToast(response.data.messsage);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
@@ -269,7 +266,6 @@ export default {
       );
     },
     updateReminder() {
-      this.setLoadingState(true);
       let obj = {
         morning_reminder: this.selectedTimeslot.morning,
       };
@@ -295,10 +291,8 @@ export default {
           } else {
             this.failureToast(response.data.messsage);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

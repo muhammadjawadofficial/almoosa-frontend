@@ -203,7 +203,6 @@ export default {
       }
     },
     fetchMedications() {
-      this.setLoadingState(true);
       medicationService
         .getMedications(this.getSelectedMedicationSession.id)
         .then(
@@ -217,10 +216,8 @@ export default {
               this.filterMedications();
               this.failureToast(response.data.messsage);
             }
-            this.setLoadingState(false);
           },
           (error) => {
-            this.setLoadingState(false);
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&

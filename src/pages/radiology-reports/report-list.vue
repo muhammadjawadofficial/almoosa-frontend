@@ -123,7 +123,6 @@ export default {
         this.navigateTo("Radiology Report Doctors");
         return;
       }
-      this.setLoadingState(true);
       reportService
         .getReportsWithAppointments(this.getSelectedRadiologyReportSession.id)
         .then(
@@ -139,12 +138,10 @@ export default {
               this.filteredList = [];
               this.failureToast(response.data.messsage);
             }
-            this.setLoadingState(false);
           },
           (error) => {
             this.reports = [];
             this.filteredList = [];
-            this.setLoadingState(false);
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&

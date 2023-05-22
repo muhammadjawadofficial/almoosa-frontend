@@ -204,7 +204,9 @@ export default {
     fetchMedicationDetail() {
       Promise.all([
         medicationService.getMedicationDetails(this.getSelectedMedication.id),
-        medicationService.getMedicationRequest(this.getSelectedMedicationSession.id),
+        medicationService.getMedicationRequest(
+          this.getSelectedMedicationSession.id
+        ),
       ])
         .then((res) => {
           let response = res[0];
@@ -231,7 +233,6 @@ export default {
           }
         })
         .catch((error) => {
-          this.setLoadingState(false);
           this.medicationRequests = [];
           if (!this.isAPIAborted(error))
             this.failureToast(
@@ -239,9 +240,6 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-        })
-        .finally(() => {
-          this.setLoadingState(false);
         });
     },
     showRequestRefillModal() {
@@ -269,7 +267,6 @@ export default {
       });
     },
     showMedicationModal(delivery = false) {
-      this.setLoadingState(true);
       medicationService
         .requestMedication({
           medication_id: this.getSelectedMedicationSession.id,
@@ -307,10 +304,8 @@ export default {
             } else {
               this.failureToast(response.data.messsage);
             }
-            this.setLoadingState(false);
           },
           (error) => {
-            this.setLoadingState(false);
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&

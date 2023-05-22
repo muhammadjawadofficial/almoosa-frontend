@@ -124,7 +124,6 @@ export default {
         this.failureToast(this.$t("login.otpRequired"));
         return;
       }
-      this.setLoadingState(true);
       authService
         .verifyOtp({
           ...this.userId,
@@ -165,16 +164,13 @@ export default {
             } else {
               this.failureToast(response.data.message);
             }
-            this.setLoadingState(false);
           },
           (error) => {
-            this.setLoadingState(false);
             console.error(error);
           }
         );
     },
     resendOtp() {
-      this.setLoadingState(true);
       authService.resendOtp(this.userId).then(
         (response) => {
           if (response.data.status) {
@@ -184,7 +180,6 @@ export default {
           } else {
             this.failureToast(response.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           console.error(error);
@@ -194,7 +189,6 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
         }
       );
     },

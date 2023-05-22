@@ -165,7 +165,6 @@ export default {
           clinic = this.getBookingClinic.id;
         }
       }
-      this.setLoadingState(true);
       appointmentService
         .findDoctors(
           speciality,
@@ -184,7 +183,6 @@ export default {
               this.filteredDoctors = [];
               this.failureToast(response.message);
             }
-            this.setLoadingState(false);
           },
           (error) => {
             this.filteredDoctors = [];
@@ -194,7 +192,6 @@ export default {
                   error.response.data &&
                   error.response.data.message
               );
-            this.setLoadingState(false);
           }
         );
     },

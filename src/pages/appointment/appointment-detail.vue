@@ -200,7 +200,6 @@ export default {
 
       if (this.details.type.toLowerCase() !== "online") return;
 
-      this.setLoadingState(true);
       appointmentService
         .getAppointmentInstructions(
           "?title=" + this.getLocaleKey("TELE_INSTRUCTIONS", "", "_AR", "upper")
@@ -221,7 +220,6 @@ export default {
             } else {
               this.failureToast(response.message);
             }
-            this.setLoadingState(false);
           },
           (error) => {
             console.error(error);
@@ -231,7 +229,6 @@ export default {
                   error.response.data &&
                   error.response.data.message
               );
-            this.setLoadingState(false);
           }
         );
     },
@@ -299,7 +296,6 @@ export default {
         this.$t("appointmentDetail.reschedule")
       ).then((result) => {
         if (result.value) {
-          this.setLoadingState(true);
           appointmentService.cancelAppointment(this.details.id).then(
             (res) => {
               let response = res.data;
@@ -313,7 +309,6 @@ export default {
               } else {
                 this.failureToast(response.message);
               }
-              this.setLoadingState(false);
             },
             (error) => {
               console.error(error);
@@ -323,7 +318,6 @@ export default {
                     error.response.data &&
                     error.response.data.message
                 );
-              this.setLoadingState(false);
             }
           );
         } else if (result.dismiss == "cancel") {

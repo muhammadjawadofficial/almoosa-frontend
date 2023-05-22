@@ -1,11 +1,6 @@
 <template>
   <div
-    class="
-      my-medical-insurance-container
-      standard-width
-      page-body-container
-      login-form
-    "
+    class="my-medical-insurance-container standard-width page-body-container login-form"
   >
     <back-navigation :title="$t('insurance.medicalInsurance')" />
 
@@ -105,7 +100,12 @@
                           {{ $t("insurance.lastUpdate") }}
                         </div>
                         <div class="date-time w200">
-                          {{ getLongDateAndTimeFromDate(insurance.last_update_on_date, true) }}
+                          {{
+                            getLongDateAndTimeFromDate(
+                              insurance.last_update_on_date,
+                              true
+                            )
+                          }}
                         </div>
                         <button class="btn btn-conditional start-call-button">
                           {{
@@ -158,7 +158,6 @@ export default {
   },
   methods: {
     getInsurances() {
-      this.setLoadingState(true);
       Promise.all([
         insuranceService.fetchInsurances(this.getUserInfo.mrn_number),
         insuranceService.fetchInsuranceServices(this.getUserInfo.mrn_number),
@@ -178,15 +177,12 @@ export default {
           }
         })
         .catch((error) => {
-          if (!this.isAPIAborted(error)) 
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
-        })
-        .finally(() => {
-          this.setLoadingState(false);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
         });
     },
     getStatusClass(statusTemp) {

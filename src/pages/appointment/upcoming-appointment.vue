@@ -350,7 +350,6 @@ export default {
       let userIdQueryParam = this.isDoctor
         ? "doctor_id=" + this.getUserInfo.id
         : "patient_id=" + this.getUserInfo.mrn_number;
-      this.setLoadingState(true);
       appointmentService.getUpcomingAppointemnts(userIdQueryParam).then(
         (response) => {
           if (response.data.status) {
@@ -366,11 +365,9 @@ export default {
             this.failureToast(response.data.messsage);
           }
           this.appointmentStatus = null;
-          this.setLoadingState(false);
         },
         (error) => {
           this.appointmentStatus = null;
-          this.setLoadingState(false);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

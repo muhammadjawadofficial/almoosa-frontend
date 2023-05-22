@@ -421,7 +421,6 @@ export default {
       return date > today;
     },
     checkDropdownValues() {
-      this.setLoadingState(true);
       authService
         .getNationalitiesV1()
         .then(
@@ -434,7 +433,6 @@ export default {
             } else {
               this.failureToast(res.data.message);
             }
-            this.setLoadingState(false);
           },
           (error) => {
             console.error(error);
@@ -446,7 +444,6 @@ export default {
                       error.response.data &&
                       error.response.data.message
                   );
-            this.setLoadingState(false);
           }
         )
         .finally(() => {
@@ -473,7 +470,6 @@ export default {
         this.$refs.fileUpload.removeFile(this.fileToUpload[0]);
       }
 
-      this.setLoadingState(true);
       authService.uploadId(file).then(
         (res) => {
           if (res.data.status) {
@@ -487,7 +483,6 @@ export default {
           } else {
             this.failureToast(res.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           console.error(error);
@@ -497,7 +492,6 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
         }
       );
     },
@@ -575,7 +569,6 @@ export default {
         ", " +
         this.registerForm.district;
       this.registerForm[this.selectedItem.method] = +this.userId;
-      this.setLoadingState(true);
       let form = {
         ...this.registerForm,
         primary_phone_number: this.registerForm.phone_number,
@@ -628,12 +621,10 @@ export default {
               this.failureToast(response.data.message);
             }
           }
-          this.setLoadingState(false);
         },
         (error) => {
           console.error(error);
           this.failureToast(error.response.data.message);
-          this.setLoadingState(false);
         }
       );
     },

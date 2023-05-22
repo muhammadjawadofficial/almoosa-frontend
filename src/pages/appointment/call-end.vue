@@ -6,7 +6,6 @@
 <script>
 export default {
   mounted() {
-    this.setLoadingState(true);
     let doctor_id = localStorage.getItem("doctor");
     localStorage.removeItem("doctor");
     if (doctor_id) {
@@ -17,11 +16,8 @@ export default {
         this.$t("rating.success"),
         this.$t("rating.deny"),
         doctor_id
-      ).then(() => {
-        this.setLoadingState(false);
-      });
+      );
     }
-    this.setLoadingState(false);
     this.navigateTo("default");
   },
 };

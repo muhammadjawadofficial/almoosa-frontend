@@ -188,7 +188,6 @@ export default {
         return;
       }
       this.registerForm[this.selectedItem.method] = +this.userId;
-      this.setLoadingState(true);
       familyMemberService.addFamilyMember(this.registerForm).then(
         (response) => {
           if (response.data.status) {
@@ -201,12 +200,10 @@ export default {
           } else {
             this.failureToast(response.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           console.error(error);
           this.failureToast(error.response.data.message);
-          this.setLoadingState(false);
         }
       );
     },

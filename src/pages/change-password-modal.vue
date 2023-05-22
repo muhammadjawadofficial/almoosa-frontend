@@ -139,7 +139,6 @@ export default {
       if (!this.validateForm()) {
         return;
       }
-      this.setLoadingState(true);
       authService
         .changePassword({
           id: this.getUserInfo.id,
@@ -149,15 +148,13 @@ export default {
         .then(
           (response) => {
             if (response.data.status) {
-              this.successToast(this.$t('passwordChangedSuccessfully'))
+              this.successToast(this.$t("passwordChangedSuccessfully"));
               this.$bvModal.hide("changePasswordCustomModal");
             } else {
               this.failureToast(response.data.message);
             }
-            this.setLoadingState(false);
           },
           (error) => {
-            this.setLoadingState(false);
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&

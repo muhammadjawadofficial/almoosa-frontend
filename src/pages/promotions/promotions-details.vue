@@ -85,7 +85,6 @@ export default {
       return this.promotion.promo_code == this.getUserInfo.promo_code;
     },
     applyPromotion() {
-      this.setLoadingState(true);
       promotionService.applyPromotions(this.promotion.promo_code).then(
         (response) => {
           if (response.data.status) {
@@ -99,16 +98,14 @@ export default {
           } else {
             this.failureToast(response.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
-          if (!this.isAPIAborted(error)) 
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
         }
       );
     },

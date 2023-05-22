@@ -344,7 +344,6 @@ export default {
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
     handleAmount() {
-      this.setLoadingState(true);
       Promise.all([
         userService.getServiceBaseRate(
           this.getUserInfo.mrn_number,
@@ -381,11 +380,7 @@ export default {
             error.response.data &&
             error.response.data.message;
           if (!this.isAPIAborted(error)) this.failureToast(message);
-          this.setLoadingState(false);
           this.navigateBack();
-        })
-        .finally(() => {
-          this.setLoadingState(false);
         });
     },
     getWalletDeductionAmount() {
@@ -443,7 +438,6 @@ export default {
         this.paymentAmount = null;
         return;
       }
-      this.setLoadingState(true);
       Promise.all([
         userService.getPaymentAmount(
           this.getUserInfo.mrn_number,
@@ -456,7 +450,6 @@ export default {
           let paymentAmount = res[0].data.data;
           if (paymentAmount.Message != "") {
             this.failureToast(paymentAmount.Message);
-            this.setLoadingState(false);
             return;
           }
           this.selectedInsurance = insurance;
@@ -472,10 +465,6 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
-          this.setLoadingState(false);
-        })
-        .finally(() => {
-          this.setLoadingState(false);
         });
     },
     createPayment(paymentObj) {

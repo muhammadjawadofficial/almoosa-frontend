@@ -217,7 +217,6 @@ export default {
       }
     },
     doPatientLogin(payload) {
-      this.setLoadingState(true);
       authService.login(payload).then(
         (response) => {
           if (response.data.status) {
@@ -237,16 +236,13 @@ export default {
           } else {
             this.failureToast(response.data.message);
           }
-          this.setLoadingState(false);
         },
         (err) => {
           this.failureToast(err.response && err.response.data.message);
-          this.setLoadingState(false);
         }
       );
     },
     doDoctorLogin(payload) {
-      this.setLoadingState(true);
       localStorage.removeItem("url");
       this.$root.$refs.appointmentModule &&
         this.$root.$refs.appointmentModule.destroyObjects(true);
@@ -276,12 +272,10 @@ export default {
           } else {
             this.failureToast(response.data.message);
           }
-          this.setLoadingState(false);
         },
         (error) => {
           if (!this.isAPIAborted(error))
             this.failureToast(error.response && error.response.data.message);
-          this.setLoadingState(false);
         }
       );
     },

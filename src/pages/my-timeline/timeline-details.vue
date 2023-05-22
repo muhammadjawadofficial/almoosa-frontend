@@ -17,7 +17,7 @@
                 <div>
                   <img src="../../assets/images/heart-beat.svg" alt="heart" />
                   {{ $t("appointmentDetail.medicalType") }}:
-                  {{ getSelectedTimeline[getLocaleKey('department')] }}
+                  {{ getSelectedTimeline[getLocaleKey("department")] }}
                 </div>
                 <div class="info">
                   <img src="../../assets/images/hashtag.svg" alt="heart" />
@@ -40,7 +40,7 @@
                 role="tab"
               >
                 <b-button block v-b-toggle="'accordion-' + index">
-                  {{ section[getLocaleKey("title")] || 'N/A' }}
+                  {{ section[getLocaleKey("title")] || "N/A" }}
                   <div class="icon"></div>
                 </b-button>
               </b-card-header>
@@ -115,7 +115,6 @@ export default {
   },
   methods: {
     fetchTimelineDetails() {
-      this.setLoadingState(true);
       timelineService
         .fetchTimelineDetails(
           this.getUserInfo.mrn_number,
@@ -154,11 +153,9 @@ export default {
             } else {
               this.failureToast(response.data.messsage);
             }
-            this.setLoadingState(false);
           },
           (error) => {
-            this.setLoadingState(false);
-            if (!this.isAPIAborted(error)) 
+            if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
                   error.response.data &&

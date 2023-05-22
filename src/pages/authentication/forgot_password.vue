@@ -93,7 +93,6 @@ export default {
       if (!this.validateForm()) {
         return;
       }
-      this.setLoadingState(true);
       authService
         .resendOtp({
           [this.usernameKey]: this.username,
@@ -111,11 +110,9 @@ export default {
             } else {
               this.failureToast(response.data.message);
             }
-            this.setLoadingState(false);
           },
           (err) => {
             this.failureToast(err.response ? err.response.data.message : null);
-            this.setLoadingState(false);
             console.error(err);
           }
         );

@@ -1,10 +1,6 @@
 <template>
   <div
-    class="
-      book-appointment-completion-conatiner
-      page-body-container
-      standard-width
-    "
+    class="book-appointment-completion-conatiner page-body-container standard-width"
   >
     <b-card header-tag="div" no-body class="ash-card bg-tertiary card-rounded">
       <b-card-header class="bg-secondary">
@@ -222,7 +218,6 @@ export default {
     ...mapActions("promotion", ["setPromotionsList"]),
     ...mapActions("user", ["updateUserInfo"]),
     fetchPromotionsList() {
-      this.setLoadingState(true);
       promotionService.fetchPromotions().then(
         (response) => {
           if (response.data.status) {
@@ -241,16 +236,14 @@ export default {
           } else {
             this.failureToast(response.data.messsage);
           }
-          this.setLoadingState(false);
         },
         (error) => {
-          this.setLoadingState(false);
-          if (!this.isAPIAborted(error)) 
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
         }
       );
     },
@@ -280,7 +273,6 @@ export default {
       });
     },
     bookAppointment(method = "payLater") {
-      this.setLoadingState(true);
       let promo = null;
       if (this.selectedDiscountType == "promotion" && this.selectedPromotion) {
         promo = this.selectedPromotion.promo_code;
@@ -312,7 +304,7 @@ export default {
                 let obj = {
                   amount: appointment.amount,
                   appointment_id: appointment.id,
-                  payLater: true
+                  payLater: true,
                 };
                 this.setPaymentObject(obj);
                 this.navigateTo("Select Payment Method");
@@ -322,17 +314,15 @@ export default {
             } else {
               this.failureToast(response.message);
             }
-            this.setLoadingState(false);
           },
           (error) => {
             console.error(error.response);
-            if (!this.isAPIAborted(error)) 
+            if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
                   error.response.data &&
                   error.response.data.message
               );
-            this.setLoadingState(false);
           }
         );
     },
@@ -384,16 +374,14 @@ export default {
                 } else {
                   this.failureToast(response.data.message);
                 }
-                this.setLoadingState(false);
               },
               (error) => {
-                this.setLoadingState(false);
-                if (!this.isAPIAborted(error)) 
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
+                if (!this.isAPIAborted(error))
+                  this.failureToast(
+                    error.response &&
+                      error.response.data &&
+                      error.response.data.message
+                  );
               }
             );
           });
