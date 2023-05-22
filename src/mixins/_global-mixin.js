@@ -512,18 +512,19 @@ export default {
              */
 
             let now = this.moment().utcOffset(0, true);
+            let allowedMinutes = 60;
 
-            let bookDateWithStartTime = this.moment(start).utc().add(-15, 'minutes');
-            let bookDateWithEndTime = this.moment(end).utc();
+            let bookDateWithStartTime = this.moment(start).utc().add(-allowedMinutes, 'minutes');
+            let bookDateWithEndTime = this.moment(end).utc().add(allowedMinutes, 'minutes');
 
             let allowedStartLimit = bookDateWithStartTime;
             let allowedEndLimit = bookDateWithEndTime;
 
             if (now < allowedStartLimit) {
-                this.failureToast(this.$t("cantJoinCallEarly"));
+                this.failureToast(this.$t("cantJoinCallEarly", { minutes: this.translateNumber(allowedMinutes) }));
                 return false;
             } else if (now > allowedEndLimit) {
-                this.failureToast(this.$t("cantJoinCallLate"));
+                this.failureToast(this.$t("cantJoinCallLate", { minutes: this.translateNumber(allowedMinutes) }));
                 return false;
             } else {
                 return true;

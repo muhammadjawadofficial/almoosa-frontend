@@ -572,7 +572,7 @@
   "noRecord": "No Record Found",
   "cantJoinCall": "Not allowed to join call",
   "cantJoinCallPaymetPending": "Payment is pending for this appointment. Cannot Join Call",
-  "cantJoinCallEarly": "Meeting can only be joined before 15 minutes of the scheduled start time",
+  "cantJoinCallEarly": "Meeting can only be joined before {minutes} minutes of the scheduled start time",
   "cantJoinCallLate": "Meeting cannot be joined after the scheduled time",
   "back": "Back",
   "ash": "Almoosa Health Group",
