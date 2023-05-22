@@ -6,7 +6,7 @@
         autoplay
         loop
         mode="normal"
-        src="loader.json"
+        src="/loader.json"
         style="width: 320px"
       >
       </lottie-player>
