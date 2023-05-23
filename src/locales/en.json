@@ -543,7 +543,8 @@
     "switchProfile": "Switch Profile",
     "deleteMember": "Delete Member",
     "confirmDelete": "Are you sure you want to delete this member?",
-    "deletedSuccessfully": "Member Deleted Successfully"
+    "deletedSuccessfully": "Member Deleted Successfully",
+    "chooseRelation": "Choose Relation"
   },
   "paymentStatus": {
     "unpaid": "Unpaid",

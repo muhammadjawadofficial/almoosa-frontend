@@ -2,9 +2,17 @@ import { axios } from "./axios";
 import { apiPath } from "../constants/apiPath";
 
 export const familyMemberService = {
+    fetchFamilyMemberRelations,
     fetchFamilyMembers,
     addFamilyMember,
     deleteFamilyMember
+}
+
+function fetchFamilyMemberRelations() {
+    return axios({
+        method: apiPath.familyMembers.fetchRelations.method,
+        url: apiPath.familyMembers.fetchRelations.url,
+    })
 }
 
 function fetchFamilyMembers(query = '') {

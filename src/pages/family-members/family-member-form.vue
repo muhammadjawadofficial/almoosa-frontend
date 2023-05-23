@@ -71,6 +71,35 @@
           </b-input-group>
         </div>
       </div>
+      <div class="row">
+        <div class="col-xl-4 col-md-6">
+          <div class="custom-login-input-groups same-height">
+            <multiselect
+              v-model="selectedRelation"
+              :options="relations"
+              track-by="id"
+              :preselectFirst="true"
+              :placeholder="$t('familyMembers.chooseRelation')"
+              :selectLabel="$t('selectLabel')"
+              :selectedLabel="$t('selectedLabel')"
+              :deselectLabel="$t('deselectLabel')"
+            >
+              <template slot="singleLabel" slot-scope="props">
+                {{ props.option[getLocaleKey("relation")] }}
+              </template>
+              <template slot="option" slot-scope="props">
+                {{ props.option[getLocaleKey("relation")] }}
+              </template>
+            </multiselect>
+            <div
+              class="custom-state-invalid icon"
+              :class="{
+                'is-invalid': formSubmitted && selectedRelation == null,
+              }"
+            ></div>
+          </div>
+        </div>
+      </div>
       <div class="register-navigation">
         <div class="button-group">
           <button class="btn btn-primary" @click="addFamilyMember">
@@ -96,6 +125,7 @@ export default {
       registerFormState: {
         phone_number: null,
         userId: null,
+        relation_id: null,
       },
       formSubmitted: false,
       userId: "",
@@ -123,6 +153,8 @@ export default {
           validation: 10,
         },
       ],
+      relations: [],
+      selectedRelation: null,
     };
   },
   computed: {
@@ -138,11 +170,32 @@ export default {
     },
   },
   mounted() {
+    this.checkDropdownValues();
     this.selectedItem = this.selectedOption;
     this.registerForm.guardian_id = this.getUserInfo.id;
   },
   methods: {
     ...mapActions("user", ["setOtp", "setUserId", "setAuthState"]),
+    checkDropdownValues() {
+      familyMemberService
+        .fetchFamilyMemberRelations()
+        .then((res) => {
+          let response = res.data;
+          if (response.status) {
+            this.relations = response.data.items;
+          } else {
+            this.failureToast(response && response.message);
+          }
+        })
+        .catch((error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        });
+    },
     formatNumber(number, input) {
       if (
         input.type == "input" &&
@@ -157,6 +210,7 @@ export default {
       this.registerFormState.phone_number = this.validPhoneNumber;
       this.registerFormState.userId =
         this.userId != "" && this.userId.length == this.selectedItem.validation;
+      this.registerFormState.relation_id = this.selectedRelation != null;
 
       if (!this.registerFormState.userId) {
         if (this.userId == "")
@@ -188,6 +242,7 @@ export default {
         return;
       }
       this.registerForm[this.selectedItem.method] = +this.userId;
+      this.registerForm.relation_id = this.selectedRelation.id;
       familyMemberService.addFamilyMember(this.registerForm).then(
         (response) => {
           if (response.data.status) {

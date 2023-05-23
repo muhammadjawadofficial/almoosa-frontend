@@ -543,7 +543,8 @@
     "switchProfile": "تبديل الملف الشخصي",
     "deleteMember": "حذف العضو",
     "confirmDelete": "هل أنت متأكد أنك تريد حذف هذا العضو؟",
-    "deletedSuccessfully": "تم حذف العضو بنجاح"
+    "deletedSuccessfully": "تم حذف العضو بنجاح",
+    "chooseRelation": "اختر العلاقة"
   },
   "paymentStatus": {
     "unpaid": "غير مدفوع",

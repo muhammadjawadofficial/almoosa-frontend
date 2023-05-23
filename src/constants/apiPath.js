@@ -129,6 +129,7 @@ export const apiPath = {
     },
 
     familyMembers: {
+        fetchRelations: getApiObject("get", "family-member-relation/get/all", "v2"),
         fetch: (query) => getApiObject("get", "family-members/get/all" + query, "v2"),
         add: getApiObject("post", "family-members/add", "v2"),
         delete: (query) => getApiObject("delete", "family-members/delete" + query, "v2"),
