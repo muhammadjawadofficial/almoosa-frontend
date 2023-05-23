@@ -201,7 +201,6 @@ export default {
     if (!this.getBookingMethod) {
       this.navigateTo("default");
     }
-    this.initializeData();
   },
   methods: {
     ...mapActions("appointment", [
@@ -228,6 +227,9 @@ export default {
       return query;
     },
     initializeData() {
+      this.clinics = null;
+      this.specialities = null;
+      this.filteredSpecialities = null;
       Promise.all([
         this.getBookingMethod == "onsite"
           ? appointmentService.getClinicsV1()
@@ -291,6 +293,8 @@ export default {
       } else if (type == "onsite") {
         this.setBookingMethod("onsite");
       }
+
+      this.initializeData();
     },
     setSelectedClinic(clinic) {
       if (!clinic.is_active) return;
