@@ -267,6 +267,7 @@ export default {
           text: "My Timelines",
           icon: "timeline-svg",
           link: "My Timeline",
+          guardianComponents: true,
         },
         {
           text: "My Medications",
