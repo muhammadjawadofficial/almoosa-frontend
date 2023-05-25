@@ -103,7 +103,8 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/my-timeline"
+            "path": "/my-timeline",
+            "guardianComponent": true
         },
         {
             "title": "My Medications",
