@@ -68,6 +68,16 @@
             ></b-form-input>
           </b-input-group>
         </div>
+        <div class="col-xl-6 col-lg-12 col-md-6">
+          <b-input-group class="custom-login-input-groups">
+            <b-form-input
+              v-model="registerForm.email_address"
+              :state="registerFormState.email_address"
+              :placeholder="$t('register.emailAddress')"
+              type="email"
+            ></b-form-input>
+          </b-input-group>
+        </div>
       </div>
       <div class="register-navigation">
         <div class="button-group">
@@ -98,10 +108,12 @@ export default {
   data() {
     return {
       registerForm: {
+        email_address: "",
         phone_number: "",
         role_id: 3,
       },
       registerFormState: {
+        email_address: null,
         phone_number: null,
         userId: null,
       },
@@ -150,6 +162,15 @@ export default {
       }
       return false;
     },
+    validEmailAddress() {
+      if (this.formSubmitted) {
+        let regex =
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        let result = this.registerForm.email_address.match(regex);
+        return !!(result && result.length);
+      }
+      return false;
+    },
   },
   mounted() {
     this.selectedItem = this.selectedOption;
@@ -157,9 +178,11 @@ export default {
   methods: {
     ...mapActions("user", ["setOtp", "setUserId", "setAuthState"]),
     validateForm() {
+      this.registerFormState.email_address = this.validEmailAddress;
       this.registerFormState.phone_number = this.validPhoneNumber;
       this.registerFormState.userId =
         this.userId != "" && this.userId.length == this.selectedItem.validation;
+      console.log(this.registerFormState);
       if (!this.registerFormState.userId) {
         if (this.userId == "")
           this.failureToast(
@@ -178,7 +201,8 @@ export default {
         else if (this.registerForm.phone_number.length !== 10)
           this.failureToast(this.$t("register.phoneLength", { length: 10 }));
         else this.failureToast(this.$t("register.phoneValid"));
-      }
+      } else if (this.registerFormState.email_address == false)
+        this.failureToast(this.$t("register.emailValid"));
       return !Object.values(this.registerFormState).includes(false);
     },
     doRegister() {
