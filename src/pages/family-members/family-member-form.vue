@@ -100,6 +100,42 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="custom-login-input-groups file-upload-container">
+            <template v-if="fileToUpload.length">
+              <div class="re-upload-icon">
+                <i class="fa fa-refresh" aria-hidden="true"></i>
+              </div>
+              <div class="upload-text new">
+                {{ $t("insurance.clickToUpload") }}
+              </div>
+            </template>
+            <div class="upload-text text-muted w200 center" v-else>
+              {{
+                selectedOption && selectedOption.text == "iqamaId"
+                  ? $t("register.uploadIqamaID")
+                  : $t("register.uploadSaudiID")
+              }}
+            </div>
+            <vue-dropzone
+              v-if="showDropzone"
+              @vdropzone-file-added="fileUpload"
+              @vdropzone-removed-file="removeFile"
+              :options="validationdropzoneOptions"
+              ref="fileUpload"
+              id="validationdropzone"
+              class="dropzone digits custom-file-upload"
+            >
+            </vue-dropzone>
+            <div
+              :class="{
+                'dropzone is-invalid': registerFormState.card_id == false,
+              }"
+            ></div>
+          </div>
+        </div>
+      </div>
       <div class="register-navigation">
         <div class="button-group">
           <button class="btn btn-primary" @click="addFamilyMember">
@@ -119,10 +155,12 @@ export default {
   data() {
     return {
       registerForm: {
+        card_id: null,
         guardian_id: null,
         phone_number: "",
       },
       registerFormState: {
+        card_id: null,
         phone_number: null,
         userId: null,
         relation_id: null,
@@ -155,6 +193,15 @@ export default {
       ],
       relations: [],
       selectedRelation: null,
+      showDropzone: false,
+      validationdropzoneOptions: {
+        url: "http://localhost:8080",
+        thumbnailWidth: 150,
+        acceptedFiles: ["image/jpeg", "image/png"],
+        maxFiles: 1,
+        dictDefaultMessage: "",
+      },
+      fileToUpload: [],
     };
   },
   computed: {
@@ -170,12 +217,19 @@ export default {
     },
   },
   mounted() {
-    this.checkDropdownValues();
+    this.showDropzone = true;
     this.selectedItem = this.selectedOption;
     this.registerForm.guardian_id = this.getUserInfo.id;
+    this.checkDropdownValues();
   },
   methods: {
     ...mapActions("user", ["setOtp", "setUserId", "setAuthState"]),
+    refreshDropzone() {
+      this.showDropzone = false;
+      setTimeout(() => {
+        this.showDropzone = true;
+      }, 200);
+    },
     checkDropdownValues() {
       familyMemberService
         .fetchFamilyMemberRelations()
@@ -264,6 +318,48 @@ export default {
     },
     itemSelected(item) {
       this.selectedItem = item;
+      this.refreshDropzone();
+      if (this.fileToUpload.length > 0) {
+        this.fileToUpload = [];
+        this.$refs.fileUpload.removeAllFiles();
+      }
+    },
+    removeFile() {
+      if (this.fileToUpload.length > 1) {
+        this.fileToUpload.splice(0, 1);
+      }
+    },
+    fileUpload(file) {
+      this.fileToUpload.push(file);
+      if (this.fileToUpload.length > 1) {
+        this.$refs.fileUpload.removeFile(this.fileToUpload[0]);
+      }
+      console.log(file);
+
+      authService.uploadId(file).then(
+        (res) => {
+          if (res.data.status) {
+            this.registerForm.card_id = res.data.data.id;
+            this.registerFormState.card_id = this.registerForm.card_id != null;
+            this.successToast(
+              this.$t(
+                "register." + this.selectedOption.text + "UploadSuccessMessage"
+              )
+            );
+          } else {
+            this.failureToast(res.data.message);
+          }
+        },
+        (error) => {
+          console.error(error);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
     },
   },
 };
@@ -313,5 +409,8 @@ export default {
 }
 .sign-up-link {
   text-align: right;
+}
+.file-upload-container {
+  min-height: 4.3rem;
 }
 </style>
