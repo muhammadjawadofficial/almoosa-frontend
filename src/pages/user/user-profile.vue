@@ -6,7 +6,7 @@
           <div class="doctor-details-card-header">
             <div class="doctor-details-card-header-image">
               <img :src="getImageUrl(getUserInfo.photo)" alt="doctor-image" />
-              <label for="user-profile-picture-upload">
+              <label for="user-profile-picture-upload" v-if="!isDoctor">
                 {{ $t("profile.uploadPicture") }}
                 <input
                   type="file"
