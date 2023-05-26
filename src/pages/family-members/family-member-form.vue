@@ -265,6 +265,7 @@ export default {
       this.registerFormState.userId =
         this.userId != "" && this.userId.length == this.selectedItem.validation;
       this.registerFormState.relation_id = this.selectedRelation != null;
+      this.registerFormState.card_id = this.registerForm.card_id != null;
 
       if (!this.registerFormState.userId) {
         if (this.userId == "")
