@@ -182,7 +182,13 @@
                   </div>
                   <div class="content--info">
                     <div class="content--price">
-                      {{ $t("sar") + " " + translateNumber(appointmentAmount) }}
+                      {{
+                        $t("sar") +
+                        " " +
+                        translateNumber(
+                          amountLoading ? "N/A" : appointmentAmount
+                        )
+                      }}
                     </div>
                     <i
                       :class="
@@ -224,7 +230,7 @@
               {{ $t("sar") + " " + getPaymentObject.amount }}
             </div>
           </div>
-          <template v-if="selectedInsurance">
+          <template v-if="selectedInsurance && !amountLoading">
             <div class="details-group-item">
               <div class="title">
                 {{ $t("selectPaymentMethod.insuranceCanCoverUpto") }}
@@ -250,7 +256,9 @@
             <div class="title">
               {{ $t("selectPaymentMethod.amountPayable") }}
             </div>
-            <div class="value">{{ $t("sar") + " " + appointmentAmount }}</div>
+            <div class="value">
+              {{ $t("sar") + " " + translateNumber(appointmentAmount) }}
+            </div>
           </div>
         </div>
       </div>
@@ -303,7 +311,8 @@ export default {
           isOtherPayment: true,
         },
       ],
-      paymentAmountResponse: {},
+      paymentAmountResponse: null,
+      amountLoading: false,
     };
   },
   computed: {
@@ -427,18 +436,14 @@ export default {
       }
     },
     getInsuranceAmount(insurance) {
-      if (
-        insurance &&
-        this.selectedInsurance &&
-        insurance.id == this.selectedInsurance.id
-      ) {
+      if (this.selectedInsurance && insurance.id == this.selectedInsurance.id) {
         this.insuranceAmount = null;
-        this.selectedInsurance = null;
-        this.setAppointmentAmount();
         this.toggleOtherPaymentSection = false;
         this.paymentAmount = null;
-        return;
+        insurance = null;
       }
+      this.selectedInsurance = insurance;
+      this.amountLoading = true;
       Promise.all([
         userService.getPaymentAmount(
           this.getUserInfo.mrn_number,
@@ -455,7 +460,6 @@ export default {
               this.failureToast(paymentAmount.Message);
               return;
             }
-            this.selectedInsurance = insurance;
             this.paymentAmount = paymentAmount;
             this.insuranceAmount =
               +paymentAmount.PatientShare + +paymentAmount.PatientTax;
@@ -480,10 +484,13 @@ export default {
                 error.response.data.message
             );
           this.navigateBack();
+        })
+        .finally(() => {
+          this.amountLoading = false;
         });
     },
     createPayment(paymentObj) {
-      if (!this.paymentAmount) {
+      if (!this.paymentAmountResponse) {
         this.failureToast("Cannot Proceed with Payment");
         return;
       }
