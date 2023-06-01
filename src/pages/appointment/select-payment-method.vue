@@ -199,25 +199,29 @@
         </div>
       </div>
       <div class="col-lg-7 appointment--action-buttons" v-else>
-        <button class="btn btn-secondary" @click="createPayment">
+        <button
+          class="btn btn-secondary"
+          @click="createPayment"
+          v-if="serviceBaseRate && paymentAmount"
+        >
           {{ $t("bookAppointment.payNow") }}
         </button>
       </div>
 
       <div
         class="receipt-details col-lg-4 py-5"
-        v-if="serviceBaseRate && serviceBaseRate.patient_amount"
+        v-if="getPaymentObject && getPaymentObject.amount"
       >
         <div class="heading">
           {{ $t("selectPaymentMethod.receiptDetails") }}
         </div>
         <div class="details-group">
-          <div class="details-group-item" v-if="serviceBaseRate">
+          <div class="details-group-item">
             <div class="title">
               {{ $t("selectPaymentMethod.appointmentAmount") }}
             </div>
             <div class="value">
-              {{ $t("sar") + " " + serviceBaseRate.patient_amount }}
+              {{ $t("sar") + " " + getPaymentObject.amount }}
             </div>
           </div>
           <template v-if="selectedInsurance">
@@ -227,9 +231,7 @@
               </div>
               <div class="value">
                 {{
-                  $t("sar") +
-                  " " +
-                  (serviceBaseRate.patient_amount - insuranceAmount)
+                  $t("sar") + " " + (getPaymentObject.amount - insuranceAmount)
                 }}
               </div>
             </div>
@@ -301,6 +303,7 @@ export default {
           isOtherPayment: true,
         },
       ],
+      paymentAmountResponse: {},
     };
   },
   computed: {
@@ -333,6 +336,8 @@ export default {
     },
   },
   mounted() {
+    localStorage.removeItem("paymentVerifyObject");
+    userService.removeBooking();
     if (!this.getSelectedAppointment) {
       if (!(this.getPaymentObject && this.getPaymentObject.otherPayment)) {
         this.navigateTo("Upcoming Appointment");
@@ -360,13 +365,7 @@ export default {
               this.serviceBaseRate = data[0];
               this.walletAmount = this.serviceBaseRate.advance_wallet;
               this.actualWalletAmount = this.walletAmount;
-              let patientAmount = this.serviceBaseRate.patient_amount;
-              let obj = {
-                ...this.getPaymentObject,
-                amount: patientAmount,
-              };
-              this.setPaymentObject(obj);
-              this.setAppointmentAmount();
+              this.getInsuranceAmount();
             } else {
               this.walletAmount = 0;
             }
@@ -384,9 +383,6 @@ export default {
         });
     },
     getWalletDeductionAmount() {
-      console.log("this.insuranceAmount", this.insuranceAmount);
-      console.log("this.getPaymentObject.amount", this.getPaymentObject.amount);
-      console.log("this.walletAmount", this.walletAmount);
       let appointmentAmount = !this.insuranceAmount
         ? this.getPaymentObject.amount
         : this.insuranceAmount;
@@ -411,6 +407,7 @@ export default {
       } else {
         this.useWalletAmount = false;
       }
+      this.appointmentAmount = this.appointmentAmount.toFixed(2);
     },
     handleSelection(item) {
       this.setAppointmentAmount();
@@ -430,7 +427,11 @@ export default {
       }
     },
     getInsuranceAmount(insurance) {
-      if (this.selectedInsurance && insurance.id == this.selectedInsurance.id) {
+      if (
+        insurance &&
+        this.selectedInsurance &&
+        insurance.id == this.selectedInsurance.id
+      ) {
         this.insuranceAmount = null;
         this.selectedInsurance = null;
         this.setAppointmentAmount();
@@ -442,20 +443,33 @@ export default {
         userService.getPaymentAmount(
           this.getUserInfo.mrn_number,
           this.getSelectedAppointment.id,
-          insurance.scheme_id,
+          insurance ? insurance.scheme_id : 1,
           this.serviceBaseRate.service_code
         ),
       ])
         .then((res) => {
-          let paymentAmount = res[0].data.data;
-          if (paymentAmount.Message != "") {
-            this.failureToast(paymentAmount.Message);
-            return;
+          this.paymentAmountResponse = res[0].data.data;
+          if (insurance) {
+            let paymentAmount = res[0].data.data;
+            if (paymentAmount.Message != "") {
+              this.failureToast(paymentAmount.Message);
+              return;
+            }
+            this.selectedInsurance = insurance;
+            this.paymentAmount = paymentAmount;
+            this.insuranceAmount =
+              +paymentAmount.PatientShare + +paymentAmount.PatientTax;
+          } else {
+            let response = res[0].data.data;
+            this.paymentAmount = response;
+            let patientAmount = +response.PatientShare + +response.PatientTax;
+            let obj = {
+              ...this.getPaymentObject,
+              amount: patientAmount,
+            };
+            this.setPaymentObject(obj);
           }
-          this.selectedInsurance = insurance;
-          this.paymentAmount = paymentAmount;
-          this.insuranceAmount =
-            +paymentAmount.PatientShare + +paymentAmount.PatientTax;
+
           this.setAppointmentAmount();
         })
         .catch((error) => {
@@ -465,32 +479,26 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
+          this.navigateBack();
         });
     },
     createPayment(paymentObj) {
+      if (!this.paymentAmount) {
+        this.failureToast("Cannot Proceed with Payment");
+        return;
+      }
       let paymentVerifyObject = {
         appointment_id: this.getSelectedAppointment.id,
-        service_value: this.paymentAmount ? this.paymentAmount.Amount : 0,
-        service_discount: this.paymentAmount
-          ? this.paymentAmount.Discount
-          : this.serviceBaseRate.discount,
-        service_tax: this.paymentAmount
-          ? this.paymentAmount.ServiceTax
-          : this.serviceBaseRate.service_tax,
-        service_net_amount: this.paymentAmount
-          ? this.paymentAmount.NetAmount
-          : this.serviceBaseRate.patient_amount +
-            this.serviceBaseRate.service_tax,
-        patient_amount: this.paymentAmount
-          ? this.paymentAmount.PatientShare
-          : this.serviceBaseRate.patient_amount,
-        patient_tax: this.paymentAmount ? this.paymentAmount.PatientTax : 0,
-        patient_share_total: this.paymentAmount
-          ? +this.paymentAmount.PatientShare + +this.paymentAmount.PatientTax
-          : this.serviceBaseRate.patient_amount,
-        is_free_consultation: this.paymentAmount
-          ? this.paymentAmount.FreeConsultation
-          : 0,
+        service_value: this.paymentAmountResponse.Amount || 0,
+        service_discount: this.paymentAmountResponse.Discount || 0,
+        service_tax: this.paymentAmountResponse.ServiceTax || 0,
+        service_net_amount: this.paymentAmountResponse.NetAmount || 0,
+        patient_amount: this.paymentAmountResponse.PatientShare || 0,
+        patient_tax: this.paymentAmountResponse.PatientTax || 0,
+        patient_share_total:
+          (+this.paymentAmount.PatientShare || 0) +
+          (+this.paymentAmount.PatientTax || 0),
+        is_free_consultation: this.paymentAmountResponse.FreeConsultation || 0,
         patient_scheme_id: this.selectedInsurance
           ? this.selectedInsurance.scheme_id
           : 1,
