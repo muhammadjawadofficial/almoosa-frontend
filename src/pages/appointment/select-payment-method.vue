@@ -153,7 +153,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-7" v-if="appointmentAmount !== 0">
+      <div class="col-lg-7" v-if="appointmentAmount != 0">
         <div class="payment-section block-section">
           <div class="heading-section">
             <div class="heading-text">
