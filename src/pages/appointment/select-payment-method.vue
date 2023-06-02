@@ -518,7 +518,7 @@ export default {
         "paymentVerifyObject",
         JSON.stringify(paymentVerifyObject)
       );
-      if (this.appointmentAmount !== 0) {
+      if (this.appointmentAmount != 0) {
         if (paymentObj) {
           this.setPaymentObject(paymentObj);
         }
