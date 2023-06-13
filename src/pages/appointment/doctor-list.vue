@@ -68,7 +68,11 @@
             {{ getFullName(doctor, $t("dr")) }}
           </div>
           <div class="doctor-speciality">
-            {{ doctor.speciality[getLocaleKey("title")] }}
+            {{
+              doctor.speciality
+                ? doctor.speciality[getLocaleKey("title")]
+                : doctor.speciality_id || "N/A"
+            }}
           </div>
           <button
             class="btn btn-primary make-appointment"
