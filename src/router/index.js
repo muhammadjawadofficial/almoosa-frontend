@@ -155,7 +155,7 @@ const routes = [
         children: [
           {
             path: 'terms-and-condition',
-            name: 'Terms and Condition',
+            name: 'Terms and Condition WebView',
             component: TermsAndCondition,
             meta: {
               title: 'Terms and Condition | Almoosa Health Group',
