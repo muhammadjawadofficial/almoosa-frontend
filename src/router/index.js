@@ -150,6 +150,23 @@ const routes = [
         }
       },
       {
+        path: 'webview',
+        component: RouterViewModule,
+        children: [
+          {
+            path: 'terms-and-condition',
+            name: 'Terms and Condition',
+            component: TermsAndCondition,
+            meta: {
+              title: 'Terms and Condition | Almoosa Health Group',
+              public: true,
+              hideWhatsapp: true,
+              webview: true
+            }
+          },
+        ]
+      },
+      {
         path: 'appointment',
         component: AppointmentModule,
         children: [

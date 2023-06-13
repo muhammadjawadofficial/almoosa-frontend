@@ -13,12 +13,16 @@
       <!-- Previous Loader (Build using HTML + CSS) -->
       <!-- <div class="loader-index">
         <span>S</span>
-      </div> -->˝
+      </div> -->
     </div>
     <!-- Loader ends-->
     <router-view></router-view>
 
-    <div class="developed-by" id="tooltip-target-1" v-if="isNotProduction">
+    <div
+      class="developed-by"
+      id="tooltip-target-1"
+      v-if="isNotProduction && !isWebView"
+    >
       <img src="./assets/images/db.png" alt="developed by devbatch" />
       <b-tooltip target="tooltip-target-1" triggers="hover">
         <span class="db-tooltip">

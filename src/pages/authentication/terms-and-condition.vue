@@ -1,93 +1,78 @@
 <template>
-  <div class="login-card" v-if="termsAndConditionCMS">
-    <div class="heading w600">
-      {{ termsAndConditionCMS[getLocaleKey("page_title")] }}
-    </div>
-    <div class="sub-heading w200">
-      {{ termsAndConditionCMS[getLocaleKey("long_title")] }}
-    </div>
-    <div
-      class="text"
-      v-html="termsAndConditionCMS[getLocaleKey('long_text')]"
-    ></div>
-    <div class="agree-terms">
-      <div class="mt-5">
-        <b-form-checkbox
-          id="rememberMe"
-          v-model="agreeTerms"
-          :state="!submitted || agreeTerms == true"
-          name="rememberMe"
-          class="mt-3 custom-checkbox"
-        >
-          {{ $t("termsAndConditions.iAgree") }}
-        </b-form-checkbox>
+  <div class="login-card" :class="{ 'py-0': isWebView }">
+    <template v-if="termsAndConditionCMS">
+      <div class="heading w600">
+        {{ termsAndConditionCMS[getLocaleKey("page_title")] }}
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12 button-group">
-        <button class="btn btn-primary" @click="acceptTerms">
-          {{ $t("continue") }}
-        </button>
-        <!-- <button class="btn btn-secondary" @click="logout">Logout</button> -->
+      <div class="sub-heading w200">
+        {{ termsAndConditionCMS[getLocaleKey("long_title")] }}
       </div>
-    </div>
-  </div>
-  <div class="login-card" v-else>
-    <div class="heading w600">{{ $t("termsAndConditions.privacyPolicy") }}</div>
-    <div class="sub-heading w200">
-      {{ $t("termsAndConditions.mustAgree") }}
-    </div>
-    <div
-      class="text"
-      v-for="(terms, termIndex) in agreement"
-      :key="getTitle(termIndex)"
-    >
-      <div class="text-heading" v-if="terms.title">
-        {{ $t(getTitle(termIndex)) }}
+      <div
+        class="text"
+        v-html="termsAndConditionCMS[getLocaleKey('long_text')]"
+      ></div>
+    </template>
+    <template v-else>
+      <div class="heading w600">
+        {{ $t("termsAndConditions.privacyPolicy") }}
       </div>
-      <template v-if="terms.description">
-        {{ $t(getDescription(termIndex)) }}
-      </template>
-      <template v-if="terms.points">
-        <ul>
-          <li
-            v-for="(point, pointIndex) in terms.points"
-            :key="getPoint(termIndex, pointIndex)"
+      <div class="sub-heading w200">
+        {{ $t("termsAndConditions.mustAgree") }}
+      </div>
+      <div
+        class="text"
+        v-for="(terms, termIndex) in agreement"
+        :key="getTitle(termIndex)"
+      >
+        <div class="text-heading" v-if="terms.title">
+          {{ $t(getTitle(termIndex)) }}
+        </div>
+        <template v-if="terms.description">
+          {{ $t(getDescription(termIndex)) }}
+        </template>
+        <template v-if="terms.points">
+          <ul>
+            <li
+              v-for="(point, pointIndex) in terms.points"
+              :key="getPoint(termIndex, pointIndex)"
+            >
+              {{ $t(getPoint(termIndex, pointIndex)) }}
+              <ul v-if="point.sub">
+                <li
+                  v-for="subPoint in point.sub"
+                  :key="getSubPoint(termIndex, pointIndex, subPoint)"
+                >
+                  {{ $t(getSubPoint(termIndex, pointIndex, subPoint)) }}
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </template>
+      </div>
+    </template>
+    <template v-if="!isWebView">
+      <div class="agree-terms">
+        <div class="mt-5">
+          <b-form-checkbox
+            id="rememberMe"
+            v-model="agreeTerms"
+            :state="!submitted || agreeTerms == true"
+            name="rememberMe"
+            class="mt-3 custom-checkbox"
           >
-            {{ $t(getPoint(termIndex, pointIndex)) }}
-            <ul v-if="point.sub">
-              <li
-                v-for="subPoint in point.sub"
-                :key="getSubPoint(termIndex, pointIndex, subPoint)"
-              >
-                {{ $t(getSubPoint(termIndex, pointIndex, subPoint)) }}
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </template>
-    </div>
-    <div class="agree-terms">
-      <div class="mt-5">
-        <b-form-checkbox
-          id="rememberMe"
-          v-model="agreeTerms"
-          :state="!submitted || agreeTerms == true"
-          name="rememberMe"
-          class="mt-3 custom-checkbox"
-        >
-          {{ $t("termsAndConditions.iAgree") }}
-        </b-form-checkbox>
+            {{ $t("termsAndConditions.iAgree") }}
+          </b-form-checkbox>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12 button-group">
-        <button class="btn btn-primary" @click="acceptTerms">
-          {{ $t("continue") }}
-        </button>
-        <!-- <button class="btn btn-secondary" @click="logout">Logout</button> -->
+      <div class="row">
+        <div class="col-md-12 button-group">
+          <button class="btn btn-primary" @click="acceptTerms">
+            {{ $t("continue") }}
+          </button>
+          <!-- <button class="btn btn-secondary" @click="logout">Logout</button> -->
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -127,9 +112,13 @@ export default {
     ...mapGetters("user", ["getUserInfo"]),
   },
   mounted() {
-    this.setUserInfo(userService.currentUser());
-    if (userService.currentUser().is_privacy_agreed || this.isDoctor) {
-      this.navigateTo("default");
+    this.setAppLanguageFromRoute();
+
+    if (!this.isWebView) {
+      this.setUserInfo(userService.currentUser());
+      if (userService.currentUser().is_privacy_agreed || this.isDoctor) {
+        this.navigateTo("default");
+      }
     }
     this.getCmsPage("terms_and_conditions");
   },

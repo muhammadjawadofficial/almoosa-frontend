@@ -8,6 +8,7 @@ export default {
             restartEnabled: false,
             checkRoleFromUser: false,
             browserTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            isWebView: false,
         }
     },
     computed: {
@@ -24,14 +25,21 @@ export default {
     },
     mounted() {
         this.moment.locale(this.$i18n.locale)
+        this.checkWebView();
     },
     watch: {
         "$i18n.locale": function (val) {
             this.moment.locale(val)
+        },
+        "$route": function (val) {
+            this.checkWebView();
         }
     },
     methods: {
         ...mapActions("appointment", ["setSelectedAppointment"]),
+        checkWebView() {
+            this.isWebView = this.$route.meta.webview;
+        },
         getLSRole() {
             if (!userService.isAuthenticatedUser()) {
                 return userService.getRole();
