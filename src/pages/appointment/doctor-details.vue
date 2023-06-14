@@ -416,13 +416,21 @@ export default {
               (res) => {
                 let response = res.data;
                 if (response.status) {
-                  let appointment = this.getSelectedAppointment;
-                  appointment.booked_date = response.data.items[0].booked_date;
-                  appointment.start_time = this.getBookingStartTime;
-                  appointment.end_time = this.getBookingEndTime;
+                  let appointment_response = response.data.items[0];
+                  if (appointment_response.action_status) {
+                    let appointment = this.getSelectedAppointment;
+                    appointment.booked_date =
+                      response.data.items[0].booked_date;
+                    appointment.start_time = this.getBookingStartTime;
+                    appointment.end_time = this.getBookingEndTime;
+                    appointment.id = response.data.items[0].new_appointment_id;
+                  }
                   this.successIconModal(
                     this.$t("bookAppointment.modal.reschedule"),
-                    this.$t("bookAppointment.modal.rescheduleText")
+                    this.$t(
+                      appointment_response[this.getLocaleKey("message")] ||
+                        "bookAppointment.modal.rescheduleText"
+                    )
                   ).then(() => {
                     this.resetBookAppointment();
                     this.navigateTo("Appointment Detail");
