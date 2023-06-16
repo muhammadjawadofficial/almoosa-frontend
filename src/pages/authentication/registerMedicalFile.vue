@@ -178,7 +178,9 @@ export default {
   methods: {
     ...mapActions("user", ["setOtp", "setUserId", "setAuthState"]),
     validateForm() {
-      this.registerFormState.email_address = this.validEmailAddress;
+      if (!!this.registerForm.email_address)
+        this.registerFormState.email_address = this.validEmailAddress;
+      else this.registerFormState.email_address = null;
       this.registerFormState.phone_number = this.validPhoneNumber;
       this.registerFormState.userId =
         this.userId != "" && this.userId.length == this.selectedItem.validation;
