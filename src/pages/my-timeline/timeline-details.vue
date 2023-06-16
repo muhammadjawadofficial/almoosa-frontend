@@ -127,6 +127,17 @@ export default {
               this.timelineDetails = data;
               if (data) {
                 let sections = [];
+                let excludeKeys = ["value", "treatment plan"];
+                let parseHeading = (heading) => {
+                  let parsed = heading || "";
+                  parsed = heading.replaceAll("_", " ");
+
+                  if (excludeKeys.includes(parsed.toLowerCase())) {
+                    parsed = "";
+                  }
+
+                  return parsed;
+                };
                 data.forEach((item) => {
                   let section = {
                     title: item.title,
@@ -139,7 +150,7 @@ export default {
                       let subSection = [];
                       sectionDataItemKeys.forEach((key) => {
                         subSection.push({
-                          key: key.replaceAll("_", " "),
+                          key: parseHeading(key),
                           value: dataItem[key],
                         });
                       });
