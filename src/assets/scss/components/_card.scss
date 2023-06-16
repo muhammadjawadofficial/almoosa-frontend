@@ -126,6 +126,10 @@
                   color: $secondary-color;
                   font-family: $font-diodrum-medium;
                 }
+                &-tag {
+                  top: unset;
+                  color: var(--theme-default);
+                }
                 &-status {
                   font-size: 1.125rem;
                   text-transform: capitalize;

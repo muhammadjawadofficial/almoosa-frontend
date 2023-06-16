@@ -282,6 +282,13 @@ export default {
       ) {
         promo = "points";
       }
+
+      if (method == "payNow") {
+        this.navigateTo("Select Payment Method");
+      } else {
+        this.showModal();
+      }
+      return;
       appointmentService
         .createAppointment(
           this.getBookingMethod,

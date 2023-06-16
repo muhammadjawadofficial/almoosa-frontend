@@ -12,7 +12,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters("user", ["getUserRole", "getIsGuest", "getLoading"]),
+        ...mapGetters("user", ["getUserRole", "getUserInfo", "getIsGuest", "getLoading"]),
         ...mapGetters("appointment", ["getSelectedAppointment"]),
         isDoctor() {
             let roleLS = this.getLSRole();
@@ -22,6 +22,34 @@ export default {
         currentAppLang() {
             return this.$i18n.locale;
         },
+        isEligibleForFreeAppt() {
+            let isElligible = null;
+            let promos = this.getUserInfo.first_free_promo;
+
+            if (!promos) return isElligible;
+
+            promos.forEach(item => {
+                if (item.status == "pending" && !item.appointment_id) {
+                    isElligible = item
+                }
+            })
+
+            return isElligible;
+        },
+        isEligibleForCancelFreeAppt() {
+            let isElligible = null;
+            let promos = this.getUserInfo.first_free_promo;
+
+            if (!promos) return isElligible;
+
+            promos.forEach(item => {
+                if (item.status == "completed" && item.appointment_id) {
+                    isElligible = item
+                }
+            })
+
+            return isElligible;
+        }
     },
     mounted() {
         this.moment.locale(this.$i18n.locale)

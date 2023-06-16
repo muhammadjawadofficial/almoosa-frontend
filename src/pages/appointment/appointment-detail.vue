@@ -166,12 +166,18 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { appointmentService } from "../../services";
+import {
+  appointmentService,
+  freeAppointmentPromoService,
+  userService,
+} from "../../services";
 export default {
   data() {
     return {
       details: null,
       instructions: [],
+      paymentAmountResponse: null,
+      serviceBaseRate: null,
     };
   },
   mounted() {
@@ -194,12 +200,74 @@ export default {
       "setIsReschedule",
       "setPaymentObject",
     ]),
+    ...mapActions("user", ["updateUserInfo"]),
     initializeAppointmentDetails() {
       this.details = this.getSelectedAppointment;
       if (!this.details) this.navigateTo("Upcoming Appointment");
 
-      if (this.details.type.toLowerCase() !== "online") return;
+      if (this.details.type.toLowerCase() == "online") {
+        this.fetchAppointmentInstructions();
+      }
+      let isFree =
+        this.isEligibleForFreeAppt &&
+        this.getSelectedAppointment.type.toLowerCase() ==
+          this.isEligibleForFreeAppt.appointment_type.toLowerCase();
 
+      if (isFree) {
+        this.prepareFreeAppointment();
+      }
+    },
+    prepareFreeAppointment() {
+      userService
+        .getServiceBaseRate(
+          this.getUserInfo.mrn_number,
+          this.getSelectedAppointment.doctor_id,
+          this.getSelectedAppointment.id
+        )
+        .then((res) => {
+          let serviceBaseRate = res[0].data;
+          if (serviceBaseRate.status) {
+            let data = serviceBaseRate.data.items;
+            if (data && data.length) {
+              this.serviceBaseRate = data[0];
+              this.getInsuranceAmount();
+            }
+          }
+        })
+        .catch((error) => {
+          let message =
+            error.response &&
+            error.response.data &&
+            error.response.data.message;
+          if (!this.isAPIAborted(error)) this.failureToast(message);
+        });
+    },
+    getInsuranceAmount() {
+      Promise.all([
+        userService.getPaymentAmount(
+          this.getUserInfo.mrn_number,
+          this.getSelectedAppointment.id,
+          1,
+          this.serviceBaseRate.service_code
+        ),
+      ])
+        .then((res) => {
+          this.paymentAmountResponse = res[0].data.data;
+        })
+        .catch((error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+          this.navigateBack();
+        })
+        .finally(() => {
+          this.amountLoading = false;
+        });
+    },
+    fetchAppointmentInstructions() {
       appointmentService
         .getAppointmentInstructions(
           "?title=" + this.getLocaleKey("TELE_INSTRUCTIONS", "", "_AR", "upper")
@@ -287,7 +355,19 @@ export default {
       this.setBookingMethod(this.details.type);
       this.navigateTo("Doctor Details");
     },
+    showCancelModal() {
+      this.navigateTo("Upcoming Appointment");
+      this.successIconModal(
+        this.$t("upcomingAppointment.modal.delete"),
+        this.$t("upcomingAppointment.modal.deleteText"),
+        "m-calendar-cancel"
+      );
+    },
     cancelAppointment() {
+      const isEligibleForCancelFreeAppt =
+        this.isEligibleForCancelFreeAppt &&
+        this.isEligibleForCancelFreeAppt.appointment_id ==
+          this.getSelectedAppointment.id;
       this.confirmIconModal(
         this.$t("upcomingAppointment.modal.confirm"),
         this.$t("upcomingAppointment.modal.confirmText"),
@@ -300,12 +380,23 @@ export default {
             (res) => {
               let response = res.data;
               if (response.status) {
-                this.navigateTo("Upcoming Appointment");
-                this.successIconModal(
-                  this.$t("upcomingAppointment.modal.delete"),
-                  this.$t("upcomingAppointment.modal.deleteText"),
-                  "m-calendar-cancel"
-                );
+                if (isEligibleForCancelFreeAppt) {
+                  freeAppointmentPromoService
+                    .fetchFreeActiveAppointmentPromos(
+                      "?mrn_number=" + this.getUserInfo.mrn_number
+                    )
+                    .then((promoRes) => {
+                      let promoResponse = promoRes.data;
+                      if (promoResponse.status) {
+                        this.updateUserInfo({
+                          first_free_promo: promoResponse.data.items,
+                        });
+                        this.showCancelModal();
+                      }
+                    });
+                } else {
+                  this.showCancelModal();
+                }
               } else {
                 this.failureToast(response.message);
               }

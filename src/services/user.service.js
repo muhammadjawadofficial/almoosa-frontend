@@ -179,8 +179,8 @@ function getProfileById(id) {
 }
 function getUserWalletAmount() {
     return axios({
-        method: apiPath.user.getWalletAmount(currentUser().id).method,
-        url: apiPath.user.getWalletAmount(currentUser().id).url,
+        method: apiPath.user.getWalletAmount(currentUser().mrn_number).method,
+        url: apiPath.user.getWalletAmount(currentUser().mrn_number).url,
     })
 }
 function getServiceBaseRate(mrn, doctorId, appointmentId) {

@@ -243,7 +243,11 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { appointmentService, userService } from "../../services";
+import {
+  appointmentService,
+  freeAppointmentPromoService,
+  userService,
+} from "../../services";
 export default {
   data() {
     return {
@@ -260,6 +264,7 @@ export default {
     ...mapGetters("appointment", [
       "getBookingDoctor",
       "getBookingDate",
+      "getBookingTimeslot",
       "getBookingStartTime",
       "getBookingEndTime",
       "getIsReschedule",
@@ -295,7 +300,9 @@ export default {
       "setIsReschedule",
       "setSelectedAppointment",
       "resetBookAppointment",
+      "setPaymentObject",
     ]),
+    ...mapActions("user", ["updateUserInfo"]),
     initializeData() {
       this.doctor = this.getBookingDoctor;
       this.selectedDate = this.removeDateTime(this.getBookingDate);
@@ -403,54 +410,9 @@ export default {
         this.navigateTo("Login");
         localStorage.setItem("url", "Doctor Details");
       } else if (this.getIsReschedule) {
-        if (this.selectionSame()) {
-          appointmentService
-            .updateAppointment(
-              this.getIsReschedule,
-              this.selectedTimeSlot,
-              this.getUserInfo.mrn_number,
-              this.getBookingMethod,
-              this.selectedDate
-            )
-            .then(
-              (res) => {
-                let response = res.data;
-                if (response.status) {
-                  let appointment_response = response.data.items[0];
-                  if (appointment_response.action_status) {
-                    let appointment = this.getSelectedAppointment;
-                    appointment.booked_date =
-                      response.data.items[0].booked_date;
-                    appointment.start_time = this.getBookingStartTime;
-                    appointment.end_time = this.getBookingEndTime;
-                    appointment.id = response.data.items[0].new_appointment_id;
-                  }
-                  this.successIconModal(
-                    this.$t("bookAppointment.modal.reschedule"),
-                    this.$t(
-                      appointment_response[this.getLocaleKey("message")] ||
-                        "bookAppointment.modal.rescheduleText"
-                    )
-                  ).then(() => {
-                    this.resetBookAppointment();
-                    this.navigateTo("Appointment Detail");
-                  });
-                } else {
-                  this.failureToast(response.message);
-                }
-              },
-              (error) => {
-                if (!this.isAPIAborted(error))
-                  this.failureToast(
-                    error.response &&
-                      error.response.data &&
-                      error.response.data.message
-                  );
-              }
-            );
-        }
+        this.rescheduleAppointment();
       } else {
-        this.navigateTo("Book Appointment");
+        this.createAppointment();
       }
     },
     selectionSame() {
@@ -461,6 +423,129 @@ export default {
         selectedTimeSlot.start_time == this.getBookingStartTime &&
         selectedTimeSlot.end_time == this.getBookingEndTime
       );
+    },
+    rescheduleAppointment() {
+      if (this.selectionSame()) {
+        appointmentService
+          .updateAppointment(
+            this.getIsReschedule,
+            this.selectedTimeSlot,
+            this.getUserInfo.mrn_number,
+            this.getBookingMethod,
+            this.selectedDate
+          )
+          .then(
+            (res) => {
+              let response = res.data;
+              if (response.status) {
+                if (
+                  this.isEligibleForCancelFreeAppt &&
+                  this.isEligibleForCancelFreeAppt.appointment_id ==
+                    this.getIsReschedule
+                ) {
+                  freeAppointmentPromoService
+                    .fetchFreeActiveAppointmentPromos(
+                      "?mrn_number=" + this.getUserInfo.mrn_number
+                    )
+                    .then((promoRes) => {
+                      let promoResponse = promoRes.data;
+                      if (promoResponse.status) {
+                        this.updateUserInfo({
+                          first_free_promo: promoResponse.data.items,
+                        });
+                        this.saveRescheduledAppointment(response);
+                      } else {
+                        this.failureToast(response.message);
+                      }
+                    })
+                    .catch((err) => {
+                      console.error(err);
+                      if (!this.isAPIAborted(err))
+                        this.failureToast(
+                          err.response &&
+                            err.response.data &&
+                            err.response.data.message
+                        );
+                    });
+                } else {
+                  this.saveRescheduledAppointment(response);
+                }
+              } else {
+                this.failureToast(response.message);
+              }
+            },
+            (error) => {
+              if (!this.isAPIAborted(error))
+                this.failureToast(
+                  error.response &&
+                    error.response.data &&
+                    error.response.data.message
+                );
+            }
+          );
+      }
+    },
+    createAppointment() {
+      appointmentService
+        .createAppointment(
+          this.getBookingMethod,
+          this.getUserInfo,
+          this.getBookingDoctor,
+          this.getBookingDate,
+          this.getBookingTimeslot,
+          this.getBookingAmount
+        )
+        .then(
+          (res) => {
+            let response = res.data;
+            if (response.status) {
+              this.saveAppointment(response);
+            } else {
+              this.failureToast(response.message);
+            }
+          },
+          (error) => {
+            console.error(error.response);
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
+          }
+        );
+    },
+    saveAppointment(response) {
+      let appointment = response.data.items[0];
+      appointment.doctor = this.getBookingDoctor;
+      this.setSelectedAppointment(appointment);
+      let obj = {
+        amount: appointment.amount,
+        appointment_id: appointment.id,
+        payLater: true,
+      };
+      this.setPaymentObject(obj);
+      this.navigateTo("Book Appointment");
+    },
+    saveRescheduledAppointment(response) {
+      let appointment_response = response.data.items[0];
+      if (appointment_response.action_status) {
+        let appointment = this.getSelectedAppointment;
+        appointment.booked_date = response.data.items[0].booked_date;
+        appointment.start_time = this.getBookingStartTime;
+        appointment.end_time = this.getBookingEndTime;
+        appointment.id = response.data.items[0].new_appointment_id;
+      }
+      this.successIconModal(
+        this.$t("bookAppointment.modal.reschedule"),
+        this.$t(
+          appointment_response[this.getLocaleKey("message")] ||
+            "bookAppointment.modal.rescheduleText"
+        )
+      ).then(() => {
+        this.resetBookAppointment();
+        this.navigateTo("Appointment Detail");
+      });
     },
   },
   beforeDestroy() {
