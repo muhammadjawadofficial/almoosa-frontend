@@ -213,7 +213,7 @@ export default {
         this.getSelectedAppointment.type.toLowerCase() ==
           this.isEligibleForFreeAppt.appointment_type.toLowerCase();
 
-      if (isFree) {
+      if (isFree && false) {
         this.prepareFreeAppointment();
       }
     },
