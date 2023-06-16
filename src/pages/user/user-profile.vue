@@ -65,6 +65,18 @@
                       </div>
                     </div>
                   </template>
+                  <template v-if="walletAmount != null">
+                    <div
+                      class="doctor-details-card-header-right-info-section-detail"
+                    >
+                      <div class="title">
+                        {{ $t("selectPaymentMethod.walletAmount") }}
+                      </div>
+                      <div class="value">
+                        {{ translateNumber(walletAmount) }} {{ $t("sar") }}
+                      </div>
+                    </div>
+                  </template>
                   <template v-if="!isDoctor && false">
                     <div
                       class="doctor-details-card-header-right-info-section-detail with-icon"
@@ -659,6 +671,7 @@ export default {
       nationalities: [],
       clinics: [],
       specialities: [],
+      walletAmount: null,
     };
   },
   mounted() {
@@ -667,6 +680,7 @@ export default {
       this.checkDropdownValues();
     } else {
       this.getProfileData();
+      this.getWalletAmount();
     }
   },
   computed: {
@@ -679,6 +693,27 @@ export default {
       let regex = /^(05)([503649187])(\d{7})$/;
       let result = phoneNumber.match(regex);
       return !!(result && result.length);
+    },
+    getWalletAmount() {
+      userService.getUserWalletAmount().then(
+        (res) => {
+          if (res.data.status) {
+            let data = res.data.data;
+            if (data) this.walletAmount = data.wallet_balance;
+          } else {
+            this.failureToast(res.data.message);
+          }
+        },
+        (error) => {
+          console.error(error);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
     },
     changeProfilePicture(e) {
       let file = e.target.files[0];
