@@ -399,6 +399,7 @@
     "modal": {
       "confirmed": "Appointment Confirmed",
       "confirmedText": "Your appointment has been booked",
+      "confirmedVirtualText": "Your virtual appointment has been booked. To avoid appointment cancellation, kindly pay for the appointment 24hrs in advance. Please note that the virtual appointments can not be converted to Onsite appointments",
       "reschedule": "Appointment Rescheduled",
       "rescheduleText": "Your appointment has been rescheduled successfully"
     }

@@ -265,7 +265,12 @@ export default {
     showModal() {
       this.successIconModal(
         this.$t("bookAppointment.modal.confirmed"),
-        this.$t("bookAppointment.modal.confirmedText")
+        this.$t(
+          "bookAppointment.modal." +
+            (this.getBookingMethod == "online"
+              ? "confirmedVirtualText"
+              : "confirmedText")
+        )
       ).then(() => {
         this.checkAndDeductLoyaltyPoints();
         this.resetBookAppointment();
