@@ -633,5 +633,6 @@
   "pending": "قيد الانتظار",
   "approved": "موافقة",
   "rejected": "مرفوض",
-  "delete": "حذف"
+  "delete": "حذف",
+  "claimFreeAppointment": "موعد مجاني"
 }

@@ -121,16 +121,30 @@
                   }}
                 </button>
                 <div class="appointment-detail--communication">
-                  <button
-                    class="btn btn-secondary"
+                  <template
                     v-if="
                       (details.status || 'unpaid').toLowerCase() == 'unpaid' &&
                       !isDoctor
                     "
-                    @click="makePayment"
                   >
-                    {{ $t("bookAppointment.payNow") }}
-                  </button>
+                    <button
+                      class="btn btn-secondary"
+                      v-if="
+                        isEligibleForFreeAppt &&
+                        details.type.toLowerCase() == 'online'
+                      "
+                      @click="createPayment"
+                    >
+                      {{ $t("claimFreeAppointment") }}
+                    </button>
+                    <button
+                      class="btn btn-secondary"
+                      v-else
+                      @click="makePayment"
+                    >
+                      {{ $t("bookAppointment.payNow") }}
+                    </button>
+                  </template>
                   <button
                     class="btn btn-primary"
                     @click="makeCall(details)"
@@ -208,64 +222,43 @@ export default {
       if (this.details.type.toLowerCase() == "online") {
         this.fetchAppointmentInstructions();
       }
-      let isFree =
-        this.isEligibleForFreeAppt &&
-        this.getSelectedAppointment.type.toLowerCase() ==
-          this.isEligibleForFreeAppt.appointment_type.toLowerCase();
-
-      if (isFree && false) {
-        this.prepareFreeAppointment();
-      }
     },
-    prepareFreeAppointment() {
-      userService
-        .getServiceBaseRate(
+    async prepareFreeAppointment() {
+      try {
+        let response = await userService.getServiceBaseRate(
           this.getUserInfo.mrn_number,
           this.getSelectedAppointment.doctor_id,
           this.getSelectedAppointment.id
-        )
-        .then((res) => {
-          let serviceBaseRate = res[0].data;
-          if (serviceBaseRate.status) {
-            let data = serviceBaseRate.data.items;
-            if (data && data.length) {
-              this.serviceBaseRate = data[0];
-              this.getInsuranceAmount();
-            }
+        );
+        let serviceBaseRate = response.data;
+        if (serviceBaseRate.status) {
+          let data = serviceBaseRate.data.items;
+          if (data && data.length) {
+            this.serviceBaseRate = data[0];
+            await this.getInsuranceAmount();
           }
-        })
-        .catch((error) => {
-          let message =
-            error.response &&
-            error.response.data &&
-            error.response.data.message;
-          if (!this.isAPIAborted(error)) this.failureToast(message);
-        });
+        }
+      } catch (error) {
+        let message =
+          error.response && error.response.data && error.response.data.message;
+        if (!this.isAPIAborted(error)) this.failureToast(message);
+      }
     },
-    getInsuranceAmount() {
-      Promise.all([
-        userService.getPaymentAmount(
+    async getInsuranceAmount() {
+      try {
+        let response = await userService.getPaymentAmount(
           this.getUserInfo.mrn_number,
           this.getSelectedAppointment.id,
           1,
           this.serviceBaseRate.service_code
-        ),
-      ])
-        .then((res) => {
-          this.paymentAmountResponse = res[0].data.data;
-        })
-        .catch((error) => {
-          if (!this.isAPIAborted(error))
-            this.failureToast(
-              error.response &&
-                error.response.data &&
-                error.response.data.message
-            );
-          this.navigateBack();
-        })
-        .finally(() => {
-          this.amountLoading = false;
-        });
+        );
+        this.paymentAmountResponse = response.data.data;
+      } catch (error) {
+        if (!this.isAPIAborted(error))
+          this.failureToast(
+            error.response && error.response.data && error.response.data.message
+          );
+      }
     },
     fetchAppointmentInstructions() {
       appointmentService
@@ -415,6 +408,69 @@ export default {
           this.rescheduleAppointment();
         }
       });
+    },
+    async createPayment() {
+      let isFree =
+        this.isEligibleForFreeAppt &&
+        this.getSelectedAppointment.type.toLowerCase() ==
+          this.isEligibleForFreeAppt.appointment_type.toLowerCase() &&
+        this.getSelectedAppointment.status.toLowerCase() == "unpaid";
+
+      if (isFree) {
+        await this.prepareFreeAppointment();
+      }
+
+      if (!this.serviceBaseRate || !this.paymentAmountResponse) {
+        this.failureToast();
+        return;
+      }
+      
+      let paymentVerifyObject = {
+        appointment_id: this.getSelectedAppointment.id,
+        service_value: this.paymentAmountResponse.Amount || 0,
+        service_discount:
+          (+this.paymentAmountResponse.Discount || 0) +
+          (+this.paymentAmountResponse.PatientShare || 0),
+        service_tax:
+          (+this.paymentAmountResponse.ServiceTax || 0) -
+          (+this.paymentAmountResponse.PatientTax || 0),
+        service_net_amount:
+          (+this.paymentAmountResponse.NetAmount || 0) -
+          (+this.paymentAmountResponse.PatientShare || 0) -
+          (+this.paymentAmountResponse.PatientTax || 0),
+        patient_amount: 0,
+        patient_tax: 0,
+        patient_share_total: 0,
+        is_free_consultation: this.paymentAmountResponse.FreeConsultation || 0,
+        patient_scheme_id: 1,
+        wallet_payment_amount: 0,
+        gateway_payment_amount: 0,
+        gateway_payment_ref: "GATEWAY TRX REF",
+        receipt_date: this.formatReceiptDateTime(new Date()),
+        is_first_appointment_free: true,
+        original_appointment_amount:
+          (+this.paymentAmountResponse.PatientShare || 0) +
+          (+this.paymentAmountResponse.PatientTax || 0),
+      };
+      localStorage.setItem(
+        "paymentVerifyObject",
+        JSON.stringify(paymentVerifyObject)
+      );
+
+      await this.doPayment();
+
+      freeAppointmentPromoService
+        .fetchFreeActiveAppointmentPromos(
+          "?mrn_number=" + this.getUserInfo.mrn_number
+        )
+        .then((promoRes) => {
+          let promoResponse = promoRes.data;
+          if (promoResponse.status) {
+            this.updateUserInfo({
+              first_free_promo: promoResponse.data.items,
+            });
+          }
+        });
     },
   },
   computed: {

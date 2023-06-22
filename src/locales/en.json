@@ -633,5 +633,6 @@
   "pending": "Pending",
   "approved": "Approved",
   "rejected": "Rejected",
-  "delete": "Delete"
+  "delete": "Delete",
+  "claimFreeAppointment": "Claim Free Appointment"
 }

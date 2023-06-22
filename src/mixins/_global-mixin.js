@@ -615,7 +615,7 @@ export default {
 
             return booking;
         },
-        doPayment() {
+        async doPayment() {
             let booking = this.setBookingState();
             let paymentVerifyObject = JSON.parse(
                 localStorage.getItem("paymentVerifyObject")
@@ -625,7 +625,8 @@ export default {
                 this.navigateTo("default");
                 return;
             }
-            appointmentService.createPayment(paymentVerifyObject).then((res) => {
+            try {
+                let res = await appointmentService.createPayment(paymentVerifyObject)
                 let response = res.data;
                 if (response && response.status) {
                     if (
@@ -640,7 +641,7 @@ export default {
                             ],
                             "m-payment-failure"
                         ).then(() => {
-                            this.navigateTo("Appointment Detail");
+                            this.navigateTo("Upcoming Appointment");
                         });
                         return;
                     }
@@ -652,14 +653,14 @@ export default {
                         this.$t("selectPaymentMethod.paymentSuccessfulText"),
                         "m-payment-success"
                     ).then(() => {
-                        this.navigateTo("Appointment Detail");
+                        this.navigateTo("Upcoming Appointment");
                     });
                 } else {
                     this.failureToast(response.message);
                 }
-            }).catch(error => {
+            } catch (error) {
                 if (!this.isAPIAborted(error)) this.failureToast(error.response.data && error.response.data.message);
-            });
+            }
         },
         setAppLanguageFromRoute() {
             this.hideBackLink = !!this.$route.meta.hideButtons;
