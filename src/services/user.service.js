@@ -30,7 +30,10 @@ export const userService = {
     getUserWalletAmount,
     getServiceBaseRate,
     getPaymentAmount,
-    getBanner
+    getBanner,
+    setFCMToken,
+    getFCMToken,
+    removeFCMToken,
 };
 
 import axios from "axios";
@@ -38,6 +41,7 @@ import axios from "axios";
 const jwtTokenKey = 'token';
 const userInfo = 'userInfo';
 const guardianInfo = 'guardianInfo';
+const fcmToken = 'fcmToken';
 
 const preferredLayout = 'user-layout';
 
@@ -123,6 +127,15 @@ function removeBooking() {
 }
 function setBooking(booking) {
     return localStorage.setItem(paymentToBeBook, JSON.stringify(booking));
+}
+function setFCMToken(token) {
+    localStorage.setItem(fcmToken, token);
+}
+function getFCMToken() {
+    return localStorage.getItem(fcmToken);
+}
+function removeFCMToken() {
+    return localStorage.removeItem(fcmToken);
 }
 function downloadFile(file) {
     let fileName = file.name;

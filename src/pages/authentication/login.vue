@@ -210,6 +210,8 @@ export default {
         method: this.isDoctor ? "phone_number" : this.selectedItem.method,
         type: this.selectedItem.type,
       };
+      const fcm_token = userService.getFCMToken();
+      if (fcm_token) payload.fcm_token = fcm_token;
       if (this.getUserRole.includes("doc")) {
         this.doDoctorLogin(payload);
       } else {

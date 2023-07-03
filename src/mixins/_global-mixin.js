@@ -678,6 +678,37 @@ export default {
                 this.$store.dispatch("layout/setLayoutType", layoutType);
                 userService.setSelectedLayout(layoutType);
             }
-        }
+        },
+        setFCMToken() {
+            if (this.$messaging) {
+                this.$messaging
+                    .getToken({
+                        vapidKey:
+                            "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
+                    })
+                    .then((currentToken) => {
+                        if (currentToken) {
+                            userService.setFCMToken(currentToken);
+                            console.log("client token", currentToken);
+                        } else {
+                            console.log(
+                                "No registration token available. Request permission to generate one."
+                            );
+                        }
+                    })
+                    .catch((err) => {
+                        console.log("An error occurred while retrieving token. ", err);
+                    });
+            }
+        },
+        getFCMToken() {
+            return userService.getFCMToken();
+        },
+        removeFCMToken() {
+            if (this.$messaging) {
+                this.$messaging.deleteToken();
+                userService.removeFCMToken();
+            }
+        },
     },
 }

@@ -53,11 +53,7 @@
                 {{ getFullName(getUserInfo) }}</span
               >
             </div>
-            <img
-              class="b-r-round"
-              :src="getImageUrl(getUserInfo)"
-              alt=""
-            />
+            <img class="b-r-round" :src="getImageUrl(getUserInfo)" alt="" />
           </div>
           <ul class="profile-dropdown onhover-show-div">
             <span class="sec-heading w500">{{ $t("header.settings") }}</span>
@@ -266,9 +262,7 @@ export default {
       this.$root.$refs.appointmentModule &&
         this.$root.$refs.appointmentModule.destroyObjects();
       this.removeUserInfo();
-      if (this.$messaging) {
-        this.$messaging.deleteToken();
-      }
+      this.removeFCMToken();
       this.navigateTo({ name: "Login Dashboard" });
     },
     viewProfile() {
