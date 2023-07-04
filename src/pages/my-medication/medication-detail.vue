@@ -104,22 +104,6 @@
             </div>
           </b-card-body>
         </b-card>
-        <div class="appointment--action-buttons">
-          <button
-            class="btn btn-secondary text-transform-unset"
-            @click="showRequestRefillModal"
-            v-if="!getRefillRequest.length"
-          >
-            {{ $t("myMedication.requestRefill") }}
-          </button>
-          <button
-            class="btn btn-secondary text-transform-unset"
-            @click="showRequestDeliveryModal"
-            v-if="!getDeliveryRequest.length && false"
-          >
-            {{ $t("myMedication.requestDelivery") }}
-          </button>
-        </div>
       </div>
     </div>
     <set-reminder-modal
@@ -141,7 +125,6 @@ import SetReminderModal from "./set-reminder-modal.vue";
 export default {
   data() {
     return {
-      medicationRequests: null,
       numberOfDosage: 0,
       medicationReminders: {},
     };
@@ -155,22 +138,6 @@ export default {
       "getSelectedMedicationSession",
     ]),
     ...mapGetters("user", ["getUserInfo"]),
-    getRefillRequest() {
-      return (
-        !this.medicationRequests ||
-        this.medicationRequests.filter(
-          (item) => item.status === "pending" && item.is_delivery == false
-        )
-      );
-    },
-    getDeliveryRequest() {
-      return (
-        !this.medicationRequests ||
-        this.medicationRequests.filter(
-          (item) => item.status === "pending" && item.is_delivery == true
-        )
-      );
-    },
   },
   mounted() {
     if (!this.getSelectedMedication) {
@@ -204,9 +171,6 @@ export default {
     fetchMedicationDetail() {
       Promise.all([
         medicationService.getMedicationDetails(this.getSelectedMedication.id),
-        medicationService.getMedicationRequest(
-          this.getSelectedMedicationSession.id
-        ),
       ])
         .then((res) => {
           let response = res[0];
@@ -221,19 +185,8 @@ export default {
           } else {
             this.failureToast(response.data.messsage);
           }
-
-          let requests = res[1];
-          if (requests.data.status) {
-            if (requests.data.data.items && requests.data.data.items.length) {
-              this.medicationRequests = requests.data.data.items;
-            }
-          } else {
-            this.medicationRequests = [];
-            this.failureToast(requests.data.messsage);
-          }
         })
         .catch((error) => {
-          this.medicationRequests = [];
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
@@ -241,79 +194,6 @@ export default {
                 error.response.data.message
             );
         });
-    },
-    showRequestRefillModal() {
-      this.successIconModal(
-        this.$t("myMedication.modal.requestTitle"),
-        this.$t("myMedication.modal.requestText"),
-        "m-pill",
-        this.$t("myMedication.modal.requestButton")
-      ).then((modalResponse) => {
-        if (modalResponse.value) {
-          this.showMedicationModal(false);
-        }
-      });
-    },
-    showRequestDeliveryModal() {
-      this.successIconModal(
-        this.$t("myMedication.modal.requestDeliveryTitle"),
-        this.$t("myMedication.modal.requestDeliveryText"),
-        "m-pill",
-        this.$t("myMedication.modal.requestButton")
-      ).then((modalResponse) => {
-        if (modalResponse.value) {
-          this.showMedicationModal(true);
-        }
-      });
-    },
-    showMedicationModal(delivery = false) {
-      medicationService
-        .requestMedication({
-          medication_id: this.getSelectedMedicationSession.id,
-          mrn_number: this.getUserInfo.mrn_number,
-          patient_name: this.getFullName(this.getUserInfo, "", ""),
-          patient_name_ar: this.getFullName(this.getUserInfo, "", "_ar"),
-          phone_number: this.getUserInfo.phone_number,
-          clinic_id:
-            this.getSelectedMedicationSession.doctor &&
-            this.getSelectedMedicationSession.doctor.speciality_id,
-          doctor_name: this.getFullName(
-            this.getSelectedMedicationSession.doctor,
-            "",
-            ""
-          ),
-          doctor_name_ar: this.getFullName(
-            this.getSelectedMedicationSession.doctor,
-            "",
-            "_ar"
-          ),
-          medicine_name: this.getSelectedMedication.variation,
-          end_date: this.getSelectedMedication.end_date,
-          is_delivery: delivery,
-        })
-        .then(
-          (response) => {
-            if (response.data.status) {
-              this.successIconModal(
-                this.$t("myMedication.modal.requestTitle"),
-                this.$t("myMedication.modal.requestSuccess"),
-                "m-pill"
-              ).then(() => {
-                this.navigateTo("My Medication List");
-              });
-            } else {
-              this.failureToast(response.data.messsage);
-            }
-          },
-          (error) => {
-            if (!this.isAPIAborted(error))
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
-          }
-        );
     },
   },
 };
