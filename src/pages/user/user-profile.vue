@@ -108,6 +108,9 @@
                 </div>
               </div>
             </div>
+            <div class="user-qr-image" v-if="getUserInfo.qr_code">
+              <img :src="getUserInfo.qr_code" alt="qr-code" />
+            </div>
           </div>
         </div>
       </div>

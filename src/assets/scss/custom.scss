@@ -1183,6 +1183,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     width: 100%;
                     &-info {
                         margin-right: 1rem;
+
+                        @media (min-width: 361px) {
+                            margin-right: 8rem;
+                        }
                         &-name,
                         &-speciality,
                         &-location {
@@ -2075,6 +2079,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .forceRtl {
     direction: rtl;
+}
+.user-qr-image {
+    width: 12rem;
+    @media (min-width: 361px) {
+        width: 8rem;
+        position: absolute;
+        right: 0;
+    }
+    img {
+        mix-blend-mode: multiply;
+        border: 1px solid;
+        // border-radius: 1rem;
+        width: 100%;
+    }
 }
 html {
     font-size: var(--globalFontSize);
