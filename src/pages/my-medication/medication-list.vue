@@ -9,7 +9,11 @@
         <button
           class="btn btn-secondary text-transform-unset"
           @click="showRequestRefillModal"
-          v-if="medicationRequests != null && !getRefillRequest.length"
+          v-if="
+            refillAllowed &&
+            medicationRequests != null &&
+            !getRefillRequest.length
+          "
         >
           {{ $t("myMedication.requestRefill") }}
         </button>
@@ -123,6 +127,7 @@ export default {
         afternoon_reminder: null,
       },
       medicationRequests: null,
+      refillAllowed: true,
     };
   },
   mounted() {
@@ -130,6 +135,8 @@ export default {
       this.navigateTo("My Medication Sessions");
       return;
     }
+
+    this.checkRefillAllowed();
     this.fetchMedications();
     this.fetchMedicationRequest();
   },
@@ -155,6 +162,16 @@ export default {
   },
   methods: {
     ...mapActions("myMedication", ["setSelectedMedication"]),
+    checkRefillAllowed() {
+      let booked_date = new Date(this.getSelectedMedicationSession.booked_date);
+      let allowed_date = new Date(
+        booked_date.setMonth(booked_date.getMonth() + 2)
+      );
+      let current_date = new Date();
+      this.refillAllowed = this.getSelectedMedicationSession.booked_date
+        ? current_date < allowed_date
+        : true;
+    },
     handleSlotUpdate(slots) {
       let findIndex = this.medicationList.findIndex(
         (x) => x.id == this.selectedMedication.id
