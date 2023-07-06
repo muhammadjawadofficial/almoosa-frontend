@@ -1184,7 +1184,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     &-info {
                         margin-right: 1rem;
 
-                        @media (min-width: 361px) {
+                        @media (min-width: 426px) {
                             margin-right: 8rem;
                         }
                         &-name,
@@ -2082,7 +2082,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .user-qr-image {
     width: 12rem;
-    @media (min-width: 361px) {
+    @media (min-width: 426px) {
         width: 8rem;
         position: absolute;
         right: 0;
