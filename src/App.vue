@@ -35,7 +35,7 @@
     </div>
 
     <a
-      v-if="!currentRoute.meta.hideWhatsapp"
+      v-if="currentRoute && !currentRoute.meta.hideWhatsapp"
       href="https://wa.link/h6lwse"
       target="_blank"
       class="floating-whatsapp-icon"
