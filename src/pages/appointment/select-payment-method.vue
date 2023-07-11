@@ -454,12 +454,12 @@ export default {
       ])
         .then((res) => {
           this.paymentAmountResponse = res[0].data.data;
+          if (this.paymentAmountResponse.Message != "") {
+            throw Error(this.paymentAmountResponse.Message);
+            return;
+          }
           if (insurance) {
             let paymentAmount = res[0].data.data;
-            if (paymentAmount.Message != "") {
-              this.failureToast(paymentAmount.Message);
-              return;
-            }
             this.paymentAmount = paymentAmount;
             this.insuranceAmount =
               +paymentAmount.PatientShare + +paymentAmount.PatientTax;
@@ -479,9 +479,10 @@ export default {
         .catch((error) => {
           if (!this.isAPIAborted(error))
             this.failureToast(
-              error.response &&
+              (error.response &&
                 error.response.data &&
-                error.response.data.message
+                error.response.data.message) ||
+                error.message
             );
           this.navigateBack();
         })
