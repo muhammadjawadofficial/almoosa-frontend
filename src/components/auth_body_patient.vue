@@ -292,6 +292,7 @@ export default {
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
+        background: transparent;
       }
     }
   }
