@@ -233,14 +233,19 @@ export default {
         let serviceBaseRate = response.data;
         if (serviceBaseRate.status) {
           let data = serviceBaseRate.data.items;
-          if (data && data.length) {
+          if (data && data.length && data[0]) {
             this.serviceBaseRate = data[0];
             await this.getInsuranceAmount();
+          } else {
+            throw Error(this.$t("noServiceFound"));
           }
         }
       } catch (error) {
         let message =
-          error.response && error.response.data && error.response.data.message;
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message;
         if (!this.isAPIAborted(error)) this.failureToast(message);
       }
     },
@@ -252,11 +257,18 @@ export default {
           1,
           this.serviceBaseRate.service_code
         );
+        if (response.data.data.Message != "") {
+          throw Error(response.data.data.Message);
+        }
+
         this.paymentAmountResponse = response.data.data;
       } catch (error) {
         if (!this.isAPIAborted(error))
           this.failureToast(
-            error.response && error.response.data && error.response.data.message
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+              error.message
           );
       }
     },
@@ -421,10 +433,9 @@ export default {
       }
 
       if (!this.serviceBaseRate || !this.paymentAmountResponse) {
-        this.failureToast();
         return;
       }
-      
+
       let paymentVerifyObject = {
         appointment_id: this.getSelectedAppointment.id,
         service_value: this.paymentAmountResponse.Amount || 0,

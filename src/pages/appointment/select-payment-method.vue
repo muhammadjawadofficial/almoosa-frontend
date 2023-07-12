@@ -370,13 +370,14 @@ export default {
           let serviceBaseRate = res[0].data;
           if (serviceBaseRate.status) {
             let data = serviceBaseRate.data.items;
-            if (data && data.length) {
+            if (data && data.length && data[0]) {
               this.serviceBaseRate = data[0];
               this.walletAmount = this.serviceBaseRate.advance_wallet;
               this.actualWalletAmount = this.walletAmount;
               this.getInsuranceAmount();
             } else {
               this.walletAmount = 0;
+              throw Error(this.$t("noServiceFound"));
             }
           }
           let insurances = res[1].data.data;
@@ -384,9 +385,10 @@ export default {
         })
         .catch((error) => {
           let message =
-            error.response &&
-            error.response.data &&
-            error.response.data.message;
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message;
           if (!this.isAPIAborted(error)) this.failureToast(message);
           this.navigateBack();
         });

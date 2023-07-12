@@ -634,5 +634,6 @@
   "approved": "موافقة",
   "rejected": "مرفوض",
   "delete": "حذف",
-  "claimFreeAppointment": "موعد مجاني"
+  "claimFreeAppointment": "موعد مجاني",
+  "noServiceFound": "لم يتم العثور على خدمة"
 }

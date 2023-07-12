@@ -634,5 +634,6 @@
   "approved": "Approved",
   "rejected": "Rejected",
   "delete": "Delete",
-  "claimFreeAppointment": "Claim Free Appointment"
+  "claimFreeAppointment": "Claim Free Appointment",
+  "noServiceFound": "HIS: No Service Found"
 }
