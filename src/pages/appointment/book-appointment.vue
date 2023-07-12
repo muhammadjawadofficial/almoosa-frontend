@@ -315,55 +315,54 @@ export default {
       } else {
         this.showModal();
       }
-      return;
-      appointmentService
-        .createAppointment(
-          this.getBookingMethod,
-          this.getUserInfo,
-          this.getBookingDoctor,
-          this.getBookingDate,
-          this.getBookingTimeslot,
-          this.getBookingAmount,
-          promo
-        )
-        .then(
-          (res) => {
-            let response = res.data;
-            if (response.status) {
-              if (method == "payNow") {
-                let appointment = response.data.items[0];
-                appointment.doctor = this.getBookingDoctor;
-                this.setSelectedAppointment(appointment);
-                this.checkAndDeductLoyaltyPoints();
-                let obj = {
-                  amount: appointment.amount,
-                  appointment_id: appointment.id,
-                  payLater: true,
-                };
-                this.setPaymentObject(obj);
-                this.navigateTo("Select Payment Method");
-              } else {
-                this.showModal();
-              }
-            } else {
-              this.failureToast(response.message);
-            }
-          },
-          (error) => {
-            console.error(error.response);
-            if (!this.isAPIAborted(error))
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
-          }
-        );
+      // return;
+      // appointmentService
+      //   .createAppointment(
+      //     this.getBookingMethod,
+      //     this.getUserInfo,
+      //     this.getBookingDoctor,
+      //     this.getBookingDate,
+      //     this.getBookingTimeslot,
+      //     this.getBookingAmount,
+      //     promo
+      //   )
+      //   .then(
+      //     (res) => {
+      //       let response = res.data;
+      //       if (response.status) {
+      //         if (method == "payNow") {
+      //           let appointment = response.data.items[0];
+      //           appointment.doctor = this.getBookingDoctor;
+      //           this.setSelectedAppointment(appointment);
+      //           this.checkAndDeductLoyaltyPoints();
+      //           let obj = {
+      //             amount: appointment.amount,
+      //             appointment_id: appointment.id,
+      //             payLater: true,
+      //           };
+      //           this.setPaymentObject(obj);
+      //           this.navigateTo("Select Payment Method");
+      //         } else {
+      //           this.showModal();
+      //         }
+      //       } else {
+      //         this.failureToast(response.message);
+      //       }
+      //     },
+      //     (error) => {
+      //       console.error(error.response);
+      //       if (!this.isAPIAborted(error))
+      //         this.failureToast(
+      //           error.response &&
+      //             error.response.data &&
+      //             error.response.data.message
+      //         );
+      //     }
+      //   );
     },
     async bookFreeAppointment() {
       await this.prepareFreeAppointment();
       if (!this.serviceBaseRate || !this.paymentAmountResponse) {
-        this.failureToast();
         return;
       }
       this.createPayment();
@@ -388,7 +387,10 @@ export default {
         }
       } catch (error) {
         let message =
-          error.response && error.response.data && error.response.data.message;
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message;
         if (!this.isAPIAborted(error)) this.failureToast(message);
       }
     },
@@ -407,7 +409,10 @@ export default {
       } catch (error) {
         if (!this.isAPIAborted(error))
           this.failureToast(
-            error.response && error.response.data && error.response.data.message
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+              error.message
           );
       }
     },
