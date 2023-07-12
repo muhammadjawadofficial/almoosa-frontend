@@ -378,10 +378,12 @@ export default {
         let serviceBaseRate = response.data;
         if (serviceBaseRate.status) {
           let data = serviceBaseRate.data.items;
-          if (data && data.length) {
+          if (data && data.length && data[0]) {
             this.serviceBaseRate = data[0];
             if (this.serviceBaseRate) await this.getInsuranceAmount();
             else this.failureToast();
+          } else {
+            throw Error(this.$t("noServiceFound"));
           }
         }
       } catch (error) {
@@ -398,6 +400,9 @@ export default {
           1,
           this.serviceBaseRate.service_code
         );
+        if (response.data.data.Message != "") {
+          throw Error(response.data.data.Message);
+        }
         this.paymentAmountResponse = response.data.data;
       } catch (error) {
         if (!this.isAPIAborted(error))
@@ -427,7 +432,7 @@ export default {
         patient_scheme_id: 1,
         wallet_payment_amount: 0,
         gateway_payment_amount: 0,
-        gateway_payment_ref: "GATEWAY TRX REF",
+        gateway_payment_ref: "",
         receipt_date: this.formatReceiptDateTime(new Date()),
         is_first_appointment_free: true,
         original_appointment_amount:

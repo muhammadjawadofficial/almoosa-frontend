@@ -456,7 +456,7 @@ export default {
         patient_scheme_id: 1,
         wallet_payment_amount: 0,
         gateway_payment_amount: 0,
-        gateway_payment_ref: "GATEWAY TRX REF",
+        gateway_payment_ref: "",
         receipt_date: this.formatReceiptDateTime(new Date()),
         is_first_appointment_free: true,
         original_appointment_amount:
