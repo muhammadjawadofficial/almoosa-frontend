@@ -276,9 +276,10 @@ export default {
         app_language: currentAppLang,
       });
     },
-    logout() {
+    async logout() {
       this.$root.$refs.appointmentModule &&
         this.$root.$refs.appointmentModule.destroyObjects();
+      await userService.logout();
       this.removeUserInfo();
       this.removeFCMToken();
       this.navigateTo({ name: "Login Dashboard" });
