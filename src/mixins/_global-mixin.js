@@ -186,7 +186,7 @@ export default {
                 }
             });
         },
-        ratingIconModal(title, text, icon, confirmText, cancelText, doctor_id) {
+        ratingIconModal(title, text, icon, confirmText, cancelText, doctorRatingPayload) {
             const imagePath = require("../assets/images/" + (icon || 'm-check') + ".svg");
             let selectedRating = null;
             let innerHTML = `
@@ -234,7 +234,7 @@ export default {
                         return selectedRating != null
                     } else {
                         let success = false;
-                        appointmentService.ratePhysician(doctor_id, selectedRating).then(
+                        appointmentService.ratePhysician({ ...doctorRatingPayload, rating_value: selectedRating }).then(
                             (response) => {
                                 if (response.data.status) {
                                     success = true;

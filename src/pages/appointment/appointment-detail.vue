@@ -337,7 +337,15 @@ export default {
           this.$t("appointmentDetail.joinCall")
         ).then((res) => {
           if (res.value) {
-            localStorage.setItem("doctor", this.details.doctor_id);
+            let doctorRatingPayload = {
+              appointment_id: this.details.id,
+              user_id: this.getUserInfo.id,
+              rated_user_id: this.details.doctor_id,
+            };
+            localStorage.setItem(
+              "doctorRatingPayload",
+              JSON.stringify(doctorRatingPayload)
+            );
             this.navigateTo("Connect", {
               connectId: this.createRoomId(
                 appointment.id,

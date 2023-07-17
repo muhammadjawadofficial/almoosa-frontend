@@ -122,11 +122,11 @@ function getTodayAppointment(id) {
     })
 }
 
-function ratePhysician(id, rating) {
+function ratePhysician(rating) {
     return axios({
-        method: apiPath.appointment.ratePhysician(id).method,
-        url: apiPath.appointment.ratePhysician(id).url,
-        data: { rating }
+        method: apiPath.appointment.ratePhysician.method,
+        url: apiPath.appointment.ratePhysician.url,
+        data: rating
     })
 }
 
