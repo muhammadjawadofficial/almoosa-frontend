@@ -107,6 +107,7 @@ export const apiPath = {
         getServiceBaseRate: getApiObject("post", "payments/service/rate", "v2"),
         getPaymentAmount: getApiObject("post", "payments/amount", "v2"),
         changeLanguage: getApiObject("post", "user/change-language"),
+        logout: getApiObject("post", "user/logout"),
     },
 
     patient: {

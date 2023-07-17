@@ -34,7 +34,8 @@ export const userService = {
     setFCMToken,
     getFCMToken,
     removeFCMToken,
-    changeLanguage
+    changeLanguage,
+    logout
 };
 
 import axios from "axios";
@@ -238,5 +239,12 @@ function changeLanguage(lang) {
         data: {
             "language": lang
         }
+    })
+}
+
+function logout() {
+    return axios({
+        method: apiPath.user.logout.method,
+        url: apiPath.user.logout.url,
     })
 }
