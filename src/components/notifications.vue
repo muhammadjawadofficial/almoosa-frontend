@@ -34,6 +34,7 @@
             <div class="icon"><bell-fill-svg /></div>
             <p>
               <span class="multi-line-ellipse">{{ notification.title }} </span>
+              <span class="multi-line-ellipse">{{ notification.body }} </span>
               <span class="time-warning">
                 <reminder-svg />
                 {{ formatNotificationTime(notification.datetime) }}</span
