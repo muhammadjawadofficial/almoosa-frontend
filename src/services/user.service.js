@@ -34,6 +34,7 @@ export const userService = {
     setFCMToken,
     getFCMToken,
     removeFCMToken,
+    changeLanguage
 };
 
 import axios from "axios";
@@ -227,5 +228,15 @@ function getBanner(query) {
     return axios({
         method: apiPath.user.getBanner(query).method,
         url: apiPath.user.getBanner(query).url,
+    })
+}
+
+function changeLanguage(lang) {
+    return axios({
+        method: apiPath.user.changeLanguage.method,
+        url: apiPath.user.changeLanguage.url,
+        data: {
+            "language": lang
+        }
     })
 }

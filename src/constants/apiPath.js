@@ -106,6 +106,7 @@ export const apiPath = {
         getBanner: (query) => getApiObject("get", "banner" + query),
         getServiceBaseRate: getApiObject("post", "payments/service/rate", "v2"),
         getPaymentAmount: getApiObject("post", "payments/amount", "v2"),
+        changeLanguage: getApiObject("post", "user/change-language"),
     },
 
     patient: {

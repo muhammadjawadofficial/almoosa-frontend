@@ -157,14 +157,19 @@ export default {
     let layout = "ltr";
     if (userService.getSelectedLayout()) {
       layout = userService.getSelectedLayout();
-    } else if (this.$i18n.locale == "ar") {
+    } else if (this.currentAppLang == "ar") {
       layout = "rtl";
     }
     this.toggleLayout(layout);
     this.currentRouteName = this.$route.name;
   },
   methods: {
-    ...mapActions("user", ["removeUserInfo", "setUserInfo"]),
+    ...mapActions("user", ["removeUserInfo", "setUserInfo", "updateUserInfo"]),
+    async checkUserLanguage() {
+      if (this.getUserInfo.app_language != this.currentAppLang) {
+        await userService.changeLanguage(this.currentAppLang);
+      }
+    },
     toggleProfileDropdown(event, status) {
       event.preventDefault();
       if (status != undefined) {
@@ -247,16 +252,29 @@ export default {
       this.mixLayout = val;
       this.$store.dispatch("layout/setLayout", val);
     },
-    toggleLayout(layout) {
+    async toggleLayout(layout) {
       if (layout) {
         this.layoutType = layout;
       } else {
         this.layoutType = this.layoutType == "ltr" ? "rtl" : "ltr";
       }
       let isArabic = this.layoutType == "rtl";
-      this.$store.dispatch("layout/setLayoutType", this.layoutType);
-      this.$i18n.locale = isArabic ? "ar" : "en";
-      userService.setSelectedLayout(this.layoutType);
+      const currentAppLang = isArabic ? "ar" : "en";
+      try {
+        if (this.getUserInfo.app_language != currentAppLang)
+          await this.changeLanguage(currentAppLang);
+        this.$i18n.locale = currentAppLang;
+        this.$store.dispatch("layout/setLayoutType", this.layoutType);
+        userService.setSelectedLayout(this.layoutType);
+      } catch (error) {
+        this.failureToast();
+      }
+    },
+    async changeLanguage(currentAppLang) {
+      await userService.changeLanguage(currentAppLang);
+      this.updateUserInfo({
+        app_language: currentAppLang,
+      });
     },
     logout() {
       this.$root.$refs.appointmentModule &&
