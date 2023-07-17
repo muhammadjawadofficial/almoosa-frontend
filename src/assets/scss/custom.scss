@@ -1182,10 +1182,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     flex-wrap: wrap;
                     width: 100%;
                     &-info {
-                        margin-right: 1rem;
+                        margin-inline-end: 1rem;
 
                         @media (min-width: 426px) {
-                            margin-right: 8rem;
+                            margin-inline-end: 8rem;
                         }
                         &-name,
                         &-speciality,
