@@ -66,7 +66,7 @@ export default {
   mounted() {
     if (this.getAuthState == constants.auth.login) {
       this.resetAuthState();
-      this.navigateTo("default");
+      this.proceedToDashboard();
     } else {
       if (
         this.getAuthState == constants.auth.loginOtp ||
@@ -95,6 +95,9 @@ export default {
       this.setOtp(null);
       this.setUserId(null);
       this.setAuthState(null);
+    },
+    async proceedToDashboard() {
+      this.navigateTo("default");
     },
     processData() {
       if (process.env.NODE_ENV !== "production") {
@@ -152,7 +155,7 @@ export default {
                     userService.storeLoginInfo(data.user, data.access_token);
                     this.setUserInfo(data.user);
                     if (data.user.is_privacy_agreed) {
-                      this.navigateTo("default");
+                      this.proceedToDashboard();
                     } else {
                       this.navigateTo("Terms and Condition");
                     }

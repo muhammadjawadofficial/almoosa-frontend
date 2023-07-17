@@ -662,9 +662,7 @@ export default {
                 if (!this.isAPIAborted(error)) this.failureToast(error.response.data && error.response.data.message);
             }
         },
-        setAppLanguageFromRoute() {
-            this.hideBackLink = !!this.$route.meta.hideButtons;
-            let lang = this.$route.query.lang;
+        forceFullyChangeUserLanguage(lang) {
             if (!lang) {
                 if (userService.getSelectedLayout()) {
                     lang = userService.getSelectedLayout() == "ltr" ? "en" : "ar";
@@ -679,34 +677,59 @@ export default {
                 userService.setSelectedLayout(layoutType);
             }
         },
-        setFCMToken() {
+        setAppLanguageFromRoute() {
+            this.hideBackLink = !!this.$route.meta.hideButtons;
+            let lang = this.$route.query.lang;
+            this.forceFullyChangeUserLanguage(lang);
+        },
+        async setFCMToken() {
             if (this.$messaging) {
-                this.$messaging
-                    .getToken({
+                // await this.removeFCMToken();
+                this.$messaging.onTokenRefresh(() => {
+                    this.initializeFCMToken();
+                })
+                this.initializeFCMToken();
+            }
+        },
+        initializeFCMToken() {
+            this.$messaging
+                .deleteToken({
+                    vapidKey:
+                        "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
+                })
+                .then(() => {
+                    return this.$messaging.getToken({
                         vapidKey:
                             "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
                     })
-                    .then((currentToken) => {
-                        if (currentToken) {
-                            userService.setFCMToken(currentToken);
-                            console.log("client token", currentToken);
-                        } else {
-                            console.log(
-                                "No registration token available. Request permission to generate one."
-                            );
-                        }
+                })
+                .catch(() => {
+                    return this.$messaging.getToken({
+                        vapidKey:
+                            "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
                     })
-                    .catch((err) => {
-                        console.log("An error occurred while retrieving token. ", err);
-                    });
-            }
+                })
+                .then((currentToken) => {
+                    if (currentToken) {
+                        userService.setFCMToken(currentToken);
+                        console.log("client token");
+                        console.log(currentToken);
+                    } else {
+                        console.log(
+                            "No registration token available. Request permission to generate one."
+                        );
+                    }
+                })
+                .catch((err) => {
+                    console.log("An error occurred while retrieving token. ", err);
+                });
         },
         getFCMToken() {
             return userService.getFCMToken();
         },
-        removeFCMToken() {
+        async removeFCMToken() {
             if (this.$messaging) {
-                this.$messaging.deleteToken();
+                await this.$messaging.deleteToken();
                 userService.removeFCMToken();
             }
         },
