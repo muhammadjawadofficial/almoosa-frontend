@@ -143,6 +143,7 @@
       <div class="col-md-12 button-group">
         <template
           v-if="
+            false && // it is disabled because free appointment promo should be on select payment screen
             this.isEligibleForFreeAppt &&
             this.getBookingMethod.toLowerCase() == 'online'
           "

@@ -130,6 +130,7 @@
                     <button
                       class="btn btn-secondary"
                       v-if="
+                        false && // it is disabled because free appointment promo should be on select payment screen
                         isEligibleForFreeAppt &&
                         details.type.toLowerCase() == 'online'
                       "
