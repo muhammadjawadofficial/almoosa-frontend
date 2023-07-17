@@ -1885,6 +1885,22 @@
       }
     }
   }
+  .appointment-time-span {
+    white-space: pre-line;
+  }
+  .card {
+    &.ash-card {
+      .card-body {
+        .appointment-list-item {
+          .appointment-card {
+            .appointment-details .doctor-name {
+              max-width: calc(100% - 13rem);
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 @media only screen and (max-width: 1024px) {
@@ -2705,6 +2721,9 @@
       .card-body {
         .appointment-list-item {
           .appointment-card {
+            .appointment-details .doctor-name {
+              max-width: 100%;
+            }
             .appointment-status {
               display: flex;
               justify-content: space-between;
