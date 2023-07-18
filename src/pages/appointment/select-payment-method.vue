@@ -33,18 +33,24 @@
                       :class="{
                         used: useWalletAmount,
                         disabled:
-                          isEligibleForFreeAppt ||
+                          (isEligibleForFreeAppt &&
+                            getSelectedAppointment &&
+                            getSelectedAppointment.type.toLowerCase() ==
+                              'online') ||
                           !walletAmount ||
                           insuranceAmount == 0,
                       }"
                       @click="
-                        isEligibleForFreeAppt
-                          ? failureToast(
-                              $t('walletNotAllowedInFreeAppointment')
-                            )
-                          : walletAmount
-                          ? ((useWalletAmount = !useWalletAmount),
-                            setAppointmentAmount())
+                        walletAmount
+                          ? isEligibleForFreeAppt &&
+                            getSelectedAppointment &&
+                            getSelectedAppointment.type.toLowerCase() ==
+                              'online'
+                            ? failureToast(
+                                $t('walletNotAllowedInFreeAppointment')
+                              )
+                            : ((useWalletAmount = !useWalletAmount),
+                              setAppointmentAmount())
                           : null
                       "
                     >
@@ -285,7 +291,9 @@
                 $t(
                   isEligibleForFreeAppt &&
                     !isNotAllowedToBookFreeAppointment &&
-                    !amountLoading
+                    !amountLoading &&
+                    this.getSelectedAppointment &&
+                    this.getSelectedAppointment.type.toLowerCase() == "online"
                     ? "coveredByASH"
                     : "selectPaymentMethod.amountPayable"
                 )
@@ -307,7 +315,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { insuranceService, userService } from "../../services";
+import { freeAppointmentPromoService, insuranceService, userService } from "../../services";
 export default {
   data() {
     return {
@@ -403,6 +411,7 @@ export default {
   },
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
+    ...mapActions("user", ["updateUserInfo"]),
     handleAmount() {
       Promise.all([
         userService.getServiceBaseRate(
@@ -589,7 +598,7 @@ export default {
           (+this.paymentAmountResponse.PatientTax || 0),
       };
     },
-    createPayment(paymentObj, isFree = false) {
+    async createPayment(paymentObj, isFree = false) {
       if (!this.paymentAmountResponse) {
         this.failureToast("Cannot Proceed with Payment");
         return;
@@ -607,7 +616,20 @@ export default {
         }
         this.navigateTo("Pay Now");
       } else {
-        this.doPayment();
+        await this.doPayment();
+
+        freeAppointmentPromoService
+          .fetchFreeActiveAppointmentPromos(
+            "?mrn_number=" + this.getUserInfo.mrn_number
+          )
+          .then((promoRes) => {
+            let promoResponse = promoRes.data;
+            if (promoResponse.status) {
+              this.updateUserInfo({
+                first_free_promo: promoResponse.data.items,
+              });
+            }
+          });
       }
     },
   },
