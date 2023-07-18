@@ -1163,6 +1163,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                 left: 0;
                 right: 0;
                 bottom: -3rem;
+
+                --qr-image-width: 1rem;
+                @media (min-width: 426px) {
+                    --qr-image-width: 12rem;
+                }
+                @media (min-width: 1024px) {
+                    --qr-image-width: 15rem;
+                }
+
                 &-image {
                     width: 16rem;
                     aspect-ratio: 1;
@@ -1182,11 +1191,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                     flex-wrap: wrap;
                     width: 100%;
                     &-info {
-                        margin-inline-end: 1rem;
-
-                        @media (min-width: 426px) {
-                            margin-inline-end: 8rem;
-                        }
+                        width: 100%;
+                        margin-inline-end: var(--qr-image-width);
                         &-name,
                         &-speciality,
                         &-location {
@@ -1215,7 +1221,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                             display: flex;
                             flex-wrap: wrap;
                             gap: 1rem;
-                            margin-top: 1rem;
+                            margin-block: 1rem;
                             &-detail {
                                 border-left: 0.313rem solid $primary-color;
                                 padding-inline: 0.75rem;
@@ -2081,11 +2087,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     direction: rtl;
 }
 .user-qr-image {
-    width: 12rem;
+    width: var(--qr-image-width);
     @media (min-width: 426px) {
-        width: 8rem;
+        // width: 15rem;
         position: absolute;
         right: 0;
+    }
+    @media (max-width: 426px) {
+        width: 15rem;
     }
     img {
         mix-blend-mode: multiply;
