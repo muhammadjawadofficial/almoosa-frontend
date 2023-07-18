@@ -635,5 +635,8 @@
   "rejected": "Rejected",
   "delete": "Delete",
   "claimFreeAppointment": "Claim Free Appointment",
-  "noServiceFound": "HIS: No Service Found"
+  "noServiceFound": "HIS: No Service Found",
+  "selectInsuranceFirst": "Please select insurance first",
+  "walletNotAllowedInFreeAppointment": "Wallet is not allowed in free appointment",
+  "coveredByASH": "Covered by ASH"
 }
