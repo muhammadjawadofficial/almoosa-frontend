@@ -638,5 +638,7 @@
   "noServiceFound": "لم يتم العثور على خدمة",
   "selectInsuranceFirst": "يرجى تحديد شركة التأمين أولاً",
   "walletNotAllowedInFreeAppointment": "لا يمكن استخدام المحفظة في موعد مجاني",
-  "coveredByASH": "مغطى بواسطة مجموعة الموسى الصحية"
+  "coveredByASH": "مغطى بواسطة مجموعة الموسى الصحية",
+  "between": "بين",
+  "and": "و"
 }
