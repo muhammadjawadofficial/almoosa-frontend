@@ -131,7 +131,8 @@ export default {
           method: "saudi_id",
           placeholder: "enterId",
           error: "saudiId",
-          validation: 10,
+          minLength: constants.validation.saudi.min,
+          maxLength: constants.validation.saudi.max,
         },
         {
           value: 2,
@@ -139,7 +140,8 @@ export default {
           method: "iqama",
           placeholder: "enterId",
           error: "iqamaId",
-          validation: 10,
+          minLength: constants.validation.iqama.min,
+          maxLength: constants.validation.iqama.max,
         },
         {
           value: 3,
@@ -147,7 +149,8 @@ export default {
           method: "mrn_number",
           placeholder: "enterId",
           error: "mrn",
-          validation: 7,
+          minLength: constants.validation.mrn.min,
+          maxLength: constants.validation.mrn.max,
         },
       ],
     };
@@ -183,7 +186,9 @@ export default {
       else this.registerFormState.email_address = null;
       this.registerFormState.phone_number = this.validPhoneNumber;
       this.registerFormState.userId =
-        this.userId != "" && this.userId.length == this.selectedItem.validation;
+        this.userId != "" &&
+        this.userId.length >= this.selectedItem.minLength &&
+        this.userId.length <= this.selectedItem.maxLength;
       console.log(this.registerFormState);
       if (!this.registerFormState.userId) {
         if (this.userId == "")
@@ -191,9 +196,25 @@ export default {
             this.$t("register." + this.selectedItem.error + "Required")
           );
         else {
+          let isRange =
+            this.selectedItem.minLength != this.selectedItem.maxLength;
+          let textToPrepend = "";
+          if (isRange) {
+            textToPrepend =
+              this.$t("between") +
+              " " +
+              this.translateNumber(this.selectedItem.minLength) +
+              " " +
+              this.$t("and") +
+              " " +
+              this.translateNumber(this.selectedItem.maxLength) +
+              " ";
+          } else {
+            textToPrepend = this.translateNumber(this.selectedItem.minLength);
+          }
           this.failureToast(
             this.$t("register." + this.selectedItem.error + "Length", {
-              length: this.selectedItem.validation,
+              length: textToPrepend,
             })
           );
         }

@@ -357,7 +357,8 @@ export default {
           placeholder: "enterLoginId",
           type: constants.loginByOTP,
           autofill: "saudi",
-          validation: 10,
+          minLength: constants.validation.saudi.min,
+          maxLength: constants.validation.saudi.max,
         },
         {
           value: 2,
@@ -365,7 +366,8 @@ export default {
           method: "iqama",
           placeholder: "enterLoginId",
           type: constants.loginByOTP,
-          validation: 10,
+          minLength: constants.validation.iqama.min,
+          maxLength: constants.validation.iqama.max,
         },
       ],
       showDropzone: false,
@@ -512,7 +514,9 @@ export default {
       this.registerFormState.gender = form.gender != "";
       this.registerFormState.dob = form.dob != "";
       this.registerFormState.userId =
-        this.userId != "" && this.userId.length == this.selectedItem.validation;
+        this.userId != "" &&
+        this.userId.length >= this.selectedItem.minLength &&
+        this.userId.length <= this.selectedItem.maxLength;
       this.registerFormState.card_id = form.card_id != null;
       this.registerFormState.nationality = !!form.nationality;
 
@@ -522,9 +526,25 @@ export default {
             this.$t("register." + this.selectedOption.text + "Required")
           );
         else {
+          let isRange =
+            this.selectedItem.minLength != this.selectedItem.maxLength;
+          let textToPrepend = "";
+          if (isRange) {
+            textToPrepend =
+              this.$t("between") +
+              " " +
+              this.translateNumber(this.selectedItem.minLength) +
+              " " +
+              this.$t("and") +
+              " " +
+              this.translateNumber(this.selectedItem.maxLength) +
+              " ";
+          } else {
+            textToPrepend = this.translateNumber(this.selectedItem.minLength);
+          }
           this.failureToast(
             this.$t("register." + this.selectedOption.text + "Length", {
-              length: this.selectedItem.validation,
+              length: textToPrepend,
             })
           );
         }
