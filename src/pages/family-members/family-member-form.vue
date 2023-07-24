@@ -316,9 +316,14 @@ export default {
       if (!this.validateForm()) {
         return;
       }
-      this.registerForm[this.selectedItem.method] = +this.userId;
-      this.registerForm.relation_id = this.selectedRelation.id;
-      familyMemberService.addFamilyMember(this.registerForm).then(
+      let payload = {
+        card_id: this.registerForm.card_id,
+        guardian_id: this.registerForm.guardian_id,
+        phone_number: this.registerForm.phone_number,
+      };
+      payload[this.selectedItem.method] = +this.userId;
+      payload.relation_id = this.selectedRelation.id;
+      familyMemberService.addFamilyMember(payload).then(
         (response) => {
           if (response.data.status) {
             this.successIconModal(
