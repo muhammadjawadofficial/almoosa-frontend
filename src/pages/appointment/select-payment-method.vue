@@ -372,7 +372,9 @@ export default {
             let data = serviceBaseRate.data.items;
             if (data && data.length && data[0]) {
               this.serviceBaseRate = data[0];
-              this.walletAmount = this.serviceBaseRate.advance_wallet;
+              this.walletAmount = (
+                this.serviceBaseRate.advance_wallet || 0
+              ).toFixed(2);
               this.actualWalletAmount = this.walletAmount;
               this.getInsuranceAmount();
             } else {
