@@ -121,16 +121,16 @@
                   }}
                 </button>
                 <div class="appointment-detail--communication">
-                  <button
-                    class="btn btn-secondary"
+                  <template
                     v-if="
                       (details.status || 'unpaid').toLowerCase() == 'unpaid' &&
                       !isDoctor
                     "
-                    @click="makePayment"
                   >
-                    {{ $t("bookAppointment.payNow") }}
-                  </button>
+                    <button class="btn btn-secondary" @click="makePayment">
+                      {{ $t("bookAppointment.payNow") }}
+                    </button>
+                  </template>
                   <button
                     class="btn btn-primary"
                     @click="makeCall(details)"
@@ -208,64 +208,6 @@ export default {
       if (this.details.type.toLowerCase() == "online") {
         this.fetchAppointmentInstructions();
       }
-      let isFree =
-        this.isEligibleForFreeAppt &&
-        this.getSelectedAppointment.type.toLowerCase() ==
-          this.isEligibleForFreeAppt.appointment_type.toLowerCase();
-
-      if (isFree && false) {
-        this.prepareFreeAppointment();
-      }
-    },
-    prepareFreeAppointment() {
-      userService
-        .getServiceBaseRate(
-          this.getUserInfo.mrn_number,
-          this.getSelectedAppointment.doctor_id,
-          this.getSelectedAppointment.id
-        )
-        .then((res) => {
-          let serviceBaseRate = res[0].data;
-          if (serviceBaseRate.status) {
-            let data = serviceBaseRate.data.items;
-            if (data && data.length) {
-              this.serviceBaseRate = data[0];
-              this.getInsuranceAmount();
-            }
-          }
-        })
-        .catch((error) => {
-          let message =
-            error.response &&
-            error.response.data &&
-            error.response.data.message;
-          if (!this.isAPIAborted(error)) this.failureToast(message);
-        });
-    },
-    getInsuranceAmount() {
-      Promise.all([
-        userService.getPaymentAmount(
-          this.getUserInfo.mrn_number,
-          this.getSelectedAppointment.id,
-          1,
-          this.serviceBaseRate.service_code
-        ),
-      ])
-        .then((res) => {
-          this.paymentAmountResponse = res[0].data.data;
-        })
-        .catch((error) => {
-          if (!this.isAPIAborted(error))
-            this.failureToast(
-              error.response &&
-                error.response.data &&
-                error.response.data.message
-            );
-          this.navigateBack();
-        })
-        .finally(() => {
-          this.amountLoading = false;
-        });
     },
     fetchAppointmentInstructions() {
       appointmentService
@@ -332,7 +274,15 @@ export default {
           this.$t("appointmentDetail.joinCall")
         ).then((res) => {
           if (res.value) {
-            localStorage.setItem("doctor", this.details.doctor_id);
+            let doctorRatingPayload = {
+              appointment_id: this.details.id,
+              user_id: this.getUserInfo.id,
+              rated_user_id: this.details.doctor_id,
+            };
+            localStorage.setItem(
+              "doctorRatingPayload",
+              JSON.stringify(doctorRatingPayload)
+            );
             this.navigateTo("Connect", {
               connectId: this.createRoomId(
                 appointment.id,

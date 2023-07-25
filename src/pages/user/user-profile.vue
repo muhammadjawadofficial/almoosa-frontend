@@ -108,6 +108,9 @@
                 </div>
               </div>
             </div>
+            <div class="user-qr-image" v-if="getUserInfo.qr_code">
+              <img :src="getUserInfo.qr_code" alt="qr-code" />
+            </div>
           </div>
         </div>
       </div>
@@ -922,8 +925,6 @@ export default {
           this.doctor.clinics != [] &&
           this.doctor.clinics.length > 0 &&
           !!this.doctor.clinics;
-        this.doctorState.degreeState =
-          this.doctor.degree != "" && !!this.doctor.degree;
         this.doctorState.expertiseState =
           this.doctor.expertise != "" && !!this.doctor.expertise;
         this.doctorState.expertiseArState =
@@ -936,6 +937,8 @@ export default {
           this.doctor.consulting != "" && !!this.doctor.consulting;
         this.doctorState.consultingArState =
           this.doctor.consultingAr != "" && !!this.doctor.consultingAr;
+
+        console.log(this.doctorState);
         return !Object.values(this.doctorState).includes(false);
       } else {
         this.areaState = this.area != "";

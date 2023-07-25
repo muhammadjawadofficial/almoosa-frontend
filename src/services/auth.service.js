@@ -32,6 +32,7 @@ function login(payload) {
             "field_name": payload.method,
             "username": payload.username,
             "password": payload.password,
+            "fcm_token": payload.fcm_token
         }
     }
     return axios({
@@ -44,6 +45,7 @@ function loginDoctor(payload) {
     let data = {
         "doctor_id": payload.username,
         "password": payload.password,
+        "fcm_token": payload.fcm_token
     }
     return axios({
         method: apiPath.login.doctor.method,

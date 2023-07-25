@@ -186,7 +186,7 @@ export default {
                 }
             });
         },
-        ratingIconModal(title, text, icon, confirmText, cancelText, doctor_id) {
+        ratingIconModal(title, text, icon, confirmText, cancelText, doctorRatingPayload) {
             const imagePath = require("../assets/images/" + (icon || 'm-check') + ".svg");
             let selectedRating = null;
             let innerHTML = `
@@ -234,7 +234,7 @@ export default {
                         return selectedRating != null
                     } else {
                         let success = false;
-                        appointmentService.ratePhysician(doctor_id, selectedRating).then(
+                        appointmentService.ratePhysician({ ...doctorRatingPayload, rating_value: selectedRating }).then(
                             (response) => {
                                 if (response.data.status) {
                                     success = true;
@@ -615,7 +615,7 @@ export default {
 
             return booking;
         },
-        doPayment() {
+        async doPayment() {
             let booking = this.setBookingState();
             let paymentVerifyObject = JSON.parse(
                 localStorage.getItem("paymentVerifyObject")
@@ -625,7 +625,8 @@ export default {
                 this.navigateTo("default");
                 return;
             }
-            appointmentService.createPayment(paymentVerifyObject).then((res) => {
+            try {
+                let res = await appointmentService.createPayment(paymentVerifyObject)
                 let response = res.data;
                 if (response && response.status) {
                     if (
@@ -640,7 +641,7 @@ export default {
                             ],
                             "m-payment-failure"
                         ).then(() => {
-                            this.navigateTo("Appointment Detail");
+                            this.navigateTo("Upcoming Appointment");
                         });
                         return;
                     }
@@ -652,18 +653,16 @@ export default {
                         this.$t("selectPaymentMethod.paymentSuccessfulText"),
                         "m-payment-success"
                     ).then(() => {
-                        this.navigateTo("Appointment Detail");
+                        this.navigateTo("Upcoming Appointment");
                     });
                 } else {
                     this.failureToast(response.message);
                 }
-            }).catch(error => {
+            } catch (error) {
                 if (!this.isAPIAborted(error)) this.failureToast(error.response.data && error.response.data.message);
-            });
+            }
         },
-        setAppLanguageFromRoute() {
-            this.hideBackLink = !!this.$route.meta.hideButtons;
-            let lang = this.$route.query.lang;
+        forceFullyChangeUserLanguage(lang) {
             if (!lang) {
                 if (userService.getSelectedLayout()) {
                     lang = userService.getSelectedLayout() == "ltr" ? "en" : "ar";
@@ -677,6 +676,62 @@ export default {
                 this.$store.dispatch("layout/setLayoutType", layoutType);
                 userService.setSelectedLayout(layoutType);
             }
-        }
+        },
+        setAppLanguageFromRoute() {
+            this.hideBackLink = !!this.$route.meta.hideButtons;
+            let lang = this.$route.query.lang;
+            this.forceFullyChangeUserLanguage(lang);
+        },
+        async setFCMToken() {
+            if (this.$messaging) {
+                // await this.removeFCMToken();
+                this.$messaging.onTokenRefresh(() => {
+                    this.initializeFCMToken();
+                })
+                this.initializeFCMToken();
+            }
+        },
+        initializeFCMToken() {
+            this.$messaging
+                .deleteToken({
+                    vapidKey:
+                        "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
+                })
+                .then(() => {
+                    return this.$messaging.getToken({
+                        vapidKey:
+                            "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
+                    })
+                })
+                .catch(() => {
+                    return this.$messaging.getToken({
+                        vapidKey:
+                            "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
+                    })
+                })
+                .then((currentToken) => {
+                    if (currentToken) {
+                        userService.setFCMToken(currentToken);
+                        console.log("client token");
+                        console.log(currentToken);
+                    } else {
+                        console.log(
+                            "No registration token available. Request permission to generate one."
+                        );
+                    }
+                })
+                .catch((err) => {
+                    console.log("An error occurred while retrieving token. ", err);
+                });
+        },
+        getFCMToken() {
+            return userService.getFCMToken();
+        },
+        async removeFCMToken() {
+            if (this.$messaging) {
+                await this.$messaging.deleteToken();
+                userService.removeFCMToken();
+            }
+        },
     },
 }

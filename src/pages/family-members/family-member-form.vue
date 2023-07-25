@@ -179,7 +179,8 @@ export default {
           placeholder: "enterId",
           type: constants.loginByOTP,
           error: "saudiId",
-          validation: 10,
+          minLength: constants.validation.saudi.min,
+          maxLength: constants.validation.saudi.max,
         },
         {
           value: 2,
@@ -188,7 +189,8 @@ export default {
           placeholder: "enterId",
           type: constants.loginByOTP,
           error: "iqamaId",
-          validation: 10,
+          minLength: constants.validation.iqama.min,
+          maxLength: constants.validation.iqama.max,
         },
       ],
       relations: [],
@@ -263,7 +265,9 @@ export default {
       let form = this.registerForm;
       this.registerFormState.phone_number = this.validPhoneNumber;
       this.registerFormState.userId =
-        this.userId != "" && this.userId.length == this.selectedItem.validation;
+        this.userId != "" &&
+        this.userId.length >= this.selectedItem.minLength &&
+        this.userId.length <= this.selectedItem.maxLength;
       this.registerFormState.relation_id = this.selectedRelation != null;
       this.registerFormState.card_id = this.registerForm.card_id != null;
 
@@ -273,9 +277,25 @@ export default {
             this.$t("register." + this.selectedItem.error + "Required")
           );
         else {
+          let isRange =
+            this.selectedItem.minLength != this.selectedItem.maxLength;
+          let textToPrepend = "";
+          if (isRange) {
+            textToPrepend =
+              this.$t("between") +
+              " " +
+              this.translateNumber(this.selectedItem.minLength) +
+              " " +
+              this.$t("and") +
+              " " +
+              this.translateNumber(this.selectedItem.maxLength) +
+              " ";
+          } else {
+            textToPrepend = this.translateNumber(this.selectedItem.minLength);
+          }
           this.failureToast(
             this.$t("register." + this.selectedItem.error + "Length", {
-              length: this.selectedItem.validation,
+              length: textToPrepend,
             })
           );
         }
@@ -296,9 +316,14 @@ export default {
       if (!this.validateForm()) {
         return;
       }
-      this.registerForm[this.selectedItem.method] = +this.userId;
-      this.registerForm.relation_id = this.selectedRelation.id;
-      familyMemberService.addFamilyMember(this.registerForm).then(
+      let payload = {
+        card_id: this.registerForm.card_id,
+        guardian_id: this.registerForm.guardian_id,
+        phone_number: this.registerForm.phone_number,
+      };
+      payload[this.selectedItem.method] = +this.userId;
+      payload.relation_id = this.selectedRelation.id;
+      familyMemberService.addFamilyMember(payload).then(
         (response) => {
           if (response.data.status) {
             this.successIconModal(
@@ -323,6 +348,10 @@ export default {
       if (this.fileToUpload.length > 0) {
         this.fileToUpload = [];
         this.$refs.fileUpload.removeAllFiles();
+      }
+      if (this.registerForm.card_id) {
+        this.registerForm.card_id = null;
+        this.registerFormState.card_id = null;
       }
     },
     removeFile() {

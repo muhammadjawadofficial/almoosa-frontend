@@ -370,13 +370,16 @@ export default {
           let serviceBaseRate = res[0].data;
           if (serviceBaseRate.status) {
             let data = serviceBaseRate.data.items;
-            if (data && data.length) {
+            if (data && data.length && data[0]) {
               this.serviceBaseRate = data[0];
-              this.walletAmount = this.serviceBaseRate.advance_wallet;
+              this.walletAmount = (
+                this.serviceBaseRate.advance_wallet || 0
+              ).toFixed(2);
               this.actualWalletAmount = this.walletAmount;
               this.getInsuranceAmount();
             } else {
               this.walletAmount = 0;
+              throw Error(this.$t("noServiceFound"));
             }
           }
           let insurances = res[1].data.data;
@@ -384,9 +387,10 @@ export default {
         })
         .catch((error) => {
           let message =
-            error.response &&
-            error.response.data &&
-            error.response.data.message;
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message;
           if (!this.isAPIAborted(error)) this.failureToast(message);
           this.navigateBack();
         });
@@ -454,12 +458,12 @@ export default {
       ])
         .then((res) => {
           this.paymentAmountResponse = res[0].data.data;
+          if (this.paymentAmountResponse.Message != "") {
+            throw Error(this.paymentAmountResponse.Message);
+            return;
+          }
           if (insurance) {
             let paymentAmount = res[0].data.data;
-            if (paymentAmount.Message != "") {
-              this.failureToast(paymentAmount.Message);
-              return;
-            }
             this.paymentAmount = paymentAmount;
             this.insuranceAmount =
               +paymentAmount.PatientShare + +paymentAmount.PatientTax;
@@ -479,9 +483,10 @@ export default {
         .catch((error) => {
           if (!this.isAPIAborted(error))
             this.failureToast(
-              error.response &&
+              (error.response &&
                 error.response.data &&
-                error.response.data.message
+                error.response.data.message) ||
+                error.message
             );
           this.navigateBack();
         })

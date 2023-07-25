@@ -53,11 +53,7 @@
                 {{ getFullName(getUserInfo) }}</span
               >
             </div>
-            <img
-              class="b-r-round"
-              :src="getImageUrl(getUserInfo)"
-              alt=""
-            />
+            <img class="b-r-round" :src="getImageUrl(getUserInfo)" alt="" />
           </div>
           <ul class="profile-dropdown onhover-show-div">
             <span class="sec-heading w500">{{ $t("header.settings") }}</span>
@@ -161,14 +157,19 @@ export default {
     let layout = "ltr";
     if (userService.getSelectedLayout()) {
       layout = userService.getSelectedLayout();
-    } else if (this.$i18n.locale == "ar") {
+    } else if (this.currentAppLang == "ar") {
       layout = "rtl";
     }
     this.toggleLayout(layout);
     this.currentRouteName = this.$route.name;
   },
   methods: {
-    ...mapActions("user", ["removeUserInfo", "setUserInfo"]),
+    ...mapActions("user", ["removeUserInfo", "setUserInfo", "updateUserInfo"]),
+    async checkUserLanguage() {
+      if (this.getUserInfo.app_language != this.currentAppLang) {
+        await userService.changeLanguage(this.currentAppLang);
+      }
+    },
     toggleProfileDropdown(event, status) {
       event.preventDefault();
       if (status != undefined) {
@@ -251,24 +252,36 @@ export default {
       this.mixLayout = val;
       this.$store.dispatch("layout/setLayout", val);
     },
-    toggleLayout(layout) {
+    async toggleLayout(layout) {
       if (layout) {
         this.layoutType = layout;
       } else {
         this.layoutType = this.layoutType == "ltr" ? "rtl" : "ltr";
       }
       let isArabic = this.layoutType == "rtl";
-      this.$store.dispatch("layout/setLayoutType", this.layoutType);
-      this.$i18n.locale = isArabic ? "ar" : "en";
-      userService.setSelectedLayout(this.layoutType);
+      const currentAppLang = isArabic ? "ar" : "en";
+      try {
+        if (this.getUserInfo.app_language != currentAppLang)
+          await this.changeLanguage(currentAppLang);
+        this.$i18n.locale = currentAppLang;
+        this.$store.dispatch("layout/setLayoutType", this.layoutType);
+        userService.setSelectedLayout(this.layoutType);
+      } catch (error) {
+        this.failureToast();
+      }
     },
-    logout() {
+    async changeLanguage(currentAppLang) {
+      await userService.changeLanguage(currentAppLang);
+      this.updateUserInfo({
+        app_language: currentAppLang,
+      });
+    },
+    async logout() {
       this.$root.$refs.appointmentModule &&
         this.$root.$refs.appointmentModule.destroyObjects();
+      await userService.logout();
       this.removeUserInfo();
-      if (this.$messaging) {
-        this.$messaging.deleteToken();
-      }
+      this.removeFCMToken();
       this.navigateTo({ name: "Login Dashboard" });
     },
     viewProfile() {

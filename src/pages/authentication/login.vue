@@ -130,7 +130,8 @@ export default {
           placeholder: "enterLoginId",
           type: constants.loginByOTP,
           errorKey: "saudiId",
-          validation: 10,
+          minLength: constants.validation.saudi.min,
+          maxLength: constants.validation.saudi.max,
         },
         {
           value: 2,
@@ -139,7 +140,8 @@ export default {
           placeholder: "enterLoginId",
           type: constants.loginByOTP,
           errorKey: "iqamaId",
-          validation: 10,
+          minLength: constants.validation.iqama.min,
+          maxLength: constants.validation.iqama.max,
         },
         {
           value: 1,
@@ -148,7 +150,8 @@ export default {
           placeholder: "enterLoginId",
           type: constants.loginByPassword,
           errorKey: "mrn",
-          validation: 7,
+          minLength: constants.validation.mrn.min,
+          maxLength: constants.validation.mrn.max,
         },
       ],
     };
@@ -170,7 +173,9 @@ export default {
     validateForm() {
       this.usernameState =
         this.username != "" &&
-        (this.isDoctor || this.username.length == this.selectedItem.validation);
+        (this.isDoctor ||
+          (this.username.length >= this.selectedItem.minLength &&
+            this.username.length <= this.selectedItem.maxLength));
       if (
         this.selectedItem.type == constants.loginByPassword ||
         this.isDoctor
@@ -189,9 +194,25 @@ export default {
             )
           );
         else {
+          let isRange =
+            this.selectedItem.minLength != this.selectedItem.maxLength;
+          let textToPrepend = "";
+          if (isRange) {
+            textToPrepend =
+              this.$t("between") +
+              " " +
+              this.translateNumber(this.selectedItem.minLength) +
+              " " +
+              this.$t("and") +
+              " " +
+              this.translateNumber(this.selectedItem.maxLength) +
+              " ";
+          } else {
+            textToPrepend = this.translateNumber(this.selectedItem.minLength);
+          }
           this.failureToast(
             this.$t("register." + this.selectedItem.errorKey + "Length", {
-              length: this.selectedItem.validation,
+              length: textToPrepend,
             })
           );
         }
@@ -210,6 +231,8 @@ export default {
         method: this.isDoctor ? "phone_number" : this.selectedItem.method,
         type: this.selectedItem.type,
       };
+      const fcm_token = userService.getFCMToken();
+      if (fcm_token) payload.fcm_token = fcm_token;
       if (this.getUserRole.includes("doc")) {
         this.doDoctorLogin(payload);
       } else {

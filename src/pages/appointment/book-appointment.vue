@@ -26,7 +26,7 @@
                 {{ $t("bookAppointment.appointment") }}
               </div>
               <div class="appointment-detail--value">
-                {{ $t("bookAppointment." + getBookingMethod) }}
+                {{ $t("bookAppointment." + getBookingMethod.toLowerCase()) }}
               </div>
             </div>
             <div class="appointment-detail--sepecialist">
@@ -147,9 +147,9 @@
         <button class="btn btn-secondary" @click="bookAppointment">
           {{ $t("bookAppointment.payLater") }}
         </button>
-        <button class="btn btn-tertiary" @click="navigateTo('Doctor Details')">
-          {{ $t("back") }}
-        </button>
+        <!-- <button class="btn btn-tertiary" @click="navigateTo('Doctor Details')">
+            {{ $t("back") }}
+          </button> -->
       </div>
     </div>
   </div>
@@ -157,7 +157,12 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { appointmentService, promotionService } from "../../services";
+import {
+  appointmentService,
+  freeAppointmentPromoService,
+  promotionService,
+  userService,
+} from "../../services";
 export default {
   data() {
     return {
@@ -165,6 +170,8 @@ export default {
       selectedPromotion: null,
       selectedLoyaltyPoints: null,
       promotionList: [],
+      paymentAmountResponse: null,
+      serviceBaseRate: null,
     };
   },
   mounted() {
@@ -250,7 +257,6 @@ export default {
     checkAccess() {
       if (
         !(
-          this.getBookingAmount &&
           this.getBookingTimeslot &&
           this.getBookingEndTime &&
           this.getBookingStartTime &&
@@ -267,7 +273,7 @@ export default {
         this.$t("bookAppointment.modal.confirmed"),
         this.$t(
           "bookAppointment.modal." +
-            (this.getBookingMethod == "online"
+            (this.getBookingMethod.toLowerCase() == "online"
               ? "confirmedVirtualText"
               : "confirmedText")
         )
@@ -293,50 +299,6 @@ export default {
       } else {
         this.showModal();
       }
-      return;
-      appointmentService
-        .createAppointment(
-          this.getBookingMethod,
-          this.getUserInfo,
-          this.getBookingDoctor,
-          this.getBookingDate,
-          this.getBookingTimeslot,
-          this.getBookingAmount,
-          promo
-        )
-        .then(
-          (res) => {
-            let response = res.data;
-            if (response.status) {
-              if (method == "payNow") {
-                let appointment = response.data.items[0];
-                appointment.doctor = this.getBookingDoctor;
-                this.setSelectedAppointment(appointment);
-                this.checkAndDeductLoyaltyPoints();
-                let obj = {
-                  amount: appointment.amount,
-                  appointment_id: appointment.id,
-                  payLater: true,
-                };
-                this.setPaymentObject(obj);
-                this.navigateTo("Select Payment Method");
-              } else {
-                this.showModal();
-              }
-            } else {
-              this.failureToast(response.message);
-            }
-          },
-          (error) => {
-            console.error(error.response);
-            if (!this.isAPIAborted(error))
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
-          }
-        );
     },
     checkAndDeductLoyaltyPoints() {
       if (

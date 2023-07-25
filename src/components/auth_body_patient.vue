@@ -156,6 +156,7 @@ export default {
     ...mapGetters("user", ["getUserRole"]),
   },
   mounted() {
+    this.setFCMToken();
     let layout = "ltr";
     if (userService.getSelectedLayout()) {
       layout = userService.getSelectedLayout();
@@ -291,6 +292,7 @@ export default {
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
+        background: transparent;
       }
     }
   }

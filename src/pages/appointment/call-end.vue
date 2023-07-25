@@ -6,16 +6,18 @@
 <script>
 export default {
   mounted() {
-    let doctor_id = localStorage.getItem("doctor");
-    localStorage.removeItem("doctor");
-    if (doctor_id) {
+    let doctorRatingPayload = JSON.parse(
+      localStorage.getItem("doctorRatingPayload")
+    );
+    localStorage.removeItem("doctorRatingPayload");
+    if (doctorRatingPayload) {
       this.ratingIconModal(
         this.$t("rating.title"),
         this.$t("rating.text"),
         "m-star",
         this.$t("rating.success"),
         this.$t("rating.deny"),
-        doctor_id
+        doctorRatingPayload
       );
     }
     this.navigateTo("default");

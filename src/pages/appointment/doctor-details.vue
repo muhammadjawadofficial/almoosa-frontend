@@ -529,12 +529,22 @@ export default {
     },
     saveRescheduledAppointment(response) {
       let appointment_response = response.data.items[0];
-      if (appointment_response.action_status) {
+      let operation_status = appointment_response.operation_status || "";
+      if (operation_status.toLowerCase().includes("succeeded")) {
         let appointment = this.getSelectedAppointment;
+        this.setSelectedAppointment(null);
         appointment.booked_date = response.data.items[0].booked_date;
         appointment.start_time = this.getBookingStartTime;
         appointment.end_time = this.getBookingEndTime;
         appointment.id = response.data.items[0].new_appointment_id;
+        appointment.status = "unpaid";
+        this.setSelectedAppointment(appointment);
+        let obj = {
+          amount: appointment.amount,
+          appointment_id: appointment.id,
+          payLater: true,
+        };
+        this.setPaymentObject(obj);
       }
       this.successIconModal(
         this.$t("bookAppointment.modal.reschedule"),
@@ -543,8 +553,12 @@ export default {
             "bookAppointment.modal.rescheduleText"
         )
       ).then(() => {
-        this.resetBookAppointment();
-        this.navigateTo("Appointment Detail");
+        if (this.isEligibleForFreeAppt) {
+          this.navigateTo("Book Appointment");
+        } else {
+          this.resetBookAppointment();
+          this.navigateTo("Appointment Detail");
+        }
       });
     },
   },

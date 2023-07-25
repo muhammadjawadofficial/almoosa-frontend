@@ -4,6 +4,7 @@ let getApiObject = (method, url, version = "v1", pre = null) => {
     let baseUrl = pre || process.env[envKey];
     // baseUrl = "http://172.16.247.126:3000/";
     // baseUrl = "http://172.16.245.252:3000/";
+    // baseUrl = "http://localhost:3000/";
     return { method, url: baseUrl + "api/" + version + "/" + url };
 }
 
@@ -65,7 +66,7 @@ export const apiPath = {
         updateAppointment: getApiObject("post", "appointments/reschedule", "v2"),
         cancelAppointment: getApiObject("post", "appointments/cancel", "v2"),
         todayAppointment: (id) => getApiObject("get", "appointments/today?doctor_id=" + id, 'v2'),
-        ratePhysician: (id) => getApiObject("patch", "doctor/rating/" + id),
+        ratePhysician: getApiObject("post", "user-ratings"),
         fetchAppointmentHistory: (patient_id, doctor_id) => getApiObject("get", "appointments/history?mrn_number=" + patient_id + "&doctor_id=" + doctor_id, "v2"),
         createPayment: getApiObject("post", "payments/create", "v2"),
         getInstructions: (query) => getApiObject("get", "system-settings" + query)
@@ -105,6 +106,8 @@ export const apiPath = {
         getBanner: (query) => getApiObject("get", "banner" + query),
         getServiceBaseRate: getApiObject("post", "payments/service/rate", "v2"),
         getPaymentAmount: getApiObject("post", "payments/amount", "v2"),
+        changeLanguage: getApiObject("post", "user/change-language"),
+        logout: getApiObject("post", "user/logout"),
     },
 
     patient: {
