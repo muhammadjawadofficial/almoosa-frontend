@@ -40,7 +40,9 @@
             // unavailable: doctor.has_schedule == 'NO',
             // 'fully-booked': doctor.doctor_availability == 'NO',
             'disable-card':
-              doctor.has_schedule == 'NO' || doctor.doctor_availability == 'NO',
+              isBookingFlow &&
+              (doctor.has_schedule == 'NO' ||
+                doctor.doctor_availability == 'NO'),
           }"
         >
           <div class="doctor-image">
@@ -51,8 +53,9 @@
             <div
               class="doctor-availability"
               v-if="
-                doctor.has_schedule == 'NO' ||
-                doctor.doctor_availability == 'NO'
+                isBookingFlow &&
+                (doctor.has_schedule == 'NO' ||
+                  doctor.doctor_availability == 'NO')
               "
             >
               {{
