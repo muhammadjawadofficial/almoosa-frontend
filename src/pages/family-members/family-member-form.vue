@@ -349,6 +349,10 @@ export default {
         this.fileToUpload = [];
         this.$refs.fileUpload.removeAllFiles();
       }
+      if (this.registerForm.card_id) {
+        this.registerForm.card_id = null;
+        this.registerFormState.card_id = null;
+      }
     },
     removeFile() {
       if (this.fileToUpload.length > 1) {
