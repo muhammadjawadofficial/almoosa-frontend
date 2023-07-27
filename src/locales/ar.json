@@ -554,7 +554,7 @@
     "success": "مكتمل"
   },
   "approvalStatus": {
-    "sent_for_approval": "تم إرسالها للموافقة",
+    "sent_for_approval": "الطلب قيد الاجراء",
     "approved": "تمت الموافقة",
     "rejected": "مرفوض"
   },
