@@ -640,5 +640,6 @@
   "walletNotAllowedInFreeAppointment": "Wallet is not allowed in free appointment",
   "coveredByASH": "Covered by ASH",
   "between": "between",
-  "and": "and"
+  "and": "and",
+  "discount": "Discount"
 }

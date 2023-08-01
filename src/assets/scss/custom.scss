@@ -611,11 +611,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     &--amount {
         .appointment-detail--label {
             max-width: calc(min(100%, 30rem));
-            .reset-discount {
-                float: right;
-                color: $danger-color;
-                cursor: pointer;
-            }
         }
     }
     &--label {
@@ -646,6 +641,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 }
 
+.reset-discount {
+    float: right;
+    color: $danger-color;
+    cursor: pointer;
+}
 .promotions-list-conatiner {
     .card.ash-card {
         .card-body {
@@ -1575,81 +1575,82 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             }
         }
     }
-    .promotions-loyalty {
-        display: flex;
-        gap: 0.5rem;
-        &-item {
-            padding: 1.75rem;
-            background-color: $white;
-            border-radius: 1rem;
-            width: 13.625rem;
-            cursor: pointer;
-            position: relative;
-            box-shadow: 0rem 0rem 0.5rem 0.25rem #6e99fc30;
-            border: 1px solid transparent;
-            &.active {
-                border-color: $secondary-color;
-                &::before {
-                    content: "";
-                    width: 2.438rem;
-                    aspect-ratio: 1;
-                    position: absolute;
-                    top: -1.25rem;
-                    right: 0.5rem;
-                    background-image: url(../images/check-secondary.svg);
-                    background-repeat: no-repeat;
-                    background-position: center;
-                    background-size: contain;
-                }
-            }
-            &-icon {
-                .deducted {
-                    float: right;
-                    font-size: 1rem;
-                }
-                height: 2.25rem;
-                img {
-                    height: 100%;
-                }
-            }
-            &-title {
-                padding-top: 0.5rem;
-                font-size: 1rem;
-                .number {
-                    color: $primary-color;
-                }
-            }
-            &-info {
-                font-family: $font-diodrum-medium;
-                color: #b1b5c9;
-                font-size: 0.75rem;
+}
+.promotions-loyalty {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    &-item {
+        padding: 1.75rem;
+        background-color: $white;
+        border-radius: 1rem;
+        width: 13.625rem;
+        cursor: pointer;
+        position: relative;
+        box-shadow: 0rem 0rem 0.5rem 0.25rem #6e99fc30;
+        border: 1px solid transparent;
+        &.active {
+            border-color: $secondary-color;
+            &::before {
+                content: "";
+                width: 2.438rem;
+                aspect-ratio: 1;
+                position: absolute;
+                top: -1.25rem;
+                right: 0.5rem;
+                background-image: url(../images/check-secondary.svg);
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: contain;
             }
         }
-        &-separator {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 2rem;
-            isolation: isolate;
-            color: #8c9bbc;
-            &:before,
-            &:after {
-                content: "";
-                position: absolute;
-                height: calc((100% - 4rem) / 2);
-                width: 2px;
-                background: #8c9bbc;
-                left: 1rem;
-                bottom: 0;
-                z-index: -1;
+        &-icon {
+            .deducted {
+                float: right;
+                font-size: 1rem;
             }
-            &::before {
-                top: 0.5rem;
+            height: 2.25rem;
+            img {
+                height: 100%;
             }
-            &::after {
-                bottom: 0.5rem;
+        }
+        &-title {
+            padding-top: 0.5rem;
+            font-size: 1rem;
+            .number {
+                color: $primary-color;
             }
+        }
+        &-info {
+            font-family: $font-diodrum-medium;
+            color: #b1b5c9;
+            font-size: 0.75rem;
+        }
+    }
+    &-separator {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        isolation: isolate;
+        color: #8c9bbc;
+        &:before,
+        &:after {
+            content: "";
+            position: absolute;
+            height: calc((100% - 4rem) / 2);
+            width: 2px;
+            background: #8c9bbc;
+            left: 1rem;
+            bottom: 0;
+            z-index: -1;
+        }
+        &::before {
+            top: 0.5rem;
+        }
+        &::after {
+            bottom: 0.5rem;
         }
     }
 }
