@@ -593,7 +593,7 @@ export default {
         patient_tax: 0,
         patient_share_total: 0,
         is_free_consultation: this.paymentAmountResponse.FreeConsultation || 0,
-        patient_scheme_id: 1,
+        patient_scheme_id: this.selectedInsurance ? this.selectedInsurance.id : 1,,
         wallet_payment_amount: 0,
         gateway_payment_amount: 0,
         gateway_payment_ref: "",
