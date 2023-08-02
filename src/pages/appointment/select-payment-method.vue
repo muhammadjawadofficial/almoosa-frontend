@@ -80,7 +80,7 @@
             @click="setDiscount('loyalty')"
             :class="{
               active: selectedDiscountType == 'loyalty',
-              disabled: !getUserInfo.loyality_points || insuranceAmount == 0,
+              disabled: !getUserInfo.loyality_points || isPromoLoyaltyDisabled,
             }"
           >
             <div class="promotions-loyalty-item-icon">
@@ -108,7 +108,7 @@
             @click="setDiscount('promotion')"
             :class="{
               active: selectedDiscountType == 'promotion',
-              disabled: insuranceAmount == 0,
+              disabled: isPromoLoyaltyDisabled,
             }"
           >
             <div class="promotions-loyalty-item-icon">
@@ -548,6 +548,11 @@ export default {
         this.getSelectedAppointment.type.toLowerCase() == "online"
       );
     },
+    isPromoLoyaltyDisabled() {
+      return (
+        this.insuranceAmount || this.isElligibleForFirstFreeVirtualAppointment
+      );
+    },
   },
   mounted() {
     localStorage.removeItem("paymentVerifyObject");
@@ -673,7 +678,6 @@ export default {
           this.serviceBaseRate.service_code
         );
         let paymentAmount = response.data.data;
-        console.log(paymentAmount);
         this.paymentAmountResponse = paymentAmount;
         if (this.paymentAmountResponse.Message != "") {
           throw Error(this.paymentAmountResponse.Message);
@@ -693,6 +697,10 @@ export default {
             amount: patientAmount,
           };
           this.setPaymentObject(obj);
+        }
+
+        if (this.isElligibleForFirstFreeVirtualAppointment) {
+          this.resetDiscount();
         }
 
         this.setAppointmentAmount();
@@ -847,7 +855,7 @@ export default {
       this.selectedLoyaltyPoints = null;
     },
     setDiscount(type) {
-      if (this.insuranceAmount == 0) return;
+      if (this.isPromoLoyaltyDisabled) return;
       if (type == "promotion") {
         if (this.selectedPromotion) {
           this.selectedDiscountType = type;
