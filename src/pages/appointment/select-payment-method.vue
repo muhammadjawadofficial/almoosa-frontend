@@ -32,12 +32,19 @@
                       class="btn useButton"
                       :class="{
                         used: useWalletAmount,
-                        disabled: !walletAmount || insuranceAmount == 0,
+                        disabled:
+                          isElligibleForFirstFreeVirtualAppointment ||
+                          !+walletAmount ||
+                          insuranceAmount == 0,
                       }"
                       @click="
-                        walletAmount
-                          ? ((useWalletAmount = !useWalletAmount),
-                            setAppointmentAmount())
+                        +walletAmount
+                          ? isElligibleForFirstFreeVirtualAppointment
+                            ? failureToast(
+                                $t('walletNotAllowedInFreeAppointment')
+                              )
+                            : ((useWalletAmount = !useWalletAmount),
+                              setAppointmentAmount())
                           : null
                       "
                     >
@@ -153,7 +160,26 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-7" v-if="appointmentAmount != 0">
+      <div
+        class="col-lg-7 appointment--action-buttons"
+        v-if="
+          isElligibleForFirstFreeVirtualAppointment && +appointmentAmount != 0
+        "
+      >
+        <button
+          class="btn btn-secondary"
+          :class="{ disabled: isNotAllowedToBookFreeAppointment }"
+          @click="
+            isNotAllowedToBookFreeAppointment
+              ? failureToast($t('selectInsuranceFirst'))
+              : createPayment(null, 1)
+          "
+          v-if="serviceBaseRate && paymentAmount"
+        >
+          {{ $t("claimFreeAppointment") }}
+        </button>
+      </div>
+      <div class="col-lg-7" v-else-if="appointmentAmount != 0">
         <div class="payment-section block-section">
           <div class="heading-section">
             <div class="heading-text">
@@ -213,7 +239,6 @@
           {{ $t("bookAppointment.payNow") }}
         </button>
       </div>
-
       <div
         class="receipt-details col-lg-4 py-5"
         v-if="getPaymentObject && getPaymentObject.amount"
@@ -254,10 +279,23 @@
           </template>
           <div class="details-group-item total">
             <div class="title">
-              {{ $t("selectPaymentMethod.amountPayable") }}
+              {{
+                $t(
+                  !isNotAllowedToBookFreeAppointment &&
+                    !amountLoading &&
+                    isElligibleForFirstFreeVirtualAppointment &&
+                    +appointmentAmount != 0
+                    ? "coveredByASH"
+                    : "selectPaymentMethod.amountPayable"
+                )
+              }}
             </div>
             <div class="value">
-              {{ $t("sar") + " " + translateNumber(appointmentAmount) }}
+              {{
+                amountLoading
+                  ? "--"
+                  : $t("sar") + " " + translateNumber(appointmentAmount)
+              }}
             </div>
           </div>
         </div>
@@ -268,7 +306,11 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { insuranceService, userService } from "../../services";
+import {
+  freeAppointmentPromoService,
+  insuranceService,
+  userService,
+} from "../../services";
 export default {
   data() {
     return {
@@ -343,6 +385,20 @@ export default {
         ? this.paymentMethodsOnline
         : this.paymentMethodsOnline.filter((x) => !x.title.includes("apple"));
     },
+    isNotAllowedToBookFreeAppointment() {
+      return (
+        this.patientInsurances &&
+        this.patientInsurances.length &&
+        !this.selectedInsurance
+      );
+    },
+    isElligibleForFirstFreeVirtualAppointment() {
+      return (
+        this.isEligibleForFreeAppt &&
+        this.getSelectedAppointment &&
+        this.getSelectedAppointment.type.toLowerCase() == "online"
+      );
+    },
   },
   mounted() {
     localStorage.removeItem("paymentVerifyObject");
@@ -357,6 +413,7 @@ export default {
   },
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
+    ...mapActions("user", ["updateUserInfo"]),
     handleAmount() {
       Promise.all([
         userService.getServiceBaseRate(
@@ -366,8 +423,10 @@ export default {
         ),
         insuranceService.fetchInsurances(this.getUserInfo.mrn_number),
       ])
-        .then((res) => {
+        .then(async (res) => {
           let serviceBaseRate = res[0].data;
+          let insurances = res[1].data.data;
+          this.patientInsurances = [...insurances.items];
           if (serviceBaseRate.status) {
             let data = serviceBaseRate.data.items;
             if (data && data.length && data[0]) {
@@ -376,14 +435,17 @@ export default {
                 this.serviceBaseRate.advance_wallet || 0
               ).toFixed(2);
               this.actualWalletAmount = this.walletAmount;
-              this.getInsuranceAmount();
+              await this.getInsuranceAmount();
+              if (
+                this.patientInsurances.length &&
+                this.isElligibleForFirstFreeVirtualAppointment
+              )
+                await this.getInsuranceAmount(this.patientInsurances[0]);
             } else {
               this.walletAmount = 0;
               throw Error(this.$t("noServiceFound"));
             }
           }
-          let insurances = res[1].data.data;
-          this.patientInsurances = [...insurances.items];
         })
         .catch((error) => {
           let message =
@@ -439,8 +501,9 @@ export default {
         this.toggleOtherPaymentSection = !this.toggleOtherPaymentSection;
       }
     },
-    getInsuranceAmount(insurance) {
+    async getInsuranceAmount(insurance) {
       if (this.selectedInsurance && insurance.id == this.selectedInsurance.id) {
+        if (this.isElligibleForFirstFreeVirtualAppointment) return;
         this.insuranceAmount = null;
         this.toggleOtherPaymentSection = false;
         this.paymentAmount = null;
@@ -448,58 +511,50 @@ export default {
       }
       this.selectedInsurance = insurance;
       this.amountLoading = true;
-      Promise.all([
-        userService.getPaymentAmount(
+
+      try {
+        const response = await userService.getPaymentAmount(
           this.getUserInfo.mrn_number,
           this.getSelectedAppointment.id,
           insurance ? insurance.scheme_id : 1,
           this.serviceBaseRate.service_code
-        ),
-      ])
-        .then((res) => {
-          this.paymentAmountResponse = res[0].data.data;
-          if (this.paymentAmountResponse.Message != "") {
-            throw Error(this.paymentAmountResponse.Message);
-            return;
-          }
-          if (insurance) {
-            let paymentAmount = res[0].data.data;
-            this.paymentAmount = paymentAmount;
-            this.insuranceAmount =
-              +paymentAmount.PatientShare + +paymentAmount.PatientTax;
-          } else {
-            let response = res[0].data.data;
-            this.paymentAmount = response;
-            let patientAmount = +response.PatientShare + +response.PatientTax;
-            let obj = {
-              ...this.getPaymentObject,
-              amount: patientAmount,
-            };
-            this.setPaymentObject(obj);
-          }
+        );
+        let paymentAmount = response.data.data;
+        console.log(paymentAmount);
+        this.paymentAmountResponse = paymentAmount;
+        if (this.paymentAmountResponse.Message != "") {
+          throw Error(this.paymentAmountResponse.Message);
+        }
+        this.paymentAmount = paymentAmount;
+        let amountPayable =
+          +paymentAmount.PatientShare + +paymentAmount.PatientTax;
+        if (insurance) {
+          this.insuranceAmount = amountPayable;
+        } else {
+          let patientAmount = amountPayable;
+          let obj = {
+            ...this.getPaymentObject,
+            amount: patientAmount,
+          };
+          this.setPaymentObject(obj);
+        }
 
-          this.setAppointmentAmount();
-        })
-        .catch((error) => {
-          if (!this.isAPIAborted(error))
-            this.failureToast(
-              (error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-                error.message
-            );
-          this.navigateBack();
-        })
-        .finally(() => {
-          this.amountLoading = false;
-        });
-    },
-    createPayment(paymentObj) {
-      if (!this.paymentAmountResponse) {
-        this.failureToast("Cannot Proceed with Payment");
-        return;
+        this.setAppointmentAmount();
+      } catch (error) {
+        if (!this.isAPIAborted(error))
+          this.failureToast(
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+              error.message
+          );
+        this.navigateBack();
+      } finally {
+        this.amountLoading = false;
       }
-      let paymentVerifyObject = {
+    },
+    getPaymentVerifyObject() {
+      return {
         appointment_id: this.getSelectedAppointment.id,
         service_value: this.paymentAmountResponse.Amount || 0,
         service_discount: this.paymentAmountResponse.Discount || 0,
@@ -519,17 +574,68 @@ export default {
         gateway_payment_ref: "GATEWAY TRX REF",
         receipt_date: this.formatReceiptDateTime(new Date()),
       };
+    },
+    getFreeAppointmentPaymentVerifyObject() {
+      return {
+        appointment_id: this.getSelectedAppointment.id,
+        service_value: this.paymentAmountResponse.Amount || 0,
+        service_discount:
+          (+this.paymentAmountResponse.Discount || 0) +
+          (+this.paymentAmountResponse.PatientShare || 0),
+        service_tax:
+          (+this.paymentAmountResponse.ServiceTax || 0) -
+          (+this.paymentAmountResponse.PatientTax || 0),
+        service_net_amount:
+          (+this.paymentAmountResponse.NetAmount || 0) -
+          (+this.paymentAmountResponse.PatientShare || 0) -
+          (+this.paymentAmountResponse.PatientTax || 0),
+        patient_amount: 0,
+        patient_tax: 0,
+        patient_share_total: 0,
+        is_free_consultation: this.paymentAmountResponse.FreeConsultation || 0,
+        patient_scheme_id: 1,
+        wallet_payment_amount: 0,
+        gateway_payment_amount: 0,
+        gateway_payment_ref: "",
+        receipt_date: this.formatReceiptDateTime(new Date()),
+        is_first_appointment_free: true,
+        original_appointment_amount:
+          (+this.paymentAmountResponse.PatientShare || 0) +
+          (+this.paymentAmountResponse.PatientTax || 0),
+      };
+    },
+    async createPayment(paymentObj, isFree = false) {
+      if (!this.paymentAmountResponse) {
+        this.failureToast("Cannot Proceed with Payment");
+        return;
+      }
+      let paymentVerifyObject = isFree
+        ? this.getFreeAppointmentPaymentVerifyObject()
+        : this.getPaymentVerifyObject();
       localStorage.setItem(
         "paymentVerifyObject",
         JSON.stringify(paymentVerifyObject)
       );
-      if (this.appointmentAmount != 0) {
+      if (this.appointmentAmount != 0 && !isFree) {
         if (paymentObj) {
           this.setPaymentObject(paymentObj);
         }
         this.navigateTo("Pay Now");
       } else {
-        this.doPayment();
+        await this.doPayment();
+
+        freeAppointmentPromoService
+          .fetchFreeActiveAppointmentPromos(
+            "?mrn_number=" + this.getUserInfo.mrn_number
+          )
+          .then((promoRes) => {
+            let promoResponse = promoRes.data;
+            if (promoResponse.status) {
+              this.updateUserInfo({
+                first_free_promo: promoResponse.data.items,
+              });
+            }
+          });
       }
     },
   },
