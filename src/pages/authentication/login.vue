@@ -221,16 +221,21 @@ export default {
       }
       return this.usernameState && this.passwordState;
     },
-    doLogin() {
+    async doLogin() {
       if (!this.validateForm()) {
         return;
       }
+
       let payload = {
         username: this.username,
         password: this.password,
         method: this.isDoctor ? "phone_number" : this.selectedItem.method,
         type: this.selectedItem.type,
       };
+
+      // showing loader beca
+      this.setLoadingState(true);
+      await this.setFCMToken();
       const fcm_token = userService.getFCMToken();
       if (fcm_token) payload.fcm_token = fcm_token;
       if (this.getUserRole.includes("doc")) {

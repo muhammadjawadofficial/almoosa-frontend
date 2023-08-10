@@ -685,44 +685,30 @@ export default {
         async setFCMToken() {
             if (this.$messaging) {
                 // await this.removeFCMToken();
-                this.$messaging.onTokenRefresh(() => {
-                    this.initializeFCMToken();
+                this.$messaging.onTokenRefresh(async () => {
+                    await this.initializeFCMToken();
                 })
-                this.initializeFCMToken();
+                await this.initializeFCMToken();
             }
         },
-        initializeFCMToken() {
-            this.$messaging
-                .deleteToken({
+        async initializeFCMToken() {
+            try {
+                await this.$messaging.deleteToken({
                     vapidKey:
                         "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
-                })
-                .then(() => {
-                    return this.$messaging.getToken({
-                        vapidKey:
-                            "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
-                    })
-                })
-                .catch(() => {
-                    return this.$messaging.getToken({
-                        vapidKey:
-                            "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
-                    })
-                })
-                .then((currentToken) => {
-                    if (currentToken) {
-                        userService.setFCMToken(currentToken);
-                        console.log("client token");
-                        console.log(currentToken);
-                    } else {
-                        console.log(
-                            "No registration token available. Request permission to generate one."
-                        );
-                    }
-                })
-                .catch((err) => {
-                    console.log("An error occurred while retrieving token. ", err);
                 });
+                let currentToken = await this.$messaging.getToken({
+                    vapidKey:
+                        "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
+                });
+                if (currentToken) {
+                    userService.setFCMToken(currentToken);
+                    console.log("client token");
+                    console.log(currentToken);
+                }
+            } catch (error) {
+                console.log("An error occurred while retrieving token. ", error);
+            }
         },
         getFCMToken() {
             return userService.getFCMToken();
