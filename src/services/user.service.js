@@ -35,7 +35,8 @@ export const userService = {
     getFCMToken,
     removeFCMToken,
     changeLanguage,
-    logout
+    logout,
+    fetchNotifications
 };
 
 import axios from "axios";
@@ -231,7 +232,6 @@ function getBanner(query) {
         url: apiPath.user.getBanner(query).url,
     })
 }
-
 function changeLanguage(lang) {
     return axios({
         method: apiPath.user.changeLanguage.method,
@@ -241,10 +241,15 @@ function changeLanguage(lang) {
         }
     })
 }
-
 function logout() {
     return axios({
         method: apiPath.user.logout.method,
         url: apiPath.user.logout.url,
+    })
+}
+function fetchNotifications(query) {
+    return axios({
+        method: apiPath.user.fetchNotifications(query).method,
+        url: apiPath.user.fetchNotifications(query).url,
     })
 }

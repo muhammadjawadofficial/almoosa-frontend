@@ -108,6 +108,7 @@ export const apiPath = {
         getPaymentAmount: getApiObject("post", "payments/amount", "v2"),
         changeLanguage: getApiObject("post", "user/change-language"),
         logout: getApiObject("post", "user/logout"),
+        fetchNotifications: (query) => getApiObject("get", "notifications/fetch" + query),
     },
 
     patient: {
