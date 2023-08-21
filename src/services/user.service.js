@@ -36,7 +36,8 @@ export const userService = {
     removeFCMToken,
     changeLanguage,
     logout,
-    fetchNotifications
+    fetchNotifications,
+    markAllAsRead
 };
 
 import axios from "axios";
@@ -251,5 +252,12 @@ function fetchNotifications(query) {
     return axios({
         method: apiPath.user.fetchNotifications(query).method,
         url: apiPath.user.fetchNotifications(query).url,
+    })
+}
+function markAllAsRead(data) {
+    return axios({
+        method: apiPath.user.markAllAsRead.method,
+        url: apiPath.user.markAllAsRead.url,
+        data
     })
 }

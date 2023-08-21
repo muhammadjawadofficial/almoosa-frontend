@@ -109,6 +109,7 @@ export const apiPath = {
         changeLanguage: getApiObject("post", "user/change-language"),
         logout: getApiObject("post", "user/logout"),
         fetchNotifications: (query) => getApiObject("get", "notifications/fetch" + query),
+        markAllAsRead: getApiObject("patch", "notifications/read"),
     },
 
     patient: {

@@ -225,7 +225,8 @@
     "switchMyProfile": "Switch to My Profile",
     "oldPassword": "Old Password",
     "newPassword": "New Password",
-    "confirmNewPassword": "Confirm New Password"
+    "confirmNewPassword": "Confirm New Password",
+    "markAllRead": "Mark All As Read"
   },
   "dashboard": {
     "helpMillions": "Help Millions People everywhere, everytime!",

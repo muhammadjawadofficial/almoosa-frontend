@@ -225,7 +225,8 @@
     "switchMyProfile": "قم بالتبديل إلى ملف التعريف الخاص بي",
     "oldPassword": "كلمة المرور القديمة",
     "newPassword": "كلمة المرور الجديدة",
-    "confirmNewPassword": "تأكيد كلمة المرور الجديدة"
+    "confirmNewPassword": "تأكيد كلمة المرور الجديدة",
+    "markAllRead": "اجعلها مقروءة"
   },
   "dashboard": {
     "helpMillions": "نخدم بشغف، ونقود التحول المجتمعي من خلال تقديم خدمات صحية فعالة",

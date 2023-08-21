@@ -291,6 +291,7 @@
                     object-fit: cover;
                     width: calc(max(2.375rem, 30px));
                     aspect-ratio: 1;
+                    cursor: pointer;
                   }
                 }
               }
@@ -554,6 +555,19 @@
               align-items: center;
               justify-content: center;
               padding: 0.75rem;
+              &.unread {
+                position: relative;
+                &::after {
+                  content: "";
+                  position: absolute;
+                  top: 0;
+                  right: 0;
+                  width: 0.5rem;
+                  aspect-ratio: 1;
+                  background-color: var(--theme-secondary);
+                  border-radius: 50%;
+                }
+              }
               svg {
                 width: 100%;
                 height: auto;
@@ -649,6 +663,7 @@
 
         .notification-box {
           position: relative;
+          cursor: pointer;
           img {
             width: calc(max(2.375rem, 30px));
             aspect-ratio: 1;
@@ -1730,7 +1745,7 @@
                       fill: $tertiary-color;
                     }
                     .svg-icon-stroke,
-                    .svg-icon-stroke-bg  {
+                    .svg-icon-stroke-bg {
                       stroke: $tertiary-color;
                     }
                     .according-menu {
@@ -3480,6 +3495,9 @@
               ul {
                 li {
                   .profile-media {
+                    img {
+                      cursor: pointer;
+                    }
                     .media-body {
                       p {
                         color: rgba($white, 0.7);

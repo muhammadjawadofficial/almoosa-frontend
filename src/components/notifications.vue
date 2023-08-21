@@ -20,8 +20,13 @@
       <div class="mb-0 dropdown-title w500">
         {{ $t("header.notifications") }}
       </div>
-      <div class="dropdown-sub-title px-3 pt-3 pb-0">
-        {{ $t("header.today") }}
+      <div
+        class="dropdown-sub-title px-3 pt-3 pb-0 text-right"
+        v-if="getUnreadCount > 0"
+      >
+        <span class="pointer" @click="markAllAsRead">
+          {{ $t("header.markAllRead") }}
+        </span>
       </div>
       <ul>
         <template v-if="notifications.length">
@@ -31,7 +36,9 @@
             v-for="(notification, index) in notifications"
             :key="'notification-' + index"
           >
-            <div class="icon"><bell-fill-svg /></div>
+            <div class="icon" :class="{ unread: !notification.seen }">
+              <bell-fill-svg />
+            </div>
             <p>
               <span class="multi-line-ellipse">
                 {{ notification[getLocaleKey("title", "_en")] }}
@@ -99,6 +106,30 @@ export default {
         if (response.data.status) {
           let notifications = response.data.data.notifications;
           this.notifications = notifications;
+        }
+      } catch (error) {
+        if (!this.isAPIAborted(error))
+          this.failureToast(
+            error.response && error.response.data && error.response.data.message
+          );
+      }
+    },
+    async markAllAsRead() {
+      try {
+        let payload = {
+          userId: this.getUserInfo.id,
+          readAll: true,
+        };
+        let response = await userService.markAllAsRead(payload);
+        if (response.data.status) {
+          this.notifications = [
+            ...this.notifications.map((x) => {
+              x.seen = true;
+              return x;
+            }),
+          ];
+        } else {
+          this.failureToast(response.data.message);
         }
       } catch (error) {
         if (!this.isAPIAborted(error))
