@@ -1,16 +1,16 @@
 <template>
   <li
-    class="onhover-dropdown"
+    class="onclick-dropdown"
     :class="{ 'show-dropdown': showProfileDropdown }"
     tabindex="0"
     @click="toggleProfileDropdown"
     @focusout="toggleProfileDropdown($event, false)"
-  >
+    >
     <div class="notification-box">
       <!-- <feather type="bell" @click="notification_open()"></feather> -->
       <img class="" src="../assets/images/header/bell.png" alt="bell" />
-      <span v-if="getUnreadCount" class="badge badge-pill badge-danger">
-        {{ getUnreadCount }}
+      <span v-if="unread" class="badge badge-pill badge-danger">
+        {{ unread }}
       </span>
     </div>
     <div
@@ -22,7 +22,7 @@
       </div>
       <div
         class="dropdown-sub-title px-3 pt-3 pb-0 text-right"
-        v-if="getUnreadCount > 0"
+        v-if="unread > 0"
       >
         <span class="pointer" @click="markAllAsRead">
           {{ $t("header.markAllRead") }}
@@ -52,8 +52,15 @@
               >
             </p>
           </li>
+          <div v-if="notifications.length < total" class="text-center">
+            <a class="btn btn-primary mt-3" @click.stop="loadMore">
+              {{ $t("loadMore") }}
+            </a>
+          </div>
         </template>
-        <div v-else class="no-data pt-0">{{ $t("header.noData") }}</div>
+        <div v-else class="no-data pt-0">
+          {{ $t("header.noData") }}
+        </div>
         <!-- <li><a class="" href=""></a></li> -->
       </ul>
     </div>
@@ -69,6 +76,10 @@ export default {
       notification: false,
       notifications: [],
       showProfileDropdown: false,
+      total: 0,
+      unread: 0,
+      page: 1,
+      limit: 10,
     };
   },
   computed: {
@@ -99,13 +110,16 @@ export default {
         return "warning";
       }
     },
-    async fetchNotifications() {
-      let query = `?id=${this.getUserInfo.id}&limit=10&page=1&orderBy=id&orderType=DESC`;
+    async fetchNotifications(page = 1) {
+      if (page == 1) this.notifications = [];
+      let query = `?id=${this.getUserInfo.id}&limit=${this.limit}&page=${page}&orderBy=id&orderType=DESC`;
       try {
         let response = await userService.fetchNotifications(query);
         if (response.data.status) {
-          let notifications = response.data.data.notifications;
-          this.notifications = notifications;
+          let res = response.data.data;
+          this.notifications.push(...res.notifications);
+          this.total = res.count;
+          this.unread = res.unReadCount;
         }
       } catch (error) {
         if (!this.isAPIAborted(error))
@@ -128,6 +142,7 @@ export default {
               return x;
             }),
           ];
+          this.unread = 0;
         } else {
           this.failureToast(response.data.message);
         }
@@ -137,6 +152,10 @@ export default {
             error.response && error.response.data && error.response.data.message
           );
       }
+    },
+    loadMore() {
+      this.page++;
+      this.fetchNotifications(this.page);
     },
   },
   mounted() {

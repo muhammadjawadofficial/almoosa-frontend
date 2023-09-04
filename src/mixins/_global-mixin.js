@@ -496,7 +496,7 @@ export default {
             return this.dateFormatter(date, "YYYY" + separator + "MM" + separator + "DD")
         },
         formatNotificationTime(date, utc = false) {
-            return this.dateFormatter(date, 'MMMM YYYY - hh:mm A', utc)
+            return this.dateFormatter(date, 'DD MMMM YYYY - hh:mm A', utc)
         },
         formatReceiptDateTime(date, utc = false) {
             return this.dateFormatter(date, 'YYYY-MM-DD HH:mm:ss', utc, "en", "Asia/Riyadh")
