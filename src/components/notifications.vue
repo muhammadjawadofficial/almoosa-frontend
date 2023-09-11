@@ -1,11 +1,6 @@
 <template>
-  <li
-    class="onclick-dropdown"
-    :class="{ 'show-dropdown': showProfileDropdown }"
-    tabindex="0"
-    @click="toggleProfileDropdown"
-    @focusout="toggleProfileDropdown($event, false)"
-    >
+  <li class="onclick-dropdown" :class="{ 'show-dropdown': showProfileDropdown }" tabindex="0"
+    @click="toggleProfileDropdown" @focusout="toggleProfileDropdown($event, false)">
     <div class="notification-box">
       <!-- <feather type="bell" @click="notification_open()"></feather> -->
       <img class="" src="../assets/images/header/bell.png" alt="bell" />
@@ -13,31 +8,27 @@
         {{ unread }}
       </span>
     </div>
-    <div
-      class="onhover-show-div notification-dropdown"
-      :class="{ active: notification }"
-    >
-      <div class="mb-0 dropdown-title w500">
+    <div class="onhover-show-div notification-dropdown" :class="{ active: notification }">
+      <div class="dropdown-title w500">
         {{ $t("header.notifications") }}
+
+        <div @click="routeToNotifications" class="float-right see-all">
+          {{ $t("header.seeAll") }}
+        </div>
+
       </div>
-      <div
-        class="dropdown-sub-title px-3 pt-3 pb-0 text-right"
-        v-if="unread > 0"
-      >
+
+      <div class="dropdown-sub-title px-3 pt-3 pb-0 text-right" v-if="unread > 0">
         <span class="pointer" @click="markAllAsRead">
           {{ $t("header.markAllRead") }}
         </span>
       </div>
       <ul>
         <template v-if="notifications.length">
-          <li
-            class="notification-row"
-            :class="getNotificationRowClass(index)"
-            v-for="(notification, index) in notifications"
-            :key="'notification-' + index"
-          >
+          <li class="notification-row" :class="getNotificationRowClass(index)"
+            v-for="(notification, index) in notifications" :key="'notification-' + index">
             <div class="icon" :class="{ unread: !notification.seen }">
-              <bell-fill-svg />
+              <bell-fill-svg class="svg-fill-icon" />
             </div>
             <p>
               <span class="multi-line-ellipse">
@@ -48,12 +39,12 @@
               </span>
               <span class="time-warning">
                 <reminder-svg />
-                {{ formatNotificationTime(notification.created_at) }}</span
-              >
+                {{ formatNotificationTime(notification.created_at) }}</span>
             </p>
           </li>
-          <div v-if="notifications.length < total" class="text-center">
-            <a class="btn btn-primary mt-3" @click.stop="loadMore">
+          <div v-if="notifications.length < total" class="margin-top d-flex justify-content-center" :disabled="isLoading">
+            <a class="btn btn-primary position-absolute" @click.stop="loadMore"
+              :class="{ 'disabled-button': isLoadMoreDisabled }">
               {{ $t("loadMore") }}
             </a>
           </div>
@@ -61,7 +52,6 @@
         <div v-else class="no-data pt-0">
           {{ $t("header.noData") }}
         </div>
-        <!-- <li><a class="" href=""></a></li> -->
       </ul>
     </div>
   </li>
@@ -79,12 +69,16 @@ export default {
       total: 0,
       unread: 0,
       page: 1,
-      limit: 10,
+      limit: 3,
+      isLoading: false,
     };
   },
   computed: {
     getUnreadCount() {
       return this.notifications.filter((x) => !x.seen).length;
+    },
+    isLoadMoreDisabled() {
+      return this.isLoading;
     },
   },
   methods: {
@@ -153,9 +147,22 @@ export default {
           );
       }
     },
-    loadMore() {
+    async loadMore() {
+      if (this.isLoading) {
+        return;
+      }
+
+      this.isLoading = true;
+
       this.page++;
-      this.fetchNotifications(this.page);
+      try {
+        await this.fetchNotifications(this.page);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    routeToNotifications() {
+      this.$router.push("/see-all-notifications");
     },
   },
   mounted() {
@@ -175,3 +182,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.multi-line-ellipse {
+  width: 360px;
+}
+
+.disabled-button {
+  filter: grayscale();
+  pointer-events: none;
+  cursor: not-allowed;
+}
+</style>

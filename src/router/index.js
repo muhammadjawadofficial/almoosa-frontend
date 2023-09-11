@@ -87,6 +87,8 @@ import familyMembersForm from '../pages/family-members/family-member-form'
 
 import VirtualTour from '../pages/virtual-tour'
 
+import seeAllNotifications from '../pages/see-all-notifications'
+
 import { userService } from '../services';
 
 // component
@@ -538,6 +540,14 @@ const routes = [
         component: VirtualTour,
         meta: {
           title: 'Virtual Tour | Almoosa Health Group',
+        },
+      },
+      {
+        path: "see-all-notifications",
+        name: "See All Notifications",
+        component: seeAllNotifications,
+        meta: {
+          title: "See All Notifications | Almoosa Health Group",
         },
       },
     ]
