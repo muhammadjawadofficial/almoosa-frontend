@@ -544,10 +544,10 @@ const routes = [
       },
       {
         path: "see-all-notifications",
-        name: "See All Notifications",
+        name: "All Notifications",
         component: seeAllNotifications,
         meta: {
-          title: "See All Notifications | Almoosa Health Group",
+          title: "All Notifications | Almoosa Health Group",
         },
       },
     ]

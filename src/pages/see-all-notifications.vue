@@ -28,8 +28,8 @@
             </li>
         </ul>
 
-        <div v-if="noMoreNotifications" class="mb-1 d-flex justify-content-center no-data">
-            {{ $t("header.noData") }}
+        <div v-if="noMoreNotifications" class="mb-1 d-flex justify-content-center no-notification">
+            {{ $t("header.noNotification") }}
         </div>
 
         <div v-else class="mb-1 d-flex justify-content-center">
@@ -47,8 +47,6 @@ export default {
             totalNotifications: 0,
             page: 1,
             limit: 10,
-            loadingMore: false,
-            noMoreNotifications: false,
         };
     },
 
@@ -56,13 +54,15 @@ export default {
         showLoadMore() {
             return this.notifications.length < this.totalNotifications;
         },
+        noMoreNotifications() {
+            return this.notifications.length >= this.totalNotifications;
+        },
     },
     methods: {
         async fetchNotifications() {
             try {
-                if (this.loadingMore || this.noMoreNotifications) return; // Do not load more if already loading or there are no more notifications
+                if (this.getLoading) return;
 
-                this.loadingMore = true;
 
                 let query = `?id=${this.getUserInfo.id}&limit=${this.limit}&orderBy=id&orderType=DESC`;
 
@@ -77,17 +77,12 @@ export default {
                     this.notifications.push(...res.notifications);
                     this.totalNotifications = res.count;
 
-                    if (this.notifications.length >= this.totalNotifications) {
-                        this.noMoreNotifications = true;
-                    }
                 }
             } catch (error) {
                 if (!this.isAPIAborted(error))
                     this.failureToast(
                         error.response && error.response.data && error.response.data.message
                     );
-            } finally {
-                this.loadingMore = false;
             }
         },
 
@@ -97,7 +92,7 @@ export default {
             const documentHeight = document.documentElement.scrollHeight;
 
             if (
-                !this.loadingMore &&
+                !this.getLoading &&
                 !this.noMoreNotifications &&
                 scrollY + windowHeight >= documentHeight - 50
             ) {
@@ -146,7 +141,6 @@ export default {
   
 
 <style scoped lang="scss">
-
 ul {
     padding: 0.938rem;
 }

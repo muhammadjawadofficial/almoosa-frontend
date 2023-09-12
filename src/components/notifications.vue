@@ -42,9 +42,10 @@
                 {{ formatNotificationTime(notification.created_at) }}</span>
             </p>
           </li>
-          <div v-if="notifications.length < total" class="margin-top d-flex justify-content-center" :disabled="isLoading">
+          <div v-if="notifications.length < total" class="margin-top d-flex justify-content-center"
+            :disabled="getLoading">
             <a class="btn btn-primary position-absolute" @click.stop="loadMore"
-              :class="{ 'disabled-button': isLoadMoreDisabled }">
+              :class="{ 'disabled-button': getLoading }">
               {{ $t("loadMore") }}
             </a>
           </div>
@@ -70,15 +71,11 @@ export default {
       unread: 0,
       page: 1,
       limit: 3,
-      isLoading: false,
     };
   },
   computed: {
     getUnreadCount() {
       return this.notifications.filter((x) => !x.seen).length;
-    },
-    isLoadMoreDisabled() {
-      return this.isLoading;
     },
   },
   methods: {
@@ -148,21 +145,22 @@ export default {
       }
     },
     async loadMore() {
-      if (this.isLoading) {
+      if (this.getLoading) {
         return;
       }
-
-      this.isLoading = true;
-
       this.page++;
       try {
         await this.fetchNotifications(this.page);
-      } finally {
-        this.isLoading = false;
+      }
+      catch (error) {
+        if (!this.isAPIAborted(error))
+          this.failureToast(
+            error.response && error.response.data && error.response.data.message
+          );
       }
     },
     routeToNotifications() {
-      this.$router.push("/see-all-notifications");
+      this.$router.push({ name: "All Notifications" });
     },
   },
   mounted() {
@@ -192,5 +190,10 @@ export default {
   filter: grayscale();
   pointer-events: none;
   cursor: not-allowed;
+}
+
+.svg-fill-icon {
+  height: 24px !important;
+  width: 26.32px !important;
 }
 </style>
