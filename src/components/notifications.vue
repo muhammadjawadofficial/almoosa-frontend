@@ -23,7 +23,7 @@
           {{ $t("header.markAllRead") }}
         </span>
       </div>
-      <ul>
+      <ul class="notification-svg">
         <template v-if="notifications.length">
           <li class="notification-row" :class="getNotificationRowClass(index)"
             v-for="(notification, index) in notifications" :key="'notification-' + index">
@@ -192,8 +192,4 @@ export default {
   cursor: not-allowed;
 }
 
-.svg-fill-icon {
-  height: 24px !important;
-  width: 26.32px !important;
-}
 </style>

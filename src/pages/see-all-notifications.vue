@@ -5,7 +5,7 @@
         </div>
         <hr>
 
-        <ul>
+        <ul class="notification-svg">
             <li class="notification-row" :class="getNotificationRowClass(index)"
                 v-for="(notification, index) in notifications" :key="'notification-' + index">
                 <div class="icon" :class="{ unread: !notification.seen }">
@@ -20,7 +20,7 @@
                     </span>
                     <span class="time-warning">
                         <reminder-svg class="custom-reminder-svg" />
-                        <span class="time">
+                        <span>
                             {{ formatNotificationTime(notification.created_at) }}
                         </span>
                     </span>
@@ -168,17 +168,8 @@ li {
     }
 
 }
-.custom-reminder-svg {
-    width: 20px;
-    height: 17px;
-}
 
 .notification-label {
     padding: 1rem 0 0 1rem;
-}
-
-.time {
-    position: relative;
-    bottom: 4px;
 }
 </style>

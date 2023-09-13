@@ -261,9 +261,9 @@
               margin-top: 3px;
             }
             svg {
-              vertical-align: $header-wrapper-nav-icon-align;
-              width: $header-wrapper-nav-icon-size;
-              height: 17px;
+              // vertical-align: $header-wrapper-nav-icon-align;
+              // width: $header-wrapper-nav-icon-size;
+              // height: 17px;
 
               path {
                 color: $header-wrapper-nav-icon-color;
@@ -788,7 +788,7 @@
 
           li {
             // background-color: #f9f9f9;
-            border-radius: 5px;
+            // border-radius: 5px;
             // &:last-child {
             //   text-align: center;
             //   background-color: transparent;
@@ -3583,6 +3583,11 @@
   color: #2b4e66;
   width: 100%;
   text-align: start;
+}
+.notification-svg li svg {
+  vertical-align: $header-wrapper-nav-icon-align;
+  width: $header-wrapper-nav-icon-size;
+  height: 17px;
 }
 .margin-top {
   margin-top: 2.5rem;
