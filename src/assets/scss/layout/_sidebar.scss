@@ -261,10 +261,6 @@
               margin-top: 3px;
             }
             svg {
-              // vertical-align: $header-wrapper-nav-icon-align;
-              // width: $header-wrapper-nav-icon-size;
-              // height: 17px;
-
               path {
                 color: $header-wrapper-nav-icon-color;
               }
@@ -765,7 +761,6 @@
             background-color: #f9f9f9;
             border: none;
             h6 {
-              // font-family: $font-roboto, $font-serif;
               font-weight: 500;
               font-size: 12px;
               line-height: 14px;
@@ -787,13 +782,6 @@
           left: unset;
 
           li {
-            // background-color: #f9f9f9;
-            // border-radius: 5px;
-            // &:last-child {
-            //   text-align: center;
-            //   background-color: transparent;
-            // }
-
             p {
               display: flex;
               align-items: flex-start;
@@ -3567,6 +3555,10 @@
       }
     }
   }
+}
+
+.notification-dropdown li {
+  background-color: #f9f9f9;
 }
 
 .see-all {
