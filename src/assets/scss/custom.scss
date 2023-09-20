@@ -1835,11 +1835,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 }
 .reminder-timeslots {
+    --gap: 1rem;
     display: flex;
-    gap: 1rem;
+    gap: var(--gap);
+    width: 100%;
     // margin-top: 0.75rem;
     @media (max-width: 525px) {
-        gap: 0.5rem;
+        --gap: 0.5rem;
+    }
+    &.large {
+        .timeslot {
+            width: calc(50% - var(--gap) / 2);
+        }
     }
     .timeslot {
         font-size: 0.8rem;
@@ -1851,28 +1858,28 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         border-radius: 0.5rem;
         cursor: pointer;
         &.primary {
-            background-color: $primary-color;
+            background-color: lighten($primary-color, 30);
             color: $white;
             &.active {
                 background-color: $primary-color;
             }
         }
         &.secondary {
-            background-color: $secondary-color;
+            background-color: lighten($secondary-color, 30);
             color: $white;
             &.active {
                 background-color: $secondary-color;
             }
         }
         &.dark-blue {
-            background-color: $dark-blue-color;
+            background-color: lighten($dark-blue-color, 30);
             color: $white;
             &.active {
                 background-color: $dark-blue-color;
             }
         }
         &.tertiary {
-            background-color: #f8d62b;
+            background-color: lighten(#f8d62b, 30);
             color: $white;
             &.active {
                 background-color: #f8d62b;

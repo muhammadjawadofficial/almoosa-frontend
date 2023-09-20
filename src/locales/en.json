@@ -321,7 +321,8 @@
     "bookAppointment": "Book an Appointment",
     "viewDetails": "View Details",
     "physicianList": "Our Doctors",
-    "noData": "No doctor found in the current selection criteria"
+    "noData": "No doctor found in the current selection criteria",
+    "doctorIsAvailableOnFollowingDates": "Doctor is available on following dates"
   },
   "doctorDetail": {
     "tabs": {

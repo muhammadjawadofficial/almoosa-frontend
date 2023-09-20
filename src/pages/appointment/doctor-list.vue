@@ -39,10 +39,6 @@
           :class="{
             // unavailable: doctor.has_schedule == 'NO',
             // 'fully-booked': doctor.doctor_availability == 'NO',
-            'disable-card':
-              isBookingFlow &&
-              (doctor.has_schedule == 'NO' ||
-                doctor.doctor_availability == 'NO'),
           }"
         >
           <div class="doctor-image">
@@ -52,11 +48,7 @@
             />
             <div
               class="doctor-availability"
-              v-if="
-                isBookingFlow &&
-                (doctor.has_schedule == 'NO' ||
-                  doctor.doctor_availability == 'NO')
-              "
+              v-if="isBookingFlow && isDoctorAvailableForBooking(doctor)"
             >
               {{
                 doctor.has_schedule == "NO"
@@ -88,17 +80,23 @@
                 ? $t("doctorFullyBooked")
                 : $t("doctorList.viewDetails")
             }} -->
-            {{ $t("doctorList.viewDetails") }}
+            {{
+              isBookingFlow && isDoctorAvailableForBooking(doctor)
+                ? "View Availability"
+                : $t("doctorList.viewDetails")
+            }}
           </button>
         </div>
       </template>
     </div>
+    <nearest-availability-modal @select="selectNearestAvailability" />
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
 import { appointmentService } from "../../services";
+import NearestAppointmentModal from "./nearest-availability-modal";
 export default {
   data() {
     return {
@@ -107,13 +105,15 @@ export default {
       isBookingFlow: false,
     };
   },
+  components: {
+    "nearest-availability-modal": NearestAppointmentModal,
+  },
   computed: {
     ...mapGetters("appointment", [
       "getDoctorsList",
       "getBookingClinic",
       "getBookingSpeciality",
       "getBookingMethod",
-      "getBookingClinic",
       "getBookingDate",
     ]),
   },
@@ -149,12 +149,30 @@ export default {
       "setBookingEndTime",
       "setBookingAmount",
       "setDoctorsList",
+      "setBookingDate",
     ]),
+    openNearestAvailabilityModal() {
+      this.$bvModal.show("nearestAvailabilityCustomModal");
+    },
+    isDoctorAvailableForBooking(doctor) {
+      return doctor.has_schedule == "NO" || doctor.doctor_availability == "NO";
+    },
     setSelectedDoctor(doctor) {
       this.setBookingDoctor(doctor);
       this.setBookingStartTime(null);
       this.setBookingEndTime(null);
       this.setBookingAmount(100);
+      if (this.isDoctorAvailableForBooking(doctor)) {
+        this.openNearestAvailabilityModal();
+        return;
+      }
+      this.navigateTo(
+        (this.isBookingFlow ? "Doctor Details" : "Specialist Details") +
+          (this.getIsGuest ? " Guest" : "")
+      );
+    },
+    selectNearestAvailability(date) {
+      this.setBookingDate(this.removeDateTime(date));
       this.navigateTo(
         (this.isBookingFlow ? "Doctor Details" : "Specialist Details") +
           (this.getIsGuest ? " Guest" : "")
