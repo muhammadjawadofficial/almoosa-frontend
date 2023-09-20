@@ -322,7 +322,8 @@
     "viewDetails": "View Details",
     "physicianList": "Our Doctors",
     "noData": "No doctor found in the current selection criteria",
-    "doctorIsAvailableOnFollowingDates": "Doctor is available on following dates"
+    "doctorIsAvailableOnFollowingDates": "Doctor is available on following dates",
+    "viewAvailability": "View Availability"
   },
   "doctorDetail": {
     "tabs": {

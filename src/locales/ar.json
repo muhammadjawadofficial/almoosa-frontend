@@ -322,7 +322,8 @@
     "viewDetails": "عن طبيبك",
     "physicianList": "قائمة الأطباء",
     "noData": "لم يتم العثور على طبيب في معايير الاختيار الحالية",
-    "doctorIsAvailableOnFollowingDates": "الطبيب متاح في التواريخ التالية"
+    "doctorIsAvailableOnFollowingDates": "الطبيب متاح في التواريخ التالية",
+    "viewAvailability": "مشاهدة التوفر"
   },
   "doctorDetail": {
     "tabs": {

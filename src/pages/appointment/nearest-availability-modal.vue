@@ -42,30 +42,28 @@
           </div>
           <hr />
           <div class="d-flex">
-            <div class="reminder-timeslots large flex-wrap">
-              <template v-if="getLoading">
-                <div class="no-data pt-0 text-center">
-                  {{ $t("loading") }}
+            <div class="booking-time-slots mt-0">
+              <div class="time-slots-container large">
+                <div class="no-data pt-0 text-center" v-if="getLoading">
+                  {{ this.$t("loading") }}
                 </div>
-              </template>
-              <template v-else-if="availableDates.length">
-                <div
-                  class="timeslot secondary"
-                  :class="{
-                    active: dateObj.date == selectedDate,
-                  }"
-                  v-for="(dateObj, index) in availableDates"
-                  @click="handleSelection(dateObj)"
-                  :key="'available-date-' + index"
-                >
-                  {{ getLongDateFromDate(dateObj.date) }}
-                </div>
-              </template>
-              <template v-else>
-                <div class="no-data pt-0 text-center">
+                <template v-else-if="availableDates.length">
+                  <div
+                    class="time-slot"
+                    :class="{
+                      active: selectedDate == availableDate.date,
+                    }"
+                    v-for="(availableDate, index) in availableDates"
+                    :key="index + '-available-date'"
+                    @click="handleSelection(availableDate, index)"
+                  >
+                    {{ getLongDateFromDate(availableDate.date) }}
+                  </div>
+                </template>
+                <div class="no-data pt-0 text-center" v-else>
                   {{ $t("noRecord") }}
                 </div>
-              </template>
+              </div>
             </div>
           </div>
         </div>

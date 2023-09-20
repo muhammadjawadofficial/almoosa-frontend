@@ -82,7 +82,7 @@
             }} -->
             {{
               isBookingFlow && isDoctorAvailableForBooking(doctor)
-                ? "View Availability"
+                ? $t("doctorList.viewAvailability")
                 : $t("doctorList.viewDetails")
             }}
           </button>
