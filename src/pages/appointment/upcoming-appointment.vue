@@ -2,7 +2,7 @@
   <div class="upcoming-appointment-container page-body-container standard-width">
     <div class="d-flex">
       <back-navigation :title="$t('upcomingAppointment.heading')" :subTitle="$t('upcomingAppointment.subHeading')" />
-      <div class="filters-dropdown">
+      <div class="filters-dropdown" v-if="isDoctor">
         <span class="date-text">
           {{ $t("upcomingAppointment.date") }}
           <img src="../../assets/images/filter.svg" alt="" />
