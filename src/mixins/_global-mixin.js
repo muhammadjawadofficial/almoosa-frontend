@@ -9,6 +9,7 @@ export default {
             checkRoleFromUser: false,
             browserTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
             isWebView: false,
+            isEligibleForFirstFreeAppt: false
         }
     },
     computed: {
@@ -23,6 +24,7 @@ export default {
             return this.$i18n.locale;
         },
         isEligibleForFreeAppt() {
+            if (!this.isEligibleForFirstFreeAppt) return this.isEligibleForFirstFreeAppt;
             let isElligible = null;
             let promos = this.getUserInfo.first_free_promo;
 
@@ -37,6 +39,7 @@ export default {
             return isElligible;
         },
         isEligibleForCancelFreeAppt() {
+            if (!this.isEligibleForFirstFreeAppt) return this.isEligibleForFirstFreeAppt;
             let isElligible = null;
             let promos = this.getUserInfo.first_free_promo;
 
