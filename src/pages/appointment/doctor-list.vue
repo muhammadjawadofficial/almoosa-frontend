@@ -150,6 +150,7 @@ export default {
       "setBookingAmount",
       "setDoctorsList",
       "setBookingDate",
+      "setBookingNearestDate"
     ]),
     openNearestAvailabilityModal() {
       this.$bvModal.show("nearestAvailabilityCustomModal");
@@ -172,7 +173,7 @@ export default {
       );
     },
     selectNearestAvailability(date) {
-      this.setBookingDate(this.removeDateTime(date));
+      this.setBookingNearestDate(this.removeDateTime(date));
       this.navigateTo(
         (this.isBookingFlow ? "Doctor Details" : "Specialist Details") +
           (this.getIsGuest ? " Guest" : "")
