@@ -1277,51 +1277,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                 font-size: 1.5rem;
             }
         }
-        .booking-time-slots {
-            margin-top: 3.75rem;
-            .time-slots-container {
-                display: flex;
-                gap: 1rem;
-                flex-wrap: wrap;
-                margin-block: 0.5rem;
-                .time-slot {
-                    height: 3rem;
-                    width: 10rem;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    border: 2px solid $primary-color;
-                    border-radius: 0.438rem;
-                    font-size: 0.875rem;
-                    &:not(.disabled) {
-                        cursor: pointer;
-                    }
-                    &.disabled {
-                        background-color: #f9d7d7;
-                        color: #c56d6d;
-                        border-color: #f9d7d7;
-                    }
-                    &.active {
-                        background-color: $secondary-color;
-                        border-color: $secondary-color;
-                        color: $white;
-                        position: relative;
-                        &:before {
-                            content: "";
-                            width: 1.5rem;
-                            aspect-ratio: 1;
-                            position: absolute;
-                            top: -1rem;
-                            right: 0.25rem;
-                            background-image: url(../images/check.svg);
-                            background-repeat: no-repeat;
-                            background-position: center;
-                            background-size: contain;
-                        }
-                    }
-                }
-            }
-        }
         .card {
             &.card-wizard {
                 .card-heading {
@@ -1361,6 +1316,62 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         button {
             max-width: 15.75rem;
             font-size: 1.125rem;
+        }
+    }
+}
+
+.booking-time-slots {
+    margin-top: 3.75rem;
+    .time-slots-container {
+        display: flex;
+        --gap: 1rem;
+        gap: var(--gap);
+        flex-wrap: wrap;
+        margin-block: 0.5rem;
+        &.large {
+            --number-of-items: 3;
+            .time-slot {
+                width: calc(
+                    (100% / var(--number-of-items)) -
+                        (var(--gap) * (var(--number-of-items) - 1) / var(--number-of-items))
+                );
+            }
+        }
+        .time-slot {
+            height: 3rem;
+            width: 10rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid $primary-color;
+            border-radius: 0.438rem;
+            font-size: 0.875rem;
+            &:not(.disabled) {
+                cursor: pointer;
+            }
+            &.disabled {
+                background-color: #f9d7d7;
+                color: #c56d6d;
+                border-color: #f9d7d7;
+            }
+            &.active {
+                background-color: $secondary-color;
+                border-color: $secondary-color;
+                color: $white;
+                position: relative;
+                &:before {
+                    content: "";
+                    width: 1.5rem;
+                    aspect-ratio: 1;
+                    position: absolute;
+                    top: -1rem;
+                    right: 0.25rem;
+                    background-image: url(../images/check.svg);
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: contain;
+                }
+            }
         }
     }
 }
@@ -1835,11 +1846,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 }
 .reminder-timeslots {
+    --gap: 1rem;
     display: flex;
-    gap: 1rem;
+    gap: var(--gap);
+    width: 100%;
     // margin-top: 0.75rem;
     @media (max-width: 525px) {
-        gap: 0.5rem;
+        --gap: 0.5rem;
+    }
+    &.large {
+        .timeslot {
+            width: calc(50% - var(--gap) / 2);
+        }
     }
     .timeslot {
         font-size: 0.8rem;
@@ -1851,28 +1869,28 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         border-radius: 0.5rem;
         cursor: pointer;
         &.primary {
-            background-color: $primary-color;
+            background-color: lighten($primary-color, 30);
             color: $white;
             &.active {
                 background-color: $primary-color;
             }
         }
         &.secondary {
-            background-color: $secondary-color;
+            background-color: lighten($secondary-color, 30);
             color: $white;
             &.active {
                 background-color: $secondary-color;
             }
         }
         &.dark-blue {
-            background-color: $dark-blue-color;
+            background-color: lighten($dark-blue-color, 30);
             color: $white;
             &.active {
                 background-color: $dark-blue-color;
             }
         }
         &.tertiary {
-            background-color: #f8d62b;
+            background-color: lighten(#f8d62b, 30);
             color: $white;
             &.active {
                 background-color: #f8d62b;
