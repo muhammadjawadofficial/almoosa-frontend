@@ -36,6 +36,7 @@ export default {
                 endTime: null,
                 amount: "100",
                 doctor: null,
+                nearestDate: null
             })
         },
         setSelectedAppointment({ commit }, data) {

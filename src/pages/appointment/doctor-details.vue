@@ -292,9 +292,6 @@ export default {
     );
     this.initializeData();
   },
-  beforeDestroy() {
-    this.setBookingNearestDate(null);
-  },
   methods: {
     ...mapActions("appointment", [
       "setBookingTimeslot",
@@ -313,6 +310,7 @@ export default {
       this.selectedDate = this.removeDateTime(
         this.getBookingNearestDate || this.getBookingDate
       );
+      console.log(this.getBookingNearestDate, this.getBookingDate);
 
       userService
         .getProfileById(this.getBookingDoctor.id)
@@ -573,6 +571,7 @@ export default {
     if (this.getIsReschedule) {
       this.setIsReschedule(false);
     }
+    this.setBookingNearestDate(null);
   },
 };
 </script>
