@@ -42,7 +42,7 @@
           </div>
           <hr />
           <div class="d-flex">
-            <div class="booking-time-slots mt-0">
+            <div class="booking-time-slots mt-0 w-100 sd">
               <div class="time-slots-container large">
                 <div class="no-data pt-0 text-center" v-if="getLoading">
                   {{ this.$t("loading") }}
