@@ -217,6 +217,8 @@
     "settingsNotification": "إعدادات الإخطارات",
     "settingsNotificationEnabled": "ممكّن",
     "settingsNotificationDisabled": "عاجز",
+    "settingsNotificationSave": "يحفظ",
+    "settingsNotificationMsg": "تم تحديث إعداد الإشعارات",
     "noNotification": "لا مزيد من الإخطارات",
     "today": "اليوم",
     "home": "الرئيسية",

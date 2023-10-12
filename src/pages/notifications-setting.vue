@@ -3,9 +3,8 @@
         <div class="notification-setting-label">
             <h3>{{ $t("header.settingsNotification") }}</h3>
             <!-- :style="{ visibility: isChange ? 'visible' : 'hidden' }" -->
-            <button v-if="isChange"  type="button"
-                @click="updateNotiSettings(notificationStatus)">
-                Save
+            <button v-if="isChange" type="button" class="" @click="updateNotiSettings(notificationStatus)">
+                {{ $t("header.settingsNotificationSave") }}
             </button>
         </div>
         <hr class="noti-setting-hr">
@@ -84,7 +83,7 @@ export default {
                 let response = await userService.updateNotificationSettings(data);
                 if (response.data.status) {
                     this.successToast(
-                        "Notification Setting Updated"
+                        this.$t("header.settingsNotificationMsg")
                     );
                     this.isChange = false;
                 }
@@ -148,6 +147,7 @@ export default {
     flex-wrap: wrap;
     gap: 1rem;
     justify-content: space-between;
+    align-items: center;
     position: relative;
 }
 
@@ -230,12 +230,13 @@ input:checked+.slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
-@media screen and (max-width: 320px) {
-    
 
-    .notification-setting-label button{
+@media screen and (max-width: 320px) {
+
+
+    .notification-setting-label button {
         position: relative;
-        left:0 ;
+        left: 0;
     }
 }
 
@@ -252,11 +253,12 @@ input:checked+.slider:before {
     .notification-setting-label h3 {
         font-size: 1.5rem;
     }
-    .notification-setting-label button{
+
+    .notification-setting-label button {
         position: relative;
-        bottom:.80rem ;
+        bottom: .80rem;
     }
-  
+
 
 }
 </style>

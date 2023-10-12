@@ -216,6 +216,8 @@
     "settingsNotification": "Notifications Settings",
     "settingsNotificationEnabled": "Enabled",
     "settingsNotificationDisabled": "Disabled",
+    "settingsNotificationSave": "Save",
+    "settingsNotificationMsg": "Notification Setting Updated",
     "noData": "No Notifications",
     "noNotification": "No More Notifications",
     "today": "Today",
