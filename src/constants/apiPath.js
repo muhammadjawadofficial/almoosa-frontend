@@ -111,6 +111,8 @@ export const apiPath = {
         logout: getApiObject("post", "user/logout"),
         fetchNotifications: (query) => getApiObject("get", "notifications/fetch" + query),
         markAllAsRead: getApiObject("patch", "notifications/read"),
+        fetchNotificationsSetting: (id) => getApiObject("get", "notification-config/" + id),
+        updateNotificationSetting: (id) => getApiObject("patch", "notification-config/" + id),
     },
 
     patient: {

@@ -88,7 +88,7 @@ import familyMembersForm from '../pages/family-members/family-member-form'
 import VirtualTour from '../pages/virtual-tour'
 
 import seeAllNotifications from '../pages/see-all-notifications'
-
+import notificationsSettings from '../pages/notifications-setting'
 import { userService } from '../services';
 
 // component
@@ -548,6 +548,15 @@ const routes = [
         component: seeAllNotifications,
         meta: {
           title: "All Notifications | Almoosa Health Group",
+        },
+      },
+      // notification-settings-route
+      {
+        path: "notifications-settings",
+        name: "Notifications Settings",
+        component: notificationsSettings,
+        meta: {
+          title: "Notifications Settings | Almoosa Health Group",
         },
       },
     ]

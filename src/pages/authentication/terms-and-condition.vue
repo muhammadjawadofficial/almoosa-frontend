@@ -210,6 +210,7 @@ export default {
         }
       );
     },
+    
     logout() {
       this.$root.$refs.appointmentModule &&
         this.$root.$refs.appointmentModule.destroyObjects();

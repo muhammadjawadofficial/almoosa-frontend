@@ -1,11 +1,11 @@
 <template>
-    <div class="standard-width">
+    <div  class="standard-width">
         <div class="notification-label">
             <h3>{{ $t("header.allNotification") }}</h3>
         </div>
         <hr>
 
-        <ul class="notification-svg">
+        <ul v-if="notifications.length" class="notification-svg">
             <li class="notification-row" :class="getNotificationRowClass(index)"
                 v-for="(notification, index) in notifications" :key="'notification-' + index">
                 <div class="icon" :class="{ unread: !notification.seen }">
@@ -28,12 +28,10 @@
             </li>
         </ul>
 
-        <div v-if="noMoreNotifications" class="mb-1 d-flex justify-content-center no-notification">
-            {{ $t("header.noNotification") }}
+        <div v-else class="mb-1 d-flex justify-content-center no-notification">
+            {{ $t("header.noData") }}
         </div>
 
-        <div v-else class="mb-1 d-flex justify-content-center">
-        </div>
     </div>
 </template>
   
@@ -53,9 +51,6 @@ export default {
     computed: {
         showLoadMore() {
             return this.notifications.length < this.totalNotifications;
-        },
-        noMoreNotifications() {
-            return this.notifications.length >= this.totalNotifications;
         },
     },
     methods: {

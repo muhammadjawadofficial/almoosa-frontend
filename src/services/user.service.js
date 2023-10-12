@@ -37,7 +37,9 @@ export const userService = {
     changeLanguage,
     logout,
     fetchNotifications,
-    markAllAsRead
+    markAllAsRead,
+    fetchNotificationSettings,
+    updateNotificationSettings
 };
 
 import axios from "axios";
@@ -259,5 +261,20 @@ function markAllAsRead(data) {
         method: apiPath.user.markAllAsRead.method,
         url: apiPath.user.markAllAsRead.url,
         data
+    })
+}
+// get-notifications-settings-list
+function fetchNotificationSettings() {
+    return axios({
+        method: apiPath.user.fetchNotificationsSetting(currentUser().id).method,
+        url: apiPath.user.fetchNotificationsSetting(currentUser().id).url,
+    })
+}
+// update-notifications-settings
+function updateNotificationSettings(data) {
+    return axios({
+        method: apiPath.user.updateNotificationSetting(data.id).method,
+        url: apiPath.user.updateNotificationSetting(data.id).url,
+        data:data,
     })
 }
