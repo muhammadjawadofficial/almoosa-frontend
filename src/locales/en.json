@@ -280,6 +280,10 @@
     "onsite": "On-site",
     "virtual": "Virtual",
     "appointmentTimeline": "Appointment History Timeline",
+    "date": "Filter by Date",
+    "from": "From",
+    "to": "To",
+    "selectDate": "Select Date",
     "modal": {
       "delete": "Appointment Cancelled",
       "deleteText": "Your appointment has been cancelled",
