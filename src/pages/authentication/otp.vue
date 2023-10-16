@@ -127,6 +127,9 @@ export default {
         this.failureToast(this.$t("login.otpRequired"));
         return;
       }
+      if (!this.isResetPassword) {
+        this.userId["fcm_token"] = userService.getFCMToken();
+      }
       authService
         .verifyOtp({
           ...this.userId,
