@@ -468,6 +468,12 @@ export default {
             }
             return this.translateNumber(parsedString);
         },
+        getDateTimeWithoutTimezone() {
+            let format = "YYYY-MM-DDTHH:mm:ss";
+            let utcTimezone = ".000Z";
+            let date = this.moment().format(format) + utcTimezone;
+            return date;
+        },
         dateFormatter(date, format = 'MMMM Do YYYY, h:mm A', utc = false, locale, tz = this.browserTimezone) {
             if (utc) {
                 return this.moment(date).tz(tz).locale(locale || this.currentAppLang).utc().format(format);

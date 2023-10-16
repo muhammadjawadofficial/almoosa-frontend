@@ -1,6 +1,11 @@
 <template>
-  <li class="onclick-dropdown" :class="{ 'show-dropdown': showProfileDropdown }" tabindex="0"
-    @click="toggleProfileDropdown" @focusout="toggleProfileDropdown($event, false)">
+  <li
+    class="onclick-dropdown"
+    :class="{ 'show-dropdown': showProfileDropdown }"
+    tabindex="0"
+    @click="toggleProfileDropdown"
+    @focusout="toggleProfileDropdown($event, false)"
+  >
     <div class="notification-box">
       <!-- <feather type="bell" @click="notification_open()"></feather> -->
       <img class="" src="../assets/images/header/bell.png" alt="bell" />
@@ -8,27 +13,40 @@
         {{ unread }}
       </span>
     </div>
-    <div class="onhover-show-div notification-dropdown" :class="{ active: notification }">
+    <div
+      class="onhover-show-div notification-dropdown"
+      :class="{ active: notification }"
+    >
       <div class="dropdown-title w500">
         {{ $t("header.notifications") }}
 
-        <div  class="float-right see-all fa-icons-p">
+        <div class="float-right see-all fa-icons-p">
           <!-- {{ $t("header.seeAll") }} -->
-          <span @click="routeToNotifications"><i class="fa fa-arrow-down"></i></span>
-          <span @click="routeToNotificationsSetting"><i class="fa fa-gear"></i></span>
+          <span @click="routeToNotifications"
+            ><i class="fa fa-arrow-down"></i
+          ></span>
+          <span @click="routeToNotificationsSetting"
+            ><i class="fa fa-gear"></i
+          ></span>
         </div>
-
       </div>
 
-      <div class="dropdown-sub-title px-3 pt-3 pb-0 text-right" v-if="unread > 0">
+      <div
+        class="dropdown-sub-title px-3 pt-3 pb-0 text-right"
+        v-if="unread > 0"
+      >
         <span class="pointer" @click="markAllAsRead">
           {{ $t("header.markAllRead") }}
         </span>
       </div>
       <ul class="notification-svg">
         <template v-if="notifications.length">
-          <li class="notification-row" :class="getNotificationRowClass(index)"
-            v-for="(notification, index) in notifications" :key="'notification-' + index">
+          <li
+            class="notification-row"
+            :class="getNotificationRowClass(index)"
+            v-for="(notification, index) in notifications"
+            :key="'notification-' + index"
+          >
             <div class="icon" :class="{ unread: !notification.seen }">
               <bell-fill-svg class="svg-fill-icon" />
             </div>
@@ -45,10 +63,16 @@
               </span>
             </p>
           </li>
-          <div v-if="notifications.length < total" class="margin-top d-flex justify-content-center"
-            :disabled="getLoading">
-            <a class="btn btn-primary position-absolute" @click.stop="loadMore"
-              :class="{ 'disabled-button': getLoading }">
+          <div
+            v-if="notifications.length < total"
+            class="margin-top d-flex justify-content-center"
+            :disabled="getLoading"
+          >
+            <a
+              class="btn btn-primary position-absolute"
+              @click.stop="loadMore"
+              :class="{ 'disabled-button': getLoading }"
+            >
               {{ $t("loadMore") }}
             </a>
           </div>
@@ -176,9 +200,10 @@ export default {
         return;
       }
       notification = JSON.parse(notification);
+      let currentDateTime = this.getDateTimeWithoutTimezone();
       this.notifications.unshift({
         ...notification,
-        created_at: new Date(),
+        created_at: currentDateTime,
       });
       this.unread++;
     });
@@ -197,7 +222,9 @@ export default {
   pointer-events: none;
   cursor: not-allowed;
 }
-.fa-icons-p{
-  display: flex;gap: 8px;font-size: 20px;
+.fa-icons-p {
+  display: flex;
+  gap: 8px;
+  font-size: 20px;
 }
 </style>
