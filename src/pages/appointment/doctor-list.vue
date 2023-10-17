@@ -81,7 +81,7 @@
                 : $t("doctorList.viewDetails")
             }} -->
             {{
-              isBookingFlow && isDoctorAvailableForBooking(doctor)
+              isDoctorAvailableForBooking(doctor)
                 ? $t("doctorList.viewAvailability")
                 : $t("doctorList.viewDetails")
             }}
@@ -150,13 +150,16 @@ export default {
       "setBookingAmount",
       "setDoctorsList",
       "setBookingDate",
-      "setBookingNearestDate"
+      "setBookingNearestDate",
     ]),
     openNearestAvailabilityModal() {
       this.$bvModal.show("nearestAvailabilityCustomModal");
     },
     isDoctorAvailableForBooking(doctor) {
-      return doctor.has_schedule == "NO" || doctor.doctor_availability == "NO";
+      return (
+        this.isBookingFlow &&
+        (doctor.has_schedule == "NO" || doctor.doctor_availability == "NO")
+      );
     },
     setSelectedDoctor(doctor) {
       this.setBookingDoctor(doctor);
