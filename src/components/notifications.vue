@@ -25,7 +25,7 @@
           <span @click="routeToNotifications"
             ><i class="fa fa-arrow-down"></i
           ></span>
-          <span @click="routeToNotificationsSetting"
+          <span v-if="false" @click="routeToNotificationsSetting"
             ><i class="fa fa-gear"></i
           ></span>
         </div>
