@@ -212,6 +212,14 @@
     "settings": "اعرض الإعدادات الخاصة بك",
     "notifications": "إشعارات",
     "noData": "لا يوجد إشعارات جديدة",
+    "seeAll": "اطلع على جميع الإشعارات",
+    "allNotification": "جميع الإخطارات",
+    "settingsNotification": "إعدادات الإخطارات",
+    "settingsNotificationEnabled": "ممكّن",
+    "settingsNotificationDisabled": "عاجز",
+    "settingsNotificationSave": "يحفظ",
+    "settingsNotificationMsg": "تم تحديث إعداد الإشعارات",
+    "noNotification": "لا مزيد من الإخطارات",
     "today": "اليوم",
     "home": "الرئيسية",
     "bookings": "مواعيدي",
@@ -225,7 +233,8 @@
     "switchMyProfile": "قم بالتبديل إلى ملف التعريف الخاص بي",
     "oldPassword": "كلمة المرور القديمة",
     "newPassword": "كلمة المرور الجديدة",
-    "confirmNewPassword": "تأكيد كلمة المرور الجديدة"
+    "confirmNewPassword": "تأكيد كلمة المرور الجديدة",
+    "markAllRead": "اجعلها مقروءة"
   },
   "dashboard": {
     "helpMillions": "نخدم بشغف، ونقود التحول المجتمعي من خلال تقديم خدمات صحية فعالة",
@@ -269,6 +278,10 @@
     "heading": "المواعيد القادمة",
     "subHeading": "عرض كامل المواعيد القادمة الخاصة بك",
     "onsite": "موعد في العيادة",
+    "date": "التصفية حسب التاريخ",
+    "from": "من",
+    "to": "إلى",
+    "selectDate": "حدد تاريخ",
     "virtual": "موعد افتراضي",
     "appointmentTimeline": "الجدول الزمني لتاريخ الموعد",
     "modal": {
@@ -321,7 +334,9 @@
     "bookAppointment": "حجز موعد",
     "viewDetails": "عن طبيبك",
     "physicianList": "قائمة الأطباء",
-    "noData": "لم يتم العثور على طبيب في معايير الاختيار الحالية"
+    "noData": "لم يتم العثور على طبيب في معايير الاختيار الحالية",
+    "doctorIsAvailableOnFollowingDates": "الطبيب متاح في التواريخ التالية",
+    "viewAvailability": "مشاهدة التوفر"
   },
   "doctorDetail": {
     "tabs": {
@@ -399,7 +414,7 @@
     "modal": {
       "confirmed": "تم تأكيد الموعد",
       "confirmedText": "تم حجز موعدك بنجاح",
-      "confirmedVirtualText": "تم حجز موعدك الإفتراضي بنجاح.   لتفادي إلغاء الموعد الرجاء دفع قيمة الموعد قبل ٢٤ ساعه من وقت الموعد. يرجى ملاحظة أنه لا يمكن تحويل المواعيد الافتراضية إلى المواعيد في الموقع",
+      "confirmedVirtualText": "تم حجز موعدك الإفتراضي بنجاح.   لتفادي إلغاء الموعد الرجاء دفع قيمة الموعد قبل 30 دقيقة من وقت الموعد. يرجى ملاحظة أنه لا يمكن تحويل المواعيد الافتراضية إلى المواعيد في الموقع",
       "reschedule": "تمت إعادة جدولة الموعد",
       "rescheduleText": "تم تغير موعدك بنجاح"
     }
@@ -554,7 +569,7 @@
     "success": "مكتمل"
   },
   "approvalStatus": {
-    "sent_for_approval": "تم إرسالها للموافقة",
+    "sent_for_approval": "الطلب قيد الاجراء",
     "approved": "تمت الموافقة",
     "rejected": "مرفوض"
   },
@@ -640,5 +655,6 @@
   "walletNotAllowedInFreeAppointment": "لا يمكن استخدام المحفظة في موعد مجاني",
   "coveredByASH": "مغطى بواسطة مجموعة الموسى الصحية",
   "between": "بين",
-  "and": "و"
+  "and": "و",
+  "cannotPayForTheAppointment": "لا يمكن الدفع للموعد قبل 30 دقيقة من وقت الموعد"
 }

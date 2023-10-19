@@ -439,6 +439,16 @@ $label-color: $primary-color, $secondary-color, $success-color, $danger-color, $
 }
 
 .btn-primary {
+  &.disabled {
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      background-color: $primary-color !important;
+      border-color: $primary-color !important;
+    }
+    cursor: default;
+  }
 }
 
 .btn-secondary {

@@ -156,7 +156,6 @@ export default {
     ...mapGetters("user", ["getUserRole"]),
   },
   mounted() {
-    this.setFCMToken();
     let layout = "ltr";
     if (userService.getSelectedLayout()) {
       layout = userService.getSelectedLayout();

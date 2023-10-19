@@ -211,7 +211,15 @@
     "marhaba": "Marhaba",
     "settings": "View Your Settings",
     "notifications": "Notifications",
-    "noData": "No New Notifications",
+    "seeAll": "See All Notifications",
+    "allNotification": "All Notifications",
+    "settingsNotification": "Notifications Settings",
+    "settingsNotificationEnabled": "Enabled",
+    "settingsNotificationDisabled": "Disabled",
+    "settingsNotificationSave": "Save",
+    "settingsNotificationMsg": "Notification Setting Updated",
+    "noData": "No Notifications",
+    "noNotification": "No More Notifications",
     "today": "Today",
     "home": "Home",
     "bookings": "Bookings",
@@ -225,7 +233,8 @@
     "switchMyProfile": "Switch to My Profile",
     "oldPassword": "Old Password",
     "newPassword": "New Password",
-    "confirmNewPassword": "Confirm New Password"
+    "confirmNewPassword": "Confirm New Password",
+    "markAllRead": "Mark All As Read"
   },
   "dashboard": {
     "helpMillions": "Help Millions People everywhere, everytime!",
@@ -271,6 +280,10 @@
     "onsite": "On-site",
     "virtual": "Virtual",
     "appointmentTimeline": "Appointment History Timeline",
+    "date": "Filter by Date",
+    "from": "From",
+    "to": "To",
+    "selectDate": "Select Date",
     "modal": {
       "delete": "Appointment Cancelled",
       "deleteText": "Your appointment has been cancelled",
@@ -321,7 +334,9 @@
     "bookAppointment": "Book an Appointment",
     "viewDetails": "View Details",
     "physicianList": "Our Doctors",
-    "noData": "No doctor found in the current selection criteria"
+    "noData": "No doctor found in the current selection criteria",
+    "doctorIsAvailableOnFollowingDates": "Doctor is available on following dates",
+    "viewAvailability": "View Availability"
   },
   "doctorDetail": {
     "tabs": {
@@ -399,7 +414,7 @@
     "modal": {
       "confirmed": "Appointment Confirmed",
       "confirmedText": "Your appointment has been booked",
-      "confirmedVirtualText": "Your virtual appointment has been booked. To avoid appointment cancellation, kindly pay for the appointment 24hrs in advance. Please note that the virtual appointments can not be converted to Onsite appointments",
+      "confirmedVirtualText": "Your virtual appointment has been booked. To avoid appointment cancellation, kindly pay for the appointment 30 minutes in advance. Please note that the virtual appointments can not be converted to Onsite appointments",
       "reschedule": "Appointment Rescheduled",
       "rescheduleText": "Your appointment has been rescheduled successfully"
     }
@@ -640,5 +655,6 @@
   "walletNotAllowedInFreeAppointment": "Wallet is not allowed in free appointment",
   "coveredByASH": "Covered by ASH",
   "between": "between",
-  "and": "and"
+  "and": "and",
+  "cannotPayForTheAppointment": "Payment for virtual appointments is not available before 30 minutes of the appointment time"
 }

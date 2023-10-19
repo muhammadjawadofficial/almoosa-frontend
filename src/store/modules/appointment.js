@@ -14,6 +14,7 @@ export default {
             endTime: null,
             amount: null,
             doctor: null,
+            nearestDate: null
         },
         paymentObject: {
             currency: null,
@@ -35,6 +36,7 @@ export default {
                 endTime: null,
                 amount: "100",
                 doctor: null,
+                nearestDate: null
             })
         },
         setSelectedAppointment({ commit }, data) {
@@ -75,6 +77,9 @@ export default {
         },
         setPaymentObject({ commit }, data) {
             commit('SET_PAYMENT_OBJECT', data)
+        },
+        setBookingNearestDate({ commit }, data) {
+            commit('SET_BOOKING_NEAREST_DATE', data)
         },
     },
     mutations: {
@@ -120,6 +125,9 @@ export default {
         SET_PAYMENT_OBJECT(state, paymentObject) {
             Vue.set(state, 'paymentObject', paymentObject)
         },
+        SET_BOOKING_NEAREST_DATE(state, nearestDate) {
+            state.booking.nearestDate = nearestDate;
+        }
     },
     getters: {
         getSelectedAppointment: (state) => state.selectedAppointment,
@@ -135,5 +143,6 @@ export default {
         getDoctorsList: (state) => state.doctorsList,
         getIsReschedule: (state) => state.isReschedule,
         getPaymentObject: (state) => state.paymentObject,
+        getBookingNearestDate: (state) => state.booking.nearestDate,
     }
 };

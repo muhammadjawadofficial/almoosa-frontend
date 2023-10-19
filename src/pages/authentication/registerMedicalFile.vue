@@ -237,6 +237,7 @@ export default {
         return;
       }
       this.registerForm[this.selectedItem.method] = +this.userId;
+      this.registerForm.app_language = this.currentAppLang;
       authService.registerViaMedicalFile(this.registerForm).then(
         (response) => {
           if (response.data.status) {

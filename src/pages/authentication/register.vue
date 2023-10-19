@@ -600,6 +600,7 @@ export default {
           form["nationality_id"] = form[key].id;
         }
       });
+      form.app_language = this.currentAppLang;
       authService.register(form).then(
         (response) => {
           if (response.data.status) {

@@ -86,6 +86,67 @@
 .page-wrapper {
   position: relative;
 
+  .notification-row {
+    --notification-bg-color: #dcffd8;
+    --notification-bell-color: #4cba3f;
+    border-radius: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    background-color: var(--notification-bg-color);
+    align-items: center;
+    .icon {
+      width: 3rem;
+      min-width: 3rem;
+      aspect-ratio: 1;
+      /* UI Properties */
+      background: $white;
+      box-shadow: 0.75rem 0.75rem 1rem #0650502e;
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem;
+      &.unread {
+        position: relative;
+        &::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 0.5rem;
+          aspect-ratio: 1;
+          background-color: var(--theme-secondary);
+          border-radius: 50%;
+        }
+      }
+      svg {
+        width: 100%;
+        height: auto;
+        .svg-icon-fill {
+          fill: var(--notification-bell-color);
+        }
+      }
+    }
+    .time-* {
+      font-size: 0.8rem;
+    }
+    &.warning {
+      --notification-bg-color: #dcffd8;
+      --notification-bell-color: #4cba3f;
+    }
+    &.default {
+      --notification-bg-color: #f9efef;
+      --notification-bell-color: #fe6b6b;
+    }
+    &.info {
+      --notification-bg-color: #eceefb;
+      --notification-bell-color: #818ffe;
+    }
+    &.success {
+      --notification-bg-color: #fbf5eb;
+      --notification-bell-color: #ffb151;
+    }
+  }
   .page-header {
     max-width: 100vw;
     left: 0;
@@ -200,10 +261,6 @@
               margin-top: 3px;
             }
             svg {
-              vertical-align: $header-wrapper-nav-icon-align;
-              width: $header-wrapper-nav-icon-size;
-              height: 17px;
-
               path {
                 color: $header-wrapper-nav-icon-color;
               }
@@ -291,6 +348,7 @@
                     object-fit: cover;
                     width: calc(max(2.375rem, 30px));
                     aspect-ratio: 1;
+                    cursor: pointer;
                   }
                 }
               }
@@ -533,62 +591,12 @@
             font-size: 1rem;
             padding-bottom: 8px;
           }
-
-          .notification-row {
-            --notification-bg-color: #dcffd8;
-            --notification-bell-color: #4cba3f;
-            border-radius: 1.5rem;
-            display: flex;
-            gap: 1rem;
-            background-color: var(--notification-bg-color);
-            align-items: center;
-            .icon {
-              width: 3rem;
-              min-width: 3rem;
-              aspect-ratio: 1;
-              /* UI Properties */
-              background: $white;
-              box-shadow: 0.75rem 0.75rem 1rem #0650502e;
-              border-radius: 1rem;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              padding: 0.75rem;
-              svg {
-                width: 100%;
-                height: auto;
-                .svg-icon-fill {
-                  fill: var(--notification-bell-color);
-                }
-              }
-            }
-            .time-* {
-              font-size: 0.8rem;
-            }
-            &.warning {
-              --notification-bg-color: #dcffd8;
-              --notification-bell-color: #4cba3f;
-            }
-            &.default {
-              --notification-bg-color: #f9efef;
-              --notification-bell-color: #fe6b6b;
-            }
-            &.info {
-              --notification-bg-color: #eceefb;
-              --notification-bell-color: #818ffe;
-            }
-            &.success {
-              --notification-bg-color: #fbf5eb;
-              --notification-bell-color: #ffb151;
-            }
-          }
-
           ul {
             padding: 0.938rem;
           }
           &.notification-dropdown {
             ul {
-              max-height: 20rem;
+              max-height: 30rem;
               overflow: auto;
             }
           }
@@ -649,6 +657,7 @@
 
         .notification-box {
           position: relative;
+          cursor: pointer;
           img {
             width: calc(max(2.375rem, 30px));
             aspect-ratio: 1;
@@ -752,7 +761,6 @@
             background-color: #f9f9f9;
             border: none;
             h6 {
-              // font-family: $font-roboto, $font-serif;
               font-weight: 500;
               font-size: 12px;
               line-height: 14px;
@@ -774,13 +782,6 @@
           left: unset;
 
           li {
-            background-color: #f9f9f9;
-            border-radius: 5px;
-            // &:last-child {
-            //   text-align: center;
-            //   background-color: transparent;
-            // }
-
             p {
               display: flex;
               align-items: flex-start;
@@ -1730,7 +1731,7 @@
                       fill: $tertiary-color;
                     }
                     .svg-icon-stroke,
-                    .svg-icon-stroke-bg  {
+                    .svg-icon-stroke-bg {
                       stroke: $tertiary-color;
                     }
                     .according-menu {
@@ -2808,7 +2809,11 @@
       }
 
       .page-title {
-        background: linear-gradient(26deg, var(--theme-default) 0%, #a26cf8 100%);
+        background: linear-gradient(
+          26deg,
+          var(--theme-default) 0%,
+          #a26cf8 100%
+        );
         padding-left: 30px;
         padding-right: 30px;
         border-radius: 15px;
@@ -3480,6 +3485,9 @@
               ul {
                 li {
                   .profile-media {
+                    img {
+                      cursor: pointer;
+                    }
                     .media-body {
                       p {
                         color: rgba($white, 0.7);
@@ -3547,6 +3555,34 @@
       }
     }
   }
+}
+
+.notification-dropdown li {
+  background-color: #f9f9f9;
+}
+
+.see-all {
+  color: #55b047;
+  cursor: pointer;
+}
+
+.position-absolute {
+  position: absolute;
+  bottom: 5px;
+}
+.no-notification {
+  font-size: 1.5rem;
+  color: #2b4e66;
+  width: 100%;
+  text-align: start;
+}
+.notification-svg li svg {
+  vertical-align: $header-wrapper-nav-icon-align;
+  width: $header-wrapper-nav-icon-size;
+  height: 17px;
+}
+.margin-top {
+  margin-top: 2.5rem;
 }
 
 @media screen and (max-width: 767px) {
