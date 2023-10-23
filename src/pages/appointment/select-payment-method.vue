@@ -408,12 +408,28 @@ export default {
         this.navigateTo("Upcoming Appointment");
         return;
       }
+    } else {
+      if (!this.checkIfAllowedToPay()) {
+        return;
+      }
     }
     this.handleAmount();
   },
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
     ...mapActions("user", ["updateUserInfo"]),
+    checkIfAllowedToPay() {
+      console.log("ruuning");
+      if (
+        this.getSelectedAppointment.type.toLowerCase() == "online" &&
+        !this.isAllowedToPay(this.getSelectedAppointment.start_time)
+      ) {
+        this.failureToast(this.$t("cannotPayForTheAppointment"));
+        this.navigateTo("Upcoming Appointment");
+        return false;
+      }
+      return true;
+    },
     handleAmount() {
       Promise.all([
         userService.getServiceBaseRate(

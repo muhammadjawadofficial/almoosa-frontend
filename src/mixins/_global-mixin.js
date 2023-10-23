@@ -722,5 +722,13 @@ export default {
                 userService.removeFCMToken();
             }
         },
+        isAllowedToPay(appointment_time) {
+            let now = this.moment().utcOffset(0, true);
+            let appointmentTime = this.moment(appointment_time).utc();
+            let allowedMinutes = -30;
+            let diff = now.diff(appointmentTime, 'minutes');
+
+            return diff <= allowedMinutes;
+        }
     },
 }
