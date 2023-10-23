@@ -399,7 +399,7 @@
     "modal": {
       "confirmed": "Appointment Confirmed",
       "confirmedText": "Your appointment has been booked",
-      "confirmedVirtualText": "Your virtual appointment has been booked. To avoid appointment cancellation, kindly pay for the appointment 24hrs in advance. Please note that the virtual appointments can not be converted to Onsite appointments",
+      "confirmedVirtualText": "Your virtual appointment has been booked. To avoid appointment cancellation, kindly pay for the appointment 30 minutes in advance. Please note that the virtual appointments can not be converted to Onsite appointments",
       "reschedule": "Appointment Rescheduled",
       "rescheduleText": "Your appointment has been rescheduled successfully"
     }
@@ -640,5 +640,6 @@
   "walletNotAllowedInFreeAppointment": "Wallet is not allowed in free appointment",
   "coveredByASH": "Covered by ASH",
   "between": "between",
-  "and": "and"
+  "and": "and",
+  "cannotPayForTheAppointment": "Payment for virtual appointments is not available before 30 minutes of the appointment time"
 }

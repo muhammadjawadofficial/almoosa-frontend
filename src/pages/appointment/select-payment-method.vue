@@ -352,11 +352,27 @@ export default {
         this.navigateTo("Upcoming Appointment");
         return;
       }
+    } else {
+      if (!this.checkIfAllowedToPay()) {
+        return;
+      }
     }
     this.handleAmount();
   },
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
+    checkIfAllowedToPay() {
+      console.log('ruuning')
+      if (
+        this.getSelectedAppointment.type.toLowerCase() == "online" &&
+        !this.isAllowedToPay(this.getSelectedAppointment.start_time)
+      ) {
+        this.failureToast(this.$t("cannotPayForTheAppointment"));
+        this.navigateTo("Upcoming Appointment");
+        return false;
+      }
+      return true;
+    },
     handleAmount() {
       Promise.all([
         userService.getServiceBaseRate(
@@ -495,6 +511,9 @@ export default {
         });
     },
     createPayment(paymentObj) {
+      if (!this.checkIfAllowedToPay()) {
+        return;
+      }
       if (!this.paymentAmountResponse) {
         this.failureToast("Cannot Proceed with Payment");
         return;

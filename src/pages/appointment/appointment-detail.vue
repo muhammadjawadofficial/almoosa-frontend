@@ -127,7 +127,14 @@
                       !isDoctor
                     "
                   >
-                    <button class="btn btn-secondary" @click="makePayment">
+                    <button
+                      class="btn btn-secondary"
+                      :disabled="
+                        details.type.toLowerCase() == 'online' &&
+                        !isAllowedToPay(details.start_time)
+                      "
+                      @click="makePayment"
+                    >
                       {{ $t("bookAppointment.payNow") }}
                     </button>
                   </template>
@@ -243,6 +250,14 @@ export default {
         );
     },
     makePayment() {
+      if (
+        this.details &&
+        this.details.type.toLowerCase() == "online" &&
+        !this.isAllowedToPay(this.details.start_time)
+      ) {
+        this.failureToast(this.$t("cannotPayForTheAppointment"));
+        return;
+      }
       let obj = {
         amount: this.details.amount,
         appointment_id: this.details.id,

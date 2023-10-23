@@ -165,7 +165,7 @@ export default {
     checkRefillAllowed() {
       let booked_date = new Date(this.getSelectedMedicationSession.booked_date);
       let allowed_date = new Date(
-        booked_date.setMonth(booked_date.getMonth() + 2)
+        booked_date.setMonth(booked_date.getMonth() + 6)
       );
       let current_date = new Date();
       this.refillAllowed = this.getSelectedMedicationSession.booked_date
