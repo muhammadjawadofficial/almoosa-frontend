@@ -16,6 +16,7 @@ export default {
       "setBookingDoctor",
       "setBookingAmount",
       "setSelectedAppointment",
+      "setBookingNearestDate",
     ]),
     destroyObjects(always = false) {
       if (always || !localStorage.getItem("url")) {
@@ -29,6 +30,7 @@ export default {
         this.setBookingDoctor(null);
         this.setSelectedAppointment(null);
         this.setBookingAmount(null);
+        this.setBookingNearestDate(null);
       }
     },
   },

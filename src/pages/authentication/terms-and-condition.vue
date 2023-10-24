@@ -202,10 +202,15 @@ export default {
                 error.response.data &&
                 error.response.data.message
             );
+
+          if (error.response && error.response.status == 401) {
+            this.logout();
+          }
           console.error(error);
         }
       );
     },
+    
     logout() {
       this.$root.$refs.appointmentModule &&
         this.$root.$refs.appointmentModule.destroyObjects();

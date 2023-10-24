@@ -9,6 +9,7 @@ export default {
             checkRoleFromUser: false,
             browserTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
             isWebView: false,
+            isEligibleForFirstFreeAppt: false
         }
     },
     computed: {
@@ -23,6 +24,7 @@ export default {
             return this.$i18n.locale;
         },
         isEligibleForFreeAppt() {
+            if (!this.isEligibleForFirstFreeAppt) return this.isEligibleForFirstFreeAppt;
             let isElligible = null;
             let promos = this.getUserInfo.first_free_promo;
 
@@ -37,6 +39,7 @@ export default {
             return isElligible;
         },
         isEligibleForCancelFreeAppt() {
+            if (!this.isEligibleForFirstFreeAppt) return this.isEligibleForFirstFreeAppt;
             let isElligible = null;
             let promos = this.getUserInfo.first_free_promo;
 
@@ -465,6 +468,12 @@ export default {
             }
             return this.translateNumber(parsedString);
         },
+        getDateTimeWithoutTimezone() {
+            let format = "YYYY-MM-DDTHH:mm:ss";
+            let utcTimezone = ".000Z";
+            let date = this.moment().format(format) + utcTimezone;
+            return date;
+        },
         dateFormatter(date, format = 'MMMM Do YYYY, h:mm A', utc = false, locale, tz = this.browserTimezone) {
             if (utc) {
                 return this.moment(date).tz(tz).locale(locale || this.currentAppLang).utc().format(format);
@@ -496,7 +505,7 @@ export default {
             return this.dateFormatter(date, "YYYY" + separator + "MM" + separator + "DD")
         },
         formatNotificationTime(date, utc = false) {
-            return this.dateFormatter(date, 'MMMM YYYY - hh:mm A', utc)
+            return this.dateFormatter(date, 'DD MMMM YYYY - hh:mm A', utc)
         },
         formatReceiptDateTime(date, utc = false) {
             return this.dateFormatter(date, 'YYYY-MM-DD HH:mm:ss', utc, "en", "Asia/Riyadh")
@@ -685,44 +694,30 @@ export default {
         async setFCMToken() {
             if (this.$messaging) {
                 // await this.removeFCMToken();
-                this.$messaging.onTokenRefresh(() => {
-                    this.initializeFCMToken();
+                this.$messaging.onTokenRefresh(async () => {
+                    await this.initializeFCMToken();
                 })
-                this.initializeFCMToken();
+                await this.initializeFCMToken();
             }
         },
-        initializeFCMToken() {
-            this.$messaging
-                .deleteToken({
+        async initializeFCMToken() {
+            try {
+                await this.$messaging.deleteToken({
                     vapidKey:
                         "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
-                })
-                .then(() => {
-                    return this.$messaging.getToken({
-                        vapidKey:
-                            "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
-                    })
-                })
-                .catch(() => {
-                    return this.$messaging.getToken({
-                        vapidKey:
-                            "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
-                    })
-                })
-                .then((currentToken) => {
-                    if (currentToken) {
-                        userService.setFCMToken(currentToken);
-                        console.log("client token");
-                        console.log(currentToken);
-                    } else {
-                        console.log(
-                            "No registration token available. Request permission to generate one."
-                        );
-                    }
-                })
-                .catch((err) => {
-                    console.log("An error occurred while retrieving token. ", err);
                 });
+                let currentToken = await this.$messaging.getToken({
+                    vapidKey:
+                        "BNLgxwZ2Lmx4lq30n9wEMDap0N7geVOFe9Rq3FTGxm5bQ-TPP3tnabS2mmO_xkcbCslllkKusQiJUBeX3r0ecSk",
+                });
+                if (currentToken) {
+                    userService.setFCMToken(currentToken);
+                    console.log("client token");
+                    console.log(currentToken);
+                }
+            } catch (error) {
+                console.log("An error occurred while retrieving token. ", error);
+            }
         },
         getFCMToken() {
             return userService.getFCMToken();
@@ -733,5 +728,13 @@ export default {
                 userService.removeFCMToken();
             }
         },
+        isAllowedToPay(appointment_time) {
+            let now = this.moment().utcOffset(0, true);
+            let appointmentTime = this.moment(appointment_time).utc();
+            let allowedMinutes = -30;
+            let diff = now.diff(appointmentTime, 'minutes');
+
+            return diff <= allowedMinutes;
+        }
     },
 }

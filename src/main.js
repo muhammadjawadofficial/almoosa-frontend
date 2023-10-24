@@ -20,7 +20,10 @@ import "./components/svgIcons"
 import OtpInput from "@bachdgvn/vue-otp-input";
 import PxCard from './components/Pxcard.vue'
 import "@lottiefiles/lottie-player";
-
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
+import 'vue2-datepicker/locale/ar';
+import 'vue2-datepicker/locale/en';
 
 import VueAnalytics from 'vue-analytics';
 
@@ -40,6 +43,7 @@ Vue.component(PxCard.name, PxCard)
 Vue.component("vueDropzone", vue2Dropzone)
 Vue.component('perpage', PerPage)
 Vue.component('ash-datepicker', ASHDatePicker)
+Vue.component('date-picker', DatePicker)
 Vue.component('multiselect', Multiselect)
 
 // Multi Language Add

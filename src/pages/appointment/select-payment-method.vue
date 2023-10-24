@@ -562,6 +562,10 @@ export default {
         this.navigateTo("Upcoming Appointment");
         return;
       }
+    } else {
+      if (!this.checkIfAllowedToPay()) {
+        return;
+      }
     }
     this.handleAmount();
     this.fetchPromotionsList();
@@ -569,6 +573,18 @@ export default {
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
     ...mapActions("user", ["updateUserInfo"]),
+    checkIfAllowedToPay() {
+      console.log("ruuning");
+      if (
+        this.getSelectedAppointment.type.toLowerCase() == "online" &&
+        !this.isAllowedToPay(this.getSelectedAppointment.start_time)
+      ) {
+        this.failureToast(this.$t("cannotPayForTheAppointment"));
+        this.navigateTo("Upcoming Appointment");
+        return false;
+      }
+      return true;
+    },
     handleAmount() {
       Promise.all([
         userService.getServiceBaseRate(
@@ -739,43 +755,14 @@ export default {
         receipt_date: this.formatReceiptDateTime(new Date()),
       };
     },
-    getFreeAppointmentPaymentVerifyObject() {
-      return {
-        appointment_id: this.getSelectedAppointment.id,
-        service_value: this.paymentAmountResponse.Amount || 0,
-        service_discount:
-          (+this.paymentAmountResponse.Discount || 0) +
-          (+this.paymentAmountResponse.PatientShare || 0),
-        service_tax:
-          (+this.paymentAmountResponse.ServiceTax || 0) -
-          (+this.paymentAmountResponse.PatientTax || 0),
-        service_net_amount:
-          (+this.paymentAmountResponse.NetAmount || 0) -
-          (+this.paymentAmountResponse.PatientShare || 0) -
-          (+this.paymentAmountResponse.PatientTax || 0),
-        patient_amount: 0,
-        patient_tax: 0,
-        patient_share_total: 0,
-        is_free_consultation: this.paymentAmountResponse.FreeConsultation || 0,
-        patient_scheme_id: 1,
-        wallet_payment_amount: 0,
-        gateway_payment_amount: 0,
-        gateway_payment_ref: "",
-        receipt_date: this.formatReceiptDateTime(new Date()),
-        is_first_appointment_free: true,
-        original_appointment_amount:
-          (+this.paymentAmountResponse.PatientShare || 0) +
-          (+this.paymentAmountResponse.PatientTax || 0),
-      };
-    },
     async createPayment(paymentObj, isFree = false) {
       if (!this.paymentAmountResponse) {
         this.failureToast("Cannot Proceed with Payment");
         return;
       }
-      let paymentVerifyObject = isFree
-        ? this.getFreeAppointmentPaymentVerifyObject()
-        : this.getPaymentVerifyObject();
+      let paymentVerifyObject = this.getPaymentVerifyObject();
+      paymentVerifyObject.is_first_appointment_free = isFree;
+
       localStorage.setItem(
         "paymentVerifyObject",
         JSON.stringify(paymentVerifyObject)

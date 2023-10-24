@@ -270,6 +270,7 @@ export default {
       "getIsReschedule",
       "getSelectedAppointment",
       "getBookingMethod",
+      "getBookingNearestDate",
     ]),
     ...mapGetters("user", ["getUserInfo"]),
     shouldShowLocation() {
@@ -301,11 +302,15 @@ export default {
       "setSelectedAppointment",
       "resetBookAppointment",
       "setPaymentObject",
+      "setBookingNearestDate",
     ]),
     ...mapActions("user", ["updateUserInfo"]),
     initializeData() {
       this.doctor = this.getBookingDoctor;
-      this.selectedDate = this.removeDateTime(this.getBookingDate);
+      this.selectedDate = this.removeDateTime(
+        this.getBookingNearestDate || this.getBookingDate
+      );
+      console.log(this.getBookingNearestDate, this.getBookingDate);
 
       userService
         .getProfileById(this.getBookingDoctor.id)
@@ -566,6 +571,7 @@ export default {
     if (this.getIsReschedule) {
       this.setIsReschedule(false);
     }
+    this.setBookingNearestDate(null);
   },
 };
 </script>

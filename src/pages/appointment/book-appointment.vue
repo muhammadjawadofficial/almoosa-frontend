@@ -141,7 +141,14 @@
     </b-card>
     <div class="row">
       <div class="col-md-12 button-group">
-        <button class="btn btn-primary" @click="bookAppointment('payNow')">
+        <button
+          class="btn btn-primary"
+          @click="bookAppointment('payNow')"
+          :disabled="
+            getBookingMethod.toLowerCase() == 'online' &&
+            !isAllowedToPay(getBookingStartTime)
+          "
+        >
           {{ $t("bookAppointment.payNow") }}
         </button>
         <button class="btn btn-secondary" @click="bookAppointment">
@@ -284,6 +291,13 @@ export default {
       });
     },
     bookAppointment(method = "payLater") {
+      if (
+        this.getBookingMethod.toLowerCase() == "online" &&
+        !this.isAllowedToPay(this.getBookingStartTime)
+      ) {
+        this.failureToast(this.$t("cannotPayForTheAppointment"));
+        return;
+      }
       let promo = null;
       if (this.selectedDiscountType == "promotion" && this.selectedPromotion) {
         promo = this.selectedPromotion.promo_code;

@@ -53,9 +53,10 @@
   }
 }
 
+.onclick-dropdown,
 .onhover-dropdown {
-  cursor: pointer;
   position: relative;
+  cursor: pointer;
   &.show-dropdown {
     .onhover-show-div {
       @extend %for-animated-hover-box;
