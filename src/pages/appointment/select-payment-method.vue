@@ -307,6 +307,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import {
+  appointmentService,
   freeAppointmentPromoService,
   insuranceService,
   userService,
@@ -419,7 +420,6 @@ export default {
     ...mapActions("appointment", ["setPaymentObject"]),
     ...mapActions("user", ["updateUserInfo"]),
     checkIfAllowedToPay() {
-      console.log("ruuning");
       if (
         this.getSelectedAppointment.type.toLowerCase() == "online" &&
         !this.isAllowedToPay(this.getSelectedAppointment.start_time)
@@ -606,7 +606,23 @@ export default {
         if (paymentObj) {
           this.setPaymentObject(paymentObj);
         }
-        this.navigateTo("Pay Now");
+        await appointmentService
+          .initializePayment(paymentVerifyObject)
+          .then((response) => {
+            if (response.data && response.data.status)
+              this.navigateTo("Pay Now");
+            else this.failureToast(response.data && response.data.message);
+          })
+          .catch((error) => {
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                (error.response &&
+                  error.response.data &&
+                  error.response.data.message) ||
+                  error.message
+              );
+            this.navigateTo("Upcoming Appointment");
+          });
       } else {
         await this.doPayment();
 
