@@ -85,7 +85,11 @@ export default {
       return this.promotion.promo_code == this.getUserInfo.promo_code;
     },
     applyPromotion() {
-      promotionService.applyPromotions(this.promotion.promo_code).then(
+      let data = {
+        promo_code: this.promotion.promo_code,
+        skip_validation: true,
+      };
+      promotionService.applyPromotions(data).then(
         (response) => {
           if (response.data.status) {
             this.updateUserInfo({ promo_code: this.promotion.promo_code });

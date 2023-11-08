@@ -11,6 +11,7 @@ import healthEducation from './modules/health-education'
 import myTimeline from './modules/my-timeline'
 import myMedication from './modules/my-medication'
 import servicesPackages from './modules/services-packages'
+import systemConfig from './modules/system-config'
 
 Vue.use(Vuex);
 
@@ -33,6 +34,7 @@ export const store = new Vuex.Store({
     myTimeline,
     myMedication,
     servicesPackages,
+    systemConfig,
   }
 });
 

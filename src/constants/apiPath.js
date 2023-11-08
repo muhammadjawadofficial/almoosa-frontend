@@ -74,8 +74,8 @@ export const apiPath = {
     },
 
     promotions: {
-        assigned: getApiObject("get", "promotions/assigned"),
-        apply: getApiObject("post", "promotions/apply"),
+        assigned: getApiObject("get", "promotions/assigned","v2"),
+        apply: getApiObject("post", "promotions/apply","v2"),
     },
 
     timeline: {
@@ -149,5 +149,9 @@ export const apiPath = {
 
     freeAppointmentPromo: {
         fetchActive: (query) => getApiObject("get", "free-appointment-promo/get/active" + query),
-    }
+    },
+
+    systemConfig: {
+        fetchSystemConfig: (query) => getApiObject("get", "system-settings" + query),
+    },
 };

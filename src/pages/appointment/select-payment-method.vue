@@ -80,7 +80,7 @@
             @click="setDiscount('loyalty')"
             :class="{
               active: selectedDiscountType == 'loyalty',
-              disabled: !getUserInfo.loyality_points || isPromoLoyaltyDisabled,
+              disabled: getUserInfo.loyality_points < loyaltiyPoints,
             }"
           >
             <div class="promotions-loyalty-item-icon">
@@ -119,8 +119,19 @@
             </div>
             <div class="promotions-loyalty-item-title">
               <span class="number" v-if="selectedPromotion">
-                {{ translateNumber(selectedPromotion.discount_percent) }}%
+                <span
+                  class="number"
+                  v-if="selectedPromotion.discount_type == 'Percentage'"
+                >
+                  {{ $t("discount") }} {{ selectedPromotion.discount }}%
+                </span>
+
+                <span class="number" v-else>
+                  {{ $t("discount") }} {{ selectedPromotion.discount }}
+                  {{ $t("sar") }}
+                </span>
               </span>
+
               {{
                 selectedPromotion
                   ? $t("promotions.promoCardTitle")
@@ -344,7 +355,11 @@
                 {{ $t("promotions.loyaltyPointCardTitle") }}
               </div>
               <div class="value">
-                {{ $t("sar") + " " + getDeductedLoyaltyPoints / 2 }}
+                {{
+                  $t("sar") +
+                  " " +
+                  getDeductedLoyaltyPoints * LOYALITY_POINTS_FACTOR
+                }}
               </div>
             </div>
           </template>
@@ -404,6 +419,7 @@ import {
   insuranceService,
   promotionService,
   userService,
+  systemConfigService,
 } from "../../services";
 export default {
   data() {
@@ -418,6 +434,8 @@ export default {
       patientInsurances: null,
       serviceBaseRate: null,
       paymentAmount: null,
+      LOYALITY_POINTS_FACTOR: null,
+      loyaltiyPoints: null,
       paymentMethodsOnline: [
         {
           title: "applePay",
@@ -453,6 +471,9 @@ export default {
       selectedPromotion: null,
       selectedLoyaltyPoints: null,
       promotionList: [],
+      virtual_appointment: null,
+      onsite_appointment: null,
+      speciality: null,
     };
   },
   computed: {
@@ -460,6 +481,8 @@ export default {
       "getBookingAmount",
       "getPaymentObject",
       "getSelectedAppointment",
+      "getBookingMethod",
+      "getBookingSpeciality",
     ]),
     ...mapGetters("user", ["getUserInfo"]),
     getPaymentMethodsOnline() {
@@ -491,13 +514,19 @@ export default {
     getCalculatedAmount() {
       let actualAmount = this.getAppointmentAmount;
       if (this.selectedDiscountType == "promotion") {
-        if (this.selectedPromotion) {
-          let discount = this.selectedPromotion.discount_percent / 100;
+        if (
+          this.selectedPromotion &&
+          this.selectedPromotion.discount_type == "Percentage"
+        ) {
+          let discount = this.selectedPromotion.discount / 100;
           let discountedAmount = actualAmount * discount;
           actualAmount = actualAmount - discountedAmount;
+        } else {
+          actualAmount = actualAmount - this.selectedPromotion.discount;
         }
       } else if (this.selectedDiscountType == "loyalty") {
-        let loyaltyAmount = this.getUserInfo.loyality_points / 2;
+        let loyaltyAmount =
+          this.getUserInfo.loyality_points * this.LOYALITY_POINTS_FACTOR;
         if (loyaltyAmount > actualAmount) {
           actualAmount = 0;
         } else {
@@ -516,9 +545,12 @@ export default {
     getDeductedLoyaltyPoints() {
       let deductedLoyalityPoints = null;
       if (this.selectedDiscountType == "loyalty") {
-        let loyaltyAmount = this.getUserInfo.loyality_points / 2;
+        let loyaltyAmount =
+          this.getUserInfo.loyality_points * this.LOYALITY_POINTS_FACTOR;
         if (loyaltyAmount > this.getAppointmentAmount) {
-          deductedLoyalityPoints = Math.ceil(this.getAppointmentAmount * 2);
+          deductedLoyalityPoints = Math.ceil(
+            this.getAppointmentAmount / this.LOYALITY_POINTS_FACTOR
+          );
         } else {
           deductedLoyalityPoints = this.getUserInfo.loyality_points;
         }
@@ -554,7 +586,7 @@ export default {
       );
     },
   },
-  mounted() {
+  async mounted() {
     localStorage.removeItem("paymentVerifyObject");
     userService.removeBooking();
     if (!this.getSelectedAppointment) {
@@ -567,14 +599,38 @@ export default {
         return;
       }
     }
+    this.fetchLoyalityPointsFactor();
     this.handleAmount();
     this.fetchPromotionsList();
+    this.getBookingtype();
+    await this.applyPromotion(this.getUserInfo.promo_code.toLowerCase(), true);
   },
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
     ...mapActions("user", ["updateUserInfo"]),
+    fetchLoyalityPointsFactor() {
+      systemConfigService.fetchConfig("?title=LOYALITY_POINTS_FACTOR").then(
+        (response) => {
+          if (response.data.status) {
+            let data = response.data.data.items;
+            let factor = JSON.parse(data[0].value);
+            this.LOYALITY_POINTS_FACTOR = factor.factor;
+            this.loyaltiyPoints = factor.minAllowed;
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
     checkIfAllowedToPay() {
-      console.log("ruuning");
       if (
         this.getSelectedAppointment.type.toLowerCase() == "online" &&
         !this.isAllowedToPay(this.getSelectedAppointment.start_time)
@@ -795,16 +851,6 @@ export default {
           if (response.data.status) {
             let data = response.data.data.items;
             this.promotionList = [...data];
-            let userInfo = this.getUserInfo;
-            let selectedPromotionIndex = data.findIndex(
-              (x) =>
-                x.promo_code.toLowerCase() == userInfo.promo_code.toLowerCase()
-            );
-            let selectedPromotion = data[selectedPromotionIndex];
-            if (selectedPromotion) {
-              this.selectedDiscountType = "promotion";
-              this.selectedPromotion = selectedPromotion;
-            }
             this.setPromotionsList(this.promotionList);
           } else {
             this.failureToast(response.data.messsage);
@@ -841,6 +887,20 @@ export default {
       this.selectedDiscountType = "";
       this.selectedLoyaltyPoints = null;
     },
+    getBookingtype() {
+      if (!this.getBookingMethod || this.getSelectedAppointment) {
+        if (this.getSelectedAppointment.type == "ONSITE") {
+          this.speciality = this.getSelectedAppointment.doctor.speciality_id;
+          this.virtual_appointment = false;
+          this.onsite_appointment = true;
+        } else {
+          this.virtual_appointment = true;
+          this.onsite_appointment = false;
+          this.speciality = this.getSelectedAppointment.doctor.speciality_id;
+        }
+      }
+    },
+
     setDiscount(type) {
       if (this.isPromoLoyaltyDisabled) return;
       if (type == "promotion") {
@@ -852,39 +912,45 @@ export default {
             this.$t("promotions.addPromo"),
             this.$t("promotions.addPromoText"),
             "m-bell"
-          ).then((modalValue) => {
+          ).then(async (modalValue) => {
             if (modalValue.dismiss) {
               return;
             }
-            let code = modalValue.value;
-            promotionService.applyPromotions(code).then(
-              (response) => {
-                if (response.data.status) {
-                  this.selectedDiscountType = type;
-                  this.selectedLoyaltyPoints = null;
-                  this.selectedPromotion = response.data.data;
-                  this.updateUserInfo({
-                    promo_code: this.selectedPromotion.promo_code,
-                  });
-                } else {
-                  this.failureToast(response.data.message);
-                }
-              },
-              (error) => {
-                if (!this.isAPIAborted(error))
-                  this.failureToast(
-                    error.response &&
-                      error.response.data &&
-                      error.response.data.message
-                  );
-              }
-            );
+            await this.applyPromotion(modalValue.value);
           });
         }
       } else {
         if (!this.getUserInfo.loyality_points) return;
         this.selectedDiscountType = type;
         this.setPromotionLoyalty();
+      }
+    },
+    async applyPromotion(code, muteErrorMessages = false) {
+      try {
+        let data = {
+          promo_code: code,
+          appointment_flow: true,
+          package_flow: false,
+          virtual_appointment: this.virtual_appointment,
+          onsite_appointment: this.onsite_appointment,
+          speciality_id: this.speciality,
+        };
+        const response = await promotionService.applyPromotions(data);
+        if (response.data.status) {
+          this.selectedDiscountType = "promotion";
+          this.selectedLoyaltyPoints = null;
+          this.selectedPromotion = response.data.data;
+          this.updateUserInfo({
+            promo_codes: this.selectedPromotion.promo_code,
+          });
+        } else {
+          if (!muteErrorMessages) this.failureToast(response.data.message);
+        }
+      } catch (error) {
+        if (!muteErrorMessages && !this.isAPIAborted(error))
+          this.failureToast(
+            error.response && error.response.data && error.response.data.message
+          );
       }
     },
     setPromotionLoyalty() {

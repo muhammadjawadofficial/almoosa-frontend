@@ -12,12 +12,10 @@ function fetchPromotions() {
         url: apiPath.promotions.assigned.url,
     })
 }
-function applyPromotions(code) {
+function applyPromotions(data) {
     return axios({
         method: apiPath.promotions.apply.method,
         url: apiPath.promotions.apply.url,
-        data: {
-            "promo_code": code
-        }
+        data,
     })
 }
