@@ -121,7 +121,7 @@
               <span class="number" v-if="selectedPromotion">
                 <span
                   class="number"
-                  v-if="selectedPromotion.discount_type == 'Percentage'"
+                  v-if="selectedPromotion.discount_type.toLowerCase() == 'percentage'"
                 >
                   {{ $t("discount") }} {{ selectedPromotion.discount }}%
                 </span>
@@ -516,7 +516,7 @@ export default {
       if (this.selectedDiscountType == "promotion") {
         if (
           this.selectedPromotion &&
-          this.selectedPromotion.discount_type == "Percentage"
+          this.selectedPromotion.discount_type.toLowerCase() == "percentage"
         ) {
           let discount = this.selectedPromotion.discount / 100;
           let discountedAmount = actualAmount * discount;
@@ -851,7 +851,6 @@ export default {
           if (response.data.status) {
             let data = response.data.data.items;
             this.promotionList = [...data];
-            this.setPromotionsList(this.promotionList);
           } else {
             this.failureToast(response.data.messsage);
           }
