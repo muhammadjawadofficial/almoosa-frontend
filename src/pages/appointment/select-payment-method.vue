@@ -80,7 +80,9 @@
             @click="setDiscount('loyalty')"
             :class="{
               active: selectedDiscountType == 'loyalty',
-              disabled: getUserInfo.loyality_points < loyaltiyPoints,
+              disabled:
+                isPromoLoyaltyDisabled ||
+                getUserInfo.loyality_points < loyaltiyPoints,
             }"
           >
             <div class="promotions-loyalty-item-icon">
@@ -123,11 +125,11 @@
                   class="number"
                   v-if="selectedPromotion.discount_type.toLowerCase() == 'percentage'"
                 >
-                  {{ $t("discount") }} {{ selectedPromotion.discount }}%
+                  {{ $t("discount") }}: {{ selectedPromotion.discount }}%
                 </span>
 
                 <span class="number" v-else>
-                  {{ $t("discount") }} {{ selectedPromotion.discount }}
+                  {{ $t("discount") }}: {{ selectedPromotion.discount }}
                   {{ $t("sar") }}
                 </span>
               </span>
@@ -358,7 +360,9 @@
                 {{
                   $t("sar") +
                   " " +
-                  getDeductedLoyaltyPoints * LOYALITY_POINTS_FACTOR
+                  (+(
+                    getDeductedLoyaltyPoints * LOYALITY_POINTS_FACTOR
+                  )).toFixed(2)
                 }}
               </div>
             </div>
@@ -370,7 +374,7 @@
               </div>
               <div class="value">
                 {{
-                  $t("sar") + " " + (getAppointmentAmount - getCalculatedAmount)
+                  $t("sar") + " " + (getAppointmentAmount - getCalculatedAmount).toFixed(2)
                 }}
               </div>
             </div>
@@ -530,10 +534,10 @@ export default {
         if (loyaltyAmount > actualAmount) {
           actualAmount = 0;
         } else {
-          actualAmount = Math.ceil(actualAmount - loyaltyAmount);
+          actualAmount = actualAmount - loyaltyAmount;
         }
       }
-      return (+actualAmount || 0).toFixed(2);
+      return +actualAmount < 0 ? 0 : (+actualAmount || 0).toFixed(2);
     },
     getCalculatedLoyaltyPoints() {
       let loyaltyPoints = this.getUserInfo.loyality_points;
@@ -582,7 +586,8 @@ export default {
     },
     isPromoLoyaltyDisabled() {
       return (
-        this.insuranceAmount || this.isElligibleForFirstFreeVirtualAppointment
+        this.insuranceAmount == 0 ||
+        this.isElligibleForFirstFreeVirtualAppointment
       );
     },
   },
@@ -712,7 +717,7 @@ export default {
       } else {
         this.useWalletAmount = false;
       }
-      this.appointmentAmount = this.appointmentAmount.toFixed(2);
+      this.appointmentAmount = (+this.appointmentAmount).toFixed(2);
     },
     handleSelection(item) {
       this.setAppointmentAmount();
@@ -766,7 +771,7 @@ export default {
           let patientAmount = amountPayable;
           let obj = {
             ...this.getPaymentObject,
-            amount: patientAmount,
+            amount: (+patientAmount).toFixed(2),
           };
           this.setPaymentObject(obj);
         }
@@ -901,7 +906,12 @@ export default {
     },
 
     setDiscount(type) {
-      if (this.isPromoLoyaltyDisabled) return;
+      if (
+        this.isPromoLoyaltyDisabled ||
+        (type == "loyalty" &&
+          this.getUserInfo.loyality_points < this.loyaltiyPoints)
+      )
+        return;
       if (type == "promotion") {
         if (this.selectedPromotion) {
           this.selectedDiscountType = type;
