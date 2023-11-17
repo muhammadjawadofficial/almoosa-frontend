@@ -123,7 +123,10 @@
               <span class="number" v-if="selectedPromotion">
                 <span
                   class="number"
-                  v-if="selectedPromotion.discount_type.toLowerCase() == 'percentage'"
+                  v-if="
+                    selectedPromotion.discount_type.toLowerCase() ==
+                    'percentage'
+                  "
                 >
                   {{ $t("discount") }}: {{ selectedPromotion.discount }}%
                 </span>
@@ -374,7 +377,9 @@
               </div>
               <div class="value">
                 {{
-                  $t("sar") + " " + (getAppointmentAmount - getCalculatedAmount).toFixed(2)
+                  $t("sar") +
+                  " " +
+                  (getAppointmentAmount - getCalculatedAmount).toFixed(2)
                 }}
               </div>
             </div>
@@ -609,10 +614,34 @@ export default {
     this.fetchPromotionsList();
     this.getBookingtype();
     await this.applyPromotion(this.getUserInfo.promo_code.toLowerCase(), true);
+    this.getUserData();
   },
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
     ...mapActions("user", ["updateUserInfo"]),
+    getUserData() {
+      userService.getProfileById(this.getUserInfo.id).then(
+        (res) => {
+          if (res.data.status) {
+            let data = res.data.data.items[0];
+            if (data) {
+              this.updateUserInfo({ loyality_points: data.loyality_points });
+            }
+          } else {
+            this.failureToast(res.data.message);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+          console.error(error);
+        }
+      );
+    },
     fetchLoyalityPointsFactor() {
       systemConfigService.fetchConfig("?title=LOYALITY_POINTS_FACTOR").then(
         (response) => {

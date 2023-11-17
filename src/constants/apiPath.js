@@ -102,7 +102,7 @@ export const apiPath = {
         updateV1Profile: (id) => getApiObject("patch", "users/" + id),
         getProfile: (profile, mrn) => getApiObject("get", "auth/" + profile + "/profile?mrn_number=" + mrn, (profile == 'doctor' ? 'v1' : "v2")),
         getDoctorProfile: (id) => getApiObject("get", "users?id=" + id),
-        getProfileById: (id) => getApiObject("get", "users/?id=" + id),
+        getProfileById: (id) => getApiObject("get", "users?id=" + id),
         getWalletAmount: (id) => getApiObject("get", "payments/wallet?mrn_number=" + id, "v2"),
         getBanner: (query) => getApiObject("get", "banner" + query),
         getServiceBaseRate: getApiObject("post", "payments/service/rate", "v2"),

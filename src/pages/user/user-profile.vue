@@ -77,7 +77,7 @@
                       </div>
                     </div>
                   </template>
-                  <template v-if="!isDoctor && false">
+                  <template v-if="!isDoctor">
                     <div
                       class="doctor-details-card-header-right-info-section-detail with-icon"
                     >
@@ -93,10 +93,13 @@
                         </div>
                         <div class="value" v-if="getUserInfo.loyality_points">
                           {{ getUserInfo.loyality_points }} /
-                          <div class="sub-value">
+                          <div class="sub-value" v-if="loyalityPointsFactor">
                             {{ $t("equal") }}
                             {{
-                              translateNumber(getUserInfo.loyality_points / 2)
+                              translateNumber(
+                                getUserInfo.loyality_points *
+                                  loyalityPointsFactor
+                              )
                             }}
                             {{ $t("sar") }}
                           </div>
@@ -631,7 +634,12 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { appointmentService, authService, userService } from "../../services";
+import {
+  appointmentService,
+  authService,
+  systemConfigService,
+  userService,
+} from "../../services";
 export default {
   data() {
     return {
@@ -675,6 +683,7 @@ export default {
       clinics: [],
       specialities: [],
       walletAmount: null,
+      loyalityPointsFactor: null
     };
   },
   mounted() {
@@ -685,12 +694,34 @@ export default {
       this.getProfileData();
       this.getWalletAmount();
     }
+    this.fetchLoyalityPointsFactor();
   },
   computed: {
     ...mapGetters("user", ["getUserInfo"]),
   },
   methods: {
     ...mapActions("user", ["updateUserInfo", "setUserInfo"]),
+    fetchLoyalityPointsFactor() {
+      systemConfigService.fetchConfig("?title=LOYALITY_POINTS_FACTOR").then(
+        (response) => {
+          if (response.data.status) {
+            let data = response.data.data.items;
+            let factor = JSON.parse(data[0].value);
+            this.loyalityPointsFactor = factor.factor;
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
     validPhoneNumber(phoneNumber) {
       // let regex = /^(009665|9665|\+9665|05|5)([503649187])(\d{7})$/;
       let regex = /^(05)([503649187])(\d{7})$/;
