@@ -424,6 +424,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import {
+  appointmentService,
   freeAppointmentPromoService,
   insuranceService,
   promotionService,
@@ -861,7 +862,23 @@ export default {
         if (paymentObj) {
           this.setPaymentObject(paymentObj);
         }
-        this.navigateTo("Pay Now");
+        await appointmentService
+          .initializePayment(paymentVerifyObject)
+          .then((response) => {
+            if (response.data && response.data.status)
+              this.navigateTo("Pay Now");
+            else this.failureToast(response.data && response.data.message);
+          })
+          .catch((error) => {
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                (error.response &&
+                  error.response.data &&
+                  error.response.data.message) ||
+                  error.message
+              );
+            this.navigateTo("Upcoming Appointment");
+          });
       } else {
         await this.doPayment();
 
