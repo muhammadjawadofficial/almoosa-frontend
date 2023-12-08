@@ -206,7 +206,10 @@
     "district": "الحي",
     "secondaryPhoneNumber": "رقم الهاتف الثانوي",
     "select": "اختار",
-    "redeem": "استبدال"
+    "redeem": "استبدال",
+    "redeemModalHeading": "استرداد نقاط الولاء",
+    "redeemModalText": "نقاط الولاء المتاحة لديك هي {loyaltyPoints}. استرداد هذه النقاط سيضيف {loyaltyAmount} ريال سعودي إلى محفظتك. هل ترغب في المتابعة مع الاسترداد؟",
+    "redeemNotAllowed": "الحد الأدنى المطلوب لنقاط الولاء للاسترداد هو {minLoyaltyPointAllowed}"
   },
   "header": {
     "marhaba": "مرحباً بك",

@@ -206,7 +206,10 @@
     "district": "District",
     "secondaryPhoneNumber": "Secondary Phone Number",
     "select": "Select",
-    "redeem": "Redeem"
+    "redeem": "Redeem",
+    "redeemModalHeading": "Redeem Loyalty Points",
+    "redeemModalText": "Your available loyalty points are {loyaltyPoints}. Redeeming these will add {loyaltyAmount} SAR to your wallet. Would you like to proceed with the redemption?",
+    "redeemNotAllowed": "The minimum required points for redemption is {minLoyaltyPointAllowed}"
   },
   "header": {
     "marhaba": "Marhaba",

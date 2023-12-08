@@ -79,52 +79,17 @@
                   </template>
                   <template v-if="!isDoctor">
                     <div
-                      class="doctor-details-card-header-right-info-section-detail with-icon"
+                      class="doctor-details-card-header-right-info-section-detail pointer"
+                      @click="openRedeemModal"
                     >
-                      <div class="icon">
-                        <img
-                          src="../../assets/images/star-points.svg"
-                          alt="star-img"
-                        />
-                      </div>
                       <div class="content">
                         <div class="title">
                           {{ $t("profile.loyaltyPoint") }}
                         </div>
                         <div class="value" v-if="getUserInfo.loyality_points">
-                          {{ getUserInfo.loyality_points }} /
-                          <div
-                            class="sub-value"
-                            v-if="this.loyaltyPointsConfig.factor"
-                          >
-                            {{ $t("equal") }}
-                            {{ translateNumber(calculateLoyaltyPointsAmount) }}
-                            {{ $t("sar") }}
-                          </div>
+                          {{ getUserInfo.loyality_points }}
                         </div>
-                        <div class="value" v-else>N/A</div>
-                        <div
-                          v-if="
-                            !(
-                              loyaltyPointsConfig &&
-                              loyaltyPointsConfig.minAllowed &&
-                              getUserInfo.loyality_points <
-                                loyaltyPointsConfig.minAllowed
-                            )
-                          "
-                          class="value redeem-point-link"
-                          :class="{
-                            disabled:
-                              loyaltyPointsConfig &&
-                              loyaltyPointsConfig.minAllowed &&
-                              getUserInfo.loyality_points <
-                                loyaltyPointsConfig.minAllowed,
-                          }"
-                        >
-                          <div class="sub-value" @click="redeemLoyaltyPoints">
-                            {{ $t("profile.redeem") }}
-                          </div>
-                        </div>
+                        <div class="value" v-else>0</div>
                       </div>
                     </div>
                   </template>
@@ -746,6 +711,32 @@ export default {
             );
         }
       );
+    },
+    openRedeemModal() {
+      if (
+        this.getUserInfo.loyality_points < this.loyaltyPointsConfig.minAllowed
+      ) {
+        this.failureToast(
+          this.$t("profile.redeemNotAllowed", {
+            minLoyaltyPointAllowed: this.loyaltyPointsConfig.minAllowed,
+          })
+        );
+        return;
+      }
+      this.confirmIconModal(
+        this.$t("profile.redeemModalHeading"),
+        this.$t("profile.redeemModalText", {
+          loyaltyPoints: this.getUserInfo.loyality_points,
+          loyaltyAmount: this.calculateLoyaltyPointsAmount,
+        }),
+        "m-info",
+        this.$t("profile.redeem"),
+        this.$t("cancel")
+      ).then((result) => {
+        if (result.value) {
+          this.redeemLoyaltyPoints();
+        }
+      });
     },
     redeemLoyaltyPoints() {
       userService
