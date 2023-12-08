@@ -1219,18 +1219,18 @@ $primary-color: #55b047;
 .pointer {
   border-right: 6px solid $primary-color;
   border-radius: 0.4rem;
-  padding: 10px;
+  padding: 0.75rem 1.25rem;
   background-color: var(--theme-secondary);
   color: aliceblue;
   font-size: 1rem;
   line-height: 1em;
 }
 .pointer .title {
-  margin-block: 5px;
+  margin-block: 0.25rem 0.75rem;
   text-align: center !important;
 }
 .pointer .value {
-  margin-block: 5px;
+  margin-top: 0.75rem;
   text-align: center !important;
 }
 </style>

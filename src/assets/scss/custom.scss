@@ -1222,9 +1222,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
                             flex-wrap: wrap;
                             gap: 1rem;
                             margin-block: 1rem;
+                            align-items: center;
                             &-detail {
                                 border-left: 0.313rem solid $primary-color;
-                                padding-inline: 0.75rem;
+                                padding: 0.25rem 0.75rem;
+                                height: fit-content;
                                 &.with-icon {
                                     display: flex;
                                     align-items: center;
