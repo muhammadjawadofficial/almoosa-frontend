@@ -62,7 +62,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-7">
+      <div class="col-lg-7" v-if="false">
         <div
           class="reset-discount"
           v-if="selectedDiscountType != ''"
@@ -612,10 +612,10 @@ export default {
     }
     this.fetchLoyalityPointsFactor();
     this.handleAmount();
-    this.fetchPromotionsList();
     this.getBookingtype();
-    await this.applyPromotion(this.getUserInfo.promo_code.toLowerCase(), true);
     this.getUserData();
+    // this.fetchPromotionsList();
+    // await this.applyPromotion(this.getUserInfo.promo_code.toLowerCase(), true);
   },
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
@@ -841,9 +841,14 @@ export default {
           ? this.selectedInsurance.scheme_id
           : 1,
         wallet_payment_amount: this.getWalletDeductionAmount(),
-        gateway_payment_amount: this.appointmentAmount,
+        gateway_payment_amount: this.getAmountPayable,
         gateway_payment_ref: "GATEWAY TRX REF",
         receipt_date: this.formatReceiptDateTime(new Date()),
+        discount_type: this.selectedDiscountType,
+        discount:
+          this.selectedDiscountType == "loyalty"
+            ? this.selectedLoyaltyPoints
+            : this.selectedPromotion.promo_code,
       };
     },
     async createPayment(paymentObj, isFree = false) {
@@ -858,7 +863,7 @@ export default {
         "paymentVerifyObject",
         JSON.stringify(paymentVerifyObject)
       );
-      if (this.appointmentAmount != 0 && !isFree) {
+      if (this.getAmountPayable != 0 && !isFree) {
         if (paymentObj) {
           this.setPaymentObject(paymentObj);
         }

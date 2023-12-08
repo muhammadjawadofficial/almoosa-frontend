@@ -39,7 +39,8 @@ export const userService = {
     fetchNotifications,
     markAllAsRead,
     fetchNotificationSettings,
-    updateNotificationSettings
+    updateNotificationSettings,
+    redeemLoyaltyPoints
 };
 
 import axios from "axios";
@@ -275,6 +276,13 @@ function updateNotificationSettings(data) {
     return axios({
         method: apiPath.user.updateNotificationSetting(data.id).method,
         url: apiPath.user.updateNotificationSetting(data.id).url,
-        data:data,
+        data: data,
+    })
+}
+function redeemLoyaltyPoints(data) {
+    return axios({
+        method: apiPath.user.redeemLoyaltyPoints.method,
+        url: apiPath.user.redeemLoyaltyPoints.url,
+        data,
     })
 }

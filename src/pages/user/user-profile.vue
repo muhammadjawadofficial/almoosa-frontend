@@ -93,18 +93,38 @@
                         </div>
                         <div class="value" v-if="getUserInfo.loyality_points">
                           {{ getUserInfo.loyality_points }} /
-                          <div class="sub-value" v-if="loyalityPointsFactor">
+                          <div
+                            class="sub-value"
+                            v-if="this.loyaltyPointsConfig.factor"
+                          >
                             {{ $t("equal") }}
-                            {{
-                              translateNumber(
-                                getUserInfo.loyality_points *
-                                  loyalityPointsFactor
-                              )
-                            }}
+                            {{ translateNumber(calculateLoyaltyPointsAmount) }}
                             {{ $t("sar") }}
                           </div>
                         </div>
                         <div class="value" v-else>N/A</div>
+                        <div
+                          v-if="
+                            !(
+                              loyaltyPointsConfig &&
+                              loyaltyPointsConfig.minAllowed &&
+                              getUserInfo.loyality_points <
+                                loyaltyPointsConfig.minAllowed
+                            )
+                          "
+                          class="value redeem-point-link"
+                          :class="{
+                            disabled:
+                              loyaltyPointsConfig &&
+                              loyaltyPointsConfig.minAllowed &&
+                              getUserInfo.loyality_points <
+                                loyaltyPointsConfig.minAllowed,
+                          }"
+                        >
+                          <div class="sub-value" @click="redeemLoyaltyPoints">
+                            {{ $t("profile.redeem") }}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </template>
@@ -683,7 +703,7 @@ export default {
       clinics: [],
       specialities: [],
       walletAmount: null,
-      loyalityPointsFactor: null
+      loyaltyPointsConfig: null,
     };
   },
   mounted() {
@@ -698,6 +718,11 @@ export default {
   },
   computed: {
     ...mapGetters("user", ["getUserInfo"]),
+    calculateLoyaltyPointsAmount() {
+      return (
+        this.getUserInfo.loyality_points * this.loyaltyPointsConfig.factor
+      ).toFixed(2);
+    },
   },
   methods: {
     ...mapActions("user", ["updateUserInfo", "setUserInfo"]),
@@ -706,8 +731,8 @@ export default {
         (response) => {
           if (response.data.status) {
             let data = response.data.data.items;
-            let factor = JSON.parse(data[0].value);
-            this.loyalityPointsFactor = factor.factor;
+            let config = JSON.parse(data[0].value);
+            this.loyaltyPointsConfig = config;
           } else {
             this.failureToast(response.data.messsage);
           }
@@ -721,6 +746,39 @@ export default {
             );
         }
       );
+    },
+    redeemLoyaltyPoints() {
+      userService
+        .redeemLoyaltyPoints({
+          loyalty_points: this.getUserInfo.loyality_points,
+        })
+        .then(
+          (response) => {
+            if (response.data.status) {
+              this.successToast(
+                response.data.data[this.getLocaleKey("message", "_en", "_ar")]
+              );
+              this.getProfileData();
+              this.getWalletAmount();
+            } else {
+              this.failureToast(
+                response.data.data[this.getLocaleKey("message", "_en", "_ar")]
+              );
+            }
+          },
+          (error) => {
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.message ||
+                  (error.response &&
+                    error.response.message &&
+                    error.response.data &&
+                    error.response.data[
+                      this.getLocaleKey("message", "_en", "_ar")
+                    ])
+              );
+          }
+        );
     },
     validPhoneNumber(phoneNumber) {
       // let regex = /^(009665|9665|\+9665|05|5)([503649187])(\d{7})$/;

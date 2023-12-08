@@ -75,8 +75,8 @@ export const apiPath = {
     },
 
     promotions: {
-        assigned: getApiObject("get", "promotions/assigned","v2"),
-        apply: getApiObject("post", "promotions/apply","v2"),
+        assigned: getApiObject("get", "promotions/assigned", "v2"),
+        apply: getApiObject("post", "promotions/apply", "v2"),
     },
 
     timeline: {
@@ -114,6 +114,7 @@ export const apiPath = {
         markAllAsRead: getApiObject("patch", "notifications/read"),
         fetchNotificationsSetting: (id) => getApiObject("get", "notification-config/" + id),
         updateNotificationSetting: (id) => getApiObject("patch", "notification-config/" + id),
+        redeemLoyaltyPoints: getApiObject("post", "payments/redeem-loyalty-points", "v2"),
     },
 
     patient: {
