@@ -78,10 +78,7 @@
                     </div>
                   </template>
                   <template v-if="!isDoctor">
-                    <div
-                      class="doctor-details-card-header-right-info-section-detail pointer"
-                      @click="openRedeemModal"
-                    >
+                    <div class="pointer" @click="openRedeemModal">
                       <div class="content">
                         <div class="title">
                           {{ $t("profile.loyaltyPoint") }}
@@ -1217,5 +1214,23 @@ export default {
       bottom: 0;
     }
   }
+}
+$primary-color: #55b047;
+.pointer {
+  border-right: 6px solid $primary-color;
+  border-radius: 0.4rem;
+  padding: 10px;
+  background-color: var(--theme-secondary);
+  color: aliceblue;
+  font-size: 1rem;
+  line-height: 1em;
+}
+.pointer .title {
+  margin-block: 5px;
+  text-align: center !important;
+}
+.pointer .value {
+  margin-block: 5px;
+  text-align: center !important;
 }
 </style>
