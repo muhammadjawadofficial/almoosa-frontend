@@ -62,7 +62,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-7" v-if="false">
+      <div class="col-lg-7">
         <div
           class="reset-discount"
           v-if="selectedDiscountType != ''"
@@ -76,6 +76,7 @@
         </div>
         <div class="promotions-loyalty">
           <div
+            v-if="false"
             class="promotions-loyalty-item"
             @click="setDiscount('loyalty')"
             :class="{
@@ -104,7 +105,9 @@
               {{ $t("promotions.loyaltyPointCardText") }}
             </div>
           </div>
-          <div class="promotions-loyalty-separator">{{ $t("or") }}</div>
+          <div v-if="false" class="promotions-loyalty-separator">
+            {{ $t("or") }}
+          </div>
           <div
             class="promotions-loyalty-item"
             @click="setDiscount('promotion')"
