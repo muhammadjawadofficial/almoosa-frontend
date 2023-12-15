@@ -24,6 +24,15 @@
             <div class="value">{{ promotion.promo_code }}</div>
           </div>
           <div class="promotion-detail-section">
+            <div class="title">{{ $t("discount") }}</div>
+            <div class="value">
+              {{
+                promotion.discount +
+                (promotion.discount_type == "percentage" ? "%" : $t("sar"))
+              }}
+            </div>
+          </div>
+          <div class="promotion-detail-section">
             <div class="title">{{ $t("promotions.promotionDetails") }}</div>
             <div class="value">{{ promotion.details }}</div>
           </div>
@@ -33,7 +42,7 @@
               {{
                 getLongDateAndTimeFromDate(promotion.start_date, true) +
                 " - " +
-                getLongDateAndTimeFromDate(promotion.end_date, true)
+                getLongDateAndTimeFromDate(promotion.expiry_date, true)
               }}
             </div>
           </div>
