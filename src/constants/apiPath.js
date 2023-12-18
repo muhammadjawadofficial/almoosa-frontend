@@ -77,6 +77,7 @@ export const apiPath = {
     promotions: {
         assigned: getApiObject("get", "promotions/assigned", "v2"),
         apply: getApiObject("post", "promotions/apply", "v2"),
+        removePromo: getApiObject("post", "promotions/clear", "v2"),
     },
 
     timeline: {

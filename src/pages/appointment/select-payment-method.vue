@@ -939,8 +939,10 @@ export default {
     },
     resetDiscount() {
       if (this.selectedDiscountType == "promotion") {
-        // this.updateUserInfo({ promo_code: "" });
-        this.selectedPromotion = null;
+        promotionService.removePromo().then(() => {
+          this.updateUserInfo({ promo_code: "" });
+          this.selectedPromotion = null;
+        });
       }
       this.selectedDiscountType = "";
       this.selectedLoyaltyPoints = null;
@@ -1004,7 +1006,7 @@ export default {
           this.selectedLoyaltyPoints = null;
           this.selectedPromotion = response.data.data;
           this.updateUserInfo({
-            promo_codes: this.selectedPromotion.promo_code,
+            promo_code: this.selectedPromotion.promo_code,
           });
         } else {
           if (!muteErrorMessages) this.failureToast(response.data.message);
