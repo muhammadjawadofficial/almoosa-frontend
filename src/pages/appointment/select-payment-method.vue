@@ -617,8 +617,8 @@ export default {
     this.handleAmount();
     this.getBookingtype();
     this.getUserData();
-    // this.fetchPromotionsList();
-    // await this.applyPromotion(this.getUserInfo.promo_code.toLowerCase(), true);
+    this.fetchPromotionsList();
+    await this.applyPromotion(this.getUserInfo.promo_code.toLowerCase(), true);
   },
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
