@@ -74,7 +74,7 @@
               : $t("promotions.clearSelection")
           }}
         </div>
-        <div class="promotions-loyalty">
+        <div class="promotions-loyalty" v-if="isPromoEnabled">
           <div
             v-if="false"
             class="promotions-loyalty-item"
@@ -487,6 +487,7 @@ export default {
       virtual_appointment: null,
       onsite_appointment: null,
       speciality: null,
+      paymentConfig: {},
     };
   },
   computed: {
@@ -515,6 +516,12 @@ export default {
         browserName = "No browser detection";
       }
       let isSafari = browserName == "safari";
+      if (
+        this.paymentConfig &&
+        this.paymentConfig.apple_pay &&
+        this.paymentConfig.apple_pay.enabled == true
+      )
+        isSafari = false;
       return isSafari
         ? this.paymentMethodsOnline
         : this.paymentMethodsOnline.filter((x) => !x.title.includes("apple"));
@@ -599,6 +606,13 @@ export default {
         this.isElligibleForFirstFreeVirtualAppointment
       );
     },
+    isPromoEnabled() {
+      return (
+        this.paymentConfig &&
+        this.paymentConfig.promotion &&
+        this.paymentConfig.promotion.enabled
+      );
+    },
   },
   async mounted() {
     localStorage.removeItem("paymentVerifyObject");
@@ -617,8 +631,6 @@ export default {
     this.handleAmount();
     this.getBookingtype();
     this.getUserData();
-    this.fetchPromotionsList();
-    await this.applyPromotion(this.getUserInfo.promo_code.toLowerCase(), true);
   },
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
@@ -654,6 +666,32 @@ export default {
             let factor = JSON.parse(data[0].value);
             this.LOYALITY_POINTS_FACTOR = factor.factor;
             this.loyaltiyPoints = factor.minAllowed;
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+      systemConfigService.fetchConfig("?title=PAYMENT_CONFIG").then(
+        (response) => {
+          if (response.data.status) {
+            let data = response.data.data.items;
+            let config = JSON.parse(data[0].value);
+            if (config) this.paymentConfig = config;
+            if (this.isPromoEnabled) {
+              this.fetchPromotionsList();
+              this.applyPromotion(
+                this.getUserInfo.promo_code.toLowerCase(),
+                true
+              );
+            }
           } else {
             this.failureToast(response.data.messsage);
           }
