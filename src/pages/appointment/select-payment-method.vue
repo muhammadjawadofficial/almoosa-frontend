@@ -516,12 +516,7 @@ export default {
         browserName = "No browser detection";
       }
       let isSafari = browserName == "safari";
-      if (
-        this.paymentConfig &&
-        this.paymentConfig.apple_pay &&
-        this.paymentConfig.apple_pay.enabled == true
-      )
-        isSafari = false;
+      if (!this.isApplePayEnabled) isSafari = false;
       return isSafari
         ? this.paymentMethodsOnline
         : this.paymentMethodsOnline.filter((x) => !x.title.includes("apple"));
@@ -609,8 +604,22 @@ export default {
     isPromoEnabled() {
       return (
         this.paymentConfig &&
-        this.paymentConfig.promotion &&
-        this.paymentConfig.promotion.enabled
+        !!this.paymentConfig.promotion &&
+        !!this.paymentConfig.promotion.enabled
+      );
+    },
+    isApplePayEnabled() {
+      return (
+        this.paymentConfig &&
+        this.paymentConfig.apple_pay &&
+        this.paymentConfig.apple_pay.enabled &&
+        ((this.paymentConfig.apple_pay.limited_access &&
+          this.paymentConfig.apple_pay.allowed_users &&
+          this.paymentConfig.apple_pay.allowed_users.length &&
+          this.paymentConfig.apple_pay.allowed_users.includes(
+            +this.getUserInfo.mrn_number
+          )) ||
+          !this.paymentConfig.apple_pay.limited_access)
       );
     },
   },
@@ -684,13 +693,14 @@ export default {
           if (response.data.status) {
             let data = response.data.data.items;
             let config = JSON.parse(data[0].value);
-            if (config) this.paymentConfig = config;
+            if (config) this.$set(this, "paymentConfig", config);
             if (this.isPromoEnabled) {
               this.fetchPromotionsList();
-              this.applyPromotion(
-                this.getUserInfo.promo_code.toLowerCase(),
-                true
-              );
+              if (this.getUserInfo.promo_code)
+                this.applyPromotion(
+                  this.getUserInfo.promo_code.toLowerCase(),
+                  true
+                );
             }
           } else {
             this.failureToast(response.data.messsage);
@@ -794,7 +804,7 @@ export default {
       this.setAppointmentAmount();
       if (item.isOnlinePayment) {
         let obj = {
-          amount: (+this.appointmentAmount).toFixed(2),
+          amount: (+this.getAmountPayable).toFixed(2),
           appointment_id: this.getPaymentObject.appointment_id,
           currency: item.currency.toUpperCase(),
         };
@@ -889,7 +899,9 @@ export default {
         discount:
           this.selectedDiscountType == "loyalty"
             ? this.selectedLoyaltyPoints
-            : this.selectedPromotion.promo_code,
+            : this.selectedPromotion
+            ? this.selectedPromotion.promo_code
+            : null,
       };
     },
     async createPayment(paymentObj, isFree = false) {
@@ -905,15 +917,15 @@ export default {
         JSON.stringify(paymentVerifyObject)
       );
       if (this.getAmountPayable != 0 && !isFree) {
-        if (paymentObj) {
-          this.setPaymentObject(paymentObj);
-        }
         await appointmentService
           .initializePayment(paymentVerifyObject)
           .then((response) => {
-            if (response.data && response.data.status)
+            if (response.data && response.data.status) {
+              if (paymentObj) {
+                this.setPaymentObject(paymentObj);
+              }
               this.navigateTo("Pay Now");
-            else this.failureToast(response.data && response.data.message);
+            } else this.failureToast(response.data && response.data.message);
           })
           .catch((error) => {
             if (!this.isAPIAborted(error))
