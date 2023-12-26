@@ -696,11 +696,6 @@ export default {
             if (config) this.$set(this, "paymentConfig", config);
             if (this.isPromoEnabled) {
               this.fetchPromotionsList();
-              if (this.getUserInfo.promo_code)
-                this.applyPromotion(
-                  this.getUserInfo.promo_code.toLowerCase(),
-                  true
-                );
             }
           } else {
             this.failureToast(response.data.messsage);
@@ -955,11 +950,23 @@ export default {
       }
     },
     fetchPromotionsList() {
-      promotionService.fetchPromotions().then(
+      promotionService.fetchPromotions("?only_active=true").then(
         (response) => {
           if (response.data.status) {
             let data = response.data.data.items;
             this.promotionList = [...data];
+            if (
+              this.getUserInfo.promo_code &&
+              this.promotionList &&
+              this.promotionList.length &&
+              this.promotionList.findIndex(
+                (x) => x.promo_code == this.getUserInfo.promo_code
+              ) > -1
+            )
+              this.applyPromotion(
+                this.getUserInfo.promo_code.toLowerCase(),
+                true
+              );
           } else {
             this.failureToast(response.data.messsage);
           }

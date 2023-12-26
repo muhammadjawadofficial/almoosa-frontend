@@ -75,7 +75,7 @@ export const apiPath = {
     },
 
     promotions: {
-        assigned: getApiObject("get", "promotions/assigned", "v2"),
+        assigned: (query) => getApiObject("get", "promotions/assigned" + query, "v2"),
         apply: getApiObject("post", "promotions/apply", "v2"),
         removePromo: getApiObject("post", "promotions/clear", "v2"),
     },

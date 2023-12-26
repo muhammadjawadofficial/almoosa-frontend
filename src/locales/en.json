@@ -384,7 +384,10 @@
     "clearSelection": "Remove Loyalty Points",
     "removePromo": "Remove Promo",
     "invalidPromo": "Add valid promo code",
-    "noData": "We will let you know once there is any promotion available for you"
+    "noData": "We will let you know once there is any promotion available for you",
+    "expired": "Expired",
+    "notStarted": "Not Started",
+    "notAvailable": "Not Available"
   },
   "labWorks": {
     "title": "Lab Works",

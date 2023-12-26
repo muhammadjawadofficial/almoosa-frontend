@@ -49,9 +49,21 @@
         </div>
       </div>
       <div class="button-group col-md-12">
+        <button class="btn btn-secondary disabled" v-if="promotionExpired">
+          {{
+            $t(
+              "promotions." +
+                (promotionExpired == 1
+                  ? "expired"
+                  : promotionExpired == 2
+                  ? "notStarted"
+                  : "notAvailable")
+            )
+          }}
+        </button>
         <button
           class="btn btn-secondary"
-          v-if="!promotion.active"
+          v-else-if="!promotion.active"
           @click="applyPromotion"
         >
           {{ $t("promotions.apply") }}
@@ -79,6 +91,25 @@ export default {
   computed: {
     ...mapGetters("promotion", ["getSelectedPromotion"]),
     ...mapGetters("user", ["getUserInfo"]),
+    promotionExpired() {
+      if (
+        this.promotion &&
+        this.promotion.start_date &&
+        this.promotion.expiry_date
+      ) {
+        let now = new Date();
+        let start = new Date(this.promotion.start_date);
+        let end = new Date(this.promotion.expiry_date);
+        if (now > end) {
+          return 1;
+        } else if (now < start) {
+          return 2;
+        } else {
+          return 0;
+        }
+      }
+      return -1;
+    },
   },
   mounted() {
     if (!this.getSelectedPromotion) {

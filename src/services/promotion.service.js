@@ -7,10 +7,10 @@ export const promotionService = {
     removePromo
 }
 
-function fetchPromotions() {
+function fetchPromotions(query = '') {
     return axios({
-        method: apiPath.promotions.assigned.method,
-        url: apiPath.promotions.assigned.url,
+        method: apiPath.promotions.assigned(query).method,
+        url: apiPath.promotions.assigned(query).url,
     })
 }
 function applyPromotions(data) {
