@@ -49,28 +49,18 @@
         </div>
       </div>
       <div class="button-group col-md-12">
-        <button class="btn btn-secondary disabled" v-if="promotionExpired">
-          {{
-            $t(
-              "promotions." +
-                (promotionExpired == 1
-                  ? "expired"
-                  : promotionExpired == 2
-                  ? "notStarted"
-                  : "notAvailable")
-            )
-          }}
-        </button>
-        <button
-          class="btn btn-secondary"
-          v-else-if="!promotion.active"
-          @click="applyPromotion"
-        >
-          {{ $t("promotions.apply") }}
-        </button>
-        <button class="btn btn-secondary disabled" v-else>
-          {{ $t("promotions.applied") }}
-        </button>
+        <template v-if="!promotionExpired">
+          <button
+            class="btn btn-secondary"
+            v-if="!promotion.active"
+            @click="applyPromotion"
+          >
+            {{ $t("promotions.apply") }}
+          </button>
+          <button class="btn btn-secondary disabled" v-else>
+            {{ $t("promotions.applied") }}
+          </button>
+        </template>
         <button class="btn btn-tertiary" @click="navigateTo('Promotions')">
           {{ $t("back") }}
         </button>
