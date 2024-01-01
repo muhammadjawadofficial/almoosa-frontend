@@ -61,7 +61,7 @@ export default {
   methods: {
     ...mapActions("promotion", ["setSelectedPromotion", "setPromotionsList"]),
     fetchPromotionsList() {
-      promotionService.fetchPromotions().then(
+      promotionService.fetchPromotions("?only_active=true").then(
         (response) => {
           if (response.data.status) {
             let data = response.data.data.items;
