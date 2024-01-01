@@ -205,7 +205,11 @@
     "area": "المنطقة",
     "district": "الحي",
     "secondaryPhoneNumber": "رقم الهاتف الثانوي",
-    "select": "اختار"
+    "select": "اختار",
+    "redeem": "استبدال",
+    "redeemModalHeading": "استرداد نقاط الولاء",
+    "redeemModalText": "نقاط الولاء المتاحة لديك هي {loyaltyPoints}. استرداد هذه النقاط سيضيف {loyaltyAmount} ريال سعودي إلى محفظتك. هل ترغب في المتابعة مع الاسترداد؟",
+    "redeemNotAllowed": "الحد الأدنى المطلوب لنقاط الولاء للاسترداد هو {minLoyaltyPointAllowed}"
   },
   "header": {
     "marhaba": "مرحباً بك",
@@ -380,7 +384,10 @@
     "clearSelection": "تخطى  نقاط الولاء",
     "removePromo": "تخطى العرض الترويجي",
     "invalidPromo": "أضف رمزًا ترويجيًا صالحًا",
-    "noData": "سنخبرك بمجرد توفر أي عرض ترويجي لك"
+    "noData": "سنخبرك بمجرد توفر أي عرض ترويجي لك",
+    "expired": "منتهي الصلاحية",
+    "notStarted": "لم يبدأ بعد",
+    "notAvailable": "غير متوفر"
   },
   "labWorks": {
     "title": "التحاليل المختبرية",
@@ -656,5 +663,6 @@
   "coveredByASH": "مغطى بواسطة مجموعة الموسى الصحية",
   "between": "بين",
   "and": "و",
+  "discount": "خصم",
   "cannotPayForTheAppointment": "لا يمكن الدفع للموعد قبل 30 دقيقة من وقت الموعد"
 }

@@ -205,7 +205,11 @@
     "area": "Area",
     "district": "District",
     "secondaryPhoneNumber": "Secondary Phone Number",
-    "select": "Select"
+    "select": "Select",
+    "redeem": "Redeem",
+    "redeemModalHeading": "Redeem Loyalty Points",
+    "redeemModalText": "Your available loyalty points are {loyaltyPoints}. Redeeming these will add {loyaltyAmount} SAR to your wallet. Would you like to proceed with the redemption?",
+    "redeemNotAllowed": "The minimum required points for redemption is {minLoyaltyPointAllowed}"
   },
   "header": {
     "marhaba": "Marhaba",
@@ -380,7 +384,10 @@
     "clearSelection": "Remove Loyalty Points",
     "removePromo": "Remove Promo",
     "invalidPromo": "Add valid promo code",
-    "noData": "We will let you know once there is any promotion available for you"
+    "noData": "We will let you know once there is any promotion available for you",
+    "expired": "Expired",
+    "notStarted": "Not Started",
+    "notAvailable": "Not Available"
   },
   "labWorks": {
     "title": "Lab Works",
@@ -656,5 +663,6 @@
   "coveredByASH": "Covered by ASH",
   "between": "between",
   "and": "and",
+  "discount": "Discount",
   "cannotPayForTheAppointment": "Payment for virtual appointments is not available before 30 minutes of the appointment time"
 }

@@ -6,11 +6,14 @@
   
   <script>
 export default {
-  beforeMount() {
-    this.setLoadingState(true);
-  },
   mounted() {
-    this.doPayment();
+    this.successIconModal(
+      this.$t("selectPaymentMethod.paymentSuccessful"),
+      this.$t("selectPaymentMethod.paymentSuccessfulText"),
+      "m-payment-success"
+    ).then(() => {
+      this.navigateTo("Upcoming Appointment");
+    });
   },
 };
 </script>
