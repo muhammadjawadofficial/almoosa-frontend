@@ -3,21 +3,26 @@ import { apiPath } from "../constants/apiPath";
 
 export const promotionService = {
     fetchPromotions,
-    applyPromotions
+    applyPromotions,
+    removePromo
 }
 
-function fetchPromotions() {
+function fetchPromotions(query = '') {
     return axios({
-        method: apiPath.promotions.assigned.method,
-        url: apiPath.promotions.assigned.url,
+        method: apiPath.promotions.assigned(query).method,
+        url: apiPath.promotions.assigned(query).url,
     })
 }
-function applyPromotions(code) {
+function applyPromotions(data) {
     return axios({
         method: apiPath.promotions.apply.method,
         url: apiPath.promotions.apply.url,
-        data: {
-            "promo_code": code
-        }
+        data,
+    })
+}
+function removePromo() {
+    return axios({
+        method: apiPath.promotions.removePromo.method,
+        url: apiPath.promotions.removePromo.url,
     })
 }

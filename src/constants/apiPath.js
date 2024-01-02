@@ -69,13 +69,15 @@ export const apiPath = {
         ratePhysician: getApiObject("post", "user-ratings"),
         fetchAppointmentHistory: (patient_id, doctor_id) => getApiObject("get", "appointments/history?mrn_number=" + patient_id + "&doctor_id=" + doctor_id, "v2"),
         createPayment: getApiObject("post", "payments/create", "v2"),
+        initializePayment: getApiObject("post", "payments/initialize", "v2"),
         getInstructions: (query) => getApiObject("get", "system-settings" + query),
         getNearestAvailability: getApiObject("post", "appointments/nearest-availability", "v2")
     },
 
     promotions: {
-        assigned: getApiObject("get", "promotions/assigned"),
-        apply: getApiObject("post", "promotions/apply"),
+        assigned: (query) => getApiObject("get", "promotions/assigned" + query, "v2"),
+        apply: getApiObject("post", "promotions/apply", "v2"),
+        removePromo: getApiObject("post", "promotions/clear", "v2"),
     },
 
     timeline: {
@@ -102,7 +104,7 @@ export const apiPath = {
         updateV1Profile: (id) => getApiObject("patch", "users/" + id),
         getProfile: (profile, mrn) => getApiObject("get", "auth/" + profile + "/profile?mrn_number=" + mrn, (profile == 'doctor' ? 'v1' : "v2")),
         getDoctorProfile: (id) => getApiObject("get", "users?id=" + id),
-        getProfileById: (id) => getApiObject("get", "users/?id=" + id),
+        getProfileById: (id) => getApiObject("get", "users?id=" + id),
         getWalletAmount: (id) => getApiObject("get", "payments/wallet?mrn_number=" + id, "v2"),
         getBanner: (query) => getApiObject("get", "banner" + query),
         getServiceBaseRate: getApiObject("post", "payments/service/rate", "v2"),
@@ -113,6 +115,7 @@ export const apiPath = {
         markAllAsRead: getApiObject("patch", "notifications/read"),
         fetchNotificationsSetting: (id) => getApiObject("get", "notification-config/" + id),
         updateNotificationSetting: (id) => getApiObject("patch", "notification-config/" + id),
+        redeemLoyaltyPoints: getApiObject("post", "payments/redeem-loyalty-points", "v2"),
     },
 
     patient: {
@@ -149,5 +152,9 @@ export const apiPath = {
 
     freeAppointmentPromo: {
         fetchActive: (query) => getApiObject("get", "free-appointment-promo/get/active" + query),
-    }
+    },
+
+    systemConfig: {
+        fetchSystemConfig: (query) => getApiObject("get", "system-settings" + query),
+    },
 };

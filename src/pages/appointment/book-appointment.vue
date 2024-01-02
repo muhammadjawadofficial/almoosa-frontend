@@ -232,7 +232,7 @@ export default {
     ...mapActions("promotion", ["setPromotionsList"]),
     ...mapActions("user", ["updateUserInfo"]),
     fetchPromotionsList() {
-      promotionService.fetchPromotions().then(
+      promotionService.fetchPromotions("?only_active=true").then(
         (response) => {
           if (response.data.status) {
             let data = response.data.data.items;

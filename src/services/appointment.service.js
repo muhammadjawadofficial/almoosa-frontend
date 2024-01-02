@@ -16,6 +16,7 @@ export const appointmentService = {
     ratePhysician,
     getAppointmentHistory,
     createPayment,
+    initializePayment,
     getAppointmentInstructions,
     getNearestAvailability
 }
@@ -142,6 +143,14 @@ function createPayment(data) {
     return axios({
         method: apiPath.appointment.createPayment.method,
         url: apiPath.appointment.createPayment.url,
+        data
+    })
+}
+
+function initializePayment(data) {
+    return axios({
+        method: apiPath.appointment.initializePayment.method,
+        url: apiPath.appointment.initializePayment.url,
         data
     })
 }
