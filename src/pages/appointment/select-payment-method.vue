@@ -640,6 +640,7 @@ export default {
     this.handleAmount();
     this.getBookingtype();
     this.getUserData();
+    this.fetchActiveFirstFreePromo();
   },
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
@@ -934,20 +935,22 @@ export default {
           });
       } else {
         await this.doPayment();
-
-        freeAppointmentPromoService
-          .fetchFreeActiveAppointmentPromos(
-            "?mrn_number=" + this.getUserInfo.mrn_number
-          )
-          .then((promoRes) => {
-            let promoResponse = promoRes.data;
-            if (promoResponse.status) {
-              this.updateUserInfo({
-                first_free_promo: promoResponse.data.items,
-              });
-            }
-          });
+        this.fetchActiveFirstFreePromo();
       }
+    },
+    fetchActiveFirstFreePromo() {
+      freeAppointmentPromoService
+        .fetchFreeActiveAppointmentPromos(
+          "?mrn_number=" + this.getUserInfo.mrn_number
+        )
+        .then((promoRes) => {
+          let promoResponse = promoRes.data;
+          if (promoResponse.status) {
+            this.updateUserInfo({
+              first_free_promo: promoResponse.data.items,
+            });
+          }
+        });
     },
     fetchPromotionsList() {
       promotionService.fetchPromotions("?only_active=true").then(
