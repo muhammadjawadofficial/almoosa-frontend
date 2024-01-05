@@ -18,7 +18,9 @@ export const appointmentService = {
     createPayment,
     initializePayment,
     getAppointmentInstructions,
-    getNearestAvailability
+    getNearestAvailability,
+    fetchPaymentsTypes,
+    fetchTamaraUrl,
 }
 
 function getUpcomingAppointemnts(id) {
@@ -169,3 +171,17 @@ function getNearestAvailability(payload) {
         data: payload
     })
 }
+function fetchPaymentsTypes(query) {
+    return axios({
+      method: apiPath.appointment.getPaymentsTypes(query).method,
+      url: apiPath.appointment.getPaymentsTypes(query).url,
+    });
+  }
+  
+  function fetchTamaraUrl(data) {
+    return axios({
+      method: apiPath.appointment.getTamaraUrl.method,
+      url: apiPath.appointment.getTamaraUrl.url,
+      data,
+    });
+  }

@@ -32,6 +32,8 @@ import callEnd from '../pages/appointment/call-end'
 
 import paymentSuccess from '../pages/payment-success'
 import paymentFailure from '../pages/payment-failure'
+import paymentCancelled from '../pages/payment-cancelled'
+
 
 import promotionsModule from '../pages/promotions'
 import promotionsList from '../pages/promotions/promotions-list'
@@ -186,6 +188,14 @@ const routes = [
             component: paymentFailure,
             meta: {
               title: 'Payment Failure | Almoosa Health Group',
+            }
+          },
+          {
+            path: 'payment/cancelled',
+            name: 'Payment Cancel',
+            component: paymentCancelled,
+            meta: {
+              title: 'Payment Cancelled | Almoosa Health Group',
             }
           },
           {

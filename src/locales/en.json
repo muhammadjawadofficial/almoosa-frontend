@@ -440,6 +440,8 @@
     "paymentSuccessfulText": "Payment is Successful",
     "paymentFailed": "Payment Failed",
     "paymentFailedText": "Your payment has been failed",
+    "paymentCancelled": "Payment Cancelled",
+    "paymentCancelledText": "Your payment has been cancelled",
     "currentBalance": "Current Balance",
     "useWalletAmount": "Use Wallet Amount",
     "fullyCovered": "Fully Covered",
@@ -447,7 +449,10 @@
     "appointmentAmount": "Appointment Amount",
     "insuranceCanCoverUpto": "Insurance can cover upto",
     "walletAmount": "Wallet Amount",
-    "amountPayable": "Amount Payable"
+    "amountPayable": "Amount Payable",
+    "payIn":"Pay in",
+    "instalments":"Instalments",
+    "taramaValidation":"Tamara restricts payments over 2000 SAR"
   },
   "rating": {
     "title": "Rate Our Physician",

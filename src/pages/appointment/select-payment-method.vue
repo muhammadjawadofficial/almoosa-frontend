@@ -228,19 +228,69 @@
                     :key="'payment-dropdown-section-' + method.title"
                   >
                     <div
-                      class="payment-dropdown-option"
-                      :class="{
-                        selected:
-                          selectedInsurance &&
-                          insurance.id == selectedInsurance.id,
-                      }"
-                      v-for="insurance in patientInsurances"
-                      :key="'insurance-' + insurance.id"
-                      @click="getInsuranceAmount(insurance)"
+                      v-if="!getPaymentObject.otherPayment"
+                      class="insurance"
                     >
-                      {{ insurance.company_name }}
+                      <div v-if="patientInsurances">
+                        <div
+                          class="payment-dropdown-option"
+                          :class="{
+                            selected:
+                              selectedInsurance &&
+                              insurance.id == selectedInsurance.id,
+                          }"
+                          v-for="insurance in patientInsurances"
+                          :key="'insurance-' + insurance.id"
+                          @click="getInsuranceAmount(insurance)"
+                        >
+                          {{ insurance.company_name }}
+                        </div>
+                      </div>
+                      <!-- lower -->
+                      <div
+                        v-else-if="!patientInsurances && tamaraInstallmentsType"
+                      >
+                        <!-- v-if="!patientInsurances && !tamaraInstallmentsType" -->
+                        {{ $t("noData") }}
+                      </div>
                     </div>
-                    <div v-if="!patientInsurances || !patientInsurances.length">
+
+                    <div
+                      @click.stop="getTamaraUrl()"
+                      v-else-if="getPaymentObject.otherPayment"
+                      class="tamara"
+                    >
+                      <!-- upper -->
+                      <div v-if="tamaraInstallmentsType">
+                        {{ getPaymentObject.otherPaymen }}
+                        <div
+                          v-for="(tamara, i) in tamaraInstallmentsType"
+                          :key="i"
+                        >
+                          <div class="d-flex">
+                            <div class="payment-dropdown-option">
+                              {{ $t("selectPaymentMethod.payIn") }}
+                              {{ tamara.supported_instalments[0].instalments }}
+                              {{ $t("selectPaymentMethod.instalments") }}
+                            </div>
+                            <div class="payment-dropdown-option">
+                              {{
+                                $t("sar") +
+                                " " +
+                                (+(getPaymentObject.amount / 3)).toFixed(2)
+                              }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        v-else-if="!tamaraInstallmentsType && patientInsurances"
+                      >
+                        {{ $t("noData") }}
+                      </div>
+                    </div>
+
+                    <div v-if="!patientInsurances && !tamaraInstallmentsType">
                       {{ $t("noData") }}
                     </div>
                   </div>
@@ -437,6 +487,10 @@ import {
 export default {
   data() {
     return {
+      tamaraUrl: null,
+      tamaraInstallmentsType: null,
+      countryName: "SA",
+      currency: "SAR",
       useWalletAmount: false,
       toggleOtherPaymentSection: false,
       selectedInsurance: null,
@@ -640,6 +694,7 @@ export default {
     this.handleAmount();
     this.getBookingtype();
     this.getUserData();
+    this.fetchPaymentsType();
   },
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
@@ -1078,11 +1133,75 @@ export default {
     setPromotionLoyalty() {
       this.selectedLoyaltyPoints = this.getDeductedLoyaltyPoints;
     },
+    fetchPaymentsType() {
+      if (!this.getUserInfo.phone_number && !this.getPaymentObject.amount) {
+        return false;
+      }
+      if (this.getPaymentObject.amount > 2000) {
+        this.failureToast(this.$t("selectPaymentMethod.taramaValidation"));
+        return false;
+      }
+      let query = `?country=${this.countryName}&phone=${this.getUserInfo.phone_number}&currency=${this.currency}&order_value=${this.getPaymentObject.amount}`;
+      appointmentService.fetchPaymentsTypes(query).then(
+        (res) => {
+          let response = res.data;
+          if (response.status) {
+            this.tamaraInstallmentsType = null;
+            this.tamaraInstallmentsType = response.data.items;
+          } else {
+            this.failureToast(response.message);
+          }
+        },
+        (error) => {
+          console.error(error);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
+    getTamaraUrl() {
+      if (!this.getPaymentObject.appointment_id) {
+        return false;
+      }
+      let obj = { package_id: this.getPaymentObject.appointment_id };
+      appointmentService.fetchTamaraUrl(obj).then(
+        (res) => {
+          let response = res.data;
+          if (response.status) {
+            this.tamaraUrl = null;
+            this.tamaraUrl = response.data;
+            if (this.tamaraUrl.checkout_url) {
+              window.open(this.tamaraUrl.checkout_url, "_self");
+            }
+          } else {
+            this.failureToast(response.message);
+          }
+        },
+        (error) => {
+          console.error(error);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.t-min-max-limit {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
 .useButton {
   border-color: var(--theme-default);
   color: var(--theme-tertiary) !important;

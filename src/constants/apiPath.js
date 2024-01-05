@@ -71,7 +71,10 @@ export const apiPath = {
         createPayment: getApiObject("post", "payments/create", "v2"),
         initializePayment: getApiObject("post", "payments/initialize", "v2"),
         getInstructions: (query) => getApiObject("get", "system-settings" + query),
-        getNearestAvailability: getApiObject("post", "appointments/nearest-availability", "v2")
+        getNearestAvailability: getApiObject("post", "appointments/nearest-availability", "v2"),
+        getPaymentsTypes: (query) =>
+        getApiObject("get", "payments/tamara/options" + query, "v1"),
+        getTamaraUrl: getApiObject("post", "payments/tamara/checkout", "v1"),
     },
 
     promotions: {
