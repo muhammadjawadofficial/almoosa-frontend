@@ -140,6 +140,7 @@ export const apiPath = {
     servicesPackages: {
         fetch: getApiObject("get", "packages"),
         details: (id) => getApiObject("get", "health-education/" + id),
+        fetchBookedPackges: getApiObject("get", "booked-packages/patient/booked"),
     },
 
     familyMembers: {

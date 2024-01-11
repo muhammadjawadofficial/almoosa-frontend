@@ -540,6 +540,7 @@
     "price": "سعر",
     "description": "وصف",
     "serviceDetails": "تفاصيل الخدمة",
+    "subserviceDetails": "تفاصيل الخدمة الفرعية",
     "bookPackage": "حجز الباقة",
     "packageList": "جميع الباقات",
     "bookedPackages": "باقاتي و خدماتي"

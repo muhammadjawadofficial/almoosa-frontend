@@ -50,15 +50,32 @@
                 <div class="appointment-list mt-3 mx-2">
                   <div
                     class="appointment-list-item"
-                    v-for="(item, pindex) in packageDetails"
+                    v-for="(item, pindex) in packageInfo.services"
                     :key="'package-' + pindex"
                   >
                     <div class="service-details bg-tertiary">
                       <div class="details-title">
-                        {{ item.label }}
+                        {{ item.name }} {{ item.count }}
                       </div>
-                      <div class="details-value">
-                        {{ item.value }}
+                      <div class="details-title">
+                        {{ item.description }}
+                      </div>
+                      <div class="">
+                        <div class="details-title sub-service-title fw-bold">
+                          {{ $t("servicesPackages.subserviceDetails") }}
+                        </div>
+                        <div
+                          class="details-value"
+                          v-for="(item, pindex) in item.sub_services"
+                          :key="'package-' + pindex"
+                        >
+                          <div>
+                            {{ item.name }}
+                          </div>
+                          <div>
+                            {{ item.description }}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -100,19 +117,19 @@ export default {
     ...mapActions("appointment", ["setPaymentObject"]),
     initializeData() {
       this.packageInfo = this.getSelectedPackage;
-      this.packageDetails = [];
-      let details = this.getSelectedPackage.service_details;
-      if (details) {
-        let keys = Object.keys(details);
-        if (keys) {
-          keys.forEach((key) => {
-            this.packageDetails.push({
-              label: key,
-              value: details[key],
-            });
-          });
-        }
-      }
+      // this.packageDetails = [];
+      // let details = this.getSelectedPackage.service_details;
+      // if (details) {
+      //   let keys = Object.keys(details);
+      //   if (keys) {
+      //     keys.forEach((key) => {
+      //       this.packageDetails.push({
+      //         label: key,
+      //         value: details[key],
+      //       });
+      //     });
+      //   }
+      // }
     },
     makePayment() {
       let obj = {

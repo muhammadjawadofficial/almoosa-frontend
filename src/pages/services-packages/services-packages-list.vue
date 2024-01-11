@@ -60,14 +60,10 @@
                 :active="activeTab == 1"
               >
                 <div class="doctor-card-container">
-                  <template
-                    v-if="
-                      servicesPackagesContent && servicesPackagesContent.length
-                    "
-                  >
+                  <template v-if="bookedPackagesList">
                     <div
                       class="doctor-card"
-                      v-for="content in servicesPackagesContent"
+                      v-for="content in bookedPackagesList"
                       :key="'doctor-card-' + content.id"
                     >
                       <div class="doctor-image">
@@ -91,7 +87,9 @@
                     </div>
                   </template>
                   <template v-else>
-                    <div class="no-data">{{ $t("noData") }}</div>
+                    <div class="no-data">
+                      {{ $t("noData") }}
+                    </div>
                   </template>
                 </div>
               </b-tab>
@@ -111,10 +109,12 @@ export default {
     return {
       servicesPackagesContent: null,
       activeTab: 0,
+      bookedPackagesList: null,
     };
   },
   mounted() {
     this.initializeData();
+    this.fetchBookedPackages();
   },
   methods: {
     ...mapActions("servicesPackages", ["setSelectedPackage"]),
@@ -136,12 +136,32 @@ export default {
           }
         },
         (error) => {
-          if (!this.isAPIAborted(error)) 
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
+    fetchBookedPackages() {
+      servicesPackagesService.fetchBookedPackages().then(
+        (response) => {
+          if (response.data.status) {
+            let data = response.data.data.items;
+            this.bookedPackagesList = [...data];
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
         }
       );
     },

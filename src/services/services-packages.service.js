@@ -3,7 +3,8 @@ import { apiPath } from "../constants/apiPath";
 
 export const servicesPackagesService = {
     fetchPackages,
-    fetchPackageDetails
+    fetchPackageDetails,
+    fetchBookedPackages,
 }
 
 function fetchPackages() {
@@ -16,5 +17,11 @@ function fetchPackageDetails(id) {
     return axios({
         method: apiPath.servicesPackages.details(id).method,
         url: apiPath.servicesPackages.details(id).url,
+    })
+}
+function fetchBookedPackages() {
+    return axios({
+        method: apiPath.servicesPackages.fetchBookedPackges.method,
+        url: apiPath.servicesPackages.fetchBookedPackges.url,
     })
 }

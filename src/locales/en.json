@@ -540,6 +540,7 @@
     "price": "Price",
     "description": "Description",
     "serviceDetails": "Service Details",
+    "subserviceDetails": "Sub Service Details",
     "bookPackage": "Book Package",
     "packageList": "Package List",
     "bookedPackages": "Booked Packages"
