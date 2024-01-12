@@ -217,11 +217,11 @@ export default {
         query += "&appointment_type=" + this.getBookingMethod;
       if (
         this.getBookingMethod == "onsite" &&
-        (this.getBookingClinic || this.selectedClinic)
+        (this.selectedClinic || this.getBookingClinic)
       )
         clinicId =
-          (this.getBookingClinic && this.getBookingClinic.id) ||
-          (this.selectedClinic && this.selectedClinic.id);
+          (this.selectedClinic && this.selectedClinic.id) ||
+          (this.getBookingClinic && this.getBookingClinic.id);
       if (clinicId) query += "&clinic_id=" + clinicId;
 
       return query;

@@ -317,6 +317,7 @@ export default {
         {
           text: "View Promotions",
           icon: "promotions-svg",
+          link: "Promotions",
         },
         {
           text: "Check Symptoms",

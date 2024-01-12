@@ -33,12 +33,12 @@
                       :class="{
                         used: useWalletAmount,
                         disabled:
+                          !+getCalculatedAmount ||
                           isElligibleForFirstFreeVirtualAppointment ||
-                          !+walletAmount ||
                           insuranceAmount == 0,
                       }"
                       @click="
-                        +walletAmount
+                        +getCalculatedAmount
                           ? isElligibleForFirstFreeVirtualAppointment
                             ? failureToast(
                                 $t('walletNotAllowedInFreeAppointment')
@@ -58,6 +58,96 @@
                   <div class="layer gamma"></div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div
+          class="reset-discount"
+          v-if="selectedDiscountType != ''"
+          @click="resetDiscount"
+        >
+          {{
+            selectedDiscountType == "promotion"
+              ? $t("promotions.removePromo")
+              : $t("promotions.clearSelection")
+          }}
+        </div>
+        <div class="promotions-loyalty" v-if="isPromoEnabled">
+          <div
+            v-if="false"
+            class="promotions-loyalty-item"
+            @click="setDiscount('loyalty')"
+            :class="{
+              active: selectedDiscountType == 'loyalty',
+              disabled:
+                isPromoLoyaltyDisabled ||
+                getUserInfo.loyality_points < loyaltiyPoints,
+            }"
+          >
+            <div class="promotions-loyalty-item-icon">
+              <img src="../../assets/images/badge.svg" alt="badge" />
+              <span
+                v-if="this.getDeductedLoyaltyPoints != null"
+                class="number deducted font-danger"
+              >
+                - {{ translateNumber(this.getDeductedLoyaltyPoints) }}
+              </span>
+            </div>
+            <div class="promotions-loyalty-item-title">
+              <span class="number">{{
+                translateNumber(getCalculatedLoyaltyPoints)
+              }}</span>
+              {{ $t("promotions.loyaltyPointCardTitle") }}
+            </div>
+            <div class="promotions-loyalty-item-info">
+              {{ $t("promotions.loyaltyPointCardText") }}
+            </div>
+          </div>
+          <div v-if="false" class="promotions-loyalty-separator">
+            {{ $t("or") }}
+          </div>
+          <div
+            class="promotions-loyalty-item"
+            @click="setDiscount('promotion')"
+            :class="{
+              active: selectedDiscountType == 'promotion',
+              disabled: isPromoLoyaltyDisabled,
+            }"
+          >
+            <div class="promotions-loyalty-item-icon">
+              <img
+                src="../../assets/images/announcement.svg"
+                alt="announcement"
+              />
+            </div>
+            <div class="promotions-loyalty-item-title">
+              <span class="number" v-if="selectedPromotion">
+                <span
+                  class="number"
+                  v-if="
+                    selectedPromotion.discount_type.toLowerCase() ==
+                    'percentage'
+                  "
+                >
+                  {{ $t("discount") }}: {{ selectedPromotion.discount }}%
+                </span>
+
+                <span class="number" v-else>
+                  {{ $t("discount") }}: {{ selectedPromotion.discount }}
+                  {{ $t("sar") }}
+                </span>
+              </span>
+
+              {{
+                selectedPromotion
+                  ? $t("promotions.promoCardTitle")
+                  : $t("promotions.noPromo")
+              }}
+            </div>
+            <div class="promotions-loyalty-item-info">
+              {{ $t("promotions.promoCardText") }}
             </div>
           </div>
         </div>
@@ -163,7 +253,7 @@
       <div
         class="col-lg-7 appointment--action-buttons"
         v-if="
-          isElligibleForFirstFreeVirtualAppointment && +appointmentAmount != 0
+          isElligibleForFirstFreeVirtualAppointment && +getAmountPayable != 0
         "
       >
         <button
@@ -179,7 +269,7 @@
           {{ $t("claimFreeAppointment") }}
         </button>
       </div>
-      <div class="col-lg-7" v-else-if="appointmentAmount != 0">
+      <div class="col-lg-7" v-else-if="getAmountPayable != 0">
         <div class="payment-section block-section">
           <div class="heading-section">
             <div class="heading-text">
@@ -212,7 +302,7 @@
                         $t("sar") +
                         " " +
                         translateNumber(
-                          amountLoading ? "N/A" : appointmentAmount
+                          amountLoading ? "N/A" : getAmountPayable
                         )
                       }}
                     </div>
@@ -267,6 +357,36 @@
               </div>
             </div>
           </template>
+          <template v-if="selectedDiscountType == 'loyalty'">
+            <div class="details-group-item">
+              <div class="title">
+                {{ $t("promotions.loyaltyPointCardTitle") }}
+              </div>
+              <div class="value">
+                {{
+                  $t("sar") +
+                  " " +
+                  (+(
+                    getDeductedLoyaltyPoints * LOYALITY_POINTS_FACTOR
+                  )).toFixed(2)
+                }}
+              </div>
+            </div>
+          </template>
+          <template v-if="selectedDiscountType == 'promotion'">
+            <div class="details-group-item">
+              <div class="title">
+                {{ $t("discount") }}
+              </div>
+              <div class="value">
+                {{
+                  $t("sar") +
+                  " " +
+                  (getAppointmentAmount - getCalculatedAmount).toFixed(2)
+                }}
+              </div>
+            </div>
+          </template>
           <template v-if="useWalletAmount">
             <div class="details-group-item">
               <div class="title">
@@ -294,7 +414,7 @@
               {{
                 amountLoading
                   ? "--"
-                  : $t("sar") + " " + translateNumber(appointmentAmount)
+                  : $t("sar") + " " + translateNumber(getAmountPayable)
               }}
             </div>
           </div>
@@ -307,9 +427,12 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import {
+  appointmentService,
   freeAppointmentPromoService,
   insuranceService,
+  promotionService,
   userService,
+  systemConfigService,
 } from "../../services";
 export default {
   data() {
@@ -324,6 +447,8 @@ export default {
       patientInsurances: null,
       serviceBaseRate: null,
       paymentAmount: null,
+      LOYALITY_POINTS_FACTOR: null,
+      loyaltiyPoints: null,
       paymentMethodsOnline: [
         {
           title: "applePay",
@@ -355,6 +480,14 @@ export default {
       ],
       paymentAmountResponse: null,
       amountLoading: false,
+      selectedDiscountType: "",
+      selectedPromotion: null,
+      selectedLoyaltyPoints: null,
+      promotionList: [],
+      virtual_appointment: null,
+      onsite_appointment: null,
+      speciality: null,
+      paymentConfig: {},
     };
   },
   computed: {
@@ -362,6 +495,8 @@ export default {
       "getBookingAmount",
       "getPaymentObject",
       "getSelectedAppointment",
+      "getBookingMethod",
+      "getBookingSpeciality",
     ]),
     ...mapGetters("user", ["getUserInfo"]),
     getPaymentMethodsOnline() {
@@ -381,9 +516,70 @@ export default {
         browserName = "No browser detection";
       }
       let isSafari = browserName == "safari";
+      if (!this.isApplePayEnabled) isSafari = false;
       return isSafari
         ? this.paymentMethodsOnline
         : this.paymentMethodsOnline.filter((x) => !x.title.includes("apple"));
+    },
+    getAppointmentAmount() {
+      return this.insuranceAmount == null
+        ? this.getPaymentObject.amount
+        : this.insuranceAmount;
+    },
+    getCalculatedAmount() {
+      let actualAmount = this.getAppointmentAmount;
+      if (this.selectedDiscountType == "promotion") {
+        if (
+          this.selectedPromotion &&
+          this.selectedPromotion.discount_type.toLowerCase() == "percentage"
+        ) {
+          let discount = this.selectedPromotion.discount / 100;
+          let discountedAmount = actualAmount * discount;
+          actualAmount = actualAmount - discountedAmount;
+        } else {
+          actualAmount = actualAmount - this.selectedPromotion.discount;
+        }
+      } else if (this.selectedDiscountType == "loyalty") {
+        let loyaltyAmount =
+          this.getUserInfo.loyality_points * this.LOYALITY_POINTS_FACTOR;
+        if (loyaltyAmount > actualAmount) {
+          actualAmount = 0;
+        } else {
+          actualAmount = actualAmount - loyaltyAmount;
+        }
+      }
+      return +actualAmount < 0 ? 0 : (+actualAmount || 0).toFixed(2);
+    },
+    getCalculatedLoyaltyPoints() {
+      let loyaltyPoints = this.getUserInfo.loyality_points;
+      if (this.getDeductedLoyaltyPoints) {
+        loyaltyPoints -= this.getDeductedLoyaltyPoints;
+      }
+      return loyaltyPoints;
+    },
+    getDeductedLoyaltyPoints() {
+      let deductedLoyalityPoints = null;
+      if (this.selectedDiscountType == "loyalty") {
+        let loyaltyAmount =
+          this.getUserInfo.loyality_points * this.LOYALITY_POINTS_FACTOR;
+        if (loyaltyAmount > this.getAppointmentAmount) {
+          deductedLoyalityPoints = Math.ceil(
+            this.getAppointmentAmount / this.LOYALITY_POINTS_FACTOR
+          );
+        } else {
+          deductedLoyalityPoints = this.getUserInfo.loyality_points;
+        }
+      }
+      return deductedLoyalityPoints;
+    },
+    getAmountPayable() {
+      let baseAmount = this.getCalculatedAmount;
+
+      if (this.useWalletAmount) {
+        baseAmount = baseAmount - this.getWalletDeductionAmount();
+      }
+
+      return baseAmount;
     },
     isNotAllowedToBookFreeAppointment() {
       return (
@@ -399,8 +595,35 @@ export default {
         this.getSelectedAppointment.type.toLowerCase() == "online"
       );
     },
+    isPromoLoyaltyDisabled() {
+      return (
+        this.insuranceAmount == 0 ||
+        this.isElligibleForFirstFreeVirtualAppointment
+      );
+    },
+    isPromoEnabled() {
+      return (
+        this.paymentConfig &&
+        !!this.paymentConfig.promotion &&
+        !!this.paymentConfig.promotion.enabled
+      );
+    },
+    isApplePayEnabled() {
+      return (
+        this.paymentConfig &&
+        this.paymentConfig.apple_pay &&
+        this.paymentConfig.apple_pay.enabled &&
+        ((this.paymentConfig.apple_pay.limited_access &&
+          this.paymentConfig.apple_pay.allowed_users &&
+          this.paymentConfig.apple_pay.allowed_users.length &&
+          this.paymentConfig.apple_pay.allowed_users.includes(
+            +this.getUserInfo.mrn_number
+          )) ||
+          !this.paymentConfig.apple_pay.limited_access)
+      );
+    },
   },
-  mounted() {
+  async mounted() {
     localStorage.removeItem("paymentVerifyObject");
     userService.removeBooking();
     if (!this.getSelectedAppointment) {
@@ -413,13 +636,83 @@ export default {
         return;
       }
     }
+    this.fetchLoyalityPointsFactor();
     this.handleAmount();
+    this.getBookingtype();
+    this.getUserData();
+    this.fetchActiveFirstFreePromo();
   },
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
     ...mapActions("user", ["updateUserInfo"]),
+    getUserData() {
+      userService.getProfileById(this.getUserInfo.id).then(
+        (res) => {
+          if (res.data.status) {
+            let data = res.data.data.items[0];
+            if (data) {
+              this.updateUserInfo({ loyality_points: data.loyality_points });
+            }
+          } else {
+            this.failureToast(res.data.message);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+          console.error(error);
+        }
+      );
+    },
+    fetchLoyalityPointsFactor() {
+      systemConfigService.fetchConfig("?title=LOYALITY_POINTS_FACTOR").then(
+        (response) => {
+          if (response.data.status) {
+            let data = response.data.data.items;
+            let factor = JSON.parse(data[0].value);
+            this.LOYALITY_POINTS_FACTOR = factor.factor;
+            this.loyaltiyPoints = factor.minAllowed;
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+      systemConfigService.fetchConfig("?title=PAYMENT_CONFIG").then(
+        (response) => {
+          if (response.data.status) {
+            let data = response.data.data.items;
+            let config = JSON.parse(data[0].value);
+            if (config) this.$set(this, "paymentConfig", config);
+            if (this.isPromoEnabled) {
+              this.fetchPromotionsList();
+            }
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
     checkIfAllowedToPay() {
-      console.log("ruuning");
       if (
         this.getSelectedAppointment.type.toLowerCase() == "online" &&
         !this.isAllowedToPay(this.getSelectedAppointment.start_time)
@@ -474,15 +767,18 @@ export default {
         });
     },
     getWalletDeductionAmount() {
-      let appointmentAmount = !this.insuranceAmount
-        ? this.getPaymentObject.amount
-        : this.insuranceAmount;
+      let deductionAmount = 0;
+      let appointmentAmount = this.getCalculatedAmount;
       if (this.useWalletAmount) {
-        return appointmentAmount >= this.walletAmount
-          ? this.walletAmount
-          : appointmentAmount;
+        deductionAmount =
+          +appointmentAmount >= +this.walletAmount
+            ? this.walletAmount
+            : appointmentAmount;
       }
-      return 0;
+
+      if (!+deductionAmount) this.useWalletAmount = false;
+
+      return deductionAmount;
     },
     setAppointmentAmount() {
       this.appointmentAmount =
@@ -498,13 +794,13 @@ export default {
       } else {
         this.useWalletAmount = false;
       }
-      this.appointmentAmount = this.appointmentAmount.toFixed(2);
+      this.appointmentAmount = (+this.appointmentAmount).toFixed(2);
     },
     handleSelection(item) {
       this.setAppointmentAmount();
       if (item.isOnlinePayment) {
         let obj = {
-          amount: (+this.appointmentAmount).toFixed(2),
+          amount: (+this.getAmountPayable).toFixed(2),
           appointment_id: this.getPaymentObject.appointment_id,
           currency: item.currency.toUpperCase(),
         };
@@ -545,13 +841,20 @@ export default {
           +paymentAmount.PatientShare + +paymentAmount.PatientTax;
         if (insurance) {
           this.insuranceAmount = amountPayable;
+          if (this.insuranceAmount == 0) {
+            this.resetDiscount();
+          }
         } else {
           let patientAmount = amountPayable;
           let obj = {
             ...this.getPaymentObject,
-            amount: patientAmount,
+            amount: (+patientAmount).toFixed(2),
           };
           this.setPaymentObject(obj);
+        }
+
+        if (this.isElligibleForFirstFreeVirtualAppointment) {
+          this.resetDiscount();
         }
 
         this.setAppointmentAmount();
@@ -585,9 +888,16 @@ export default {
           ? this.selectedInsurance.scheme_id
           : 1,
         wallet_payment_amount: this.getWalletDeductionAmount(),
-        gateway_payment_amount: this.appointmentAmount,
+        gateway_payment_amount: this.getAmountPayable,
         gateway_payment_ref: "GATEWAY TRX REF",
         receipt_date: this.formatReceiptDateTime(new Date()),
+        discount_type: this.selectedDiscountType,
+        discount:
+          this.selectedDiscountType == "loyalty"
+            ? this.selectedLoyaltyPoints
+            : this.selectedPromotion
+            ? this.selectedPromotion.promo_code
+            : null,
       };
     },
     async createPayment(paymentObj, isFree = false) {
@@ -602,27 +912,174 @@ export default {
         "paymentVerifyObject",
         JSON.stringify(paymentVerifyObject)
       );
-      if (this.appointmentAmount != 0 && !isFree) {
-        if (paymentObj) {
-          this.setPaymentObject(paymentObj);
-        }
-        this.navigateTo("Pay Now");
+      if (this.getAmountPayable != 0 && !isFree) {
+        await appointmentService
+          .initializePayment(paymentVerifyObject)
+          .then((response) => {
+            if (response.data && response.data.status) {
+              if (paymentObj) {
+                this.setPaymentObject(paymentObj);
+              }
+              this.navigateTo("Pay Now");
+            } else this.failureToast(response.data && response.data.message);
+          })
+          .catch((error) => {
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                (error.response &&
+                  error.response.data &&
+                  error.response.data.message) ||
+                  error.message
+              );
+            this.navigateTo("Upcoming Appointment");
+          });
       } else {
         await this.doPayment();
-
-        freeAppointmentPromoService
-          .fetchFreeActiveAppointmentPromos(
-            "?mrn_number=" + this.getUserInfo.mrn_number
-          )
-          .then((promoRes) => {
-            let promoResponse = promoRes.data;
-            if (promoResponse.status) {
-              this.updateUserInfo({
-                first_free_promo: promoResponse.data.items,
-              });
-            }
-          });
+        this.fetchActiveFirstFreePromo();
       }
+    },
+    fetchActiveFirstFreePromo() {
+      freeAppointmentPromoService
+        .fetchFreeActiveAppointmentPromos(
+          "?mrn_number=" + this.getUserInfo.mrn_number
+        )
+        .then((promoRes) => {
+          let promoResponse = promoRes.data;
+          if (promoResponse.status) {
+            this.updateUserInfo({
+              first_free_promo: promoResponse.data.items,
+            });
+          }
+        });
+    },
+    fetchPromotionsList() {
+      promotionService.fetchPromotions("?only_active=true").then(
+        (response) => {
+          if (response.data.status) {
+            let data = response.data.data.items;
+            this.promotionList = [...data];
+            if (
+              this.getUserInfo.promo_code &&
+              this.promotionList &&
+              this.promotionList.length &&
+              this.promotionList.findIndex(
+                (x) => x.promo_code == this.getUserInfo.promo_code
+              ) > -1
+            )
+              this.applyPromotion(
+                this.getUserInfo.promo_code.toLowerCase(),
+                true
+              );
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
+    checkAndDeductLoyaltyPoints() {
+      if (
+        this.selectedLoyaltyPoints &&
+        this.selectedDiscountType == "loyalty"
+      ) {
+        this.setBookingAmount(this.getCalculatedAmount);
+        this.updateUserInfo({
+          loyality_points:
+            this.getUserInfo.loyality_points - this.selectedLoyaltyPoints,
+        });
+      }
+      this.resetDiscount();
+    },
+    resetDiscount() {
+      if (this.selectedDiscountType == "promotion") {
+        promotionService.removePromo().then(() => {
+          this.updateUserInfo({ promo_code: "" });
+          this.selectedPromotion = null;
+        });
+      }
+      this.selectedDiscountType = "";
+      this.selectedLoyaltyPoints = null;
+    },
+    getBookingtype() {
+      if (!this.getBookingMethod || this.getSelectedAppointment) {
+        if (this.getSelectedAppointment.type == "ONSITE") {
+          this.speciality = this.getSelectedAppointment.doctor.speciality_id;
+          this.virtual_appointment = false;
+          this.onsite_appointment = true;
+        } else {
+          this.virtual_appointment = true;
+          this.onsite_appointment = false;
+          this.speciality = this.getSelectedAppointment.doctor.speciality_id;
+        }
+      }
+    },
+
+    setDiscount(type) {
+      if (
+        this.isPromoLoyaltyDisabled ||
+        (type == "loyalty" &&
+          this.getUserInfo.loyality_points < this.loyaltiyPoints)
+      )
+        return;
+      if (type == "promotion") {
+        if (this.selectedPromotion) {
+          this.selectedDiscountType = type;
+          this.selectedLoyaltyPoints = null;
+        } else {
+          this.inputIconModal(
+            this.$t("promotions.addPromo"),
+            this.$t("promotions.addPromoText"),
+            "m-bell"
+          ).then(async (modalValue) => {
+            if (modalValue.dismiss) {
+              return;
+            }
+            await this.applyPromotion(modalValue.value);
+          });
+        }
+      } else {
+        if (!this.getUserInfo.loyality_points) return;
+        this.selectedDiscountType = type;
+        this.setPromotionLoyalty();
+      }
+    },
+    async applyPromotion(code, muteErrorMessages = false) {
+      try {
+        let data = {
+          promo_code: code,
+          appointment_flow: true,
+          package_flow: false,
+          virtual_appointment: this.virtual_appointment,
+          onsite_appointment: this.onsite_appointment,
+          speciality_id: this.speciality,
+        };
+        const response = await promotionService.applyPromotions(data);
+        if (response.data.status) {
+          this.selectedDiscountType = "promotion";
+          this.selectedLoyaltyPoints = null;
+          this.selectedPromotion = response.data.data;
+          this.updateUserInfo({
+            promo_code: this.selectedPromotion.promo_code,
+          });
+        } else {
+          if (!muteErrorMessages) this.failureToast(response.data.message);
+        }
+      } catch (error) {
+        if (!muteErrorMessages && !this.isAPIAborted(error))
+          this.failureToast(
+            error.response && error.response.data && error.response.data.message
+          );
+      }
+    },
+    setPromotionLoyalty() {
+      this.selectedLoyaltyPoints = this.getDeductedLoyaltyPoints;
     },
   },
 };
