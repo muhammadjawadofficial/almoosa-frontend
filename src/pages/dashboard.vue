@@ -322,7 +322,7 @@ export default {
         {
           text: "Check Symptoms",
           icon: "symptom-svg",
-          unique: true,
+          link: "Symptom Checker",
         },
         {
           text: "Virtual Tour",

@@ -7,6 +7,7 @@ export const appointmentService = {
     getClinicsV1,
     getSpecialities,
     getSpecialitiesV1,
+    getSymptomsSpecialitiesV1,
     findDoctors,
     fetchTimeslots,
     createAppointment,
@@ -55,7 +56,12 @@ function getSpecialitiesV1() {
         url: apiPath.appointment.specialitiesV1.url
     })
 }
-
+function getSymptomsSpecialitiesV1() {
+    return axios({
+        method: apiPath.appointment.specialitiesV1.method,
+        url: apiPath.appointment.specialitiesV1.url
+    })
+}
 function findDoctors(speciality, date, clinic, bookingType, currentLang) {
     return axios({
         method: apiPath.appointment.findDoctors(speciality, date, clinic, bookingType, currentLang).method,

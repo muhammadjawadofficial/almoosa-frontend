@@ -87,7 +87,7 @@
     "city": "المدينة",
     "area": "المنطقة",
     "district": "الحي",
-    "selectGender": "الجنس",
+    "selectGender": "يرجى تحديد جنسك",
     "selectNationality": "اختر الجنسية",
     "addDOB": "تاريخ الميلاد",
     "yourLocation": "الموقع",
@@ -270,6 +270,8 @@
     "View Appointments": "عرض المواعيد",
     "View Inpatients": "عرض في المرضى",
     "Critical Results": "النتائج الهامة",
+    "next": "التالي",
+    "back": "خلف",
     "Contact Us": "تواصل معنا",
     "description": {
       "Discover the best doctors in Almoosa Health Group": "اكتشف أفضل الأطباء في مجموعة الموسى الصحية",
@@ -313,6 +315,11 @@
     "consultation": "التشاور",
     "treatmentDate": "تاريخ العلاج",
     "treatmentType": "نوع العلاج"
+  },
+  "symptoms":{
+    "symptom":"أعراض",
+    "findSymptoms":"ابحث عن الأعراض عن طريق اختيار الأعراض",
+    "searchSymptom": "يرجى تحديد جنسك"
   },
   "findSpecialist": {
     "specialities": "التخصصات الصحية",

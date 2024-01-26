@@ -271,6 +271,8 @@
     "View Inpatients": "View Inpatients",
     "Critical Results": "Critical Results",
     "Contact Us": "Contact Us",
+    "next": "Next",
+    "back": "Back",
     "description": {
       "Discover the best doctors in Almoosa Health Group": "Discover the best doctors in Almoosa Health Group",
       "View your complete upcoming appointments": "View your complete upcoming appointments",
@@ -313,6 +315,15 @@
     "consultation": "Consultation",
     "treatmentDate": "Treatment Date",
     "treatmentType": "Treatment Type"
+  },
+  "symptoms":{
+    "symptom":"Symptoms",
+    "findSymptoms":"Find symptoms by selecting symptoms",
+    "searchSymptom": "Search Symptoms",
+    "genderChecker": "Gender",
+    "selectGender": "Please Select Your Gender",
+    "selectAge": "Select Your Age",
+    "age":"Age"
   },
   "findSpecialist": {
     "specialities": "Specialities",

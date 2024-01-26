@@ -4,7 +4,7 @@ let getApiObject = (method, url, version = "v1", pre = null) => {
     let baseUrl = pre || process.env[envKey];
     // baseUrl = "http://172.16.247.126:3000/";
     // baseUrl = "http://172.16.245.252:3000/";
-    // baseUrl = "http://localhost:3000/";
+      baseUrl = "http://172.16.242.88:3000/";
     return { method, url: baseUrl + "api/" + version + "/" + url };
 }
 
@@ -138,7 +138,11 @@ export const apiPath = {
         fetch: getApiObject("get", "packages"),
         details: (id) => getApiObject("get", "health-education/" + id),
     },
-
+    symptomsChecker: {
+        postData: getApiObject("post", "sc-survey"),
+        fetch: (id) => getApiObject("get", "symptoms?" + id),
+        getSymptom: (id) => getApiObject("get", "sc-survey/" + id),
+    },
     familyMembers: {
         fetchRelations: getApiObject("get", "family-member-relation/get/all", "v2"),
         fetch: (query) => getApiObject("get", "family-members/get/all" + query, "v2"),

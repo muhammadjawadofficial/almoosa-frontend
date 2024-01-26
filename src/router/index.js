@@ -90,7 +90,8 @@ import VirtualTour from '../pages/virtual-tour'
 import seeAllNotifications from '../pages/see-all-notifications'
 import notificationsSettings from '../pages/notifications-setting'
 import { userService } from '../services';
-
+import symptopChecker from '../pages/symptom-checker/symptoms-checker'
+import genderChecker from '../pages/symptom-checker/gender-checker'
 // component
 
 Vue.use(Router)
@@ -125,6 +126,38 @@ const routes = [
         component: Dashboard,
         meta: {
           title: 'Dashboard | Almoosa Health Group',
+        }
+      },
+      {
+        path: 'symptom-checker',
+        name: 'Symptom Checker',
+        component: symptopChecker,
+        meta: {
+          title: 'Symptop Checker | Almoosa Health Group'
+        },
+        children: [
+          // {
+          //   path: 'gender',
+          //   name: 'Gender Checker',
+          //   component: genderChecker ,
+          //   meta: {
+          //     title: 'Gender Checker | Almoosa Health Group',
+          //     // public: true,
+          //     // hideWhatsapp: true,
+          //     // webview: true
+          //   }
+          // },
+        ]
+      },
+      {
+        path: 'gender',
+        name: 'Gender Checker',
+        component: genderChecker ,
+        meta: {
+          title: 'Gender Checker | Almoosa Health Group',
+          // public: true,
+          // hideWhatsapp: true,
+          // webview: true
         }
       },
       {
