@@ -1302,6 +1302,18 @@ export default {
       );
     },
     getTamaraUrl(tamara) {
+      if (
+        this.getAmountPayable > tamara.max_limit.amount ||
+        this.getAmountPayable < tamara.min_limit.amount
+      ) {
+        this.failureToast(
+          this.$t("tamaraValidation", {
+            min: tamara.min_limit.amount,
+            max: tamara.max_limit.amount,
+          })
+        );
+        return false;
+      }
       if (!this.getPaymentObject.appointment_id) {
         return false;
       }

@@ -672,5 +672,6 @@
   "discount": "Discount",
   "cannotPayForTheAppointment": "Payment for virtual appointments is not available before 30 minutes of the appointment time",
   "accept": "Accept",
-  "service_and_packages_terms": "Service and Packages Terms"
+  "service_and_packages_terms": "Service and Packages Terms",
+  "tamaraValidation": "Tamara restricts payments between {min} and {max} SAR only"
 }

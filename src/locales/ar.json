@@ -672,5 +672,6 @@
   "discount": "خصم",
   "cannotPayForTheAppointment": "لا يمكن الدفع للموعد قبل 30 دقيقة من وقت الموعد",
   "accept": "يقبل",
-  "service_and_packages_terms": "شروط الخدمة والباقات"
+  "service_and_packages_terms": "شروط الخدمة والباقات",
+  "tamaraValidation": "تمارا تقيد المدفوعات بين {min} و {max} ريال فقط"
 }
