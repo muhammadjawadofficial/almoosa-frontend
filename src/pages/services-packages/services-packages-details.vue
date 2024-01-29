@@ -31,7 +31,9 @@
                 <div class="title">
                   {{ $t("servicesPackages.packageTitle") }}
                 </div>
-                <div class="value">{{ packageInfo.title }}</div>
+                <div class="value">
+                  {{ packageInfo[getLocaleKey("title")] }}
+                </div>
                 <div class="title">{{ $t("servicesPackages.price") }}</div>
                 <div class="value">
                   {{ translateNumber(packageInfo.price) + " " + $t("sar") }}
@@ -40,7 +42,9 @@
             </div>
             <div class="promotion-detail-section">
               <div class="title">{{ $t("servicesPackages.description") }}</div>
-              <div class="value">{{ packageInfo.description }}</div>
+              <div class="value">
+                {{ packageInfo[getLocaleKey("description")] }}
+              </div>
             </div>
             <div class="promotion-detail-section">
               <div class="title">
@@ -55,25 +59,25 @@
                   >
                     <div class="service-details bg-tertiary">
                       <div class="details-title">
-                        {{ item.name }} {{ item.count }}
+                        {{ item[getLocaleKey("name")] }} {{ item.count }}
                       </div>
                       <div class="details-title">
-                        {{ item.description }}
+                        {{ item[getLocaleKey("description")] }}
                       </div>
                       <div class="">
-                        <div class="details-title sub-service-title fw-bold">
+                        <!-- <div class="details-title sub-service-title fw-bold">
                           {{ $t("servicesPackages.subserviceDetails") }}
-                        </div>
+                        </div> -->
                         <div
                           class="details-value"
                           v-for="(item, pindex) in item.sub_services"
                           :key="'package-' + pindex"
                         >
                           <div>
-                            {{ item.name }}
+                            {{ item[getLocaleKey("name")] }} ({{ item.count }})
                           </div>
                           <div>
-                            {{ item.description }}
+                            {{ item[getLocaleKey("description")] }}
                           </div>
                         </div>
                       </div>
@@ -96,6 +100,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { cmsPagesService } from "../../services";
 export default {
   data() {
     return {
@@ -131,14 +136,33 @@ export default {
       //   }
       // }
     },
-    makePayment() {
-      let obj = {
-        amount: this.getSelectedPackage.price,
-        appointment_id: this.getSelectedPackage.id,
-        otherPayment: true,
-      };
-      this.setPaymentObject(obj);
-      this.navigateTo("Select Payment Method", { method: "package" });
+    async makePayment() {
+      if (this.packageInfo.term_condition_id) {
+        let cmsResponse = await cmsPagesService.fetchCmsPages(
+          "?id=" + this.packageInfo.term_condition_id
+        );
+        if (
+          cmsResponse.data &&
+          cmsResponse.data.status &&
+          cmsResponse.data.data &&
+          cmsResponse.data.data.items &&
+          cmsResponse.data.data.items.length
+        ) {
+          let cmsObject = cmsResponse.data.data.items[0];
+          this.htmlModal(cmsObject.long_text).then((res) => {
+            console.log(res)
+            if (res.value) {
+              let obj = {
+                amount: this.getSelectedPackage.price,
+                appointment_id: this.getSelectedPackage.id,
+                otherPayment: true,
+              };
+              this.setPaymentObject(obj);
+              this.navigateTo("Select Payment Method", { method: "package" });
+            }
+          });
+        }
+      }
     },
   },
 };

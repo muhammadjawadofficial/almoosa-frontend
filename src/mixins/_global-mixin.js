@@ -189,6 +189,21 @@ export default {
                 }
             });
         },
+        htmlModal(html, title, confirmText, cancelText) {
+            return this.$swal({
+                title: title || this.$t('service_and_packages_terms'),
+                html: html,
+                showCancelButton: true,
+                confirmButtonText: confirmText || this.$t("accept"),
+                confirmButtonColor: "#4466f2",
+                cancelButtonText: cancelText || this.$t("cancel"),
+                cancelButtonColor: "#4466f2",
+                customClass: {
+                    container: "wide-modal",
+                    popup: "cmsText cmsSwalContainer",
+                }
+            });
+        },
         ratingIconModal(title, text, icon, confirmText, cancelText, doctorRatingPayload) {
             const imagePath = require("../assets/images/" + (icon || 'm-check') + ".svg");
             let selectedRating = null;

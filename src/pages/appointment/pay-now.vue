@@ -49,8 +49,12 @@ export default {
         "&appointment_id=" +
         this.getPaymentObject.appointment_id +
         "&platform=web" +
-        "&doctor_id=" +
-        this.getSelectedAppointment.doctor_id +
+        (this.getPaymentObject.otherPayment
+          ? "&is_package=true"
+          : "&doctor_id=" +
+            (this.getSelectedAppointment
+              ? this.getSelectedAppointment.doctor_id
+              : "")) +
         "&patient_id=" +
         this.getUserInfo.id
       );

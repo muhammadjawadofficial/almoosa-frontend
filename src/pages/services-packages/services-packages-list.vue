@@ -37,10 +37,10 @@
                         />
                       </div>
                       <div class="doctor-name">
-                        {{ content.title }}
+                        {{ content[getLocaleKey('title')] }}
                       </div>
                       <div class="doctor-speciality">
-                        {{ content.description }}
+                        {{ content[getLocaleKey('description')] }}
                       </div>
                       <button
                         class="btn btn-primary make-appointment"
@@ -60,7 +60,7 @@
                 :active="activeTab == 1"
               >
                 <div class="doctor-card-container">
-                  <template v-if="bookedPackagesList">
+                  <template v-if="bookedPackagesList && bookedPackagesList.length">
                     <div
                       class="doctor-card"
                       v-for="content in bookedPackagesList"

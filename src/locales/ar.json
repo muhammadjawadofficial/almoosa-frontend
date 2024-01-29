@@ -670,5 +670,7 @@
   "between": "بين",
   "and": "و",
   "discount": "خصم",
-  "cannotPayForTheAppointment": "لا يمكن الدفع للموعد قبل 30 دقيقة من وقت الموعد"
+  "cannotPayForTheAppointment": "لا يمكن الدفع للموعد قبل 30 دقيقة من وقت الموعد",
+  "accept": "يقبل",
+  "service_and_packages_terms": "شروط الخدمة والباقات"
 }
