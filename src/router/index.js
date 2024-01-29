@@ -56,6 +56,7 @@ import healthEducationDetails from '../pages/health-education/health-education-d
 import servicesPackagesModule from '../pages/services-packages'
 import servicesPackagesList from '../pages/services-packages/services-packages-list'
 import servicesPackagesDetails from '../pages/services-packages/services-packages-details'
+import servicesPackagesDetailsTerms from '../pages/services-packages/services-packages-details-terms'
 
 import insuranceModule from '../pages/insurance'
 import insuranceMyMedical from '../pages/insurance/my-medical-insurance'
@@ -163,6 +164,17 @@ const routes = [
             component: TermsAndCondition,
             meta: {
               title: 'Terms and Condition | Almoosa Health Group',
+              public: true,
+              hideWhatsapp: true,
+              webview: true
+            }
+          },
+          {
+            path: 'services-packages/:id',
+            name: 'Service and Package Terms WebView',
+            component: TermsAndCondition,
+            meta: {
+              title: 'Service and Package Terms | Almoosa Health Group',
               public: true,
               hideWhatsapp: true,
               webview: true
@@ -434,9 +446,18 @@ const routes = [
             },
           },
           {
-            path: "details",
+            path: "details/:method",
             name: 'Services Packages Details',
             component: servicesPackagesDetails,
+            meta: {
+              title: 'Services Packages Details | Almoosa Health Group',
+              public: true
+            },
+          },
+          {
+            path: "details/:method/terms-and-condition/:id",
+            name: 'Services Packages Details Terms',
+            component: servicesPackagesDetailsTerms,
             meta: {
               title: 'Services Packages Details | Almoosa Health Group',
               public: true

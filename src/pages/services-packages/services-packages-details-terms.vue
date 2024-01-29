@@ -1,0 +1,269 @@
+<template>
+  <div
+    class="login-card standard-width position-relative"
+    :class="{ 'py-0': isWebView }"
+  >
+    <div class="terms-header">
+      <back-navigation
+        :title="$t('servicesPackages.title')"
+        :backLink="'Services Packages Details'"
+      />
+      <button
+        class="back-btn btn btn-secondary export-button"
+        @click="downloadTerms"
+      >
+        {{ $t("download") }}
+      </button>
+    </div>
+    <template v-if="termsAndConditionCMS">
+      <div class="heading w600">
+        {{ termsAndConditionCMS[getLocaleKey("page_title")] }}
+      </div>
+      <div class="sub-heading w200">
+        {{ termsAndConditionCMS[getLocaleKey("long_title")] }}
+      </div>
+      <div
+        class="cmsText"
+        v-html="termsAndConditionCMS[getLocaleKey('long_text')]"
+      ></div>
+    </template>
+    <template v-else>
+      <div class="heading w600">
+        {{ $t("termsAndConditions.privacyPolicy") }}
+      </div>
+      <div class="sub-heading w200">
+        {{ $t("termsAndConditions.mustAgree") }}
+      </div>
+      <div
+        class="cmsText"
+        v-for="(terms, termIndex) in agreement"
+        :key="getTitle(termIndex)"
+      >
+        <div class="text-heading" v-if="terms.title">
+          {{ $t(getTitle(termIndex)) }}
+        </div>
+        <template v-if="terms.description">
+          {{ $t(getDescription(termIndex)) }}
+        </template>
+        <template v-if="terms.points">
+          <ul>
+            <li
+              v-for="(point, pointIndex) in terms.points"
+              :key="getPoint(termIndex, pointIndex)"
+            >
+              {{ $t(getPoint(termIndex, pointIndex)) }}
+              <ul v-if="point.sub">
+                <li
+                  v-for="subPoint in point.sub"
+                  :key="getSubPoint(termIndex, pointIndex, subPoint)"
+                >
+                  {{ $t(getSubPoint(termIndex, pointIndex, subPoint)) }}
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </template>
+      </div>
+    </template>
+    <template v-if="!isWebView">
+      <div class="agree-terms">
+        <div class="mt-5">
+          <b-form-checkbox
+            id="rememberMe"
+            v-model="agreeTerms"
+            :state="!submitted || agreeTerms == true"
+            name="rememberMe"
+            class="mt-3 custom-checkbox"
+          >
+            {{ $t("termsAndConditions.iAgree") }}
+          </b-form-checkbox>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 button-group">
+          <button class="btn btn-primary" @click="acceptTerms">
+            {{ $t("continue") }}
+          </button>
+        </div>
+      </div>
+    </template>
+  </div>
+</template>
+
+<script>
+import { mapActions, mapGetters } from "vuex";
+import { cmsPagesService } from "../../services";
+export default {
+  data() {
+    return {
+      agreeTerms: false,
+      submitted: false,
+      agreement: [
+        {
+          description: "description",
+        },
+        {
+          title: "title",
+          points: [{ sub: 0 }, { sub: 3 }],
+        },
+        {
+          title: "title",
+          points: [{ sub: 0 }, { sub: 4 }, { sub: 0 }, { sub: 0 }, { sub: 0 }],
+        },
+        {
+          title: "title",
+          points: [{ sub: 4 }, { sub: 0 }, { sub: 0 }],
+        },
+        {
+          title: "title",
+          description: "description",
+        },
+      ],
+      termsAndConditionCMS: null,
+    };
+  },
+  computed: {
+    ...mapGetters("user", ["getUserInfo"]),
+  },
+  mounted() {
+    this.setAppLanguageFromRoute();
+    this.getCmsPage("terms_and_conditions");
+  },
+  methods: {
+    ...mapActions("user", ["removeUserInfo"]),
+    ...mapActions("user", ["updateUserInfo", "setUserInfo"]),
+    downloadTerms() {
+      window.print();
+    },
+    getTitle(index) {
+      return "termsAndConditions.sections.section" + index + ".title";
+    },
+    getDescription(index) {
+      return "termsAndConditions.sections.section" + index + ".description";
+    },
+    getPoint(index, pointIndex) {
+      return (
+        "termsAndConditions.sections.section" +
+        index +
+        ".points.point" +
+        (pointIndex + 1)
+      );
+    },
+    getSubPoint(index, pointIndex, subPointIndex) {
+      return (
+        "termsAndConditions.sections.section" +
+        index +
+        ".points.point" +
+        (pointIndex + 1) +
+        "-" +
+        subPointIndex
+      );
+    },
+    validateFields() {
+      return !!this.agreeTerms;
+    },
+    acceptTerms() {
+      this.submitted = true;
+      if (!this.validateFields()) {
+        this.failureToast("Please Accept Privacy Policy");
+        return;
+      }
+      this.navigateTo("Select Payment Method", { method: "package" });
+      // this.updateProfileInfo({ is_privacy_agreed: true });
+    },
+    getCmsPage(type) {
+      cmsPagesService.fetchCmsPages("?id=" + this.$route.params.id).then(
+        (res) => {
+          if (res.data.status) {
+            console.log();
+            this.termsAndConditionCMS = res.data.data.items[0];
+          } else {
+            this.failureToast(res.data.message);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+          console.error(error);
+        }
+      );
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.heading {
+  text-transform: uppercase;
+  font-size: 2.938rem;
+  color: var(--theme-default);
+  margin-bottom: 1rem;
+  font-family: "DiodrumArabicSemiBold";
+}
+.sub-heading {
+  font-size: 1.625rem;
+  font-family: "DiodrumArabicSemiBold";
+  color: black;
+}
+@media (max-width: 991px) {
+  .login-card {
+    padding-top: 1.25rem;
+  }
+  .heading {
+    font-size: 1.5rem;
+  }
+  .sub-heading {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 525px) {
+  .heading {
+    font-size: 2rem;
+  }
+  .sub-heading {
+    font-size: 1.25rem;
+  }
+  .button-group {
+    button {
+      max-width: 100%;
+      border-radius: 9px;
+    }
+  }
+}
+.button-group {
+  margin-top: 3rem;
+}
+.custom-checkbox {
+  :deep {
+    input:checked {
+      ~ label {
+        &::before {
+          border-color: var(--theme-default);
+          background-color: var(--theme-default);
+          border-radius: 3px;
+        }
+      }
+    }
+    label {
+      font-size: 1rem;
+      color: var(--theme-default);
+      margin-inline-start: 0.5rem;
+      cursor: pointer;
+      &::after,
+      &::before {
+        width: 1.563rem;
+        height: 1.563rem;
+        top: 0;
+        bottom: 0;
+        left: -2rem;
+        margin: auto;
+        border-color: var(--theme-default) !important;
+      }
+    }
+  }
+}
+</style>

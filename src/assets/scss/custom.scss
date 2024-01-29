@@ -2530,6 +2530,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         }
     }
 }
+.terms-header {
+    display: flex;
+    align-items: center;
+    padding-bottom: 3rem;
+    justify-content: space-between;
+    gap: 1rem;
+}
 html {
     font-size: var(--globalFontSize);
     --globalFontSize: 16px;

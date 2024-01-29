@@ -124,19 +124,6 @@ export default {
     ...mapActions("appointment", ["setPaymentObject"]),
     initializeData() {
       this.packageInfo = this.getSelectedPackage;
-      // this.packageDetails = [];
-      // let details = this.getSelectedPackage.service_details;
-      // if (details) {
-      //   let keys = Object.keys(details);
-      //   if (keys) {
-      //     keys.forEach((key) => {
-      //       this.packageDetails.push({
-      //         label: key,
-      //         value: details[key],
-      //       });
-      //     });
-      //   }
-      // }
     },
     async makePayment() {
       if (this.packageInfo.term_condition_id) {
@@ -151,6 +138,17 @@ export default {
           cmsResponse.data.data.items.length
         ) {
           let cmsObject = cmsResponse.data.data.items[0];
+
+          let obj = {
+            amount: this.getSelectedPackage.price,
+            appointment_id: this.getSelectedPackage.id,
+            otherPayment: true,
+          };
+          this.setPaymentObject(obj);
+          this.navigateTo("Services Packages Details Terms", {
+            id: this.getSelectedPackage.term_condition_id,
+          });
+          return;
           this.htmlModal(cmsObject.long_text).then((res) => {
             console.log(res);
             if (res.value) {

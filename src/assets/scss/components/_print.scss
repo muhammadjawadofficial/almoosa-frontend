@@ -2,7 +2,7 @@
      77. Print CSS Start
 ==========================**/
 @media print {
-.page-wrapper {
+  .page-wrapper {
     .page-title {
       visibility: hidden;
     }
@@ -15,21 +15,37 @@
   table.fixedHeader-floating {
     display: none;
   }
-}
-.invoice-table{
-  margin-top: 16px;
-  margin-bottom: 16px;
-}
-.invoice{
-  .text-right{
-    input{
-      margin-top: 6px;
+  .invoice-table {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+  .invoice {
+    .text-right {
+      input {
+        margin-top: 6px;
+      }
+    }
+    .media {
+      align-items: center;
     }
   }
-  .media {
-    align-items: center;
+  .page-header,
+  .back-navigation,
+  .footer,
+  .agree-terms,
+  .developed-by,
+  .floating-whatsapp-icon,
+  .button-group,
+  .export-button {
+    display: none !important;
   }
-}
-/**=====================
+  .login-card {
+    padding: 0 !important;
+  }
+  .page-body{
+    margin: 0 !important;
+  }
+  /**=====================
     77. Print CSS Ends
 ==========================**/
+}
