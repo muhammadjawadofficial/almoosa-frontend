@@ -89,7 +89,7 @@
           </div>
         </b-card-body>
       </b-card>
-      <div class="button-group">
+      <div class="button-group" v-if="!isBooked">
         <button @click="makePayment" class="btn btn-secondary">
           {{ $t("servicesPackages.bookPackage") }}
         </button>
@@ -106,12 +106,14 @@ export default {
     return {
       packageDetails: null,
       packageInfo: null,
+      isBooked: false,
     };
   },
   computed: {
     ...mapGetters("servicesPackages", ["getSelectedPackage"]),
   },
   mounted() {
+    this.isBooked = this.$route.params.method == "booked";
     if (!this.getSelectedPackage) {
       this.navigateTo("Services Packages List");
       return;
@@ -150,7 +152,7 @@ export default {
         ) {
           let cmsObject = cmsResponse.data.data.items[0];
           this.htmlModal(cmsObject.long_text).then((res) => {
-            console.log(res)
+            console.log(res);
             if (res.value) {
               let obj = {
                 amount: this.getSelectedPackage.price,

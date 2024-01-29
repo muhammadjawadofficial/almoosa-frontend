@@ -820,6 +820,8 @@ export default {
     checkIfAllowedToPay() {
       if (
         (!this.getPaymentObject || !this.getPaymentObject.otherPayment) &&
+        this.getSelectedAppointment &&
+        this.getSelectedAppointment.type &&
         this.getSelectedAppointment.type.toLowerCase() == "online" &&
         !this.isAllowedToPay(this.getSelectedAppointment.start_time)
       ) {
@@ -963,7 +965,11 @@ export default {
         ) {
           this.resetDiscount(false);
         } else {
-          this.applyPromotion(this.getUserInfo.promo_code.toLowerCase(), true);
+          if (this.getUserInfo.promo_code)
+            this.applyPromotion(
+              this.getUserInfo.promo_code.toLowerCase(),
+              true
+            );
         }
 
         this.setAppointmentAmount();

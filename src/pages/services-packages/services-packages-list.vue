@@ -37,10 +37,10 @@
                         />
                       </div>
                       <div class="doctor-name">
-                        {{ content[getLocaleKey('title')] }}
+                        {{ content[getLocaleKey("title")] }}
                       </div>
                       <div class="doctor-speciality">
-                        {{ content[getLocaleKey('description')] }}
+                        {{ content[getLocaleKey("description")] }}
                       </div>
                       <button
                         class="btn btn-primary make-appointment"
@@ -60,7 +60,9 @@
                 :active="activeTab == 1"
               >
                 <div class="doctor-card-container">
-                  <template v-if="bookedPackagesList && bookedPackagesList.length">
+                  <template
+                    v-if="bookedPackagesList && bookedPackagesList.length"
+                  >
                     <div
                       class="doctor-card"
                       v-for="content in bookedPackagesList"
@@ -80,7 +82,7 @@
                       </div>
                       <button
                         class="btn btn-primary make-appointment"
-                        @click="setSelectedContent(content)"
+                        @click="setSelectedContent(content, true)"
                       >
                         {{ $t("servicesPackages.viewDetails") }}
                       </button>
@@ -118,9 +120,11 @@ export default {
   },
   methods: {
     ...mapActions("servicesPackages", ["setSelectedPackage"]),
-    setSelectedContent(content) {
+    setSelectedContent(content, is_booked = false) {
       this.setSelectedPackage(content);
-      this.navigateTo("Services Packages Details");
+      this.navigateTo("Services Packages Details", {
+        method: is_booked ? "booked" : "available",
+      });
     },
     setActiveTab(tab) {
       this.activeTab = tab;
