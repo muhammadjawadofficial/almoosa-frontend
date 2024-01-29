@@ -319,7 +319,17 @@
   "symptoms":{
     "symptom":"أعراض",
     "findSymptoms":"ابحث عن الأعراض عن طريق اختيار الأعراض",
-    "searchSymptom": "يرجى تحديد جنسك"
+    "searchSymptom": "يرجى تحديد جنسك",
+    "genderChecker": "جنس",
+    "selectGender": "يرجى تحديد جنسك",
+    "selectAge": "حدد عمرك",
+    "age":"عمر",
+    "recommendation":"توصية",
+    "chiefOfComplaint":"رئيس الشكوى",
+    "afterSubmitted":"رئيس الشكوى",
+    "noSelectedGender": "حدد الجنس",
+    "noSelectedAge": "حدد العمر فوق 14 عامًا",
+    "noSelectedChecker": "اختر رئيس الشكوى"
   },
   "findSpecialist": {
     "specialities": "التخصصات الصحية",

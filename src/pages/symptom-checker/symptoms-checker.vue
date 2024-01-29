@@ -3,7 +3,6 @@
     class="find-specialist-container only-back-container page-body-container standard-width"
   >
     <back-navigation />
-    <!-- list-of-spcaillist -->
     <div
       class="specialist-section find-specialist-container-section block-section"
       style="position: relative"
@@ -43,7 +42,6 @@
             :key="'find-speciality-' + speciality.id"
             @click="setSelectedSymptom(speciality)"
           >
-            <!-- :class="{ active: selectedSpeciality.id == speciality.id }" -->
             <div class="speciality-image">
               <img :src="getImageUrl(speciality.icon)" alt="icon" />
             </div>
@@ -63,13 +61,6 @@
         </div>
       </div>
     </div>
-    <!-- <div
-      class="datetime-section find-specialist-container-section block-section"
-    >
-      <button @click="findSpecialist" class="btn btn-secondary">
-        {{ $t("modules.Find Specialist") }}
-      </button>
-    </div> -->
   </div>
 </template>
   
@@ -111,15 +102,7 @@ export default {
     },
   },
   mounted() {
-    // if (!this.$route.params.method && this.getBookingMethod) {
-    //   this.navigateTo("Find Specialist" + (this.getIsGuest ? " Guest" : ""), {
-    //     method: this.getBookingMethod,
-    //   });
-    // }
     this.setSelectedMethod();
-    // if (!this.getBookingMethod) {
-    //   this.navigateTo("default");
-    // }
   },
   methods: {
     ...mapActions("appointment", [
@@ -247,7 +230,7 @@ export default {
     setSelectedSymptom(speciality) {
       this.selectedSpeciality = speciality;
       this.$router.push({
-        name: "Gender Checker",
+        name: "Survey",
         query: { speciality: JSON.stringify(this.selectedSpeciality.id) },
       });
     },

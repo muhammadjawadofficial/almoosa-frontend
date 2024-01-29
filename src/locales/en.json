@@ -316,14 +316,20 @@
     "treatmentDate": "Treatment Date",
     "treatmentType": "Treatment Type"
   },
-  "symptoms":{
-    "symptom":"Symptoms",
-    "findSymptoms":"Find symptoms by selecting symptoms",
+  "symptoms": {
+    "symptom": "Symptoms",
+    "findSymptoms": "Find symptoms by selecting symptoms",
     "searchSymptom": "Search Symptoms",
     "genderChecker": "Gender",
     "selectGender": "Please Select Your Gender",
     "selectAge": "Select Your Age",
-    "age":"Age"
+    "age": "Age",
+    "recommendation": "Recommendation",
+    "chiefOfComplaint": "Chief of Complaint",
+    "afterSubmitted": "Details",
+    "noSelectedGender": "Select Your Gender",
+    "noSelectedAge": "Select The Age Above 14",
+    "noSelectedChecker": "Select the Chief of Complaint"
   },
   "findSpecialist": {
     "specialities": "Specialities",

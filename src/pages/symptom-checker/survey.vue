@@ -69,8 +69,12 @@
               v-for="option in options"
               :key="option.id"
             >
-              <h2 class="heading-title" style="">{{ option.title }}</h2>
-              <div class="heading-subTitle mb-4">{{ option.description }}</div>
+              <h2 class="heading-title" style="">
+                {{ option[getLocaleKey("title")] }}
+              </h2>
+              <div class="heading-subTitle mb-4">
+                {{ option[getLocaleKey("description")] }}
+              </div>
               <div
                 class="checkbox-wrapper"
                 v-for="q in option.options"
@@ -93,7 +97,7 @@
                   </div>
                   <div class="label-of-option">
                     <label :for="q.id" class="label-input">
-                      {{ q.title }}
+                      {{ q[getLocaleKey("title")] }}
                     </label>
                   </div>
                 </div>
@@ -103,7 +107,7 @@
         </div>
       </div>
       <div class="body-section" v-if="nextSlideCount == 3">
-        <h2 class="heading-title py-2">Your Submitted Details</h2>
+        <h2 class="heading-title py-2">{{ $t("symptoms.afterSubmitted") }}</h2>
         <b-card
           header-tag="div"
           no-body
@@ -113,27 +117,37 @@
             <div class="appointment-detail">
               <div class="appointment-detail--type">
                 <div class="appointment-detail--label">
-                  {{ $t("appointmentDetail.appointment") }}
+                  {{ $t("symptoms.genderChecker") }}
                 </div>
                 <div class="appointment-detail--value">
                   {{ surveyResult.gender || "N/A" }}
                 </div>
               </div>
               <div class="appointment-detail--sepecialist">
-                <div class="appointment-detail--label">Age</div>
+                <div class="appointment-detail--label">
+                  {{ $t("symptoms.age") }}
+                </div>
                 <div class="appointment-detail--value">
                   {{ surveyResult.age || "N/A" }}
                 </div>
               </div>
-              <div class="appointment-detail--sepecialist">
-                <div class="appointment-detail--label">Chief of Complaint</div>
-                <div class="appointment-detail--value" v-for="(item, index) in surveyResult.items" :key="index">
-                  {{ surveyResult.recommendation }}
+              <div
+                class="appointment-detail--sepecialist"
+                v-for="(it, i) in surveyResult.items"
+                :key="i"
+              >
+                <div class="appointment-detail--label">
+                  {{ it.symptom[getLocaleKey("title")] }}
+                </div>
+                <div class="appointment-detail--value">
+                  {{ it.option_selected[getLocaleKey("title")] }}
                 </div>
               </div>
 
               <div class="appointment-detail--sepecialist">
-                <div class="appointment-detail--label">Recommendation</div>
+                <div class="appointment-detail--label">
+                  {{ $t("symptoms.recommendation") }}
+                </div>
                 <div class="appointment-detail--value">
                   {{ selectedRecommendation }}
                 </div>
@@ -141,69 +155,14 @@
             </div>
           </b-card-body>
         </b-card>
-        <!-- <div class="specialities-container" style="display: flex">
-          <div
-            class="border"
-            style="
-              width: 50%;
-              box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-              padding: 2rem;
-              border-radius: 10px;
-            "
-          >
-            <div
-              style="
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-              "
-            >
-              <h1>Gender</h1>
-              <h3 class="com">
-                {{ selectedGender ? selectedGender : "N/A" }}
-              </h3>
-            </div>
-            <div
-              style="
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-              "
-            >
-              <h1>Age</h1>
-              <h4 class="com">
-                {{ age ? age : "N/A" }}
-              </h4>
-            </div>
-            <div
-              style="
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-              "
-            >
-              <h1>Recommendation</h1>
-              <h4 class="com">
-                {{ selectedRecommendation }}
-              </h4>
-            </div>
-            <div>
-              <h2>Symptoms</h2>
-              {{ checker }}
-              <div v-for="selectD in selecttedOptions" :key="selectD.id">
-                {{ selectD }}
-              </div>
-            </div>
-
-            <button @click="nextslide" class="btn btn-primary my-3">
-              {{ $t("modules.next") }}
-            </button>
-          </div>
-        </div> -->
       </div>
     </div>
     <div class="datetime-section symptoms-btns">
-      <button @click="nextslide" class="btn btn-primary">
+      <button
+        v-if="!(nextSlideCount == 3)"
+        @click="nextslide"
+        class="btn btn-primary"
+      >
         {{ $t("modules.next") }}
       </button>
       <button
@@ -218,7 +177,7 @@
 </template>
     
     <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 import { symptopChecker } from "../../services";
 export default {
   data() {
@@ -234,18 +193,21 @@ export default {
           id: "1",
           img: require("../../assets/images/male.svg"),
           label: "Male",
+          label_ar: "ذكر",
           status: false,
         },
         {
           id: "2",
           img: require("../../assets/images/female.svg"),
           label: "Female",
+          label_ar: "أنثى",
           status: false,
         },
         {
           id: "3",
           img: require("../../assets/images/transgender.svg"),
           label: "Other",
+          label_ar: "آخر",
           status: false,
         },
       ],
@@ -283,13 +245,16 @@ export default {
     updateSliderStyles(value) {
       if (this.$refs.range) {
         const progress = (value / this.maxValue) * 100;
-        this.$refs.range.style.background = `linear-gradient(to right, #2b4e66 ${progress}%, #eff4ff ${progress}%)`;
+        if (localStorage.getItem("user-layout") == "rtl") {
+          this.$refs.range.style.background = `linear-gradient(to left, #2b4e66 ${progress}%, #eff4ff ${progress}%)`;
+        } else {
+          this.$refs.range.style.background = `linear-gradient(to right, #2b4e66 ${progress}%, #eff4ff ${progress}%)`;
+        }
       }
     },
     postData() {
       let items = [];
       if (this.checker.length && this.options) {
-        console.log(this.options);
         this.checker.forEach((el) => {
           items.push({
             symptom_id: this.options[0].id,
@@ -310,7 +275,7 @@ export default {
           if (response.data.status) {
             let data = response.data.data;
             if (data.id) {
-               this.getSymptomsData(data.id)
+              this.getSymptomsData(data.id);
             }
           } else {
             this.failureToast(response.data.messsage);
@@ -331,7 +296,7 @@ export default {
         (response) => {
           if (response.data.status) {
             let data = response.data.data;
-            this.surveyResult = data
+            this.surveyResult = data;
           } else {
             this.failureToast(response.data.messsage);
           }
@@ -351,7 +316,29 @@ export default {
         setTimeout(() => {
           this.updateSliderStyles(this.age);
         }, 50);
-        this.nextSlideCount++;
+
+        if (!this.selectedGender) {
+          this.failureToast(this.$t("symptoms.noSelectedGender"));
+          return false;
+        }
+
+        if (this.selectedGender && !this.age && this.nextSlideCount == 0) {
+          this.nextSlideCount++;
+        }
+
+        if (this.age && this.nextSlideCount == 1) {
+          if (this.age <= 14) {
+            this.failureToast(this.$t("symptoms.noSelectedAge"));
+            return false;
+          }
+        }
+
+        if (this.age && this.nextSlideCount == 1) {
+          this.nextSlideCount++;
+        }
+        if (this.checker.length && this.nextSlideCount == 2) {
+          this.nextSlideCount++;
+        }
       }
 
       if (this.nextSlideCount == 3) {
@@ -359,6 +346,17 @@ export default {
       }
     },
     backSlide() {
+      if (this.nextSlideCount == 3) {
+        this.nextSlideCount = 0;
+        this.selectedGender = null;
+        this.age = 0;
+        this.checker = [];
+        this.genders.forEach((el) => {
+          el.status = false;
+        });
+        this.updateSliderStyles(this.age);
+        return false;
+      }
       if (this.backSlide !== 0) {
         setTimeout(() => {
           this.updateSliderStyles(this.age);
@@ -373,7 +371,6 @@ export default {
           if (response.data.status) {
             let data = response.data.data.items;
             this.options = data;
-            console.log(data);
           } else {
             this.failureToast(response.data.messsage);
           }
@@ -444,8 +441,8 @@ export default {
 .gender {
   border: 1px solid rgb(217, 214, 214);
   width: 12rem;
-  height: 14rem;
-  padding: 1.5rem;
+  height: 12rem;
+  padding: 1.2rem;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -461,21 +458,25 @@ export default {
 }
 .gender-img {
   width: 100%;
+  text-align: center;
 }
 .gender-label {
   font-size: 1rem;
   font-weight: 400 !important;
+  text-align: center;
 }
 .range {
   text-align: center;
 }
 .range-heading {
   margin-block: 30px;
+  text-align: center;
 }
 .range-age {
   font-size: 1.2rem;
   font-weight: 500 !important;
   padding-block: 30px;
+  text-align: center;
 }
 input[type="range"] {
   /* removing default appearance */
