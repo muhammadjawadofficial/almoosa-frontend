@@ -43,6 +43,14 @@
           <div class="media profile-media">
             <div class="media-body">
               <img
+                v-if="getUserInfo && getUserInfo.is_vip"
+                src="../assets/images/header/vip.svg"
+                alt=""
+                width="20px"
+                class="mx-1"
+              />
+              <img
+                v-else
                 src="../assets/images/header/hello.png"
                 alt=""
                 width="15px"
