@@ -273,6 +273,7 @@
     "next": "التالي",
     "back": "خلف",
     "Contact Us": "تواصل معنا",
+    "home":"اذهب إلى المنزل",
     "description": {
       "Discover the best doctors in Almoosa Health Group": "اكتشف أفضل الأطباء في مجموعة الموسى الصحية",
       "View your complete upcoming appointments": "عرض كامل المواعيد القادمة الخاصة بك",
@@ -318,7 +319,9 @@
   },
   "symptoms":{
     "symptom":"أعراض",
+    "survey": "مسح الأعراض",
     "findSymptoms":"ابحث عن الأعراض عن طريق اختيار الأعراض",
+    "surveyDetail": "تفاصيل مسح الأعراض",
     "searchSymptom": "يرجى تحديد جنسك",
     "genderChecker": "جنس",
     "selectGender": "يرجى تحديد جنسك",
@@ -329,7 +332,9 @@
     "afterSubmitted":"رئيس الشكوى",
     "noSelectedGender": "حدد الجنس",
     "noSelectedAge": "حدد العمر فوق 14 عامًا",
-    "noSelectedChecker": "اختر رئيس الشكوى"
+    "noSelectedChecker": "اختر رئيس الشكوى",
+    "noSymptoms":"نحن نعمل على أعراضه",
+    "under14":"بارودونتكس"
   },
   "findSpecialist": {
     "specialities": "التخصصات الصحية",

@@ -13,165 +13,174 @@
         </div>
         <div class="cc">
           <div class="heading-title">
-            {{ $t("symptoms.symptom") }}
+            {{ $t("symptoms.survey") }}
           </div>
           <div class="heading-subTitle">
-            {{ $t("symptoms.findSymptoms") }}
+            {{ $t("symptoms.surveyDetail") }}
           </div>
         </div>
       </div>
-      <div class="body-section" v-if="nextSlideCount == 0">
-        <h3 class="gender-sub-title pb-3">
-          {{ $t("symptoms.selectGender") }}
-        </h3>
-        <div class="gender-container">
-          <div
-            class="gender"
-            v-for="gender in genders"
-            :key="'find-speciality-' + gender.id"
-            @click="setSelectedSpeciality(gender)"
-            :class="{ active: gender.status }"
-          >
-            <div class="gender-label">
-              {{ gender[getLocaleKey("label")] }}
-            </div>
-            <div class="gender-img">
-              <img :src="getImageUrl(gender.img)" alt="icon" />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="body-section range" v-if="nextSlideCount == 1">
-        <div class="heading-title range-heading">
-          {{ $t("symptoms.selectAge") }}
-        </div>
-        <div class="wrapper">
-          <div class="range">
-            <input
-              type="range"
-              v-model="age"
-              :min="minValue"
-              :max="maxValue"
-              id="range"
-              ref="range"
-              class="ranger"
-            />
-          </div>
-        </div>
-        <div class="range-age">{{ $t("symptoms.age") }} : {{ age }}</div>
-      </div>
-      <div class="body-section" v-if="nextSlideCount == 2">
-        <div class="specialities-container">
-          <div class="">
+      <div class="" v-if="options && options.length">
+        <div class="body-section" v-if="nextSlideCount == 0">
+          <h3 class="gender-sub-title pb-3">
+            {{ $t("symptoms.selectGender") }}
+          </h3>
+          <div class="gender-container">
             <div
-              class="form-check"
-              style="align-items: center"
-              v-for="option in options"
-              :key="option.id"
+              class="gender"
+              v-for="gender in genders"
+              :key="'find-speciality-' + gender.id"
+              @click="setSelectedSpeciality(gender)"
+              :class="{ active: gender.status }"
             >
-              <h2 class="heading-title" style="">
-                {{ option[getLocaleKey("title")] }}
-              </h2>
-              <div class="heading-subTitle mb-4">
-                {{ option[getLocaleKey("description")] }}
+              <div class="gender-label">
+                {{ gender[getLocaleKey("label")] }}
               </div>
+              <div class="gender-img">
+                <img :src="getImageUrl(gender.img)" alt="icon" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="body-section range" v-if="nextSlideCount == 1">
+          <div class="heading-title range-heading">
+            {{ $t("symptoms.selectAge") }}
+          </div>
+          <div class="wrapper">
+            <div class="range">
+              <input
+                type="range"
+                v-model="age"
+                :min="minValue"
+                :max="maxValue"
+                id="range"
+                ref="range"
+                class="ranger"
+              />
+            </div>
+          </div>
+          <div class="range-age">{{ $t("symptoms.age") }} : {{ age }}</div>
+        </div>
+        <div class="body-section" v-if="nextSlideCount == 2">
+          <div class="specialities-container">
+            <div class="">
               <div
-                class="checkbox-wrapper"
-                v-for="q in option.options"
-                :key="q.id"
-                style="margin-bottom: 2rem"
+                class="form-check"
+                style="align-items: center"
+                v-for="option in options"
+                :key="option.id"
               >
-                <div class="checkBox-main">
-                  <div class="checkbox-wrapper">
-                    <input
-                      type="checkbox"
-                      v-model="checker"
-                      :value="q.id"
-                      :id="q.id"
-                      :disabled="
-                        selectedRecommendation != null &&
-                        selectedRecommendation != q.recommendation
-                      "
-                    />
-                    <label class="check-box" :for="q.id"></label>
-                  </div>
-                  <div class="label-of-option">
-                    <label :for="q.id" class="label-input">
-                      {{ q[getLocaleKey("title")] }}
-                    </label>
+                <h2 class="heading-title" style="">
+                  {{ option[getLocaleKey("title")] }}
+                </h2>
+                <div class="heading-subTitle mb-4">
+                  {{ option[getLocaleKey("description")] }}
+                </div>
+                <div
+                  class="checkbox-wrapper"
+                  v-for="q in option.options"
+                  :key="q.id"
+                  style="margin-bottom: 2rem"
+                >
+                  <div class="checkBox-main">
+                    <div class="checkbox-wrapper">
+                      <input
+                        type="checkbox"
+                        v-model="checker"
+                        :value="q.id"
+                        :id="q.id"
+                        :disabled="
+                          selectedRecommendation != null &&
+                          selectedRecommendation != q.recommendation
+                        "
+                      />
+                      <label class="check-box" :for="q.id"></label>
+                    </div>
+                    <div class="label-of-option">
+                      <label :for="q.id" class="label-input">
+                        {{ q[getLocaleKey("title")] }}
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="body-section" v-if="nextSlideCount == 3">
-        <h2 class="heading-title py-2">{{ $t("symptoms.afterSubmitted") }}</h2>
-        <b-card
-          header-tag="div"
-          no-body
-          class="ash-card bg-tertiary card-rounded"
-        >
-          <b-card-body class="mt-0">
-            <div class="appointment-detail">
-              <div class="appointment-detail--type">
-                <div class="appointment-detail--label">
-                  {{ $t("symptoms.genderChecker") }}
+        <div class="body-section" v-if="nextSlideCount == 3">
+          <b-card
+            header-tag="div"
+            no-body
+            class="ash-card bg-tertiary card-rounded"
+          >
+            <b-card-body class="mt-0" v-if="surveyResult">
+              <div class="appointment-detail">
+                <div class="appointment-detail--type">
+                  <div class="appointment-detail--label">
+                    {{ $t("symptoms.genderChecker") }}
+                  </div>
+                  <div class="appointment-detail--value">
+                    {{ surveyResult.gender || "N/A" }}
+                  </div>
                 </div>
-                <div class="appointment-detail--value">
-                  {{ surveyResult.gender || "N/A" }}
+                <div class="appointment-detail--sepecialist">
+                  <div class="appointment-detail--label">
+                    {{ $t("symptoms.age") }}
+                  </div>
+                  <div class="appointment-detail--value">
+                    {{ surveyResult.age || "N/A" }}
+                  </div>
                 </div>
-              </div>
-              <div class="appointment-detail--sepecialist">
-                <div class="appointment-detail--label">
-                  {{ $t("symptoms.age") }}
+                <div
+                  class="appointment-detail--sepecialist"
+                  v-for="(item, i) in getSymptomsAndOptions(surveyResult.items)"
+                  :key="i"
+                >
+                  <div class="appointment-detail--label">
+                    {{ item.symptom[getLocaleKey("title")] }}
+                  </div>
+                  <div class="appointment-detail--value"  v-for="(it, i) in item.options"
+                  :key="i">
+                    {{ it[getLocaleKey("title")] }}
+                  </div>
                 </div>
-                <div class="appointment-detail--value">
-                  {{ surveyResult.age || "N/A" }}
-                </div>
-              </div>
-              <div
-                class="appointment-detail--sepecialist"
-                v-for="(it, i) in surveyResult.items"
-                :key="i"
-              >
-                <div class="appointment-detail--label">
-                  {{ it.symptom[getLocaleKey("title")] }}
-                </div>
-                <div class="appointment-detail--value">
-                  {{ it.option_selected[getLocaleKey("title")] }}
-                </div>
-              </div>
 
-              <div class="appointment-detail--sepecialist">
-                <div class="appointment-detail--label">
-                  {{ $t("symptoms.recommendation") }}
-                </div>
-                <div class="appointment-detail--value">
-                  {{ selectedRecommendation }}
+                <div class="appointment-detail--sepecialist">
+                  <div class="appointment-detail--label">
+                    {{ $t("symptoms.recommendation") }}
+                  </div>
+                  <div class="appointment-detail--value">
+                    {{ surveyResult.recommendation }}
+                  </div>
                 </div>
               </div>
-            </div>
-          </b-card-body>
-        </b-card>
+            </b-card-body>
+          </b-card>
+        </div>
+
+        <div class="datetime-section symptoms-btns mt-3">
+          <button
+            v-if="!(nextSlideCount == 3)"
+            @click="nextslide"
+            class="btn btn-primary"
+          >
+            {{ $t("modules.next") }}
+          </button>
+          <button
+            @click="backSlide"
+            v-if="nextSlideCount !== 0"
+            class="btn btn-secondary"
+          >
+            {{ $t("modules.back") }}
+          </button>
+        </div>
       </div>
-    </div>
-    <div class="datetime-section symptoms-btns">
-      <button
-        v-if="!(nextSlideCount == 3)"
-        @click="nextslide"
-        class="btn btn-primary"
-      >
-        {{ $t("modules.next") }}
-      </button>
-      <button
-        @click="backSlide"
-        v-if="nextSlideCount !== 0"
-        class="btn btn-secondary"
-      >
-        {{ $t("modules.back") }}
-      </button>
+      <div v-else>
+        <div class="heading-title mt-3">{{ $t("symptoms.noSymptoms") }}</div>
+        <button @click="navigateTo('default')" class="btn btn-primary mt-3">
+          {{ $t("modules.home") }}
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -296,6 +305,7 @@ export default {
         (response) => {
           if (response.data.status) {
             let data = response.data.data;
+
             this.surveyResult = data;
           } else {
             this.failureToast(response.data.messsage);
@@ -329,7 +339,16 @@ export default {
 
         if (this.nextSlideCount == 1) {
           if (this.age <= 14) {
-            this.failureToast(this.$t("symptoms.noSelectedAge"));
+            this.nextSlideCount = 3;
+
+            let obj = {
+              id: "1",
+              gender: this.selectedGender,
+              age: this.age,
+              items: [],
+              recommendation: "Parodontax",
+            };
+            this.surveyResult = obj;
             return false;
           }
         }
@@ -367,24 +386,26 @@ export default {
     },
     initializeData() {
       let id = `speciality_id=${this.speciality}`;
-      symptopChecker.fetchSymptoms(id).then(
-        (response) => {
-          if (response.data.status) {
-            let data = response.data.data.items;
-            this.options = data;
-          } else {
-            this.failureToast(response.data.messsage);
+      if (id) {
+        symptopChecker.fetchSymptoms(id).then(
+          (response) => {
+            if (response.data.status) {
+              let data = response.data.data.items;
+              this.options = data;
+            } else {
+              this.failureToast(response.data.messsage);
+            }
+          },
+          (error) => {
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
           }
-        },
-        (error) => {
-          if (!this.isAPIAborted(error))
-            this.failureToast(
-              error.response &&
-                error.response.data &&
-                error.response.data.message
-            );
-        }
-      );
+        );
+      }
     },
     otherCheckBoxDisable() {
       this.selectedRecommendation = null;
@@ -406,6 +427,46 @@ export default {
           data.status = false;
         }
       });
+    },
+    getSymptomsAndOptions(items) {
+      const result = [];
+      const seenSymptoms = new Set();
+
+      items.forEach((item) => {
+        const symptom = item.symptom;
+        const optionSelected = item.option_selected;
+
+        // Check if symptom.title has been seen before
+        let currentResult = result.find(
+          (r) => r.symptom.title === symptom.title
+        );
+
+        if (!currentResult) {
+          currentResult = {
+            symptom: {
+              title: symptom.title,
+              title_ar: symptom.title_ar,
+              description: symptom.description,
+              description_ar: symptom.description_ar,
+              type: symptom.type,
+              speciality_id: symptom.speciality_id,
+            },
+            options: [],
+          };
+          result.push(currentResult);
+          seenSymptoms.add(symptom.title);
+        }
+
+        currentResult.options.push({
+          title: optionSelected.title,
+          title_ar: optionSelected.title_ar,
+          description: optionSelected.description,
+          description_ar: optionSelected.description_ar,
+          recommendation: optionSelected.recommendation,
+        });
+      });
+
+      return result;
     },
   },
 };

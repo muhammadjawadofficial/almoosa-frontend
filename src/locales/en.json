@@ -273,6 +273,7 @@
     "Contact Us": "Contact Us",
     "next": "Next",
     "back": "Back",
+    "home":"Go To Home",
     "description": {
       "Discover the best doctors in Almoosa Health Group": "Discover the best doctors in Almoosa Health Group",
       "View your complete upcoming appointments": "View your complete upcoming appointments",
@@ -318,7 +319,9 @@
   },
   "symptoms": {
     "symptom": "Symptoms",
+    "survey": "Symptoms Survey",
     "findSymptoms": "Find symptoms by selecting symptoms",
+    "surveyDetail": "Symptoms Survey Details",
     "searchSymptom": "Search Symptoms",
     "genderChecker": "Gender",
     "selectGender": "Please Select Your Gender",
@@ -329,7 +332,9 @@
     "afterSubmitted": "Details",
     "noSelectedGender": "Select Your Gender",
     "noSelectedAge": "Select The Age Above 14",
-    "noSelectedChecker": "Select the Chief of Complaint"
+    "noSelectedChecker": "Select the Chief of Complaint",
+    "noSymptoms":"We Are Working On His Symptoms",
+    "under14":"Parodontax"
   },
   "findSpecialist": {
     "specialities": "Specialities",
