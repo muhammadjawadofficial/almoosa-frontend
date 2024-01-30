@@ -322,11 +322,12 @@ export default {
           return false;
         }
 
-        if (this.selectedGender && !this.age && this.nextSlideCount == 0) {
+        if (this.selectedGender && this.nextSlideCount == 0) {
           this.nextSlideCount++;
+          return;
         }
 
-        if (this.age && this.nextSlideCount == 1) {
+        if (this.nextSlideCount == 1) {
           if (this.age <= 14) {
             this.failureToast(this.$t("symptoms.noSelectedAge"));
             return false;
@@ -446,7 +447,8 @@ export default {
   text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 1.5rem;
   cursor: pointer;
   border-radius: 1rem;
   background-color: var(--theme-tertiary);
