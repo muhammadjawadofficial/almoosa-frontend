@@ -142,7 +142,11 @@ export const apiPath = {
         details: (id) => getApiObject("get", "health-education/" + id),
         fetchBookedPackges: getApiObject("get", "booked-packages/patient/booked"),
     },
-
+    symptomsChecker: {
+        postData: getApiObject("post", "sc-survey"),
+        fetch: (id) => getApiObject("get", "symptoms?" + id),
+        getSymptom: (id) => getApiObject("get", "sc-survey/" + id),
+    },
     familyMembers: {
         fetchRelations: getApiObject("get", "family-member-relation/get/all", "v2"),
         fetch: (query) => getApiObject("get", "family-members/get/all" + query, "v2"),

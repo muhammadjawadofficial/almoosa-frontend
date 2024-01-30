@@ -93,7 +93,8 @@ import VirtualTour from '../pages/virtual-tour'
 import seeAllNotifications from '../pages/see-all-notifications'
 import notificationsSettings from '../pages/notifications-setting'
 import { userService } from '../services';
-
+import symptopChecker from '../pages/symptom-checker/symptoms-checker'
+import survey from '../pages/symptom-checker/survey'
 // component
 
 Vue.use(Router)
@@ -128,6 +129,22 @@ const routes = [
         component: Dashboard,
         meta: {
           title: 'Dashboard | Almoosa Health Group',
+        }
+      },
+      {
+        path: 'symptom-checker',
+        name: 'Symptom Checker',
+        component: symptopChecker,
+        meta: {
+          title: 'Symptop Checker | Almoosa Health Group'
+        },
+      },
+      {
+        path: 'survey',
+        name: 'Survey',
+        component: survey,
+        meta: {
+          title: 'Survey | Almoosa Health Group',
         }
       },
       {
@@ -178,7 +195,30 @@ const routes = [
               public: true,
               hideWhatsapp: true,
               webview: true
+            },
+          },
+          {
+            path: 'symptom-checker',
+            name: 'Symptom Checker WebView',
+            component: symptopChecker,
+            meta: {
+              title: 'Symptop Checker | Almoosa Health Group',
+              public: true,
+              hideWhatsapp: true,
+              webview: true
+            },
+          },
+          {
+            path: 'survey',
+            name: 'Survey WebView',
+            component: survey,
+            meta: {
+              title: 'Survey | Almoosa Health Group',
+              public: true,
+              hideWhatsapp: true,
+              webview: true
             }
+
           },
         ]
       },

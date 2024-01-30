@@ -13,3 +13,4 @@ export * from './timeline.service';
 export * from './cms-pages.service';
 export * from './free-appointment-promo.service';
 export * from './system-config.service';
+export * from './symptoms.service';
