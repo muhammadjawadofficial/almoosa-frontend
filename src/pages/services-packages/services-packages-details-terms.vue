@@ -24,7 +24,9 @@
       </div>
       <div
         class="cmsText"
-        v-html="termsAndConditionCMS[getLocaleKey('long_text')]"
+        v-html="
+          getComputedHTML(termsAndConditionCMS[getLocaleKey('long_text')])
+        "
       ></div>
     </template>
     <template v-else>
@@ -98,6 +100,8 @@ export default {
     return {
       agreeTerms: false,
       submitted: false,
+      username: "",
+      mrn_number: "",
       agreement: [
         {
           description: "description",
@@ -128,10 +132,25 @@ export default {
   mounted() {
     this.setAppLanguageFromRoute();
     this.getCmsPage("terms_and_conditions");
+    this.username = this.$route.query.username || "";
+    this.mrn_number = this.$route.query.mrn || "";
   },
   methods: {
     ...mapActions("user", ["removeUserInfo"]),
     ...mapActions("user", ["updateUserInfo", "setUserInfo"]),
+    getComputedHTML(html) {
+      if (this.getUserInfo) {
+        html = html.replace(
+          "{mrn}",
+          this.mrn_number || this.translateNumber(this.getUserInfo.mrn_number)
+        );
+        html = html.replace(
+          "{username}",
+          this.username || this.getFullName(this.getUserInfo)
+        );
+      }
+      return html;
+    },
     downloadTerms() {
       window.print();
     },
