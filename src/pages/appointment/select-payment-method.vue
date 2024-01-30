@@ -698,22 +698,28 @@ export default {
     },
   },
   async mounted() {
-    localStorage.removeItem("paymentVerifyObject");
-    userService.removeBooking();
-    if (!this.getSelectedAppointment) {
-      if (!(this.getPaymentObject && this.getPaymentObject.otherPayment)) {
-        this.navigateTo("Upcoming Appointment");
-        return;
-      }
+    this.getWalletAmount();
+    if (this.getPaymentObject && this.getPaymentObject.otherPayment) {
+      this.fetchPaymentsType();
+      this.backLink = "Services Packages List";
     } else {
-      if (!this.checkIfAllowedToPay()) {
-        return;
+      localStorage.removeItem("paymentVerifyObject");
+      userService.removeBooking();
+      if (!this.getSelectedAppointment) {
+        if (!(this.getPaymentObject && this.getPaymentObject.otherPayment)) {
+          this.navigateTo(this.backLink);
+          return;
+        }
+      } else {
+        if (!this.checkIfAllowedToPay()) {
+          return;
+        }
       }
+      this.fetchLoyalityPointsFactor();
+      this.handleAmount();
+      this.getBookingtype();
+      this.getUserData();
     }
-    this.fetchLoyalityPointsFactor();
-    this.handleAmount();
-    this.getBookingtype();
-    this.getUserData();
   },
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
