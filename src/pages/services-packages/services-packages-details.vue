@@ -31,7 +31,9 @@
                 <div class="title">
                   {{ $t("servicesPackages.packageTitle") }}
                 </div>
-                <div class="value">{{ packageInfo.title }}</div>
+                <div class="value">
+                  {{ packageInfo[getLocaleKey("title")] }}
+                </div>
                 <div class="title">{{ $t("servicesPackages.price") }}</div>
                 <div class="value">
                   {{ translateNumber(packageInfo.price) + " " + $t("sar") }}
@@ -40,7 +42,9 @@
             </div>
             <div class="promotion-detail-section">
               <div class="title">{{ $t("servicesPackages.description") }}</div>
-              <div class="value">{{ packageInfo.description }}</div>
+              <div class="value">
+                {{ packageInfo[getLocaleKey("description")] }}
+              </div>
             </div>
             <div class="promotion-detail-section">
               <div class="title">
@@ -50,15 +54,32 @@
                 <div class="appointment-list mt-3 mx-2">
                   <div
                     class="appointment-list-item"
-                    v-for="(item, pindex) in packageDetails"
+                    v-for="(item, pindex) in packageInfo.services"
                     :key="'package-' + pindex"
                   >
                     <div class="service-details bg-tertiary">
                       <div class="details-title">
-                        {{ item.label }}
+                        {{ item[getLocaleKey("name")] }} {{ item.count }}
                       </div>
-                      <div class="details-value">
-                        {{ item.value }}
+                      <div class="details-title">
+                        {{ item[getLocaleKey("description")] }}
+                      </div>
+                      <div class="">
+                        <!-- <div class="details-title sub-service-title fw-bold">
+                          {{ $t("servicesPackages.subserviceDetails") }}
+                        </div> -->
+                        <div
+                          class="details-value"
+                          v-for="(item, pindex) in item.sub_services"
+                          :key="'package-' + pindex"
+                        >
+                          <div>
+                            {{ item[getLocaleKey("name")] }} ({{ item.count }})
+                          </div>
+                          <div>
+                            {{ item[getLocaleKey("description")] }}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -68,7 +89,7 @@
           </div>
         </b-card-body>
       </b-card>
-      <div class="button-group">
+      <div class="button-group" v-if="!isBooked">
         <button @click="makePayment" class="btn btn-secondary">
           {{ $t("servicesPackages.bookPackage") }}
         </button>
@@ -79,17 +100,20 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { cmsPagesService } from "../../services";
 export default {
   data() {
     return {
       packageDetails: null,
       packageInfo: null,
+      isBooked: false,
     };
   },
   computed: {
     ...mapGetters("servicesPackages", ["getSelectedPackage"]),
   },
   mounted() {
+    this.isBooked = this.$route.params.method == "booked";
     if (!this.getSelectedPackage) {
       this.navigateTo("Services Packages List");
       return;
@@ -100,28 +124,45 @@ export default {
     ...mapActions("appointment", ["setPaymentObject"]),
     initializeData() {
       this.packageInfo = this.getSelectedPackage;
-      this.packageDetails = [];
-      let details = this.getSelectedPackage.service_details;
-      if (details) {
-        let keys = Object.keys(details);
-        if (keys) {
-          keys.forEach((key) => {
-            this.packageDetails.push({
-              label: key,
-              value: details[key],
-            });
+    },
+    async makePayment() {
+      if (this.packageInfo.term_condition_id) {
+        let cmsResponse = await cmsPagesService.fetchCmsPages(
+          "?id=" + this.packageInfo.term_condition_id
+        );
+        if (
+          cmsResponse.data &&
+          cmsResponse.data.status &&
+          cmsResponse.data.data &&
+          cmsResponse.data.data.items &&
+          cmsResponse.data.data.items.length
+        ) {
+          let cmsObject = cmsResponse.data.data.items[0];
+
+          let obj = {
+            amount: this.getSelectedPackage.price,
+            appointment_id: this.getSelectedPackage.id,
+            otherPayment: true,
+          };
+          this.setPaymentObject(obj);
+          this.navigateTo("Services Packages Details Terms", {
+            id: this.getSelectedPackage.term_condition_id,
+          });
+          return;
+          this.htmlModal(cmsObject.long_text).then((res) => {
+            console.log(res);
+            if (res.value) {
+              let obj = {
+                amount: this.getSelectedPackage.price,
+                appointment_id: this.getSelectedPackage.id,
+                otherPayment: true,
+              };
+              this.setPaymentObject(obj);
+              this.navigateTo("Select Payment Method", { method: "package" });
+            }
           });
         }
       }
-    },
-    makePayment() {
-      let obj = {
-        amount: this.getSelectedPackage.price,
-        appointment_id: this.getSelectedPackage.id,
-        otherPayment: true,
-      };
-      this.setPaymentObject(obj);
-      this.navigateTo("Select Payment Method", { method: "package" });
     },
   },
 };

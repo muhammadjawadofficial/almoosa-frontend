@@ -307,7 +307,7 @@ export default {
         {
           text: "Service & Package",
           icon: "briefcase-svg",
-          // link: "Services Packages",
+          link: "Services Packages",
         },
         {
           text: "View Family Member",

@@ -440,6 +440,8 @@
     "paymentSuccessfulText": "تمت عملية الدفع بنجاح",
     "paymentFailed": "فشلت عملية الدفع",
     "paymentFailedText": "لقد فشلت عملية الدفع الخاصة بك",
+    "paymentCancelled": "تم إلغاء الدفع",
+    "paymentCancelledText": "لقد تم إلغاء الدفع الخاص بك",
     "currentBalance": "الرصيد الحالي",
     "useWalletAmount": "استخدم مبلغ المحفظة",
     "fullyCovered": "مدفوع بالكامل",
@@ -447,7 +449,10 @@
     "appointmentAmount": "مبلغ الموعد",
     "insuranceCanCoverUpto": "يمكن أن يغطي التأمين حتى",
     "walletAmount": "مبلغ المحفظة",
-    "amountPayable": "المبلغ المستحق الدفع"
+    "amountPayable": "المبلغ المستحق الدفع",
+    "payIn":"دفع في",
+    "instalments":"أقساط",
+    "taramaValidation":"تمارا تقيد المدفوعات التي تزيد عن 2000 ريال سعودي"
   },
   "rating": {
     "title": "قيم طبيبنا",
@@ -535,6 +540,7 @@
     "price": "سعر",
     "description": "وصف",
     "serviceDetails": "تفاصيل الخدمة",
+    "subserviceDetails": "تفاصيل الخدمة الفرعية",
     "bookPackage": "حجز الباقة",
     "packageList": "جميع الباقات",
     "bookedPackages": "باقاتي و خدماتي"
@@ -664,5 +670,8 @@
   "between": "بين",
   "and": "و",
   "discount": "خصم",
-  "cannotPayForTheAppointment": "لا يمكن الدفع للموعد قبل 30 دقيقة من وقت الموعد"
+  "cannotPayForTheAppointment": "لا يمكن الدفع للموعد قبل 30 دقيقة من وقت الموعد",
+  "accept": "يقبل",
+  "service_and_packages_terms": "شروط الخدمة والباقات",
+  "tamaraValidation": "تمارا تقيد المدفوعات بين {min} و {max} ريال فقط"
 }

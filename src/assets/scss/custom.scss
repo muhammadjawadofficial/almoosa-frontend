@@ -1923,17 +1923,37 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         width: 60%;
       }
     }
-  }
-  &.custom-swal2 {
-    width: fit-content;
-    position: relative;
-    inset: unset;
-    overflow: visible !important;
-    background-color: transparent;
-    margin: auto;
-    padding: 0;
-    .swal2-modal {
-      width: calc(min(32em, 90vw));
+    &.wide-modal {
+      .swal2-modal {
+        width: calc(min(80em, 90vw));
+      }
+    }
+    &.custom-swal2 {
+      width: fit-content;
+      position: relative;
+      inset: unset;
+      overflow: visible !important;
+      background-color: transparent;
+      margin: auto;
+      padding: 0;
+      .swal2-modal {
+        width: calc(min(32em, 90vw));
+      }
+    }
+    &.swal-custom-icon-top-padding {
+      .swal2-popup {
+        padding-top: 6em;
+      }
+    }
+    &.theme-action-button {
+      .swal2-actions {
+        .swal2-confirm {
+          background-color: $primary-color !important;
+        }
+        .swal2-cancel {
+          background-color: $secondary-color !important;
+        }
+      }
     }
   }
   &.swal-custom-icon-top-padding {
@@ -2459,6 +2479,77 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     // border-radius: 1rem;
     width: 100%;
   }
+}
+.cmsSwalContainer {
+  #swal2-content {
+    font-size: 14px;
+    padding-top: 3rem;
+  }
+}
+.cmsText {
+  font-size: 1rem;
+  line-height: 2em;
+  font-family: "DiodrumArabicMedium";
+  color: black;
+  margin-top: 1rem;
+  #swal2-content {
+    text-align: left !important;
+  }
+  @media (max-width: 991px) {
+    .text {
+      font-size: 0.938rem;
+    }
+  }
+  @media (max-width: 525px) {
+    .text {
+      font-size: 1.1rem;
+    }
+  }
+  p {
+    margin-bottom: 0;
+  }
+  .text-heading,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-size: 1.25rem;
+    font-family: "DiodrumArabicBold";
+    color: var(--theme-default);
+    text-decoration: underline;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    margin-top: 1rem;
+  }
+  * {
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+  }
+  ul,
+  ol {
+    list-style: revert;
+    padding-inline-start: 2rem;
+    li {
+      &.ql-indent-1 {
+        margin-inline-start: 2rem;
+      }
+    }
+  }
+}
+.terms-header {
+  display: flex;
+  align-items: center;
+  padding-bottom: 3rem;
+  justify-content: space-between;
+  gap: 1rem;
 }
 html {
   font-size: var(--globalFontSize);

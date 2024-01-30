@@ -152,7 +152,13 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-7">
+      <div
+        class="col-lg-7"
+        v-if="
+          !getPaymentObject.otherPayment ||
+          (getPaymentObject.otherPayment && getAmountPayable > 0)
+        "
+      >
         <div class="payment-section block-section">
           <div class="heading-section">
             <div class="heading-text">
@@ -182,7 +188,11 @@
             <div class="payment-method">
               <template v-for="method in paymentMethodsOthers">
                 <template
-                  v-if="getPaymentObject.otherPayment == method.isOtherPayment"
+                  v-if="
+                    getPaymentObject.otherPayment == method.isOtherPayment &&
+                    (!method.hideOnTotalCovered ||
+                      (method.hideOnTotalCovered && getAmountPayable > 0))
+                  "
                 >
                   <div
                     class="payment-method--item primary"
@@ -228,19 +238,71 @@
                     :key="'payment-dropdown-section-' + method.title"
                   >
                     <div
-                      class="payment-dropdown-option"
-                      :class="{
-                        selected:
-                          selectedInsurance &&
-                          insurance.id == selectedInsurance.id,
-                      }"
-                      v-for="insurance in patientInsurances"
-                      :key="'insurance-' + insurance.id"
-                      @click="getInsuranceAmount(insurance)"
+                      v-if="!getPaymentObject.otherPayment"
+                      class="insurance"
                     >
-                      {{ insurance.company_name }}
+                      <div v-if="patientInsurances">
+                        <div
+                          class="payment-dropdown-option"
+                          :class="{
+                            selected:
+                              selectedInsurance &&
+                              insurance.id == selectedInsurance.id,
+                          }"
+                          v-for="insurance in patientInsurances"
+                          :key="'insurance-' + insurance.id"
+                          @click="getInsuranceAmount(insurance)"
+                        >
+                          {{ insurance.company_name }}
+                        </div>
+                      </div>
+                      <!-- lower -->
+                      <div
+                        v-else-if="!patientInsurances && tamaraInstallmentsType"
+                      >
+                        <!-- v-if="!patientInsurances && !tamaraInstallmentsType" -->
+                        {{ $t("noData") }}
+                      </div>
                     </div>
-                    <div v-if="!patientInsurances || !patientInsurances.length">
+
+                    <div
+                      v-else-if="getPaymentObject.otherPayment"
+                      class="tamara"
+                    >
+                      <!-- upper -->
+                      <div v-if="tamaraInstallmentsType">
+                        <div
+                          @click.stop="getTamaraUrl(installment)"
+                          v-for="(installment, i) in tamaraInstallmentsType[0]
+                            .supported_instalments"
+                          :key="i"
+                        >
+                          <div class="d-flex payment-dropdown-option">
+                            <div class="">
+                              {{ $t("selectPaymentMethod.payIn") }}
+                              {{ installment.instalments }}
+                              {{ $t("selectPaymentMethod.instalments") }}
+                            </div>
+                            <div class="">
+                              {{
+                                $t("sar") +
+                                " " +
+                                (+(
+                                  getAmountPayable / installment.instalments
+                                )).toFixed(2)
+                              }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        v-else-if="!tamaraInstallmentsType && patientInsurances"
+                      >
+                        {{ $t("noData") }}
+                      </div>
+                    </div>
+
+                    <div v-if="!patientInsurances && !tamaraInstallmentsType">
                       {{ $t("noData") }}
                     </div>
                   </div>
@@ -324,7 +386,9 @@
         <button
           class="btn btn-secondary"
           @click="createPayment"
-          v-if="serviceBaseRate && paymentAmount"
+          v-if="
+            getPaymentObject.otherPayment || (serviceBaseRate && paymentAmount)
+          "
         >
           {{ $t("bookAppointment.payNow") }}
         </button>
@@ -437,6 +501,10 @@ import {
 export default {
   data() {
     return {
+      tamaraUrl: null,
+      tamaraInstallmentsType: null,
+      countryName: "SA",
+      currency: "SAR",
       useWalletAmount: false,
       toggleOtherPaymentSection: false,
       selectedInsurance: null,
@@ -449,6 +517,7 @@ export default {
       paymentAmount: null,
       LOYALITY_POINTS_FACTOR: null,
       loyaltiyPoints: null,
+      backLink: "Upcoming Appointment",
       paymentMethodsOnline: [
         {
           title: "applePay",
@@ -476,6 +545,7 @@ export default {
           currency: "sar",
           isOnlinePayment: false,
           isOtherPayment: true,
+          hideOnTotalCovered: true,
         },
       ],
       paymentAmountResponse: null,
@@ -579,6 +649,10 @@ export default {
         baseAmount = baseAmount - this.getWalletDeductionAmount();
       }
 
+      if (baseAmount) {
+        baseAmount = (+baseAmount).toFixed(2);
+      }
+
       return baseAmount;
     },
     isNotAllowedToBookFreeAppointment() {
@@ -640,11 +714,36 @@ export default {
     this.handleAmount();
     this.getBookingtype();
     this.getUserData();
-    this.fetchActiveFirstFreePromo();
   },
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
     ...mapActions("user", ["updateUserInfo"]),
+    getWalletAmount() {
+      userService.getUserWalletAmount().then(
+        (res) => {
+          if (res.data.status) {
+            let data = res.data.data;
+            if (data) {
+              this.walletAmount = data.wallet_balance;
+              this.actualWalletAmount = this.walletAmount;
+            }
+          } else {
+            this.walletAmount = 0;
+            this.failureToast(res.data.message);
+          }
+        },
+        (error) => {
+          this.walletAmount = 0;
+          console.error(error);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
     getUserData() {
       userService.getProfileById(this.getUserInfo.id).then(
         (res) => {
@@ -714,11 +813,14 @@ export default {
     },
     checkIfAllowedToPay() {
       if (
+        (!this.getPaymentObject || !this.getPaymentObject.otherPayment) &&
+        this.getSelectedAppointment &&
+        this.getSelectedAppointment.type &&
         this.getSelectedAppointment.type.toLowerCase() == "online" &&
         !this.isAllowedToPay(this.getSelectedAppointment.start_time)
       ) {
         this.failureToast(this.$t("cannotPayForTheAppointment"));
-        this.navigateTo("Upcoming Appointment");
+        this.navigateTo(this.backLink);
         return false;
       }
       return true;
@@ -803,6 +905,7 @@ export default {
           amount: (+this.getAmountPayable).toFixed(2),
           appointment_id: this.getPaymentObject.appointment_id,
           currency: item.currency.toUpperCase(),
+          otherPayment: this.getPaymentObject.otherPayment,
         };
         obj.method = null;
         if (item.title.includes("apple")) {
@@ -841,9 +944,6 @@ export default {
           +paymentAmount.PatientShare + +paymentAmount.PatientTax;
         if (insurance) {
           this.insuranceAmount = amountPayable;
-          if (this.insuranceAmount == 0) {
-            this.resetDiscount();
-          }
         } else {
           let patientAmount = amountPayable;
           let obj = {
@@ -853,8 +953,17 @@ export default {
           this.setPaymentObject(obj);
         }
 
-        if (this.isElligibleForFirstFreeVirtualAppointment) {
-          this.resetDiscount();
+        if (
+          this.isElligibleForFirstFreeVirtualAppointment ||
+          this.insuranceAmount == 0
+        ) {
+          this.resetDiscount(false);
+        } else {
+          if (this.getUserInfo.promo_code)
+            this.applyPromotion(
+              this.getUserInfo.promo_code.toLowerCase(),
+              true
+            );
         }
 
         this.setAppointmentAmount();
@@ -898,9 +1007,38 @@ export default {
             : this.selectedPromotion
             ? this.selectedPromotion.promo_code
             : null,
+        package_id: 0,
+        promo_code: this.selectedPromotion
+          ? this.selectedPromotion.promo_code
+          : null,
       };
     },
-    async createPayment(paymentObj, isFree = false) {
+    getPackagePaymentVerifyObject() {
+      return {
+        appointment_id: 0,
+        service_value: 0,
+        service_discount: 0,
+        service_tax: 0,
+        service_net_amount: 0,
+        patient_amount: 0,
+        patient_tax: 0,
+        patient_share_total: 0,
+        is_free_consultation: 0,
+        patient_scheme_id: 1,
+        wallet_payment_amount: this.getWalletDeductionAmount(),
+        gateway_payment_amount: this.getAmountPayable,
+        gateway_payment_ref: "",
+        receipt_date: this.formatReceiptDateTime(new Date()),
+        discount_type: "",
+        discount: "",
+        package_id: this.getPaymentObject.appointment_id,
+        promo_code: this.selectedPromotion
+          ? this.selectedPromotion.promo_code
+          : null,
+        is_package: true,
+      };
+    },
+    async createAppointmentPayment(paymentObj, isFree = false) {
       if (!this.paymentAmountResponse) {
         this.failureToast("Cannot Proceed with Payment");
         return;
@@ -931,7 +1069,7 @@ export default {
                   error.response.data.message) ||
                   error.message
               );
-            this.navigateTo("Upcoming Appointment");
+            this.navigateTo(this.backLink);
           });
       } else {
         await this.doPayment();
@@ -951,6 +1089,56 @@ export default {
             });
           }
         });
+    },
+    async createPayment(paymentObj = null, isFree = false) {
+      if (this.getPaymentObject && this.getPaymentObject.otherPayment) {
+        let paymentVerifyObject = this.getPackagePaymentVerifyObject();
+        paymentVerifyObject.is_first_appointment_free = false;
+
+        localStorage.setItem(
+          "paymentVerifyObject",
+          JSON.stringify(paymentVerifyObject)
+        );
+        if (this.getAmountPayable != 0 && !isFree) {
+          await appointmentService
+            .initializePayment(paymentVerifyObject)
+            .then((response) => {
+              if (response.data && response.data.status) {
+                if (paymentObj) {
+                  this.setPaymentObject(paymentObj);
+                }
+                this.navigateTo("Pay Now");
+              } else this.failureToast(response.data && response.data.message);
+            })
+            .catch((error) => {
+              if (!this.isAPIAborted(error))
+                this.failureToast(
+                  (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                    error.message
+                );
+              this.navigateTo(this.backLink);
+            });
+        } else {
+          await this.doPayment();
+
+          freeAppointmentPromoService
+            .fetchFreeActiveAppointmentPromos(
+              "?mrn_number=" + this.getUserInfo.mrn_number
+            )
+            .then((promoRes) => {
+              let promoResponse = promoRes.data;
+              if (promoResponse.status) {
+                this.updateUserInfo({
+                  first_free_promo: promoResponse.data.items,
+                });
+              }
+            });
+        }
+      } else {
+        await this.createAppointmentPayment(paymentObj, isFree);
+      }
     },
     fetchPromotionsList() {
       promotionService.fetchPromotions("?only_active=true").then(
@@ -997,12 +1185,16 @@ export default {
       }
       this.resetDiscount();
     },
-    resetDiscount() {
+    resetDiscount(updateUser = true) {
       if (this.selectedDiscountType == "promotion") {
-        promotionService.removePromo().then(() => {
-          this.updateUserInfo({ promo_code: "" });
+        if (updateUser) {
+          promotionService.removePromo().then(() => {
+            this.updateUserInfo({ promo_code: "" });
+            this.selectedPromotion = null;
+          });
+        } else {
           this.selectedPromotion = null;
-        });
+        }
       }
       this.selectedDiscountType = "";
       this.selectedLoyaltyPoints = null;
@@ -1081,11 +1273,92 @@ export default {
     setPromotionLoyalty() {
       this.selectedLoyaltyPoints = this.getDeductedLoyaltyPoints;
     },
+    fetchPaymentsType() {
+      if (!this.getUserInfo.phone_number && !this.getPaymentObject.amount) {
+        return false;
+      }
+      if (this.getPaymentObject.amount > 2000) {
+        this.failureToast(this.$t("selectPaymentMethod.taramaValidation"));
+        return false;
+      }
+      let query = `?country=${this.countryName}&phone=${this.getUserInfo.phone_number}&currency=${this.currency}&order_value=${this.getPaymentObject.amount}`;
+      appointmentService.fetchPaymentsTypes(query).then(
+        (res) => {
+          let response = res.data;
+          if (response.status) {
+            this.tamaraInstallmentsType = null;
+            this.tamaraInstallmentsType = response.data.items;
+          } else {
+            this.failureToast(response.message);
+          }
+        },
+        (error) => {
+          console.error(error);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
+    getTamaraUrl(tamara) {
+      if (
+        this.getAmountPayable > tamara.max_limit.amount ||
+        this.getAmountPayable < tamara.min_limit.amount
+      ) {
+        this.failureToast(
+          this.$t("tamaraValidation", {
+            min: tamara.min_limit.amount,
+            max: tamara.max_limit.amount,
+          })
+        );
+        return false;
+      }
+      if (!this.getPaymentObject.appointment_id) {
+        return false;
+      }
+      let obj = {
+        package_id: this.getPaymentObject.appointment_id,
+        wallet_payment_amount: this.getWalletDeductionAmount(),
+        instalment_option: tamara.instalments,
+      };
+      appointmentService.fetchTamaraUrl(obj).then(
+        (res) => {
+          let response = res.data;
+          if (response.status) {
+            this.tamaraUrl = null;
+            this.tamaraUrl = response.data;
+            if (this.tamaraUrl.checkout_url) {
+              this.setLoadingState(true);
+              window.open(this.tamaraUrl.checkout_url, "_self");
+            }
+          } else {
+            this.failureToast(response.message);
+          }
+        },
+        (error) => {
+          console.error(error);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.t-min-max-limit {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
 .useButton {
   border-color: var(--theme-default);
   color: var(--theme-tertiary) !important;

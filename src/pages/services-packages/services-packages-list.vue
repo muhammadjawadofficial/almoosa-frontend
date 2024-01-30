@@ -37,10 +37,10 @@
                         />
                       </div>
                       <div class="doctor-name">
-                        {{ content.title }}
+                        {{ content[getLocaleKey("title")] }}
                       </div>
                       <div class="doctor-speciality">
-                        {{ content.description }}
+                        {{ content[getLocaleKey("description")] }}
                       </div>
                       <button
                         class="btn btn-primary make-appointment"
@@ -61,13 +61,11 @@
               >
                 <div class="doctor-card-container">
                   <template
-                    v-if="
-                      servicesPackagesContent && servicesPackagesContent.length
-                    "
+                    v-if="bookedPackagesList && bookedPackagesList.length"
                   >
                     <div
                       class="doctor-card"
-                      v-for="content in servicesPackagesContent"
+                      v-for="content in bookedPackagesList"
                       :key="'doctor-card-' + content.id"
                     >
                       <div class="doctor-image">
@@ -84,14 +82,16 @@
                       </div>
                       <button
                         class="btn btn-primary make-appointment"
-                        @click="setSelectedContent(content)"
+                        @click="setSelectedContent(content, true)"
                       >
                         {{ $t("servicesPackages.viewDetails") }}
                       </button>
                     </div>
                   </template>
                   <template v-else>
-                    <div class="no-data">{{ $t("noData") }}</div>
+                    <div class="no-data">
+                      {{ $t("noData") }}
+                    </div>
                   </template>
                 </div>
               </b-tab>
@@ -111,16 +111,20 @@ export default {
     return {
       servicesPackagesContent: null,
       activeTab: 0,
+      bookedPackagesList: null,
     };
   },
   mounted() {
     this.initializeData();
+    this.fetchBookedPackages();
   },
   methods: {
     ...mapActions("servicesPackages", ["setSelectedPackage"]),
-    setSelectedContent(content) {
+    setSelectedContent(content, is_booked = false) {
       this.setSelectedPackage(content);
-      this.navigateTo("Services Packages Details");
+      this.navigateTo("Services Packages Details", {
+        method: is_booked ? "booked" : "available",
+      });
     },
     setActiveTab(tab) {
       this.activeTab = tab;
@@ -136,12 +140,32 @@ export default {
           }
         },
         (error) => {
-          if (!this.isAPIAborted(error)) 
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
+    fetchBookedPackages() {
+      servicesPackagesService.fetchBookedPackages().then(
+        (response) => {
+          if (response.data.status) {
+            let data = response.data.data.items;
+            this.bookedPackagesList = [...data];
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
         }
       );
     },

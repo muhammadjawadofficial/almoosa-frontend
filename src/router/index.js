@@ -32,6 +32,8 @@ import callEnd from '../pages/appointment/call-end'
 
 import paymentSuccess from '../pages/payment-success'
 import paymentFailure from '../pages/payment-failure'
+import paymentCancelled from '../pages/payment-cancelled'
+
 
 import promotionsModule from '../pages/promotions'
 import promotionsList from '../pages/promotions/promotions-list'
@@ -54,6 +56,7 @@ import healthEducationDetails from '../pages/health-education/health-education-d
 import servicesPackagesModule from '../pages/services-packages'
 import servicesPackagesList from '../pages/services-packages/services-packages-list'
 import servicesPackagesDetails from '../pages/services-packages/services-packages-details'
+import servicesPackagesDetailsTerms from '../pages/services-packages/services-packages-details-terms'
 
 import insuranceModule from '../pages/insurance'
 import insuranceMyMedical from '../pages/insurance/my-medical-insurance'
@@ -166,6 +169,17 @@ const routes = [
               webview: true
             }
           },
+          {
+            path: 'services-packages/:id',
+            name: 'Service and Package Terms WebView',
+            component: TermsAndCondition,
+            meta: {
+              title: 'Service and Package Terms | Almoosa Health Group',
+              public: true,
+              hideWhatsapp: true,
+              webview: true
+            }
+          },
         ]
       },
       {
@@ -186,6 +200,14 @@ const routes = [
             component: paymentFailure,
             meta: {
               title: 'Payment Failure | Almoosa Health Group',
+            }
+          },
+          {
+            path: 'payment/cancelled',
+            name: 'Payment Cancel',
+            component: paymentCancelled,
+            meta: {
+              title: 'Payment Cancelled | Almoosa Health Group',
             }
           },
           {
@@ -424,9 +446,18 @@ const routes = [
             },
           },
           {
-            path: "details",
+            path: "details/:method",
             name: 'Services Packages Details',
             component: servicesPackagesDetails,
+            meta: {
+              title: 'Services Packages Details | Almoosa Health Group',
+              public: true
+            },
+          },
+          {
+            path: "details/:method/terms-and-condition/:id",
+            name: 'Services Packages Details Terms',
+            component: servicesPackagesDetailsTerms,
             meta: {
               title: 'Services Packages Details | Almoosa Health Group',
               public: true

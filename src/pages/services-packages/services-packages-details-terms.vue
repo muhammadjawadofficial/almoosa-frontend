@@ -1,5 +1,20 @@
 <template>
-  <div class="login-card" :class="{ 'py-0': isWebView }">
+  <div
+    class="login-card standard-width position-relative"
+    :class="{ 'py-0': isWebView }"
+  >
+    <div class="terms-header">
+      <back-navigation
+        :title="$t('servicesPackages.title')"
+        :backLink="'Services Packages Details'"
+      />
+      <button
+        class="back-btn btn btn-secondary export-button"
+        @click="downloadTerms"
+      >
+        {{ $t("download") }}
+      </button>
+    </div>
     <template v-if="termsAndConditionCMS">
       <div class="heading w600">
         {{ termsAndConditionCMS[getLocaleKey("page_title")] }}
@@ -69,7 +84,6 @@
           <button class="btn btn-primary" @click="acceptTerms">
             {{ $t("continue") }}
           </button>
-          <!-- <button class="btn btn-secondary" @click="logout">Logout</button> -->
         </div>
       </div>
     </template>
@@ -78,7 +92,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { cmsPagesService, userService } from "../../services";
+import { cmsPagesService } from "../../services";
 export default {
   data() {
     return {
@@ -113,18 +127,14 @@ export default {
   },
   mounted() {
     this.setAppLanguageFromRoute();
-
-    if (!this.isWebView) {
-      this.setUserInfo(userService.currentUser());
-      if (userService.currentUser().is_privacy_agreed || this.isDoctor) {
-        this.navigateTo("default");
-      }
-    }
     this.getCmsPage("terms_and_conditions");
   },
   methods: {
     ...mapActions("user", ["removeUserInfo"]),
     ...mapActions("user", ["updateUserInfo", "setUserInfo"]),
+    downloadTerms() {
+      window.print();
+    },
     getTitle(index) {
       return "termsAndConditions.sections.section" + index + ".title";
     },
@@ -158,10 +168,11 @@ export default {
         this.failureToast("Please Accept Privacy Policy");
         return;
       }
-      this.updateProfileInfo({ is_privacy_agreed: true });
+      this.navigateTo("Select Payment Method", { method: "package" });
+      // this.updateProfileInfo({ is_privacy_agreed: true });
     },
     getCmsPage(type) {
-      cmsPagesService.fetchCmsPages("?type=" + type).then(
+      cmsPagesService.fetchCmsPages("?id=" + this.$route.params.id).then(
         (res) => {
           if (res.data.status) {
             console.log();
@@ -180,46 +191,6 @@ export default {
           console.error(error);
         }
       );
-    },
-    updateProfileInfo(data) {
-      if (!this.getUserInfo) {
-        this.navigateTo("Login Dashboard");
-        return;
-      }
-      userService.updateV1Profile(data).then(
-        (res) => {
-          if (res.data.status) {
-            this.updateUserInfo({ ...data });
-            this.navigateTo("default");
-          } else {
-            this.failureToast(res.data.message);
-          }
-        },
-        (error) => {
-          if (!this.isAPIAborted(error))
-            this.failureToast(
-              error.response &&
-                error.response.data &&
-                error.response.data.message
-            );
-
-          if (error.response && error.response.status == 401) {
-            this.logout();
-          }
-          console.error(error);
-        }
-      );
-    },
-    
-    logout() {
-      this.$root.$refs.appointmentModule &&
-        this.$root.$refs.appointmentModule.destroyObjects();
-      this.removeUserInfo();
-
-      if (this.$messaging) {
-        this.$messaging.deleteToken();
-      }
-      this.navigateTo({ name: "Login Dashboard" });
     },
   },
 };
