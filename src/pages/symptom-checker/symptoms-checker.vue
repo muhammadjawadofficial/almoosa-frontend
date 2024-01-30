@@ -2,12 +2,13 @@
   <div
     class="find-specialist-container only-back-container page-body-container standard-width"
   >
-    <back-navigation />
+    <back-navigation v-if="!isWebView" />
     <div
       class="specialist-section find-specialist-container-section block-section"
+      :class="{ 'py-0': isWebView }"
       style="position: relative"
     >
-      <div class="heading-section">
+      <div class="heading-section" v-if="!isWebView">
         <div class="heading-icon">
           <img src="../../assets/images/speciality.svg" alt="speciality-icon" />
         </div>
@@ -35,7 +36,10 @@
         </div>
       </div>
       <div class="body-section pt-4">
-        <div class="specialities-container">
+        <div
+          class="specialities-container"
+          :class="{ 'justify-content-center': isWebView }"
+        >
           <div
             class="speciality"
             v-for="speciality in filteredSpecialities"
@@ -88,9 +92,6 @@ export default {
     ]),
   },
   watch: {
-    "$route.params.method": function () {
-      this.setSelectedMethod();
-    },
     searchQuery(val) {
       this.filteredSpecialities = [
         ...this.specialities.filter((x) =>
@@ -102,7 +103,8 @@ export default {
     },
   },
   mounted() {
-    this.setSelectedMethod();
+    this.setAppLanguageFromRoute();
+    this.initializeData();
   },
   methods: {
     ...mapActions("appointment", [
@@ -133,22 +135,10 @@ export default {
       this.specialities = null;
       this.filteredSpecialities = null;
       Promise.all([
-        this.getBookingMethod == "onsite"
-          ? appointmentService.getClinicsV1()
-          : null,
         appointmentService.getSymptomsSpecialitiesV1(this.getSpecialityQuery()),
       ])
         .then((res) => {
-          if (this.getBookingMethod == "onsite") {
-            let clinicResponse = res[0].data;
-            if (clinicResponse.status) {
-              this.clinics = clinicResponse.data.items;
-            } else {
-              this.clinics = [];
-              this.failureToast(clinicResponse.message);
-            }
-          }
-          let specialitiesResponse = res[1].data;
+          let specialitiesResponse = res[0].data;
           if (specialitiesResponse.status) {
             this.specialities = specialitiesResponse.data.items;
             this.filteredSpecialities = [...this.specialities];
@@ -158,7 +148,6 @@ export default {
           }
         })
         .catch((error) => {
-          this.clinics = [];
           this.specialities = [];
           if (!this.isAPIAborted(error))
             this.failureToast(
@@ -167,17 +156,6 @@ export default {
                 error.response.data.message
             );
         });
-      let today = new Date();
-      this.selectedDate = this.removeDateTime(today.setHours(0, 0, 0));
-      if (this.getBookingDate) {
-        this.selectedDate = this.getBookingDate;
-      }
-      if (this.getBookingClinic) {
-        this.selectedClinic = this.getBookingClinic;
-      }
-      if (this.getBookingSpeciality) {
-        this.selectedSpeciality = this.getBookingSpeciality;
-      }
     },
     getSpecialityIcon(name) {
       let productImage = "";
@@ -188,72 +166,12 @@ export default {
       }
       return productImage;
     },
-    setSelectedMethod(pre = null) {
-      let type = pre || this.$route.params.method;
-      if (type == "online") {
-        this.setBookingMethod("online");
-      } else if (type == "onsite") {
-        this.setBookingMethod("onsite");
-      }
-
-      this.initializeData();
-    },
-    setSelectedClinic(clinic) {
-      if (!clinic.is_active) return;
-      let isNew = this.selectedClinic.id !== clinic.id;
-      this.selectedClinic = clinic;
-      if (isNew) {
-        this.selectedSpeciality = {};
-        appointmentService
-          .getSpecialities(this.getSpecialityQuery())
-          .then((res) => {
-            let specialitiesResponse = res.data;
-            if (specialitiesResponse.status) {
-              this.specialities = specialitiesResponse.data.items;
-              this.filteredSpecialities = [...this.specialities];
-            } else {
-              this.specialities = [];
-              this.failureToast(specialitiesResponse.data.message);
-            }
-          })
-          .catch((error) => {
-            this.specialities = [];
-            if (!this.isAPIAborted(error))
-              this.failureToast(
-                error.response &&
-                  error.response.data &&
-                  error.response.data.message
-              );
-          });
-      }
-    },
     setSelectedSymptom(speciality) {
       this.selectedSpeciality = speciality;
       this.$router.push({
-        name: "Survey",
+        name: "Survey" + (this.isWebView ? " WebView" : ""),
         query: { speciality: JSON.stringify(this.selectedSpeciality.id) },
       });
-    },
-    findSpecialist() {
-      if (this.getBookingMethod == "onsite" && !this.selectedClinic.id) {
-        this.failureToast(this.$t("findSpecialist.error.location"));
-        return;
-      }
-      if (!this.selectedSpeciality.id) {
-        this.failureToast(this.$t("findSpecialist.error.speciality"));
-        return;
-      }
-      if (this.getBookingMethod != "onsite") {
-        this.selectedClinic = {};
-      }
-      this.setBookingClinic(this.selectedClinic);
-      this.setBookingSpeciality(this.selectedSpeciality);
-      this.setBookingDate(this.selectedDate);
-      if (this.getIsGuest) {
-        this.navigateTo("Doctor List Guest");
-      } else {
-        this.navigateTo("Doctor List");
-      }
     },
   },
 };

@@ -139,7 +139,7 @@ const routes = [
       {
         path: 'survey',
         name: 'Survey',
-        component: survey ,
+        component: survey,
         meta: {
           title: 'Survey | Almoosa Health Group',
         }
@@ -178,6 +178,28 @@ const routes = [
             component: TermsAndCondition,
             meta: {
               title: 'Terms and Condition | Almoosa Health Group',
+              public: true,
+              hideWhatsapp: true,
+              webview: true
+            }
+          },
+          {
+            path: 'symptom-checker',
+            name: 'Symptom Checker WebView',
+            component: symptopChecker,
+            meta: {
+              title: 'Symptop Checker | Almoosa Health Group',
+              public: true,
+              hideWhatsapp: true,
+              webview: true
+            },
+          },
+          {
+            path: 'survey',
+            name: 'Survey WebView',
+            component: survey,
+            meta: {
+              title: 'Survey | Almoosa Health Group',
               public: true,
               hideWhatsapp: true,
               webview: true
