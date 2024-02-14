@@ -46,7 +46,9 @@ export default {
         (this.getPaymentObject.method
           ? "&method=" + this.getPaymentObject.method
           : "") +
-        "&appointment_id=" +
+        (this.getPaymentObject.otherPayment
+          ? "&package_id="
+          : "&appointment_id=") +
         this.getPaymentObject.appointment_id +
         "&platform=web" +
         (this.getPaymentObject.otherPayment

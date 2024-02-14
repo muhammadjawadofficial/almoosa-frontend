@@ -44,7 +44,8 @@
                                 $t('walletNotAllowedInFreeAppointment')
                               )
                             : ((useWalletAmount = !useWalletAmount),
-                              setAppointmentAmount())
+                              setAppointmentAmount(),
+                              fetchPaymentsType())
                           : null
                       "
                     >
@@ -699,8 +700,8 @@ export default {
   },
   async mounted() {
     this.getWalletAmount();
+    this.fetchPaymentsType();
     if (this.getPaymentObject && this.getPaymentObject.otherPayment) {
-      this.fetchPaymentsType();
       this.backLink = "Services Packages List";
     } else {
       localStorage.removeItem("paymentVerifyObject");
@@ -1280,20 +1281,19 @@ export default {
       this.selectedLoyaltyPoints = this.getDeductedLoyaltyPoints;
     },
     fetchPaymentsType() {
-      if (!this.getUserInfo.phone_number && !this.getPaymentObject.amount) {
+      if (!this.getPaymentObject.otherPayment) return;
+
+      if (!this.getUserInfo.phone_number && !this.getAmountPayable) {
         return false;
       }
-      if (this.getPaymentObject.amount > 2000) {
-        this.failureToast(this.$t("selectPaymentMethod.taramaValidation"));
-        return false;
-      }
-      let query = `?country=${this.countryName}&phone=${this.getUserInfo.phone_number}&currency=${this.currency}&order_value=${this.getPaymentObject.amount}`;
+      let query = `?country=${this.countryName}&phone=${this.getUserInfo.phone_number}&currency=${this.currency}&order_value=${this.getAmountPayable}`;
       appointmentService.fetchPaymentsTypes(query).then(
         (res) => {
           let response = res.data;
           if (response.status) {
             this.tamaraInstallmentsType = null;
-            this.tamaraInstallmentsType = response.data.items;
+            if (response.data.items && response.data.items.length)
+              this.tamaraInstallmentsType = [...response.data.items];
           } else {
             this.failureToast(response.message);
           }

@@ -637,6 +637,8 @@ export default {
             return booking;
         },
         async doPayment() {
+            let method = this.$route.params.method;
+            let backLink = method == "package" ? "Services Packages List" : "Upcoming Appointment";
             let booking = this.setBookingState();
             let paymentVerifyObject = JSON.parse(
                 localStorage.getItem("paymentVerifyObject")
@@ -662,7 +664,7 @@ export default {
                             ],
                             "m-payment-failure"
                         ).then(() => {
-                            this.navigateTo("Upcoming Appointment");
+                            this.navigateTo(backLink);
                         });
                         return;
                     }
@@ -674,7 +676,7 @@ export default {
                         this.$t("selectPaymentMethod.paymentSuccessfulText"),
                         "m-payment-success"
                     ).then(() => {
-                        this.navigateTo("Upcoming Appointment");
+                        this.navigateTo(backLink);
                     });
                 } else {
                     this.failureToast(response.message);
