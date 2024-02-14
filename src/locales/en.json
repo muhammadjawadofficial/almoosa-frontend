@@ -473,7 +473,7 @@
     "walletAmount": "Wallet Amount",
     "amountPayable": "Amount Payable",
     "payIn":"Pay in",
-    "instalments":"Instalments",
+    "installments":"Installments",
     "taramaValidation":"Tamara restricts payments over 2000 SAR"
   },
   "rating": {

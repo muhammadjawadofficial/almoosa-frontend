@@ -473,7 +473,7 @@
     "walletAmount": "مبلغ المحفظة",
     "amountPayable": "المبلغ المستحق الدفع",
     "payIn":"دفع في",
-    "instalments":"أقساط",
+    "installments":"أقساط",
     "taramaValidation":"تمارا تقيد المدفوعات التي تزيد عن 2000 ريال سعودي"
   },
   "rating": {

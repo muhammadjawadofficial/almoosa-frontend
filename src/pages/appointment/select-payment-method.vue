@@ -282,7 +282,7 @@
                             <div class="">
                               {{ $t("selectPaymentMethod.payIn") }}
                               {{ installment.instalments }}
-                              {{ $t("selectPaymentMethod.instalments") }}
+                              {{ $t("selectPaymentMethod.installments") }}
                             </div>
                             <div class="">
                               {{
