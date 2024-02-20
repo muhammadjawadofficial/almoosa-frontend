@@ -3,6 +3,7 @@ import { apiPath } from "../constants/apiPath";
 
 export const symptopChecker = {
   fetchSymptoms,
+  fetchAgeConditions,
   pData,
   getData,
 };
@@ -13,11 +14,17 @@ function fetchSymptoms(id) {
     url: apiPath.symptomsChecker.fetch(id).url,
   });
 }
+function fetchAgeConditions(id) {
+  return axios({
+    method: apiPath.symptomsChecker.fetchAgeConditions(id).method,
+    url: apiPath.symptomsChecker.fetchAgeConditions(id).url,
+  });
+}
 function pData(data) {
   return axios({
-      method: apiPath.symptomsChecker.postData.method,
-      url: apiPath.symptomsChecker.postData.url,
-      data
+    method: apiPath.symptomsChecker.postData.method,
+    url: apiPath.symptomsChecker.postData.url,
+    data
   })
 }
 

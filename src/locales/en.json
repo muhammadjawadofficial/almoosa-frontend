@@ -263,7 +263,7 @@
     "My Timelines": "My Timelines",
     "Health Education": "Health Education",
     "View Promotions": "View Promotions",
-    "Service & Package": "Service&nbsp;&&nbsp;Package",
+    "Service & Package": "Services&nbsp;&&nbsp;Package",
     "Emergency Consultations": "Emergency Consultations",
     "Virtual Tour": "Virtual Tour",
     "Find Specialist": "Find Your Doctor",
@@ -564,7 +564,7 @@
     "serviceDetails": "Service Details",
     "subserviceDetails": "Sub Service Details",
     "bookPackage": "Book Package",
-    "packageList": "Package List",
+    "packageList": "Packages List",
     "bookedPackages": "Booked Packages"
   },
   "familyMembers": {
@@ -694,6 +694,6 @@
   "discount": "Discount",
   "cannotPayForTheAppointment": "Payment for virtual appointments is not available before 30 minutes of the appointment time",
   "accept": "Accept",
-  "service_and_packages_terms": "Service and Packages Terms",
+  "service_and_packages_terms": "Services and Packages Terms",
   "tamaraValidation": "Tamara restricts payments between {min} and {max} SAR only"
 }

@@ -145,6 +145,7 @@ export const apiPath = {
     symptomsChecker: {
         postData: getApiObject("post", "sc-survey"),
         fetch: (id) => getApiObject("get", "symptoms?" + id),
+        fetchAgeConditions: (id) => getApiObject("get", "symptom-options-age/speciality/" + id),
         getSymptom: (id) => getApiObject("get", "sc-survey/" + id),
     },
     familyMembers: {

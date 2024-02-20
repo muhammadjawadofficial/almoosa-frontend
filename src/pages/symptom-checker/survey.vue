@@ -139,8 +139,11 @@
                   <div class="appointment-detail--label">
                     {{ item.symptom[getLocaleKey("title")] }}
                   </div>
-                  <div class="appointment-detail--value"  v-for="(it, i) in item.options"
-                  :key="i">
+                  <div
+                    class="appointment-detail--value"
+                    v-for="(it, i) in item.options"
+                    :key="i"
+                  >
                     {{ it[getLocaleKey("title")] }}
                   </div>
                 </div>
@@ -150,7 +153,7 @@
                     {{ $t("symptoms.recommendation") }}
                   </div>
                   <div class="appointment-detail--value">
-                    {{ surveyResult.recommendation }}
+                    {{ surveyResult[getLocaleKey("recommendation")] }}
                   </div>
                 </div>
               </div>
@@ -212,13 +215,13 @@ export default {
           label_ar: "أنثى",
           status: false,
         },
-        {
-          id: "3",
-          img: require("../../assets/images/transgender.svg"),
-          label: "Other",
-          label_ar: "آخر",
-          status: false,
-        },
+        // {
+        //   id: "3",
+        //   img: require("../../assets/images/transgender.svg"),
+        //   label: "Other",
+        //   label_ar: "آخر",
+        //   status: false,
+        // },
       ],
       options: null,
       checker: [],
@@ -226,6 +229,7 @@ export default {
       selectedGender: null,
       selectedRecommendation: null,
       selecttedOptions: [],
+      ageConditions: [],
     };
   },
   computed: {
@@ -333,22 +337,26 @@ export default {
         }
 
         if (this.selectedGender && this.nextSlideCount == 0) {
+          this.fetchAgeConditions();
           this.nextSlideCount++;
           return;
         }
 
         if (this.nextSlideCount == 1) {
-          if (this.age <= 14) {
-            this.nextSlideCount = 3;
+          // if (this.age <= 14) {
+          //   this.nextSlideCount = 3;
 
-            let obj = {
-              id: "1",
-              gender: this.selectedGender,
-              age: this.age,
-              items: [],
-              recommendation: "Parodontax",
-            };
-            this.surveyResult = obj;
+          //   let obj = {
+          //     id: "1",
+          //     gender: this.selectedGender,
+          //     age: this.age,
+          //     items: [],
+          //     recommendation: "Parodontax",
+          //   };
+          //   this.surveyResult = obj;
+          //   return false;
+          // }
+          if (this.checkAgeConditions()) {
             return false;
           }
         }
@@ -364,6 +372,56 @@ export default {
       if (this.nextSlideCount == 3) {
         this.postData();
       }
+    },
+    fetchAgeConditions() {
+      this.ageConditions = [];
+      symptopChecker.fetchAgeConditions(this.speciality).then(
+        (response) => {
+          if (response.data.status) {
+            let data = response.data.data.items;
+            this.ageConditions = [...data];
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
+    checkAgeConditions() {
+      let recommendation = null;
+      let recommendation_ar = null;
+      if (this.ageConditions.length) {
+        let obj = this.ageConditions[0];
+        if (
+          (obj.condition == "lt" && this.age < obj.age) ||
+          (obj.condition == "gt" && this.age > obj.age) ||
+          (obj.condition == "eq" && this.age == obj.age)
+        ) {
+          recommendation = obj.recommendation;
+          recommendation_ar = obj.recommendation_ar;
+        }
+
+        if (recommendation) {
+          this.nextSlideCount = 3;
+          let obj = {
+            id: "1",
+            gender: this.selectedGender,
+            age: this.age,
+            items: [],
+            recommendation: recommendation,
+            recommendation_ar: recommendation_ar,
+          };
+          this.surveyResult = obj;
+        }
+      }
+      return !!recommendation;
     },
     backSlide() {
       if (this.nextSlideCount == 3) {

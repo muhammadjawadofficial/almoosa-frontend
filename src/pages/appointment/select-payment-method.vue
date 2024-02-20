@@ -35,10 +35,11 @@
                         disabled:
                           !+getCalculatedAmount ||
                           isElligibleForFirstFreeVirtualAppointment ||
-                          insuranceAmount == 0,
+                          insuranceAmount == 0 ||
+                          walletAmount == 0,
                       }"
                       @click="
-                        +getCalculatedAmount
+                        +getCalculatedAmount && walletAmount
                           ? isElligibleForFirstFreeVirtualAppointment
                             ? failureToast(
                                 $t('walletNotAllowedInFreeAppointment')
@@ -731,7 +732,7 @@ export default {
           if (res.data.status) {
             let data = res.data.data;
             if (data) {
-              this.walletAmount = data.wallet_balance;
+              this.walletAmount = data.wallet_balance || 0;
               this.actualWalletAmount = this.walletAmount;
             }
           } else {
