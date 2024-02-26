@@ -169,7 +169,7 @@ export default {
     setSelectedSymptom(speciality) {
       this.selectedSpeciality = speciality;
       this.$router.push({
-        name: "Survey" + (this.isWebView ? " WebView" : ""),
+        name: "Survey" + (this.isWebView ? " WebView" : "") + (this.getIsGuest ? " Guest" : ""),
         query: { speciality: JSON.stringify(this.selectedSpeciality.id) },
       });
     },
