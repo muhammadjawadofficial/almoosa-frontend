@@ -235,7 +235,7 @@ export default {
       }
       let data = {
         speciality_id: this.speciality,
-        patient_id: this.getUserInfo ? this.getUserInfo.id : "",
+        patient_id: this.getUserInfo ? this.getUserInfo.id : 99,
         recommendation: this.options[0].options[0].recommendation,
         age: +this.age,
         gender: this.selectedGender,
