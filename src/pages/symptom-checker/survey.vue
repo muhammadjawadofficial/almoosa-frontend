@@ -1,12 +1,7 @@
 <template>
-  <div
-    class="find-specialist-container only-back-container page-body-container standard-width"
-  >
+  <div class="find-specialist-container only-back-container page-body-container standard-width">
     <back-navigation />
-    <div
-      class="specialist-section find-specialist-container-section block-section"
-      style="position: relative"
-    >
+    <div class="specialist-section find-specialist-container-section block-section" style="position: relative">
       <div class="heading-section">
         <div class="heading-icon">
           <img src="../../assets/images/speciality.svg" alt="speciality-icon" />
@@ -25,14 +20,9 @@
           <h3 class="gender-sub-title pb-3">
             {{ $t("symptoms.selectGender") }}
           </h3>
-          <div class="gender-container">
-            <div
-              class="gender"
-              v-for="gender in genders"
-              :key="'find-speciality-' + gender.id"
-              @click="setSelectedSpeciality(gender)"
-              :class="{ active: gender.status }"
-            >
+          <div class="gender-container" v-if="genders && genders.length">
+            <div class="gender" v-for="gender in genders" :key="'find-speciality-' + gender.id"
+              @click="setSelectedSpeciality(gender)" :class="{ active: gender.status }">
               <div class="gender-label">
                 {{ gender[getLocaleKey("label")] }}
               </div>
@@ -48,15 +38,7 @@
           </div>
           <div class="wrapper">
             <div class="range">
-              <input
-                type="range"
-                v-model="age"
-                :min="minValue"
-                :max="maxValue"
-                id="range"
-                ref="range"
-                class="ranger"
-              />
+              <input type="range" v-model="age" :min="minValue" :max="maxValue" id="range" ref="range" class="ranger" />
             </div>
           </div>
           <div class="range-age">{{ $t("symptoms.age") }} : {{ age }}</div>
@@ -64,36 +46,19 @@
         <div class="body-section" v-if="nextSlideCount == 2">
           <div class="specialities-container">
             <div class="">
-              <div
-                class="form-check"
-                style="align-items: center"
-                v-for="option in options"
-                :key="option.id"
-              >
+              <div class="form-check" style="align-items: center" v-for="option in options" :key="option.id">
                 <h2 class="heading-title" style="">
                   {{ option[getLocaleKey("title")] }}
                 </h2>
                 <div class="heading-subTitle mb-4">
                   {{ option[getLocaleKey("description")] }}
                 </div>
-                <div
-                  class="checkbox-wrapper"
-                  v-for="q in option.options"
-                  :key="q.id"
-                  style="margin-bottom: 2rem"
-                >
+                <div class="checkbox-wrapper" v-for="q in option.options" :key="q.id" style="margin-bottom: 2rem">
                   <div class="checkBox-main">
                     <div class="checkbox-wrapper">
-                      <input
-                        type="checkbox"
-                        v-model="checker"
-                        :value="q.id"
-                        :id="q.id"
-                        :disabled="
-                          selectedRecommendation != null &&
-                          selectedRecommendation != q.recommendation
-                        "
-                      />
+                      <input type="checkbox" v-model="checker" :value="q.id" :id="q.id" :disabled="selectedRecommendation != null &&
+                        selectedRecommendation != q.recommendation
+                        " />
                       <label class="check-box" :for="q.id"></label>
                     </div>
                     <div class="label-of-option">
@@ -108,11 +73,7 @@
           </div>
         </div>
         <div class="body-section" v-if="nextSlideCount == 3">
-          <b-card
-            header-tag="div"
-            no-body
-            class="ash-card bg-tertiary card-rounded"
-          >
+          <b-card header-tag="div" no-body class="ash-card bg-tertiary card-rounded">
             <b-card-body class="mt-0" v-if="surveyResult">
               <div class="appointment-detail">
                 <div class="appointment-detail--type">
@@ -131,19 +92,12 @@
                     {{ surveyResult.age || "N/A" }}
                   </div>
                 </div>
-                <div
-                  class="appointment-detail--sepecialist"
-                  v-for="(item, i) in getSymptomsAndOptions(surveyResult.items)"
-                  :key="i"
-                >
+                <div class="appointment-detail--sepecialist"
+                  v-for="(item, i) in getSymptomsAndOptions(surveyResult.items)" :key="i">
                   <div class="appointment-detail--label">
                     {{ item.symptom[getLocaleKey("title")] }}
                   </div>
-                  <div
-                    class="appointment-detail--value"
-                    v-for="(it, i) in item.options"
-                    :key="i"
-                  >
+                  <div class="appointment-detail--value" v-for="(it, i) in item.options" :key="i">
                     {{ it[getLocaleKey("title")] }}
                   </div>
                 </div>
@@ -162,18 +116,10 @@
         </div>
 
         <div class="datetime-section symptoms-btns mt-3">
-          <button
-            v-if="!(nextSlideCount == 3)"
-            @click="nextslide"
-            class="btn btn-primary"
-          >
+          <button v-if="!(nextSlideCount == 3)" @click="nextslide" class="btn btn-primary">
             {{ $t("modules.next") }}
           </button>
-          <button
-            @click="backSlide"
-            v-if="nextSlideCount !== 0"
-            class="btn btn-secondary"
-          >
+          <button @click="backSlide" v-if="nextSlideCount !== 0" class="btn btn-secondary">
             {{ $t("modules.back") }}
           </button>
         </div>
@@ -188,7 +134,7 @@
   </div>
 </template>
     
-    <script>
+<script>
 import { mapGetters } from "vuex";
 import { symptopChecker } from "../../services";
 export default {
@@ -234,6 +180,7 @@ export default {
   },
   computed: {
     ...mapGetters("user", ["getUserInfo"]),
+    ...mapGetters("symptoms", ["getSurvey"]),
   },
   watch: {
     checker: {
@@ -253,7 +200,18 @@ export default {
     this.speciality = JSON.parse(this.$route.query.speciality || "{}");
     this.initializeData();
     this.updateSliderStyles(this.age);
+
+    const userInfo = this.getUserInfo;
+    if (userInfo && userInfo.gender && this.getSurvey.survey == "yes") {
+      this.selectedGender = userInfo.gender
+      this.nextSlideCount++
+    }
+    if (this.getSurvey && this.getSurvey.age && this.getSurvey.survey == "yes") {
+      this.age = this.getSurvey.age;
+      this.nextSlideCount++
+    }
   },
+
   methods: {
     updateSliderStyles(value) {
       if (this.$refs.range) {
@@ -277,7 +235,7 @@ export default {
       }
       let data = {
         speciality_id: this.speciality,
-        patient_id: this.getUserInfo.id,
+        patient_id: this.getUserInfo ? this.getUserInfo.id : "",
         recommendation: this.options[0].options[0].recommendation,
         age: +this.age,
         gender: this.selectedGender,
@@ -298,8 +256,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-                error.response.data &&
-                error.response.data.message
+              error.response.data &&
+              error.response.data.message
             );
         }
       );
@@ -319,8 +277,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-                error.response.data &&
-                error.response.data.message
+              error.response.data &&
+              error.response.data.message
             );
         }
       );
@@ -364,6 +322,9 @@ export default {
         if (this.age && this.nextSlideCount == 1) {
           this.nextSlideCount++;
         }
+        if (this.getSurvey && this.getSurvey.age) {
+          this.nextSlideCount++;
+        }
         if (this.checker.length && this.nextSlideCount == 2) {
           this.nextSlideCount++;
         }
@@ -388,8 +349,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-                error.response.data &&
-                error.response.data.message
+              error.response.data &&
+              error.response.data.message
             );
         }
       );
@@ -433,6 +394,7 @@ export default {
           el.status = false;
         });
         this.updateSliderStyles(this.age);
+        this.$router.push({ name: "Confirm Survey" });
         return false;
       }
       if (this.backSlide !== 0) {
@@ -458,8 +420,8 @@ export default {
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
-                  error.response.data &&
-                  error.response.data.message
+                error.response.data &&
+                error.response.data.message
               );
           }
         );
@@ -530,34 +492,41 @@ export default {
 };
 </script>
     
-    <style lang="scss" scoped>
+<style lang="scss" scoped>
 .ranger {
   cursor: pointer;
 }
+
 .checkBox-main {
   display: flex;
   gap: 1rem;
 }
+
 .label-of-option {
   margin-top: -7px;
 }
+
 .com {
   font-size: 1.1rem;
   margin: 0;
 }
+
 .symptoms-btns {
   display: flex;
   gap: 10px;
   bottom: 200px;
 }
+
 .gender-sub-title {
   font-size: 1.3rem;
 }
+
 .gender-container {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
 }
+
 .gender {
   border: 1px solid rgb(217, 214, 214);
   width: 12rem;
@@ -573,32 +542,39 @@ export default {
   background-color: var(--theme-tertiary);
   color: var(--theme-default);
 }
+
 .active {
   background: #e0e2e4;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
+
 .gender-img {
   width: 100%;
   text-align: center;
 }
+
 .gender-label {
   font-size: 1rem;
   font-weight: 400 !important;
   text-align: center;
 }
+
 .range {
   text-align: center;
 }
+
 .range-heading {
   margin-block: 30px;
   text-align: center;
 }
+
 .range-age {
   font-size: 1.2rem;
   font-weight: 500 !important;
   padding-block: 30px;
   text-align: center;
 }
+
 input[type="range"] {
   /* removing default appearance */
   -webkit-appearance: none;
@@ -630,6 +606,7 @@ input[type="range"]::-webkit-slider-thumb {
   /* box-shadow: -407px 0 0 400px #f50; emove this line */
   transition: 0.2s ease-in-out;
 }
+
 input[type="range"]::-moz-range-thumb {
   height: 15px;
   width: 15px;
@@ -638,88 +615,110 @@ input[type="range"]::-moz-range-thumb {
   border: none;
   transition: 0.2s ease-in-out;
 }
+
 /* Hover, active & focus Thumb: Webkit */
 
 input[type="range"]::-webkit-slider-thumb:hover {
   box-shadow: 0 0 0 10px rgba(var(--theme-default), 0.1);
 }
+
 input[type="range"]:active::-webkit-slider-thumb {
   box-shadow: 0 0 0 13px rgba(var(--theme-default), 0.2);
 }
+
 input[type="range"]:focus::-webkit-slider-thumb {
   box-shadow: 0 0 0 13px rgba(var(--theme-default), 0.2);
 }
+
 .range {
   margin: 0 auto;
   width: 80%;
   padding: 0px 10px;
 }
+
 .checkbox-wrapper {
   box-sizing: border-box;
   height: 20px;
   --background-color: #fff;
   --checkbox-height: 20px;
 }
+
 @-moz-keyframes dothabottomcheck {
   0% {
     height: 0;
   }
+
   100% {
     height: calc(var(--checkbox-height) / 2);
   }
 }
+
 @-webkit-keyframes dothabottomcheck {
   0% {
     height: 0;
   }
+
   100% {
     height: calc(var(--checkbox-height) / 2);
   }
 }
+
 @keyframes dothabottomcheck {
   0% {
     height: 0;
   }
+
   100% {
     height: calc(var(--checkbox-height) / 2);
   }
 }
+
 @keyframes dothatopcheck {
   0% {
     height: 0;
   }
+
   50% {
     height: 0;
   }
+
   100% {
     height: calc(var(--checkbox-height) * 1.2);
   }
 }
+
 @-webkit-keyframes dothatopcheck {
   0% {
     height: 0;
   }
+
   50% {
     height: 0;
   }
+
   100% {
     height: calc(var(--checkbox-height) * 1.2);
   }
 }
+
 @-moz-keyframes dothatopcheck {
   0% {
     height: 0;
   }
+
   50% {
     height: 0;
   }
+
   100% {
     height: calc(var(--checkbox-height) * 1.2);
   }
 }
+
 .checkbox-wrapper input[type="checkbox"] {
   display: none;
 }
+
 .checkbox-wrapper .check-box {
   height: var(--checkbox-height) !important;
   width: var(--checkbox-height) !important;
@@ -737,6 +736,7 @@ input[type="range"]:focus::-webkit-slider-thumb {
   transition: border-color ease 0.2s;
   cursor: pointer;
 }
+
 .checkbox-wrapper .check-box::before,
 .checkbox-wrapper .check-box::after {
   -moz-box-sizing: border-box;
@@ -758,6 +758,7 @@ input[type="range"]:focus::-webkit-slider-thumb {
   -moz-transition: opacity ease 0.5;
   transition: opacity ease 0.5;
 }
+
 .checkbox-wrapper .check-box::before {
   top: calc(var(--checkbox-height) * 0.72);
   left: calc(var(--checkbox-height) * 0.41);
@@ -768,6 +769,7 @@ input[type="range"]:focus::-webkit-slider-thumb {
   -webkit-transform: rotate(-135deg);
   transform: rotate(-135deg);
 }
+
 .checkbox-wrapper .check-box::after {
   top: calc(var(--checkbox-height) * 0.37);
   left: calc(var(--checkbox-height) * 0.05);
@@ -777,11 +779,13 @@ input[type="range"]:focus::-webkit-slider-thumb {
   -webkit-transform: rotate(-45deg);
   transform: rotate(-45deg);
 }
-.checkbox-wrapper input[type="checkbox"]:checked + .check-box,
+
+.checkbox-wrapper input[type="checkbox"]:checked+.check-box,
 .checkbox-wrapper .check-box.checked {
   border-color: #34b93d;
 }
-.checkbox-wrapper input[type="checkbox"]:checked + .check-box::after,
+
+.checkbox-wrapper input[type="checkbox"]:checked+.check-box::after,
 .checkbox-wrapper .check-box.checked::after {
   height: calc(var(--checkbox-height) / 2);
   -moz-animation: dothabottomcheck 0.2s ease 0s forwards;
@@ -789,7 +793,8 @@ input[type="range"]:focus::-webkit-slider-thumb {
   -webkit-animation: dothabottomcheck 0.2s ease 0s forwards;
   animation: dothabottomcheck 0.2s ease 0s forwards;
 }
-.checkbox-wrapper input[type="checkbox"]:checked + .check-box::before,
+
+.checkbox-wrapper input[type="checkbox"]:checked+.check-box::before,
 .checkbox-wrapper .check-box.checked::before {
   height: calc(var(--checkbox-height) * 1.2);
   -moz-animation: dothatopcheck 0.4s ease 0s forwards;
@@ -797,6 +802,7 @@ input[type="range"]:focus::-webkit-slider-thumb {
   -webkit-animation: dothatopcheck 0.4s ease 0s forwards;
   animation: dothatopcheck 0.4s ease 0s forwards;
 }
+
 .label-input {
   cursor: pointer;
   font-size: 1.2rem;

@@ -47,6 +47,7 @@ export default {
         {
           text: "Check Symptoms",
           icon: "symptom-svg",
+          link: "Symptom Checker Guest",
         },
         {
           text: "Health Education",
