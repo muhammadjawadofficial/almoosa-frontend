@@ -56,6 +56,7 @@ import healthEducationDetails from '../pages/health-education/health-education-d
 import servicesPackagesModule from '../pages/services-packages'
 import servicesPackagesList from '../pages/services-packages/services-packages-list'
 import servicesPackagesDetails from '../pages/services-packages/services-packages-details'
+import servicesPackagesDetailsBooked from '../pages/services-packages/services-packages-book-details'
 import servicesPackagesDetailsTerms from '../pages/services-packages/services-packages-details-terms'
 
 import insuranceModule from '../pages/insurance'
@@ -486,9 +487,18 @@ const routes = [
             },
           },
           {
-            path: "details/:method",
+            path: "details/available",
             name: 'Services Packages Details',
             component: servicesPackagesDetails,
+            meta: {
+              title: 'Services Packages Details | Almoosa Health Group',
+              public: true
+            },
+          },
+          {
+            path: "details/booked",
+            name: 'Services Packages Details Booked',
+            component: servicesPackagesDetailsBooked,
             meta: {
               title: 'Services Packages Details | Almoosa Health Group',
               public: true

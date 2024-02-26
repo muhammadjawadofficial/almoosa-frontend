@@ -40,7 +40,7 @@ export default {
       return (
         process.env.VUE_APP_API_V2_BASE_URL +
         "api/v1/payments?amount=" +
-        this.getPaymentObject.amount +
+        this.getPaymentObject.payableAmount +
         "&currency=" +
         this.getPaymentObject.currency +
         (this.getPaymentObject.method

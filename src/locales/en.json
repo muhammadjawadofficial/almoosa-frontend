@@ -695,5 +695,9 @@
   "cannotPayForTheAppointment": "Payment for virtual appointments is not available before 30 minutes of the appointment time",
   "accept": "Accept",
   "service_and_packages_terms": "Services and Packages Terms",
-  "tamaraValidation": "Tamara restricts payments between {min} and {max} SAR only"
+  "tamaraValidation": "Tamara restricts payments between {min} and {max} SAR only",
+  "enterAmount": "Enter Amount",
+  "amountInSAR": "Amount in SAR",
+  "invalidAmount": "Invalid Amount",
+  "partial": "Partial"
 }

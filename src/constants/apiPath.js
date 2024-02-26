@@ -73,7 +73,7 @@ export const apiPath = {
         getInstructions: (query) => getApiObject("get", "system-settings" + query),
         getNearestAvailability: getApiObject("post", "appointments/nearest-availability", "v2"),
         getPaymentsTypes: (query) =>
-        getApiObject("get", "payments/tamara/options" + query, "v1"),
+            getApiObject("get", "payments/tamara/options" + query, "v1"),
         getTamaraUrl: getApiObject("post", "payments/tamara/checkout", "v1"),
     },
 
@@ -119,6 +119,7 @@ export const apiPath = {
         fetchNotificationsSetting: (id) => getApiObject("get", "notification-config/" + id),
         updateNotificationSetting: (id) => getApiObject("patch", "notification-config/" + id),
         redeemLoyaltyPoints: getApiObject("post", "payments/redeem-loyalty-points", "v2"),
+        getPartialPayments: (query) => getApiObject("get", "payments/partial" + query),
     },
 
     patient: {

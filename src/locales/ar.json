@@ -695,5 +695,9 @@
   "cannotPayForTheAppointment": "لا يمكن الدفع للموعد قبل 30 دقيقة من وقت الموعد",
   "accept": "يقبل",
   "service_and_packages_terms": "شروط الخدمة والباقات",
-  "tamaraValidation": "تمارا تقيد المدفوعات بين {min} و {max} ريال فقط"
+  "tamaraValidation": "تمارا تقيد المدفوعات بين {min} و {max} ريال فقط",
+  "enterAmount": "أدخل المبلغ",
+  "amountInSAR": "المبلغ بالريال السعودي",
+  "invalidAmount": "مبلغ غير صحيح",
+  "partial": "جزئي"
 }

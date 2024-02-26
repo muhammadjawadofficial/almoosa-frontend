@@ -68,17 +68,23 @@
                       v-for="content in bookedPackagesList"
                       :key="'doctor-card-' + content.id"
                     >
+                      <div
+                        v-if="content.transaction_status != 'completed'"
+                        class="danger-icon"
+                      >
+                        <i class="fa fa-exclamation-triangle"></i>
+                      </div>
                       <div class="doctor-image">
                         <img
-                          :src="getImageUrl(content.thumbnail)"
+                          :src="getImageUrl(content.package.thumbnail)"
                           alt="doctor-image"
                         />
                       </div>
                       <div class="doctor-name">
-                        {{ content.title }}
+                        {{ content.package.title }}
                       </div>
                       <div class="doctor-speciality">
-                        {{ content.description }}
+                        {{ content.package.description }}
                       </div>
                       <button
                         class="btn btn-primary make-appointment"
@@ -122,9 +128,12 @@ export default {
     ...mapActions("servicesPackages", ["setSelectedPackage"]),
     setSelectedContent(content, is_booked = false) {
       this.setSelectedPackage(content);
-      this.navigateTo("Services Packages Details", {
-        method: is_booked ? "booked" : "available",
-      });
+      this.navigateTo(
+        "Services Packages Details" + (is_booked ? " Booked" : ""),
+        {
+          method: is_booked ? "booked" : "available",
+        }
+      );
     },
     setActiveTab(tab) {
       this.activeTab = tab;
@@ -181,6 +190,7 @@ export default {
       border: none;
       margin-bottom: 0;
       background-color: var(--theme-tertiary);
+      position: relative;
       .make-appointment {
         font-size: 1.25em;
         padding-block: 0.5em;
@@ -220,5 +230,12 @@ export default {
       }
     }
   }
+}
+.danger-icon{
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  color: #ff0000;
+  font-size: 1.5rem;
 }
 </style>

@@ -28,6 +28,24 @@
                     </div>
                   </div>
                   <div class="content--action">
+                    <span
+                      class="edit-button pointer"
+                      v-if="getPaymentObject.otherPayment && useWalletAmount"
+                      @click.stop="
+                        partialWallet
+                          ? ((partialWallet = null),
+                            fetchPaymentsType(),
+                            resetPartialPayments())
+                          : partialCashPayment()
+                      "
+                    >
+                      <i
+                        v-if="!partialWallet"
+                        :class="'fa fa-pencil'"
+                        aria-hidden="true"
+                      ></i>
+                      <i v-else :class="'fa fa-times'" aria-hidden="true"></i>
+                    </span>
                     <button
                       class="btn useButton"
                       :class="{
@@ -46,7 +64,8 @@
                               )
                             : ((useWalletAmount = !useWalletAmount),
                               setAppointmentAmount(),
-                              fetchPaymentsType())
+                              fetchPaymentsType(),
+                              resetPartialPayments())
                           : null
                       "
                     >
@@ -366,10 +385,26 @@
                         $t("sar") +
                         " " +
                         translateNumber(
-                          amountLoading ? "N/A" : getAmountPayable
+                          amountLoading
+                            ? "N/A"
+                            : method.partialCash || getAmountPayable
                         )
                       }}
                     </div>
+                    <span v-if="getPaymentObject.otherPayment">
+                      <i
+                        v-if="!method.partialCash"
+                        @click.stop="partialCashPayment(method)"
+                        :class="'fa fa-pencil'"
+                        aria-hidden="true"
+                      ></i>
+                      <i
+                        v-else
+                        @click.stop="method.partialCash = null"
+                        :class="'fa fa-times'"
+                        aria-hidden="true"
+                      ></i>
+                    </span>
                     <i
                       :class="
                         'fa fa-chevron-' +
@@ -411,6 +446,19 @@
               {{ $t("sar") + " " + getPaymentObject.amount }}
             </div>
           </div>
+          <template v-for="(partial, pindex) in partialPayments">
+            <div class="details-group-item" :key="'partial-payment-' + pindex">
+              <div class="title">
+                {{ $t("partial") }}
+                {{ $t("bookAppointment.payment") }}
+                -
+                {{ pindex + 1 }}
+              </div>
+              <div class="value">
+                {{ $t("sar") + " " + (partial.amount + partial.wallet_amount) }}
+              </div>
+            </div>
+          </template>
           <template v-if="selectedInsurance && !amountLoading">
             <div class="details-group-item">
               <div class="title">
@@ -456,12 +504,28 @@
           <template v-if="useWalletAmount">
             <div class="details-group-item">
               <div class="title">
+                {{ partialWallet ? $t("partial") : "" }}
                 {{ $t("selectPaymentMethod.walletAmount") }}
               </div>
               <div class="value">
                 {{ $t("sar") + " " + getWalletDeductionAmount() }}
               </div>
             </div>
+          </template>
+          <template v-for="method in getPaymentMethodsOnline">
+            <template v-if="method.partialCash">
+              <div
+                class="details-group-item"
+                :key="'partial-cash-' + method.title"
+              >
+                <div class="title">
+                  {{ $t("selectPaymentMethod." + method.title) }}
+                </div>
+                <div class="value">
+                  {{ $t("sar") + " " + method.partialCash }}
+                </div>
+              </div>
+            </template>
           </template>
           <div class="details-group-item total">
             <div class="title">
@@ -520,17 +584,23 @@ export default {
       LOYALITY_POINTS_FACTOR: null,
       loyaltiyPoints: null,
       backLink: "Upcoming Appointment",
+      partialWallet: null,
+      partialCash: null,
+      partialPayments: [],
+      totalPaidPartialAmount: null,
       paymentMethodsOnline: [
         {
           title: "applePay",
           icon: "apple-svg",
           currency: "sar",
+          partialCash: null,
           isOnlinePayment: true,
         },
         {
           title: "card",
           icon: "cash-svg",
           currency: "sar",
+          partialCash: null,
           isOnlinePayment: true,
         },
       ],
@@ -651,6 +721,16 @@ export default {
         baseAmount = baseAmount - this.getWalletDeductionAmount();
       }
 
+      this.getPaymentMethodsOnline.forEach((method) => {
+        if (method.partialCash) {
+          baseAmount = baseAmount - method.partialCash;
+        }
+      });
+
+      if (this.totalPaidPartialAmount) {
+        baseAmount = baseAmount - this.totalPaidPartialAmount;
+      }
+
       if (baseAmount) {
         baseAmount = (+baseAmount).toFixed(2);
       }
@@ -700,10 +780,14 @@ export default {
     },
   },
   async mounted() {
-    this.getWalletAmount();
-    this.fetchPaymentsType();
-    if (this.getPaymentObject && this.getPaymentObject.otherPayment) {
+    if (this.$route.params.method == "package") {
       this.backLink = "Services Packages List";
+    }
+    if (!this.getPaymentObject) this.navigateTo(this.backLink);
+    this.getWalletAmount();
+    if (this.getPaymentObject && this.getPaymentObject.otherPayment) {
+      this.fetchPartialPayments();
+      this.fetchPaymentsType();
     } else {
       localStorage.removeItem("paymentVerifyObject");
       userService.removeBooking();
@@ -726,6 +810,126 @@ export default {
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
     ...mapActions("user", ["updateUserInfo"]),
+    fetchPartialPayments() {
+      userService
+        .getPartialPayments(
+          this.getPaymentObject.appointment_id,
+          this.getUserInfo.id
+        )
+        .then((res) => {
+          if (res.data.status) {
+            let data = res.data.data;
+            if (data && data.items && data.items.length) {
+              this.$set(this, "partialPayments", [...data.items]);
+
+              let totalPartialAmount = 0;
+
+              if (data.items && data.items.length) {
+                let cashAmount = data.items.reduce((acc, item) => {
+                  return acc + item.amount;
+                }, 0);
+                let walletAmount = data.items.reduce((acc, item) => {
+                  return acc + item.wallet_amount;
+                }, 0);
+
+                totalPartialAmount = cashAmount + walletAmount;
+
+                this.totalPaidPartialAmount = totalPartialAmount;
+              }
+            }
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    resetPartialPayments() {
+      this.paymentMethodsOnline.forEach((method) => {
+        method.partialCash = null;
+      });
+    },
+    partialCashPayment(method = null) {
+      this.partialPaymentModal(
+        this.$t("enterAmount"),
+        this.$t("amountInSAR"),
+        "m-info",
+        "text",
+        this.$t("ok"),
+        this.$t("cancel"),
+        true,
+        this.$t("invalidAmount"),
+        method
+      ).then(async (modalValue) => {
+        if (modalValue.dismiss) {
+          return;
+        }
+        if (modalValue.value) {
+          if (method) method.partialCash = +modalValue.value;
+          else {
+            this.partialWallet = +modalValue.value;
+            this.fetchPaymentsType();
+          }
+        }
+      });
+    },
+    partialPaymentModal(
+      title,
+      text,
+      icon = "m-check",
+      type = "text",
+      confirmText = this.$t("ok"),
+      cancelText = this.$t("cancel"),
+      preConfirm = true,
+      preConfirmText = this.$t("promotions.invalidPromo"),
+      method = null
+    ) {
+      const imagePath = require("../../assets/images/" + icon + ".svg");
+      return this.$swal({
+        input: type,
+        inputPlaceholder: text,
+        title: title || this.$t("areYouSure"),
+        showCancelButton: true,
+        confirmButtonText: confirmText,
+        confirmButtonColor: "#4466f2",
+        cancelButtonText: cancelText,
+        cancelButtonColor: "#4466f2",
+        preConfirm: (inputVal) => {
+          if (!preConfirm) return true;
+          let trimInputVal = (inputVal + "").trim();
+          let isValidInput = trimInputVal != "";
+          let isValidNumber = !isNaN(+trimInputVal);
+          let partialCashPayments = this.getPaymentMethodsOnline.reduce(
+            (acc, method) => {
+              return acc + (method.partialCash || 0);
+            },
+            0
+          );
+          let partialWalletPayment = this.getWalletDeductionAmount() || 0;
+          let payableAmount = this.getAmountPayable;
+          if (method) {
+            payableAmount = payableAmount + partialCashPayments;
+          } else {
+            payableAmount = payableAmount + partialWalletPayment;
+          }
+
+          if (
+            !isValidNumber ||
+            !isValidInput ||
+            +trimInputVal <= 0 ||
+            +trimInputVal > payableAmount ||
+            (!method && +trimInputVal > +this.walletAmount)
+          ) {
+            this.$swal.showValidationMessage(preConfirmText);
+          }
+
+          return isValidInput && trimInputVal;
+        },
+        imageUrl: imagePath,
+        customClass: {
+          container: "swal-custom-icon-top-padding theme-action-button",
+        },
+      });
+    },
     getWalletAmount() {
       userService.getUserWalletAmount().then(
         (res) => {
@@ -880,10 +1084,12 @@ export default {
       let deductionAmount = 0;
       let appointmentAmount = this.getCalculatedAmount;
       if (this.useWalletAmount) {
-        deductionAmount =
-          +appointmentAmount >= +this.walletAmount
-            ? this.walletAmount
-            : appointmentAmount;
+        deductionAmount = this.partialWallet
+          ? this.partialWallet
+          : +appointmentAmount - this.totalPaidPartialAmount >=
+            +this.walletAmount
+          ? this.walletAmount
+          : appointmentAmount - this.totalPaidPartialAmount;
       }
 
       if (!+deductionAmount) this.useWalletAmount = false;
@@ -910,10 +1116,11 @@ export default {
       this.setAppointmentAmount();
       if (item.isOnlinePayment) {
         let obj = {
-          amount: (+this.getAmountPayable).toFixed(2),
-          appointment_id: this.getPaymentObject.appointment_id,
+          ...this.getPaymentObject,
+          payableAmount: (+item.partialCash || +this.getAmountPayable).toFixed(
+            2
+          ),
           currency: item.currency.toUpperCase(),
-          otherPayment: this.getPaymentObject.otherPayment,
         };
         obj.method = null;
         if (item.title.includes("apple")) {
@@ -957,6 +1164,7 @@ export default {
           let obj = {
             ...this.getPaymentObject,
             amount: (+patientAmount).toFixed(2),
+            payableAmount: (+patientAmount).toFixed(2),
           };
           this.setPaymentObject(obj);
         }
@@ -1034,7 +1242,7 @@ export default {
         is_free_consultation: 0,
         patient_scheme_id: 1,
         wallet_payment_amount: this.getWalletDeductionAmount(),
-        gateway_payment_amount: this.getAmountPayable,
+        gateway_payment_amount: this.getPaymentObject.payableAmount,
         gateway_payment_ref: "",
         receipt_date: this.formatReceiptDateTime(new Date()),
         discount_type: "",
@@ -1282,12 +1490,16 @@ export default {
       this.selectedLoyaltyPoints = this.getDeductedLoyaltyPoints;
     },
     fetchPaymentsType() {
+      console.log("running");
       if (!this.getPaymentObject.otherPayment) return;
 
       if (!this.getUserInfo.phone_number && !this.getAmountPayable) {
         return false;
       }
-      let query = `?country=${this.countryName}&phone=${this.getUserInfo.phone_number}&currency=${this.currency}&order_value=${this.getAmountPayable}`;
+
+      let payableAmount = this.getAmountPayable;
+      let query = `?country=${this.countryName}&phone=${this.getUserInfo.phone_number}&currency=${this.currency}&order_value=${payableAmount}`;
+      console.log("query", query);
       appointmentService.fetchPaymentsTypes(query).then(
         (res) => {
           let response = res.data;
@@ -1330,6 +1542,7 @@ export default {
         package_id: this.getPaymentObject.appointment_id,
         wallet_payment_amount: this.getWalletDeductionAmount(),
         instalment_option: tamara.instalments,
+        amount: this.getAmountPayable,
       };
       appointmentService.fetchTamaraUrl(obj).then(
         (res) => {
@@ -1429,5 +1642,16 @@ export default {
       }
     }
   }
+}
+.edit-button {
+  margin-inline: 1rem;
+  color: white;
+  border: 1px solid white;
+  border-radius: 50%;
+  width: 2rem;
+  aspect-ratio: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

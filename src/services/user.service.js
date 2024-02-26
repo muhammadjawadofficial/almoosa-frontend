@@ -29,6 +29,7 @@ export const userService = {
     getProfileById,
     getUserWalletAmount,
     getServiceBaseRate,
+    getPartialPayments,
     getPaymentAmount,
     getBanner,
     setFCMToken,
@@ -213,6 +214,13 @@ function getServiceBaseRate(mrn, doctorId, appointmentId) {
         method: apiPath.user.getServiceBaseRate.method,
         url: apiPath.user.getServiceBaseRate.url,
         data
+    })
+}
+function getPartialPayments(termId, userId) {
+    let query = "?term_id=" + termId + "&patient_id=" + userId;
+    return axios({
+        method: apiPath.user.getPartialPayments(query).method,
+        url: apiPath.user.getPartialPayments(query).url,
     })
 }
 function getPaymentAmount(mrn, appointmentId, schemeId, serviceId) {

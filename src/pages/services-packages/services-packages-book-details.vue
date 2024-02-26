@@ -90,7 +90,11 @@
         </b-card-body>
       </b-card>
       <div class="button-group">
-        <button @click="makePayment" class="btn btn-secondary">
+        <button
+          @click="makePayment"
+          class="btn btn-secondary"
+          v-if="this.getSelectedPackage.transaction_status != 'completed'"
+        >
           {{ $t("servicesPackages.bookPackage") }}
         </button>
       </div>
@@ -123,7 +127,7 @@ export default {
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
     initializeData() {
-      this.packageInfo = this.getSelectedPackage;
+      this.packageInfo = this.getSelectedPackage.package;
     },
     async makePayment() {
       if (this.packageInfo.term_condition_id) {
@@ -140,14 +144,14 @@ export default {
           let cmsObject = cmsResponse.data.data.items[0];
 
           let obj = {
-            amount: this.getSelectedPackage.price,
-            appointment_id: this.getSelectedPackage.id,
+            amount: this.getSelectedPackage.package.price,
+            appointment_id: this.getSelectedPackage.package.id,
             otherPayment: true,
-            payableAmount: this.getSelectedPackage.price
+            payableAmount: this.getSelectedPackage.package.price,
           };
           this.setPaymentObject(obj);
           this.navigateTo("Services Packages Details Terms", {
-            id: this.getSelectedPackage.term_condition_id,
+            id: this.getSelectedPackage.package.term_condition_id,
           });
           return;
           this.htmlModal(cmsObject.long_text).then((res) => {

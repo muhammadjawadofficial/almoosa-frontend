@@ -262,6 +262,7 @@ export default {
         amount: this.details.amount,
         appointment_id: this.details.id,
         payLater: true,
+        payableAmount: this.details.amount,
       };
       this.setPaymentObject(obj);
       this.navigateTo("Select Payment Method");

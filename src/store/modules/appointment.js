@@ -20,7 +20,8 @@ export default {
             currency: null,
             amount: null,
             appointment_id: null,
-            method: null
+            method: null,
+            payableAmount: null
         },
         doctorsList: null,
         isReschedule: false,
@@ -115,6 +116,7 @@ export default {
         },
         SET_BOOKING_AMOUNT(state, amount) {
             state.booking.amount = amount;
+            state.booking.payableAmount = amount;
         },
         SET_DOCTORS_LIST(state, doctorsList) {
             Vue.set(state, 'doctorsList', doctorsList)

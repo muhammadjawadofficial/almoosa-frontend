@@ -268,7 +268,7 @@ export default {
                 },
             });
         },
-        inputIconModal(title, text, icon = 'm-check', type = 'text', confirmText = this.$t("ok"), cancelText = this.$t("cancel")) {
+        inputIconModal(title, text, icon = 'm-check', type = 'text', confirmText = this.$t("ok"), cancelText = this.$t("cancel"), preConfirm = true, preConfirmText = this.$t("promotions.invalidPromo")) {
             const imagePath = require("../assets/images/" + icon + ".svg")
             return this.$swal({
                 input: type,
@@ -280,11 +280,12 @@ export default {
                 cancelButtonText: cancelText,
                 cancelButtonColor: "#4466f2",
                 preConfirm: (inputVal) => {
+                    if (!preConfirm) return true;
                     let trimInputVal = (inputVal + "").trim();
                     let isValidInput = trimInputVal != '';
                     if (!isValidInput) {
                         this.$swal.showValidationMessage(
-                            this.$t('promotions.invalidPromo')
+                            preConfirmText
                         )
                     }
 
