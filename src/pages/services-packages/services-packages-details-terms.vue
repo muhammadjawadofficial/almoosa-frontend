@@ -67,6 +67,50 @@
         </template>
       </div>
     </template>
+
+    <div class="pt-5"></div>
+    <template v-if="extraFields && extraFields.length">
+      <div v-for="item in extraFields" :key="item.id">
+        <div v-if="item.type == 'input'">
+          <div class="sub-heading w200">
+            <h3>
+              {{ item[getLocaleKey("field_title")] }}
+            </h3>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-5">
+              <b-input-group class="custom-login-input-groups">
+                <!-- :state="registerFormState.companyName" -->
+                <b-form-input
+                  v-model="item.value"
+                  :placeholder="item[getLocaleKey('field_title')]"
+                ></b-form-input>
+              </b-input-group>
+            </div>
+          </div>
+        </div>
+        <div v-if="item.type == 'textBox'">
+          <div class="sub-heading w200">
+            <h3>
+              {{ item[getLocaleKey("field_title")] }}
+            </h3>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-5">
+              <b-input-group class="custom-login-input-groups">
+                <!-- :state="registerFormState.companyName" -->
+                <b-form-textarea
+                  v-model="item.value"
+                  :placeholder="item[getLocaleKey('field_title')]"
+                  :max="3"
+                ></b-form-textarea>
+              </b-input-group>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
     <template v-if="!isWebView">
       <div class="agree-terms">
         <div class="mt-5">
@@ -94,10 +138,13 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { cmsPagesService } from "../../services";
+import { cmsPagesService, servicesPackagesService } from "../../services";
 export default {
   data() {
     return {
+      bookedPackageTermsDownloadLink: false,
+      extraFields: [],
+      cmsContentFields: [],
       agreeTerms: false,
       submitted: false,
       username: "",
@@ -128,12 +175,14 @@ export default {
   },
   computed: {
     ...mapGetters("user", ["getUserInfo"]),
+    ...mapGetters("servicesPackages", ["getSelectedPackage"]),
   },
   mounted() {
     this.setAppLanguageFromRoute();
     this.getCmsPage("terms_and_conditions");
     this.username = this.$route.query.username || "";
     this.mrn_number = this.$route.query.mrn || "";
+    this.getCmsContentFields();
   },
   methods: {
     ...mapActions("user", ["removeUserInfo"]),
@@ -150,9 +199,6 @@ export default {
         );
       }
       return html;
-    },
-    downloadTerms() {
-      window.print();
     },
     getTitle(index) {
       return "termsAndConditions.sections.section" + index + ".title";
@@ -191,7 +237,7 @@ export default {
       // this.updateProfileInfo({ is_privacy_agreed: true });
     },
     getCmsPage(type) {
-      cmsPagesService.fetchCmsPages("?id=" + this.$route.params.id).then(
+      cmsPagesService.fetchCmsPages("?id=" + this.$route.query.id).then(
         (res) => {
           if (res.data.status) {
             console.log();
@@ -210,6 +256,69 @@ export default {
           console.error(error);
         }
       );
+    },
+    getCmsContentFields() {
+      cmsPagesService.fetchCmsContentFields(this.$route.query.id).then(
+        (res) => {
+          if (res.data.status) {
+            this.cmsContentFields = res.data.data.items;
+            this.extraFields = this.cmsContentFields;
+          } else {
+            this.failureToast(res.data.message);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+          console.error(error);
+        }
+      );
+    },
+    downloadTerms() {
+      let data = {
+        userId: this.getUserInfo.id,
+        packageId: this.$route.query.packageId,
+        contentId: this.$route.query.id,
+        extraFields: this.extraFields.map((item) => {
+          const { field_title, type, value, display_rank } = item;
+          return {
+            field_title,
+            type,
+            value,
+            display_rank,
+          };
+        }),
+      };
+      servicesPackagesService
+        .postBookedPackageTerms(data)
+        .then((res) => {
+          if (res.data.status) {
+            this.bookedPackageTermsDownloadLink = res.data.data;
+            if (this.bookedPackageTermsDownloadLink) {
+              const downloadLink = document.createElement("a");
+              downloadLink.href = res.data.data;
+              downloadLink.download = "Downoad-PDF";
+              document.body.appendChild(downloadLink);
+              downloadLink.click();
+              document.body.removeChild(downloadLink);
+            }
+          } else {
+            this.failureToast(res.data.message);
+          }
+        })
+        .catch(() => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+          console.error(error);
+        });
     },
   },
 };

@@ -2,10 +2,19 @@
   <div
     class="doctor-list-container standard-width page-body-container promotions-details-conatiner"
   >
-    <back-navigation
-      :title="$t('servicesPackages.title')"
-      :backLink="'Services Packages List'"
-    />
+    <div class="terms-header">
+      <back-navigation
+        :title="$t('servicesPackages.title')"
+        :backLink="'Services Packages List'"
+      />
+      <button
+        v-if="this.isBooked"
+        class="btn btn-secondary export-button"
+        @click="downloadTerms"
+      >
+        {{ $t("download") }}
+      </button>
+    </div>
     <template v-if="getLoading">
       <div class="no-data">{{ $t("loading") }}</div>
     </template>
@@ -100,16 +109,18 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { cmsPagesService } from "../../services";
+import { cmsPagesService, servicesPackagesService } from "../../services";
 export default {
   data() {
     return {
       packageDetails: null,
       packageInfo: null,
       isBooked: false,
+      bookedPackageTermsDownloadLink: null,
     };
   },
   computed: {
+    ...mapGetters("user", ["getUserInfo"]),
     ...mapGetters("servicesPackages", ["getSelectedPackage"]),
   },
   mounted() {
@@ -124,6 +135,35 @@ export default {
     ...mapActions("appointment", ["setPaymentObject"]),
     initializeData() {
       this.packageInfo = this.getSelectedPackage;
+    },
+    downloadTerms() {
+      let data = `${this.packageInfo.id}/${this.getUserInfo.id}`;
+      servicesPackagesService
+        .fetchBookedPackageTermsDownloadLink(data)
+        .then((res) => {
+          if (res.data.status) {
+            this.bookedPackageTermsDownloadLink = res.data.data;
+            if (this.bookedPackageTermsDownloadLink) {
+              const downloadLink = document.createElement("a");
+              downloadLink.href = res.data.data;
+              downloadLink.download = "Downoad-PDF";
+              document.body.appendChild(downloadLink);
+              downloadLink.click();
+              document.body.removeChild(downloadLink);
+            }
+          } else {
+            this.failureToast(res.data.message);
+          }
+        })
+        .catch(() => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+          console.error(error);
+        });
     },
     async makePayment() {
       if (this.packageInfo.term_condition_id) {
@@ -146,8 +186,16 @@ export default {
             payableAmount: this.getSelectedPackage.price
           };
           this.setPaymentObject(obj);
-          this.navigateTo("Services Packages Details Terms", {
-            id: this.getSelectedPackage.term_condition_id,
+          this.$router.push({
+            name: "Services Packages Details Terms",
+            params: {
+              method: "package",
+              id: this.getSelectedPackage.term_condition_id,
+            },
+            query: {
+              id: this.getSelectedPackage.term_condition_id,
+              packageId: this.getSelectedPackage.id,
+            },
           });
           return;
           this.htmlModal(cmsObject.long_text).then((res) => {
@@ -175,6 +223,7 @@ export default {
   top: 3rem;
   z-index: 1;
 }
+
 .text-content {
   font-size: 1.125rem;
   color: #8696b8;
