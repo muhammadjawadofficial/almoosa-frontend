@@ -3,7 +3,7 @@
     <div class="header-logo-wrapper">
       <div class="logo-wrapper">
         <router-link to="/">
-          <img class="img-fluid" src="../assets/images/logo/ash-logo.svg" alt />
+          <img class="img-fluid ash-logo" src="../assets/images/logo/ash-logo.svg" alt />
         </router-link>
       </div>
     </div>

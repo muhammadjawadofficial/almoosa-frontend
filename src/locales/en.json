@@ -470,6 +470,7 @@
     "fullyCovered": "Fully Covered",
     "receiptDetails": "Receipt Details",
     "appointmentAmount": "Appointment Amount",
+    "packageAmount": "Package Amount",
     "insuranceCanCoverUpto": "Insurance can cover upto",
     "walletAmount": "Wallet Amount",
     "amountPayable": "Amount Payable",

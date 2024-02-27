@@ -430,7 +430,7 @@
         <div class="details-group">
           <div class="details-group-item">
             <div class="title">
-              {{ $t("selectPaymentMethod.appointmentAmount") }}
+              {{ $t("selectPaymentMethod." + (getPaymentObject.otherPayment ? "packageAmount" : "appointmentAmount")) }}
             </div>
             <div class="value">
               {{ $t("sar") + " " + getPaymentObject.amount }}

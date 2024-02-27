@@ -76,7 +76,7 @@
                       v-for="suggested_symptom in option.options" :key="suggested_symptom.id"
                       @click="toggleSelection(suggested_symptom.id)">
                       <div class="speciality-image">
-                        <img :src="getImageUrl(suggested_symptom.icon)" alt="icon" />
+                        <img src="../../assets/images/speciality/Dental.svg" alt="speciality-icon" />
                       </div>
                       <div class="speciality-label">
                         {{ suggested_symptom[getLocaleKey("title")] }}

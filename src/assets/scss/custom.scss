@@ -2561,6 +2561,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   justify-content: space-between;
   gap: 1rem;
 }
+.ash-logo {
+  filter: brightness(10);
+}
 html {
   font-size: var(--globalFontSize);
   --globalFontSize: 16px;
