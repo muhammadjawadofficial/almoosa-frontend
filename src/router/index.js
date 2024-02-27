@@ -52,11 +52,6 @@ import healthEducationModule from "../pages/health-education";
 import healthEducationList from "../pages/health-education/health-education-list";
 import healthEducationDetails from "../pages/health-education/health-education-details";
 
-import servicesPackagesModule from "../pages/services-packages";
-import servicesPackagesList from "../pages/services-packages/services-packages-list";
-import servicesPackagesDetails from "../pages/services-packages/services-packages-details";
-import servicesPackagesDetailsTerms from "../pages/services-packages/services-packages-details-terms";
-
 import servicesPackagesModule from '../pages/services-packages'
 import servicesPackagesList from '../pages/services-packages/services-packages-list'
 import servicesPackagesDetails from '../pages/services-packages/services-packages-details'

@@ -30,21 +30,10 @@
                   <div class="content--action">
                     <span
                       class="edit-button pointer"
-                      v-if="getPaymentObject.otherPayment && useWalletAmount"
-                      @click.stop="
-                        partialWallet
-                          ? ((partialWallet = null),
-                            fetchPaymentsType(),
-                            resetPartialPayments())
-                          : partialCashPayment()
-                      "
+                      v-if="getPaymentObject.otherPayment"
+                      @click.stop="partialCashPayment()"
                     >
-                      <i
-                        v-if="!partialWallet"
-                        :class="'fa fa-pencil'"
-                        aria-hidden="true"
-                      ></i>
-                      <i v-else :class="'fa fa-times'" aria-hidden="true"></i>
+                      <i :class="'fa fa-pencil'" aria-hidden="true"></i>
                     </span>
                     <button
                       class="btn useButton"
@@ -177,7 +166,8 @@
         class="col-lg-7"
         v-if="
           !getPaymentObject.otherPayment ||
-          (getPaymentObject.otherPayment && getAmountPayable > 0)
+          (getPaymentObject.otherPayment &&
+            +getAmountPayable + +partialCash > 0)
         "
       >
         <div class="payment-section block-section">
@@ -212,7 +202,8 @@
                   v-if="
                     getPaymentObject.otherPayment == method.isOtherPayment &&
                     (!method.hideOnTotalCovered ||
-                      (method.hideOnTotalCovered && getAmountPayable > 0))
+                      (method.hideOnTotalCovered &&
+                        +getAmountPayable + +partialCash > 0))
                   "
                 >
                   <div
@@ -336,7 +327,8 @@
       <div
         class="col-lg-7 appointment--action-buttons"
         v-if="
-          isElligibleForFirstFreeVirtualAppointment && +getAmountPayable != 0
+          isElligibleForFirstFreeVirtualAppointment &&
+          +getAmountPayable + +partialCash != 0
         "
       >
         <button
@@ -352,7 +344,7 @@
           {{ $t("claimFreeAppointment") }}
         </button>
       </div>
-      <div class="col-lg-7" v-else-if="getAmountPayable != 0">
+      <div class="col-lg-7" v-else-if="+getAmountPayable + +partialCash != 0">
         <div class="payment-section block-section">
           <div class="heading-section">
             <div class="heading-text">
@@ -393,15 +385,13 @@
                     </div>
                     <span v-if="getPaymentObject.otherPayment">
                       <i
-                        v-if="!method.partialCash"
                         @click.stop="partialCashPayment(method)"
-                        :class="'fa fa-pencil'"
+                        :class="'fa fa-pencil mx-2'"
                         aria-hidden="true"
                       ></i>
                       <i
-                        v-else
                         @click.stop="method.partialCash = null"
-                        :class="'fa fa-times'"
+                        :class="'fa fa-times mx-2'"
                         aria-hidden="true"
                       ></i>
                     </span>
@@ -451,6 +441,7 @@
               <div class="title">
                 {{ $t("partial") }}
                 {{ $t("bookAppointment.payment") }}
+                {{ partial.method ? `(${partial.method})` : "" }}
                 -
                 {{ pindex + 1 }}
               </div>
@@ -867,6 +858,7 @@ export default {
           if (method) method.partialCash = +modalValue.value;
           else {
             this.partialWallet = +modalValue.value;
+            this.useWalletAmount = true;
             this.fetchPaymentsType();
           }
         }
@@ -907,9 +899,10 @@ export default {
           let partialWalletPayment = this.getWalletDeductionAmount() || 0;
           let payableAmount = this.getAmountPayable;
           if (method) {
-            payableAmount = payableAmount + partialCashPayments;
+            this.partialCash = +trimInputVal;
+            payableAmount = +payableAmount + +partialCashPayments;
           } else {
-            payableAmount = payableAmount + partialWalletPayment;
+            payableAmount = +payableAmount + +partialWalletPayment;
           }
 
           if (
@@ -1490,7 +1483,6 @@ export default {
       this.selectedLoyaltyPoints = this.getDeductedLoyaltyPoints;
     },
     fetchPaymentsType() {
-      console.log("running");
       if (!this.getPaymentObject.otherPayment) return;
 
       if (!this.getUserInfo.phone_number && !this.getAmountPayable) {
@@ -1499,7 +1491,6 @@ export default {
 
       let payableAmount = this.getAmountPayable;
       let query = `?country=${this.countryName}&phone=${this.getUserInfo.phone_number}&currency=${this.currency}&order_value=${payableAmount}`;
-      console.log("query", query);
       appointmentService.fetchPaymentsTypes(query).then(
         (res) => {
           let response = res.data;
