@@ -73,7 +73,7 @@ export const apiPath = {
         getInstructions: (query) => getApiObject("get", "system-settings" + query),
         getNearestAvailability: getApiObject("post", "appointments/nearest-availability", "v2"),
         getPaymentsTypes: (query) =>
-        getApiObject("get", "payments/tamara/options" + query, "v1"),
+            getApiObject("get", "payments/tamara/options" + query, "v1"),
         getTamaraUrl: getApiObject("post", "payments/tamara/checkout", "v1"),
     },
 
@@ -141,6 +141,8 @@ export const apiPath = {
         fetch: getApiObject("get", "packages"),
         details: (id) => getApiObject("get", "health-education/" + id),
         fetchBookedPackges: getApiObject("get", "booked-packages/patient/booked"),
+        addBookedPackageTerms: getApiObject("post", "booked-package-terms"),
+        bookedPackageTermsDownloadLink: (id) => getApiObject("get", "booked-package-terms/downloadLink/" + id),
     },
     symptomsChecker: {
         postData: getApiObject("post", "sc-survey"),
@@ -157,6 +159,7 @@ export const apiPath = {
 
     cmsPages: {
         fetch: (query) => getApiObject("get", "cms-content" + query),
+        cmsContentFields: (id) => getApiObject("get", "cms-content-fields/" + id),
     },
 
     freeAppointmentPromo: {
