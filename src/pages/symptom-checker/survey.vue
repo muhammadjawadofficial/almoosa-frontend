@@ -1,7 +1,7 @@
 <template>
   <div class="find-specialist-container only-back-container page-body-container standard-width">
     <back-navigation />
-    <div class="specialist-section find-specialist-container-section block-section" style="position: relative">
+    <div class="specialist-section  block-section" style="position: relative">
       <div class="heading-section">
         <div class="heading-icon">
           <img src="../../assets/images/speciality.svg" alt="speciality-icon" />
@@ -53,9 +53,10 @@
                 <div class="heading-subTitle mb-4">
                   {{ option[getLocaleKey("description")] }}
                 </div>
-                <div class="checkbox-wrapper" v-for="q in option.options" :key="q.id" style="margin-bottom: 2rem">
+                <!-- <div class="checkbox-wrapper" v-for="q in option.options" :key="q.id" style="margin-bottom: 2rem">
                   <div class="checkBox-main">
                     <div class="checkbox-wrapper">
+                      {{ checker }}
                       <input type="checkbox" v-model="checker" :value="q.id" :id="q.id" :disabled="selectedRecommendation != null &&
                         selectedRecommendation != q.recommendation
                         " />
@@ -65,6 +66,21 @@
                       <label :for="q.id" class="label-input">
                         {{ q[getLocaleKey("title")] }}
                       </label>
+                    </div>
+                  </div>
+                </div> -->
+                <div class="body-section">
+                  <div class="specialities-container">
+                    <!-- {{ checker.length }} -->
+                    <div class="speciality" :class="{ 'active': isSelected(suggested_symptom.id) }"
+                      v-for="suggested_symptom in option.options" :key="suggested_symptom.id"
+                      @click="toggleSelection(suggested_symptom.id)">
+                      <div class="speciality-image">
+                        <img :src="getImageUrl(suggested_symptom.icon)" alt="icon" />
+                      </div>
+                      <div class="speciality-label">
+                        {{ suggested_symptom[getLocaleKey("title")] }}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -141,6 +157,7 @@ export default {
   data() {
     return {
       speciality: {},
+      selectedSymptoms: [],
       age: 0,
       minValue: 0,
       maxValue: 100,
@@ -213,6 +230,24 @@ export default {
   },
 
   methods: {
+    toggleSelection(symptomId) {
+      const index = this.selectedSymptoms.indexOf(symptomId);
+      if (index === -1) {
+        this.selectedSymptoms.push(symptomId);
+      } else {
+        this.selectedSymptoms.splice(index, 1);
+      }
+      console.log("this.selectedSymptoms are:", this.selectedSymptoms);
+    },
+    isSelected(symptomId) {
+      console.log("this.selectedSymptoms", this.selectedSymptoms);
+      return this.selectedSymptoms.includes(symptomId);
+    },
+    setSelectedSymptom(symptom) {
+      this.selectedSymptom = symptom;
+      this.checker = [symptom.id];
+      console.log("this.selectedSymptom", this.selectedSymptom)
+    },
     updateSliderStyles(value) {
       if (this.$refs.range) {
         const progress = (value / this.maxValue) * 100;
@@ -225,17 +260,23 @@ export default {
     },
     postData() {
       let items = [];
-      if (this.checker.length && this.options) {
-        this.checker.forEach((el) => {
-          items.push({
-            symptom_id: this.options[0].id,
-            option_selected_id: el,
+      if (this.selectedSymptoms.length && this.options) {
+        this.options.forEach((symptom) => {
+          symptom.options.forEach((option) => {
+            // Check if the option is selected
+            if (this.selectedSymptoms.includes(option.id)) {
+              // Push the selected option to the items array
+              items.push({
+                symptom_id: symptom.id,
+                option_selected_id: option.id,
+              });
+            }
           });
         });
       }
       let data = {
         speciality_id: this.speciality,
-        patient_id: this.getUserInfo ? this.getUserInfo.id : "",
+        patient_id: this.getUserInfo ? this.getUserInfo.id : 0,
         recommendation: this.options[0].options[0].recommendation,
         age: +this.age,
         gender: this.selectedGender,
@@ -262,6 +303,7 @@ export default {
         }
       );
     },
+
     getSymptomsData(id) {
       symptopChecker.getData(id).then(
         (response) => {
@@ -284,6 +326,7 @@ export default {
       );
     },
     nextslide() {
+      console.log("this.nextSlideCount", this.nextSlideCount);
       if (this.nextSlideCount !== 3) {
         setTimeout(() => {
           this.updateSliderStyles(this.age);
@@ -301,6 +344,10 @@ export default {
         }
 
         if (this.nextSlideCount == 1) {
+          if (this.age === 0) {
+        this.failureToast("Please select a valid age.");
+        return false;
+      }
           // if (this.age <= 14) {
           //   this.nextSlideCount = 3;
 
@@ -325,7 +372,9 @@ export default {
         if (this.getSurvey && this.getSurvey.age) {
           this.nextSlideCount++;
         }
-        if (this.checker.length && this.nextSlideCount == 2) {
+        if (this.selectedSymptoms.length
+          && this.nextSlideCount == 2) {
+
           this.nextSlideCount++;
         }
       }

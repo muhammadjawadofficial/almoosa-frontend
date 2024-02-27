@@ -22,6 +22,7 @@ export const appointmentService = {
     getNearestAvailability,
     fetchPaymentsTypes,
     fetchTamaraUrl,
+    getSymptomsSpecialitiesSuggested
 }
 
 function getUpcomingAppointemnts(id) {
@@ -101,7 +102,7 @@ function createAppointment(type, patient, doctor, date, timeslot, amount, promo)
     })
 }
 
-function updateAppointment(id, timeslot, mrn_number, type, date) {
+function updateAppointment(id, timeslot, mrn_number, type) {
     let data = {
         "old_app_id": id,
         "slot_id": timeslot.id,
@@ -191,3 +192,11 @@ function fetchPaymentsTypes(query) {
       data,
     });
   }
+
+
+  function getSymptomsSpecialitiesSuggested() {
+    return axios({
+        method: apiPath.appointment.symptomsSpecialitiesV1.method,
+        url: apiPath.appointment.symptomsSpecialitiesV1.url
+    })
+}
