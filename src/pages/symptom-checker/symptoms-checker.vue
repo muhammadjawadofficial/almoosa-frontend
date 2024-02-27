@@ -135,7 +135,7 @@ export default {
       this.specialities = null;
       this.filteredSpecialities = null;
       Promise.all([
-        appointmentService.getSymptomsSpecialitiesV1(this.getSpecialityQuery()),
+        appointmentService.getSymptomsSpecialitiesSuggested(this.getSpecialityQuery()),
       ])
         .then((res) => {
           let specialitiesResponse = res[0].data;

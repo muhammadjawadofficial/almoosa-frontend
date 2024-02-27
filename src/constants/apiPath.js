@@ -39,6 +39,7 @@ export const apiPath = {
         clinicsV1: getApiObject("get", "clinics"),
         specialities: (query) => getApiObject("get", "specialities" + query, "v2"),
         specialitiesV1: getApiObject("get", "specialities"),
+        symptomsSpecialitiesV1: getApiObject("get", "specialities/selected-questions"),
         findDoctors: (speciality, date, clinic, bookingType, currentLang) => {
             let queryString = '?';
             if (speciality) {

@@ -1,10 +1,10 @@
 <template>
     <div class="find-specialist-container only-back-container page-body-container standard-width">
-        <div class="">
+        <div class="survey-flex">
+            <back-navigation />
 
-            <div class="specialist-section find-specialist-container-section block-section survey-flex">
-                <back-navigation />
-
+            <div class="specialist-section  block-section survey-flex">
+                <!-- find-specialist-container-section -->
                 <div class="heading-icon">
                     <img src="../../assets/images/speciality.svg" alt="speciality-icon" />
                 </div>
@@ -144,6 +144,6 @@ export default {
 .survey-flex {
     display: flex;
     gap: 1rem;
-    align-items: center;
+    align-items: start;
 }
 </style>
