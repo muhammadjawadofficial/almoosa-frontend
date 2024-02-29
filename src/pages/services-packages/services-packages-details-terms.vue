@@ -10,7 +10,7 @@
       />
       <button
         class="back-btn btn btn-secondary export-button"
-        @click="downloadTerms"
+        @click="downloadTerms(true)"
       >
         {{ $t("download") }}
       </button>
@@ -182,7 +182,7 @@ export default {
     this.getCmsPage("terms_and_conditions");
     this.username = this.$route.query.username || "";
     this.mrn_number = this.$route.query.mrn || "";
-    this.getCmsContentFields();
+    // this.getCmsContentFields();
   },
   methods: {
     ...mapActions("user", ["removeUserInfo"]),
@@ -228,13 +228,23 @@ export default {
       return !!this.agreeTerms;
     },
     acceptTerms() {
-      this.submitted = true;
-      if (!this.validateFields()) {
+    const val=  this.extraFields.some((item) => {
+      const { value } = item;
+      if (!value) {
+        this.failureToast("Fields are required");
+         return true;
+         }
+      return false;
+    });
+      if (!this.validateFields() && val == false) {
         this.failureToast("Please Accept Privacy Policy");
         return;
       }
-      this.navigateTo("Select Payment Method", { method: "package" });
-      // this.updateProfileInfo({ is_privacy_agreed: true });
+      if (this.validateFields() && val == false) {
+        this.downloadTerms(false)
+        this.submitted = true;
+        this.navigateTo("Select Payment Method", { method: "package" });
+      }
     },
     getCmsPage(type) {
       cmsPagesService.fetchCmsPages("?id=" + this.$route.query.id).then(
@@ -242,6 +252,7 @@ export default {
           if (res.data.status) {
             console.log();
             this.termsAndConditionCMS = res.data.data.items[0];
+            this.extraFields = this.termsAndConditionCMS.cms_content_fields;
           } else {
             this.failureToast(res.data.message);
           }
@@ -278,48 +289,55 @@ export default {
         }
       );
     },
-    downloadTerms() {
+    downloadTerms(download) {
+  //  if (this.extraFields) {
+  //    this.extraFields.map((item) => {
+  //      const { value } = item
+  //            if (!value) {
+  //              this.failureToast("fields are required");
+  //               return false
+  //            }
+  //        })
+  //     }
       let data = {
         userId: this.getUserInfo.id,
         packageId: this.$route.query.packageId,
         contentId: this.$route.query.id,
-        extraFields: this.extraFields.map((item) => {
+        extraFields: this.extraFields.map(item => {
           const { field_title, type, value, display_rank } = item;
           return {
             field_title,
             type,
             value,
-            display_rank,
+            display_rank
           };
-        }),
-      };
-      servicesPackagesService
-        .postBookedPackageTerms(data)
-        .then((res) => {
-          if (res.data.status) {
-            this.bookedPackageTermsDownloadLink = res.data.data;
-            if (this.bookedPackageTermsDownloadLink) {
-              const downloadLink = document.createElement("a");
-              downloadLink.href = res.data.data;
-              downloadLink.download = "Downoad-PDF";
-              document.body.appendChild(downloadLink);
-              downloadLink.click();
-              document.body.removeChild(downloadLink);
-            }
-          } else {
-            this.failureToast(res.data.message);
-          }
         })
-        .catch(() => {
-          if (!this.isAPIAborted(error))
-            this.failureToast(
-              error.response &&
-                error.response.data &&
-                error.response.data.message
-            );
-          console.error(error);
-        });
-    },
+      }
+      servicesPackagesService.postBookedPackageTerms(data).then((res) => {
+        if (res.data.status) {
+          this.bookedPackageTermsDownloadLink = res.data.data.items[0].downloadlink;
+          console.log("url link",this.bookedPackageTermsDownloadLink)
+          if (this.bookedPackageTermsDownloadLink && download) {
+            const downloadLink = document.createElement('a');
+            downloadLink.href = this.bookedPackageTermsDownloadLink;
+            downloadLink.download = 'Downoad-PDF';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+          }
+        } else {
+          this.failureToast(res.data.message);
+        }
+      }).catch(() => {
+        if (!this.isAPIAborted(error))
+          this.failureToast(
+            error.response &&
+            error.response.data &&
+            error.response.data.message
+          );
+        console.error(error);
+      })
+    }
   },
 };
 </script>
