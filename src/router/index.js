@@ -148,7 +148,6 @@ const routes = [
           title: "Confirm Survey | Almoosa Health Group",
         },
       },
-
       {
         path: "survey",
         name: "Survey",

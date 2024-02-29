@@ -237,10 +237,8 @@ export default {
       } else {
         this.selectedSymptoms.splice(index, 1);
       }
-      console.log("this.selectedSymptoms are:", this.selectedSymptoms);
     },
     isSelected(symptomId) {
-      console.log("this.selectedSymptoms", this.selectedSymptoms);
       return this.selectedSymptoms.includes(symptomId);
     },
     setSelectedSymptom(symptom) {

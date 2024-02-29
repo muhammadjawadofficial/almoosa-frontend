@@ -629,7 +629,7 @@
   "cantJoinCallEarly": "Meeting can only be joined before {minutes} minutes of the scheduled start time",
   "cantJoinCallLate": "Meeting cannot be joined after the scheduled time",
   "back": "Back",
-  "ash": "Almoosa Health Group",
+  "ash": "Almoosa Health",
   "loading": "Loading",
   "success": "Success",
   "failure": "Failed",

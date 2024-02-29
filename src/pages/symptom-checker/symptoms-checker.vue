@@ -135,7 +135,9 @@ export default {
       this.specialities = null;
       this.filteredSpecialities = null;
       Promise.all([
-        appointmentService.getSymptomsSpecialitiesSuggested(this.getSpecialityQuery()),
+        appointmentService.getSymptomsSpecialitiesSuggested(
+          this.getSpecialityQuery()
+        ),
       ])
         .then((res) => {
           let specialitiesResponse = res[0].data;
@@ -169,7 +171,9 @@ export default {
     setSelectedSymptom(speciality) {
       this.selectedSpeciality = speciality;
       this.$router.push({
-        name: "Survey" + (this.isWebView ? " WebView" : "") + (this.getIsGuest ? " Guest" : ""),
+        name:
+          "Survey" +
+          (this.isWebView ? " WebView" : this.getIsGuest ? " Guest" : ""),
         query: { speciality: JSON.stringify(this.selectedSpeciality.id) },
       });
     },
