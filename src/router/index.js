@@ -207,6 +207,17 @@ const routes = [
             },
           },
           {
+            path: "confirm-survey",
+            name: "Confirm Survey WebView",
+            component: confirmSurvey,
+            meta: {
+              title: "Confirm Survey | Almoosa Health Group",
+              public: true,
+              hideWhatsapp: true,
+              webview: true,
+            },
+          },
+          {
             path: "symptom-checker",
             name: "Symptom Checker WebView",
             component: symptopChecker,

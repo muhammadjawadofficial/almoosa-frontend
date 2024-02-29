@@ -1,7 +1,13 @@
 <template>
-  <div class="find-specialist-container only-back-container page-body-container standard-width">
-    <back-navigation />
-    <div class="specialist-section  block-section" style="position: relative">
+  <div
+    class="find-specialist-container only-back-container page-body-container standard-width"
+  >
+    <back-navigation v-if="!isWebView" />
+    <div
+      class="specialist-section block-section"
+      style="position: relative"
+      :class="{ 'py-0': isWebView }"
+    >
       <div class="heading-section">
         <div class="heading-icon">
           <img src="../../assets/images/speciality.svg" alt="speciality-icon" />
@@ -21,8 +27,13 @@
             {{ $t("symptoms.selectGender") }}
           </h3>
           <div class="gender-container" v-if="genders && genders.length">
-            <div class="gender" v-for="gender in genders" :key="'find-speciality-' + gender.id"
-              @click="setSelectedSpeciality(gender)" :class="{ active: gender.status }">
+            <div
+              class="gender"
+              v-for="gender in genders"
+              :key="'find-speciality-' + gender.id"
+              @click="setSelectedSpeciality(gender)"
+              :class="{ active: gender.status }"
+            >
               <div class="gender-label">
                 {{ gender[getLocaleKey("label")] }}
               </div>
@@ -38,7 +49,15 @@
           </div>
           <div class="wrapper">
             <div class="range">
-              <input type="range" v-model="age" :min="minValue" :max="maxValue" id="range" ref="range" class="ranger" />
+              <input
+                type="range"
+                v-model="age"
+                :min="minValue"
+                :max="maxValue"
+                id="range"
+                ref="range"
+                class="ranger"
+              />
             </div>
           </div>
           <div class="range-age">{{ $t("symptoms.age") }} : {{ age }}</div>
@@ -46,7 +65,12 @@
         <div class="body-section" v-if="nextSlideCount == 2">
           <div class="specialities-container">
             <div class="">
-              <div class="form-check" style="align-items: center" v-for="option in options" :key="option.id">
+              <div
+                class="form-check"
+                style="align-items: center"
+                v-for="option in options"
+                :key="option.id"
+              >
                 <h2 class="heading-title" style="">
                   {{ option[getLocaleKey("title")] }}
                 </h2>
@@ -72,11 +96,18 @@
                 <div class="body-section">
                   <div class="specialities-container">
                     <!-- {{ checker.length }} -->
-                    <div class="speciality" :class="{ 'active': isSelected(suggested_symptom.id) }"
-                      v-for="suggested_symptom in option.options" :key="suggested_symptom.id"
-                      @click="toggleSelection(suggested_symptom.id)">
+                    <div
+                      class="speciality"
+                      :class="{ active: isSelected(suggested_symptom.id) }"
+                      v-for="suggested_symptom in option.options"
+                      :key="suggested_symptom.id"
+                      @click="toggleSelection(suggested_symptom.id)"
+                    >
                       <div class="speciality-image">
-                        <img src="../../assets/images/speciality/Dental.svg" alt="speciality-icon" />
+                        <img
+                          src="../../assets/images/speciality/Dental.svg"
+                          alt="speciality-icon"
+                        />
                       </div>
                       <div class="speciality-label">
                         {{ suggested_symptom[getLocaleKey("title")] }}
@@ -89,7 +120,11 @@
           </div>
         </div>
         <div class="body-section" v-if="nextSlideCount == 3">
-          <b-card header-tag="div" no-body class="ash-card bg-tertiary card-rounded">
+          <b-card
+            header-tag="div"
+            no-body
+            class="ash-card bg-tertiary card-rounded"
+          >
             <b-card-body class="mt-0" v-if="surveyResult">
               <div class="appointment-detail">
                 <div class="appointment-detail--type">
@@ -108,12 +143,19 @@
                     {{ surveyResult.age || "N/A" }}
                   </div>
                 </div>
-                <div class="appointment-detail--sepecialist"
-                  v-for="(item, i) in getSymptomsAndOptions(surveyResult.items)" :key="i">
+                <div
+                  class="appointment-detail--sepecialist"
+                  v-for="(item, i) in getSymptomsAndOptions(surveyResult.items)"
+                  :key="i"
+                >
                   <div class="appointment-detail--label">
                     {{ item.symptom[getLocaleKey("title")] }}
                   </div>
-                  <div class="appointment-detail--value" v-for="(it, i) in item.options" :key="i">
+                  <div
+                    class="appointment-detail--value"
+                    v-for="(it, i) in item.options"
+                    :key="i"
+                  >
                     {{ it[getLocaleKey("title")] }}
                   </div>
                 </div>
@@ -132,17 +174,28 @@
         </div>
 
         <div class="datetime-section symptoms-btns mt-3">
-          <button v-if="!(nextSlideCount == 3)" @click="nextslide" class="btn btn-primary">
+          <button
+            v-if="!(nextSlideCount == 3)"
+            @click="nextslide"
+            class="btn btn-primary"
+          >
             {{ $t("modules.next") }}
           </button>
-          <button @click="backSlide" v-if="nextSlideCount !== 0" class="btn btn-secondary">
+          <button
+            @click="backSlide"
+            v-if="nextSlideCount !== 0"
+            class="btn btn-secondary"
+          >
             {{ $t("modules.back") }}
           </button>
         </div>
       </div>
       <div v-else>
         <div class="heading-title mt-3">{{ $t("symptoms.noSymptoms") }}</div>
-        <button @click="navigateTo('default')" class="btn btn-primary mt-3">
+        <button
+          @click="isWebView ? window.open('/symptom-checker-exit', "_self") : navigateTo('default')"
+          class="btn btn-primary mt-3"
+        >
           {{ $t("modules.home") }}
         </button>
       </div>
@@ -220,12 +273,16 @@ export default {
 
     const userInfo = this.getUserInfo;
     if (userInfo && userInfo.gender && this.getSurvey.survey == "yes") {
-      this.selectedGender = userInfo.gender
-      this.nextSlideCount++
+      this.selectedGender = userInfo.gender;
+      this.nextSlideCount++;
     }
-    if (this.getSurvey && this.getSurvey.age && this.getSurvey.survey == "yes") {
+    if (
+      this.getSurvey &&
+      this.getSurvey.age &&
+      this.getSurvey.survey == "yes"
+    ) {
       this.age = this.getSurvey.age;
-      this.nextSlideCount++
+      this.nextSlideCount++;
     }
   },
 
@@ -244,7 +301,6 @@ export default {
     setSelectedSymptom(symptom) {
       this.selectedSymptom = symptom;
       this.checker = [symptom.id];
-      console.log("this.selectedSymptom", this.selectedSymptom)
     },
     updateSliderStyles(value) {
       if (this.$refs.range) {
@@ -295,8 +351,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-              error.response.data &&
-              error.response.data.message
+                error.response.data &&
+                error.response.data.message
             );
         }
       );
@@ -317,14 +373,13 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-              error.response.data &&
-              error.response.data.message
+                error.response.data &&
+                error.response.data.message
             );
         }
       );
     },
     nextslide() {
-      console.log("this.nextSlideCount", this.nextSlideCount);
       if (this.nextSlideCount !== 3) {
         setTimeout(() => {
           this.updateSliderStyles(this.age);
@@ -343,9 +398,9 @@ export default {
 
         if (this.nextSlideCount == 1) {
           if (this.age === 0) {
-        this.failureToast("Please select a valid age.");
-        return false;
-      }
+            this.failureToast("Please select a valid age.");
+            return false;
+          }
           // if (this.age <= 14) {
           //   this.nextSlideCount = 3;
 
@@ -370,9 +425,7 @@ export default {
         if (this.getSurvey && this.getSurvey.age) {
           this.nextSlideCount++;
         }
-        if (this.selectedSymptoms.length
-          && this.nextSlideCount == 2) {
-
+        if (this.selectedSymptoms.length && this.nextSlideCount == 2) {
           this.nextSlideCount++;
         }
       }
@@ -396,8 +449,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-              error.response.data &&
-              error.response.data.message
+                error.response.data &&
+                error.response.data.message
             );
         }
       );
@@ -441,7 +494,15 @@ export default {
           el.status = false;
         });
         this.updateSliderStyles(this.age);
-        this.$router.push({ name: "Confirm Survey" });
+        if (this.isWebView) {
+          window.open("/symptom-checker-exit", "_self");
+        } else {
+          this.$router.push({
+            name:
+              "Confirm Survey" +
+              (this.isWebView ? " WebView" : this.getIsGuest ? " Guest" : ""),
+          });
+        }
         return false;
       }
       if (this.backSlide !== 0) {
@@ -467,8 +528,8 @@ export default {
             if (!this.isAPIAborted(error))
               this.failureToast(
                 error.response &&
-                error.response.data &&
-                error.response.data.message
+                  error.response.data &&
+                  error.response.data.message
               );
           }
         );
@@ -827,12 +888,12 @@ input[type="range"]:focus::-webkit-slider-thumb {
   transform: rotate(-45deg);
 }
 
-.checkbox-wrapper input[type="checkbox"]:checked+.check-box,
+.checkbox-wrapper input[type="checkbox"]:checked + .check-box,
 .checkbox-wrapper .check-box.checked {
   border-color: #34b93d;
 }
 
-.checkbox-wrapper input[type="checkbox"]:checked+.check-box::after,
+.checkbox-wrapper input[type="checkbox"]:checked + .check-box::after,
 .checkbox-wrapper .check-box.checked::after {
   height: calc(var(--checkbox-height) / 2);
   -moz-animation: dothabottomcheck 0.2s ease 0s forwards;
@@ -841,7 +902,7 @@ input[type="range"]:focus::-webkit-slider-thumb {
   animation: dothabottomcheck 0.2s ease 0s forwards;
 }
 
-.checkbox-wrapper input[type="checkbox"]:checked+.check-box::before,
+.checkbox-wrapper input[type="checkbox"]:checked + .check-box::before,
 .checkbox-wrapper .check-box.checked::before {
   height: calc(var(--checkbox-height) * 1.2);
   -moz-animation: dothatopcheck 0.4s ease 0s forwards;
