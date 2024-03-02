@@ -22,7 +22,8 @@ export const appointmentService = {
     getNearestAvailability,
     fetchPaymentsTypes,
     fetchTamaraUrl,
-    getSymptomsSpecialitiesSuggested
+    getSymptomsSpecialitiesSuggested,
+    oneStepCheckout
 }
 
 function getUpcomingAppointemnts(id) {
@@ -180,21 +181,25 @@ function getNearestAvailability(payload) {
 }
 function fetchPaymentsTypes(query) {
     return axios({
-      method: apiPath.appointment.getPaymentsTypes(query).method,
-      url: apiPath.appointment.getPaymentsTypes(query).url,
+        method: apiPath.appointment.getPaymentsTypes(query).method,
+        url: apiPath.appointment.getPaymentsTypes(query).url,
     });
-  }
-  
-  function fetchTamaraUrl(data) {
+}
+function fetchTamaraUrl(data) {
     return axios({
-      method: apiPath.appointment.getTamaraUrl.method,
-      url: apiPath.appointment.getTamaraUrl.url,
-      data,
+        method: apiPath.appointment.getTamaraUrl.method,
+        url: apiPath.appointment.getTamaraUrl.url,
+        data,
     });
-  }
-
-
-  function getSymptomsSpecialitiesSuggested() {
+}
+function oneStepCheckout(data) {
+    return axios({
+        method: apiPath.appointment.oneStepCheckout.method,
+        url: apiPath.appointment.oneStepCheckout.url,
+        data,
+    });
+}
+function getSymptomsSpecialitiesSuggested() {
     return axios({
         method: apiPath.appointment.symptomsSpecialitiesV1.method,
         url: apiPath.appointment.symptomsSpecialitiesV1.url

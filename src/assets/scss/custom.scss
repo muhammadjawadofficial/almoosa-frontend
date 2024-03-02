@@ -1814,10 +1814,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         &--info {
           display: flex;
           width: 13rem;
-          justify-content: space-between;
+          justify-content: end;
           align-items: center;
           font-size: 1.25rem;
           white-space: nowrap;
+          gap: 1rem;
         }
         &--price {
           color: $primary-color;

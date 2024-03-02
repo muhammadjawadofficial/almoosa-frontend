@@ -37,6 +37,9 @@ export default {
     ]),
     ...mapGetters("user", ["getUserInfo"]),
     getIframeUrl() {
+      if (this.getPaymentObject && this.getPaymentObject.otherPayment) {
+        return this.getPaymentObject.url;
+      }
       return (
         process.env.VUE_APP_API_V2_BASE_URL +
         "api/v1/payments?amount=" +

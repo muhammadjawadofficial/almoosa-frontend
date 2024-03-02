@@ -2,10 +2,19 @@
   <div
     class="doctor-list-container standard-width page-body-container promotions-details-conatiner"
   >
-    <back-navigation
-      :title="$t('servicesPackages.title')"
-      :backLink="'Services Packages List'"
-    />
+    <div class="terms-header">
+      <back-navigation
+        :title="$t('servicesPackages.title')"
+        :backLink="'Services Packages List'"
+      />
+      <button
+        class="btn btn-secondary export-button"
+        @click="downloadTerms"
+        v-if="isBooked"
+      >
+        {{ $t("download") }}
+      </button>
+    </div>
     <template v-if="getLoading">
       <div class="no-data">{{ $t("loading") }}</div>
     </template>
@@ -104,20 +113,21 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { cmsPagesService } from "../../services";
+import { cmsPagesService, servicesPackagesService } from "../../services";
 export default {
   data() {
     return {
       packageDetails: null,
       packageInfo: null,
       isBooked: false,
+      bookedPackageTermsDownloadLink: null,
     };
   },
   computed: {
     ...mapGetters("servicesPackages", ["getSelectedPackage"]),
   },
   mounted() {
-    this.isBooked = this.$route.params.method == "booked";
+    this.isBooked = this.$route.params.method == "booked" && this.getSelectedPackage.transaction_status == 'completed';
     if (!this.getSelectedPackage) {
       this.navigateTo("Services Packages List");
       return;
@@ -128,6 +138,35 @@ export default {
     ...mapActions("appointment", ["setPaymentObject"]),
     initializeData() {
       this.packageInfo = this.getSelectedPackage.package;
+    },
+    downloadTerms() {
+      let data = `${this.getSelectedPackage.id}/${this.getUserInfo.id}`;
+      servicesPackagesService
+        .fetchBookedPackageTermsDownloadLink(data)
+        .then((res) => {
+          if (res.data.status) {
+            this.bookedPackageTermsDownloadLink = res.data.data;
+            if (this.bookedPackageTermsDownloadLink) {
+              const downloadLink = document.createElement("a");
+              downloadLink.href = res.data.data;
+              downloadLink.download = "Downoad-PDF";
+              document.body.appendChild(downloadLink);
+              downloadLink.click();
+              document.body.removeChild(downloadLink);
+            }
+          } else {
+            this.failureToast(res.data.message);
+          }
+        })
+        .catch((error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+          console.error(error);
+        });
     },
     async makePayment() {
       if (this.packageInfo.term_condition_id) {

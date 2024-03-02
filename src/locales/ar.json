@@ -701,5 +701,7 @@
   "enterAmount": "أدخل المبلغ",
   "amountInSAR": "المبلغ بالريال السعودي",
   "invalidAmount": "مبلغ غير صحيح",
-  "partial": "جزئي"
+  "partial": "جزئي",
+  "tamaraPaymentAlreadyDone": "تمت عملية الدفع بنجاح",
+  "amountIsNotCoveredTotally": "المبلغ غير مغطى بالكامل"
 }

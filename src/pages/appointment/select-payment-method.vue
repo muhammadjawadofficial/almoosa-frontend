@@ -284,10 +284,17 @@
                       <!-- upper -->
                       <div v-if="tamaraInstallmentsType">
                         <div
-                          @click.stop="getTamaraUrl(installment)"
+                          @click.stop="selectTamaraOption(installment)"
                           v-for="(installment, i) in tamaraInstallmentsType[0]
                             .supported_instalments"
                           :key="i"
+                          class="payment-dropdown-option"
+                          :class="{
+                            selected:
+                              selectedInstallment &&
+                              installment.instalments ==
+                                selectedInstallment.instalments,
+                          }"
                         >
                           <div class="d-flex payment-dropdown-option">
                             <div class="">
@@ -374,13 +381,15 @@
                   <div class="content--info">
                     <div class="content--price">
                       {{
-                        $t("sar") +
-                        " " +
-                        translateNumber(
-                          amountLoading
-                            ? "N/A"
-                            : method.partialCash || getAmountPayable
-                        )
+                        method.partialCash || !getPaymentObject.otherPayment
+                          ? $t("sar") +
+                            " " +
+                            translateNumber(
+                              amountLoading
+                                ? "N/A"
+                                : method.partialCash || getAmountPayable
+                            )
+                          : ""
                       }}
                     </div>
                     <span v-if="getPaymentObject.otherPayment">
@@ -390,7 +399,9 @@
                         aria-hidden="true"
                       ></i>
                       <i
-                        @click.stop="method.partialCash = null"
+                        @click.stop="
+                          (method.partialCash = null), (partialCash = null)
+                        "
                         :class="'fa fa-times mx-2'"
                         aria-hidden="true"
                       ></i>
@@ -421,6 +432,16 @@
         </button>
       </div>
       <div
+        class="col-lg-7 appointment--action-buttons"
+        v-if="
+          getPaymentObject.otherPayment && +getAmountPayable + +partialCash != 0
+        "
+      >
+        <button class="btn btn-secondary" @click="oneStepCheckout">
+          {{ $t("continue") }}
+        </button>
+      </div>
+      <div
         class="receipt-details col-lg-4 py-5"
         v-if="getPaymentObject && getPaymentObject.amount"
       >
@@ -430,7 +451,14 @@
         <div class="details-group">
           <div class="details-group-item">
             <div class="title">
-              {{ $t("selectPaymentMethod." + (getPaymentObject.otherPayment ? "packageAmount" : "appointmentAmount")) }}
+              {{
+                $t(
+                  "selectPaymentMethod." +
+                    (getPaymentObject.otherPayment
+                      ? "packageAmount"
+                      : "appointmentAmount")
+                )
+              }}
             </div>
             <div class="value">
               {{ $t("sar") + " " + getPaymentObject.amount }}
@@ -563,6 +591,7 @@ export default {
       countryName: "SA",
       currency: "SAR",
       useWalletAmount: false,
+      selectedInstallment: null,
       toggleOtherPaymentSection: false,
       selectedInsurance: null,
       walletAmount: 0,
@@ -801,6 +830,115 @@ export default {
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
     ...mapActions("user", ["updateUserInfo"]),
+    oneStepCheckout() {
+      let tamara_amount = this.selectedInstallment ? +this.getAmountPayable : 0;
+      let hyperpay_amount = +this.partialCash;
+      let wallet_amount = +this.getWalletDeductionAmount();
+      let paid_amount = +this.totalPaidPartialAmount;
+      let package_amount = +this.getPaymentObject.amount;
+
+      let totalRequestAmount =
+        wallet_amount + tamara_amount + hyperpay_amount + paid_amount;
+
+      if (totalRequestAmount != package_amount) {
+        this.failureToast(this.$t("amountIsNotCoveredTotally"));
+        return false;
+      }
+
+      if (!this.isTamaraValid(this.selectedInstallment)) return false;
+
+      if (
+        tamara_amount &&
+        this.partialPayments &&
+        this.partialPayments.some((item) => item.method == "tamara")
+      ) {
+        this.failureToast(this.$t("tamaraPaymentAlreadyDone"));
+        return;
+      }
+
+      if (!this.getPaymentObject.appointment_id) {
+        return false;
+      }
+
+      let obj = {
+        package_id: this.getPaymentObject.appointment_id,
+        instalment_option: this.selectedInstallment
+          ? this.selectedInstallment.instalments
+          : null,
+        wallet_amount: wallet_amount,
+        tamara_amount: tamara_amount,
+        hyperpay_amount: hyperpay_amount,
+      };
+
+      appointmentService.oneStepCheckout(obj).then(
+        (res) => {
+          let response = res.data;
+          if (response.status) {
+            this.tamaraUrl = null;
+            this.tamaraUrl = response.data;
+            if (this.tamaraUrl.checkout_url) {
+              this.setLoadingState(true);
+              let obj = {
+                ...this.getPaymentObject,
+                payableAmount: (
+                  +item.partialCash || +this.getAmountPayable
+                ).toFixed(2),
+                url: this.tamaraUrl.checkout_url,
+              };
+              obj.method = null;
+              if (item.title.includes("apple")) {
+                obj.method = item.title.toUpperCase();
+              }
+
+              this.setPaymentObject(obj);
+              this.navigateTo("Pay Now");
+              // window.open(this.tamaraUrl.checkout_url, "_self");
+            }
+          } else {
+            this.failureToast(response.message);
+          }
+        },
+        (error) => {
+          console.error(error);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
+    isTamaraValid(installment) {
+      let currentInstallment = installment || this.selectedInstallment;
+      if (currentInstallment) {
+        if (
+          this.getAmountPayable > currentInstallment.max_limit.amount ||
+          this.getAmountPayable < currentInstallment.min_limit.amount
+        ) {
+          this.failureToast(
+            this.$t("tamaraValidation", {
+              min: currentInstallment.min_limit.amount,
+              max: currentInstallment.max_limit.amount,
+            })
+          );
+          this.selectedInstallment = null;
+          return false;
+        }
+      }
+      return true;
+    },
+    selectTamaraOption(installment) {
+      if (!this.isTamaraValid(installment)) return;
+      if (
+        this.selectedInstallment &&
+        this.selectedInstallment.instalments == installment.instalments
+      ) {
+        this.selectedInstallment = null;
+      } else {
+        this.selectedInstallment = installment;
+      }
+    },
     fetchPartialPayments() {
       userService
         .getPartialPayments(
@@ -838,6 +976,8 @@ export default {
       this.paymentMethodsOnline.forEach((method) => {
         method.partialCash = null;
       });
+      this.partialWallet = null;
+      this.partialCash = null;
     },
     partialCashPayment(method = null) {
       this.partialPaymentModal(
@@ -901,6 +1041,9 @@ export default {
           if (method) {
             this.partialCash = +trimInputVal;
             payableAmount = +payableAmount + +partialCashPayments;
+            if (!this.getAmountPayable) {
+              this.selectedInstallment = null;
+            }
           } else {
             payableAmount = +payableAmount + +partialWalletPayment;
           }
@@ -1104,9 +1247,23 @@ export default {
         this.useWalletAmount = false;
       }
       this.appointmentAmount = (+this.appointmentAmount).toFixed(2);
+
+      if (!+this.appointmentAmount) {
+        this.paymentMethodsOnline.forEach((method) => {
+          method.partialCash = null;
+        });
+        this.partialCash = null;
+      }
     },
     handleSelection(item) {
+      if (this.getPaymentObject.otherPayment == item.isOtherPayment) {
+        this.toggleOtherPaymentSection = !this.toggleOtherPaymentSection;
+        return;
+      }
       this.setAppointmentAmount();
+      this.payViaCash(item);
+    },
+    payViaCash(item) {
       if (item.isOnlinePayment) {
         let obj = {
           ...this.getPaymentObject,
@@ -1498,6 +1655,9 @@ export default {
             this.tamaraInstallmentsType = null;
             if (response.data.items && response.data.items.length)
               this.tamaraInstallmentsType = [...response.data.items];
+            if (!this.getAmountPayable) {
+              this.selectedInstallment = null;
+            }
           } else {
             this.failureToast(response.message);
           }
@@ -1514,18 +1674,7 @@ export default {
       );
     },
     getTamaraUrl(tamara) {
-      if (
-        this.getAmountPayable > tamara.max_limit.amount ||
-        this.getAmountPayable < tamara.min_limit.amount
-      ) {
-        this.failureToast(
-          this.$t("tamaraValidation", {
-            min: tamara.min_limit.amount,
-            max: tamara.max_limit.amount,
-          })
-        );
-        return false;
-      }
+      if (!this.isTamaraValid(tamara)) return;
       if (!this.getPaymentObject.appointment_id) {
         return false;
       }

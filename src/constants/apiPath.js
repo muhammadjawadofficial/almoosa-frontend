@@ -76,6 +76,7 @@ export const apiPath = {
         getPaymentsTypes: (query) =>
             getApiObject("get", "payments/tamara/options" + query, "v1"),
         getTamaraUrl: getApiObject("post", "payments/tamara/checkout", "v1"),
+        oneStepCheckout: getApiObject("post", "payments/one-step-checkout/step-one"),
     },
 
     promotions: {

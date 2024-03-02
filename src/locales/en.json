@@ -701,5 +701,7 @@
   "enterAmount": "Enter Amount",
   "amountInSAR": "Amount in SAR",
   "invalidAmount": "Invalid Amount",
-  "partial": "Partial"
+  "partial": "Partial",
+  "tamaraPaymentAlreadyDone": "Tamara payment already done",
+  "amountIsNotCoveredTotally": "Amount is not covered totally"
 }
