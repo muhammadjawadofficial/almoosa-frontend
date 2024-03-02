@@ -880,15 +880,9 @@ export default {
               this.setLoadingState(true);
               let obj = {
                 ...this.getPaymentObject,
-                payableAmount: (
-                  +item.partialCash || +this.getAmountPayable
-                ).toFixed(2),
                 url: this.tamaraUrl.checkout_url,
               };
               obj.method = null;
-              if (item.title.includes("apple")) {
-                obj.method = item.title.toUpperCase();
-              }
 
               this.setPaymentObject(obj);
               this.navigateTo("Pay Now");
