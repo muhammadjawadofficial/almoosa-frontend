@@ -878,15 +878,15 @@ export default {
             this.tamaraUrl = response.data;
             if (this.tamaraUrl.checkout_url) {
               this.setLoadingState(true);
-              let obj = {
-                ...this.getPaymentObject,
-                url: this.tamaraUrl.checkout_url,
-              };
-              obj.method = null;
+              // let obj = {
+              //   ...this.getPaymentObject,
+              //   url: this.tamaraUrl.checkout_url,
+              // };
+              // obj.method = null;
 
-              this.setPaymentObject(obj);
-              this.navigateTo("Pay Now");
-              // window.open(this.tamaraUrl.checkout_url, "_self");
+              // this.setPaymentObject(obj);
+              // this.navigateTo("Pay Now");
+              window.open(this.tamaraUrl.checkout_url, "_self");
             }
           } else {
             this.failureToast(response.message);

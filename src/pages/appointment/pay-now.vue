@@ -6,6 +6,7 @@
       :src="getIframeUrl"
       class="full-height-container mt-0 w-100"
       frameborder="0"
+      ref="paymentIframe"
     >
     </iframe>
   </div>
@@ -28,6 +29,8 @@ export default {
   methods: {
     iframeIsLoaded() {
       this.setLoadingState(false);
+      let currentUrl = this.$refs.paymentIframe.contentWindow.location.href;
+      console.log("iframeLoaded", currentUrl);
     },
   },
   computed: {
