@@ -127,7 +127,9 @@ export default {
     ...mapGetters("servicesPackages", ["getSelectedPackage"]),
   },
   mounted() {
-    this.isBooked = this.$route.params.method == "booked" && this.getSelectedPackage.transaction_status == 'completed';
+    this.isBooked =
+      this.$route.params.method == "booked" &&
+      this.getSelectedPackage.transaction_status == "completed";
     if (!this.getSelectedPackage) {
       this.navigateTo("Services Packages List");
       return;
@@ -145,10 +147,12 @@ export default {
         .fetchBookedPackageTermsDownloadLink(data)
         .then((res) => {
           if (res.data.status) {
-            this.bookedPackageTermsDownloadLink = res.data.data;
+            this.bookedPackageTermsDownloadLink =
+              res.data.data && res.data.data.items[0];
             if (this.bookedPackageTermsDownloadLink) {
               const downloadLink = document.createElement("a");
-              downloadLink.href = res.data.data;
+              downloadLink.href =
+                this.bookedPackageTermsDownloadLink.downloadlink;
               downloadLink.download = "Downoad-PDF";
               document.body.appendChild(downloadLink);
               downloadLink.click();
@@ -189,8 +193,19 @@ export default {
             payableAmount: this.getSelectedPackage.package.price,
           };
           this.setPaymentObject(obj);
-          this.navigateTo("Services Packages Details Terms", {
-            id: this.getSelectedPackage.package.term_condition_id,
+          // this.navigateTo("Services Packages Details Terms", {
+          //   id: this.getSelectedPackage.package.term_condition_id,
+          // });
+          this.$router.push({
+            name: "Services Packages Details Terms",
+            params: {
+              method: "package",
+              id: this.getSelectedPackage.package.term_condition_id,
+            },
+            query: {
+              id: this.getSelectedPackage.package.term_condition_id,
+              packageId: this.getSelectedPackage.package.id,
+            },
           });
           return;
           this.htmlModal(cmsObject.long_text).then((res) => {

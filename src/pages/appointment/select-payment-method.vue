@@ -1371,6 +1371,7 @@ export default {
         promo_code: this.selectedPromotion
           ? this.selectedPromotion.promo_code
           : null,
+        patient_id: this.getUserInfo.id
       };
     },
     getPackagePaymentVerifyObject() {
@@ -1386,7 +1387,7 @@ export default {
         is_free_consultation: 0,
         patient_scheme_id: 1,
         wallet_payment_amount: this.getWalletDeductionAmount(),
-        gateway_payment_amount: this.getPaymentObject.payableAmount,
+        gateway_payment_amount: this.getAmountPayable,
         gateway_payment_ref: "",
         receipt_date: this.formatReceiptDateTime(new Date()),
         discount_type: "",
@@ -1396,6 +1397,7 @@ export default {
           ? this.selectedPromotion.promo_code
           : null,
         is_package: true,
+        patient_id: this.getUserInfo.id
       };
     },
     async createAppointmentPayment(paymentObj, isFree = false) {

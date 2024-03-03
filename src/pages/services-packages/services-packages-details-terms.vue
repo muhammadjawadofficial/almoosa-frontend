@@ -228,8 +228,6 @@ export default {
       return !!this.agreeTerms;
     },
     acceptTerms() {
-
-      this.navigateTo("Select Payment Method", { method: "package" });
       const val = this.extraFields.some((item) => {
         const { value } = item;
         if (!value) {
@@ -321,7 +319,6 @@ export default {
           if (res.data.status) {
             this.bookedPackageTermsDownloadLink =
               res.data.data.items[0].downloadlink;
-            console.log("url link", this.bookedPackageTermsDownloadLink);
             if (this.bookedPackageTermsDownloadLink && download) {
               const downloadLink = document.createElement("a");
               downloadLink.href = this.bookedPackageTermsDownloadLink;
