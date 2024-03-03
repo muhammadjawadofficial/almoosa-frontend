@@ -1,7 +1,7 @@
 let getApiObject = (method, url, version = "v1", pre = null) => {
     let versionKey = version.toUpperCase();
     let envKey = 'VUE_APP_API_' + versionKey + '_BASE_URL';
-    let baseUrl = "http://localhost:3000/"; //pre || process.env[envKey];
+    let baseUrl = pre || process.env[envKey];
     // baseUrl = "http://172.16.247.126:3000/";
     // baseUrl = "http://172.16.245.252:3000/";
     // baseUrl = "http://localhost:3000/";
