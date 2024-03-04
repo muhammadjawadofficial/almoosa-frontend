@@ -78,7 +78,7 @@
     </template>
 
     <div class="pt-5"></div>
-    <template v-if="extraFields && extraFields.length">
+    <template v-if="extraFields && extraFields.length && !viewTermsOnly">
       <div v-for="item in extraFields" :key="item.id">
         <div v-if="item.type == 'input'">
           <div class="sub-heading w200">
@@ -280,7 +280,7 @@ export default {
       }
     },
     getCmsPage(type) {
-      cmsPagesService.fetchCmsPages("?id=" + this.$route.query.id).then(
+      cmsPagesService.fetchCmsPages("?id=" + this.$route.params.id).then(
         (res) => {
           if (res.data.status) {
             this.termsAndConditionCMS = res.data.data.items[0];
@@ -301,7 +301,7 @@ export default {
       );
     },
     getCmsContentFields() {
-      cmsPagesService.fetchCmsContentFields(this.$route.query.id).then(
+      cmsPagesService.fetchCmsContentFields(this.$route.params.id).then(
         (res) => {
           if (res.data.status) {
             this.cmsContentFields = res.data.data.items;
@@ -334,7 +334,7 @@ export default {
       let data = {
         userId: this.getUserInfo.id,
         packageId: this.$route.query.packageId,
-        contentId: this.$route.query.id,
+        contentId: this.$route.params.id,
         extraFields: this.extraFields.map((item) => {
           const { field_title, type, value, display_rank } = item;
           return {
