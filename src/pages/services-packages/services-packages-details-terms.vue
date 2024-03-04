@@ -6,7 +6,7 @@
     <div class="terms-header">
       <back-navigation
         :title="$t('servicesPackages.title')"
-        :backLink="'Services Packages Details'"
+        :backLink="'Services Packages List'"
       />
       <button
         class="back-btn btn btn-secondary export-button"
