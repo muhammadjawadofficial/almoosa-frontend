@@ -77,32 +77,13 @@
                 <div class="heading-subTitle mb-4">
                   {{ option[getLocaleKey("description")] }}
                 </div>
-                <!-- <div class="checkbox-wrapper" v-for="q in option.options" :key="q.id" style="margin-bottom: 2rem">
-                  <div class="checkBox-main">
-                    <div class="checkbox-wrapper">
-                      {{ checker }}
-                      <input type="checkbox" v-model="checker" :value="q.id" :id="q.id" :disabled="selectedRecommendation != null &&
-                        selectedRecommendation != q.recommendation
-                        " />
-                      <label class="check-box" :for="q.id"></label>
-                    </div>
-                    <div class="label-of-option">
-                      <label :for="q.id" class="label-input">
-                        {{ q[getLocaleKey("title")] }}
-                      </label>
-                    </div>
-                  </div>
-                </div> -->
+
                 <div class="body-section">
                   <div class="specialities-container">
-                    <!-- {{ checker.length }} -->
-                    <div
-                      class="speciality"
-                      :class="{ active: isSelected(suggested_symptom.id) }"
-                      v-for="suggested_symptom in option.options"
-                      :key="suggested_symptom.id"
-                      @click="toggleSelection(suggested_symptom.id)"
-                    >
+                    <div class="speciality"
+                      :class="{ 'active': isSelected(suggested_symptom.id), 'disabled': (selectedRecommendation && selectedRecommendation != suggested_symptom.recommendation) }"
+                      v-for="suggested_symptom in option.options" :key="suggested_symptom.id"
+                      @click="(!selectedRecommendation || selectedRecommendation == suggested_symptom.recommendation) ? toggleSelection(suggested_symptom.id, suggested_symptom) : null">
                       <div class="speciality-image">
                         <img
                           src="../../assets/images/speciality/Dental.svg"
@@ -173,12 +154,8 @@
           </b-card>
         </div>
 
-        <div class="datetime-section symptoms-btns mt-3">
-          <button
-            v-if="!(nextSlideCount == 3)"
-            @click="nextslide"
-            class="btn btn-primary"
-          >
+        <div class="datetime-section symptoms-btns mt-4">
+          <button v-if="!(nextSlideCount == 3)" @click="nextslide" class="btn btn-primary">
             {{ $t("modules.next") }}
           </button>
           <button
@@ -202,7 +179,7 @@
     </div>
   </div>
 </template>
-    
+
 <script>
 import { mapGetters } from "vuex";
 import { symptopChecker } from "../../services";
@@ -231,13 +208,6 @@ export default {
           label_ar: "أنثى",
           status: false,
         },
-        // {
-        //   id: "3",
-        //   img: require("../../assets/images/transgender.svg"),
-        //   label: "Other",
-        //   label_ar: "آخر",
-        //   status: false,
-        // },
       ],
       options: null,
       checker: [],
@@ -287,12 +257,17 @@ export default {
   },
 
   methods: {
-    toggleSelection(symptomId) {
+    toggleSelection(symptomId, symptom) {
       const index = this.selectedSymptoms.indexOf(symptomId);
       if (index === -1) {
         this.selectedSymptoms.push(symptomId);
       } else {
         this.selectedSymptoms.splice(index, 1);
+      }
+      if (this.selectedSymptoms && this.selectedSymptoms.length) {
+        this.selectedRecommendation = symptom.recommendation;
+      } else {
+        this.selectedRecommendation = null
       }
     },
     isSelected(symptomId) {
@@ -317,9 +292,7 @@ export default {
       if (this.selectedSymptoms.length && this.options) {
         this.options.forEach((symptom) => {
           symptom.options.forEach((option) => {
-            // Check if the option is selected
             if (this.selectedSymptoms.includes(option.id)) {
-              // Push the selected option to the items array
               items.push({
                 symptom_id: symptom.id,
                 option_selected_id: option.id,
@@ -599,8 +572,12 @@ export default {
   },
 };
 </script>
-    
+
 <style lang="scss" scoped>
+.find-specialist-container .specialities-container {
+  gap: 1.5rem;
+}
+
 .ranger {
   cursor: pointer;
 }
