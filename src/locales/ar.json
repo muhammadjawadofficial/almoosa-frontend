@@ -703,5 +703,6 @@
   "invalidAmount": "مبلغ غير صحيح",
   "partial": "جزئي",
   "tamaraPaymentAlreadyDone": "تمت عملية الدفع بنجاح",
-  "amountIsNotCoveredTotally": "المبلغ غير مغطى بالكامل"
+  "amountIsNotCoveredTotally": "المبلغ غير مغطى بالكامل",
+  "draft": "مسودة"
 }

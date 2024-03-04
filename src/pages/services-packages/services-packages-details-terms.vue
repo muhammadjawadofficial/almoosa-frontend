@@ -10,7 +10,7 @@
       />
       <button
         class="back-btn btn btn-secondary export-button"
-        @click="downloadTerms(true)"
+        @click="viewTermsOnly ? downloadSavedTerms() : downloadTerms(true)"
       >
         {{ $t("download") }}
       </button>
@@ -26,6 +26,7 @@
     <template v-else-if="termsAndConditionCMS">
       <div class="heading w600">
         {{ termsAndConditionCMS[getLocaleKey("page_title")] }}
+        ({{ $t("draft") }})
       </div>
       <div class="sub-heading w200">
         {{ termsAndConditionCMS[getLocaleKey("long_title")] }}
@@ -319,7 +320,7 @@ export default {
         }
       );
     },
-    downloadTerms(download) {
+    downloadTerms(save) {
       //  if (this.extraFields) {
       //    this.extraFields.map((item) => {
       //      const { value } = item
@@ -342,6 +343,7 @@ export default {
             display_rank,
           };
         }),
+        draft: save,
       };
       servicesPackagesService
         .postBookedPackageTerms(data)
@@ -349,7 +351,7 @@ export default {
           if (res.data.status) {
             this.bookedPackageTermsDownloadLink =
               res.data.data.items[0].downloadlink;
-            if (this.bookedPackageTermsDownloadLink && download) {
+            if (this.bookedPackageTermsDownloadLink && save) {
               const downloadLink = document.createElement("a");
               downloadLink.href = this.bookedPackageTermsDownloadLink;
               downloadLink.download = "Downoad-PDF";
@@ -362,6 +364,36 @@ export default {
           }
         })
         .catch(() => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+          console.error(error);
+        });
+    },
+    downloadSavedTerms() {
+      let data = `${this.currentAppLang}/${this.$route.query.packageId}/${this.getUserInfo.id}`;
+      servicesPackagesService
+        .fetchBookedPackageTermsDownloadLink(data)
+        .then((res) => {
+          if (res.data.status) {
+            let bookedPackageTermsDownloadLink =
+              res.data.data && res.data.data.items[0];
+            if (bookedPackageTermsDownloadLink) {
+              const downloadLink = document.createElement("a");
+              downloadLink.href = bookedPackageTermsDownloadLink.downloadlink;
+              downloadLink.download = "Downoad-PDF";
+              document.body.appendChild(downloadLink);
+              downloadLink.click();
+              document.body.removeChild(downloadLink);
+            }
+          } else {
+            this.failureToast(res.data.message);
+          }
+        })
+        .catch((error) => {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&

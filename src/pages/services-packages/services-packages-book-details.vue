@@ -142,7 +142,7 @@ export default {
       this.packageInfo = this.getSelectedPackage.package;
     },
     downloadTerms() {
-      let data = `${this.getSelectedPackage.id}/${this.getUserInfo.id}`;
+      let data = `${this.currentAppLang}/${this.getSelectedPackage.id}/${this.getUserInfo.id}`;
       servicesPackagesService
         .fetchBookedPackageTermsDownloadLink(data)
         .then((res) => {
@@ -203,6 +203,7 @@ export default {
               id: this.getSelectedPackage.package.term_condition_id,
             },
             query: {
+              packageId: this.getSelectedPackage.id,
               terms: "view"
             },
           });

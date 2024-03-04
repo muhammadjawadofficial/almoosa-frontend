@@ -137,7 +137,7 @@ export default {
       this.packageInfo = this.getSelectedPackage;
     },
     downloadTerms() {
-      let data = `${this.packageInfo.id}/${this.getUserInfo.id}`;
+      let data = `${this.currentAppLang}/${this.packageInfo.id}/${this.getUserInfo.id}`;
       servicesPackagesService
         .fetchBookedPackageTermsDownloadLink(data)
         .then((res) => {
