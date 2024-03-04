@@ -261,7 +261,8 @@ export default {
     },
     acceptTerms() {
       const val = this.extraFields.some((item) => {
-        const { value } = item;
+        item.value = item.value.trim();
+        const { value } = item.value;
         if (!value) {
           this.failureToast("Fields are required");
           return true;
