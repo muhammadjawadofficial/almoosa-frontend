@@ -199,7 +199,6 @@ export default {
           });
           return;
           this.htmlModal(cmsObject.long_text).then((res) => {
-            console.log(res);
             if (res.value) {
               let obj = {
                 amount: this.getSelectedPackage.price,

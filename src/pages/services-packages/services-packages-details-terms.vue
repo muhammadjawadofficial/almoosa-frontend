@@ -15,7 +15,15 @@
         {{ $t("download") }}
       </button>
     </div>
-    <template v-if="termsAndConditionCMS">
+    <template v-if="viewTermsOnly">
+      <iframe
+        ref="terms_condition_iframe"
+        height="400px"
+        :src="getViewTermsOnly"
+        frameborder="0"
+      ></iframe>
+    </template>
+    <template v-else-if="termsAndConditionCMS">
       <div class="heading w600">
         {{ termsAndConditionCMS[getLocaleKey("page_title")] }}
       </div>
@@ -112,7 +120,7 @@
     </template>
 
     <template v-if="!isWebView">
-      <div class="agree-terms">
+      <div class="agree-terms" v-if="!viewTermsOnly">
         <div class="mt-5">
           <b-form-checkbox
             id="rememberMe"
@@ -126,8 +134,15 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12 button-group">
-          <button class="btn btn-primary" @click="acceptTerms">
+        <div class="col-md-12 button-group" :class="{ 'mt-0': viewTermsOnly }">
+          <button
+            class="btn btn-primary"
+            @click="
+              viewTermsOnly
+                ? navigateTo('Select Payment Method', { method: 'package' })
+                : acceptTerms()
+            "
+          >
             {{ $t("continue") }}
           </button>
         </div>
@@ -149,6 +164,7 @@ export default {
       submitted: false,
       username: "",
       mrn_number: "",
+      viewTermsOnly: false,
       agreement: [
         {
           description: "description",
@@ -176,9 +192,24 @@ export default {
   computed: {
     ...mapGetters("user", ["getUserInfo"]),
     ...mapGetters("servicesPackages", ["getSelectedPackage"]),
+    getViewTermsOnly() {
+      return `${process.env.VUE_APP_SERVER}api/v1/booked-package-terms/render/${this.currentAppLang}/${this.getSelectedPackage.id}/${this.getUserInfo.id}`;
+    },
   },
   mounted() {
     this.setAppLanguageFromRoute();
+    this.viewTermsOnly = this.$route.query.terms == "view";
+    // set the height of the body to the height of the iframe
+    if (this.viewTermsOnly) {
+      this.$nextTick(() => {
+        const iframe = this.$refs.terms_condition_iframe;
+        iframe.onload = () => {
+          iframe.style.height =
+            iframe.contentWindow.document.body.scrollHeight + "px";
+        };
+      });
+    }
+
     this.getCmsPage("terms_and_conditions");
     this.username = this.$route.query.username || "";
     this.mrn_number = this.$route.query.mrn || "";
@@ -250,7 +281,6 @@ export default {
       cmsPagesService.fetchCmsPages("?id=" + this.$route.query.id).then(
         (res) => {
           if (res.data.status) {
-            console.log();
             this.termsAndConditionCMS = res.data.data.items[0];
             this.extraFields = this.termsAndConditionCMS.cms_content_fields;
           } else {

@@ -203,8 +203,7 @@ export default {
               id: this.getSelectedPackage.package.term_condition_id,
             },
             query: {
-              id: this.getSelectedPackage.package.term_condition_id,
-              packageId: this.getSelectedPackage.package.id,
+              terms: "view"
             },
           });
           return;

@@ -5,7 +5,7 @@
     <back-navigation
       :backLink="
         getPaymentObject.otherPayment
-          ? 'Services Packages Details'
+          ? 'Services Packages List'
           : getPaymentObject.payLater
           ? 'Appointment Detail'
           : 'Doctor Details'

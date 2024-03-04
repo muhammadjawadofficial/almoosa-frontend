@@ -364,7 +364,6 @@ export default {
       if (this.fileToUpload.length > 1) {
         this.$refs.fileUpload.removeFile(this.fileToUpload[0]);
       }
-      console.log(file);
 
       authService.uploadId(file).then(
         (res) => {

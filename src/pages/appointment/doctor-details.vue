@@ -310,7 +310,6 @@ export default {
       this.selectedDate = this.removeDateTime(
         this.getBookingNearestDate || this.getBookingDate
       );
-      console.log(this.getBookingNearestDate, this.getBookingDate);
 
       userService
         .getProfileById(this.getBookingDoctor.id)

@@ -30,7 +30,6 @@ export default {
     iframeIsLoaded() {
       this.setLoadingState(false);
       let currentUrl = this.$refs.paymentIframe.contentWindow.location.href;
-      console.log("iframeLoaded", currentUrl);
     },
   },
   computed: {

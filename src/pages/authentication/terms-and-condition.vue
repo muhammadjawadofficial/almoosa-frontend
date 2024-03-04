@@ -164,7 +164,6 @@ export default {
       cmsPagesService.fetchCmsPages("?type=" + type).then(
         (res) => {
           if (res.data.status) {
-            console.log();
             this.termsAndConditionCMS = res.data.data.items[0];
           } else {
             this.failureToast(res.data.message);
