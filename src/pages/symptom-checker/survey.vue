@@ -81,9 +81,9 @@
                 <div class="body-section">
                   <div class="specialities-container">
                     <div class="speciality"
-                      :class="{ 'active': isSelected(suggested_symptom.id), 'disabled': (selectedRecommendation && selectedRecommendation != suggested_symptom.recommendation) }"
+                      :class="{ 'active': isSelected(suggested_symptom.id), 'disabled': (selectedRecommendation && selectedRecommendation.recommendation != suggested_symptom.recommendation) }"
                       v-for="suggested_symptom in option.options" :key="suggested_symptom.id"
-                      @click="(!selectedRecommendation || selectedRecommendation == suggested_symptom.recommendation) ? toggleSelection(suggested_symptom.id, suggested_symptom) : null">
+                      @click="(!selectedRecommendation || selectedRecommendation.recommendation == suggested_symptom.recommendation) ? toggleSelection(suggested_symptom.id, suggested_symptom) : null">
                       <div class="speciality-image">
                         <img
                           src="../../assets/images/speciality/Dental.svg"
@@ -265,9 +265,9 @@ export default {
         this.selectedSymptoms.splice(index, 1);
       }
       if (this.selectedSymptoms && this.selectedSymptoms.length) {
-        this.selectedRecommendation = symptom.recommendation;
+        this.selectedRecommendation = symptom;
       } else {
-        this.selectedRecommendation = null
+        this.selectedRecommendation = null;
       }
     },
     isSelected(symptomId) {
@@ -304,8 +304,8 @@ export default {
       let data = {
         speciality_id: this.speciality,
         patient_id: this.getUserInfo ? this.getUserInfo.id : 0,
-        recommendation: this.options[0].options[0].recommendation,
-        recommendation_ar: this.options[0].options[0].recommendation_ar,
+        recommendation: this.selectedRecommendation.recommendation,
+        recommendation_ar: this.selectedRecommendation.recommendation_ar,
         age: +this.age,
         gender: this.selectedGender,
         items,
