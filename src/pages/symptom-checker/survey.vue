@@ -305,6 +305,7 @@ export default {
         speciality_id: this.speciality,
         patient_id: this.getUserInfo ? this.getUserInfo.id : 0,
         recommendation: this.options[0].options[0].recommendation,
+        recommendation_ar: this.options[0].options[0].recommendation_ar,
         age: +this.age,
         gender: this.selectedGender,
         items,
@@ -564,6 +565,7 @@ export default {
           description: optionSelected.description,
           description_ar: optionSelected.description_ar,
           recommendation: optionSelected.recommendation,
+          recommendation_ar: optionSelected.recommendation_ar,
         });
       });
 
