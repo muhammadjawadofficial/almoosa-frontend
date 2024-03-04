@@ -402,7 +402,10 @@
                         @click.stop="
                           (method.partialCash = null), (partialCash = null)
                         "
-                        :class="'fa fa-times mx-2'"
+                        :class="{
+                          'fa fa-times mx-2': true,
+                          disabled: !partialCash || !method.partialCash,
+                        }"
                         aria-hidden="true"
                       ></i>
                     </span>
