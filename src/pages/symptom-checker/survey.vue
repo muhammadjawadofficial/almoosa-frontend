@@ -32,10 +32,10 @@
               v-for="gender in genders"
               :key="'find-speciality-' + gender.id"
               @click="setSelectedSpeciality(gender)"
-              :class="{ active: gender.status }"
+              :class="{ active: gender.label == selectedGender }"
             >
               <div class="gender-label">
-                {{ gender[getLocaleKey("label")] }}
+                {{ $t("register." + gender.label) }}
               </div>
               <div class="gender-img">
                 <img :src="getImageUrl(gender.img)" alt="icon" />
@@ -80,10 +80,28 @@
 
                 <div class="body-section">
                   <div class="specialities-container">
-                    <div class="speciality"
-                      :class="{ 'active': isSelected(suggested_symptom.id), 'disabled': (selectedRecommendation && selectedRecommendation.recommendation != suggested_symptom.recommendation) }"
-                      v-for="suggested_symptom in option.options" :key="suggested_symptom.id"
-                      @click="(!selectedRecommendation || selectedRecommendation.recommendation == suggested_symptom.recommendation) ? toggleSelection(suggested_symptom.id, suggested_symptom) : null">
+                    <div
+                      class="speciality"
+                      :class="{
+                        active: isSelected(suggested_symptom.id),
+                        disabled:
+                          selectedRecommendation &&
+                          selectedRecommendation.recommendation !=
+                            suggested_symptom.recommendation,
+                      }"
+                      v-for="suggested_symptom in option.options"
+                      :key="suggested_symptom.id"
+                      @click="
+                        !selectedRecommendation ||
+                        selectedRecommendation.recommendation ==
+                          suggested_symptom.recommendation
+                          ? toggleSelection(
+                              suggested_symptom.id,
+                              suggested_symptom
+                            )
+                          : null
+                      "
+                    >
                       <div class="speciality-image">
                         <img
                           src="../../assets/images/speciality/Dental.svg"
@@ -113,7 +131,10 @@
                     {{ $t("symptoms.genderChecker") }}
                   </div>
                   <div class="appointment-detail--value">
-                    {{ surveyResult.gender || "N/A" }}
+                    {{
+                      $t("register." + surveyResult.gender.toLowerCase()) ||
+                      "N/A"
+                    }}
                   </div>
                 </div>
                 <div class="appointment-detail--sepecialist">
@@ -155,7 +176,11 @@
         </div>
 
         <div class="datetime-section symptoms-btns mt-4">
-          <button v-if="!(nextSlideCount == 3)" @click="nextslide" class="btn btn-primary">
+          <button
+            v-if="!(nextSlideCount == 3)"
+            @click="nextslide"
+            class="btn btn-primary"
+          >
             {{ $t("modules.next") }}
           </button>
           <button
@@ -170,7 +195,11 @@
       <div v-else>
         <div class="heading-title mt-3">{{ $t("symptoms.noSymptoms") }}</div>
         <button
-          @click="isWebView ? window.open('/symptom-checker-exit', "_self") : navigateTo('default')"
+          @click="
+            isWebView
+              ? window.open('/symptom-checker-exit', '_self')
+              : navigateTo('default')
+          "
           class="btn btn-primary mt-3"
         >
           {{ $t("modules.home") }}
@@ -197,15 +226,13 @@ export default {
         {
           id: "1",
           img: require("../../assets/images/male.svg"),
-          label: "Male",
-          label_ar: "ذكر",
+          label: "male",
           status: false,
         },
         {
           id: "2",
           img: require("../../assets/images/female.svg"),
-          label: "Female",
-          label_ar: "أنثى",
+          label: "female",
           status: false,
         },
       ],
@@ -236,23 +263,21 @@ export default {
       immediate: true,
     },
   },
-  mounted() {
+  async mounted() {
     this.speciality = JSON.parse(this.$route.query.speciality || "{}");
     this.initializeData();
     this.updateSliderStyles(this.age);
 
     const userInfo = this.getUserInfo;
-    if (userInfo && userInfo.gender && this.getSurvey.survey == "yes") {
-      this.selectedGender = userInfo.gender;
-      this.nextSlideCount++;
+
+    let skip_steps = this.getSurvey && this.getSurvey.survey == "yes";
+    if (skip_steps && this.getSurvey.gender) {
+      this.selectedGender = this.getSurvey.gender;
+      await this.nextslide();
     }
-    if (
-      this.getSurvey &&
-      this.getSurvey.age &&
-      this.getSurvey.survey == "yes"
-    ) {
+    if (skip_steps && this.getSurvey.age) {
       this.age = this.getSurvey.age;
-      this.nextSlideCount++;
+      await this.nextslide();
     }
   },
 
@@ -353,24 +378,28 @@ export default {
         }
       );
     },
-    nextslide() {
+    async nextslide() {
       if (this.nextSlideCount !== 3) {
         setTimeout(() => {
           this.updateSliderStyles(this.age);
         }, 50);
 
+        console.log("first");
         if (!this.selectedGender) {
           this.failureToast(this.$t("symptoms.noSelectedGender"));
           return false;
         }
 
+        console.log("second");
         if (this.selectedGender && this.nextSlideCount == 0) {
-          this.fetchAgeConditions();
+          await this.fetchAgeConditions();
           this.nextSlideCount++;
           return;
         }
 
+        console.log("third");
         if (this.nextSlideCount == 1) {
+          console.log("forth");
           if (this.age === 0) {
             this.failureToast("Please select a valid age.");
             return false;
@@ -388,15 +417,16 @@ export default {
           //   this.surveyResult = obj;
           //   return false;
           // }
+          console.log("fifth");
           if (this.checkAgeConditions()) {
             return false;
           }
         }
 
+        console.log("six");
         if (this.age && this.nextSlideCount == 1) {
           this.nextSlideCount++;
-        }
-        if (this.getSurvey && this.getSurvey.age) {
+        } else if (this.getSurvey && this.getSurvey.age) {
           this.nextSlideCount++;
         }
         if (this.selectedSymptoms.length && this.nextSlideCount == 2) {
@@ -404,30 +434,27 @@ export default {
         }
       }
 
+      console.log("seventh");
       if (this.nextSlideCount == 3) {
         this.postData();
       }
     },
-    fetchAgeConditions() {
+    async fetchAgeConditions() {
       this.ageConditions = [];
-      symptopChecker.fetchAgeConditions(this.speciality).then(
-        (response) => {
-          if (response.data.status) {
-            let data = response.data.data.items;
-            this.ageConditions = [...data];
-          } else {
-            this.failureToast(response.data.messsage);
-          }
-        },
-        (error) => {
-          if (!this.isAPIAborted(error))
-            this.failureToast(
-              error.response &&
-                error.response.data &&
-                error.response.data.message
-            );
+      try {
+        let response = await symptopChecker.fetchAgeConditions(this.speciality);
+        if (response.data.status) {
+          let data = response.data.data.items;
+          this.ageConditions = [...data];
+        } else {
+          this.failureToast(response.data.messsage);
         }
-      );
+      } catch (error) {
+        if (!this.isAPIAborted(error))
+          this.failureToast(
+            error.response && error.response.data && error.response.data.message
+          );
+      }
     },
     checkAgeConditions() {
       let recommendation = null;
@@ -480,6 +507,20 @@ export default {
         return false;
       }
       if (this.backSlide !== 0) {
+        if (this.nextSlideCount == 2) {
+          this.selectedRecommendation = null;
+          this.selectedSymptoms = [];
+          if (this.getSurvey && this.getSurvey.age) {
+            // this.nextSlideCount--;
+          }
+        }
+        if (
+          this.nextSlideCount == 1 &&
+          this.getSurvey &&
+          this.getSurvey.gender
+        ) {
+          // this.nextSlideCount--;
+        }
         setTimeout(() => {
           this.updateSliderStyles(this.age);
         }, 50);

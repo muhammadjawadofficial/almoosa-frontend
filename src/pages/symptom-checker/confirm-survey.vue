@@ -85,27 +85,36 @@ export default {
           const dob = userData.dob;
           this.updateSurvey({ age: this.getYears(dob) });
           this.updateSurvey({ gender: userData.gender });
+          this.updateSurvey({ survey: "yes" });
           this.$router.push({
             name:
               "Symptom Checker" +
               (this.isWebView ? " WebView" : this.getIsGuest ? " Guest" : ""),
           });
         } else {
-          // console.error("User data not found in sessionStorage");
+          let age = this.$route.query.age;
+          let gender = this.$route.query.gender;
+          this.updateSurvey({ age: age });
+          this.updateSurvey({ gender: gender });
+          this.updateSurvey({ survey: "yes" });
+          this.$router.push({
+            name:
+              "Symptom Checker" +
+              (this.isWebView ? " WebView" : this.getIsGuest ? " Guest" : ""),
+          });
         }
       }
-      this.updateSurvey({ survey: yesOrNo.label.toLowerCase() });
 
       if (yesOrNo.label === "No") {
         this.updateSurvey({ gender: null });
         this.updateSurvey({ age: null });
+        this.updateSurvey({ survey: "no" });
         this.$router.push({
           name:
             "Symptom Checker" +
             (this.isWebView ? " WebView" : this.getIsGuest ? " Guest" : ""),
         });
       }
-      this.updateSurvey({ survey: yesOrNo.label.toLowerCase() });
     },
   },
 };
