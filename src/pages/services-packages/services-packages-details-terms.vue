@@ -336,9 +336,11 @@ export default {
         packageId: this.$route.query.packageId,
         contentId: this.$route.params.id,
         extraFields: this.extraFields.map((item) => {
-          const { field_title, type, value, display_rank } = item;
+          const { field_title, field_title_ar, type, value, display_rank } =
+            item;
           return {
             field_title,
+            field_title_ar,
             type,
             value,
             display_rank,
