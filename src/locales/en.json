@@ -704,5 +704,7 @@
   "partial": "Partial",
   "tamaraPaymentAlreadyDone": "Tamara payment already done",
   "amountIsNotCoveredTotally": "Amount is not covered totally",
-  "draft": "Draft"
+  "draft": "Draft",
+  "fieldRequired": "Fields are required",
+  "pleaseAcceptPrivacyPolicy": "Please Accept Privacy Policy"
 }

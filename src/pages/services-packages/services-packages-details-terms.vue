@@ -264,13 +264,13 @@ export default {
         item.value = item.value.trim();
         const { value } = item;
         if (!value) {
-          this.failureToast("Fields are required");
+          this.failureToast(this.$t("fieldRequired"));
           return true;
         }
         return false;
       });
       if (!this.validateFields() && val == false) {
-        this.failureToast("Please Accept Privacy Policy");
+        this.failureToast(this.$t("pleaseAcceptPrivacyPolicy"));
         return;
       }
       if (this.validateFields() && val == false) {

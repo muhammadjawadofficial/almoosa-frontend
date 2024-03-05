@@ -704,5 +704,7 @@
   "partial": "جزئي",
   "tamaraPaymentAlreadyDone": "تمت عملية الدفع بنجاح",
   "amountIsNotCoveredTotally": "المبلغ غير مغطى بالكامل",
-  "draft": "مسودة"
+  "draft": "مسودة",
+  "fieldRequired": "هذا الحقل مطلوب",
+  "pleaseAcceptPrivacyPolicy": "يرجى قبول سياسة الخصوصية"
 }
