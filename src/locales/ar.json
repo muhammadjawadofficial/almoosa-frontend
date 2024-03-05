@@ -706,5 +706,7 @@
   "amountIsNotCoveredTotally": "المبلغ غير مغطى بالكامل",
   "draft": "مسودة",
   "fieldRequired": "الرجاء تعبئة الحقول",
-  "pleaseAcceptPrivacyPolicy": "الرجاء قبول الاتفاقيه"
+  "pleaseAcceptPrivacyPolicy": "الرجاء قبول الاتفاقيه",
+  "packageAlreadyBooked": "تم حجز الحزمة بالفعل",
+  "packageAlreadyBookedMessage": "لقد قمت بالفعل بحجز هذه الباقة ولم تكتمل. يرجى المتابعة من قسم الحزم المحجوزة"
 }

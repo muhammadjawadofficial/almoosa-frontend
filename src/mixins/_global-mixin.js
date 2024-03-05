@@ -331,7 +331,7 @@ export default {
                 confirmButtonColor: "#4466f2"
             });
         },
-        failureIconModal(title, text, icon = 'm-check', confirmText = this.$t("ok")) {
+        failureIconModal(title, text, icon = 'm-payment-failure', confirmText = this.$t("ok")) {
             const imagePath = require("../assets/images/" + icon + ".svg")
             this.$swal({
                 title: title || this.$t('error.somethingWentWrong'),

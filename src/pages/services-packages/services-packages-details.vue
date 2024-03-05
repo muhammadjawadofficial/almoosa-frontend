@@ -133,6 +133,7 @@ export default {
   },
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
+    ...mapActions("servicesPackages", ["setSelectedPackage"]),
     initializeData() {
       this.packageInfo = this.getSelectedPackage;
     },
@@ -166,6 +167,47 @@ export default {
         });
     },
     async makePayment() {
+      console.log(this.packageInfo.pending_transaction);
+      if (this.packageInfo.pending_transaction) {
+        this.confirmIconModal(
+          this.$t("packageAlreadyBooked"),
+          this.$t("packageAlreadyBookedMessage"),
+          "m-payment-failure"
+        ).then((res) => {
+          if (res.value) {
+            servicesPackagesService
+              .fetchBookedPackagesByPackageId(this.packageInfo.id)
+              .then((res) => {
+                if (res.data.status) {
+                  console.log(res.data.data);
+                  let packageObj = res.data.data;
+                  if (packageObj) {
+                    let obj = {
+                      amount: packageObj.package.price,
+                      appointment_id: packageObj.package.id,
+                      otherPayment: true,
+                      payableAmount: packageObj.package.price,
+                    };
+                    this.setPaymentObject(obj);
+                    this.setSelectedPackage(packageObj);
+                    this.$router.replace({
+                      name: "Services Packages Details Terms",
+                      params: {
+                        method: "package",
+                        id: packageObj.package.term_condition_id,
+                      },
+                      query: {
+                        packageId: packageObj.id,
+                        terms: "view",
+                      },
+                    });
+                  }
+                }
+              });
+          }
+        });
+        return;
+      }
       if (this.packageInfo.term_condition_id) {
         let cmsResponse = await cmsPagesService.fetchCmsPages(
           "?id=" + this.packageInfo.term_condition_id
@@ -183,7 +225,7 @@ export default {
             amount: this.getSelectedPackage.price,
             appointment_id: this.getSelectedPackage.id,
             otherPayment: true,
-            payableAmount: this.getSelectedPackage.price
+            payableAmount: this.getSelectedPackage.price,
           };
           this.setPaymentObject(obj);
           this.$router.push({

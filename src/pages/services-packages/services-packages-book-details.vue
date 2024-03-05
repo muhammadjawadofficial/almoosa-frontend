@@ -193,10 +193,7 @@ export default {
             payableAmount: this.getSelectedPackage.package.price,
           };
           this.setPaymentObject(obj);
-          // this.navigateTo("Services Packages Details Terms", {
-          //   id: this.getSelectedPackage.package.term_condition_id,
-          // });
-          this.$router.push({
+          this.$router.replace({
             name: "Services Packages Details Terms",
             params: {
               method: "package",

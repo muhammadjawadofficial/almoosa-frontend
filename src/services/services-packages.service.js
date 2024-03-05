@@ -5,6 +5,7 @@ export const servicesPackagesService = {
   fetchPackages,
   fetchPackageDetails,
   fetchBookedPackages,
+  fetchBookedPackagesByPackageId,
   postBookedPackageTerms,
   fetchBookedPackageTermsDownloadLink,
 };
@@ -25,6 +26,12 @@ function fetchBookedPackages() {
   return axios({
     method: apiPath.servicesPackages.fetchBookedPackges.method,
     url: apiPath.servicesPackages.fetchBookedPackges.url,
+  })
+}
+function fetchBookedPackagesByPackageId() {
+  return axios({
+    method: apiPath.servicesPackages.fetchBookedPackgesByPackageId.method,
+    url: apiPath.servicesPackages.fetchBookedPackgesByPackageId.url,
   })
 }
 function postBookedPackageTerms(data) {
