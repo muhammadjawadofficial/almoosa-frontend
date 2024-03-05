@@ -327,7 +327,7 @@
     "selectGender": "يرجى تحديد جنسك",
     "selectAge": "حدد عمرك",
     "age":"عمر",
-    "verifyUserPackage": "هل ستأخذ الاستطلاع بنفسك؟",
+    "verifyUserPackage": "هل ستأخذ الاستطلاع لنفسك",
     "recommendation":"توصية",
     "chiefOfComplaint":"رئيس الشكوى",
     "afterSubmitted":"رئيس الشكوى",
@@ -705,6 +705,6 @@
   "tamaraPaymentAlreadyDone": "تمت عملية الدفع بنجاح",
   "amountIsNotCoveredTotally": "المبلغ غير مغطى بالكامل",
   "draft": "مسودة",
-  "fieldRequired": "هذا الحقل مطلوب",
-  "pleaseAcceptPrivacyPolicy": "يرجى قبول سياسة الخصوصية"
+  "fieldRequired": "الرجاء تعبئة الحقول",
+  "pleaseAcceptPrivacyPolicy": "الرجاء قبول الاتفاقيه"
 }
