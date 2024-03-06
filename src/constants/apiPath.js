@@ -144,7 +144,7 @@ export const apiPath = {
         fetch: getApiObject("get", "packages"),
         details: (id) => getApiObject("get", "health-education/" + id),
         fetchBookedPackges: getApiObject("get", "booked-packages/patient/booked"),
-        fetchBookedPackgesByPackageId: getApiObject("get", "booked-packages/patient/booked/package"),
+        fetchBookedPackgesByPackageId: (query) => getApiObject("get", "booked-packages/patient/booked/package" + query),
         addBookedPackageTerms: getApiObject("post", "booked-package-terms"),
         bookedPackageTermsDownloadLink: (id) => getApiObject("get", "booked-package-terms/downloadLink/" + id),
     },

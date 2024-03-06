@@ -28,10 +28,10 @@ function fetchBookedPackages() {
     url: apiPath.servicesPackages.fetchBookedPackges.url,
   })
 }
-function fetchBookedPackagesByPackageId() {
+function fetchBookedPackagesByPackageId(id) {
   return axios({
-    method: apiPath.servicesPackages.fetchBookedPackgesByPackageId.method,
-    url: apiPath.servicesPackages.fetchBookedPackgesByPackageId.url,
+    method: apiPath.servicesPackages.fetchBookedPackgesByPackageId("?package_id=" + id).method,
+    url: apiPath.servicesPackages.fetchBookedPackgesByPackageId("?package_id=" + id).url,
   })
 }
 function postBookedPackageTerms(data) {
