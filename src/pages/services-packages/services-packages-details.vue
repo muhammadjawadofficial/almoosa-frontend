@@ -167,8 +167,7 @@ export default {
         });
     },
     async makePayment() {
-      console.log(this.packageInfo.pending_transaction);
-      if (this.packageInfo.pending_transaction) {
+      if (this.packageInfo.pending_packages) {
         this.confirmIconModal(
           this.$t("packageAlreadyBooked"),
           this.$t("packageAlreadyBookedMessage"),
