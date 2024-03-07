@@ -384,57 +384,47 @@ export default {
           this.updateSliderStyles(this.age);
         }, 50);
 
-        console.log("first");
         if (!this.selectedGender) {
           this.failureToast(this.$t("symptoms.noSelectedGender"));
           return false;
         }
 
-        console.log("second");
         if (this.selectedGender && this.nextSlideCount == 0) {
           await this.fetchAgeConditions();
           this.nextSlideCount++;
           return;
         }
 
-        console.log("third");
         if (this.nextSlideCount == 1) {
-          console.log("forth");
           if (this.age === 0) {
             this.failureToast("Please select a valid age.");
             return false;
           }
-          // if (this.age <= 14) {
-          //   this.nextSlideCount = 3;
 
-          //   let obj = {
-          //     id: "1",
-          //     gender: this.selectedGender,
-          //     age: this.age,
-          //     items: [],
-          //     recommendation: "Parodontax",
-          //   };
-          //   this.surveyResult = obj;
-          //   return false;
-          // }
-          console.log("fifth");
           if (this.checkAgeConditions()) {
             return false;
           }
         }
 
-        console.log("six");
         if (this.age && this.nextSlideCount == 1) {
           this.nextSlideCount++;
-        } else if (this.getSurvey && this.getSurvey.age) {
+          return;
+        } else if (
+          this.getSurvey &&
+          this.getSurvey.age &&
+          this.nextSlideCount == 1
+        ) {
           this.nextSlideCount++;
+          return;
         }
-        if (this.selectedSymptoms.length && this.nextSlideCount == 2) {
-          this.nextSlideCount++;
+
+        if (this.nextSlideCount == 2) {
+          if (this.selectedSymptoms && this.selectedSymptoms.length)
+            this.nextSlideCount++;
+          else this.failureToast(this.$t("symptoms.noSelectedSymptoms"));
         }
       }
 
-      console.log("seventh");
       if (this.nextSlideCount == 3) {
         this.postData();
       }

@@ -335,7 +335,8 @@
     "noSelectedAge": "Select The Age Above 14",
     "noSelectedChecker": "Select the Chief of Complaint",
     "noSymptoms": "We Are Working On His Symptoms",
-    "under14": "Parodontax"
+    "under14": "Parodontax",
+    "noSelectedSymptoms": "Select Symptoms First"
   },
   "findSpecialist": {
     "specialities": "Specialities",

@@ -45,7 +45,15 @@
                 </div>
                 <div class="title">{{ $t("servicesPackages.price") }}</div>
                 <div class="value">
-                  {{ translateNumber(packageInfo.price) + " " + $t("sar") }}
+                  {{
+                    translateNumber(
+                      getSelectedPackage.transaction_status == "completed"
+                        ? getSelectedPackage.amount
+                        : packageInfo.price
+                    ) +
+                    " " +
+                    $t("sar")
+                  }}
                 </div>
               </div>
             </div>
