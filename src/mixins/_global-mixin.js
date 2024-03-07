@@ -514,6 +514,9 @@ export default {
         getLongDateAndTimeFromDate(date, utc = false) {
             return this.dateFormatter(date, 'DD MMMM YYYY - hh:mm A', utc)
         },
+        getLongDateAndTimeFromDateUtc(date) {
+            return this.moment(date).locale(this.currentAppLang).utc().format(format)
+        },
         getShortDateFromDate(date, separator = "-") {
             return this.dateFormatter(date, "YYYY" + separator + "MM" + separator + "DD")
         },
