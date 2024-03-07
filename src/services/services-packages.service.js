@@ -8,6 +8,7 @@ export const servicesPackagesService = {
   fetchBookedPackagesByPackageId,
   postBookedPackageTerms,
   fetchBookedPackageTermsDownloadLink,
+  deletePackage
 };
 
 function fetchPackages() {
@@ -45,5 +46,11 @@ function fetchBookedPackageTermsDownloadLink(id) {
   return axios({
     method: apiPath.servicesPackages.bookedPackageTermsDownloadLink(id).method,
     url: apiPath.servicesPackages.bookedPackageTermsDownloadLink(id).url,
+  });
+}
+function deletePackage(id) {
+  return axios({
+    method: apiPath.servicesPackages.deletePackage(id).method,
+    url: apiPath.servicesPackages.deletePackage(id).url,
   });
 }

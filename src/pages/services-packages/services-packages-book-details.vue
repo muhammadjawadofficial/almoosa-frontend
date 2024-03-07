@@ -106,6 +106,16 @@
         >
           {{ $t("servicesPackages.bookPackage") }}
         </button>
+        <button
+          @click="cancelPackage"
+          class="btn btn-danger btn-small"
+          v-if="
+            this.getSelectedPackage.transaction_status != 'completed' &&
+            !this.getSelectedPackage.paid_transactions
+          "
+        >
+          {{ $t("delete") }}
+        </button>
       </div>
     </template>
   </div>
@@ -201,7 +211,7 @@ export default {
             },
             query: {
               packageId: this.getSelectedPackage.id,
-              terms: "view"
+              terms: "view",
             },
           });
           return;
@@ -219,6 +229,38 @@ export default {
           });
         }
       }
+    },
+    cancelPackage() {
+      this.confirmIconModal(
+        this.$t("deletePackage"),
+        this.$t("deletePackageMessage"),
+        "m-info"
+      ).then((res) => {
+        if (res.value) {
+          this.deletePackage();
+        }
+      });
+    },
+    deletePackage() {
+      servicesPackagesService
+        .deletePackage(this.getSelectedPackage.id)
+        .then((res) => {
+          if (res.data.status) {
+            this.successToast(this.$t("deletePackageSuccess"));
+            this.navigateTo("Services Packages List");
+          } else {
+            this.failureToast(res.data.message);
+          }
+        })
+        .catch((error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+          console.error(error);
+        });
     },
   },
 };

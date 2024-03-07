@@ -147,6 +147,7 @@ export const apiPath = {
         fetchBookedPackgesByPackageId: (query) => getApiObject("get", "booked-packages/patient/booked/package" + query),
         addBookedPackageTerms: getApiObject("post", "booked-package-terms"),
         bookedPackageTermsDownloadLink: (id) => getApiObject("get", "booked-package-terms/downloadLink/" + id),
+        deletePackage: (id) => getApiObject("delete", "booked-packages/" + id),
     },
     symptomsChecker: {
         postData: getApiObject("post", "sc-survey"),

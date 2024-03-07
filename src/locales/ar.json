@@ -273,7 +273,7 @@
     "next": "التالي",
     "back": "خلف",
     "Contact Us": "تواصل معنا",
-    "home":"اذهب إلى المنزل",
+    "home": "اذهب إلى المنزل",
     "description": {
       "Discover the best doctors in Almoosa Health Group": "اكتشف أفضل الأطباء في مجموعة الموسى الصحية",
       "View your complete upcoming appointments": "عرض كامل المواعيد القادمة الخاصة بك",
@@ -317,25 +317,25 @@
     "treatmentDate": "تاريخ العلاج",
     "treatmentType": "نوع العلاج"
   },
-  "symptoms":{
-    "symptom":"أعراض",
+  "symptoms": {
+    "symptom": "أعراض",
     "survey": "مسح الأعراض",
-    "findSymptoms":"ابحث عن الأعراض عن طريق اختيار الأعراض",
+    "findSymptoms": "ابحث عن الأعراض عن طريق اختيار الأعراض",
     "surveyDetail": "تفاصيل مسح الأعراض",
     "searchSymptom": " ابحث عن الأعراض",
     "genderChecker": "جنس",
     "selectGender": "يرجى تحديد جنسك",
     "selectAge": "حدد عمرك",
-    "age":"عمر",
+    "age": "عمر",
     "verifyUserPackage": "هل ستأخذ الاستطلاع لنفسك",
-    "recommendation":"توصية",
-    "chiefOfComplaint":"رئيس الشكوى",
-    "afterSubmitted":"رئيس الشكوى",
+    "recommendation": "توصية",
+    "chiefOfComplaint": "رئيس الشكوى",
+    "afterSubmitted": "رئيس الشكوى",
     "noSelectedGender": "حدد الجنس",
     "noSelectedAge": "حدد العمر فوق 14 عامًا",
     "noSelectedChecker": "اختر رئيس الشكوى",
-    "noSymptoms":"نحن نعمل على أعراضه",
-    "under14":"بارودونتكس"
+    "noSymptoms": "نحن نعمل على أعراضه",
+    "under14": "بارودونتكس"
   },
   "findSpecialist": {
     "specialities": "التخصصات الصحية",
@@ -474,9 +474,9 @@
     "insuranceCanCoverUpto": "يمكن أن يغطي التأمين حتى",
     "walletAmount": "مبلغ المحفظة",
     "amountPayable": "المبلغ المستحق الدفع",
-    "payIn":"دفع في",
-    "installments":"أقساط",
-    "taramaValidation":"تمارا تقيد المدفوعات التي تزيد عن 2000 ريال سعودي"
+    "payIn": "دفع في",
+    "installments": "أقساط",
+    "taramaValidation": "تمارا تقيد المدفوعات التي تزيد عن 2000 ريال سعودي"
   },
   "rating": {
     "title": "قيم طبيبنا",
@@ -708,5 +708,8 @@
   "fieldRequired": "الرجاء تعبئة الحقول",
   "pleaseAcceptPrivacyPolicy": "الرجاء قبول الاتفاقيه",
   "packageAlreadyBooked": "تم حجز الحزمة بالفعل",
-  "packageAlreadyBookedMessage": "لقد قمت بالفعل بحجز هذه الباقة ولم تكتمل. يرجى المتابعة من قسم الحزم المحجوزة"
+  "packageAlreadyBookedMessage": "لقد قمت بالفعل بحجز هذه الباقة ولم تكتمل. يرجى المتابعة من قسم الحزم المحجوزة",
+  "deletePackage": "إلغاء الحزمة",
+  "deletePackageMessage": "هل أنت متأكد أنك تريد إلغاء هذه الحزمة؟",
+  "deletePackageSuccess": "تم إلغاء الحزمة بنجاح"
 }
