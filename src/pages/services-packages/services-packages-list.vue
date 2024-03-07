@@ -87,7 +87,7 @@
                         {{ content.package.description }}
                       </div>
                       <div class="doctor-speciality font-secondary">
-                        {{ content.created_at ? getLongDateAndTimeFromDate(content.created_at) : "" }}
+                        {{ content.created_at ? getLongDateAndTimeFromDate(content.created_at, true) : "" }}
                       </div>
                       <button
                         class="btn btn-primary make-appointment"
