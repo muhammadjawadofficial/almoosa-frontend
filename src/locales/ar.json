@@ -712,5 +712,7 @@
   "packageAlreadyBookedMessage": "لقد قمت بالفعل بحجز هذه الباقة ولم تكتمل. يرجى المتابعة من قسم الحزم المحجوزة",
   "deletePackage": "إلغاء الحزمة",
   "deletePackageMessage": "هل أنت متأكد أنك تريد إلغاء هذه الباقة",
-  "deletePackageSuccess": "تم إلغاء الحزمة بنجاح"
+  "deletePackageSuccess": "تم إلغاء الحزمة بنجاح",
+  "pendingPayment": "الدفع معلق",
+  "partialBooked": "جزئيا محجوز"
 }

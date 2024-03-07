@@ -67,13 +67,10 @@
                       class="doctor-card"
                       v-for="content in bookedPackagesList"
                       :key="'doctor-card-' + content.id"
+                      :class="{
+                        partial: content.transaction_status != 'completed',
+                      }"
                     >
-                      <div
-                        v-if="content.transaction_status != 'completed'"
-                        class="danger-icon"
-                      >
-                        <i class="fa fa-exclamation-triangle"></i>
-                      </div>
                       <div class="doctor-image">
                         <img
                           :src="getImageUrl(content.package.thumbnail)"
@@ -99,6 +96,12 @@
                       >
                         {{ $t("servicesPackages.viewDetails") }}
                       </button>
+                      <div
+                        class="card-side-banner"
+                        v-if="content.transaction_status != 'completed'"
+                      >
+                        {{ $t("partialBooked") }}
+                      </div>
                     </div>
                   </template>
                   <template v-else>

@@ -381,7 +381,8 @@ input[type="number"] {
     padding-block: 0.75rem;
     font-size: 1.25rem;
     font-weight: 500;
-    &.btn-tertiary, &.btn-small {
+    &.btn-tertiary,
+    &.btn-small {
       max-width: 6.25rem !important;
     }
   }
@@ -1002,6 +1003,19 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         & > button {
           opacity: 0.8;
         }
+      }
+      .card-side-banner {
+        --adjustment: 3rem;
+        background: red;
+        position: absolute;
+        top: var(--adjustment);
+        right: calc(var(--adjustment) * -1);
+        transform: rotate(45deg) translate(0rem, 0rem);
+        transform-origin: 50%;
+        width: 225px;
+        text-align: center;
+        color: white;
+        padding-block: 0.25rem;
       }
       .doctor {
         &-image {

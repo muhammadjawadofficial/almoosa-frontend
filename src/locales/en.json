@@ -712,5 +712,7 @@
   "packageAlreadyBookedMessage": "You have already booked this package and is not completed yet. You have to complete the package first to book again. Do you want to continue with the booked package?",
   "deletePackage": "Delete Package",
   "deletePackageMessage": "Are you sure you want to delete this package?",
-  "deletePackageSuccess": "Package Deleted Successfully"
+  "deletePackageSuccess": "Package Deleted Successfully",
+  "pendingPayment": "Pending Payment",
+  "partialBooked": "Partial Booked"
 }
