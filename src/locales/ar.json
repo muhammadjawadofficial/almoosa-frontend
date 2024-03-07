@@ -711,6 +711,6 @@
   "packageAlreadyBooked": "تم حجز الحزمة بالفعل",
   "packageAlreadyBookedMessage": "لقد قمت بالفعل بحجز هذه الباقة ولم تكتمل. يرجى المتابعة من قسم الحزم المحجوزة",
   "deletePackage": "إلغاء الحزمة",
-  "deletePackageMessage": "هل أنت متأكد أنك تريد إلغاء هذه الحزمة؟",
+  "deletePackageMessage": "هل أنت متأكد أنك تريد إلغاء هذه الباقة",
   "deletePackageSuccess": "تم إلغاء الحزمة بنجاح"
 }
