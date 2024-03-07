@@ -714,5 +714,5 @@
   "deletePackageMessage": "هل أنت متأكد أنك تريد إلغاء هذه الباقة",
   "deletePackageSuccess": "تم إلغاء الحزمة بنجاح",
   "pendingPayment": "الدفع معلق",
-  "partialBooked": "جزئيا محجوز"
+  "partialBooked": "محجوز جزئياً"
 }
