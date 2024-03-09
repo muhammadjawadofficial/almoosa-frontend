@@ -868,9 +868,9 @@ export default {
         instalment_option: this.selectedInstallment
           ? this.selectedInstallment.instalments
           : null,
-        wallet_amount: wallet_amount,
-        tamara_amount: tamara_amount,
-        hyperpay_amount: hyperpay_amount,
+        wallet_amount: wallet_amount.toFixed(2),
+        tamara_amount: tamara_amount.toFixed(2),
+        hyperpay_amount: hyperpay_amount.toFixed(2),
       };
 
       appointmentService.oneStepCheckout(obj).then(
