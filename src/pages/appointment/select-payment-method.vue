@@ -72,7 +72,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-7">
+      <div class="col-lg-7" v-if="!getPaymentObject.otherPayment">
         <div
           class="reset-discount"
           v-if="selectedDiscountType != ''"
@@ -167,7 +167,8 @@
         v-if="
           !getPaymentObject.otherPayment ||
           (getPaymentObject.otherPayment &&
-            +getAmountPayable + +partialCash > 0)
+            +getAmountPayable + +partialCash > 0 &&
+            isTamaraEnabled)
         "
       >
         <div class="payment-section block-section">
@@ -801,6 +802,13 @@ export default {
           !this.paymentConfig.apple_pay.limited_access)
       );
     },
+    isTamaraEnabled() {
+      return (
+        this.paymentConfig &&
+        this.paymentConfig.tamara &&
+        this.paymentConfig.tamara.enabled
+      );
+    },
   },
   async mounted() {
     if (this.$route.params.method == "package") {
@@ -811,6 +819,7 @@ export default {
     if (this.getPaymentObject && this.getPaymentObject.otherPayment) {
       this.fetchPartialPayments();
       this.fetchPaymentsType();
+      this.fetchPaymentConfig();
     } else {
       localStorage.removeItem("paymentVerifyObject");
       userService.removeBooking();
@@ -1133,6 +1142,9 @@ export default {
             );
         }
       );
+      this.fetchPaymentConfig();
+    },
+    fetchPaymentConfig() {
       systemConfigService.fetchConfig("?title=PAYMENT_CONFIG").then(
         (response) => {
           if (response.data.status) {

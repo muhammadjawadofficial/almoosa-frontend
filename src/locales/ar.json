@@ -557,7 +557,7 @@
     }
   },
   "servicesPackages": {
-    "title": "الباقات و الخدمات",
+    "title": "الخدمات و الباقات",
     "details": "حزمة من التفاصيل",
     "viewDetails": "عرض التفاصيل",
     "searchPlaceholder": "خدمة البحث",
