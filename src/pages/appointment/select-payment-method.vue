@@ -465,7 +465,7 @@
               }}
             </div>
             <div class="value">
-              {{ $t("sar") + " " + getPaymentObject.amount }}
+              {{ $t("sar") + " " + translateNumber(getPaymentObject.amount) }}
             </div>
           </div>
           <template v-for="(partial, pindex) in partialPayments">
@@ -489,7 +489,9 @@
               </div>
               <div class="value">
                 {{
-                  $t("sar") + " " + (getPaymentObject.amount - insuranceAmount)
+                  $t("sar") +
+                  " " +
+                  translateNumber(getPaymentObject.amount - insuranceAmount)
                 }}
               </div>
             </div>
@@ -503,9 +505,11 @@
                 {{
                   $t("sar") +
                   " " +
-                  (+(
-                    getDeductedLoyaltyPoints * LOYALITY_POINTS_FACTOR
-                  )).toFixed(2)
+                  translateNumber(
+                    (+(
+                      getDeductedLoyaltyPoints * LOYALITY_POINTS_FACTOR
+                    )).toFixed(2)
+                  )
                 }}
               </div>
             </div>
@@ -519,7 +523,9 @@
                 {{
                   $t("sar") +
                   " " +
-                  (getAppointmentAmount - getCalculatedAmount).toFixed(2)
+                  translateNumber(
+                    (getAppointmentAmount - getCalculatedAmount).toFixed(2)
+                  )
                 }}
               </div>
             </div>
@@ -531,7 +537,9 @@
                 {{ $t("selectPaymentMethod.walletAmount") }}
               </div>
               <div class="value">
-                {{ $t("sar") + " " + getWalletDeductionAmount() }}
+                {{
+                  $t("sar") + " " + translateNumber(getWalletDeductionAmount())
+                }}
               </div>
             </div>
           </template>
@@ -545,7 +553,7 @@
                   {{ $t("selectPaymentMethod." + method.title) }}
                 </div>
                 <div class="value">
-                  {{ $t("sar") + " " + method.partialCash }}
+                  {{ $t("sar") + " " + translateNumber(method.partialCash) }}
                 </div>
               </div>
             </template>
