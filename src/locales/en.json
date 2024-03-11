@@ -336,7 +336,11 @@
     "noSelectedChecker": "Select the Chief of Complaint",
     "noSymptoms": "We Are Working On His Symptoms",
     "under14": "Parodontax",
-    "noSelectedSymptoms": "Select Symptoms First"
+    "noSelectedSymptoms": "Select Symptoms First",
+    "availableDoctors": "Available Doctors",
+    "suggestedDoctors": "Suggested Doctors",
+    "noDoctor": "No doctor under this recommendation",
+    "noDoctorSuggestion": "No doctor suggestion available"
   },
   "findSpecialist": {
     "specialities": "Specialities",

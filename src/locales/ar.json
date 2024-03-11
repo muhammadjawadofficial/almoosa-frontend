@@ -336,7 +336,11 @@
     "noSelectedChecker": "اختر رئيس الشكوى",
     "noSymptoms": "نحن نعمل على أعراضه",
     "under14": "بارودونتكس",
-    "noSelectedSymptoms": "حدد الأعراض"
+    "noSelectedSymptoms": "حدد الأعراض",
+    "availableDoctors": "الأطباء المتاحين",
+    "suggestedDoctors": "الأطباء المقترحين",
+    "noDoctor": "لا يوجد طبيب متاح",
+    "noDoctorSuggestion": "لا يوجد طبيب مقترح"
   },
   "findSpecialist": {
     "specialities": "التخصصات الصحية",

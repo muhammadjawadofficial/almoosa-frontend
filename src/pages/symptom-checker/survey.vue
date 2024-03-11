@@ -173,6 +173,49 @@
               </div>
             </b-card-body>
           </b-card>
+          <div class="doctor-list-container mb-5">
+            <div class="heading-title mt-5">
+              {{ $t("symptoms.suggestedDoctors") }}
+            </div>
+            <div class="doctor-card-container mt-3">
+              <div class="no-data mb-5" v-if="surveyDoctors == null">
+                {{ $t("loading") }}
+              </div>
+              <template v-else-if="!surveyDoctors.length">
+                <div class="no-data mb-5">
+                  {{ $t("symptoms.noDoctorSuggestion") }}
+                </div>
+              </template>
+              <template v-else>
+                <div
+                  class="doctor-card"
+                  v-for="doctor in surveyDoctors"
+                  :key="'doctor-card-' + doctor.id"
+                  :class="{
+                    // unavailable: doctor.has_schedule == 'NO',
+                    // 'fully-booked': doctor.doctor_availability == 'NO',
+                  }"
+                >
+                  <div class="doctor-image">
+                    <img
+                      :src="getImageUrl(doctor.photo || doctor)"
+                      alt="doctor-image"
+                    />
+                  </div>
+                  <div class="doctor-name">
+                    {{ getFullName(doctor, $t("dr")) }}
+                  </div>
+                  <div class="doctor-speciality">
+                    {{
+                      doctor.speciality
+                        ? doctor.speciality[getLocaleKey("title")]
+                        : doctor.speciality_id || "N/A"
+                    }}
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
         </div>
 
         <div class="datetime-section symptoms-btns mt-4">
@@ -211,7 +254,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { symptopChecker } from "../../services";
+import { appointmentService, symptopChecker } from "../../services";
 export default {
   data() {
     return {
@@ -243,6 +286,7 @@ export default {
       selectedRecommendation: null,
       selecttedOptions: [],
       ageConditions: [],
+      surveyDoctors: null,
     };
   },
   computed: {
@@ -331,6 +375,7 @@ export default {
         patient_id: this.getUserInfo ? this.getUserInfo.id : 0,
         recommendation: this.selectedRecommendation.recommendation,
         recommendation_ar: this.selectedRecommendation.recommendation_ar,
+        recommendation_speciality_id: this.selectedRecommendation.speciality_id,
         age: +this.age,
         gender: this.selectedGender,
         items,
@@ -356,13 +401,36 @@ export default {
         }
       );
     },
-
+    fetchDoctors(speciality_id) {
+      appointmentService
+        .findDoctors(speciality_id, null, null, null, this.currentAppLang)
+        .then(
+          (res) => {
+            let response = res.data;
+            if (response.status) {
+              this.surveyDoctors = [...response.data.items];
+            } else {
+              this.surveyDoctors = [];
+              this.failureToast(response.message);
+            }
+          },
+          (error) => {
+            this.surveyDoctors = [];
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
+          }
+        );
+    },
     getSymptomsData(id) {
       symptopChecker.getData(id).then(
         (response) => {
           if (response.data.status) {
             let data = response.data.data;
-
+            this.fetchDoctors(data.recommendation_speciality_id);
             this.surveyResult = data;
           } else {
             this.failureToast(response.data.messsage);
@@ -449,6 +517,7 @@ export default {
     checkAgeConditions() {
       let recommendation = null;
       let recommendation_ar = null;
+      let recommendation_speciality_id = null;
       if (this.ageConditions.length) {
         let obj = this.ageConditions[0];
         if (
@@ -458,6 +527,7 @@ export default {
         ) {
           recommendation = obj.recommendation;
           recommendation_ar = obj.recommendation_ar;
+          recommendation_speciality_id = obj.recommendation_speciality_id;
         }
 
         if (recommendation) {
@@ -469,7 +539,9 @@ export default {
             items: [],
             recommendation: recommendation,
             recommendation_ar: recommendation_ar,
+            recommendation_speciality_id: recommendation_speciality_id,
           };
+          this.fetchDoctors(recommendation_speciality_id);
           this.surveyResult = obj;
         }
       }
