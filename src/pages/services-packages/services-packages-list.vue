@@ -86,7 +86,7 @@
                       <div class="doctor-speciality">
                         {{ content.package[getLocaleKey("description")] }}
                       </div>
-                      <div class="doctor-name font-secondary">
+                      <div class="doctor-name font-secondary mt-auto">
                         {{
                           $t("sar") +
                           " " +
