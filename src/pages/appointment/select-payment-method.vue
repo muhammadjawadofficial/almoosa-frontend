@@ -1008,10 +1008,12 @@ export default {
         if (modalValue.dismiss) {
           return;
         }
-        if (modalValue.value) {
-          if (method) method.partialCash = +modalValue.value;
+        let value = modalValue.value;
+        value = (+value).toFixed(2);
+        if (value) {
+          if (method) method.partialCash = +value;
           else {
-            this.partialWallet = +modalValue.value;
+            this.partialWallet = +value;
             this.useWalletAmount = true;
             this.fetchPaymentsType();
           }
