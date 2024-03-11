@@ -42,6 +42,9 @@
                       <div class="doctor-speciality">
                         {{ content[getLocaleKey("description")] }}
                       </div>
+                      <div class="doctor-name font-secondary mt-auto mb-3">
+                        {{ $t("sar") + " " + translateNumber(content.price) }}
+                      </div>
                       <button
                         class="btn btn-primary make-appointment"
                         @click="setSelectedContent(content)"
@@ -78,10 +81,21 @@
                         />
                       </div>
                       <div class="doctor-name">
-                        {{ content.package.title }}
+                        {{ content.package[getLocaleKey("title")] }}
                       </div>
                       <div class="doctor-speciality">
-                        {{ content.package.description }}
+                        {{ content.package[getLocaleKey("description")] }}
+                      </div>
+                      <div class="doctor-name font-secondary">
+                        {{
+                          $t("sar") +
+                          " " +
+                          translateNumber(
+                            content.transaction_status == "completed"
+                              ? content.amount
+                              : content.package.price
+                          )
+                        }}
                       </div>
                       <div class="doctor-speciality font-secondary">
                         {{
@@ -204,7 +218,7 @@ export default {
       .make-appointment {
         font-size: 1.25em;
         padding-block: 0.5em;
-        margin-top: auto;
+        margin-top: 1rem;
       }
       .doctor-image {
         height: 13.75rem;
