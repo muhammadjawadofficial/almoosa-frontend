@@ -33,7 +33,7 @@
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/symptom-checker"
+            "path": "symptom-checker"
         },
         {
             "title": "Find Your Doctor",

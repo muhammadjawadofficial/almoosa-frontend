@@ -4946,7 +4946,7 @@
       }
       &.disabled {
         &:before {
-          content: "قريباً";
+          // content: "قريباً";
         }
       }
     }
@@ -5097,6 +5097,11 @@
           &::after {
             content: "غير متاح في هذا اليوم";
           }
+        }
+        .card-side-banner {
+          right: unset;
+          left: calc(var(--adjustment) * -1);
+          transform: rotate(-45deg);
         }
       }
     }

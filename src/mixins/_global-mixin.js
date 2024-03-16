@@ -186,6 +186,21 @@ export default {
                 }
             });
         },
+        htmlModal(html, title, confirmText, cancelText) {
+            return this.$swal({
+                title: title || this.$t('service_and_packages_terms'),
+                html: html,
+                showCancelButton: true,
+                confirmButtonText: confirmText || this.$t("accept"),
+                confirmButtonColor: "#4466f2",
+                cancelButtonText: cancelText || this.$t("cancel"),
+                cancelButtonColor: "#4466f2",
+                customClass: {
+                    container: "wide-modal",
+                    popup: "cmsText cmsSwalContainer",
+                }
+            });
+        },
         ratingIconModal(title, text, icon, confirmText, cancelText, doctorRatingPayload) {
             const imagePath = require("../assets/images/" + (icon || 'm-check') + ".svg");
             let selectedRating = null;
@@ -253,7 +268,7 @@ export default {
                 },
             });
         },
-        inputIconModal(title, text, icon = 'm-check', type = 'text', confirmText = this.$t("ok"), cancelText = this.$t("cancel")) {
+        inputIconModal(title, text, icon = 'm-check', type = 'text', confirmText = this.$t("ok"), cancelText = this.$t("cancel"), preConfirm = true, preConfirmText = this.$t("promotions.invalidPromo")) {
             const imagePath = require("../assets/images/" + icon + ".svg")
             return this.$swal({
                 input: type,
@@ -265,11 +280,12 @@ export default {
                 cancelButtonText: cancelText,
                 cancelButtonColor: "#4466f2",
                 preConfirm: (inputVal) => {
+                    if (!preConfirm) return true;
                     let trimInputVal = (inputVal + "").trim();
                     let isValidInput = trimInputVal != '';
                     if (!isValidInput) {
                         this.$swal.showValidationMessage(
-                            this.$t('promotions.invalidPromo')
+                            preConfirmText
                         )
                     }
 
@@ -315,7 +331,7 @@ export default {
                 confirmButtonColor: "#4466f2"
             });
         },
-        failureIconModal(title, text, icon = 'm-check', confirmText = this.$t("ok")) {
+        failureIconModal(title, text, icon = 'm-payment-failure', confirmText = this.$t("ok")) {
             const imagePath = require("../assets/images/" + icon + ".svg")
             this.$swal({
                 title: title || this.$t('error.somethingWentWrong'),
@@ -498,6 +514,9 @@ export default {
         getLongDateAndTimeFromDate(date, utc = false) {
             return this.dateFormatter(date, 'DD MMMM YYYY - hh:mm A', utc)
         },
+        getLongDateAndTimeFromDateUtc(date) {
+            return this.moment(date).locale(this.currentAppLang).utc().format('DD MMMM YYYY - hh:mm A')
+        },
         getShortDateFromDate(date, separator = "-") {
             return this.dateFormatter(date, "YYYY" + separator + "MM" + separator + "DD")
         },
@@ -622,6 +641,8 @@ export default {
             return booking;
         },
         async doPayment() {
+            let method = this.$route.params.method;
+            let backLink = method == "package" ? "Services Packages List" : "Upcoming Appointment";
             let booking = this.setBookingState();
             let paymentVerifyObject = JSON.parse(
                 localStorage.getItem("paymentVerifyObject")
@@ -647,7 +668,7 @@ export default {
                             ],
                             "m-payment-failure"
                         ).then(() => {
-                            this.navigateTo("Upcoming Appointment");
+                            this.navigateTo(backLink);
                         });
                         return;
                     }
@@ -659,7 +680,7 @@ export default {
                         this.$t("selectPaymentMethod.paymentSuccessfulText"),
                         "m-payment-success"
                     ).then(() => {
-                        this.navigateTo("Upcoming Appointment");
+                        this.navigateTo(backLink);
                     });
                 } else {
                     this.failureToast(response.message);

@@ -5,7 +5,7 @@
     <back-navigation
       :backLink="
         getPaymentObject.otherPayment
-          ? 'Services Packages Details'
+          ? 'Services Packages List'
           : getPaymentObject.payLater
           ? 'Appointment Detail'
           : 'Doctor Details'
@@ -28,6 +28,13 @@
                     </div>
                   </div>
                   <div class="content--action">
+                    <span
+                      class="edit-button pointer"
+                      v-if="getPaymentObject.otherPayment"
+                      @click.stop="partialCashPayment()"
+                    >
+                      <i :class="'fa fa-pencil'" aria-hidden="true"></i>
+                    </span>
                     <button
                       class="btn useButton"
                       :class="{
@@ -35,16 +42,19 @@
                         disabled:
                           !+getCalculatedAmount ||
                           isElligibleForFirstFreeVirtualAppointment ||
-                          insuranceAmount == 0,
+                          insuranceAmount == 0 ||
+                          walletAmount == 0,
                       }"
                       @click="
-                        +getCalculatedAmount
+                        +getCalculatedAmount && walletAmount
                           ? isElligibleForFirstFreeVirtualAppointment
                             ? failureToast(
                                 $t('walletNotAllowedInFreeAppointment')
                               )
                             : ((useWalletAmount = !useWalletAmount),
-                              setAppointmentAmount())
+                              setAppointmentAmount(),
+                              fetchPaymentsType(),
+                              resetPartialPayments())
                           : null
                       "
                     >
@@ -62,7 +72,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-7">
+      <div class="col-lg-7" v-if="!getPaymentObject.otherPayment">
         <div
           class="reset-discount"
           v-if="selectedDiscountType != ''"
@@ -152,7 +162,15 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-7">
+      <div
+        class="col-lg-7"
+        v-if="
+          !getPaymentObject.otherPayment ||
+          (getPaymentObject.otherPayment &&
+            +getAmountPayable + +partialCash > 0 &&
+            isTamaraEnabled)
+        "
+      >
         <div class="payment-section block-section">
           <div class="heading-section">
             <div class="heading-text">
@@ -182,7 +200,12 @@
             <div class="payment-method">
               <template v-for="method in paymentMethodsOthers">
                 <template
-                  v-if="getPaymentObject.otherPayment == method.isOtherPayment"
+                  v-if="
+                    getPaymentObject.otherPayment == method.isOtherPayment &&
+                    (!method.hideOnTotalCovered ||
+                      (method.hideOnTotalCovered &&
+                        +getAmountPayable + +partialCash > 0))
+                  "
                 >
                   <div
                     class="payment-method--item primary"
@@ -228,19 +251,78 @@
                     :key="'payment-dropdown-section-' + method.title"
                   >
                     <div
-                      class="payment-dropdown-option"
-                      :class="{
-                        selected:
-                          selectedInsurance &&
-                          insurance.id == selectedInsurance.id,
-                      }"
-                      v-for="insurance in patientInsurances"
-                      :key="'insurance-' + insurance.id"
-                      @click="getInsuranceAmount(insurance)"
+                      v-if="!getPaymentObject.otherPayment"
+                      class="insurance"
                     >
-                      {{ insurance.company_name }}
+                      <div v-if="patientInsurances">
+                        <div
+                          class="payment-dropdown-option"
+                          :class="{
+                            selected:
+                              selectedInsurance &&
+                              insurance.id == selectedInsurance.id,
+                          }"
+                          v-for="insurance in patientInsurances"
+                          :key="'insurance-' + insurance.id"
+                          @click="getInsuranceAmount(insurance)"
+                        >
+                          {{ insurance.company_name }}
+                        </div>
+                      </div>
+                      <!-- lower -->
+                      <div
+                        v-else-if="!patientInsurances && tamaraInstallmentsType"
+                      >
+                        <!-- v-if="!patientInsurances && !tamaraInstallmentsType" -->
+                        {{ $t("noData") }}
+                      </div>
                     </div>
-                    <div v-if="!patientInsurances || !patientInsurances.length">
+
+                    <div
+                      v-else-if="getPaymentObject.otherPayment"
+                      class="tamara"
+                    >
+                      <!-- upper -->
+                      <div v-if="tamaraInstallmentsType">
+                        <div
+                          @click.stop="selectTamaraOption(installment)"
+                          v-for="(installment, i) in tamaraInstallmentsType[0]
+                            .supported_instalments"
+                          :key="i"
+                          class="payment-dropdown-option"
+                          :class="{
+                            selected:
+                              selectedInstallment &&
+                              installment.instalments ==
+                                selectedInstallment.instalments,
+                          }"
+                        >
+                          <div class="d-flex payment-dropdown-option">
+                            <div class="">
+                              {{ $t("selectPaymentMethod.payIn") }}
+                              {{ installment.instalments }}
+                              {{ $t("selectPaymentMethod.installments") }}
+                            </div>
+                            <div class="">
+                              {{
+                                $t("sar") +
+                                " " +
+                                (+(
+                                  getAmountPayable / installment.instalments
+                                )).toFixed(2)
+                              }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        v-else-if="!tamaraInstallmentsType && patientInsurances"
+                      >
+                        {{ $t("noData") }}
+                      </div>
+                    </div>
+
+                    <div v-if="!patientInsurances && !tamaraInstallmentsType">
                       {{ $t("noData") }}
                     </div>
                   </div>
@@ -253,7 +335,8 @@
       <div
         class="col-lg-7 appointment--action-buttons"
         v-if="
-          isElligibleForFirstFreeVirtualAppointment && +getAmountPayable != 0
+          isElligibleForFirstFreeVirtualAppointment &&
+          +getAmountPayable + +partialCash != 0
         "
       >
         <button
@@ -269,7 +352,7 @@
           {{ $t("claimFreeAppointment") }}
         </button>
       </div>
-      <div class="col-lg-7" v-else-if="getAmountPayable != 0">
+      <div class="col-lg-7" v-else-if="+getAmountPayable + +partialCash != 0">
         <div class="payment-section block-section">
           <div class="heading-section">
             <div class="heading-text">
@@ -299,13 +382,34 @@
                   <div class="content--info">
                     <div class="content--price">
                       {{
-                        $t("sar") +
-                        " " +
-                        translateNumber(
-                          amountLoading ? "N/A" : getAmountPayable
-                        )
+                        method.partialCash || !getPaymentObject.otherPayment
+                          ? $t("sar") +
+                            " " +
+                            translateNumber(
+                              amountLoading
+                                ? "N/A"
+                                : method.partialCash || getAmountPayable
+                            )
+                          : ""
                       }}
                     </div>
+                    <span v-if="getPaymentObject.otherPayment">
+                      <i
+                        @click.stop="partialCashPayment(method)"
+                        :class="'fa fa-pencil mx-2'"
+                        aria-hidden="true"
+                      ></i>
+                      <i
+                        @click.stop="
+                          (method.partialCash = null), (partialCash = null)
+                        "
+                        :class="{
+                          'fa fa-times mx-2': true,
+                          disabled: !partialCash || !method.partialCash,
+                        }"
+                        aria-hidden="true"
+                      ></i>
+                    </span>
                     <i
                       :class="
                         'fa fa-chevron-' +
@@ -324,9 +428,21 @@
         <button
           class="btn btn-secondary"
           @click="createPayment"
-          v-if="serviceBaseRate && paymentAmount"
+          v-if="
+            getPaymentObject.otherPayment || (serviceBaseRate && paymentAmount)
+          "
         >
           {{ $t("bookAppointment.payNow") }}
+        </button>
+      </div>
+      <div
+        class="col-lg-7 appointment--action-buttons"
+        v-if="
+          getPaymentObject.otherPayment && +getAmountPayable + +partialCash != 0
+        "
+      >
+        <button class="btn btn-secondary" @click="oneStepCheckout">
+          {{ $t("continue") }}
         </button>
       </div>
       <div
@@ -339,12 +455,33 @@
         <div class="details-group">
           <div class="details-group-item">
             <div class="title">
-              {{ $t("selectPaymentMethod.appointmentAmount") }}
+              {{
+                $t(
+                  "selectPaymentMethod." +
+                    (getPaymentObject.otherPayment
+                      ? "packageAmount"
+                      : "appointmentAmount")
+                )
+              }}
             </div>
             <div class="value">
-              {{ $t("sar") + " " + getPaymentObject.amount }}
+              {{ $t("sar") + " " + translateNumber(getPaymentObject.amount) }}
             </div>
           </div>
+          <template v-for="(partial, pindex) in partialPayments">
+            <div class="details-group-item" :key="'partial-payment-' + pindex">
+              <div class="title">
+                {{ $t("partial") }}
+                {{ $t("bookAppointment.payment") }}
+                {{ partial.method ? `(${partial.method})` : "" }}
+                -
+                {{ pindex + 1 }}
+              </div>
+              <div class="value">
+                {{ $t("sar") + " " + (partial.amount + partial.wallet_amount) }}
+              </div>
+            </div>
+          </template>
           <template v-if="selectedInsurance && !amountLoading">
             <div class="details-group-item">
               <div class="title">
@@ -352,7 +489,9 @@
               </div>
               <div class="value">
                 {{
-                  $t("sar") + " " + (getPaymentObject.amount - insuranceAmount)
+                  $t("sar") +
+                  " " +
+                  translateNumber(getPaymentObject.amount - insuranceAmount)
                 }}
               </div>
             </div>
@@ -366,9 +505,11 @@
                 {{
                   $t("sar") +
                   " " +
-                  (+(
-                    getDeductedLoyaltyPoints * LOYALITY_POINTS_FACTOR
-                  )).toFixed(2)
+                  translateNumber(
+                    (+(
+                      getDeductedLoyaltyPoints * LOYALITY_POINTS_FACTOR
+                    )).toFixed(2)
+                  )
                 }}
               </div>
             </div>
@@ -382,7 +523,9 @@
                 {{
                   $t("sar") +
                   " " +
-                  (getAppointmentAmount - getCalculatedAmount).toFixed(2)
+                  translateNumber(
+                    (getAppointmentAmount - getCalculatedAmount).toFixed(2)
+                  )
                 }}
               </div>
             </div>
@@ -390,12 +533,30 @@
           <template v-if="useWalletAmount">
             <div class="details-group-item">
               <div class="title">
+                {{ partialWallet ? $t("partial") : "" }}
                 {{ $t("selectPaymentMethod.walletAmount") }}
               </div>
               <div class="value">
-                {{ $t("sar") + " " + getWalletDeductionAmount() }}
+                {{
+                  $t("sar") + " " + translateNumber(getWalletDeductionAmount())
+                }}
               </div>
             </div>
+          </template>
+          <template v-for="method in getPaymentMethodsOnline">
+            <template v-if="method.partialCash">
+              <div
+                class="details-group-item"
+                :key="'partial-cash-' + method.title"
+              >
+                <div class="title">
+                  {{ $t("selectPaymentMethod." + method.title) }}
+                </div>
+                <div class="value">
+                  {{ $t("sar") + " " + translateNumber(method.partialCash) }}
+                </div>
+              </div>
+            </template>
           </template>
           <div class="details-group-item total">
             <div class="title">
@@ -437,7 +598,12 @@ import {
 export default {
   data() {
     return {
+      tamaraUrl: null,
+      tamaraInstallmentsType: null,
+      countryName: "SA",
+      currency: "SAR",
       useWalletAmount: false,
+      selectedInstallment: null,
       toggleOtherPaymentSection: false,
       selectedInsurance: null,
       walletAmount: 0,
@@ -449,17 +615,24 @@ export default {
       paymentAmount: null,
       LOYALITY_POINTS_FACTOR: null,
       loyaltiyPoints: null,
+      backLink: "Upcoming Appointment",
+      partialWallet: null,
+      partialCash: null,
+      partialPayments: [],
+      totalPaidPartialAmount: null,
       paymentMethodsOnline: [
         {
           title: "applePay",
           icon: "apple-svg",
           currency: "sar",
+          partialCash: null,
           isOnlinePayment: true,
         },
         {
           title: "card",
           icon: "cash-svg",
           currency: "sar",
+          partialCash: null,
           isOnlinePayment: true,
         },
       ],
@@ -476,6 +649,7 @@ export default {
           currency: "sar",
           isOnlinePayment: false,
           isOtherPayment: true,
+          hideOnTotalCovered: true,
         },
       ],
       paymentAmountResponse: null,
@@ -579,6 +753,20 @@ export default {
         baseAmount = baseAmount - this.getWalletDeductionAmount();
       }
 
+      this.getPaymentMethodsOnline.forEach((method) => {
+        if (method.partialCash) {
+          baseAmount = baseAmount - method.partialCash;
+        }
+      });
+
+      if (this.totalPaidPartialAmount) {
+        baseAmount = baseAmount - this.totalPaidPartialAmount;
+      }
+
+      if (baseAmount) {
+        baseAmount = (+baseAmount).toFixed(2);
+      }
+
       return baseAmount;
     },
     isNotAllowedToBookFreeAppointment() {
@@ -622,29 +810,304 @@ export default {
           !this.paymentConfig.apple_pay.limited_access)
       );
     },
+    isTamaraEnabled() {
+      return (
+        this.paymentConfig &&
+        this.paymentConfig.tamara &&
+        this.paymentConfig.tamara.enabled
+      );
+    },
   },
   async mounted() {
-    localStorage.removeItem("paymentVerifyObject");
-    userService.removeBooking();
-    if (!this.getSelectedAppointment) {
-      if (!(this.getPaymentObject && this.getPaymentObject.otherPayment)) {
-        this.navigateTo("Upcoming Appointment");
-        return;
-      }
-    } else {
-      if (!this.checkIfAllowedToPay()) {
-        return;
-      }
+    if (this.$route.params.method == "package") {
+      this.backLink = "Services Packages List";
     }
-    this.fetchLoyalityPointsFactor();
-    this.handleAmount();
-    this.getBookingtype();
-    this.getUserData();
-    this.fetchActiveFirstFreePromo();
+    if (!this.getPaymentObject) this.navigateTo(this.backLink);
+    this.getWalletAmount();
+    if (this.getPaymentObject && this.getPaymentObject.otherPayment) {
+      this.fetchPartialPayments();
+      this.fetchPaymentsType();
+      this.fetchPaymentConfig();
+    } else {
+      localStorage.removeItem("paymentVerifyObject");
+      userService.removeBooking();
+      if (!this.getSelectedAppointment) {
+        if (!(this.getPaymentObject && this.getPaymentObject.otherPayment)) {
+          this.navigateTo(this.backLink);
+          return;
+        }
+      } else {
+        if (!this.checkIfAllowedToPay()) {
+          return;
+        }
+      }
+      this.fetchLoyalityPointsFactor();
+      this.handleAmount();
+      this.getBookingtype();
+      this.getUserData();
+    }
   },
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
     ...mapActions("user", ["updateUserInfo"]),
+    oneStepCheckout() {
+      let tamara_amount = this.selectedInstallment ? +this.getAmountPayable : 0;
+      let hyperpay_amount = +this.partialCash;
+      let wallet_amount = +this.getWalletDeductionAmount();
+      let paid_amount = +this.totalPaidPartialAmount;
+      let package_amount = +this.getPaymentObject.amount;
+
+      let totalRequestAmount =
+        wallet_amount + tamara_amount + hyperpay_amount + paid_amount;
+
+      if (totalRequestAmount != package_amount) {
+        this.failureToast(this.$t("amountIsNotCoveredTotally"));
+        return false;
+      }
+
+      if (!this.isTamaraValid(this.selectedInstallment)) return false;
+
+      if (
+        tamara_amount &&
+        this.partialPayments &&
+        this.partialPayments.some((item) => item.method == "tamara")
+      ) {
+        this.failureToast(this.$t("tamaraPaymentAlreadyDone"));
+        return;
+      }
+
+      if (!this.getPaymentObject.appointment_id) {
+        return false;
+      }
+
+      let obj = {
+        package_id: this.getPaymentObject.appointment_id,
+        instalment_option: this.selectedInstallment
+          ? this.selectedInstallment.instalments
+          : null,
+        wallet_amount: wallet_amount.toFixed(2),
+        tamara_amount: tamara_amount.toFixed(2),
+        hyperpay_amount: hyperpay_amount.toFixed(2),
+      };
+
+      appointmentService.oneStepCheckout(obj).then(
+        (res) => {
+          let response = res.data;
+          if (response.status) {
+            this.tamaraUrl = null;
+            this.tamaraUrl = response.data;
+            if (this.tamaraUrl.checkout_url) {
+              this.setLoadingState(true);
+              // let obj = {
+              //   ...this.getPaymentObject,
+              //   url: this.tamaraUrl.checkout_url,
+              // };
+              // obj.method = null;
+
+              // this.setPaymentObject(obj);
+              // this.navigateTo("Pay Now");
+              window.open(this.tamaraUrl.checkout_url, "_self");
+            }
+          } else {
+            this.failureToast(response.message);
+          }
+        },
+        (error) => {
+          console.error(error);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
+    isTamaraValid(installment) {
+      let currentInstallment = installment || this.selectedInstallment;
+      if (currentInstallment) {
+        if (
+          this.getAmountPayable > currentInstallment.max_limit.amount ||
+          this.getAmountPayable < currentInstallment.min_limit.amount
+        ) {
+          this.failureToast(
+            this.$t("tamaraValidation", {
+              min: currentInstallment.min_limit.amount,
+              max: currentInstallment.max_limit.amount,
+            })
+          );
+          this.selectedInstallment = null;
+          return false;
+        }
+      }
+      return true;
+    },
+    selectTamaraOption(installment) {
+      if (!this.isTamaraValid(installment)) return;
+      if (
+        this.selectedInstallment &&
+        this.selectedInstallment.instalments == installment.instalments
+      ) {
+        this.selectedInstallment = null;
+      } else {
+        this.selectedInstallment = installment;
+      }
+    },
+    fetchPartialPayments() {
+      userService
+        .getPartialPayments(
+          this.getPaymentObject.appointment_id,
+          this.getUserInfo.id
+        )
+        .then((res) => {
+          if (res.data.status) {
+            let data = res.data.data;
+            if (data && data.items && data.items.length) {
+              this.$set(this, "partialPayments", [...data.items]);
+
+              let totalPartialAmount = 0;
+
+              if (data.items && data.items.length) {
+                let cashAmount = data.items.reduce((acc, item) => {
+                  return acc + item.amount;
+                }, 0);
+                let walletAmount = data.items.reduce((acc, item) => {
+                  return acc + item.wallet_amount;
+                }, 0);
+
+                totalPartialAmount = cashAmount + walletAmount;
+
+                this.totalPaidPartialAmount = totalPartialAmount;
+              }
+            }
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    resetPartialPayments() {
+      this.paymentMethodsOnline.forEach((method) => {
+        method.partialCash = null;
+      });
+      this.partialWallet = null;
+      this.partialCash = null;
+    },
+    partialCashPayment(method = null) {
+      this.partialPaymentModal(
+        this.$t("enterAmount"),
+        this.$t("amountInSAR"),
+        "m-info",
+        "text",
+        this.$t("ok"),
+        this.$t("cancel"),
+        true,
+        this.$t("invalidAmount"),
+        method
+      ).then(async (modalValue) => {
+        if (modalValue.dismiss) {
+          return;
+        }
+        let value = modalValue.value;
+        value = (+value).toFixed(2);
+        if (value) {
+          if (method) method.partialCash = +value;
+          else {
+            this.partialWallet = +value;
+            this.useWalletAmount = true;
+            this.fetchPaymentsType();
+          }
+        }
+      });
+    },
+    partialPaymentModal(
+      title,
+      text,
+      icon = "m-check",
+      type = "text",
+      confirmText = this.$t("ok"),
+      cancelText = this.$t("cancel"),
+      preConfirm = true,
+      preConfirmText = this.$t("promotions.invalidPromo"),
+      method = null
+    ) {
+      const imagePath = require("../../assets/images/" + icon + ".svg");
+      return this.$swal({
+        input: type,
+        inputPlaceholder: text,
+        title: title || this.$t("areYouSure"),
+        showCancelButton: true,
+        confirmButtonText: confirmText,
+        confirmButtonColor: "#4466f2",
+        cancelButtonText: cancelText,
+        cancelButtonColor: "#4466f2",
+        preConfirm: (inputVal) => {
+          if (!preConfirm) return true;
+          let trimInputVal = (inputVal + "").trim();
+          let isValidInput = trimInputVal != "";
+          let isValidNumber = !isNaN(+trimInputVal);
+          let partialCashPayments = this.getPaymentMethodsOnline.reduce(
+            (acc, method) => {
+              return acc + (method.partialCash || 0);
+            },
+            0
+          );
+          let partialWalletPayment = this.getWalletDeductionAmount() || 0;
+          let payableAmount = this.getAmountPayable;
+          if (method) {
+            this.partialCash = +trimInputVal;
+            payableAmount = +payableAmount + +partialCashPayments;
+            if (!this.getAmountPayable) {
+              this.selectedInstallment = null;
+            }
+          } else {
+            payableAmount = +payableAmount + +partialWalletPayment;
+          }
+
+          if (
+            !isValidNumber ||
+            !isValidInput ||
+            +trimInputVal <= 0 ||
+            +trimInputVal > payableAmount ||
+            (!method && +trimInputVal > +this.walletAmount)
+          ) {
+            this.$swal.showValidationMessage(preConfirmText);
+          }
+
+          return isValidInput && trimInputVal;
+        },
+        imageUrl: imagePath,
+        customClass: {
+          container: "swal-custom-icon-top-padding theme-action-button",
+        },
+      });
+    },
+    getWalletAmount() {
+      userService.getUserWalletAmount().then(
+        (res) => {
+          if (res.data.status) {
+            let data = res.data.data;
+            if (data) {
+              this.walletAmount = data.wallet_balance || 0;
+              this.actualWalletAmount = this.walletAmount;
+            }
+          } else {
+            this.walletAmount = 0;
+            this.failureToast(res.data.message);
+          }
+        },
+        (error) => {
+          this.walletAmount = 0;
+          console.error(error);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
     getUserData() {
       userService.getProfileById(this.getUserInfo.id).then(
         (res) => {
@@ -689,6 +1152,9 @@ export default {
             );
         }
       );
+      this.fetchPaymentConfig();
+    },
+    fetchPaymentConfig() {
       systemConfigService.fetchConfig("?title=PAYMENT_CONFIG").then(
         (response) => {
           if (response.data.status) {
@@ -714,11 +1180,14 @@ export default {
     },
     checkIfAllowedToPay() {
       if (
+        (!this.getPaymentObject || !this.getPaymentObject.otherPayment) &&
+        this.getSelectedAppointment &&
+        this.getSelectedAppointment.type &&
         this.getSelectedAppointment.type.toLowerCase() == "online" &&
         !this.isAllowedToPay(this.getSelectedAppointment.start_time)
       ) {
         this.failureToast(this.$t("cannotPayForTheAppointment"));
-        this.navigateTo("Upcoming Appointment");
+        this.navigateTo(this.backLink);
         return false;
       }
       return true;
@@ -770,10 +1239,12 @@ export default {
       let deductionAmount = 0;
       let appointmentAmount = this.getCalculatedAmount;
       if (this.useWalletAmount) {
-        deductionAmount =
-          +appointmentAmount >= +this.walletAmount
-            ? this.walletAmount
-            : appointmentAmount;
+        deductionAmount = this.partialWallet
+          ? this.partialWallet
+          : +appointmentAmount - this.totalPaidPartialAmount >=
+            +this.walletAmount
+          ? this.walletAmount
+          : appointmentAmount - this.totalPaidPartialAmount;
       }
 
       if (!+deductionAmount) this.useWalletAmount = false;
@@ -795,13 +1266,35 @@ export default {
         this.useWalletAmount = false;
       }
       this.appointmentAmount = (+this.appointmentAmount).toFixed(2);
+
+      if (!+this.appointmentAmount) {
+        this.paymentMethodsOnline.forEach((method) => {
+          method.partialCash = null;
+        });
+        this.partialCash = null;
+      }
     },
     handleSelection(item) {
+      if (
+        this.getPaymentObject.otherPayment &&
+        this.getPaymentObject.otherPayment == item.isOtherPayment
+      ) {
+        this.toggleOtherPaymentSection = !this.toggleOtherPaymentSection;
+        return;
+      }
+      if (this.getPaymentObject.otherPayment) {
+        return;
+      }
       this.setAppointmentAmount();
+      this.payViaCash(item);
+    },
+    payViaCash(item) {
       if (item.isOnlinePayment) {
         let obj = {
-          amount: (+this.getAmountPayable).toFixed(2),
-          appointment_id: this.getPaymentObject.appointment_id,
+          ...this.getPaymentObject,
+          payableAmount: (+item.partialCash || +this.getAmountPayable).toFixed(
+            2
+          ),
           currency: item.currency.toUpperCase(),
         };
         obj.method = null;
@@ -841,20 +1334,27 @@ export default {
           +paymentAmount.PatientShare + +paymentAmount.PatientTax;
         if (insurance) {
           this.insuranceAmount = amountPayable;
-          if (this.insuranceAmount == 0) {
-            this.resetDiscount();
-          }
         } else {
           let patientAmount = amountPayable;
           let obj = {
             ...this.getPaymentObject,
             amount: (+patientAmount).toFixed(2),
+            payableAmount: (+patientAmount).toFixed(2),
           };
           this.setPaymentObject(obj);
         }
 
-        if (this.isElligibleForFirstFreeVirtualAppointment) {
-          this.resetDiscount();
+        if (
+          this.isElligibleForFirstFreeVirtualAppointment ||
+          this.insuranceAmount == 0
+        ) {
+          this.resetDiscount(false);
+        } else {
+          if (this.getUserInfo.promo_code)
+            this.applyPromotion(
+              this.getUserInfo.promo_code.toLowerCase(),
+              true
+            );
         }
 
         this.setAppointmentAmount();
@@ -898,9 +1398,40 @@ export default {
             : this.selectedPromotion
             ? this.selectedPromotion.promo_code
             : null,
+        package_id: 0,
+        promo_code: this.selectedPromotion
+          ? this.selectedPromotion.promo_code
+          : null,
+        patient_id: this.getUserInfo.id,
       };
     },
-    async createPayment(paymentObj, isFree = false) {
+    getPackagePaymentVerifyObject() {
+      return {
+        appointment_id: 0,
+        service_value: 0,
+        service_discount: 0,
+        service_tax: 0,
+        service_net_amount: 0,
+        patient_amount: 0,
+        patient_tax: 0,
+        patient_share_total: 0,
+        is_free_consultation: 0,
+        patient_scheme_id: 1,
+        wallet_payment_amount: this.getWalletDeductionAmount(),
+        gateway_payment_amount: this.getAmountPayable,
+        gateway_payment_ref: "",
+        receipt_date: this.formatReceiptDateTime(new Date()),
+        discount_type: "",
+        discount: "",
+        package_id: this.getPaymentObject.appointment_id,
+        promo_code: this.selectedPromotion
+          ? this.selectedPromotion.promo_code
+          : null,
+        is_package: true,
+        patient_id: this.getUserInfo.id,
+      };
+    },
+    async createAppointmentPayment(paymentObj, isFree = false) {
       if (!this.paymentAmountResponse) {
         this.failureToast("Cannot Proceed with Payment");
         return;
@@ -931,7 +1462,7 @@ export default {
                   error.response.data.message) ||
                   error.message
               );
-            this.navigateTo("Upcoming Appointment");
+            this.navigateTo(this.backLink);
           });
       } else {
         await this.doPayment();
@@ -951,6 +1482,56 @@ export default {
             });
           }
         });
+    },
+    async createPayment(paymentObj = null, isFree = false) {
+      if (this.getPaymentObject && this.getPaymentObject.otherPayment) {
+        let paymentVerifyObject = this.getPackagePaymentVerifyObject();
+        paymentVerifyObject.is_first_appointment_free = false;
+
+        localStorage.setItem(
+          "paymentVerifyObject",
+          JSON.stringify(paymentVerifyObject)
+        );
+        if (this.getAmountPayable != 0 && !isFree) {
+          await appointmentService
+            .initializePayment(paymentVerifyObject)
+            .then((response) => {
+              if (response.data && response.data.status) {
+                if (paymentObj) {
+                  this.setPaymentObject(paymentObj);
+                }
+                this.navigateTo("Pay Now");
+              } else this.failureToast(response.data && response.data.message);
+            })
+            .catch((error) => {
+              if (!this.isAPIAborted(error))
+                this.failureToast(
+                  (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                    error.message
+                );
+              this.navigateTo(this.backLink);
+            });
+        } else {
+          await this.doPayment();
+
+          freeAppointmentPromoService
+            .fetchFreeActiveAppointmentPromos(
+              "?mrn_number=" + this.getUserInfo.mrn_number
+            )
+            .then((promoRes) => {
+              let promoResponse = promoRes.data;
+              if (promoResponse.status) {
+                this.updateUserInfo({
+                  first_free_promo: promoResponse.data.items,
+                });
+              }
+            });
+        }
+      } else {
+        await this.createAppointmentPayment(paymentObj, isFree);
+      }
     },
     fetchPromotionsList() {
       promotionService.fetchPromotions("?only_active=true").then(
@@ -997,12 +1578,16 @@ export default {
       }
       this.resetDiscount();
     },
-    resetDiscount() {
+    resetDiscount(updateUser = true) {
       if (this.selectedDiscountType == "promotion") {
-        promotionService.removePromo().then(() => {
-          this.updateUserInfo({ promo_code: "" });
+        if (updateUser) {
+          promotionService.removePromo().then(() => {
+            this.updateUserInfo({ promo_code: "" });
+            this.selectedPromotion = null;
+          });
+        } else {
           this.selectedPromotion = null;
-        });
+        }
       }
       this.selectedDiscountType = "";
       this.selectedLoyaltyPoints = null;
@@ -1081,11 +1666,86 @@ export default {
     setPromotionLoyalty() {
       this.selectedLoyaltyPoints = this.getDeductedLoyaltyPoints;
     },
+    fetchPaymentsType() {
+      if (!this.getPaymentObject.otherPayment) return;
+
+      if (!this.getUserInfo.phone_number && !this.getAmountPayable) {
+        return false;
+      }
+
+      let payableAmount = this.getAmountPayable;
+      let query = `?country=${this.countryName}&phone=${this.getUserInfo.phone_number}&currency=${this.currency}&order_value=${payableAmount}`;
+      appointmentService.fetchPaymentsTypes(query).then(
+        (res) => {
+          let response = res.data;
+          if (response.status) {
+            this.tamaraInstallmentsType = null;
+            if (response.data.items && response.data.items.length)
+              this.tamaraInstallmentsType = [...response.data.items];
+            if (!this.getAmountPayable) {
+              this.selectedInstallment = null;
+            }
+          } else {
+            this.failureToast(response.message);
+          }
+        },
+        (error) => {
+          console.error(error);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
+    getTamaraUrl(tamara) {
+      if (!this.isTamaraValid(tamara)) return;
+      if (!this.getPaymentObject.appointment_id) {
+        return false;
+      }
+      let obj = {
+        package_id: this.getPaymentObject.appointment_id,
+        wallet_payment_amount: this.getWalletDeductionAmount(),
+        instalment_option: tamara.instalments,
+        amount: this.getAmountPayable,
+      };
+      appointmentService.fetchTamaraUrl(obj).then(
+        (res) => {
+          let response = res.data;
+          if (response.status) {
+            this.tamaraUrl = null;
+            this.tamaraUrl = response.data;
+            if (this.tamaraUrl.checkout_url) {
+              this.setLoadingState(true);
+              window.open(this.tamaraUrl.checkout_url, "_self");
+            }
+          } else {
+            this.failureToast(response.message);
+          }
+        },
+        (error) => {
+          console.error(error);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.t-min-max-limit {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
 .useButton {
   border-color: var(--theme-default);
   color: var(--theme-tertiary) !important;
@@ -1149,5 +1809,16 @@ export default {
       }
     }
   }
+}
+.edit-button {
+  margin-inline: 1rem;
+  color: white;
+  border: 1px solid white;
+  border-radius: 50%;
+  width: 2rem;
+  aspect-ratio: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

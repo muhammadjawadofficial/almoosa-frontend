@@ -8,9 +8,9 @@
         :backLink="'Services Packages List'"
       />
       <button
-        v-if="this.isBooked"
         class="btn btn-secondary export-button"
         @click="downloadTerms"
+        v-if="isBooked"
       >
         {{ $t("download") }}
       </button>
@@ -45,7 +45,15 @@
                 </div>
                 <div class="title">{{ $t("servicesPackages.price") }}</div>
                 <div class="value">
-                  {{ translateNumber(packageInfo.price) + " " + $t("sar") }}
+                  {{
+                    translateNumber(
+                      getSelectedPackage.transaction_status == "completed"
+                        ? getSelectedPackage.amount
+                        : packageInfo.price
+                    ) +
+                    " " +
+                    $t("sar")
+                  }}
                 </div>
               </div>
             </div>
@@ -99,8 +107,22 @@
         </b-card-body>
       </b-card>
       <div class="button-group">
-        <button @click="makePayment" class="btn btn-secondary">
+        <button
+          @click="makePayment"
+          class="btn btn-secondary"
+          v-if="this.getSelectedPackage.transaction_status != 'completed'"
+        >
           {{ $t("servicesPackages.bookPackage") }}
+        </button>
+        <button
+          @click="cancelPackage"
+          class="btn btn-danger btn-small"
+          v-if="
+            this.getSelectedPackage.transaction_status != 'completed' &&
+            !this.getSelectedPackage.paid_transactions
+          "
+        >
+          {{ $t("delete") }}
         </button>
       </div>
     </template>
@@ -120,11 +142,12 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("user", ["getUserInfo"]),
     ...mapGetters("servicesPackages", ["getSelectedPackage"]),
   },
   mounted() {
-    this.isBooked = this.$route.params.method == "booked";
+    this.isBooked =
+      this.$route.params.method == "booked" &&
+      this.getSelectedPackage.transaction_status == "completed";
     if (!this.getSelectedPackage) {
       this.navigateTo("Services Packages List");
       return;
@@ -133,20 +156,21 @@ export default {
   },
   methods: {
     ...mapActions("appointment", ["setPaymentObject"]),
-    ...mapActions("servicesPackages", ["setSelectedPackage"]),
     initializeData() {
-      this.packageInfo = this.getSelectedPackage;
+      this.packageInfo = this.getSelectedPackage.package;
     },
     downloadTerms() {
-      let data = `${this.currentAppLang}/${this.packageInfo.id}/${this.getUserInfo.id}`;
+      let data = `${this.currentAppLang}/${this.getSelectedPackage.id}/${this.getUserInfo.id}`;
       servicesPackagesService
         .fetchBookedPackageTermsDownloadLink(data)
         .then((res) => {
           if (res.data.status) {
-            this.bookedPackageTermsDownloadLink = res.data.data;
+            this.bookedPackageTermsDownloadLink =
+              res.data.data && res.data.data.items[0];
             if (this.bookedPackageTermsDownloadLink) {
               const downloadLink = document.createElement("a");
-              downloadLink.href = res.data.data;
+              downloadLink.href =
+                this.bookedPackageTermsDownloadLink.downloadlink;
               downloadLink.download = "Downoad-PDF";
               document.body.appendChild(downloadLink);
               downloadLink.click();
@@ -156,7 +180,7 @@ export default {
             this.failureToast(res.data.message);
           }
         })
-        .catch(() => {
+        .catch((error) => {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
@@ -167,46 +191,6 @@ export default {
         });
     },
     async makePayment() {
-      if (this.packageInfo.pending_packages) {
-        this.confirmIconModal(
-          this.$t("packageAlreadyBooked"),
-          this.$t("packageAlreadyBookedMessage"),
-          "m-payment-failure"
-        ).then((res) => {
-          if (res.value) {
-            servicesPackagesService
-              .fetchBookedPackagesByPackageId(this.packageInfo.id)
-              .then((res) => {
-                if (res.data.status) {
-                  console.log(res.data.data);
-                  let packageObj = res.data.data;
-                  if (packageObj) {
-                    let obj = {
-                      amount: packageObj.package.price,
-                      appointment_id: packageObj.package.id,
-                      otherPayment: true,
-                      payableAmount: packageObj.package.price,
-                    };
-                    this.setPaymentObject(obj);
-                    this.setSelectedPackage(packageObj);
-                    this.$router.replace({
-                      name: "Services Packages Details Terms",
-                      params: {
-                        method: "package",
-                        id: packageObj.package.term_condition_id,
-                      },
-                      query: {
-                        packageId: packageObj.id,
-                        terms: "view",
-                      },
-                    });
-                  }
-                }
-              });
-          }
-        });
-        return;
-      }
       if (this.packageInfo.term_condition_id) {
         let cmsResponse = await cmsPagesService.fetchCmsPages(
           "?id=" + this.packageInfo.term_condition_id
@@ -221,25 +205,26 @@ export default {
           let cmsObject = cmsResponse.data.data.items[0];
 
           let obj = {
-            amount: this.getSelectedPackage.price,
-            appointment_id: this.getSelectedPackage.id,
+            amount: this.getSelectedPackage.package.price,
+            appointment_id: this.getSelectedPackage.package.id,
             otherPayment: true,
-            payableAmount: this.getSelectedPackage.price,
+            payableAmount: this.getSelectedPackage.package.price,
           };
           this.setPaymentObject(obj);
-          this.$router.push({
+          this.$router.replace({
             name: "Services Packages Details Terms",
             params: {
               method: "package",
-              id: this.getSelectedPackage.term_condition_id,
+              id: this.getSelectedPackage.package.term_condition_id,
             },
             query: {
-              id: this.getSelectedPackage.term_condition_id,
               packageId: this.getSelectedPackage.id,
+              terms: "view",
             },
           });
           return;
           this.htmlModal(cmsObject.long_text).then((res) => {
+            console.log(res);
             if (res.value) {
               let obj = {
                 amount: this.getSelectedPackage.price,
@@ -253,6 +238,38 @@ export default {
         }
       }
     },
+    cancelPackage() {
+      this.confirmIconModal(
+        this.$t("deletePackage"),
+        this.$t("deletePackageMessage"),
+        "m-info"
+      ).then((res) => {
+        if (res.value) {
+          this.deletePackage();
+        }
+      });
+    },
+    deletePackage() {
+      servicesPackagesService
+        .deletePackage(this.getSelectedPackage.id)
+        .then((res) => {
+          if (res.data.status) {
+            this.successToast(this.$t("deletePackageSuccess"));
+            this.navigateTo("Services Packages List");
+          } else {
+            this.failureToast(res.data.message);
+          }
+        })
+        .catch((error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+          console.error(error);
+        });
+    },
   },
 };
 </script>
@@ -263,7 +280,6 @@ export default {
   top: 3rem;
   z-index: 1;
 }
-
 .text-content {
   font-size: 1.125rem;
   color: #8696b8;

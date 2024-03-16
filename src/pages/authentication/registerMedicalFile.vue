@@ -189,7 +189,6 @@ export default {
         this.userId != "" &&
         this.userId.length >= this.selectedItem.minLength &&
         this.userId.length <= this.selectedItem.maxLength;
-      console.log(this.registerFormState);
       if (!this.registerFormState.userId) {
         if (this.userId == "")
           this.failureToast(

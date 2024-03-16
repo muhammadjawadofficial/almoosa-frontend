@@ -7,6 +7,7 @@ export const appointmentService = {
     getClinicsV1,
     getSpecialities,
     getSpecialitiesV1,
+    getSymptomsSpecialitiesV1,
     findDoctors,
     fetchTimeslots,
     createAppointment,
@@ -18,7 +19,11 @@ export const appointmentService = {
     createPayment,
     initializePayment,
     getAppointmentInstructions,
-    getNearestAvailability
+    getNearestAvailability,
+    fetchPaymentsTypes,
+    fetchTamaraUrl,
+    getSymptomsSpecialitiesSuggested,
+    oneStepCheckout
 }
 
 function getUpcomingAppointemnts(id) {
@@ -55,7 +60,12 @@ function getSpecialitiesV1() {
         url: apiPath.appointment.specialitiesV1.url
     })
 }
-
+function getSymptomsSpecialitiesV1() {
+    return axios({
+        method: apiPath.appointment.specialitiesV1.method,
+        url: apiPath.appointment.specialitiesV1.url
+    })
+}
 function findDoctors(speciality, date, clinic, bookingType, currentLang) {
     return axios({
         method: apiPath.appointment.findDoctors(speciality, date, clinic, bookingType, currentLang).method,
@@ -93,7 +103,7 @@ function createAppointment(type, patient, doctor, date, timeslot, amount, promo)
     })
 }
 
-function updateAppointment(id, timeslot, mrn_number, type, date) {
+function updateAppointment(id, timeslot, mrn_number, type) {
     let data = {
         "old_app_id": id,
         "slot_id": timeslot.id,
@@ -167,5 +177,31 @@ function getNearestAvailability(payload) {
         method: apiPath.appointment.getNearestAvailability.method,
         url: apiPath.appointment.getNearestAvailability.url,
         data: payload
+    })
+}
+function fetchPaymentsTypes(query) {
+    return axios({
+        method: apiPath.appointment.getPaymentsTypes(query).method,
+        url: apiPath.appointment.getPaymentsTypes(query).url,
+    });
+}
+function fetchTamaraUrl(data) {
+    return axios({
+        method: apiPath.appointment.getTamaraUrl.method,
+        url: apiPath.appointment.getTamaraUrl.url,
+        data,
+    });
+}
+function oneStepCheckout(data) {
+    return axios({
+        method: apiPath.appointment.oneStepCheckout.method,
+        url: apiPath.appointment.oneStepCheckout.url,
+        data,
+    });
+}
+function getSymptomsSpecialitiesSuggested() {
+    return axios({
+        method: apiPath.appointment.symptomsSpecialitiesV1.method,
+        url: apiPath.appointment.symptomsSpecialitiesV1.url
     })
 }

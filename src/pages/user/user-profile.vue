@@ -1015,7 +1015,6 @@ export default {
         this.doctorState.consultingArState =
           this.doctor.consultingAr != "" && !!this.doctor.consultingAr;
 
-        console.log(this.doctorState);
         return !Object.values(this.doctorState).includes(false);
       } else {
         this.areaState = this.area != "";
@@ -1126,7 +1125,6 @@ export default {
             let obj = { ...data };
             // let doctorObj = { photo: data.photo.path };
             let saveObj = obj;
-            // console.log(obj, doctorObj, saveObj)
             this.updateUserInfo({ ...saveObj });
             this.successToast(this.$t("profile.updateSuccess"));
             this.resetData();

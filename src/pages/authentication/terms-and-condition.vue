@@ -8,7 +8,7 @@
         {{ termsAndConditionCMS[getLocaleKey("long_title")] }}
       </div>
       <div
-        class="text"
+        class="cmsText"
         v-html="termsAndConditionCMS[getLocaleKey('long_text')]"
       ></div>
     </template>
@@ -20,7 +20,7 @@
         {{ $t("termsAndConditions.mustAgree") }}
       </div>
       <div
-        class="text"
+        class="cmsText"
         v-for="(terms, termIndex) in agreement"
         :key="getTitle(termIndex)"
       >
@@ -164,7 +164,6 @@ export default {
       cmsPagesService.fetchCmsPages("?type=" + type).then(
         (res) => {
           if (res.data.status) {
-            console.log();
             this.termsAndConditionCMS = res.data.data.items[0];
           } else {
             this.failureToast(res.data.message);
@@ -238,53 +237,6 @@ export default {
   font-family: "DiodrumArabicSemiBold";
   color: black;
 }
-.text {
-  font-size: 1rem;
-  line-height: 2em;
-  font-family: "DiodrumArabicMedium";
-  color: black;
-  margin-top: 1rem;
-  :deep {
-    p {
-      margin-bottom: 0;
-    }
-    .text-heading,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5 {
-      font-size: 1.25rem;
-      font-family: "DiodrumArabicBold";
-      color: var(--theme-default);
-      text-decoration: underline;
-    }
-    h1,
-    h2,
-    h3,
-    h4,
-    h5 {
-      margin-top: 1rem;
-    }
-    & > * {
-      font-size: inherit;
-      font-family: inherit;
-      color: inherit;
-      letter-spacing: inherit;
-      line-height: inherit;
-    }
-    ul,
-    ol {
-      list-style: revert;
-      padding-inline-start: 2rem;
-      li {
-        &.ql-indent-1 {
-          margin-inline-start: 2rem;
-        }
-      }
-    }
-  }
-}
 @media (max-width: 991px) {
   .login-card {
     padding-top: 1.25rem;
@@ -295,9 +247,6 @@ export default {
   .sub-heading {
     font-size: 1rem;
   }
-  .text {
-    font-size: 0.938rem;
-  }
 }
 @media (max-width: 525px) {
   .heading {
@@ -305,9 +254,6 @@ export default {
   }
   .sub-heading {
     font-size: 1.25rem;
-  }
-  .text {
-    font-size: 1.1rem;
   }
   .button-group {
     button {

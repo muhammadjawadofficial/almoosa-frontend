@@ -12,7 +12,7 @@ export default {
       this.$t("selectPaymentMethod.paymentSuccessfulText"),
       "m-payment-success"
     ).then(() => {
-      this.navigateTo("Upcoming Appointment");
+      this.navigateTo("default");
     });
   },
 };

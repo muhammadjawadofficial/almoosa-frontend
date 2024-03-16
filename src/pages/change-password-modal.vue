@@ -124,11 +124,6 @@ export default {
       this.confirmNewPasswordState =
         this.confirmNewPassword != "" &&
         this.confirmNewPassword == this.newPassword;
-      console.log(
-        this.oldPasswordState,
-        this.newPasswordState,
-        this.confirmNewPasswordState
-      );
       return (
         this.oldPasswordState &&
         this.newPasswordState &&

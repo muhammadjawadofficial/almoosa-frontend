@@ -6,6 +6,7 @@
       :src="getIframeUrl"
       class="full-height-container mt-0 w-100"
       frameborder="0"
+      ref="paymentIframe"
     >
     </iframe>
   </div>
@@ -28,6 +29,7 @@ export default {
   methods: {
     iframeIsLoaded() {
       this.setLoadingState(false);
+      let currentUrl = this.$refs.paymentIframe.contentWindow.location.href;
     },
   },
   computed: {
@@ -37,20 +39,29 @@ export default {
     ]),
     ...mapGetters("user", ["getUserInfo"]),
     getIframeUrl() {
+      if (this.getPaymentObject && this.getPaymentObject.otherPayment) {
+        return this.getPaymentObject.url;
+      }
       return (
         process.env.VUE_APP_API_V2_BASE_URL +
         "api/v1/payments?amount=" +
-        this.getPaymentObject.amount +
+        this.getPaymentObject.payableAmount +
         "&currency=" +
         this.getPaymentObject.currency +
         (this.getPaymentObject.method
           ? "&method=" + this.getPaymentObject.method
           : "") +
-        "&appointment_id=" +
+        (this.getPaymentObject.otherPayment
+          ? "&package_id="
+          : "&appointment_id=") +
         this.getPaymentObject.appointment_id +
         "&platform=web" +
-        "&doctor_id=" +
-        this.getSelectedAppointment.doctor_id +
+        (this.getPaymentObject.otherPayment
+          ? "&is_package=true"
+          : "&doctor_id=" +
+            (this.getSelectedAppointment
+              ? this.getSelectedAppointment.doctor_id
+              : "")) +
         "&patient_id=" +
         this.getUserInfo.id
       );

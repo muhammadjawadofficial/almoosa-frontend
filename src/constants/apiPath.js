@@ -39,6 +39,7 @@ export const apiPath = {
         clinicsV1: getApiObject("get", "clinics"),
         specialities: (query) => getApiObject("get", "specialities" + query, "v2"),
         specialitiesV1: getApiObject("get", "specialities"),
+        symptomsSpecialitiesV1: getApiObject("get", "specialities/selected-questions"),
         findDoctors: (speciality, date, clinic, bookingType, currentLang) => {
             let queryString = '?';
             if (speciality) {
@@ -71,7 +72,11 @@ export const apiPath = {
         createPayment: getApiObject("post", "payments/create", "v2"),
         initializePayment: getApiObject("post", "payments/initialize", "v2"),
         getInstructions: (query) => getApiObject("get", "system-settings" + query),
-        getNearestAvailability: getApiObject("post", "appointments/nearest-availability", "v2")
+        getNearestAvailability: getApiObject("post", "appointments/nearest-availability", "v2"),
+        getPaymentsTypes: (query) =>
+            getApiObject("get", "payments/tamara/options" + query, "v1"),
+        getTamaraUrl: getApiObject("post", "payments/tamara/checkout", "v1"),
+        oneStepCheckout: getApiObject("post", "payments/one-step-checkout/step-one"),
     },
 
     promotions: {
@@ -116,6 +121,7 @@ export const apiPath = {
         fetchNotificationsSetting: (id) => getApiObject("get", "notification-config/" + id),
         updateNotificationSetting: (id) => getApiObject("patch", "notification-config/" + id),
         redeemLoyaltyPoints: getApiObject("post", "payments/redeem-loyalty-points", "v2"),
+        getPartialPayments: (query) => getApiObject("get", "payments/partial" + query),
     },
 
     patient: {
@@ -137,8 +143,18 @@ export const apiPath = {
     servicesPackages: {
         fetch: getApiObject("get", "packages"),
         details: (id) => getApiObject("get", "health-education/" + id),
+        fetchBookedPackges: getApiObject("get", "booked-packages/patient/booked"),
+        fetchBookedPackgesByPackageId: (query) => getApiObject("get", "booked-packages/patient/booked/package" + query),
+        addBookedPackageTerms: getApiObject("post", "booked-package-terms"),
+        bookedPackageTermsDownloadLink: (id) => getApiObject("get", "booked-package-terms/downloadLink/" + id),
+        deletePackage: (id) => getApiObject("delete", "booked-packages/" + id),
     },
-
+    symptomsChecker: {
+        postData: getApiObject("post", "sc-survey"),
+        fetch: (id) => getApiObject("get", "symptoms?" + id),
+        fetchAgeConditions: (id) => getApiObject("get", "symptom-options-age/speciality/" + id),
+        getSymptom: (id) => getApiObject("get", "sc-survey/" + id),
+    },
     familyMembers: {
         fetchRelations: getApiObject("get", "family-member-relation/get/all", "v2"),
         fetch: (query) => getApiObject("get", "family-members/get/all" + query, "v2"),
@@ -148,6 +164,7 @@ export const apiPath = {
 
     cmsPages: {
         fetch: (query) => getApiObject("get", "cms-content" + query),
+        cmsContentFields: (id) => getApiObject("get", "cms-content-fields/" + id),
     },
 
     freeAppointmentPromo: {

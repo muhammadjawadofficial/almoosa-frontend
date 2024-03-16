@@ -13,8 +13,8 @@ export default {
     showModal() {
       this.setBookingState();
       this.successIconModal(
-        this.$t("selectPaymentMethod.paymentFailed"),
-        this.$t("selectPaymentMethod.paymentFailedText"),
+        this.$t("selectPaymentMethod.paymentCancelled"),
+        this.$t("selectPaymentMethod.paymentCancelledText"),
         "m-payment-failure"
       ).then(() => {
         this.navigateTo("default");

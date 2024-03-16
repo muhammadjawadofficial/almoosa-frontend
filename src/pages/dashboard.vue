@@ -307,7 +307,7 @@ export default {
         {
           text: "Service & Package",
           icon: "briefcase-svg",
-          // link: "Services Packages",
+          link: "Services Packages",
         },
         {
           text: "View Family Member",
@@ -322,7 +322,8 @@ export default {
         {
           text: "Check Symptoms",
           icon: "symptom-svg",
-          unique: true,
+          link: "Confirm Survey",
+          unique: true
         },
         {
           text: "Virtual Tour",
