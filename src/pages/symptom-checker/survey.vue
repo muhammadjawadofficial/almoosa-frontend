@@ -430,7 +430,9 @@ export default {
         (response) => {
           if (response.data.status) {
             let data = response.data.data;
-            this.fetchDoctors(data.recommendation_speciality_id);
+            if (data.recommendation_speciality_id)
+              this.fetchDoctors(data.recommendation_speciality_id);
+            else this.surveyDoctors = [];
             this.surveyResult = data;
           } else {
             this.failureToast(response.data.messsage);
