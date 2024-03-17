@@ -543,7 +543,9 @@ export default {
             recommendation_ar: recommendation_ar,
             recommendation_speciality_id: recommendation_speciality_id,
           };
-          this.fetchDoctors(recommendation_speciality_id);
+          if (recommendation_speciality_id)
+            this.fetchDoctors(recommendation_speciality_id);
+          else this.surveyDoctors = [];
           this.surveyResult = obj;
         }
       }
