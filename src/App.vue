@@ -35,8 +35,8 @@
     </div>
 
     <a
-      v-if="currentRoute && !currentRoute.meta.hideWhatsapp"
-      href="https://wa.link/h6lwse"
+      v-if="currentRoute && !currentRoute.meta.hideWhatsapp && config.whatsapp"
+      :href="'https://wa.me/' + config.whatsapp"
       target="_blank"
       class="floating-whatsapp-icon"
       rel="noopener noreferrer"
@@ -47,18 +47,20 @@
 </template>
 
 <script>
-import { userService } from "./services";
+import { systemConfigService, userService } from "./services";
 export default {
   name: "app",
   data() {
     return {
       show: true,
       currentRoute: null,
+      config: {},
     };
   },
   mounted() {
     this.timeOut();
     this.setCurrentRoute(this.$route);
+    this.fetchContactConfig();
   },
   watch: {
     $route: function (val) {
@@ -82,6 +84,27 @@ export default {
       setTimeout(function () {
         self.show = false;
       }, 1000);
+    },
+    fetchContactConfig() {
+      systemConfigService.fetchConfig("?title=CONTACT_NUMBER").then(
+        (response) => {
+          if (response.data.status) {
+            let data = response.data.data.items;
+            let config = JSON.parse(data[0].value);
+            this.config = config;
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
     },
   },
 };
