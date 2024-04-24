@@ -35,8 +35,8 @@
     </div>
 
     <a
-      v-if="currentRoute && !currentRoute.meta.hideWhatsapp && config.whatsapp"
-      :href="'https://wa.me/' + config.whatsapp"
+      v-if="currentRoute && !currentRoute.meta.hideWhatsapp && getContactNumbers.whatsapp"
+      :href="'https://wa.me/' + getContactNumbers.whatsapp"
       target="_blank"
       class="floating-whatsapp-icon"
       rel="noopener noreferrer"
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 import { systemConfigService, userService } from "./services";
 export default {
   name: "app",
@@ -54,7 +55,6 @@ export default {
     return {
       show: true,
       currentRoute: null,
-      config: {},
     };
   },
   mounted() {
@@ -68,6 +68,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters("systemConfig", ["getContactNumbers"]),
     isNotProduction() {
       return process.env.NODE_ENV !== "production";
     },
@@ -76,6 +77,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions("systemConfig", ["setContactNumbers"]),
     setCurrentRoute(route) {
       this.currentRoute = route;
     },
@@ -91,7 +93,7 @@ export default {
           if (response.data.status) {
             let data = response.data.data.items;
             let config = JSON.parse(data[0].value);
-            this.config = config;
+            this.setContactNumbers(config);
           } else {
             this.failureToast(response.data.messsage);
           }
