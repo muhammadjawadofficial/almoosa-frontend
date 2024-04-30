@@ -253,6 +253,7 @@
   "modules": {
     "Virtual Consultations": "Virtual Consultations",
     "On-site Consultations": "On-site Consultations",
+    "Book a Consultation": "Book a Consultation",
     "Check Symptoms": "Check Symptoms",
     "View Family Member": "View Family&nbsp;Member",
     "Upcoming Appointment": "Upcoming Appointment",
@@ -368,7 +369,10 @@
     "physicianList": "Our Doctors",
     "noData": "No doctor found in the current selection criteria",
     "doctorIsAvailableOnFollowingDates": "Doctor is available on following dates",
-    "viewAvailability": "View Availability"
+    "viewAvailability": "View Availability",
+    "selectToContinue": "Select to Continue",
+    "selectOneOption": "Select one of these options to continue",
+    "selectBookingType": "Select Booking Type"
   },
   "doctorDetail": {
     "tabs": {
@@ -377,7 +381,7 @@
       "experience": "Work Experience"
     },
     "timeslot": {
-      "noData": "No timeslots in this selected date",
+      "noData": "No timeslots available",
       "notSelected": "Please select a timeslot"
     },
     "aboutDoctor": "About Doctor",

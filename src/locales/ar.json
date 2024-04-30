@@ -253,6 +253,7 @@
   "modules": {
     "Virtual Consultations": "موعد افتراضي",
     "On-site Consultations": "موعد في العيادة",
+    "Book a Consultation": "احجز استشارة",
     "Check Symptoms": "فاحص الاعراض",
     "View Family Member": "أفراد عائلتك",
     "Upcoming Appointment": "موعدك القادم",
@@ -368,7 +369,10 @@
     "physicianList": "قائمة الأطباء",
     "noData": "لم يتم العثور على طبيب في معايير الاختيار الحالية",
     "doctorIsAvailableOnFollowingDates": "الطبيب متاح في التواريخ التالية",
-    "viewAvailability": "مشاهدة التوفر"
+    "viewAvailability": "مشاهدة التوفر",
+    "selectToContinue": "حدد للمتابعة",
+    "selectOneOption": "حدد أحد هذه الخيارات للمتابعة",
+    "selectBookingType": "حدد نوع الحجز"
   },
   "doctorDetail": {
     "tabs": {
@@ -377,7 +381,7 @@
       "experience": "الخبرة المهنية"
     },
     "timeslot": {
-      "noData": "لا توجد فترات زمنية في هذا التاريخ المحدد",
+      "noData": "لا توجد فترة زمنية متاحة",
       "notSelected": "الرجاء تحديد فترة زمنية"
     },
     "aboutDoctor": "عن الطبيب",

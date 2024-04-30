@@ -129,9 +129,13 @@ export default {
       this.selectedDate = date.date;
     },
     fetchNearestAvailability() {
+      let type = null;
+      if(this.getBookingMethod == 'online' || this.getBookingMethod == 'onsite') {
+        type = this.getBookingMethod.toUpperCase();
+      }
       const payload = {
         doctor_id: this.getBookingDoctor.id,
-        type: this.getBookingMethod.toUpperCase(),
+        type: type,
         clinic_id: this.getBookingClinic.id,
       };
       appointmentService
