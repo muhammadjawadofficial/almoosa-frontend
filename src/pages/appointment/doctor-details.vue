@@ -62,7 +62,13 @@
                     </div>
                     <div class="row">
                       <div
-                        class="col-lg-4 col-md-6 mt-5"
+                        class="mt-5"
+                        :class="{
+                          'col-lg-4 col-md-6':
+                            !getIsGuest && this.getBookingMethod == 'onsite',
+                          'col-lg-6':
+                            getIsGuest && this.getBookingMethod == 'onsite',
+                        }"
                         v-if="this.getBookingMethod == 'onsite'"
                       >
                         <div class="tab-content-heading">
@@ -166,7 +172,10 @@
                       <div
                         class="booking-time-slots mt-5"
                         :class="{
-                          'col-lg-8 col-md-6': this.getBookingMethod == 'onsite',
+                          'col-lg-8 col-md-6':
+                            !getIsGuest && this.getBookingMethod == 'onsite',
+                          'col-lg-6':
+                            getIsGuest && this.getBookingMethod == 'onsite',
                         }"
                       >
                         <div class="tab-content-heading">
@@ -451,11 +460,11 @@ export default {
                 speciality_ar: this.getBookingDoctor.speciality_ar,
               };
             }
-            if (this.getBookingMethod == "online") {
+            if (this.getBookingMethod.toLowerCase() == "online") {
               if (this.doctor && this.isBookingFlow) {
                 this.fetchTimeslots();
               }
-            } else if (this.getBookingMethod == "onsite") {
+            } else if (this.getBookingMethod.toLowerCase() == "onsite") {
               appointmentService.getClinicsV1().then((res) => {
                 let response = res.data;
                 if (response.status) {
