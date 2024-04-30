@@ -1,5 +1,5 @@
 <template>
-  <div class="doctor-details-container">
+  <div class="doctor-details-container find-specialist-container">
     <div class="doctor-details" v-if="doctor">
       <div class="doctor-details-card">
         <div class="standard-width page-body-container">
@@ -60,36 +60,154 @@
                         disableDate="forward"
                       />
                     </div>
-                    <div class="booking-time-slots">
-                      <div class="tab-content-heading">
-                        {{ $t("doctorList.timeSlots") }}
-                      </div>
-                      <div class="time-slots-container">
-                        <div class="no-data" v-if="timeslots == null">
-                          {{ this.$t("loading") }}
+                    <div class="row">
+                      <div
+                        class="mt-5"
+                        :class="{
+                          'col-lg-4 col-md-6':
+                            !getIsGuest && this.getBookingMethod == 'onsite',
+                          'col-lg-6':
+                            getIsGuest && this.getBookingMethod == 'onsite',
+                        }"
+                        v-if="this.getBookingMethod == 'onsite'"
+                      >
+                        <div class="tab-content-heading">
+                          {{ $t("findSpecialist.chooseLocation") }}
                         </div>
-                        <template v-else-if="timeslots.length">
+                        <div class="location-card-container mt-3">
                           <div
-                            class="time-slot"
+                            class="location-card"
                             :class="{
-                              disabled: timeslot.is_booked != 'FREE',
-                              active: selectedTimeSlotIndex == index,
+                              active: selectedClinic.id == clinic.id,
+                              inactive: selectedClinic.id != clinic.id,
+                              disabled: !clinic.is_active,
                             }"
-                            v-for="(timeslot, index) in timeslots"
-                            :key="index + '-doctor-time-slot'"
-                            @click="
-                              timeslot.is_booked != 'FREE'
-                                ? null
-                                : setSelectedTimeSlot(timeslot, index)
-                            "
+                            v-for="clinic in clinics"
+                            :key="'find-specialist-clinic-' + clinic.id"
+                            @click="setSelectedClinic(clinic)"
                           >
-                            {{ getTimeFromDate(timeslot.start_time, true) }}
-                            -
-                            {{ getTimeFromDate(timeslot.end_time, true) }}
+                            <div class="location-card-details">
+                              <div class="location-card-details-image">
+                                <img
+                                  :src="getImageUrl(clinic.image)"
+                                  alt="clinic-image"
+                                />
+                              </div>
+                              <div class="location-card-details-info">
+                                <div class="location-card-details-info-name">
+                                  {{ clinic[getLocaleKey("title")] }}
+                                </div>
+                                <div class="location-card-details-info-address">
+                                  {{ clinic[getLocaleKey("address")] }}
+                                </div>
+                                <div class="location-card-details-info-timing">
+                                  {{ clinic[getLocaleKey("timing")] }}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="location-card-map" v-if="false">
+                              <img
+                                :src="getImageUrl(clinic.map_image)"
+                                alt="clinic-map-image"
+                              />
+                            </div>
                           </div>
-                        </template>
-                        <div class="no-data" v-else>
-                          {{ this.$t("doctorDetail.timeslot.noData") }}
+                          <div
+                            class="loading pt-0 no-data"
+                            v-if="clinics == null"
+                          >
+                            {{ $t("loading") }}
+                          </div>
+                          <div
+                            class="no-data pt-0"
+                            v-else-if="!clinics || !clinics.length"
+                          >
+                            {{ $t("noData") }}
+                          </div>
+                        </div>
+                        <swiper
+                          v-if="false"
+                          class="swiper vertical-swiper location-card-container mt-3"
+                          :options="swiperOption"
+                          :slides-per-view="1"
+                        >
+                          <swiper-slide
+                            v-for="slide in clinics"
+                            :key="'slide-' + slide.id"
+                          >
+                            <div class="carousel-item location-card p-0">
+                              <div class="login-dashboard-slide">
+                                <div class="login-dashboard-slide--content">
+                                  <div class="location-card-details vertical">
+                                    <div class="location-card-details-image">
+                                      <img
+                                        :src="getImageUrl(slide.image)"
+                                        alt="clinic-image"
+                                      />
+                                    </div>
+                                    <div class="location-card-details-info">
+                                      <div
+                                        class="location-card-details-info-name"
+                                      >
+                                        {{ slide[getLocaleKey("title")] }}
+                                      </div>
+                                      <div
+                                        class="location-card-details-info-address"
+                                      >
+                                        {{ slide[getLocaleKey("address")] }}
+                                      </div>
+                                      <div
+                                        class="location-card-details-info-timing"
+                                      >
+                                        {{ slide[getLocaleKey("timing")] }}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </swiper-slide>
+                        </swiper>
+                      </div>
+                      <div
+                        class="booking-time-slots mt-5"
+                        :class="{
+                          'col-lg-8 col-md-6':
+                            !getIsGuest && this.getBookingMethod == 'onsite',
+                          'col-lg-6':
+                            getIsGuest && this.getBookingMethod == 'onsite',
+                        }"
+                      >
+                        <div class="tab-content-heading">
+                          {{ $t("doctorList.timeSlots") }}
+                        </div>
+                        <div class="time-slots-container">
+                          <div class="no-data" v-if="timeslots == null">
+                            {{ this.$t("loading") }}
+                          </div>
+                          <template v-else-if="timeslots.length">
+                            <div
+                              class="time-slot"
+                              :class="{
+                                disabled: timeslot.is_booked != 'FREE',
+                                active: selectedTimeSlotIndex == index,
+                              }"
+                              v-for="(timeslot, index) in timeslots"
+                              :key="index + '-doctor-time-slot'"
+                              @click="
+                                timeslot.is_booked != 'FREE'
+                                  ? null
+                                  : setSelectedTimeSlot(timeslot, index)
+                              "
+                            >
+                              {{ getTimeFromDate(timeslot.start_time, true) }}
+                              -
+                              {{ getTimeFromDate(timeslot.end_time, true) }}
+                            </div>
+                          </template>
+                          <div class="no-data" v-else>
+                            {{ this.$t("doctorDetail.timeslot.noData") }}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -248,6 +366,8 @@ import {
   freeAppointmentPromoService,
   userService,
 } from "../../services";
+import { swiper, swiperSlide } from "vue-awesome-swiper";
+import "swiper/dist/css/swiper.css";
 export default {
   data() {
     return {
@@ -258,6 +378,16 @@ export default {
       selectedTimeSlotIndex: null,
       neverShowLocation: true,
       isBookingFlow: false,
+      clinics: [],
+      selectedClinic: {},
+      swiperOption: {
+        direction: "vertical",
+        slidesPerView: 1,
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+      },
     };
   },
   computed: {
@@ -282,6 +412,10 @@ export default {
         return this.getBookingMethod == "onsite";
       }
     },
+  },
+  components: {
+    swiper,
+    swiperSlide,
   },
   mounted() {
     if (!this.getBookingDoctor) {
@@ -326,8 +460,22 @@ export default {
                 speciality_ar: this.getBookingDoctor.speciality_ar,
               };
             }
-            if (this.doctor && this.isBookingFlow) {
-              this.fetchTimeslots();
+            if (this.getBookingMethod.toLowerCase() == "online") {
+              if (this.doctor && this.isBookingFlow) {
+                this.fetchTimeslots();
+              }
+            } else if (this.getBookingMethod.toLowerCase() == "onsite") {
+              appointmentService.getClinicsV1().then((res) => {
+                let response = res.data;
+                if (response.status) {
+                  this.clinics = response.data.items;
+                  this.selectedClinic = this.clinics[0];
+                  this.fetchTimeslots();
+                } else {
+                  this.clinics = [];
+                  this.failureToast(response.message);
+                }
+              });
             }
           } else {
             this.failureToast(response.data.message);
@@ -342,6 +490,10 @@ export default {
             );
         });
     },
+    setSelectedClinic(clinic) {
+      this.selectedClinic = clinic;
+      this.fetchTimeslots();
+    },
     bookingDateChanged(val) {
       this.selectedDate = val;
       this.fetchTimeslots();
@@ -352,7 +504,8 @@ export default {
         .fetchTimeslots(
           this.doctor.id,
           this.selectedDate,
-          this.getBookingMethod
+          this.getBookingMethod,
+          this.getBookingMethod == "onsite" ? this.selectedClinic.id : null
         )
         .then(
           (res) => {

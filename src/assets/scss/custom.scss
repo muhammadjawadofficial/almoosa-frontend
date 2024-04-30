@@ -458,6 +458,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     &.two {
       --inline-blocks: 2;
     }
+    &.one {
+      --inline-blocks: 1;
+    }
     &.no-sub-title {
       .title {
         margin-bottom: 0;
@@ -478,6 +481,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
       cursor: pointer;
       &.unique {
         background: var(--theme-default);
+        .icon {
+          .svg-icon-fill {
+            fill: white;
+          }
+          .svg-icon-stroke {
+            stroke: white;
+          }
+        }
+        .title {
+          color: white;
+        }
+      }
+      &.selected {
+        background: var(--theme-secondary);
         .icon {
           .svg-icon-fill {
             fill: white;
@@ -561,6 +578,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
           font-size: 0.835rem;
           color: var(--theme-secondary);
         }
+      }
+      .secondary-title {
+        color: var(--theme-secondary);
       }
       .icon {
         height: 3.625rem;
@@ -811,9 +831,19 @@ input[type="date"]::-webkit-calendar-picker-indicator {
       width: 24.063rem;
       position: relative;
       cursor: pointer;
+      &.inactive {
+        background-color: #80808094;
+        filter: grayscale(1);
+      }
       &-details {
         display: flex;
         gap: 1rem;
+        &.vertical {
+          flex-direction: column;
+          * {
+            height: auto;
+          }
+        }
         &-image {
           img {
             width: 5rem;
@@ -2578,6 +2608,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .ash-logo {
   filter: brightness(10);
+}
+.vertical-swiper {
+  height: 200px;
 }
 html {
   font-size: var(--globalFontSize);

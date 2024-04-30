@@ -62,7 +62,7 @@ export const apiPath = {
             }
             return getApiObject("get", "users/doctors" + queryString, "v2");
         },
-        fetchTimeslots: (doctor, date, type) => getApiObject("get", "timeslots?doctor_id=" + doctor + (date ? "&dated=" + date : '') + (type ? "&type=" + type : ''), "v2"),
+        fetchTimeslots: (doctor, date, type, location_id) => getApiObject("get", "timeslots/by-location?doctor_id=" + doctor + (date ? "&dated=" + date : '') + (type ? "&type=" + type : '') + (location_id ? "&location_id=" + location_id : ''), "v2"),
         createAppointment: getApiObject("post", "appointments", "v2"),
         updateAppointment: getApiObject("post", "appointments/reschedule", "v2"),
         cancelAppointment: getApiObject("post", "appointments/cancel", "v2"),
