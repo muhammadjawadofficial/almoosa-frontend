@@ -89,7 +89,14 @@
         </div>
       </template>
     </div>
-    <nearest-availability-modal @select="selectNearestAvailability" />
+    <nearest-availability-modal
+      @select="selectNearestAvailability"
+      @close="hideNearestAvailabilityModal"
+    />
+    <select-appointment-type-modal
+      @select="selectBookingType"
+      @close="hideSelectAppointmentTypeModal"
+    />
   </div>
 </template>
 
@@ -97,6 +104,7 @@
 import { mapActions, mapGetters } from "vuex";
 import { appointmentService } from "../../services";
 import NearestAppointmentModal from "./nearest-availability-modal";
+import SelectAppointmentTypeModal from "./select-appointment-type-modal";
 export default {
   data() {
     return {
@@ -107,6 +115,7 @@ export default {
   },
   components: {
     "nearest-availability-modal": NearestAppointmentModal,
+    "select-appointment-type-modal": SelectAppointmentTypeModal,
   },
   computed: {
     ...mapGetters("appointment", [
@@ -151,9 +160,19 @@ export default {
       "setDoctorsList",
       "setBookingDate",
       "setBookingNearestDate",
+      "setBookingMethod",
     ]),
     openNearestAvailabilityModal() {
       this.$bvModal.show("nearestAvailabilityCustomModal");
+    },
+    openSelectAppointmentTypeModal() {
+      this.$bvModal.show("selectAppointmentTypeCustomModal");
+    },
+    hideNearestAvailabilityModal() {
+      this.$bvModal.hide("nearestAvailabilityCustomModal");
+    },
+    hideSelectAppointmentTypeModal() {
+      this.$bvModal.hide("selectAppointmentTypeCustomModal");
     },
     isDoctorAvailableForBooking(doctor) {
       return (
@@ -170,6 +189,10 @@ export default {
         this.openNearestAvailabilityModal();
         return;
       }
+      if (this.isBookingFlow) {
+        this.openSelectAppointmentTypeModal();
+        return;
+      }
       this.navigateTo(
         (this.isBookingFlow ? "Doctor Details" : "Specialist Details") +
           (this.getIsGuest ? " Guest" : "")
@@ -177,6 +200,17 @@ export default {
     },
     selectNearestAvailability(date) {
       this.setBookingNearestDate(this.removeDateTime(date));
+      if (this.isBookingFlow) {
+        this.openSelectAppointmentTypeModal();
+        return;
+      }
+      this.navigateTo(
+        (this.isBookingFlow ? "Doctor Details" : "Specialist Details") +
+          (this.getIsGuest ? " Guest" : "")
+      );
+    },
+    selectBookingType(type) {
+      this.setBookingMethod(type);
       this.navigateTo(
         (this.isBookingFlow ? "Doctor Details" : "Specialist Details") +
           (this.getIsGuest ? " Guest" : "")
@@ -194,14 +228,17 @@ export default {
           clinic = this.getBookingClinic.id;
         }
       }
+
+      let method = null;
+      // if (
+      //   this.getBookingMethod == "onsite" ||
+      //   this.getBookingMethod == "online"
+      // ) {
+      //   method = this.getBookingMethod;
+      // }
+
       appointmentService
-        .findDoctors(
-          speciality,
-          date,
-          clinic,
-          this.getBookingMethod,
-          this.currentAppLang
-        )
+        .findDoctors(speciality, date, clinic, method, this.currentAppLang)
         .then(
           (res) => {
             let response = res.data;

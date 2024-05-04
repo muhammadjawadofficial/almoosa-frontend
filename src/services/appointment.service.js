@@ -73,10 +73,10 @@ function findDoctors(speciality, date, clinic, bookingType, currentLang) {
     })
 }
 
-function fetchTimeslots(doctor, date, type) {
+function fetchTimeslots(doctor, date, type, location_id) {
     return axios({
-        method: apiPath.appointment.fetchTimeslots(doctor, date, type).method,
-        url: apiPath.appointment.fetchTimeslots(doctor, date, type).url
+        method: apiPath.appointment.fetchTimeslots(doctor, date, type, location_id).method,
+        url: apiPath.appointment.fetchTimeslots(doctor, date, type, location_id).url
     })
 }
 

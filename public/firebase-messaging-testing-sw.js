@@ -2,18 +2,19 @@ importScripts('https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js')
 importScripts('https://www.gstatic.com/firebasejs/8.2.7/firebase-messaging.js')
 
 var firebaseConfig = {
-    apiKey: "AIzaSyCVkPBaPZn1OcvS0aqJhhqMhqwtor25jLs",
-    authDomain: "almoosa-b64e4.firebaseapp.com",
-    databaseURL: "https://almoosa-b64e4.firebaseio.com",
-    projectId: "almoosa-b64e4",
-    storageBucket: "almoosa-b64e4.appspot.com",
-    messagingSenderId: "292865223692",
-    appId: "1:292865223692:web:5ab1c346a5400779a15229",
-    measurementId: "G-CD2D46ZN1E"
-};
+    apiKey: "AIzaSyAky6lbF6BoF5aIldaFT7Z1ESmjv0YfIe8",
+    authDomain: "testproject-9f1d2.firebaseapp.com",
+    projectId: "testproject-9f1d2",
+    storageBucket: "testproject-9f1d2.appspot.com",
+    messagingSenderId: "729394449872",
+    appId: "1:729394449872:web:2041a87a7a3243676b7dd5",
+    measurementId: "G-Y7NMJKBRKE"
+ }; 
 
 const app = firebase.initializeApp(firebaseConfig)
 const messaging = firebase.messaging();
+
+console.log('serviceworkerinitialized');
 
 messaging.onBackgroundMessage((payload) => {
     console.log('Background Notification ', payload.notification);

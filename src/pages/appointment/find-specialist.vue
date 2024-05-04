@@ -213,7 +213,10 @@ export default {
     getSpecialityQuery() {
       let query = "?";
       let clinicId = "";
-      if (this.getBookingMethod)
+      if (
+        (this.getBookingMethod && this.getBookingMethod == "onsite") ||
+        this.getBookingMethod == "online"
+      )
         query += "&appointment_type=" + this.getBookingMethod;
       if (
         this.getBookingMethod == "onsite" &&
@@ -288,11 +291,7 @@ export default {
     },
     setSelectedMethod(pre = null) {
       let type = pre || this.$route.params.method;
-      if (type == "online") {
-        this.setBookingMethod("online");
-      } else if (type == "onsite") {
-        this.setBookingMethod("onsite");
-      }
+      this.setBookingMethod(type);
 
       this.initializeData();
     },

@@ -35,8 +35,8 @@
     </div>
 
     <a
-      v-if="currentRoute && !currentRoute.meta.hideWhatsapp"
-      href="https://wa.link/h6lwse"
+      v-if="currentRoute && !currentRoute.meta.hideWhatsapp && getContactNumbers.whatsapp"
+      :href="'https://wa.me/' + getContactNumbers.whatsapp"
       target="_blank"
       class="floating-whatsapp-icon"
       rel="noopener noreferrer"
@@ -47,7 +47,8 @@
 </template>
 
 <script>
-import { userService } from "./services";
+import { mapActions, mapGetters } from "vuex";
+import { systemConfigService, userService } from "./services";
 export default {
   name: "app",
   data() {
@@ -59,6 +60,7 @@ export default {
   mounted() {
     this.timeOut();
     this.setCurrentRoute(this.$route);
+    this.fetchContactConfig();
   },
   watch: {
     $route: function (val) {
@@ -66,6 +68,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters("systemConfig", ["getContactNumbers"]),
     isNotProduction() {
       return process.env.NODE_ENV !== "production";
     },
@@ -74,6 +77,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions("systemConfig", ["setContactNumbers"]),
     setCurrentRoute(route) {
       this.currentRoute = route;
     },
@@ -82,6 +86,27 @@ export default {
       setTimeout(function () {
         self.show = false;
       }, 1000);
+    },
+    fetchContactConfig() {
+      systemConfigService.fetchConfig("?title=CONTACT_NUMBER").then(
+        (response) => {
+          if (response.data.status) {
+            let data = response.data.data.items;
+            let config = JSON.parse(data[0].value);
+            this.setContactNumbers(config);
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
     },
   },
 };

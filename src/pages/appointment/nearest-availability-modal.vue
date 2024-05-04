@@ -131,8 +131,6 @@ export default {
     fetchNearestAvailability() {
       const payload = {
         doctor_id: this.getBookingDoctor.id,
-        type: this.getBookingMethod.toUpperCase(),
-        clinic_id: this.getBookingClinic.id,
       };
       appointmentService
         .getNearestAvailability(payload)

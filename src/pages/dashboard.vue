@@ -153,18 +153,18 @@
         </div>
         <div class="consultation-section standard-width">
           <div
-            class="consultation-section--blocks no-sub-title"
-            :class="{ two: getUserInfo.isDependent }"
+            class="consultation-section--blocks two no-sub-title"
+            :class="{ one: getUserInfo.isDependent }"
           >
             <div
               class="consultation-section--blocks--single large secondary"
-              @click="findASpecialist('online')"
+              @click="findASpecialist('book')"
             >
               <div class="new-badge">
                 <new-badge-svg />
               </div>
               <div class="title">
-                {{ $t("modules.Virtual Consultations") }}
+                {{ $t("modules.Book a Consultation") }}
                 <div class="sub-title">
                   {{
                     $t(
@@ -178,6 +178,7 @@
               </div>
             </div>
             <div
+              v-if="false"
               class="consultation-section--blocks--single large primary"
               @click="findASpecialist('onsite')"
             >
@@ -323,7 +324,7 @@ export default {
           text: "Check Symptoms",
           icon: "symptom-svg",
           link: "Confirm Survey",
-          unique: true
+          unique: true,
         },
         {
           text: "Virtual Tour",

@@ -32,18 +32,18 @@ export default {
     return {
       dashboardItems: [
         {
-          text: "Virtual Consultations",
+          text: "Book a Consultation",
           icon: "doctor-laptop-svg",
           link: "Find Specialist Guest",
-          param: { method: "online" },
+          param: { method: "book" },
           unique: true,
         },
-        {
-          text: "On-site Consultations",
-          icon: "doctor-svg",
-          link: "Find Specialist Guest",
-          param: { method: "onsite" },
-        },
+        // {
+        //   text: "On-site Consultations",
+        //   icon: "doctor-svg",
+        //   link: "Find Specialist Guest",
+        //   param: { method: "onsite" },
+        // },
         {
           text: "Check Symptoms",
           icon: "symptom-svg",
