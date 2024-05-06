@@ -462,6 +462,9 @@ export default {
             }
             if (this.getBookingMethod.toLowerCase() == "online") {
               if (this.doctor && this.isBookingFlow) {
+                this.selectedClinic = {
+                  id: this.getSelectedAppointment.location_id,
+                };
                 this.fetchTimeslots();
               }
             } else if (this.getBookingMethod.toLowerCase() == "onsite") {
