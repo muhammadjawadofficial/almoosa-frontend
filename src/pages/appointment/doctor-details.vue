@@ -424,6 +424,13 @@ export default {
     this.isBookingFlow = ["Doctor Details", "Doctor Details Guest"].includes(
       this.$route.name
     );
+
+    if (this.getIsReschedule) {
+      this.selectedClinic = {
+        id: this.getSelectedAppointment.location_id,
+      };
+    }
+
     this.initializeData();
   },
   methods: {
@@ -462,9 +469,6 @@ export default {
             }
             if (this.getBookingMethod.toLowerCase() == "online") {
               if (this.doctor && this.isBookingFlow) {
-                this.selectedClinic = {
-                  id: this.getSelectedAppointment.location_id,
-                };
                 this.fetchTimeslots();
               }
             } else if (this.getBookingMethod.toLowerCase() == "onsite") {
@@ -503,12 +507,20 @@ export default {
     },
     fetchTimeslots() {
       this.selectedTimeSlotIndex = null;
+      let method = this.getBookingMethod || "";
+      method = method.toLowerCase();
+
+      let location_id = null;
+      if (method == "onsite" && this.selectedClinic && this.selectedClinic.id) {
+        location_id = this.selectedClinic.id;
+      }
+
       appointmentService
         .fetchTimeslots(
           this.doctor.id,
           this.selectedDate,
           this.getBookingMethod,
-          this.getBookingMethod == "onsite" ? this.selectedClinic.id : null
+          location_id
         )
         .then(
           (res) => {
