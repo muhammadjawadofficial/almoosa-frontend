@@ -77,6 +77,7 @@ export const apiPath = {
             getApiObject("get", "payments/tamara/options" + query, "v1"),
         getTamaraUrl: getApiObject("post", "payments/tamara/checkout", "v1"),
         oneStepCheckout: getApiObject("post", "payments/one-step-checkout/step-one"),
+        joinTeleConsultation: getApiObject("post", "tele-consultation/token"),
     },
 
     promotions: {

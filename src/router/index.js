@@ -14,6 +14,7 @@ import Profile from "../pages/user/user-profile";
 
 import Dashboard from "../pages/dashboard";
 import Iframe from "../pages/iframe";
+import ZoomConnect from "../pages/zoom-connect";
 
 import RouterViewModule from "../components/module";
 
@@ -356,6 +357,14 @@ const routes = [
             path: "connect/call/:connectId",
             component: Iframe,
             name: "Connect",
+            meta: {
+              title: "Connect | Almoosa Health Group",
+            },
+          },
+          {
+            path: "connect/zoom",
+            component: ZoomConnect,
+            name: "Connect Zoom",
             meta: {
               title: "Connect | Almoosa Health Group",
             },

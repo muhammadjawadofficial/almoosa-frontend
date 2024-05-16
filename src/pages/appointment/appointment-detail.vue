@@ -206,6 +206,7 @@ export default {
       "setBookingMethod",
       "setIsReschedule",
       "setPaymentObject",
+      "setTeleConsultation",
     ]),
     ...mapActions("user", ["updateUserInfo"]),
     initializeAppointmentDetails() {
@@ -267,48 +268,82 @@ export default {
       this.setPaymentObject(obj);
       this.navigateTo("Select Payment Method");
     },
-    makeCall(appointment) {
-      if (this.details.status.toLowerCase() !== "paid") {
-        this.failureToast(this.$t("cantJoinCallPaymetPending"));
-        return;
-      }
-      if (
-        this.isAllowedToCall(
-          this.details.booked_date,
-          this.details.start_time,
-          this.details.end_time
-        )
-      ) {
-        let html =
-          "<ul class='swal2-list'>" +
-          this.instructions.map((x) => "<li>" + x + "</li>").join("") +
-          "</ul>";
-        this.successIconListModal(
-          this.$t("appointmentDetail.instructionTitle"),
-          html,
-          "m-clipboard",
-          this.$t("appointmentDetail.joinCall")
-        ).then((res) => {
-          if (res.value) {
-            let doctorRatingPayload = {
-              appointment_id: this.details.id,
-              user_id: this.getUserInfo.id,
-              rated_user_id: this.details.doctor_id,
-            };
-            localStorage.setItem(
-              "doctorRatingPayload",
-              JSON.stringify(doctorRatingPayload)
+    async makeCall(appointment) {
+      let connectType = localStorage.getItem("connect");
+      if (connectType == "zoom") {
+        try {
+          let teleConsultation = await appointmentService.joinTeleConsultation({
+            appointment_id: appointment.id,
+          });
+
+          this.setTeleConsultation(teleConsultation.data.data);
+          this.navigateTo("Connect Zoom");
+        } catch (error) {
+          let errorCode =
+            error.response &&
+            error.response.data &&
+            error.response.data.message;
+          if (errorCode == "-1") {
+            this.failureToast(
+              this.$t("cantJoinCallEarly", {
+                minutes: this.translateNumber(60),
+              })
             );
-            this.navigateTo("Connect", {
-              connectId: this.createRoomId(
-                appointment.id,
-                appointment.doctor_id,
-                this.getUserInfo.mrn_number
-              ),
-              name: this.getFullName(this.getUserInfo),
-            });
+            return false;
+          } else if (errorCode == "0") {
+            this.failureToast(
+              this.$t("cantJoinCallLate", {
+                minutes: this.translateNumber(60),
+              })
+            );
+            return false;
+          } else {
+            this.failureToast();
           }
-        });
+        }
+      } else {
+        if (this.details.status.toLowerCase() !== "paid") {
+          this.failureToast(this.$t("cantJoinCallPaymetPending"));
+          return;
+        }
+        if (
+          this.isAllowedToCall(
+            this.details.booked_date,
+            this.details.start_time,
+            this.details.end_time
+          )
+        ) {
+          let html =
+            "<ul class='swal2-list'>" +
+            this.instructions.map((x) => "<li>" + x + "</li>").join("") +
+            "</ul>";
+          this.successIconListModal(
+            this.$t("appointmentDetail.instructionTitle"),
+            html,
+            "m-clipboard",
+            this.$t("appointmentDetail.joinCall")
+          ).then((res) => {
+            if (res.value) {
+              let doctorRatingPayload = {
+                appointment_id: this.details.id,
+                user_id: this.getUserInfo.id,
+                rated_user_id: this.details.doctor_id,
+              };
+              localStorage.setItem(
+                "doctorRatingPayload",
+                JSON.stringify(doctorRatingPayload)
+              );
+              this.navigateTo("Connect", {
+                connectId: this.createRoomId(
+                  appointment.id,
+                  appointment.doctor_id,
+                  this.getUserInfo.mrn_number
+                ),
+                name: this.getFullName(this.getUserInfo),
+              });
+            }
+          });
+        }
       }
     },
     rescheduleAppointment() {
