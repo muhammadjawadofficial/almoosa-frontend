@@ -26,7 +26,8 @@ export default {
     ...mapGetters("user", ["getUserInfo"]),
     getRoomUrl() {
       return (
-        "http://localhost:5173/?sessionName=" +
+        process.env.VUE_APP_TELE_BASE_URL +
+        "?sessionName=" +
         this.getTeleConsultation.sessionName +
         "&role=" +
         this.getTeleConsultation.role +
