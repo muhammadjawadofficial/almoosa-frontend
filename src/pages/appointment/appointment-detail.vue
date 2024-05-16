@@ -277,6 +277,7 @@ export default {
           });
 
           this.setTeleConsultation(teleConsultation.data.data);
+          this.setDoctorRatingData();
           this.navigateTo("Connect Zoom");
         } catch (error) {
           let errorCode =
@@ -324,15 +325,9 @@ export default {
             this.$t("appointmentDetail.joinCall")
           ).then((res) => {
             if (res.value) {
-              let doctorRatingPayload = {
-                appointment_id: this.details.id,
-                user_id: this.getUserInfo.id,
-                rated_user_id: this.details.doctor_id,
-              };
-              localStorage.setItem(
-                "doctorRatingPayload",
-                JSON.stringify(doctorRatingPayload)
-              );
+              this.failureToast();
+              return;
+              this.setDoctorRatingData();
               this.navigateTo("Connect", {
                 connectId: this.createRoomId(
                   appointment.id,
@@ -345,6 +340,17 @@ export default {
           });
         }
       }
+    },
+    setDoctorRatingData() {
+      let doctorRatingPayload = {
+        appointment_id: this.details.id,
+        user_id: this.getUserInfo.id,
+        rated_user_id: this.details.doctor_id,
+      };
+      localStorage.setItem(
+        "doctorRatingPayload",
+        JSON.stringify(doctorRatingPayload)
+      );
     },
     rescheduleAppointment() {
       this.setBookingDoctor(this.details.doctor);
