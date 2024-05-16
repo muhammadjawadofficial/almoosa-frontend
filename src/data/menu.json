@@ -13,15 +13,15 @@
             "guardianComponent": true
         },
         {
-            "title": "Virtual Appointments",
-            "title_ar": "موعد افتراضي",
+            "title": "Book a Consultation",
+            "title_ar": "احجز استشارة",
             "icon": "doctor-laptop-svg",
             "type": "link",
             "badgeType": "primary",
             "badgeValue": "",
             "active": false,
             "disabled": false,
-            "path": "/appointment/online",
+            "path": "/appointment/book",
             "guardianComponent": true
         },
         {
@@ -45,18 +45,6 @@
             "active": false,
             "disabled": false,
             "path": "/find-a-specialist"
-        },
-        {
-            "title": "On-site Appointments",
-            "title_ar": "موعد في العيادة",
-            "icon": "doctor-svg",
-            "type": "link",
-            "badgeType": "primary",
-            "badgeValue": "",
-            "active": false,
-            "disabled": false,
-            "path": "/appointment/onsite",
-            "guardianComponent": true
         },
         {
             "title": "Medical Insurance",
