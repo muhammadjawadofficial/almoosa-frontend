@@ -269,91 +269,51 @@ export default {
       this.navigateTo("Select Payment Method");
     },
     async makeCall(appointment) {
-      let connectType = localStorage.getItem("connect");
-      if (connectType == "zoom") {
-        let html =
-          "<ul class='swal2-list'>" +
-          this.instructions.map((x) => "<li>" + x + "</li>").join("") +
-          "</ul>";
-        this.successIconListModal(
-          this.$t("appointmentDetail.instructionTitle"),
-          html,
-          "m-clipboard",
-          this.$t("appointmentDetail.joinCall")
-        ).then(async (res) => {
-          if (res.value) {
-            try {
-              let teleConsultation =
-                await appointmentService.joinTeleConsultation({
-                  appointment_id: appointment.id,
-                });
+      let html =
+        "<ul class='swal2-list'>" +
+        this.instructions.map((x) => "<li>" + x + "</li>").join("") +
+        "</ul>";
+      this.successIconListModal(
+        this.$t("appointmentDetail.instructionTitle"),
+        html,
+        "m-clipboard",
+        this.$t("appointmentDetail.joinCall")
+      ).then(async (res) => {
+        if (res.value) {
+          try {
+            let teleConsultation =
+              await appointmentService.joinTeleConsultation({
+                appointment_id: appointment.id,
+              });
 
-              this.setTeleConsultation(teleConsultation.data.data);
-              this.setDoctorRatingData();
-              this.navigateTo("Connect Zoom");
-            } catch (error) {
-              let errorCode =
-                error.response &&
-                error.response.data &&
-                error.response.data.message;
-              if (errorCode == "-1") {
-                this.failureToast(
-                  this.$t("cantJoinCallEarly", {
-                    minutes: this.translateNumber(60),
-                  })
-                );
-                return false;
-              } else if (errorCode == "0") {
-                this.failureToast(
-                  this.$t("cantJoinCallLate", {
-                    minutes: this.translateNumber(60),
-                  })
-                );
-                return false;
-              } else {
-                this.failureToast();
-              }
+            this.setTeleConsultation(teleConsultation.data.data);
+            this.setDoctorRatingData();
+            this.navigateTo("Connect Zoom");
+          } catch (error) {
+            let errorCode =
+              error.response &&
+              error.response.data &&
+              error.response.data.message;
+            if (errorCode == "-1") {
+              this.failureToast(
+                this.$t("cantJoinCallEarly", {
+                  minutes: this.translateNumber(60),
+                })
+              );
+              return false;
+            } else if (errorCode == "0") {
+              this.failureToast(
+                this.$t("cantJoinCallLate", {
+                  minutes: this.translateNumber(60),
+                })
+              );
+              return false;
+            } else {
+              this.failureToast();
             }
           }
-        });
-      } else {
-        if (this.details.status.toLowerCase() !== "paid") {
-          this.failureToast(this.$t("cantJoinCallPaymetPending"));
-          return;
         }
-        if (
-          this.isAllowedToCall(
-            this.details.booked_date,
-            this.details.start_time,
-            this.details.end_time
-          )
-        ) {
-          let html =
-            "<ul class='swal2-list'>" +
-            this.instructions.map((x) => "<li>" + x + "</li>").join("") +
-            "</ul>";
-          this.successIconListModal(
-            this.$t("appointmentDetail.instructionTitle"),
-            html,
-            "m-clipboard",
-            this.$t("appointmentDetail.joinCall")
-          ).then((res) => {
-            if (res.value) {
-              this.failureToast();
-              return;
-              this.setDoctorRatingData();
-              this.navigateTo("Connect", {
-                connectId: this.createRoomId(
-                  appointment.id,
-                  appointment.doctor_id,
-                  this.getUserInfo.mrn_number
-                ),
-                name: this.getFullName(this.getUserInfo),
-              });
-            }
-          });
-        }
-      }
+      });
     },
     setDoctorRatingData() {
       let doctorRatingPayload = {
