@@ -290,27 +290,11 @@ export default {
             this.setDoctorRatingData();
             this.navigateTo("Connect Zoom");
           } catch (error) {
-            let errorCode =
+            let errorMessage =
               error.response &&
               error.response.data &&
               error.response.data.message;
-            if (errorCode == "-1") {
-              this.failureToast(
-                this.$t("cantJoinCallEarly", {
-                  minutes: this.translateNumber(60),
-                })
-              );
-              return false;
-            } else if (errorCode == "0") {
-              this.failureToast(
-                this.$t("cantJoinCallLate", {
-                  minutes: this.translateNumber(60),
-                })
-              );
-              return false;
-            } else {
-              this.failureToast();
-            }
+            this.failureToast(errorMessage);
           }
         }
       });
