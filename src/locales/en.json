@@ -722,5 +722,9 @@
   "deletePackageMessage": "Are you sure you want to delete this package?",
   "deletePackageSuccess": "Package Deleted Successfully",
   "pendingPayment": "Pending Payment",
-  "partialBooked": "Partially Booked"
+  "partialBooked": "Partially Booked",
+  "host": "Host",
+  "participant": "Participant",
+  "ring": "Ring",
+  "ringing": "Ringing"
 }

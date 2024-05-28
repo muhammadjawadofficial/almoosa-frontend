@@ -722,5 +722,9 @@
   "deletePackageMessage": "هل أنت متأكد أنك تريد إلغاء هذه الباقة",
   "deletePackageSuccess": "تم إلغاء الحزمة بنجاح",
   "pendingPayment": "الدفع معلق",
-  "partialBooked": "محجوز جزئياً"
+  "partialBooked": "محجوز جزئياً",
+  "host": "يستضيف",
+  "participant": "مشارك",
+  "ring": "جرس",
+  "ringing": "رنين"
 }

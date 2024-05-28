@@ -356,6 +356,7 @@ export default {
       "setBookingMethod",
       "setDoctorsList",
       "setTeleConsultation",
+      "setSelectedAppointment",
     ]),
     ...mapActions("user", ["setMainBanner"]),
     fetchBanner() {
@@ -411,6 +412,7 @@ export default {
         appointment_id: appointment.id,
       });
 
+      this.setSelectedAppointment(appointment);
       this.setTeleConsultation(teleConsultation.data.data);
       this.navigateTo("Connect Zoom");
     },
