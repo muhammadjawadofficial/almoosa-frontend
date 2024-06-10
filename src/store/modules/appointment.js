@@ -25,6 +25,7 @@ export default {
         },
         doctorsList: null,
         isReschedule: false,
+        teleConsultation: null
     },
     actions: {
         resetBookAppointment({ commit }, data) {
@@ -82,6 +83,9 @@ export default {
         setBookingNearestDate({ commit }, data) {
             commit('SET_BOOKING_NEAREST_DATE', data)
         },
+        setTeleConsultation({ commit }, data) {
+            commit('SET_TELE_CONSULTATION', data)
+        },
     },
     mutations: {
         RESET_BOOK_APPOINTMENT(state, booking) {
@@ -129,6 +133,9 @@ export default {
         },
         SET_BOOKING_NEAREST_DATE(state, nearestDate) {
             state.booking.nearestDate = nearestDate;
+        },
+        SET_TELE_CONSULTATION(state, teleConsultation) {
+            state.teleConsultation = teleConsultation;
         }
     },
     getters: {
@@ -146,5 +153,6 @@ export default {
         getIsReschedule: (state) => state.isReschedule,
         getPaymentObject: (state) => state.paymentObject,
         getBookingNearestDate: (state) => state.booking.nearestDate,
+        getTeleConsultation: (state) => state.teleConsultation,
     }
 };
