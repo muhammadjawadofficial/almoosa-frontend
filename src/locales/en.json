@@ -729,5 +729,6 @@
   "ringing": "Ringing",
   "chat": "Chat",
   "noChatMessages": "No Chat Messages",
-  "enterMessage": "Enter Message"
+  "enterMessage": "Enter Message",
+  "noOneJoined": "No one joined"
 }

@@ -729,5 +729,6 @@
   "ringing": "رنين",
   "chat": "محادثة",
   "noChatMessages": "لا توجد رسائل دردشة",
-  "enterMessage": "أدخل رسالة"
+  "enterMessage": "أدخل رسالة",
+  "noOneJoined": "لم ينضم أحد"
 }

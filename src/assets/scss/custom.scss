@@ -2724,32 +2724,83 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     // border: 1px solid var(--theme-secondary);
     border-radius: 10px;
     box-shadow: 0 0 10px -5px var(--theme-secondary);
+    @media (max-width: 992px) {
+      border-radius: 0;
+    }
   }
   .zoom-call-container,
   .zoom-chat-container {
     position: absolute;
     width: 100%;
     height: 100%;
-    transition: 0.3s width;
+    transition:
+      0.3s width,
+      0.3s height;
   }
   .zoom-call-container {
-    &.open {
-      width: 75%;
+    @media (max-width: 768px) {
+      &.show {
+        width: 100%;
+      }
+      &.hide {
+        width: 100%;
+      }
     }
-    &.close {
-      width: 100%;
+    @media (min-width: 769px) {
+      &.show {
+        width: 60%;
+      }
+      &.hide {
+        width: 100%;
+      }
+    }
+    @media (min-width: 1200px) {
+      &.show {
+        width: 75%;
+      }
+      &.hide {
+        width: 100%;
+      }
     }
   }
+  .close-chat {
+    display: none;
+  }
   .zoom-chat-container {
-    &.open {
-      width: 25%;
+    @media (max-width: 768px) {
+      .close-chat {
+        display: inline-block;
+      }
+      &.show {
+        width: 100%;
+        height: 100%;
+      }
+      &.hide {
+        width: 100%;
+        height: 0%;
+      }
     }
-    &.close {
-      width: 0%;
+    @media (min-width: 769px) {
+      &.show {
+        width: 40%;
+      }
+      &.hide {
+        width: 0%;
+      }
+    }
+    @media (min-width: 1200px) {
+      &.show {
+        width: 25%;
+      }
+      &.hide {
+        width: 0%;
+      }
     }
     overflow: hidden;
     background: var(--theme-tertiary);
     right: 0;
+    bottom: 0;
+    z-index: 1;
     --header-height: 4rem;
     --footer-height: 4rem;
     .chat-header {
@@ -2758,10 +2809,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
       font-size: 1.25rem;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       height: var(--header-height);
     }
     .chat-container {
-      height: calc(100% - var(--header-height) - var(--footer-height));
+      height: calc(100% - var(--header-height) - var(--footer-height) - var(--extra-padding));
+      --extra-padding: 0.5rem;
       overflow: auto;
       .chat-message {
         background: var(--theme-default);
@@ -2801,6 +2854,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
           }
         }
       }
+      @media (max-width: 768px) {
+        --extra-padding: 1rem;
+      }
     }
     .chat-footer {
       display: flex;
@@ -2839,6 +2895,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     padding: 0.25rem 0.5rem;
     border-radius: 5px;
     color: var(--theme-tertiary);
+    font-size: 1rem;
+    @media (max-width: 768px) {
+      &.responsive {
+        bottom: 6rem;
+      }
+    }
   }
 }
 html {

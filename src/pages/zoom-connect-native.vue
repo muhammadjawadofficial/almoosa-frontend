@@ -17,17 +17,17 @@
         <span>S</span>
       </div> -->
     </div>
-    <div class="zoom-call-container" :class="chatOpened ? 'open' : 'close'">
+    <div class="zoom-call-container" :class="chatOpened ? 'show' : 'hide'">
       <div class="host-video">
         <video
           id="my-self-view-video"
-          class="placeholder"
+          class="placeholder rounded"
           width="1920"
           height="1080"
         ></video>
         <canvas
           id="my-self-view-canvas"
-          class="placeholder"
+          class="placeholder rounded"
           width="1920"
           height="1080"
           style="display: none"
@@ -56,13 +56,15 @@
           width="1920"
           height="1080"
         ></canvas>
-        <div class="display-name" v-if="isParticipantJoined">
+        <div class="display-name responsive">
           {{
-            getFullName(
-              isDoctor
-                ? getSelectedAppointment.patient
-                : getSelectedAppointment.doctor
-            )
+            isParticipantJoined
+              ? getFullName(
+                  isDoctor
+                    ? getSelectedAppointment.patient
+                    : getSelectedAppointment.doctor
+                )
+              : $t("noOneJoined")
           }}
         </div>
       </div>
@@ -132,8 +134,13 @@
         </span>
       </div>
     </div>
-    <div class="zoom-chat-container" :class="chatOpened ? 'open' : 'close'">
-      <div class="chat-header px-3">{{ $t("chat") }}</div>
+    <div class="zoom-chat-container" :class="chatOpened ? 'show' : 'hide'">
+      <div class="chat-header px-3">
+        {{ $t("chat") }}
+        <span class="close-chat pointer" @click="chatOpened = false"
+          ><i class="fa fa-times"></i
+        ></span>
+      </div>
       <div class="chat-container p-3" ref="scrollDiv">
         <div
           class="chat-message"
