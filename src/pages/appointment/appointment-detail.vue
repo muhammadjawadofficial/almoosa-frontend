@@ -287,8 +287,9 @@ export default {
               });
 
             this.setTeleConsultation(teleConsultation.data.data);
+            this.setSelectedAppointment(appointment);
             this.setDoctorRatingData();
-            this.navigateTo("Connect Zoom");
+            this.navigateTo("Connect Zoom Native");
           } catch (error) {
             let errorMessage =
               error.response &&

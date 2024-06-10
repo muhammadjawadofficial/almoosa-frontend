@@ -726,5 +726,8 @@
   "host": "يستضيف",
   "participant": "مشارك",
   "ring": "جرس",
-  "ringing": "رنين"
+  "ringing": "رنين",
+  "chat": "محادثة",
+  "noChatMessages": "لا توجد رسائل دردشة",
+  "enterMessage": "أدخل رسالة"
 }

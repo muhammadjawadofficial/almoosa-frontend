@@ -726,5 +726,8 @@
   "host": "Host",
   "participant": "Participant",
   "ring": "Ring",
-  "ringing": "Ringing"
+  "ringing": "Ringing",
+  "chat": "Chat",
+  "noChatMessages": "No Chat Messages",
+  "enterMessage": "Enter Message"
 }

@@ -2612,6 +2612,235 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .vertical-swiper {
   height: 200px;
 }
+.zoom-connect {
+  position: relative;
+  min-height: inherit;
+  background: url(../images/login/almoosabuilding.png);
+  background-size: cover;
+  background-color: #000000b0;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-blend-mode: overlay;
+  .host-video {
+    position: absolute;
+    bottom: 5rem;
+    right: 1rem;
+    width: 20rem;
+    aspect-ratio: 16/9;
+    z-index: 1;
+    @media (max-width: 768px) {
+      bottom: unset;
+      top: 1rem;
+    }
+  }
+  #my-self-view-canvas,
+  #participant-videos-canvas,
+  #my-screen-share-content-canvas,
+  #users-screen-share-content-canvas,
+  #my-self-view-video,
+  #my-screen-share-content-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  @keyframes gradientRotate {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  .participant-vid,
+  .screen-share {
+    position: absolute;
+    max-width: 100%;
+    height: 100%;
+    aspect-ratio: 16 / 9;
+    margin: auto;
+    left: 0;
+    right: 0;
+  }
+  .zoom-controls {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    & > span {
+      cursor: pointer;
+      width: 3.5rem;
+      aspect-ratio: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: var(--theme-secondary);
+      color: white;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      border: 3px solid var(--theme-secondary);
+      position: relative;
+      &.end-call {
+        background-color: #e8163c;
+        border-color: #e8163c;
+      }
+      &.new::after {
+        content: "";
+        position: absolute;
+        right: -3px;
+        top: -3px;
+        width: 1rem;
+        aspect-ratio: 1;
+        background: var(--theme-default);
+        border-radius: 50%;
+      }
+      .off {
+        &::after {
+          content: "";
+          position: absolute;
+          width: 100%;
+          height: 2px;
+          background-color: white;
+          inset: 0;
+          margin: auto;
+          transform: rotate(45deg);
+          outline: 2px solid var(--theme-secondary);
+        }
+      }
+    }
+  }
+  .placeholder {
+    background-size: 15%;
+    background-image: url(/profile.png);
+    background-repeat: no-repeat;
+    background-color: #eff4ffc4;
+    background-position: center;
+    // border: 1px solid var(--theme-secondary);
+    border-radius: 10px;
+    box-shadow: 0 0 10px -5px var(--theme-secondary);
+  }
+  .zoom-call-container,
+  .zoom-chat-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: 0.3s width;
+  }
+  .zoom-call-container {
+    &.open {
+      width: 75%;
+    }
+    &.close {
+      width: 100%;
+    }
+  }
+  .zoom-chat-container {
+    &.open {
+      width: 25%;
+    }
+    &.close {
+      width: 0%;
+    }
+    overflow: hidden;
+    background: var(--theme-tertiary);
+    right: 0;
+    --header-height: 4rem;
+    --footer-height: 4rem;
+    .chat-header {
+      background: var(--theme-secondary);
+      color: var(--theme-tertiary);
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      height: var(--header-height);
+    }
+    .chat-container {
+      height: calc(100% - var(--header-height) - var(--footer-height));
+      overflow: auto;
+      .chat-message {
+        background: var(--theme-default);
+        color: var(--theme-tertiary);
+        padding: 0.5rem;
+        border-radius: 10px;
+        margin-block: 0.5rem;
+        font-size: 1.25rem;
+        width: fit-content;
+        min-width: 50%;
+        &:not(.self) {
+          border-top-left-radius: 0;
+          margin-right: auto;
+          .user-name {
+            color: var(--theme-secondary);
+          }
+        }
+        &.self {
+          background: var(--theme-secondary);
+          border-top-right-radius: 0;
+          margin-left: auto;
+          text-align: end;
+          .user-name {
+            color: var(--theme-default);
+          }
+        }
+        .user {
+          &-name {
+            font-size: 0.813rem;
+          }
+          &-time {
+            font-size: 0.75rem;
+            text-align: end;
+          }
+          &-message {
+            word-break: break-all;
+          }
+        }
+      }
+    }
+    .chat-footer {
+      display: flex;
+      align-items: center;
+      height: var(--footer-height);
+      gap: 0.5rem;
+      input {
+        outline: none !important;
+        background: transparent;
+        border: 1px solid var(--theme-secondary);
+        border-radius: 5px;
+        padding: 1rem;
+        font-size: 1rem;
+        width: 80%;
+        height: 100%;
+      }
+      .send-btn {
+        color: var(--theme-tertiary);
+        background: var(--theme-default);
+        width: 20%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+    }
+  }
+  .display-name {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    background: var(--theme-secondary);
+    padding: 0.25rem 0.5rem;
+    border-radius: 5px;
+    color: var(--theme-tertiary);
+  }
+}
 html {
   font-size: var(--globalFontSize);
   --globalFontSize: 16px;

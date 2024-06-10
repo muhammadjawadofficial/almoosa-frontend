@@ -373,7 +373,7 @@ const routes = [
           {
             path: "connect/zoom-native",
             component: ZoomConnectNative,
-            name: "Connect Zoom",
+            name: "Connect Zoom Native",
             meta: {
               title: "Connect | Almoosa Health Group",
             },
