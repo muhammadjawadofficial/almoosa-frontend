@@ -206,6 +206,7 @@ export default {
       "setBookingMethod",
       "setIsReschedule",
       "setPaymentObject",
+      "setTeleConsultation",
     ]),
     ...mapActions("user", ["updateUserInfo"]),
     initializeAppointmentDetails() {
@@ -267,49 +268,48 @@ export default {
       this.setPaymentObject(obj);
       this.navigateTo("Select Payment Method");
     },
-    makeCall(appointment) {
-      if (this.details.status.toLowerCase() !== "paid") {
-        this.failureToast(this.$t("cantJoinCallPaymetPending"));
-        return;
-      }
-      if (
-        this.isAllowedToCall(
-          this.details.booked_date,
-          this.details.start_time,
-          this.details.end_time
-        )
-      ) {
-        let html =
-          "<ul class='swal2-list'>" +
-          this.instructions.map((x) => "<li>" + x + "</li>").join("") +
-          "</ul>";
-        this.successIconListModal(
-          this.$t("appointmentDetail.instructionTitle"),
-          html,
-          "m-clipboard",
-          this.$t("appointmentDetail.joinCall")
-        ).then((res) => {
-          if (res.value) {
-            let doctorRatingPayload = {
-              appointment_id: this.details.id,
-              user_id: this.getUserInfo.id,
-              rated_user_id: this.details.doctor_id,
-            };
-            localStorage.setItem(
-              "doctorRatingPayload",
-              JSON.stringify(doctorRatingPayload)
-            );
-            this.navigateTo("Connect", {
-              connectId: this.createRoomId(
-                appointment.id,
-                appointment.doctor_id,
-                this.getUserInfo.mrn_number
-              ),
-              name: this.getFullName(this.getUserInfo),
-            });
+    async makeCall(appointment) {
+      let html =
+        "<ul class='swal2-list'>" +
+        this.instructions.map((x) => "<li>" + x + "</li>").join("") +
+        "</ul>";
+      this.successIconListModal(
+        this.$t("appointmentDetail.instructionTitle"),
+        html,
+        "m-clipboard",
+        this.$t("appointmentDetail.joinCall")
+      ).then(async (res) => {
+        if (res.value) {
+          try {
+            let teleConsultation =
+              await appointmentService.joinTeleConsultation({
+                appointment_id: appointment.id,
+              });
+
+            this.setTeleConsultation(teleConsultation.data.data);
+            this.setSelectedAppointment(appointment);
+            this.setDoctorRatingData();
+            this.navigateTo("Connect Zoom Native");
+          } catch (error) {
+            let errorMessage =
+              error.response &&
+              error.response.data &&
+              error.response.data.message;
+            this.failureToast(errorMessage);
           }
-        });
-      }
+        }
+      });
+    },
+    setDoctorRatingData() {
+      let doctorRatingPayload = {
+        appointment_id: this.details.id,
+        user_id: this.getUserInfo.id,
+        rated_user_id: this.details.doctor_id,
+      };
+      localStorage.setItem(
+        "doctorRatingPayload",
+        JSON.stringify(doctorRatingPayload)
+      );
     },
     rescheduleAppointment() {
       this.setBookingDoctor(this.details.doctor);
