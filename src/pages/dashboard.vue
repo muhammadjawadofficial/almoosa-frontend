@@ -352,7 +352,12 @@ export default {
     ...mapGetters("appointment", ["getBookingMethod"]),
   },
   methods: {
-    ...mapActions("appointment", ["setBookingMethod", "setDoctorsList"]),
+    ...mapActions("appointment", [
+      "setBookingMethod",
+      "setDoctorsList",
+      "setTeleConsultation",
+      "setSelectedAppointment",
+    ]),
     ...mapActions("user", ["setMainBanner"]),
     fetchBanner() {
       if (!this.getMainBanner) {
@@ -402,15 +407,14 @@ export default {
         }
       );
     },
-    makeCall(appointment) {
-      this.navigateTo("Connect", {
-        connectId: this.createRoomId(
-          appointment.id,
-          appointment.doctor_id,
-          appointment.patient_id
-        ),
-        name: this.getFullName(this.getUserInfo),
+    async makeCall(appointment) {
+      let teleConsultation = await appointmentService.joinTeleConsultation({
+        appointment_id: appointment.id,
       });
+
+      this.setSelectedAppointment(appointment);
+      this.setTeleConsultation(teleConsultation.data.data);
+      this.navigateTo("Connect Zoom");
     },
   },
 };

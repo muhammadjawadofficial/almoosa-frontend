@@ -23,7 +23,9 @@ export const appointmentService = {
     fetchPaymentsTypes,
     fetchTamaraUrl,
     getSymptomsSpecialitiesSuggested,
-    oneStepCheckout
+    oneStepCheckout,
+    joinTeleConsultation,
+    ringPatient
 }
 
 function getUpcomingAppointemnts(id) {
@@ -203,5 +205,19 @@ function getSymptomsSpecialitiesSuggested() {
     return axios({
         method: apiPath.appointment.symptomsSpecialitiesV1.method,
         url: apiPath.appointment.symptomsSpecialitiesV1.url
+    })
+}
+function joinTeleConsultation(data) {
+    return axios({
+        method: apiPath.appointment.joinTeleConsultation.method,
+        url: apiPath.appointment.joinTeleConsultation.url,
+        data
+    })
+}
+function ringPatient(data) {
+    return axios({
+        method: apiPath.appointment.ringPatient.method,
+        url: apiPath.appointment.ringPatient.url,
+        data
     })
 }
