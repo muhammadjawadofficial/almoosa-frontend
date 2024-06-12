@@ -545,10 +545,7 @@ export default {
       } catch (error) {
         this.ringing = false;
         this.failureToast(
-          error.message ||
-            (error.response &&
-              error.response.data &&
-              error.response.data.message)
+          error.response && error.response.data && error.response.data.message
         );
       }
     },
