@@ -414,7 +414,7 @@ export default {
 
       this.setSelectedAppointment(appointment);
       this.setTeleConsultation(teleConsultation.data.data);
-      this.navigateTo("Connect Zoom");
+      this.navigateTo("Connect Zoom Native");
     },
   },
 };
