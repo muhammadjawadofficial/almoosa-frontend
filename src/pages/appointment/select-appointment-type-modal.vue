@@ -52,7 +52,10 @@
                 <div v-if="item.unique" class="new-badge">
                   <new-badge-svg />
                 </div>
-                <div class="title secondary-title" v-html="$t('modules.' + item.text)"></div>
+                <div
+                  class="title secondary-title"
+                  v-html="$t('modules.' + item.text)"
+                ></div>
                 <div class="icon">
                   <component :is="item.icon" />
                 </div>
@@ -60,7 +63,36 @@
             </div>
           </div>
         </div>
-        <div class="swal2-actions">
+        <div v-if="showOnlineConfirm">
+          <div class="subheading text-center mt-5">
+            {{ $t("virtualConsultationNote") }}
+          </div>
+        </div>
+        <div class="swal2-actions" v-if="showOnlineConfirm">
+          <button
+            type="button"
+            class="swal2-confirm swal2-styled"
+            aria-label=""
+            style="
+              display: inline-block;
+              background-color: rgb(68, 102, 242);
+              border-left-color: rgb(85, 176, 71);
+              border-right-color: rgb(85, 176, 71);
+            "
+            @click="setSelectAppointmentTypeModal"
+          >
+            {{ $t("yes") }}
+          </button>
+          <button
+            type="button"
+            class="swal2-cancel swal2-styled"
+            aria-label=""
+            @click="resetSelection"
+          >
+            {{ $t("no") }}
+          </button>
+        </div>
+        <div class="swal2-actions" v-else>
           <button
             type="button"
             class="swal2-confirm swal2-styled"
@@ -95,6 +127,7 @@ export default {
   data() {
     return {
       selectedType: null,
+      showOnlineConfirm: false,
       appointmentTypes: [
         {
           text: "Virtual Consultations",
@@ -119,13 +152,24 @@ export default {
     },
     handleSelection(item) {
       this.selectedType = item.type;
+      if(this.selectedType != 'online'){
+        this.showOnlineConfirm = false;
+      }
     },
     setSelectAppointmentTypeModal() {
       if (!this.selectedType) {
         this.failureToast(this.$t("doctorList.selectBookingType"));
         return;
       }
+      if (this.selectedType == "online" && !this.showOnlineConfirm) {
+        this.showOnlineConfirm = true;
+        return;
+      }
       this.$emit("select", this.selectedType);
+    },
+    resetSelection() {
+      this.showOnlineConfirm = false;
+      this.selectedType = null;
     },
   },
 };

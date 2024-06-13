@@ -306,7 +306,7 @@ export default {
           link: "Health Education",
         },
         {
-          text: "Service & Package",
+          text: "Packages",
           icon: "briefcase-svg",
           link: "Services Packages",
         },

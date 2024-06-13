@@ -1199,7 +1199,10 @@ export default {
           this.getSelectedAppointment.doctor_id,
           this.getSelectedAppointment.id
         ),
-        insuranceService.fetchInsurances(this.getUserInfo.mrn_number),
+        insuranceService.fetchInsurances(
+          this.getUserInfo.mrn_number,
+          this.getSelectedAppointment.type.toLowerCase()
+        ),
       ])
         .then(async (res) => {
           let serviceBaseRate = res[0].data;
@@ -1283,6 +1286,9 @@ export default {
         return;
       }
       if (this.getPaymentObject.otherPayment) {
+        if (item.isOnlinePayment) {
+          this.partialCashPayment(item);
+        }
         return;
       }
       this.setAppointmentAmount();

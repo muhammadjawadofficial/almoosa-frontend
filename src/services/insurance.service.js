@@ -7,10 +7,10 @@ export const insuranceService = {
     addNewInsurace
 }
 
-function fetchInsurances(id) {
+function fetchInsurances(id, type) {
     return axios({
-        method: apiPath.insurance.fetch(id).method,
-        url: apiPath.insurance.fetch(id).url,
+        method: apiPath.insurance.fetch(id, type).method,
+        url: apiPath.insurance.fetch(id, type).url,
     })
 }
 function fetchInsuranceServices(id) {
