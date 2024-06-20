@@ -387,7 +387,9 @@ export default {
     ...mapGetters("appointment", ["getSelectedAppointment", "getIsReschedule"]),
     ...mapGetters("user", ["getUserInfo"]),
     doctorSpeciality() {
-      return this.getUserInfo.speciality[this.getLocaleKey("title")] || "N/A";
+      return (
+        (this.getUserInfo.speciality && [this.getLocaleKey("title")]) || "N/A"
+      );
     },
   },
 };
