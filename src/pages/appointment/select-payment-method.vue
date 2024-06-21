@@ -254,7 +254,7 @@
                       v-if="!getPaymentObject.otherPayment"
                       class="insurance"
                     >
-                      <div v-if="patientInsurances">
+                      <div v-if="patientInsurances && patientInsurances.length">
                         <div
                           class="payment-dropdown-option"
                           :class="{
@@ -270,9 +270,7 @@
                         </div>
                       </div>
                       <!-- lower -->
-                      <div
-                        v-else-if="!patientInsurances && tamaraInstallmentsType"
-                      >
+                      <div v-else>
                         <!-- v-if="!patientInsurances && !tamaraInstallmentsType" -->
                         {{ $t("noData") }}
                       </div>
@@ -1199,9 +1197,10 @@ export default {
           this.getSelectedAppointment.doctor_id,
           this.getSelectedAppointment.id
         ),
-        insuranceService.fetchInsurances(
+        insuranceService.fetchInsurancesByLocationId(
           this.getUserInfo.mrn_number,
-          this.getSelectedAppointment.type.toLowerCase()
+          this.getSelectedAppointment.type.toLowerCase(),
+          this.getSelectedAppointment.id
         ),
       ])
         .then(async (res) => {

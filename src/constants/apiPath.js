@@ -135,6 +135,7 @@ export const apiPath = {
         addNew: getApiObject("post", "insurances"),
         services: (id) => getApiObject("get", "insurances/services?mrn_number=" + id, "v2"),
         fetch: (id, type) => getApiObject("get", "insurances?mrn_number=" + id + "&type=" + type + "&sort=-id", "v2"),
+        fetchByLocation: (id, type, appointment_id) => getApiObject("get", "insurances/location?mrn_number=" + id + "&type=" + type + "&appointment_id=" + appointment_id + "&sort=-id", "v2"),
     },
 
     healthEducation: {
