@@ -404,13 +404,7 @@ export default {
       this.navigateTo("default");
     }
   },
-  beforeDestroy() {
-    delete this.stream;
-    delete this.client;
-    delete this.chat;
-    delete this.users;
-    ZoomVideo.destroyClient();
-  },
+  beforeDestroy() {},
   methods: {
     async startScreenShare() {
       console.log("startScreenShare");
@@ -520,6 +514,7 @@ export default {
     },
     async leaveSession() {
       await this.client.leave();
+      this.destroySession();
       if (this.isDoctor) this.navigateTo("default");
       else this.navigateTo("Rate Doctor");
     },
@@ -548,6 +543,17 @@ export default {
           error.response && error.response.data && error.response.data.message
         );
       }
+    },
+    destroySession() {
+      this.client.off("peer-video-state-change", () => {});
+      this.client.off("media-sdk-change", () => {});
+      this.client.off("active-speaker", () => {});
+      this.client.off("video-active-change", () => {});
+      this.client.off("passively-stop-share", () => {});
+      this.client.off("active-share-change", () => {});
+      this.client.off("chat-on-message", () => {});
+      this.client.off("user-removed", () => {});
+      ZoomVideo.destroyClient();
     },
   },
 };
