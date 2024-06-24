@@ -123,7 +123,9 @@
                       </div>
                       <button
                         class="btn btn-primary start-call-button"
-                        v-if="appointment.type.toLowerCase() == 'virtual'"
+                        v-if="
+                          appointment.type.toLowerCase() == 'virtual'
+                        "
                         @click="makeCall(appointment)"
                       >
                         {{ $t("startCall") }}
