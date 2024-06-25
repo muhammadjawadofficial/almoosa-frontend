@@ -179,7 +179,7 @@
 <script>
 import ZoomVideo from "@zoom/videosdk";
 import { mapGetters } from "vuex";
-import { appointmentService } from "../services";
+import { appointmentService, systemConfigService } from "../services";
 
 export default {
   data() {
@@ -209,6 +209,7 @@ export default {
         pos3: 0,
         pos4: 0,
       },
+      systemConfig: null,
     };
   },
   computed: {
@@ -248,6 +249,7 @@ export default {
       return;
     }
     try {
+      this.fetchContactConfig();
       this.setLoadingState(true);
       this.client = ZoomVideo.createClient();
 
@@ -406,6 +408,27 @@ export default {
   },
   beforeDestroy() {},
   methods: {
+    fetchContactConfig() {
+      systemConfigService.fetchConfig("?title=APPOINTMENT_CONFIG").then(
+        (response) => {
+          if (response.data.status) {
+            let data = response.data.data.items;
+            let config = JSON.parse(data[0].value);
+            this.systemConfig = config;
+          } else {
+            this.failureToast(response.data.messsage);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
     async startScreenShare() {
       console.log("startScreenShare");
       if (this.stream.isStartShareScreenWithVideoElement()) {
@@ -527,7 +550,13 @@ export default {
           session_name: this.getTeleConsultation.sessionName,
         });
 
-        this.timer = 20;
+        let timeInSeconds =
+          (this.systemConfig &&
+            this.systemConfig.virtual &&
+            this.systemConfig.virtual.wait_time) ||
+          0.5;
+
+        this.timer = timeInSeconds * 60;
 
         this.timerInterval = setInterval(() => {
           this.timer--;
