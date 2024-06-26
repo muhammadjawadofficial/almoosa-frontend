@@ -142,9 +142,9 @@
                     class="btn btn-primary"
                     @click="makeCall(details)"
                     v-if="
-                      details.type.toLowerCase() == 'online' &&
-                      !getUserInfo.isDependent &&
+                      details.type &&
                       details.status &&
+                      details.type.toLowerCase() == 'online' &&
                       details.status.toLowerCase() == 'paid'
                     "
                   >
