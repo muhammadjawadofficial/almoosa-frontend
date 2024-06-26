@@ -276,19 +276,52 @@ export default {
       }
     },
     showModal() {
-      this.successIconModal(
-        this.$t("bookAppointment.modal.confirmed"),
-        this.$t(
-          "bookAppointment.modal." +
-            (this.getBookingMethod.toLowerCase() == "online"
-              ? "confirmedVirtualText"
-              : "confirmedText")
-        )
-      ).then(() => {
-        this.checkAndDeductLoyaltyPoints();
-        this.resetBookAppointment();
-        this.navigateTo("Upcoming Appointment");
-      });
+      if (this.getBookingMethod.toLowerCase() == "online") {
+        let instructions = [
+          this.$t("bookAppointment.instructions.point1"),
+          this.$t("bookAppointment.instructions.point2"),
+          this.$t("bookAppointment.instructions.point3"),
+        ];
+        let html =
+          "<ul class='swal2-list'>" +
+          instructions.map((x) => "<li>" + x + "</li>").join("") +
+          "</ul>" + 
+          "<div class='note-text'>" + this.$t('bookAppointment.instructions.note') + "</div>" +
+          "<div class='greetings-text'>" + this.$t('bookAppointment.instructions.greetings') + "</div>";
+        this.successIconListModal(
+          this.$t("bookAppointment.modal.confirmed"),
+          html
+        ).then(async (res) => {
+          if (res.value) {
+            try {
+              let teleConsultation =
+                await appointmentService.joinTeleConsultation({
+                  appointment_id: appointment.id,
+                });
+
+              this.setTeleConsultation(teleConsultation.data.data);
+              this.setSelectedAppointment(appointment);
+              this.setDoctorRatingData();
+              this.navigateTo("Connect Zoom Native");
+            } catch (error) {
+              let errorMessage =
+                error.response &&
+                error.response.data &&
+                error.response.data.message;
+              this.failureToast(errorMessage);
+            }
+          }
+        });
+      } else {
+        this.successIconModal(
+          this.$t("bookAppointment.modal.confirmed"),
+          this.$t("bookAppointment.modal.confirmedText")
+        ).then(() => {
+          this.checkAndDeductLoyaltyPoints();
+          this.resetBookAppointment();
+          this.navigateTo("Upcoming Appointment");
+        });
+      }
     },
     bookAppointment(method = "payLater") {
       if (

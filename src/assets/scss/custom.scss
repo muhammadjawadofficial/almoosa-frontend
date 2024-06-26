@@ -2011,6 +2011,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
       }
     }
   }
+  .note-text {
+    font-size: 1rem;
+    margin-top: 1rem;
+    text-align: start;
+  }
+  .greetings-text {
+    margin-top: 1rem;
+    text-align: start;
+    color: var(--theme-secondary);
+  }
   &.swal-custom-icon-top-padding {
     .swal2-popup {
       padding-top: 6em;

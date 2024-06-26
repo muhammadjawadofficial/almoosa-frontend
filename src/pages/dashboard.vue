@@ -123,7 +123,9 @@
                       </div>
                       <button
                         class="btn btn-primary start-call-button"
-                        v-if="appointment.type.toLowerCase() == 'virtual'"
+                        v-if="
+                          appointment.type.toLowerCase() == 'virtual'
+                        "
                         @click="makeCall(appointment)"
                       >
                         {{ $t("startCall") }}
@@ -306,7 +308,7 @@ export default {
           link: "Health Education",
         },
         {
-          text: "Service & Package",
+          text: "Packages",
           icon: "briefcase-svg",
           link: "Services Packages",
         },

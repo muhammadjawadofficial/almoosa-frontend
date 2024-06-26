@@ -264,7 +264,7 @@
     "My Timelines": "My Timelines",
     "Health Education": "Health Education",
     "View Promotions": "View Promotions",
-    "Service & Package": "Services&nbsp;& Packages",
+    "Packages": "Packages",
     "Emergency Consultations": "Emergency Consultations",
     "Virtual Tour": "Virtual Tour",
     "Find Specialist": "Find Your Doctor",
@@ -456,6 +456,14 @@
       "confirmedVirtualText": "Your virtual appointment has been booked. To avoid appointment cancellation, kindly pay for the appointment 30 minutes in advance. Please note that the virtual appointments can not be converted to Onsite appointments",
       "reschedule": "Appointment Rescheduled",
       "rescheduleText": "Your appointment has been rescheduled successfully"
+    },
+    "instructions": {
+      "heading": "Appointment Confirmation Instructions:",
+      "point1": "Complete the payment for the appointment (Cash, Jaha Aramco, Follow up, other companies) a maximum of 30 minutes before the appointment.",
+      "point2": "The Virtual Appointment does not require your attendance at the clinic.",
+      "point3": "To reschedule your paid appointment, please cancel it through the application to receive a refund credited back to your wallet.",
+      "note": "We thank you for your fair behavior in providing another patient with this opportunity",
+      "greetings": "Almoosa Health wishes you safety"
     }
   },
   "selectPaymentMethod": {
@@ -565,7 +573,7 @@
     }
   },
   "servicesPackages": {
-    "title": "Services and Packages",
+    "title": "Packages",
     "details": "Package Details",
     "viewDetails": "View Details",
     "searchPlaceholder": "Search Service",
@@ -705,7 +713,7 @@
   "discount": "Discount",
   "cannotPayForTheAppointment": "Payment for virtual appointments is not available before 30 minutes of the appointment time",
   "accept": "Accept",
-  "service_and_packages_terms": "Services and Packages Terms",
+  "service_and_packages_terms": "Packages Terms",
   "tamaraValidation": "Tamara restricts payments between {min} and {max} SAR only",
   "enterAmount": "Enter Amount",
   "amountInSAR": "Amount in SAR",
@@ -730,5 +738,6 @@
   "chat": "Chat",
   "noChatMessages": "No Chat Messages",
   "enterMessage": "Enter Message",
-  "noOneJoined": "No one joined"
+  "noOneJoined": "No one joined",
+  "virtualConsultationNote": "Appointments available remotely do not require on-site attendance, do you agree?"
 }
