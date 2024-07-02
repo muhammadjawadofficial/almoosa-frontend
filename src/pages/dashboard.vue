@@ -124,7 +124,10 @@
                       <button
                         class="btn btn-primary start-call-button"
                         v-if="
-                          appointment.type.toLowerCase() == 'virtual'
+                          appointment.type &&
+                          appointment.status &&
+                          appointment.type.toLowerCase() == 'virtual' &&
+                          appointment.status.toLowerCase() == 'paid'
                         "
                         @click="makeCall(appointment)"
                       >
