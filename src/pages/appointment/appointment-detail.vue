@@ -388,7 +388,9 @@ export default {
     ...mapGetters("user", ["getUserInfo"]),
     doctorSpeciality() {
       return (
-        (this.getUserInfo.speciality && [this.getLocaleKey("title")]) || "N/A"
+        (this.getUserInfo.speciality &&
+          this.getUserInfo.speciality[this.getLocaleKey("title")]) ||
+        "N/A"
       );
     },
   },
