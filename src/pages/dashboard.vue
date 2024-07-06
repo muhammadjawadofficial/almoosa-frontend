@@ -169,7 +169,7 @@
                 <new-badge-svg />
               </div>
               <div class="title">
-                {{ $t("modules.Virtual Consultations") }}
+                {{ $t("modules.Remote Consultations") }}
                 <div class="sub-title">
                   {{
                     $t(
