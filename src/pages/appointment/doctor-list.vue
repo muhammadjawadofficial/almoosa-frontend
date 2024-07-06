@@ -125,6 +125,9 @@ export default {
       "getBookingMethod",
       "getBookingDate",
     ]),
+    isBookAConsultationFlow() {
+      return !["onsite", "online"].includes(this.getBookingMethod);
+    },
   },
   mounted() {
     this.isBookingFlow = ["Doctor List", "Doctor List Guest"].includes(
@@ -189,7 +192,7 @@ export default {
         this.openNearestAvailabilityModal();
         return;
       }
-      if (this.isBookingFlow) {
+      if (this.isBookingFlow && this.isBookAConsultationFlow) {
         this.openSelectAppointmentTypeModal();
         return;
       }
@@ -200,7 +203,7 @@ export default {
     },
     selectNearestAvailability(date) {
       this.setBookingNearestDate(this.removeDateTime(date));
-      if (this.isBookingFlow) {
+      if (this.isBookingFlow && this.isBookAConsultationFlow) {
         this.openSelectAppointmentTypeModal();
         return;
       }
@@ -230,12 +233,12 @@ export default {
       }
 
       let method = null;
-      // if (
-      //   this.getBookingMethod == "onsite" ||
-      //   this.getBookingMethod == "online"
-      // ) {
-      //   method = this.getBookingMethod;
-      // }
+      if (
+        this.getBookingMethod == "onsite" ||
+        this.getBookingMethod == "online"
+      ) {
+        method = this.getBookingMethod;
+      }
 
       appointmentService
         .findDoctors(speciality, date, clinic, method, this.currentAppLang)

@@ -124,7 +124,10 @@
                       <button
                         class="btn btn-primary start-call-button"
                         v-if="
-                          appointment.type.toLowerCase() == 'virtual'
+                          appointment.type &&
+                          appointment.status &&
+                          appointment.type.toLowerCase() == 'virtual' &&
+                          appointment.status.toLowerCase() == 'paid'
                         "
                         @click="makeCall(appointment)"
                       >
@@ -155,18 +158,18 @@
         </div>
         <div class="consultation-section standard-width">
           <div
-            class="consultation-section--blocks two no-sub-title"
+            class="consultation-section--blocks three no-sub-title"
             :class="{ one: getUserInfo.isDependent }"
           >
             <div
               class="consultation-section--blocks--single large secondary"
-              @click="findASpecialist('book')"
+              @click="findASpecialist('online')"
             >
               <div class="new-badge">
                 <new-badge-svg />
               </div>
               <div class="title">
-                {{ $t("modules.Book a Consultation") }}
+                {{ $t("modules.Virtual Consultations") }}
                 <div class="sub-title">
                   {{
                     $t(
@@ -180,7 +183,6 @@
               </div>
             </div>
             <div
-              v-if="false"
               class="consultation-section--blocks--single large primary"
               @click="findASpecialist('onsite')"
             >
