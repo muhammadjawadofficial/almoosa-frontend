@@ -65,11 +65,15 @@
                         class="mt-5"
                         :class="{
                           'col-lg-4 col-md-6':
-                            !getIsGuest && this.getBookingMethod == 'onsite',
+                            !getIsGuest &&
+                            getBookingMethod == 'onsite' &&
+                            !isClinicSelected,
                           'col-lg-6':
-                            getIsGuest && this.getBookingMethod == 'onsite',
+                            getIsGuest &&
+                            getBookingMethod == 'onsite' &&
+                            !isClinicSelected,
                         }"
-                        v-if="this.getBookingMethod == 'onsite'"
+                        v-if="getBookingMethod == 'onsite' && !isClinicSelected"
                       >
                         <div class="tab-content-heading">
                           {{ $t("findSpecialist.chooseLocation") }}
@@ -173,9 +177,13 @@
                         class="booking-time-slots mt-5"
                         :class="{
                           'col-lg-8 col-md-6':
-                            !getIsGuest && this.getBookingMethod == 'onsite',
+                            !getIsGuest &&
+                            getBookingMethod == 'onsite' &&
+                            !isClinicSelected,
                           'col-lg-6':
-                            getIsGuest && this.getBookingMethod == 'onsite',
+                            getIsGuest &&
+                            getBookingMethod == 'onsite' &&
+                            !isClinicSelected,
                         }"
                       >
                         <div class="tab-content-heading">
@@ -400,6 +408,7 @@ export default {
       "getIsReschedule",
       "getSelectedAppointment",
       "getBookingMethod",
+      "getBookingClinic",
       "getBookingNearestDate",
     ]),
     ...mapGetters("user", ["getUserInfo"]),
@@ -411,6 +420,9 @@ export default {
       } else {
         return this.getBookingMethod == "onsite";
       }
+    },
+    isClinicSelected() {
+      return this.getBookingClinic && this.getBookingClinic.id;
     },
   },
   components: {
