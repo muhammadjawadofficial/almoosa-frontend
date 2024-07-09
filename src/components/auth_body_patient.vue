@@ -274,6 +274,7 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
+    aspect-ratio: 2 / 1;
     &--content {
       // width: 23.625rem;
       color: white;
