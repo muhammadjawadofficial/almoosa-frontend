@@ -252,6 +252,7 @@
   },
   "modules": {
     "Virtual Consultations": "Virtual Consultations",
+    "Remote Consultations": "Remote Consultations",
     "On-site Consultations": "On-site Consultations",
     "Book a Consultation": "Book a Consultation",
     "Check Symptoms": "Check Symptoms",

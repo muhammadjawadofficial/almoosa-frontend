@@ -252,6 +252,7 @@
   },
   "modules": {
     "Virtual Consultations": "موعد افتراضي",
+    "Remote Consultations": "المشاورات عن بعد",
     "On-site Consultations": "موعد في العيادة",
     "Book a Consultation": "احجز استشارة",
     "Check Symptoms": "فاحص الاعراض",
@@ -646,7 +647,7 @@
   "cantJoinCallEarly": "يمكن فقط الانضمام إلى الاجتماع قبل {minutes} دقيقة من وقت البدء المجدول",
   "cantJoinCallLate": "لا يمكن الانضمام إلى الاجتماع بعد الوقت المحدد",
   "back": "للخلف",
-  "ash": "مجموعة الموسى الصحية",
+  "ash": "الموسى الصحية",
   "loading": "تحميل",
   "success": "نجاح",
   "failure": "باءت بالفشل",
