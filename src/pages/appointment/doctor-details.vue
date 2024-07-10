@@ -484,17 +484,22 @@ export default {
                 this.fetchTimeslots();
               }
             } else if (this.getBookingMethod.toLowerCase() == "onsite") {
-              appointmentService.getClinicsV1().then((res) => {
-                let response = res.data;
-                if (response.status) {
-                  this.clinics = response.data.items;
-                  this.selectedClinic = this.clinics[0];
-                  this.fetchTimeslots();
-                } else {
-                  this.clinics = [];
-                  this.failureToast(response.message);
-                }
-              });
+              if (!this.isClinicSelected) {
+                appointmentService.getClinicsV1().then((res) => {
+                  let response = res.data;
+                  if (response.status) {
+                    this.clinics = response.data.items;
+                    this.selectedClinic = this.clinics[0];
+                    this.fetchTimeslots();
+                  } else {
+                    this.clinics = [];
+                    this.failureToast(response.message);
+                  }
+                });
+              } else {
+                this.selectedClinic = this.getBookingClinic;
+                this.fetchTimeslots();
+              }
             }
           } else {
             this.failureToast(response.data.message);
