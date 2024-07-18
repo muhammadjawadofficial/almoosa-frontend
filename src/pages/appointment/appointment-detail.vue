@@ -144,6 +144,7 @@
                     v-if="
                       details.type &&
                       details.status &&
+                      details.is_appt_billed &&
                       details.type.toLowerCase() == 'online' &&
                       details.status.toLowerCase() == 'paid'
                     "
