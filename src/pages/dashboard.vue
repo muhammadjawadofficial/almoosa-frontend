@@ -335,6 +335,11 @@ export default {
           icon: "user-tag-svg",
           link: "Virtual Tour",
         },
+        {
+          text: "Sick Leave",
+          icon: "hospital-svg",
+          link: "Sick Leave",
+        },
       ],
       todayAppointments: null,
     };

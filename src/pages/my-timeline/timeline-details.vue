@@ -81,6 +81,47 @@
                 </b-card-body>
               </b-collapse>
             </b-card>
+            <b-card
+              no-body
+              class="transparent mb-2"
+              v-if="
+                sections &&
+                sections.length &&
+                getSelectedTimeline.episode_status == 'IP'
+              "
+            >
+              <b-card-header
+                header-tag="header"
+                class="p-1 accordion-tab"
+                role="tab"
+              >
+                <a
+                  block
+                  v-b-toggle="'accordion-9999'"
+                  class="btn btn-primary"
+                  v-if="dischargeSummaryAvailable"
+                  :href="
+                    reportUrl(
+                      'discharge-summary',
+                      dischargeReportParams(getSelectedTimeline)
+                    )
+                  "
+                >
+                  {{ $t("myTimeline.dischargeSummary") }}
+                  <div class="icon"></div>
+                </a>
+                <a
+                  block
+                  v-b-toggle="'accordion-9999'"
+                  class="btn btn-primary"
+                  @click="showModal"
+                  v-else
+                >
+                  {{ $t("myTimeline.dischargeSummary") }}
+                  <div class="icon"></div>
+                </a>
+              </b-card-header>
+            </b-card>
           </template>
         </div>
         <div v-else class="no-data mt-5">
@@ -93,13 +134,14 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { timelineService } from "../../services";
+import { medicalReportsService, timelineService } from "../../services";
 export default {
   data() {
     return {
       timelineDetails: null,
       parsedDetails: null,
       sections: null,
+      dischargeSummaryAvailable: false,
     };
   },
   computed: {
@@ -112,8 +154,41 @@ export default {
       return;
     }
     this.fetchTimelineDetails();
+    if (this.getSelectedTimeline.episode_status == "IP") {
+      this.checkDischargeSummary();
+    }
   },
   methods: {
+    checkDischargeSummary() {
+      medicalReportsService
+        .checkDischargeSummaryAvailability(
+          `?${this.dischargeReportParams(this.getSelectedTimeline)}`
+        )
+        .then(
+          (response) => {
+            if (response.data.status) {
+              this.dischargeSummaryAvailable = true;
+            } else {
+              this.dischargeSummaryAvailable = false;
+            }
+          },
+          (error) => {
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
+          }
+        );
+    },
+    showModal() {
+      this.failureIconModal(
+        this.$t("myTimeline.dischargeSummaryNATitle"),
+        this.$t("myTimeline.dischargeSummaryNAText"),
+        "m-info"
+      );
+    },
     fetchTimelineDetails() {
       timelineService
         .fetchTimelineDetails(
@@ -175,6 +250,9 @@ export default {
           }
         );
     },
+    dischargeReportParams(timeline) {
+      return `visit_no=${timeline.visit_no}&reportName=${timeline.episode_status}_${timeline.visit_no}_Discharge Summary`;
+    },
   },
 };
 </script>
@@ -218,6 +296,11 @@ export default {
         background-color: var(--theme-tertiary) !important;
         border-color: var(--theme-tertiary) !important;
         color: var(--theme-secondary);
+        &.btn-primary {
+          background-color: var(--theme-default) !important;
+          border-color: var(--theme-default) !important;
+          color: var(--white);
+        }
         font-family: "DiodrumArabicMedium";
         cursor: pointer;
         .icon {

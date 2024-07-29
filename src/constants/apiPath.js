@@ -177,4 +177,10 @@ export const apiPath = {
     systemConfig: {
         fetchSystemConfig: (query) => getApiObject("get", "system-settings" + query),
     },
+
+    medicalReports: {
+        fetchSickLeaves: (query) => getApiObject("get", "medical-reports/sick-leaves" + query),
+        checkDischargeSummaryAvailability: (query) => getApiObject("get", "medical-reports/is-discharge-summary-available" + query),
+        download: (en, type, query) => getApiObject("get", `medical-reports/download/${en}/${type}` + query),
+    },
 };

@@ -268,6 +268,7 @@
     "Packages": "الباقات",
     "Emergency Consultations": "الاستشارات الطارئة",
     "Virtual Tour": "جولة افتراضية",
+    "Sick Leave": "أجازة مرضية",
     "Find Specialist": "ابحث عن طبيبك",
     "View Appointments": "عرض المواعيد",
     "View Inpatients": "عرض في المرضى",
@@ -540,7 +541,8 @@
     "details": "تفاصيل الجدول الزمني الخاص بي",
     "viewDetails": "عرض التفاصيل",
     "appointmentSession": "جلسة التعيين",
-    "episode": "حلقة"
+    "episode": "حلقة",
+    "dischargeSummary": "تنزيل تقرير ملخص الخروج"
   },
   "myMedication": {
     "title": "الأدوية",

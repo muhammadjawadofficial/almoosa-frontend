@@ -98,7 +98,8 @@ import { userService } from "../services";
 import symptopChecker from "../pages/symptom-checker/symptoms-checker";
 import survey from "../pages/symptom-checker/survey";
 import confirmSurvey from "../pages/symptom-checker/confirm-survey";
-// component
+
+import sickLeaveList from "../pages/medical-reports/sick-leave-list";
 
 Vue.use(Router);
 
@@ -693,6 +694,14 @@ const routes = [
         component: VirtualTour,
         meta: {
           title: "Virtual Tour | Almoosa Health Group",
+        },
+      },
+      {
+        path: "sick-leave-list",
+        name: "Sick Leave",
+        component: sickLeaveList,
+        meta: {
+          title: "Sick Leave | Almoosa Health Group",
         },
       },
       {
