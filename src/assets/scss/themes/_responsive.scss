@@ -1022,8 +1022,16 @@
 }
 
 @media only screen and (max-width: 1199.98px) {
+  .swiper-container .swiper-pagination {
+    left: 1rem !important;
+    bottom: 1rem !important;
+  }
   div.main-banner {
+    padding-top: 2rem;
     .background-image {
+      max-width: var(--standard-max-width) !important;
+      width: 100% !important;
+      margin: auto;
       .main-banner-text {
         font-size: 2.625rem;
         line-height: 3.25rem;
