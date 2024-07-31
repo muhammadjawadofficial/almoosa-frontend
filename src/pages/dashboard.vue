@@ -335,6 +335,11 @@ export default {
           icon: "user-tag-svg",
           link: "Virtual Tour",
         },
+        {
+          text: "Feedback",
+          icon: "feedback-svg",
+          link: "Feedback",
+        },
       ],
       todayAppointments: null,
     };
