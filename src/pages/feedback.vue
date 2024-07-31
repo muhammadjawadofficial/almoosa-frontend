@@ -19,7 +19,7 @@ export default {
     return {
       feedbackUrl: "",
       token: "",
-      query: "token=",
+      query: "sid=",
     };
   },
   computed: {
@@ -53,6 +53,7 @@ export default {
           if (encryptResponse.data.status) {
             this.token = encryptResponse.data.data;
           }
+          this.setLoadingState(true);
         },
         (error) => {
           if (!this.isAPIAborted(error))
