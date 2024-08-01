@@ -49,7 +49,7 @@ export default {
             })
 
             return isElligible;
-        }
+        },
     },
     mounted() {
         this.moment.locale(this.$i18n.locale)
@@ -753,6 +753,9 @@ export default {
             let diff = now.diff(appointmentTime, 'minutes');
 
             return diff <= allowedMinutes;
+        },
+        reportUrl(type, query) {
+            return `${process.env.VUE_APP_SERVER}api/v1/medical-reports/download/${this.currentAppLang}/${type}?${query}`;
         }
     },
 }

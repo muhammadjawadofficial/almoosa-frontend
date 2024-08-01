@@ -285,31 +285,19 @@ export default {
         let html =
           "<ul class='swal2-list'>" +
           instructions.map((x) => "<li>" + x + "</li>").join("") +
-          "</ul>" + 
-          "<div class='note-text'>" + this.$t('bookAppointment.instructions.note') + "</div>" +
-          "<div class='greetings-text'>" + this.$t('bookAppointment.instructions.greetings') + "</div>";
+          "</ul>" +
+          "<div class='note-text'>" +
+          this.$t("bookAppointment.instructions.note") +
+          "</div>" +
+          "<div class='greetings-text'>" +
+          this.$t("bookAppointment.instructions.greetings") +
+          "</div>";
         this.successIconListModal(
           this.$t("bookAppointment.modal.confirmed"),
           html
         ).then(async (res) => {
           if (res.value) {
-            try {
-              let teleConsultation =
-                await appointmentService.joinTeleConsultation({
-                  appointment_id: appointment.id,
-                });
-
-              this.setTeleConsultation(teleConsultation.data.data);
-              this.setSelectedAppointment(appointment);
-              this.setDoctorRatingData();
-              this.navigateTo("Connect Zoom Native");
-            } catch (error) {
-              let errorMessage =
-                error.response &&
-                error.response.data &&
-                error.response.data.message;
-              this.failureToast(errorMessage);
-            }
+            this.navigateTo("Upcoming Appointment");
           }
         });
       } else {
