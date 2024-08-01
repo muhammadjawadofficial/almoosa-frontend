@@ -14,6 +14,7 @@ import Profile from "../pages/user/user-profile";
 
 import Dashboard from "../pages/dashboard";
 import Iframe from "../pages/iframe";
+import Feedback from "../pages/feedback";
 import ZoomConnect from "../pages/zoom-connect";
 import ZoomConnectNative from "../pages/zoom-connect-native";
 
@@ -361,6 +362,14 @@ const routes = [
             name: "Connect",
             meta: {
               title: "Connect | Almoosa Health Group",
+            },
+          },
+          {
+            path: "feedback",
+            component: Feedback,
+            name: "Feedback",
+            meta: {
+              title: "Feedback | Almoosa Health Group",
             },
           },
           {

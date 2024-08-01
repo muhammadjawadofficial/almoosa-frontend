@@ -176,6 +176,7 @@ export const apiPath = {
 
     systemConfig: {
         fetchSystemConfig: (query) => getApiObject("get", "system-settings" + query),
+        encryptMrn: (mrn) => getApiObject("get", "encrypt/" + mrn),
     },
 
     medicalReports: {

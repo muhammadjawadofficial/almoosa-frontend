@@ -358,6 +358,11 @@ export default {
           icon: "hospital-svg",
           link: "Sick Leave",
         },
+        {
+          text: "Feedback",
+          icon: "feedback-svg",
+          link: "Feedback",
+        },
       ],
       todayAppointments: null,
       swiperOption: {
