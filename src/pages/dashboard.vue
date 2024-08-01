@@ -145,7 +145,7 @@
     </template>
     <template v-else>
       <div class="main-banner">
-        <div class="background-image" v-if="getMainBanner">
+        <div class="background-image">
           <div class="carousel-inner" v-if="banners.length">
             <swiper class="swiper" :options="swiperOption" :slides-per-view="1">
               <swiper-slide v-for="slide in banners" :key="'slide-' + slide.id">
