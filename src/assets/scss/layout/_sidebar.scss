@@ -334,7 +334,9 @@
                 color: $white;
                 .media-body {
                   // margin-left: 15px;
-
+                  img {
+                    display: inline-block;
+                  }
                   span {
                     font-weight: 500;
                   }
@@ -789,6 +791,8 @@
               flex-direction: column;
               span {
                 vertical-align: middle;
+                display: flex;
+                align-items: center;
               }
             }
           }

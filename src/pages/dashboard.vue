@@ -146,15 +146,26 @@
     <template v-else>
       <div class="main-banner">
         <div class="background-image" v-if="getMainBanner">
-          <img
-            :src="getImageUrl(getMainBanner.image)"
-            alt="main-banner"
-            class="img-fluid w-100"
-          />
-          <div class="standard-width">
-            <div class="main-banner-text w600">
-              {{ getMainBanner[getLocaleKey("text")] }}
-            </div>
+          <div class="carousel-inner" v-if="banners.length">
+            <swiper class="swiper" :options="swiperOption" :slides-per-view="1">
+              <swiper-slide v-for="slide in banners" :key="'slide-' + slide.id">
+                <div class="carousel-item active">
+                  <div
+                    class="login-dashboard-slide"
+                    :style="
+                      '--background-image-url:url(' +
+                      getImageUrl(slide.image) +
+                      ')'
+                    "
+                  >
+                    <div class="login-dashboard-slide--content">
+                      <pre>{{ slide[getLocaleKey("text")] }}</pre>
+                    </div>
+                  </div>
+                </div>
+              </swiper-slide>
+              <div class="swiper-pagination" slot="pagination"></div>
+            </swiper>
           </div>
         </div>
         <div class="consultation-section standard-width">
@@ -265,7 +276,13 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import { appointmentService, userService } from "../services";
+import { swiper, swiperSlide } from "vue-awesome-swiper";
+import "swiper/dist/css/swiper.css";
 export default {
+  components: {
+    swiper,
+    swiperSlide,
+  },
   data() {
     return {
       dashboardItems: [
@@ -343,6 +360,19 @@ export default {
         },
       ],
       todayAppointments: null,
+      swiperOption: {
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: `.next-${this.id}`,
+          prevEl: `.prev-${this.id}`,
+        },
+      },
+      banners: [],
+      showButtons: true,
+      showSlider: false,
     };
   },
   mounted() {
@@ -356,6 +386,7 @@ export default {
       this.getTodayAppointment();
     }
     this.fetchBanner();
+    this.fetchBanners();
   },
   computed: {
     ...mapGetters("user", ["getUserInfo", "getMainBanner"]),
@@ -379,6 +410,29 @@ export default {
               if (banner) {
                 this.setMainBanner(banner);
               }
+            } else {
+              this.failureToast(res.data.message);
+            }
+          },
+          (error) => {
+            if (!this.isAPIAborted(error))
+              this.failureToast(
+                error.response &&
+                  error.response.data &&
+                  error.response.data.message
+              );
+            console.error(error);
+          }
+        );
+      }
+    },
+    fetchBanners() {
+      if (!this.banners.length) {
+        let query = "?type=PROMOTIONAL";
+        userService.getBanner(query).then(
+          (res) => {
+            if (res.data.status) {
+              this.banners = res.data.data.items;
             } else {
               this.failureToast(res.data.message);
             }
@@ -449,6 +503,83 @@ export default {
   }
   .today-appointment-section {
     margin-top: 2rem;
+  }
+}
+.background-image {
+  z-index: 0;
+}
+.swiper-container {
+  border-radius: 1.25rem;
+  .login-dashboard-slide {
+    --background-image-url: url("../assets/images/login/slider/slide2.png");
+    display: flex;
+    align-items: center;
+    // height: 188px;
+    padding: 3rem 3rem 4rem;
+    background: var(--background-image-url);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 100%;
+    aspect-ratio: 15 / 5;
+    min-height: 12rem;
+    @media (max-width: 660px) {
+      padding: 1rem 2rem;
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--background-image-url);
+      background-position: center;
+      background-repeat: repeat;
+      background-size: contain;
+      width: 100%;
+      aspect-ratio: 15 / 5;
+      filter: blur(10px);
+      z-index: -1;
+    }
+    &--content {
+      // width: 23.625rem;
+      color: white;
+      font-size: 2.563rem;
+      line-height: 3.063rem;
+      font-weight: bold;
+      @media (max-width: 768px) {
+        font-size: 2rem;
+        line-height: 2rem;
+      }
+      pre {
+        font: inherit;
+        color: inherit;
+        white-space: pre-line;
+        padding: 0;
+        margin: 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        background: transparent;
+      }
+    }
+  }
+  .swiper-pagination {
+    :deep {
+      .swiper-pagination-bullet {
+        aspect-ratio: 1;
+        height: 0.938rem;
+        width: auto;
+        background: white;
+        opacity: 1;
+        &-active {
+          background: var(--theme-default);
+        }
+      }
+    }
+    left: 1rem;
+    bottom: 1rem;
+    width: fit-content;
   }
 }
 </style>
