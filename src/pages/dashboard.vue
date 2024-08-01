@@ -126,6 +126,7 @@
                         v-if="
                           appointment.type &&
                           appointment.status &&
+                          appointment.is_appt_billed &&
                           appointment.type.toLowerCase() == 'virtual' &&
                           appointment.status.toLowerCase() == 'paid'
                         "
