@@ -40,7 +40,7 @@
                 role="tab"
               >
                 <b-button block v-b-toggle="'accordion-' + index">
-                  {{ section[getLocaleKey("title")] || "N/A" }}
+                  {{ section.title || "N/A" }}
                   <div class="icon"></div>
                 </b-button>
               </b-card-header>

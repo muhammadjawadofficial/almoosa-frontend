@@ -543,7 +543,9 @@
     "viewDetails": "عرض التفاصيل",
     "appointmentSession": "جلسة التعيين",
     "episode": "حلقة",
-    "dischargeSummary": "تنزيل تقرير ملخص الخروج"
+    "dischargeSummary": "تنزيل تقرير ملخص الخروج",
+    "dischargeSummaryNATitle": "ملخص الخروج",
+    "dischargeSummaryNAText": "لم يتم تحميل ملخص الخروج الآن. يرجى المحاولة مرة أخرى لاحقًا"
   },
   "myMedication": {
     "title": "الأدوية",

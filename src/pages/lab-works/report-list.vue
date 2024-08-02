@@ -46,13 +46,15 @@
                   {{ getLongDateAndTimeFromDate(report.dated, true) }}
                 </div>
                 <div class="doctor-speciality text-muted">
-                  {{ $t("range") + ": " + report.normal_range }}
+                  {{ $t("range") + ": " + (report.normal_range || "N/A") }}
                 </div>
                 <div class="appointment-status">
                   {{
-                    report[getLocaleKey("result")] +
-                    " - " +
-                    (report.report_result || "N/A")
+                    (report[getLocaleKey("result")] || "") +
+                    (report.report_result && report[getLocaleKey("result")]
+                      ? " - "
+                      : "") +
+                    (report.report_result || "")
                   }}
                 </div>
               </div>
@@ -162,13 +164,13 @@ export default {
       );
     },
     getStatusClass(status) {
-      if (!status) return "success";
-      else if (status.toLowerCase() === "normal") {
-        return "success";
-      } else if (status.toLowerCase() === "abnormal") {
+      const statusCode = status || "";
+      if (statusCode.toLowerCase() === "abnormal") {
         return "warning";
-      } else {
+      } else if (statusCode.toLowerCase() === "critical") {
         return "danger";
+      } else {
+        return "success";
       }
     },
     viewReport(report) {
