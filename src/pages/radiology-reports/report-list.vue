@@ -166,14 +166,13 @@ export default {
       userService.downloadFile(file);
     },
     getStatusClass(status) {
-      if (!status) {
+      const statusCode = status || "";
+      if (statusCode.toLowerCase() === "abnormal") {
         return "warning";
-      } else if (status.toLowerCase() === "normal") {
-        return "success";
-      } else if (status.toLowerCase() === "abnormal") {
-        return "warning";
-      } else {
+      } else if (statusCode.toLowerCase() === "critical") {
         return "danger";
+      } else {
+        return "success";
       }
     },
   },

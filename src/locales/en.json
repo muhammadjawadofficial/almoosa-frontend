@@ -268,11 +268,13 @@
     "Packages": "Packages",
     "Emergency Consultations": "Emergency Consultations",
     "Virtual Tour": "Virtual Tour",
+    "Sick Leave": "Sick Leave",
     "Find Specialist": "Find Your Doctor",
     "View Appointments": "View Appointments",
     "View Inpatients": "View Inpatients",
     "Critical Results": "Critical Results",
     "Contact Us": "Contact Us",
+    "Feedback": "Feedback",
     "next": "Next",
     "back": "Back",
     "home": "Go To Home",
@@ -540,7 +542,10 @@
     "details": "My Timeline Details",
     "viewDetails": "View Details",
     "appointmentSession": "Appointment Session",
-    "episode": "Episode"
+    "episode": "Episode",
+    "dischargeSummary": "Download Discharge Summary Report",
+    "dischargeSummaryNATitle": "Discharge Summary",
+    "dischargeSummaryNAText": "Discharge Summary is not uploaded right now. Please try again later"
   },
   "myMedication": {
     "title": "Medications",
