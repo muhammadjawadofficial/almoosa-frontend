@@ -181,6 +181,9 @@ export const apiPath = {
 
     medicalReports: {
         fetchSickLeaves: (query) => getApiObject("get", "medical-reports/sick-leaves" + query),
+        fetchDetailMedical: (query) => getApiObject("get", "medical-reports/detail-medical" + query),
+        fetchDetailMedicalReportRequest: (query) => getApiObject("get", "detail-medical-report-request" + query),
+        createDetailMedicalReportRequest: getApiObject("post", "detail-medical-report-request"),
         checkDischargeSummaryAvailability: (query) => getApiObject("get", "medical-reports/is-discharge-summary-available" + query),
         download: (en, type, query) => getApiObject("get", `medical-reports/download/${en}/${type}` + query),
     },

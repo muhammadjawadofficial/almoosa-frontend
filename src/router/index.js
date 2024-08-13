@@ -101,6 +101,8 @@ import survey from "../pages/symptom-checker/survey";
 import confirmSurvey from "../pages/symptom-checker/confirm-survey";
 
 import sickLeaveList from "../pages/medical-reports/sick-leave-list";
+import medicalSessionList from "../pages/medical-reports/medical-session-list";
+import detailMedicalList from "../pages/medical-reports/detail-medical-list";
 
 Vue.use(Router);
 
@@ -712,6 +714,28 @@ const routes = [
         meta: {
           title: "Sick Leave | Almoosa Health Group",
         },
+      },
+      {
+        path: "medical-reports",
+        component: RouterViewModule,
+        children: [
+          {
+            path: "list",
+            name: "Medical Sessions",
+            component: medicalSessionList,
+            meta: {
+              title: "Medical Sessions | Almoosa Health Group",
+            },
+          },
+          {
+            path: "detail-medical/:visit_no",
+            name: "Detail Medical",
+            component: detailMedicalList,
+            meta: {
+              title: "Detail Medical | Almoosa Health Group",
+            },
+          },
+        ]
       },
       {
         path: "see-all-notifications",
