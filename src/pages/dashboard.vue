@@ -212,9 +212,8 @@
                 <on-site-svg />
               </div>
             </div>
-            <div
+            <!-- <div
               class="consultation-section--blocks--single large tertiary flex-column-reverse"
-              v-if="!getUserInfo.isDependent"
               @click="findSpecialist()"
             >
               <div class="title">
@@ -230,7 +229,7 @@
               <div class="icon circle-shape">
                 <on-spot-svg />
               </div>
-            </div>
+            </div> -->
             <!-- <div
               class="consultation-section--blocks--single large flex-column-reverse"
               v-if="!getUserInfo.isDependent"
