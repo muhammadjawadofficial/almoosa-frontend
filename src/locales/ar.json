@@ -352,7 +352,9 @@
   },
   "findSpecialist": {
     "specialities": "التخصصات الصحية",
+    "subSpecialities": "التخصصات الفرعية",
     "findSpecialist": "ابحث عن طبيبك باختيار التخصص الطبي",
+    "findSubSpecialist": "ابحث عن التخصص الفرعي عن طريق اختيار التخصص",
     "selectDateTime": "اختر تاريخ الموعد",
     "selectDate": "اختر تاريخ الموعد",
     "findMySpecialist": "ابحث عن الاختصاصي الخاص بي",
