@@ -4273,6 +4273,20 @@
       }
     }
   }
+  .user-profile-container {
+    &.doctor-details-container {
+      div.doctor-details {
+        &-card {
+          & > div {
+            padding-block: 2rem;
+          }
+          &-header {
+            flex-direction: column;
+          }
+        }
+      }
+    }
+  }
 }
 @media only screen and (max-width: 600px) {
   .toasted-container.top-right {
@@ -6198,9 +6212,6 @@
     &.doctor-details-container {
       div.doctor-details {
         &-card {
-          & > div {
-            padding-block: 2rem;
-          }
           &-header {
             &-image {
               width: 16rem;
@@ -6674,18 +6685,6 @@
   .border-tab {
     &.nav-tabs {
       display: block;
-    }
-  }
-
-  .user-profile-container {
-    &.doctor-details-container {
-      div.doctor-details {
-        &-card {
-          &-header {
-            flex-direction: column;
-          }
-        }
-      }
     }
   }
 }

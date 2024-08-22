@@ -585,6 +585,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { encryptString } from "../../../utils/crypto";
 import {
   appointmentService,
   freeAppointmentPromoService,
@@ -888,7 +889,15 @@ export default {
         hyperpay_amount: hyperpay_amount.toFixed(2),
       };
 
-      appointmentService.oneStepCheckout(obj).then(
+      const encryptedToken = encryptString(JSON.stringify(obj));
+      let payload = {
+        token: encryptedToken,
+      };
+      localStorage.setItem(
+        "oneStepCheckoutObject",
+        JSON.stringify({ token: encryptedToken })
+      );
+      appointmentService.oneStepCheckout(payload).then(
         (res) => {
           let response = res.data;
           if (response.status) {
@@ -1444,13 +1453,18 @@ export default {
       let paymentVerifyObject = this.getPaymentVerifyObject();
       paymentVerifyObject.is_first_appointment_free = isFree;
 
-      localStorage.setItem(
-        "paymentVerifyObject",
-        JSON.stringify(paymentVerifyObject)
-      );
+      const encryptedToken = encryptString(JSON.stringify(paymentVerifyObject));
+      let payload = {
+        token: encryptedToken,
+      };
+      localStorage.setItem("paymentVerifyObject", JSON.stringify(payload));
+      // localStorage.setItem(
+      //   "paymentVerifyObject",
+      //   JSON.stringify(paymentVerifyObject)
+      // );
       if (this.getAmountPayable != 0 && !isFree) {
         await appointmentService
-          .initializePayment(paymentVerifyObject)
+          .initializePayment(payload)
           .then((response) => {
             if (response.data && response.data.status) {
               if (paymentObj) {
@@ -1493,13 +1507,20 @@ export default {
         let paymentVerifyObject = this.getPackagePaymentVerifyObject();
         paymentVerifyObject.is_first_appointment_free = false;
 
-        localStorage.setItem(
-          "paymentVerifyObject",
+        const encryptedToken = encryptString(
           JSON.stringify(paymentVerifyObject)
         );
+        let payload = {
+          token: encryptedToken,
+        };
+        localStorage.setItem("paymentVerifyObject", JSON.stringify(payload));
+        // localStorage.setItem(
+        //   "paymentVerifyObject",
+        //   JSON.stringify(paymentVerifyObject)
+        // );
         if (this.getAmountPayable != 0 && !isFree) {
           await appointmentService
-            .initializePayment(paymentVerifyObject)
+            .initializePayment(payload)
             .then((response) => {
               if (response.data && response.data.status) {
                 if (paymentObj) {

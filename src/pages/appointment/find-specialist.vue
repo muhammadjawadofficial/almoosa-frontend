@@ -86,7 +86,7 @@
       </div>
     </div>
     <div
-      class="specialist-section find-specialist-container-section block-section"
+      class="specialist-section find-specialist-container-section block-section pb-3"
       style="position: relative"
     >
       <div class="heading-section">
@@ -117,7 +117,20 @@
         </div>
       </div>
       <div class="body-section">
-        <div class="specialities-container">
+        <div
+          v-if="selectedSpeciality.sub_count > 0"
+          class="specialities-container"
+        >
+          <div class="speciality active disabled" @click="unselectSpeciality">
+            <div class="speciality-image">
+              <img :src="getImageUrl(selectedSpeciality.icon)" alt="icon" />
+            </div>
+            <div class="speciality-label">
+              {{ selectedSpeciality[getLocaleKey("title")] }}
+            </div>
+          </div>
+        </div>
+        <div v-else class="specialities-container">
           <div
             class="speciality"
             :class="{ active: selectedSpeciality.id == speciality.id }"
@@ -144,6 +157,56 @@
         </div>
       </div>
     </div>
+    <template v-if="selectedSpeciality.sub_count > 0">
+      <hr />
+      <div
+        class="specialist-section find-specialist-container-section block-section pt-0"
+        style="position: relative"
+      >
+        <div class="heading-section">
+          <div class="heading-icon">
+            <img
+              src="../../assets/images/speciality.svg"
+              alt="speciality-icon"
+            />
+          </div>
+          <div class="heading-text">
+            <div class="heading-title">
+              {{ $t("findSpecialist.subSpecialities") }}
+            </div>
+            <div class="heading-subTitle">
+              {{ $t("findSpecialist.findSubSpecialist") }}
+            </div>
+          </div>
+        </div>
+        <div class="body-section">
+          <!-- Subspecialities Container -->
+          <div class="specialities-container">
+            <div
+              class="no-data"
+              v-if="!filteredSubSpecialities || !filteredSubSpecialities.length"
+            >
+              {{ $t("noData") }}
+            </div>
+            <div
+              v-else
+              class="speciality"
+              :class="{ active: selectedSubSpeciality.id == subSpeciality.id }"
+              v-for="subSpeciality in filteredSubSpecialities"
+              :key="'find-subspeciality-' + subSpeciality.id"
+              @click="setSelectedSubSpeciality(subSpeciality)"
+            >
+              <div class="speciality-image">
+                <img :src="getImageUrl(subSpeciality.icon)" alt="icon" />
+              </div>
+              <div class="speciality-label">
+                {{ subSpeciality[getLocaleKey("title")] }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
     <div
       class="datetime-section find-specialist-container-section block-section"
     >
@@ -162,10 +225,13 @@ export default {
     return {
       clinics: null,
       specialities: null,
+      subSpecialities: null,
       selectedClinic: {},
       selectedSpeciality: {},
+      selectedSubSpeciality: {},
       selectedDate: null,
       filteredSpecialities: [],
+      filteredSubSpecialities: [],
       searchQuery: "",
     };
   },
@@ -175,6 +241,7 @@ export default {
       "getBookingClinic",
       "getBookingDate",
       "getBookingSpeciality",
+      "getBookingSubSpeciality",
     ]),
   },
   watch: {
@@ -182,17 +249,35 @@ export default {
       this.setSelectedMethod();
     },
     searchQuery(val) {
-      this.filteredSpecialities = [
-        ...this.specialities.filter((x) =>
-          x[this.getLocaleKey("title")]
-            .toLowerCase()
-            .includes(val.toLowerCase())
-        ),
-      ];
+      if (this.selectedSpeciality.sub_count > 0)
+        this.filteredSubSpecialities = [
+          ...this.subSpecialities.filter((x) =>
+            x[this.getLocaleKey("title")]
+              .toLowerCase()
+              .includes(val.toLowerCase())
+          ),
+        ];
+      else
+        this.filteredSpecialities = [
+          ...this.specialities.filter((x) =>
+            x[this.getLocaleKey("title")]
+              .toLowerCase()
+              .includes(val.toLowerCase())
+          ),
+        ];
     },
   },
   mounted() {
-    if (!this.$route.params.method && this.getBookingMethod) {
+    let method = this.$route.params.method;
+    if (method == "home-healthcare") {
+      appointmentService.getHomeHealthcare().then((response) => {
+        if (response.data.status) {
+          const homeHealthCareClinic = response.data.data.items[0];
+          this.setBookingClinic(homeHealthCareClinic);
+        }
+      });
+    }
+    if (!method && this.getBookingMethod) {
       this.navigateTo("Find Specialist" + (this.getIsGuest ? " Guest" : ""), {
         method: this.getBookingMethod,
       });
@@ -205,11 +290,18 @@ export default {
   methods: {
     ...mapActions("appointment", [
       "setBookingSpeciality",
+      "setBookingSubSpeciality",
       "setBookingClinic",
       "setBookingDate",
       "setDoctorsList",
       "setBookingMethod",
     ]),
+    unselectSpeciality() {
+      this.selectedSpeciality = {};
+      this.selectedSubSpeciality = {};
+      this.subSpecialities = [];
+      this.searchQuery = "";
+    },
     getSpecialityQuery() {
       let query = "?";
       let clinicId = "";
@@ -218,8 +310,11 @@ export default {
         this.getBookingMethod == "online"
       )
         query += "&appointment_type=" + this.getBookingMethod;
+      if (this.getBookingMethod && this.getBookingMethod == "home-healthcare")
+        query += "&appointment_type=onsite";
       if (
-        this.getBookingMethod == "onsite" &&
+        (this.getBookingMethod == "onsite" ||
+          this.getBookingMethod == "home-healthcare") &&
         (this.selectedClinic || this.getBookingClinic)
       )
         clinicId =
@@ -233,6 +328,7 @@ export default {
       this.clinics = null;
       this.specialities = null;
       this.filteredSpecialities = null;
+      this.filteredSubSpecialities = null;
       Promise.all([
         this.getBookingMethod == "onsite"
           ? appointmentService.getClinicsV1()
@@ -277,7 +373,10 @@ export default {
         this.selectedClinic = this.getBookingClinic;
       }
       if (this.getBookingSpeciality) {
-        this.selectedSpeciality = this.getBookingSpeciality;
+        this.setSelectedSpeciality(this.getBookingSpeciality);
+      }
+      if (this.getBookingSubSpeciality) {
+        this.selectedSubSpeciality = this.getBookingSubSpeciality;
       }
     },
     getSpecialityIcon(name) {
@@ -301,6 +400,7 @@ export default {
       this.selectedClinic = clinic;
       if (isNew) {
         this.selectedSpeciality = {};
+        this.selectedSubSpeciality = {};
         appointmentService
           .getSpecialities(this.getSpecialityQuery())
           .then((res) => {
@@ -324,8 +424,36 @@ export default {
           });
       }
     },
+
     setSelectedSpeciality(speciality) {
+      this.searchQuery = "";
       this.selectedSpeciality = speciality;
+
+      if (!this.selectedSpeciality.sub_count) return;
+
+      appointmentService
+        .getSubSpecialities(speciality.id)
+        .then((response) => {
+          if (response.data.status && response.data.data.items.length > 0) {
+            this.subSpecialities = response.data.data.items;
+            this.filteredSubSpecialities = [...this.subSpecialities];
+          } else {
+            this.subSpecialities = [];
+          }
+        })
+        .catch((error) => {
+          this.subSpecialities = []; // Clear on error as well
+          if (!this.isAPIAborted(error)) {
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+          }
+        });
+    },
+    setSelectedSubSpeciality(subSpeciality) {
+      this.selectedSubSpeciality = subSpeciality;
     },
     findSpecialist() {
       if (this.getBookingMethod == "onsite" && !this.selectedClinic.id) {
@@ -336,11 +464,19 @@ export default {
         this.failureToast(this.$t("findSpecialist.error.speciality"));
         return;
       }
+      if (
+        this.selectedSpeciality.sub_count > 0 &&
+        !this.selectedSubSpeciality.id
+      ) {
+        this.failureToast(this.$t("findSpecialist.error.subSpeciality"));
+        return;
+      }
       if (this.getBookingMethod != "onsite") {
         this.selectedClinic = {};
       }
       this.setBookingClinic(this.selectedClinic);
       this.setBookingSpeciality(this.selectedSpeciality);
+      this.setBookingSubSpeciality(this.selectedSubSpeciality);
       this.setBookingDate(this.selectedDate);
       if (this.getIsGuest) {
         this.navigateTo("Doctor List Guest");

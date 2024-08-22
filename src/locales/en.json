@@ -252,9 +252,12 @@
   },
   "modules": {
     "Virtual Consultations": "Virtual Consultations",
-    "Remote Consultations": "Remote Consultations",
-    "On-site Consultations": "On-site Consultations",
+    "Remote Consultations": "Remote Consultation",
+    "On-site Consultations": "On-site Consultation",
+    "On-spot Consultations": "On-spot Consultation",
     "Book a Consultation": "Book a Consultation",
+    "My Profile": "My Profile",
+    "Medical File": "Medical File",
     "Check Symptoms": "Check Symptoms",
     "View Family Member": "View Family&nbsp;Member",
     "Upcoming Appointment": "Upcoming Appointment",
@@ -269,7 +272,8 @@
     "Emergency Consultations": "Emergency Consultations",
     "Virtual Tour": "Virtual Tour",
     "Sick Leave": "Sick Leave",
-    "Find Specialist": "Find Your Doctor",
+    "Find Specialist": "Find Doctor",
+    "Home HealthCare": "Home Health&nbsp;Care",
     "View Appointments": "View Appointments",
     "View Inpatients": "View Inpatients",
     "Critical Results": "Critical Results",
@@ -348,6 +352,8 @@
   },
   "findSpecialist": {
     "specialities": "Specialities",
+    "subSpecialities": "Sub-Specialities",
+    "findSubSpecialist": "Find sub-specialist by selecting speciality",
     "findSpecialist": "Find specialist by selecting speciality",
     "selectDateTime": "Select Date & Time",
     "selectDate": "Select Appointment Date",
@@ -357,6 +363,7 @@
     "error": {
       "location": "Select Location First",
       "speciality": "Select Speciality First",
+      "subSpeciality": "Select Sub-Speciality First",
       "bookingDate": "Select Booking Date First",
       "timeSlots": "Select Time Slots First"
     }
