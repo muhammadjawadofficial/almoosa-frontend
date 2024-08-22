@@ -314,43 +314,8 @@ export default {
         {
           text: "Medical File",
           icon: "medical-file-svg",
-          link: "Profile",
+          link: "Medical File",
           unique: true,
-        },
-        {
-          text: "My Timelines",
-          icon: "timeline-svg",
-          link: "My Timeline",
-          guardianComponents: true,
-        },
-        {
-          text: "My Medications",
-          icon: "medical-jar-svg",
-          link: "My Medication",
-        },
-        {
-          text: "Lab Works",
-          icon: "lab-svg",
-          link: "Lab Works",
-          guardianComponents: true,
-        },
-        {
-          text: "Radiology Reports",
-          icon: "user-report-svg",
-          link: "Radiology Report",
-          guardianComponents: true,
-        },
-        {
-          text: "Upcoming Appointment",
-          icon: "calendar-svg",
-          link: "Upcoming Appointment",
-          param: { method: "onsite" },
-          guardianComponents: true,
-        },
-        {
-          text: "Medical Insurance",
-          icon: "health-shield-svg",
-          link: "Medical Insurance",
           guardianComponents: true,
         },
         {

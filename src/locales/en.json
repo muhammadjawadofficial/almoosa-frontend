@@ -752,5 +752,6 @@
   "noChatMessages": "No Chat Messages",
   "enterMessage": "Enter Message",
   "noOneJoined": "No one joined",
-  "virtualConsultationNote": "Appointments available remotely do not require on-site attendance, do you agree?"
+  "virtualConsultationNote": "Appointments available remotely do not require on-site attendance, do you agree?",
+  "medicalFile": "Medical File"
 }

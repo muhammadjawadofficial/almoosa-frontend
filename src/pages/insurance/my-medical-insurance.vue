@@ -2,7 +2,10 @@
   <div
     class="my-medical-insurance-container standard-width page-body-container login-form"
   >
-    <back-navigation :title="$t('insurance.medicalInsurance')" />
+    <back-navigation
+      :title="$t('insurance.medicalInsurance')"
+      backLink="Medical File"
+    />
 
     <div class="row mt-3">
       <div class="col-sm-12" style="--numberOfTabs: 2">
