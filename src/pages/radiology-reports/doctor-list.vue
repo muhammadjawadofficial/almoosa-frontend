@@ -2,7 +2,10 @@
   <div
     class="radiology-report-doctors-container page-body-container standard-width"
   >
-    <back-navigation :title="$t('radiologyReport.title')" />
+    <back-navigation
+      :title="$t('radiologyReport.title')"
+      backLink="Medical File"
+    />
     <b-card
       header-tag="div"
       no-body

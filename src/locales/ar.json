@@ -254,7 +254,7 @@
     "Virtual Consultations": "موعد افتراضي",
     "Remote Consultations": "المشاورات عن بعد",
     "On-site Consultations": "موعد في العيادة",
-    "On-spot Consultations":"المشاورات على الفور",
+    "On-spot Consultations": "المشاورات على الفور",
     "Book a Consultation": "احجز استشارة",
     "Check Symptoms": "فاحص الاعراض",
     "My Profile": "ملفي الشخصي",
@@ -751,5 +751,6 @@
   "noChatMessages": "لا توجد رسائل دردشة",
   "enterMessage": "أدخل رسالة",
   "noOneJoined": "لم ينضم أحد",
-  "virtualConsultationNote": "الموعد الافتراضي عن بعد لايتطلب حضور للعيادة ،موافق ؟"
+  "virtualConsultationNote": "الموعد الافتراضي عن بعد لايتطلب حضور للعيادة ،موافق ؟",
+  "medicalFile": "الملف الطبي"
 }

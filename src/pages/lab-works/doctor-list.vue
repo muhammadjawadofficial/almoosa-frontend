@@ -1,6 +1,6 @@
 <template>
   <div class="lab-works-doctors-container page-body-container standard-width">
-    <back-navigation :title="$t('labWorks.title')" />
+    <back-navigation :title="$t('labWorks.title')" backLink="Medical File" />
     <b-card
       header-tag="div"
       no-body
