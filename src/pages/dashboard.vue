@@ -263,10 +263,7 @@
         <div class="consultation-section--blocks">
           <template v-for="(item, index) in dashboardItems">
             <div
-              v-if="
-                !getUserInfo.isDependent ||
-                (getUserInfo.isDependent && item.guardianComponents)
-              "
+              v-if="!(getUserInfo.isDependent ^ item.dependentComponents)"
               class="consultation-section--blocks--single"
               :class="{ uniques: item.unique }"
               :key="'dashboard-item-' + index"
@@ -311,11 +308,47 @@ export default {
           unique: true,
         },
         {
+          text: "My Timelines",
+          icon: "timeline-svg",
+          link: "My Timeline",
+          dependentComponents: true,
+        },
+        {
+          text: "My Medications",
+          icon: "medical-jar-svg",
+          link: "My Medication",
+          dependentComponents: true,
+        },
+        {
+          text: "Lab Works",
+          icon: "lab-svg",
+          link: "Lab Works",
+          dependentComponents: true,
+        },
+        {
+          text: "Radiology Reports",
+          icon: "user-report-svg",
+          link: "Radiology Report",
+          dependentComponents: true,
+        },
+        {
+          text: "Upcoming Appointment",
+          icon: "calendar-svg",
+          link: "Upcoming Appointment",
+          param: { method: "onsite" },
+          dependentComponents: true,
+        },
+        {
+          text: "Medical Insurance",
+          icon: "health-shield-svg",
+          link: "Medical Insurance",
+          dependentComponents: true,
+        },
+        {
           text: "Medical File",
           icon: "medical-file-svg",
           link: "Medical File",
           unique: true,
-          guardianComponents: true,
         },
         {
           text: "Health Education",
@@ -333,7 +366,6 @@ export default {
           icon: "home-healthcare-svg",
           link: "Find Specialist",
           param: { method: "home-healthcare" },
-          guardianComponents: true,
         },
         {
           text: "View Family Member",
@@ -522,15 +554,15 @@ export default {
   z-index: 0;
 }
 .circle-shape {
-    width: 6.25rem;
-    height: 6.25rem !important;
-    background: #FFFFFF;
-    border-radius: 50%;
-    box-shadow: 0px 0px 4px 0px #00000040;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.25rem;
+  width: 6.25rem;
+  height: 6.25rem !important;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0px 0px 4px 0px #00000040;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
 }
 .swiper-container {
   border-radius: 1.25rem;
