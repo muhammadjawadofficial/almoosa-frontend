@@ -284,6 +284,14 @@
                             doctor.nationality[getLocaleKey("nationality")]) ||
                           "N/A"
                         }}
+                        <span>
+                          <b-img
+                            class="flag"
+                            :src="getUserInfo.nationality.flag_url"
+                            alt="Nationality Flag"
+                            fluid
+                          />
+                        </span>
                       </div>
                     </div>
                     <div class="appointment-list-item">
@@ -463,7 +471,10 @@ export default {
       this.selectedDate = this.removeDateTime(
         this.getBookingNearestDate || this.getBookingDate
       );
-
+      const bookingMethod =
+        typeof this.getBookingMethod === "string"
+          ? this.getBookingMethod.toLowerCase()
+          : "";
       userService
         .getProfileById(this.getBookingDoctor.id)
         .then((res) => {
@@ -479,11 +490,11 @@ export default {
                 speciality_ar: this.getBookingDoctor.speciality_ar,
               };
             }
-            if (this.getBookingMethod.toLowerCase() == "online") {
+            if (bookingMethod == "online") {
               if (this.doctor && this.isBookingFlow) {
                 this.fetchTimeslots();
               }
-            } else if (this.getBookingMethod.toLowerCase() == "onsite") {
+            } else if (bookingMethod == "onsite") {
               if (!this.isClinicSelected) {
                 appointmentService.getClinicsV1().then((res) => {
                   let response = res.data;
@@ -761,6 +772,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.flag {
+  width: 2.5rem;
+}
 .custom-login-input-groups {
   padding: 0.4rem 0.7rem;
 
