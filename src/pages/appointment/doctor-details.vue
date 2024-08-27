@@ -287,7 +287,7 @@
                         <span>
                           <b-img
                             class="flag"
-                            :src="getUserInfo.nationality.flag_url"
+                            :src="doctor.nationality.flag_url"
                             alt="Nationality Flag"
                             fluid
                           />
