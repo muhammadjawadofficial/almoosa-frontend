@@ -49,6 +49,7 @@ export default function setup({ dispatch }) {
 function checkAccess(response) {
     if (response && response.status == 401 && !router.currentRoute.path.includes('auth')) {
         userService.removeLoginInfo();
+        userService.removeGuardianInfo();
         router.push({ name: "Login Dashboard" })
     }
 }

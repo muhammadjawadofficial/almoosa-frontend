@@ -284,7 +284,7 @@
                             doctor.nationality[getLocaleKey("nationality")]) ||
                           "N/A"
                         }}
-                        <span v-if="doctor.nationality">
+                        <span v-if="doctor.nationality && doctor.nationality.flag_url">
                           <b-img
                             class="flag"
                             :src="doctor.nationality.flag_url"
