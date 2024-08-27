@@ -128,7 +128,7 @@ export default {
       "getBookingDate",
     ]),
     isBookAConsultationFlow() {
-      return !["onsite", "online"].includes(this.getBookingMethod);
+      return !["onsite", "online", "home-healthcare"].includes(this.getBookingMethod);
     },
   },
   mounted() {

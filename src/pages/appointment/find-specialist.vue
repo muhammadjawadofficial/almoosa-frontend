@@ -267,15 +267,14 @@ export default {
         ];
     },
   },
-  mounted() {
+  async mounted() {
     let method = this.$route.params.method;
     if (method == "home-healthcare") {
-      appointmentService.getHomeHealthcare().then((response) => {
-        if (response.data.status) {
-          const homeHealthCareClinic = response.data.data.items[0];
-          this.setBookingClinic(homeHealthCareClinic);
-        }
-      });
+      const response = await appointmentService.getHomeHealthcare();
+      if (response.data.status) {
+        const homeHealthCareClinic = response.data.data.items[0];
+        this.setBookingClinic(homeHealthCareClinic);
+      }
     }
     if (!method && this.getBookingMethod) {
       this.navigateTo("Find Specialist" + (this.getIsGuest ? " Guest" : ""), {
@@ -471,7 +470,7 @@ export default {
         this.failureToast(this.$t("findSpecialist.error.subSpeciality"));
         return;
       }
-      if (this.getBookingMethod != "onsite") {
+      if (this.getBookingMethod != "onsite" && this.getBookingMethod != "home-healthcare") {
         this.selectedClinic = {};
       }
       this.setBookingClinic(this.selectedClinic);

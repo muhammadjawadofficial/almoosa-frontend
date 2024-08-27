@@ -7,7 +7,7 @@ export default {
         booking: {
             type: null,
             speciality: null,
-            subSpeciality:null,
+            subSpeciality: null,
             clinic: null,
             date: null,
             timeslot: null,
@@ -150,7 +150,13 @@ export default {
         getBookingMethod: (state) => state.booking.type,
         getBookingSpeciality: (state) => state.booking.speciality,
         getBookingSubSpeciality: (state) => state.booking.subSpeciality,
-        getBookingSelectedSpeciality: (state) => state.booking.subSpeciality || state.booking.speciality,
+        getBookingSelectedSpeciality: (state) => {
+            if (state.booking.subSpeciality && state.booking.subSpeciality.id) {
+                return state.booking.subSpeciality
+            } else if (state.booking.speciality && state.booking.speciality.id) {
+                return state.booking.speciality
+            }
+        },
         getBookingClinic: (state) => state.booking.clinic,
         getBookingDate: (state) => state.booking.date,
         getBookingTimeslot: (state) => state.booking.timeslot,
