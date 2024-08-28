@@ -6,7 +6,7 @@
       <back-navigation
         :title="$t('upcomingAppointment.heading')"
         :subTitle="$t('upcomingAppointment.subHeading')"
-        backLink="Medical File"
+        :backLink="backLink"
       />
       <div class="filters-dropdown" v-if="isDoctor">
         <span class="date-text">
@@ -360,6 +360,12 @@ export default {
   computed: {
     ...mapGetters("appointment", ["getSelectedAppointment"]),
     ...mapGetters("user", ["getUserInfo"]),
+    backLink() {
+      if (localStorage.getItem("guardianInfo")) {
+        return "default";
+      }
+      return "Medical File";
+    },
   },
   methods: {
     ...mapActions("appointment", ["setSelectedAppointment"]),
@@ -479,7 +485,7 @@ export default {
 };
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 .filters-dropdown-menu {
   right: unset;
 }

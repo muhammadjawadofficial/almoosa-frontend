@@ -4,7 +4,7 @@
   >
     <back-navigation
       :title="$t('insurance.medicalInsurance')"
-      backLink="Medical File"
+      :backLink="backLink"
     />
 
     <div class="row mt-3">
@@ -157,6 +157,12 @@ export default {
         this.insuranceList &&
         this.insuranceList.filter((x) => x.status == "approved")
       );
+    },
+    backLink() {
+      if (localStorage.getItem("guardianInfo")) {
+        return "default";
+      }
+      return "Medical File";
     },
   },
   methods: {

@@ -4,7 +4,7 @@
   >
     <back-navigation
       :title="$t('radiologyReport.title')"
-      backLink="Medical File"
+      :backLink="backLink"
     />
     <b-card
       header-tag="div"
@@ -101,6 +101,12 @@ export default {
   },
   computed: {
     ...mapGetters("user", ["getUserInfo"]),
+    backLink() {
+      if (localStorage.getItem("guardianInfo")) {
+        return "default";
+      }
+      return "Medical File";
+    },
   },
   methods: {
     ...mapActions("radiologyReport", ["setSelectedRadiologyReportSession"]),

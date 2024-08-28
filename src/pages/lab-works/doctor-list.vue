@@ -1,6 +1,6 @@
 <template>
   <div class="lab-works-doctors-container page-body-container standard-width">
-    <back-navigation :title="$t('labWorks.title')" backLink="Medical File" />
+    <back-navigation :title="$t('labWorks.title')" :backLink="backLink" />
     <b-card
       header-tag="div"
       no-body
@@ -96,6 +96,12 @@ export default {
   },
   computed: {
     ...mapGetters("user", ["getUserInfo"]),
+    backLink() {
+      if (localStorage.getItem("guardianInfo")) {
+        return "default";
+      }
+      return "Medical File";
+    },
   },
   methods: {
     ...mapActions("labwork", ["setSelectedLabWork"]),
