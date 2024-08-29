@@ -200,7 +200,6 @@ export default {
 
       if (this.isBookingFlow) {
         speciality = this.getBookingSelectedSpeciality.id;
-        date = this.getBookingDate;
         if (this.getBookingMethod == "onsite") {
           clinic = this.getBookingClinic.id;
         }

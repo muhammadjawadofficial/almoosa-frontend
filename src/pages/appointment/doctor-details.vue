@@ -492,7 +492,6 @@ export default {
       "setBookingMethod",
     ]),
     async fetchCalendarAvaiability(dateParts) {
-      console.log("Month and Year is:", dateParts);
       this.setLoadingState(true);
       const doctorId = this.getBookingDoctor.id;
       const appointmentType = this.getBookingMethod.toUpperCase();
@@ -530,13 +529,13 @@ export default {
                 speciality_ar: this.getBookingDoctor.speciality_ar,
               };
             }
-            if (bookingMethod == "online") {
+            if (this.getBookingMethod == "online") {
               if (this.doctor && this.isBookingFlow) {
                 this.fetchTimeslots();
               }
             } else if (
-              bookingMethod == "onsite" ||
-              bookingMethod == "home-healthcare"
+              this.getBookingMethod == "onsite" ||
+              this.getBookingMethod == "home-healthcare"
             ) {
               if (!this.isClinicSelected) {
                 appointmentService.getClinicsV1().then((res) => {
@@ -560,6 +559,7 @@ export default {
           }
         })
         .catch((error) => {
+          console.error(error);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
@@ -714,6 +714,7 @@ export default {
               }
             },
             (error) => {
+              console.error(error);
               if (!this.isAPIAborted(error))
                 this.failureToast(
                   error.response &&
