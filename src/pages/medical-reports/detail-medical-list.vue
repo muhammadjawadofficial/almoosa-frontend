@@ -46,19 +46,19 @@
                           {{ $t("detailMedical.doctorName") }}
                         </div>
                         <div class="doctor-speciality">
-                          {{ report.doctor_name || "N/A" }}
+                          {{ report[getLocaleKey("doctor_name")] || "N/A" }}
+                        </div>
+                        <div class="doctor-name w600">
+                          {{ $t("detailMedical.speciality") }}
+                        </div>
+                        <div class="doctor-speciality">
+                          {{ report[getLocaleKey("department")] || "N/A" }}
                         </div>
                         <div class="doctor-name w600">
                           {{ $t("detailMedical.issuedDate") }}
                         </div>
                         <div class="doctor-speciality">
-                          {{ report.issued_date || "N/A" }}
-                        </div>
-                        <div class="doctor-name w600">
-                          {{ $t("detailMedical.reportId") }}
-                        </div>
-                        <div class="doctor-speciality">
-                          {{ report.template_id || "N/A" }}
+                          {{ getLongDateFromDate(report.issued_date) || "N/A" }}
                         </div>
                         <div class="download-report">
                           <div class="buttons">
@@ -180,7 +180,6 @@ export default {
     }
     let visit_no = this.$route.params.visit_no;
     this.visit_no = visit_no;
-    this.visit_no = 2563375;
     this.getDetailMedicalReports();
     this.getDetailMedicalReportRequest();
   },

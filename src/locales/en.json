@@ -652,6 +652,7 @@
     "ready": "Ready",
     "newReportRequest": "New Report Request",
     "doctorName": "Doctor Name",
+    "speciality": "Speciality",
     "issuedDate": "Issued Date",
     "reportId": "Report ID",
     "areYouSure": "Are you sure you want to request a report?",

@@ -652,6 +652,7 @@
     "ready": "جاهز",
     "newReportRequest": "طلب تقرير جديد",
     "doctorName": "اسم الدكتور",
+    "speciality": "تخصص",
     "issuedDate": "تاريخ الإصدار",
     "reportId": "معرّف التقرير",
     "areYouSure": "هل أنت متأكد من أنك تريد طلب تقرير؟",
