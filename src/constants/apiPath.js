@@ -40,13 +40,10 @@ export const apiPath = {
         specialities: (query) => getApiObject("get", "specialities" + query, "v2"),
         specialitiesV1: getApiObject("get", "specialities"),
         symptomsSpecialitiesV1: getApiObject("get", "specialities/selected-questions"),
-        findDoctors: (speciality, date, clinic, bookingType, currentLang) => {
+        findDoctors: (speciality, clinic, bookingType, currentLang) => {
             let queryString = '?';
             if (speciality) {
                 queryString += "speciality_id=" + speciality;
-            }
-            if (date) {
-                queryString += (queryString != "?" ? '&' : '') + "dated=" + date;
             }
             if (clinic) {
                 queryString += (queryString != "?" ? '&' : '') + "clinic_id=" + clinic;
@@ -63,6 +60,7 @@ export const apiPath = {
             return getApiObject("get", "users/doctors" + queryString, "v2");
         },
         fetchTimeslots: (doctor, date, type, location_id) => getApiObject("get", "timeslots/by-location?doctor_id=" + doctor + (date ? "&dated=" + date : '') + (type ? "&type=" + type : '') + (location_id ? "&location_id=" + location_id : ''), "v2"),
+        fetchMonthAvailability:(doctor, type, location_id, month, year)=>  getApiObject("get", "appointments/doctor/calendar?doctor_id=" + doctor +  (type ? "&appointment_type=" + type : '')+ (location_id ? "&location_id=" + location_id : '') + (month ? "&month=" + month : '') + (year ? "&year=" + year : '') , "v2"),
         createAppointment: getApiObject("post", "appointments", "v2"),
         updateAppointment: getApiObject("post", "appointments/reschedule", "v2"),
         cancelAppointment: getApiObject("post", "appointments/cancel", "v2"),

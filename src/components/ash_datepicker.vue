@@ -4,6 +4,7 @@
     :class="className"
   >
     <b-form-datepicker
+      ref="custom-datepicker"
       :id="id || 'datepicker-placeholder'"
       :placeholder="placeholder || 'Select Date'"
       calendar-width="100%"
@@ -19,13 +20,38 @@
       }"
       :hide-header="true"
       :date-disabled-fn="disableDateFunction"
-      show-decade-nav
       class="w200"
       @input="handleInput"
       @change="handleChange"
+      @shown="datePickerOpened"
     >
       <template #button-content>
         <img src="../assets/images/datepicker.svg" alt="" />
+      </template>
+      <template #nav-prev-month>
+        <div class="w-100" @click="emitViewChange">
+          <i class="fa fa-angle-left"></i>
+        </div>
+      </template>
+      <template #nav-next-month>
+        <div class="w-100" @click="emitViewChange">
+          <i class="fa fa-angle-right"></i>
+        </div>
+      </template>
+      <template #nav-prev-year>
+        <div class="w-100" @click="emitViewChange">
+          <i class="fa fa-angle-double-left"></i>
+        </div>
+      </template>
+      <template #nav-next-year>
+        <div class="w-100" @click="emitViewChange">
+          <i class="fa fa-angle-double-right"></i>
+        </div>
+      </template>
+      <template #nav-this-month>
+        <div class="w-100" @click="emitViewChange">
+          <i class="fa fa-circle"></i>
+        </div>
       </template>
     </b-form-datepicker>
   </div>
@@ -86,13 +112,46 @@ export default {
     "$i18n.locale": function (val) {
       this.setLocale(val);
     },
+    dateToCompare(val) {
+      this.disableCustomDates(val);
+    },
   },
   methods: {
+    disableCustomDates(val) {
+      if (this.disableDate !== "custom") return;
+      val.forEach((item) => {
+        if (!item.availability) {
+          const dateElement = document.querySelector(
+            `[data-date="${item.date}"]`
+          );
+          if (dateElement) {
+            const buttonElement = dateElement.querySelector('.btn');;
+            buttonElement.classList.add("bg-custom");
+            buttonElement.classList.add("text-dark");
+          }
+        }
+      });
+    },
     handleInput(date) {
       this.$emit("input", date);
     },
     handleChange(date) {
       this.$emit("change", date);
+    },
+    getCurrentViewMonthYear() {
+      const refValue = this.$refs["custom-datepicker"];
+      const currentCalendarView = refValue.calendarYM;
+      const datePartsArr = currentCalendarView.split("-");
+      return {
+        month: datePartsArr[1],
+        year: datePartsArr[0],
+      };
+    },
+    emitViewChange() {
+      setTimeout(() => {
+        const dateParts = this.getCurrentViewMonthYear();
+        this.$emit("month-change", dateParts);
+      }, 0);
     },
     isLTR() {
       return this.currentAppLang == "en";
@@ -120,14 +179,48 @@ export default {
         return date < today;
       } else if (this.disableDate == "backward") {
         return date > today;
+      } else if (this.disableDate == "custom") {
+        if (!this.dateToCompare || !this.dateToCompare.length) {
+          return true;
+        }
+
+        let findDate = this.dateToCompare.find((x) => {
+          let dateItem = new Date(x.date);
+          dateItem.setHours(0, 0, 0, 0);
+          return dateItem.toISOString() == date.toISOString();
+        });
+        return findDate ? !findDate.availability : true;
       }
-      return false;
+      return true;
+    },
+    datePickerOpened() {
+      console.log(this.dateToCompare, this.getCurrentViewMonthYear());
+      
+      if (this.disableDate == "custom") {
+        if(this.dateToCompare.length){
+          let date = this.dateToCompare[0].date;
+          let dateParts = this.getMonthAndYear(date);
+  
+          let currentViewDateParts = this.getCurrentViewMonthYear();
+  
+          if (dateParts.month != currentViewDateParts.month) {
+            this.emitViewChange();
+          }
+        } else {
+          this.emitViewChange();
+        }
+
+        this.disableCustomDates(this.dateToCompare);
+      }
     },
   },
 };
 </script>
 
 <style lang="scss">
+.bg-custom{
+  background-color: #f9d7d7 !important;
+}
 .ash-datetime-container {
   max-width: 22rem;
   z-index: 1;
@@ -160,6 +253,8 @@ export default {
     }
     .b-calendar-nav {
       button {
+        font-size: 1.25rem;
+        padding: 0;
         > div {
           display: flex;
           align-items: center;

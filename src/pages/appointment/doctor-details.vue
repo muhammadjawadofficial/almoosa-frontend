@@ -57,7 +57,9 @@
                       <ash-datepicker
                         v-model="selectedDate"
                         @input="bookingDateChanged"
-                        disableDate="forward"
+                        disableDate="custom"
+                        :dateToCompare="availabilityDates"
+                        @month-change="handlePanelChange"
                       />
                     </div>
                     <div class="row">
@@ -190,7 +192,10 @@
                           {{ $t("doctorList.timeSlots") }}
                         </div>
                         <div class="time-slots-container">
-                          <div class="no-data" v-if="timeslots == null">
+                          <div class="no-data" v-if="!selectedDate">
+                            {{ $t("doctorList.selectDate") }}
+                          </div>
+                          <div class="no-data" v-else-if="timeslots == null">
                             {{ this.$t("loading") }}
                           </div>
                           <template v-else-if="timeslots.length">
@@ -260,10 +265,10 @@
                       <template v-if="doctor[getLocaleKey('expertise')]">
                         <div
                           class="hospital-address"
-                          v-for="expertise in doctor[
+                          v-for="(expertise, eindex) in doctor[
                             getLocaleKey('expertise')
                           ].split(',')"
-                          :key="'expertise-' + expertise.trim()"
+                          :key="'expertise-' + eindex + '-' + expertise.trim()"
                         >
                           {{ expertise }}
                         </div>
@@ -388,6 +393,7 @@ export default {
       isBookingFlow: false,
       clinics: [],
       selectedClinic: {},
+      availabilityDates: [],
       swiperOption: {
         direction: "vertical",
         slidesPerView: 1,
@@ -425,6 +431,20 @@ export default {
       return this.getBookingClinic && this.getBookingClinic.id;
     },
   },
+  watch: {
+    selectedDate(value, oldValue) {
+      if (value) {
+        let dateParts = this.getMonthAndYear(value);
+        if (oldValue) {
+          if (value.month !== oldValue.month || value.year !== oldValue.year) {
+            this.fetchCalendarAvaiability(dateParts);
+          }
+        } else {
+          this.fetchCalendarAvaiability(dateParts);
+        }
+      }
+    },
+  },
   components: {
     swiper,
     swiperSlide,
@@ -444,6 +464,7 @@ export default {
     }
 
     this.initializeData();
+    // this.fetchCalendarAvaiability(this.getMonthAndYear(this.selectedDate));
   },
   methods: {
     ...mapActions("appointment", [
@@ -457,12 +478,30 @@ export default {
       "setPaymentObject",
       "setBookingNearestDate",
     ]),
+    async fetchCalendarAvaiability(dateParts) {
+      console.log("Month and Year is:", dateParts);
+      this.setLoadingState(true);
+      const doctorId = this.getBookingDoctor.id;
+      const appointmentType = this.getBookingMethod.toUpperCase();
+      const locationId = this.selectedClinic ? this.selectedClinic.id : null;
+      const month = dateParts.month;
+      const year = dateParts.year;
+      const response = await appointmentService.fetchMonthAvailability(
+        doctorId,
+        appointmentType,
+        locationId,
+        month,
+        year
+      );
+      this.$set(this, "availabilityDates", response.data.data.items);
+      this.setLoadingState(false);
+    },
+    handlePanelChange(dateParts) {
+      this.fetchCalendarAvaiability(dateParts);
+    },
     ...mapActions("user", ["updateUserInfo"]),
     initializeData() {
       this.doctor = this.getBookingDoctor;
-      this.selectedDate = this.removeDateTime(
-        this.getBookingNearestDate || this.getBookingDate
-      );
 
       userService
         .getProfileById(this.getBookingDoctor.id)
@@ -761,6 +800,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::v-deep .ash-datetime-container {
+  .b-calendar {
+    .b-calendar-grid-body .col[data-date] .btn-outline-primary {
+      color: #343a40 !important;
+    }
+  }
+}
+
+// ::v-deep .btn-light {
+//   color: #343a40 !important;
+// }
+
 .custom-login-input-groups {
   padding: 0.4rem 0.7rem;
 

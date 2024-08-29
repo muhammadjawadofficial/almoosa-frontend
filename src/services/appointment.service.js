@@ -25,7 +25,8 @@ export const appointmentService = {
     getSymptomsSpecialitiesSuggested,
     oneStepCheckout,
     joinTeleConsultation,
-    ringPatient
+    ringPatient,
+    fetchMonthAvailability
 }
 
 function getUpcomingAppointemnts(id) {
@@ -68,10 +69,10 @@ function getSymptomsSpecialitiesV1() {
         url: apiPath.appointment.specialitiesV1.url
     })
 }
-function findDoctors(speciality, date, clinic, bookingType, currentLang) {
+function findDoctors(speciality, clinic, bookingType, currentLang) {
     return axios({
-        method: apiPath.appointment.findDoctors(speciality, date, clinic, bookingType, currentLang).method,
-        url: apiPath.appointment.findDoctors(speciality, date, clinic, bookingType, currentLang).url
+        method: apiPath.appointment.findDoctors(speciality, clinic, bookingType, currentLang).method,
+        url: apiPath.appointment.findDoctors(speciality, clinic, bookingType, currentLang).url
     })
 }
 
@@ -219,5 +220,11 @@ function ringPatient(data) {
         method: apiPath.appointment.ringPatient.method,
         url: apiPath.appointment.ringPatient.url,
         data
+    })
+}
+function fetchMonthAvailability(doctor, type, location_id, month, year) {
+    return axios({
+        method: apiPath.appointment.fetchMonthAvailability(doctor, type, location_id, month, year).method,
+        url: apiPath.appointment.fetchMonthAvailability(doctor, type, location_id, month, year).url
     })
 }

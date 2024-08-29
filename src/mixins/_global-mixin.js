@@ -534,6 +534,16 @@ export default {
         getYears(date) {
             return this.moment().diff(date, 'years')
         },
+        getMonthAndYear(dateString) {
+            // Parse the date string with Moment.js
+            const date = this.moment(dateString);
+
+            // Get the month and year from the parsed date
+            const month = date.format('MM'); // Full month name (e.g., 'August')
+            const year = date.format('YYYY');  // 4-digit year (e.g., '2024')
+
+            return { month, year };
+        },
         translateNumber(num) {
             let strNum = num + '';
             // e.g., 12:00AM
