@@ -8,6 +8,7 @@ export default {
     ...mapActions("appointment", [
       "setBookingMethod",
       "setBookingSpeciality",
+      "setBookingSubSpeciality",
       "setBookingClinic",
       "setBookingDate",
       "setBookingTimeslot",
@@ -22,6 +23,7 @@ export default {
       if (always || !localStorage.getItem("url")) {
         this.setBookingMethod(null);
         this.setBookingSpeciality(null);
+        this.setBookingSubSpeciality(null);
         this.setBookingClinic(null);
         this.setBookingDate(null);
         this.setBookingTimeslot(null);

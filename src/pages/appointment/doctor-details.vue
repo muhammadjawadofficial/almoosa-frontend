@@ -289,6 +289,18 @@
                             doctor.nationality[getLocaleKey("nationality")]) ||
                           "N/A"
                         }}
+                        <span
+                          v-if="
+                            doctor.nationality && doctor.nationality.flag_url
+                          "
+                        >
+                          <b-img
+                            class="flag"
+                            :src="doctor.nationality.flag_url"
+                            alt="Nationality Flag"
+                            fluid
+                          />
+                        </span>
                       </div>
                     </div>
                     <div class="appointment-list-item">
@@ -477,6 +489,7 @@ export default {
       "resetBookAppointment",
       "setPaymentObject",
       "setBookingNearestDate",
+      "setBookingMethod",
     ]),
     async fetchCalendarAvaiability(dateParts) {
       console.log("Month and Year is:", dateParts);
@@ -502,7 +515,6 @@ export default {
     ...mapActions("user", ["updateUserInfo"]),
     initializeData() {
       this.doctor = this.getBookingDoctor;
-
       userService
         .getProfileById(this.getBookingDoctor.id)
         .then((res) => {
@@ -518,11 +530,14 @@ export default {
                 speciality_ar: this.getBookingDoctor.speciality_ar,
               };
             }
-            if (this.getBookingMethod.toLowerCase() == "online") {
+            if (bookingMethod == "online") {
               if (this.doctor && this.isBookingFlow) {
                 this.fetchTimeslots();
               }
-            } else if (this.getBookingMethod.toLowerCase() == "onsite") {
+            } else if (
+              bookingMethod == "onsite" ||
+              bookingMethod == "home-healthcare"
+            ) {
               if (!this.isClinicSelected) {
                 appointmentService.getClinicsV1().then((res) => {
                   let response = res.data;
@@ -564,6 +579,7 @@ export default {
     fetchTimeslots() {
       this.selectedTimeSlotIndex = null;
       let method = this.getBookingMethod || "";
+      if (method == "home-healthcare") method = "onsite";
       method = method.toLowerCase();
 
       let location_id = null;
@@ -572,12 +588,7 @@ export default {
       }
 
       appointmentService
-        .fetchTimeslots(
-          this.doctor.id,
-          this.selectedDate,
-          this.getBookingMethod,
-          location_id
-        )
+        .fetchTimeslots(this.doctor.id, this.selectedDate, method, location_id)
         .then(
           (res) => {
             let response = res.data;
@@ -753,6 +764,9 @@ export default {
         payLater: true,
       };
       this.setPaymentObject(obj);
+      if (this.getBookingMethod == "home-healthcare") {
+        this.setBookingMethod("onsite");
+      }
       this.navigateTo("Book Appointment");
     },
     saveRescheduledAppointment(response) {
@@ -807,11 +821,9 @@ export default {
     }
   }
 }
-
-// ::v-deep .btn-light {
-//   color: #343a40 !important;
-// }
-
+.flag {
+  width: 2.5rem;
+}
 .custom-login-input-groups {
   padding: 0.4rem 0.7rem;
 

@@ -252,10 +252,13 @@
   },
   "modules": {
     "Virtual Consultations": "موعد افتراضي",
-    "Remote Consultations": "المشاورات عن بعد",
+    "Remote Consultations": "موعد عن بعد",
     "On-site Consultations": "موعد في العيادة",
+    "On-spot Consultations": "المشاورات على الفور",
     "Book a Consultation": "احجز استشارة",
     "Check Symptoms": "فاحص الاعراض",
+    "My Profile": "ملفي الشخصي",
+    "Medical File": "الملف الطبي",
     "View Family Member": "أفراد عائلتك",
     "Upcoming Appointment": "موعدك القادم",
     "Lab Works": "المختبر",
@@ -270,6 +273,7 @@
     "Virtual Tour": "جولة افتراضية",
     "Sick Leave": "الإجازات المرضية",
     "Find Specialist": "ابحث عن طبيبك",
+    "Home HealthCare": "الرعاية الصحية المنزلية",
     "View Appointments": "عرض المواعيد",
     "View Inpatients": "عرض في المرضى",
     "Critical Results": "النتائج الهامة",
@@ -348,7 +352,9 @@
   },
   "findSpecialist": {
     "specialities": "التخصصات الصحية",
+    "subSpecialities": "التخصصات الفرعية",
     "findSpecialist": "ابحث عن طبيبك باختيار التخصص الطبي",
+    "findSubSpecialist": "ابحث عن التخصص الفرعي عن طريق اختيار التخصص",
     "selectDateTime": "اختر تاريخ الموعد",
     "selectDate": "اختر تاريخ الموعد",
     "findMySpecialist": "ابحث عن الاختصاصي الخاص بي",
@@ -746,5 +752,6 @@
   "noChatMessages": "لا توجد رسائل دردشة",
   "enterMessage": "أدخل رسالة",
   "noOneJoined": "لم ينضم أحد",
-  "virtualConsultationNote": "الموعد الافتراضي عن بعد لايتطلب حضور للعيادة ،موافق ؟"
+  "virtualConsultationNote": "الموعد الافتراضي عن بعد لايتطلب حضور للعيادة ،موافق ؟",
+  "medicalFile": "الملف الطبي"
 }

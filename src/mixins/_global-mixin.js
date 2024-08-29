@@ -657,11 +657,14 @@ export default {
             let paymentVerifyObject = JSON.parse(
                 localStorage.getItem("paymentVerifyObject")
             );
+            console.log("object",paymentVerifyObject)
+            console.log("tdsada",localStorage.getItem("paymentVerifyObject"));
             localStorage.removeItem("paymentVerifyObject");
             if (!paymentVerifyObject) {
                 this.navigateTo("default");
                 return;
             }
+
             try {
                 let res = await appointmentService.createPayment(paymentVerifyObject)
                 let response = res.data;

@@ -61,7 +61,7 @@
             class="btn btn-primary make-appointment"
             @click="setSelectedDoctor(doctor)"
           >
-            {{$t("doctorList.viewDetails")}}
+            {{ $t("doctorList.viewDetails") }}
           </button>
         </div>
       </template>
@@ -99,11 +99,15 @@ export default {
       "getDoctorsList",
       "getBookingClinic",
       "getBookingSpeciality",
+      "getBookingSubSpeciality",
+      "getBookingSelectedSpeciality",
       "getBookingMethod",
       "getBookingDate",
     ]),
     isBookAConsultationFlow() {
-      return !["onsite", "online"].includes(this.getBookingMethod);
+      return !["onsite", "online", "home-healthcare"].includes(
+        this.getBookingMethod
+      );
     },
   },
   mounted() {
@@ -112,8 +116,7 @@ export default {
     );
     if (
       this.isBookingFlow &&
-      (!this.getBookingSpeciality ||
-      !this.getBookingMethod )
+      (!this.getBookingSelectedSpeciality || !this.getBookingMethod)
     ) {
       this.navigateTo("Find Specialist" + (this.getIsGuest ? " Guest" : ""));
       return;
@@ -196,7 +199,8 @@ export default {
       let clinic = null;
 
       if (this.isBookingFlow) {
-        speciality = this.getBookingSpeciality.id;
+        speciality = this.getBookingSelectedSpeciality.id;
+        date = this.getBookingDate;
         if (this.getBookingMethod == "onsite") {
           clinic = this.getBookingClinic.id;
         }
@@ -238,5 +242,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
