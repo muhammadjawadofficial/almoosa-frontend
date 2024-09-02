@@ -2,7 +2,10 @@
   <div
     class="my-medical-insurance-container standard-width page-body-container login-form"
   >
-    <back-navigation :title="$t('insurance.medicalInsurance')" />
+    <back-navigation
+      :title="$t('insurance.medicalInsurance')"
+      :backLink="backLink"
+    />
 
     <div class="row mt-3">
       <div class="col-sm-12" style="--numberOfTabs: 2">
@@ -154,6 +157,12 @@ export default {
         this.insuranceList &&
         this.insuranceList.filter((x) => x.status == "approved")
       );
+    },
+    backLink() {
+      if (localStorage.getItem("guardianInfo")) {
+        return "default";
+      }
+      return "Medical File";
     },
   },
   methods: {

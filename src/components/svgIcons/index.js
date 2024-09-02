@@ -16,6 +16,11 @@ import atom from './modules/atom'
 import calendar from './modules/calendar'
 import callHelp from './modules/call-help'
 import doctorLaptop from './modules/doctor-laptop'
+import remoteConsultation from './modules/remote-consultation.vue'
+import onSite from './modules/on-site.vue'
+import onSpot from './modules/on-spot.vue'
+import medicalFile from './modules/medical-file.vue'
+import homeHealthcare from './modules/home-healthcare.vue'
 import doctor from './modules/doctor'
 import family from './modules/family'
 import healthShield from './modules/health-shield'
@@ -63,6 +68,11 @@ Vue.component('atom-svg', atom)
 Vue.component('calendar-svg', calendar)
 Vue.component('call-help-svg', callHelp)
 Vue.component('doctor-laptop-svg', doctorLaptop)
+Vue.component('remote-consultation-svg', remoteConsultation)
+Vue.component('on-site-svg', onSite)
+Vue.component('on-spot-svg', onSpot)
+Vue.component('medical-file-svg', medicalFile)
+Vue.component('home-healthcare-svg', homeHealthcare)
 Vue.component('doctor-svg', doctor)
 Vue.component('family-svg', family)
 Vue.component('health-shield-svg', healthShield)

@@ -5,7 +5,9 @@ export const appointmentService = {
     getUpcomingAppointemnts,
     getClinics,
     getClinicsV1,
+    getHomeHealthcare,
     getSpecialities,
+    getSubSpecialities,
     getSpecialitiesV1,
     getSymptomsSpecialitiesV1,
     findDoctors,
@@ -36,6 +38,13 @@ function getUpcomingAppointemnts(id) {
     })
 }
 
+function getSubSpecialities(id){
+    return axios({
+        method: apiPath.appointment.subspecialities(id).method,
+        url: apiPath.appointment.subspecialities(id).url
+    })
+}
+
 function getClinics() {
     return axios({
         method: apiPath.appointment.clinics.method,
@@ -47,6 +56,13 @@ function getClinicsV1() {
     return axios({
         method: apiPath.appointment.clinicsV1.method,
         url: apiPath.appointment.clinicsV1.url
+    })
+}
+
+function getHomeHealthcare() {
+    return axios ({
+        method: apiPath.appointment.homeHealthcare.method,
+        url: apiPath.appointment.homeHealthcare.url
     })
 }
 
