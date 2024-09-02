@@ -119,15 +119,26 @@ export default {
   methods: {
     disableCustomDates(val) {
       if (this.disableDate !== "custom") return;
-      val.forEach((item) => {
-        if (!item.availability) {
-          const dateElement = document.querySelector(
-            `[data-date="${item.date}"]`
-          );
-          if (dateElement) {
-            const buttonElement = dateElement.querySelector('.btn');;
-            buttonElement.classList.add("bg-custom");
-            buttonElement.classList.add("text-dark");
+      const currentDate = this.removeDateTime(new Date());
+      const allDateElements = document.querySelectorAll("[data-date]");
+      allDateElements.forEach((dateElement) => {
+        const dateAttr = dateElement.getAttribute("data-date");
+        if (dateAttr) {
+          const isPastDate = dateAttr < currentDate;
+          if (isPastDate) {
+            dateElement.setAttribute("past-date", "true");
+          } else {
+            dateElement.removeAttribute("past-date");
+          }
+          const item = val.find((item) => item.date === dateAttr);
+          if (item) {
+            if (!item.availability) {
+              dateElement.setAttribute("unavailable-date", "true");
+            } else {
+              dateElement.removeAttribute("unavailable-date");
+            }
+          } else {
+            dateElement.removeAttribute("unavailable-date");
           }
         }
       });
@@ -167,7 +178,11 @@ export default {
     },
     disableDateFunction(ymd, date) {
       let today = new Date();
-      if (this.dateToCompare && this.dateToCompare != "") {
+      if (
+        this.dateToCompare &&
+        this.disableDate !== "custom" &&
+        this.dateToCompare != ""
+      ) {
         today = new Date(this.dateToCompare);
       }
       // 👇️ OPTIONAL!
@@ -194,15 +209,13 @@ export default {
       return true;
     },
     datePickerOpened() {
-      console.log(this.dateToCompare, this.getCurrentViewMonthYear());
-      
       if (this.disableDate == "custom") {
-        if(this.dateToCompare.length){
+        if (this.dateToCompare.length) {
           let date = this.dateToCompare[0].date;
           let dateParts = this.getMonthAndYear(date);
-  
+
           let currentViewDateParts = this.getCurrentViewMonthYear();
-  
+
           if (dateParts.month != currentViewDateParts.month) {
             this.emitViewChange();
           }
@@ -218,9 +231,18 @@ export default {
 </script>
 
 <style lang="scss">
-.bg-custom{
+div[unavailable-date="true"] > span.btn.disabled {
   background-color: #f9d7d7 !important;
+  box-shadow: none !important;
 }
+div[past-date="true"] > span.btn.disabled {
+  background-color: #a9a9a9 !important;
+  box-shadow: none !important ;
+}
+span.btn.disabled.focus {
+  box-shadow: none !important;
+}
+
 .ash-datetime-container {
   max-width: 22rem;
   z-index: 1;

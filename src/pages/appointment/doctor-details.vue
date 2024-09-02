@@ -479,7 +479,7 @@ export default {
       "setBookingNearestDate",
     ]),
     async fetchCalendarAvaiability(dateParts) {
-      console.log("Month and Year is:", dateParts);
+      // console.log("Month and Year is:", dateParts);
       this.setLoadingState(true);
       const doctorId = this.getBookingDoctor.id;
       const appointmentType = this.getBookingMethod.toUpperCase();
@@ -808,9 +808,11 @@ export default {
   }
 }
 
-// ::v-deep .btn-light {
-//   color: #343a40 !important;
-// }
+.booking-date ::v-deep .btn-light {
+  color: #343a40 !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
 
 .custom-login-input-groups {
   padding: 0.4rem 0.7rem;
