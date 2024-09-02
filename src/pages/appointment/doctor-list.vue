@@ -122,11 +122,13 @@ export default {
       "getDoctorsList",
       "getBookingClinic",
       "getBookingSpeciality",
+      "getBookingSubSpeciality",
+      "getBookingSelectedSpeciality",
       "getBookingMethod",
       "getBookingDate",
     ]),
     isBookAConsultationFlow() {
-      return !["onsite", "online"].includes(this.getBookingMethod);
+      return !["onsite", "online", "home-healthcare"].includes(this.getBookingMethod);
     },
   },
   mounted() {
@@ -135,7 +137,7 @@ export default {
     );
     if (
       this.isBookingFlow &&
-      (!this.getBookingSpeciality ||
+      (!this.getBookingSelectedSpeciality ||
         !this.getBookingMethod ||
         !this.getBookingDate)
     ) {
@@ -221,11 +223,12 @@ export default {
     },
     fetchDoctorList() {
       let speciality = null;
+      let subSpeciality = null;
       let date = null;
       let clinic = null;
 
       if (this.isBookingFlow) {
-        speciality = this.getBookingSpeciality.id;
+        speciality = this.getBookingSelectedSpeciality.id;
         date = this.getBookingDate;
         if (this.getBookingMethod == "onsite") {
           clinic = this.getBookingClinic.id;
@@ -268,5 +271,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

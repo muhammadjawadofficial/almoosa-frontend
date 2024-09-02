@@ -36,8 +36,10 @@ export const apiPath = {
     appointment: {
         upcoming: (id) => getApiObject("get", "appointments/upcoming?" + id, "v2"),
         clinics: getApiObject("get", "clinics", "v2"),
+        homeHealthcare: getApiObject("get", "clinics/home-health-care", "v2" ),
+        subspecialities : (id) => getApiObject("get", "specialities/sub/" + id, 'v2'),
         clinicsV1: getApiObject("get", "clinics"),
-        specialities: (query) => getApiObject("get", "specialities" + query, "v2"),
+        specialities: (query) => getApiObject("get", "specialities/parent" + query, "v2"),
         specialitiesV1: getApiObject("get", "specialities"),
         symptomsSpecialitiesV1: getApiObject("get", "specialities/selected-questions"),
         findDoctors: (speciality, date, clinic, bookingType, currentLang) => {

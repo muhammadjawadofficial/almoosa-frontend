@@ -1,12 +1,17 @@
 <template>
-  <div class="upcoming-appointment-container page-body-container standard-width">
+  <div
+    class="upcoming-appointment-container page-body-container standard-width"
+  >
     <div class="d-flex">
-      <back-navigation :title="$t('upcomingAppointment.heading')" :subTitle="$t('upcomingAppointment.subHeading')" />
+      <back-navigation
+        :title="$t('upcomingAppointment.heading')"
+        :subTitle="$t('upcomingAppointment.subHeading')"
+        :backLink="backLink"
+      />
       <div class="filters-dropdown" v-if="isDoctor">
         <span class="date-text">
           {{ $t("upcomingAppointment.date") }}
           <img src="../../assets/images/filter.svg" alt="" />
-
         </span>
         <div class="filters-dropdown-menu">
           <template v-if="true">
@@ -20,14 +25,27 @@
                 {{ toDate || $t("upcomingAppointment.selectDate") }}
               </div>
             </div>
-            <date-picker :append-to-body="false" format="YYYY-MM-DD" v-model="dateRange"
-              :popup-style="{ top: 'calc(100% - 5px)', left: 0, right: 0 }" popup-class="hideSecondCalendar"
-              value-type="format" class="ash-datepicker" range :open="showCalendar" :lang="currentAppLang"
-              @input="dateChange" :disabled-date="disabledBeforeTodayAndAfterAWeek"
-              :clearable="fromDate != defaultStart && toDate != defaultEnd">
+            <date-picker
+              :append-to-body="false"
+              format="YYYY-MM-DD"
+              v-model="dateRange"
+              :popup-style="{ top: 'calc(100% - 5px)', left: 0, right: 0 }"
+              popup-class="hideSecondCalendar"
+              value-type="format"
+              class="ash-datepicker"
+              range
+              :open="showCalendar"
+              :lang="currentAppLang"
+              @input="dateChange"
+              :disabled-date="disabledBeforeTodayAndAfterAWeek"
+              :clearable="fromDate != defaultStart && toDate != defaultEnd"
+            >
               <template #icon-calendar>
-                <img src="../../assets/images/calendar.svg" alt="Not Found"
-                  style="width: 1rem; height: 1rem; object-fit: contain" />
+                <img
+                  src="../../assets/images/calendar.svg"
+                  alt="Not Found"
+                  style="width: 1rem; height: 1rem; object-fit: contain"
+                />
               </template>
             </date-picker>
           </template>
@@ -36,15 +54,33 @@
     </div>
     <div class="row">
       <div class="col-sm-12" style="--numberOfTabs: 2">
-        <b-card header-tag="div" no-body class="ash-card card-wizard card-top-navigation">
+        <b-card
+          header-tag="div"
+          no-body
+          class="ash-card card-wizard card-top-navigation"
+        >
           <b-card-body>
-            <b-tabs pills slot="header" class="tabbed-card" @activate-tab="setActiveTab">
-              <b-tab :title="$t('upcomingAppointment.virtual')" :active="activeTab == 0">
-                <div class="appointment-list" :class="{
-                  noData: !virtualAppointments || !virtualAppointments.length,
-                }">
-                  <div class="appointment-list-item" v-for="appointment in virtualAppointments"
-                    :key="'upcoming-appointment-id' + appointment.id">
+            <b-tabs
+              pills
+              slot="header"
+              class="tabbed-card"
+              @activate-tab="setActiveTab"
+            >
+              <b-tab
+                :title="$t('upcomingAppointment.virtual')"
+                :active="activeTab == 0"
+              >
+                <div
+                  class="appointment-list"
+                  :class="{
+                    noData: !virtualAppointments || !virtualAppointments.length,
+                  }"
+                >
+                  <div
+                    class="appointment-list-item"
+                    v-for="appointment in virtualAppointments"
+                    :key="'upcoming-appointment-id' + appointment.id"
+                  >
                     <div class="appointment-time">
                       <div class="appointment-time-day">
                         {{ getDate(appointment.booked_date) }}
@@ -56,15 +92,24 @@
                         {{ getTimeFromDate(appointment.start_time, true) }}
                       </div>
                     </div>
-                    <div class="appointment-card" @click="viewDetails(appointment)" :class="isDoctor
-                      ? 'default'
-                      : getStatusClass(appointment.status)
-                      ">
+                    <div
+                      class="appointment-card"
+                      @click="viewDetails(appointment)"
+                      :class="
+                        isDoctor
+                          ? 'default'
+                          : getStatusClass(appointment.status)
+                      "
+                    >
                       <div class="doctor-avatar">
-                        <img :src="getImageUrl(
-                          appointment[isDoctor ? 'patient' : 'doctor'].photo
-                        )
-                          " alt="" />
+                        <img
+                          :src="
+                            getImageUrl(
+                              appointment[isDoctor ? 'patient' : 'doctor'].photo
+                            )
+                          "
+                          alt=""
+                        />
                       </div>
                       <div class="appointment-details">
                         <div class="doctor-name">
@@ -81,8 +126,12 @@
                               {{ getPatientSubDetails(appointment.patient) }}
                             </div>
                           </div>
-                          <div class="doctor-speciality" v-if="appointment.patient && appointment.patient.gender
-                            ">
+                          <div
+                            class="doctor-speciality"
+                            v-if="
+                              appointment.patient && appointment.patient.gender
+                            "
+                          >
                             <div>
                               {{
                                 $t("gender") +
@@ -96,14 +145,14 @@
                           {{ appointment.doctor[getLocaleKey("speciality")] }}
                           {{
                             appointment.doctor.location
-                            ? ", " + appointment.doctor.location
-                            : ""
+                              ? ", " + appointment.doctor.location
+                              : ""
                           }}
                           {{
                             !appointment.doctor.speciality &&
                             !appointment.doctor.location
-                            ? "N/A"
-                            : ""
+                              ? "N/A"
+                              : ""
                           }}
                         </div>
                         <div class="appointment-status">
@@ -125,7 +174,7 @@
                             {{
                               $t(
                                 "paymentStatus." +
-                                appointment.status.toLowerCase()
+                                  appointment.status.toLowerCase()
                               )
                             }}
                           </template>
@@ -141,10 +190,19 @@
                   {{ $t("noData") }}
                 </div>
               </b-tab>
-              <b-tab :title="$t('upcomingAppointment.onsite')" :active="activeTab == 1">
-                <div class="appointment-list" :class="{ noData: !onsiteAppointments.length }">
-                  <div class="appointment-list-item" v-for="appointment in onsiteAppointments"
-                    :key="'upcoming-appointment-id' + appointment.id">
+              <b-tab
+                :title="$t('upcomingAppointment.onsite')"
+                :active="activeTab == 1"
+              >
+                <div
+                  class="appointment-list"
+                  :class="{ noData: !onsiteAppointments.length }"
+                >
+                  <div
+                    class="appointment-list-item"
+                    v-for="appointment in onsiteAppointments"
+                    :key="'upcoming-appointment-id' + appointment.id"
+                  >
                     <div class="appointment-time">
                       <div class="appointment-time-day">
                         {{ getDate(appointment.booked_date) }}
@@ -156,15 +214,24 @@
                         {{ getTimeFromDate(appointment.start_time, true) }}
                       </div>
                     </div>
-                    <div class="appointment-card" @click="viewDetails(appointment)" :class="isDoctor
-                      ? 'default'
-                      : getStatusClass(appointment.status)
-                      ">
+                    <div
+                      class="appointment-card"
+                      @click="viewDetails(appointment)"
+                      :class="
+                        isDoctor
+                          ? 'default'
+                          : getStatusClass(appointment.status)
+                      "
+                    >
                       <div class="doctor-avatar">
-                        <img :src="getImageUrl(
-                          appointment[isDoctor ? 'patient' : 'doctor'].photo
-                        )
-                          " alt="" />
+                        <img
+                          :src="
+                            getImageUrl(
+                              appointment[isDoctor ? 'patient' : 'doctor'].photo
+                            )
+                          "
+                          alt=""
+                        />
                       </div>
                       <div class="appointment-details">
                         <div class="doctor-name">
@@ -181,15 +248,19 @@
                               {{ getPatientSubDetails(appointment.patient) }}
                             </div>
                           </div>
-                          <div class="doctor-speciality" v-if="appointment.patient && appointment.patient.gender
-                            ">
+                          <div
+                            class="doctor-speciality"
+                            v-if="
+                              appointment.patient && appointment.patient.gender
+                            "
+                          >
                             <div>
                               {{
                                 $t("gender") +
                                 ": " +
                                 $t(
                                   "register." +
-                                  appointment.patient.gender.toLowerCase()
+                                    appointment.patient.gender.toLowerCase()
                                 )
                               }}
                             </div>
@@ -202,14 +273,14 @@
                           }}
                           {{
                             appointment.doctor.location
-                            ? ", " + appointment.doctor.location
-                            : ""
+                              ? ", " + appointment.doctor.location
+                              : ""
                           }}
                           {{
                             !appointment.doctor.speciality &&
                             !appointment.doctor.location
-                            ? "N/A"
-                            : ""
+                              ? "N/A"
+                              : ""
                           }}
                         </div>
                         <div class="appointment-status success">
@@ -231,7 +302,7 @@
                             {{
                               $t(
                                 "paymentStatus." +
-                                appointment.status.toLowerCase()
+                                  appointment.status.toLowerCase()
                               )
                             }}
                           </template>
@@ -289,6 +360,12 @@ export default {
   computed: {
     ...mapGetters("appointment", ["getSelectedAppointment"]),
     ...mapGetters("user", ["getUserInfo"]),
+    backLink() {
+      if (localStorage.getItem("guardianInfo")) {
+        return "default";
+      }
+      return "Medical File";
+    },
   },
   methods: {
     ...mapActions("appointment", ["setSelectedAppointment"]),
@@ -356,8 +433,8 @@ export default {
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
-              error.response.data &&
-              error.response.data.message
+                error.response.data &&
+                error.response.data.message
             );
         }
       );
@@ -390,21 +467,25 @@ export default {
         const date = (date) => new Date(date);
         const fromDate = date(this.fromDate);
         const toDate = date(this.toDate);
-        const isAppointmentInRange = (bookedDate) => date(bookedDate) >= fromDate && date(bookedDate) < toDate;
+        const isAppointmentInRange = (bookedDate) =>
+          date(bookedDate) >= fromDate && date(bookedDate) < toDate;
 
-        filteredVirtualAppointments = this.totalVirtualAppointments.filter((appointment) => isAppointmentInRange(appointment.booked_date));
-        filteredOnsiteAppointments = this.totalOnsiteAppointments.filter((appointment) => isAppointmentInRange(appointment.booked_date));
+        filteredVirtualAppointments = this.totalVirtualAppointments.filter(
+          (appointment) => isAppointmentInRange(appointment.booked_date)
+        );
+        filteredOnsiteAppointments = this.totalOnsiteAppointments.filter(
+          (appointment) => isAppointmentInRange(appointment.booked_date)
+        );
       }
 
       this.virtualAppointments = filteredVirtualAppointments;
       this.onsiteAppointments = filteredOnsiteAppointments;
-    }
-
+    },
   },
 };
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 .filters-dropdown-menu {
   right: unset;
 }
