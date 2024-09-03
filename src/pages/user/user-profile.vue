@@ -38,10 +38,13 @@
                     >
                       <div class="title">{{ $t("profile.nationality") }}</div>
                       <div class="value">
-                        {{
-                          getUserInfo.nationality.nationality ||
-                          getUserInfo.nationality
-                        }}
+                        <b-img
+                          class="flag"
+                          :src="getUserInfo.nationality.flag_url"
+                          alt="Nationality Flag"
+                          fluid
+                        />
+                        {{ nationalityLang }}
                       </div>
                     </div>
                   </template>
@@ -680,6 +683,19 @@ export default {
   },
   computed: {
     ...mapGetters("user", ["getUserInfo"]),
+    nationalityLang() {
+      if (this.$i18n.locale === "en") {
+        return (
+          this.getUserInfo.nationality.nationality ||
+          this.getUserInfo.nationality
+        );
+      } else {
+        return (
+          this.getUserInfo.nationality.nationality_ar ||
+          this.getUserInfo.nationality
+        );
+      }
+    },
     calculateLoyaltyPointsAmount() {
       return (
         this.getUserInfo.loyality_points * this.loyaltyPointsConfig.factor
@@ -1230,5 +1246,8 @@ $primary-color: #55b047;
 .pointer .value {
   margin-top: 0.75rem;
   text-align: center !important;
+}
+.flag {
+  width: 2.5rem;
 }
 </style>

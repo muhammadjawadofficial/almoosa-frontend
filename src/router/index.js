@@ -102,6 +102,8 @@ import confirmSurvey from "../pages/symptom-checker/confirm-survey";
 
 import sickLeaveList from "../pages/medical-reports/sick-leave-list";
 
+import medicalFileList from "../pages/medical-file/medical-file-list";
+
 Vue.use(Router);
 
 const routes = [
@@ -728,6 +730,14 @@ const routes = [
         component: notificationsSettings,
         meta: {
           title: "Notifications Settings | Almoosa Health Group",
+        },
+      },
+      {
+        path: "medical-file",
+        name: "Medical File",
+        component: medicalFileList,
+        meta: {
+          title: "Medical File | Almoosa Health Group",
         },
       },
     ],

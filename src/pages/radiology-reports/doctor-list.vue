@@ -2,7 +2,10 @@
   <div
     class="radiology-report-doctors-container page-body-container standard-width"
   >
-    <back-navigation :title="$t('radiologyReport.title')" />
+    <back-navigation
+      :title="$t('radiologyReport.title')"
+      :backLink="backLink"
+    />
     <b-card
       header-tag="div"
       no-body
@@ -98,6 +101,12 @@ export default {
   },
   computed: {
     ...mapGetters("user", ["getUserInfo"]),
+    backLink() {
+      if (localStorage.getItem("guardianInfo")) {
+        return "default";
+      }
+      return "Medical File";
+    },
   },
   methods: {
     ...mapActions("radiologyReport", ["setSelectedRadiologyReportSession"]),

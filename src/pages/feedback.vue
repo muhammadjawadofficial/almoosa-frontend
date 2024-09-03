@@ -19,14 +19,16 @@ export default {
     return {
       feedbackUrl: "",
       token: "",
-      query: "sid=",
+      // query: "sid=",
     };
   },
   computed: {
     ...mapGetters("user", ["getUserInfo"]),
     getUrl() {
-      if (this.feedbackUrl && this.token)
-        return `${this.feedbackUrl}?${this.query}${this.token}`;
+      if (this.feedbackUrl && this.token) {
+        const lang = this.$i18n.locale; 
+        return `${this.feedbackUrl}?lang=${lang}&sid=${this.token}`;
+      }
       return "";
     },
   },
