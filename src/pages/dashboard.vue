@@ -170,16 +170,16 @@
         </div>
         <div class="consultation-section standard-width">
           <div
-            class="consultation-section--blocks three no-sub-title"
+            class="consultation-section--blocks three no-sub-title justify-content-center"
             :class="{ one: getUserInfo.isDependent }"
           >
             <div
-              class="consultation-section--blocks--single large secondary"
+              class="consultation-section--blocks--single large secondary flex-column-reverse"
               @click="findASpecialist('online')"
             >
-              <div class="new-badge">
+              <!-- <div class="new-badge">
                 <new-badge-svg />
-              </div>
+              </div> -->
               <div class="title">
                 {{ $t("modules.Remote Consultations") }}
                 <div class="sub-title">
@@ -190,12 +190,12 @@
                   }}
                 </div>
               </div>
-              <div class="icon">
-                <doctor-laptop-svg />
+              <div class="icon circle-shape">
+                <remote-consultation-svg />
               </div>
             </div>
             <div
-              class="consultation-section--blocks--single large primary"
+              class="consultation-section--blocks--single large primary flex-column-reverse"
               @click="findASpecialist('onsite')"
             >
               <div class="title">
@@ -208,12 +208,30 @@
                   }}
                 </div>
               </div>
-              <div class="icon">
-                <doctor-svg />
+              <div class="icon circle-shape">
+                <on-site-svg />
               </div>
             </div>
-            <div
-              class="consultation-section--blocks--single large tertiary"
+            <!-- <div
+              class="consultation-section--blocks--single large tertiary flex-column-reverse"
+              @click="findSpecialist()"
+            >
+              <div class="title">
+                {{ $t("modules.On-spot Consultations") }}
+                <div class="sub-title">
+                  {{
+                    $t(
+                      "modules.description.Discover the best doctors in Almoosa Health Group"
+                    )
+                  }}
+                </div>
+              </div>
+              <div class="icon circle-shape">
+                <on-spot-svg />
+              </div>
+            </div> -->
+            <!-- <div
+              class="consultation-section--blocks--single large flex-column-reverse"
               v-if="!getUserInfo.isDependent"
               @click="findSpecialist()"
             >
@@ -230,7 +248,7 @@
               <div class="icon">
                 <heart-checkup-svg />
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -245,10 +263,7 @@
         <div class="consultation-section--blocks">
           <template v-for="(item, index) in dashboardItems">
             <div
-              v-if="
-                !getUserInfo.isDependent ||
-                (getUserInfo.isDependent && item.guardianComponents)
-              "
+              v-if="!(getUserInfo.isDependent ^ item.dependentComponents)"
               class="consultation-section--blocks--single"
               :class="{ uniques: item.unique }"
               :key="'dashboard-item-' + index"
@@ -287,40 +302,53 @@ export default {
     return {
       dashboardItems: [
         {
+          text: "My Profile",
+          icon: "username-svg",
+          link: "Profile",
+          unique: true,
+        },
+        {
           text: "My Timelines",
           icon: "timeline-svg",
           link: "My Timeline",
-          guardianComponents: true,
+          dependentComponents: true,
         },
         {
           text: "My Medications",
           icon: "medical-jar-svg",
           link: "My Medication",
+          dependentComponents: true,
         },
         {
           text: "Lab Works",
           icon: "lab-svg",
           link: "Lab Works",
-          guardianComponents: true,
+          dependentComponents: true,
         },
         {
           text: "Radiology Reports",
           icon: "user-report-svg",
           link: "Radiology Report",
-          guardianComponents: true,
+          dependentComponents: true,
         },
         {
           text: "Upcoming Appointment",
           icon: "calendar-svg",
           link: "Upcoming Appointment",
           param: { method: "onsite" },
-          guardianComponents: true,
+          dependentComponents: true,
         },
         {
           text: "Medical Insurance",
           icon: "health-shield-svg",
           link: "Medical Insurance",
-          guardianComponents: true,
+          dependentComponents: true,
+        },
+        {
+          text: "Medical File",
+          icon: "medical-file-svg",
+          link: "Medical File",
+          unique: true,
         },
         {
           text: "Health Education",
@@ -332,10 +360,22 @@ export default {
           icon: "briefcase-svg",
           link: "Services Packages",
         },
+
+        {
+          text: "Home HealthCare",
+          icon: "home-healthcare-svg",
+          link: "Find Specialist",
+          param: { method: "home-healthcare" },
+        },
         {
           text: "View Family Member",
           icon: "family-svg",
           link: "Family Members",
+        },
+        {
+          text: "Find Specialist",
+          icon: "doctor-laptop-svg",
+          link: "Find A Specialist",
         },
         {
           text: "View Promotions",
@@ -517,6 +557,17 @@ export default {
 }
 .background-image {
   z-index: 0;
+}
+.circle-shape {
+  width: 6.25rem;
+  height: 6.25rem !important;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0px 0px 4px 0px #00000040;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
 }
 .swiper-container {
   border-radius: 1.25rem;
