@@ -492,9 +492,13 @@ export default {
       "setBookingMethod",
     ]),
     async fetchCalendarAvaiability(dateParts) {
+      let method = this.getBookingMethod.toLowerCase();
+      if (method == "home-healthcare") {
+        method = "onsite";
+      }
       this.setLoadingState(true);
       const doctorId = this.getBookingDoctor.id;
-      const appointmentType = this.getBookingMethod.toUpperCase();
+      const appointmentType = method.toUpperCase();
       const locationId = this.selectedClinic ? this.selectedClinic.id : null;
       const month = dateParts.month;
       const year = dateParts.year;
