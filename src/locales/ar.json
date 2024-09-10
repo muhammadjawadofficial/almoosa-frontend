@@ -669,7 +669,10 @@
     "comments": "تعليقات",
     "requestSubmitted": "تم تقديم الطلب في",
     "requestUpdated": "آخر تحديث في",
-    "reportAlreadyRequest": "تم تقديم الطلب بالفعل. يرجى الانتظار حتى يقوم المسؤول بمعالجة طلبك."
+    "reportAlreadyRequest": "تم تقديم الطلب بالفعل. يرجى الانتظار حتى يقوم المسؤول بمعالجة طلبك.",
+    "preferredLanguage": "اختر اللغة المفضلة:",
+    "selectLanguage": "اختر اللغة أولاً"
+
   },
   "noData": "لا يوجد بيانات",
   "noRecord": "لا يوجد سجلات",

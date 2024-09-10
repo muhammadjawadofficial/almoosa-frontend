@@ -14,7 +14,7 @@
           no-body
           class="ash-card card-top-navigation tabs-start"
         >
-          <div class="add-new-insurance" @click="requestAReport()">
+          <div class="add-new-insurance" @click="openNewReportRequestModal()">
             <div class="icon">
               <img src="../../assets/images/add.svg" alt="add" />
             </div>
@@ -158,21 +158,27 @@
         </b-card>
       </div>
     </div>
+    <new-request-modal @languageSelected="handleLanguageSelection" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import { medicalReportsService } from "../../services";
+import newRequestModal from "./new-request-modal.vue";
 export default {
   data() {
     return {
       readyReports: null,
       requestedReports: null,
       selectedSession: null,
+      selectedLanguage: null,
       visit_no: null,
       // alreadyRequested: false,
     };
+  },
+  components: {
+    "new-request-modal": newRequestModal,
   },
   mounted() {
     if (!this.getSelectedTimeline) {
@@ -232,42 +238,40 @@ export default {
             );
         });
     },
+    handleLanguageSelection(language) {
+      this.selectedLanguage = language;
+      this.requestAReport();
+      // console.log("language is:", language);
+    },
     requestAReport() {
-      // if (this.alreadyRequested) {
-      //   this.failureIconModal(
-      //     this.$t("detailMedical.newReportRequest"),
-      //     this.$t("detailMedical.reportAlreadyRequest")
-      //   );
-      //   return;
-      // }
-      this.confirmIconModal(
-        this.$t("detailMedical.newReportRequest"),
-        this.$t("detailMedical.areYouSure"),
-        "m-info"
-      ).then((res) => {
-        if (res.value) {
-          medicalReportsService
-            .createDetailMedicalReportRequest({
-              visit_no: this.visit_no,
-              appointment_id: this.getSelectedTimeline.id,
-            })
-            .then((response) => {
-              if (response.data.status) {
-                this.getDetailMedicalReportRequest();
-              } else {
-                this.failureToast(response.data.message);
-              }
-            })
-            .catch((error) => {
-              if (!this.isAPIAborted(error))
-                this.failureToast(
-                  error.response &&
-                    error.response.data &&
-                    error.response.data.message
-                );
-            });
-        }
-      });
+      medicalReportsService
+        .createDetailMedicalReportRequest({
+          visit_no: this.visit_no,
+          appointment_id: this.getSelectedTimeline.id,
+          preferred_language: this.selectedLanguage,
+        })
+        .then((response) => {
+          if (response.data.status) {
+            this.getDetailMedicalReportRequest();
+          } else {
+            this.failureToast(response.data.message);
+          }
+        })
+        .catch((error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        });
+    },
+    openNewReportRequestModal() {
+      this.$bvModal.show("newRequestCustomModal");
+    },
+
+    hideNewReportRequestModal() {
+      this.$bvModal.hide("newRequestCustomModal");
     },
     getStatusClass(statusTemp) {
       let status = statusTemp || "";

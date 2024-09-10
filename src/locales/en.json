@@ -670,7 +670,10 @@
     "comments": "Comments",
     "requestSubmitted": "Request Submitted On",
     "requestUpdated": "Last Updated On",
-    "reportAlreadyRequest": "Request already submitted. Please wait while admin process your request."
+    "reportAlreadyRequest": "Request already submitted. Please wait while admin process your request.",
+    "preferredLanguage": "Select Preferred Language:",
+    "selectLanguage": "Select Language First"
+
   },
   "noData": "No Data To Show",
   "noRecord": "No Record Found",
