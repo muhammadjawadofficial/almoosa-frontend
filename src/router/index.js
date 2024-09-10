@@ -28,6 +28,8 @@ import appointmentDetail from "../pages/appointment/appointment-detail";
 import appointmentHistory from "../pages/appointment/appointment-history-timeline";
 import findSpecialist from "../pages/appointment/find-specialist";
 import doctorList from "../pages/appointment/doctor-list";
+import onSpotConsultation from "../pages/appointment/on-spot-consultation";
+
 import doctorDetails from "../pages/appointment/doctor-details";
 import selectPaymentMethod from "../pages/appointment/select-payment-method";
 import payNow from "../pages/appointment/pay-now";
@@ -176,6 +178,14 @@ const routes = [
         component: doctorList,
         meta: {
           title: "Find A Specialist | Almoosa Health Group",
+        },
+      },
+      {
+        path: "on-spot-consultation",
+        name: "On Spot Consultation",
+        component: onSpotConsultation,
+        meta: {
+          title: "On Spot Consultation | Almoosa Health Group",
         },
       },
       {
