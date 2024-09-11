@@ -174,6 +174,24 @@
             :class="{ one: getUserInfo.isDependent }"
           >
             <div
+              class="consultation-section--blocks--single large primary flex-column-reverse"
+              @click="findASpecialist('onsite')"
+            >
+              <div class="title">
+                {{ $t("modules.On-site Consultations") }}
+                <div class="sub-title">
+                  {{
+                    $t(
+                      "modules.description.Discover the best doctors in Almoosa Health Group"
+                    )
+                  }}
+                </div>
+              </div>
+              <div class="icon circle-shape">
+                <on-site-svg />
+              </div>
+            </div>
+            <div
               class="consultation-section--blocks--single large secondary flex-column-reverse"
               @click="findASpecialist('online')"
             >
