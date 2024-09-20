@@ -143,6 +143,23 @@
                             getLongDateAndTimeFromDate(request.updated_at, true)
                           }}
                         </div>
+                        <!-- comments section start -->
+                        <div class="last-update-on w200">
+                          {{ $t("detailMedical.comments") }}
+                        </div>
+                        <b-list-group
+                          v-if="request.comments && request.comments.length > 0"
+                          class="w200"
+                        >
+                          <b-list-group-item
+                            v-for="(com, index) in request.comments"
+                            :key="index"
+                            class="comment-items date-time w200"
+                          >
+                            {{ com.comment }}
+                          </b-list-group-item>
+                        </b-list-group>
+                        <!-- comments section end -->
                         <button class="btn btn-conditional start-call-button">
                           {{
                             $t("detailMedical." + request.status.toLowerCase())
@@ -295,6 +312,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.comment-items {
+  background: transparent !important;
+  border: none;
+  padding: 0rem;
+}
 .add-new-insurance {
   font-size: 1rem;
   display: flex;
