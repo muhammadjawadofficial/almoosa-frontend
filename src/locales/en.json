@@ -374,6 +374,7 @@
     "search": "Search Doctor",
     "bookingDate": "Booking Date",
     "timeSlots": "Available Time Slots",
+    "selectDate": "Please select a date to view available time slots.",
     "bookAppointment": "Book an Appointment",
     "viewDetails": "View Details",
     "physicianList": "Our Doctors",
