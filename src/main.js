@@ -24,6 +24,8 @@ import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import 'vue2-datepicker/locale/ar';
 import 'vue2-datepicker/locale/en';
+import SocketPlugin from './plugins/socket';
+
 
 import VueAnalytics from 'vue-analytics';
 
@@ -35,6 +37,7 @@ Vue.use(VueAnalytics, {
     screenview: true
   }
 });
+Vue.use(SocketPlugin);
 
 Vue.prototype.moment = moment
 

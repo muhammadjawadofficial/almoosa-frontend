@@ -62,10 +62,6 @@
 <script>
 export default {
   props: {
-    activeTab: {
-      type: String,
-      required: true,
-    },
   },
   data() {
     return {
@@ -78,18 +74,6 @@ export default {
         { value: "rejected", text: "Rejected", textAr: "مرفوض" },
       ],
     };
-  },
-  computed: {
-    filteredDecisionOptions() {
-      const lang = this.$i18n.locale;
-      return this.decisionOptions
-        .filter((option) => option.value !== this.activeTab)
-        .map((option) => {
-          return lang === "en"
-            ? { ...option, text: option.text }
-            : { ...option, text: option.textAr };
-        });
-    },
   },
   methods: {
     closeModal() {

@@ -55,27 +55,75 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import { appointmentService } from "../../services";
 import onSpotModal from "./on-spot-modal.vue";
+import io from "socket.io-client";
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
-      agree: false, 
+      agree: false,
+      socket: null,
+      socketURL: process.env.VUE_APP_SERVER,
     };
   },
   components: {
     "on-spot-modal": onSpotModal,
   },
-  computed: {},
-  mounted() {},
+  computed: {
+    ...mapGetters("user", ["getUserInfo"]),
+  },
+  mounted() {
+    this.initializeSocket();
+  },
+  beforeDestroy() {
+    this.destroySocket();
+  },
   watch: {},
   methods: {
     openOnSpotModal() {
+      this.requestConsultation();
       this.$bvModal.show("onSpotCustomModal");
     },
     hideOnSpotModal() {
       this.$bvModal.hide("onSpotCustomModal");
+    },
+    initializeSocket() {
+      // Establish the connection with the WebSocket server
+      this.socket = io(this.socketURL);
+      this.socket.on("connect_error", (err) => {
+        console.log(`connect_error due to ${err.message}`);
+      });
+      this.socket.on("connect", (err) => {
+        console.log("WebSocket connected", this.socketURL);
+      });
+      this.socket.on("adminsAvailability", this.handleAdminsAvailability);
+      this.socket.on("initial-admins", this.handleAdminsAvailability);
+      this.socket.on("call-connect", this.handleCallConnect);
+    },
+    destroySocket() {
+      if (this.socket) {
+        // Disconnect the socket and clean up event listeners
+        this.socket.disconnect();
+        console.log("WebSocket disconnected");
+      }
+    },
+    requestConsultation() {
+      // Send a consultation request through the WebSocket
+      if (this.socket) {
+        this.socket.emit("requestConsultation", {
+          request_id: this.socket.id,
+          user_id: this.getUserInfo.id,
+          role_id: this.getUserInfo.role_id,
+        });
+      }
+    },
+    handleAdminsAvailability(data) {
+      // Handle the data received from the server (admin availability updates)
+      console.log("Admin availability:", data);
+    },
+    handleCallConnect(data) {
+      console.log(data);
     },
   },
 };
