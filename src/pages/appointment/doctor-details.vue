@@ -23,6 +23,18 @@
                       : "N/A"
                   }}
                 </div>
+                <!-- Star Rating Component -->
+                <div class="doctor-rating">
+                  <star-rating
+                    :rating="doc.rating"
+                    :read-only="true"
+                    :increment="0.5"
+                    :star-size="20"
+                  />
+                  <span @click="openReviewModal()">{{
+                    $t("doctorDetail.reviews")
+                  }}</span>
+                </div>
               </div>
               <div
                 class="doctor-details-card-header-right-location"
@@ -372,6 +384,7 @@
         </div>
       </div>
     </div>
+    <review-modal />
   </div>
 </template>
 
@@ -384,9 +397,14 @@ import {
 } from "../../services";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import "swiper/dist/css/swiper.css";
+import StarRating from "vue-star-rating";
+import reviewsModal from "./reviews-modal.vue";
 export default {
   data() {
     return {
+      doc: {
+        rating: 4.5, // Replace this with the actual rating for the doctor
+      },
       selectedDate: "",
       doctor: null,
       timeslots: null,
@@ -436,6 +454,8 @@ export default {
   components: {
     swiper,
     swiperSlide,
+    StarRating,
+    "review-modal": reviewsModal,
   },
   mounted() {
     if (!this.getBookingDoctor) {
@@ -766,6 +786,14 @@ export default {
         }
       });
     },
+    openReviewModal() {
+      console.log("Modal Opened");
+      this.$bvModal.show("ReviewCustomModal");
+    },
+
+    hideReviewRequestModal() {
+      this.$bvModal.hide("ReviewCustomModal");
+    },
   },
   beforeDestroy() {
     if (this.getIsReschedule) {
@@ -777,6 +805,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.doctor-rating :deep(.vue-star-rating-rating-text) {
+  display: none !important;
+}
+
+.doctor-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #0a7dc6;
+}
+
+.doctor-rating > span {
+  cursor: pointer;
+}
+
 .flag {
   width: 2.5rem;
 }

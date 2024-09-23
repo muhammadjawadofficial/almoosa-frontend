@@ -11,6 +11,8 @@ import AuthBodyPatient from "../components/auth_body_patient";
 import GuestUserModule from "../components/guest-user";
 
 import Profile from "../pages/user/user-profile";
+import myReviews from "../pages/user/my-reviews.vue";
+
 
 import Dashboard from "../pages/dashboard";
 import Iframe from "../pages/iframe";
@@ -168,6 +170,14 @@ const routes = [
         component: Profile,
         meta: {
           title: "View Profile | Almoosa Health Group",
+        },
+      },
+      {
+        path: "my-reviews",
+        name: "My Reviews",
+        component: myReviews,
+        meta: {
+          title: "My Reviews | Almoosa Health Group",
         },
       },
       {

@@ -233,6 +233,7 @@
     "search": "Search",
     "changeLanguage": "Change Language",
     "viewProfile": "View My Profile",
+    "myReviews": "My Reviews",
     "changePassword": "Change Password",
     "switchMyProfile": "Switch to My Profile",
     "oldPassword": "Old Password",
@@ -399,7 +400,8 @@
     "expertise": "Areas of expertise",
     "nationality": "Nationality",
     "languages": "Languages",
-    "ageGroups": "Patient Age Groups"
+    "ageGroups": "Patient Age Groups",
+    "reviews": "Reviews"
   },
   "promotions": {
     "title": "Promotions List",

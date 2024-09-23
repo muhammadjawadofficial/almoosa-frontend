@@ -233,6 +233,7 @@
     "search": "تفتيش",
     "changeLanguage": "تغيير اللغة",
     "viewProfile": "الملف التعريفي",
+    "myReviews": "تعليقاتي",
     "changePassword": "تغير كلمة المرور",
     "switchMyProfile": "قم بالتبديل إلى ملف التعريف الخاص بي",
     "oldPassword": "كلمة المرور القديمة",
@@ -398,7 +399,8 @@
     "expertise": "مجالات الخبرة",
     "nationality": "الجنسية",
     "languages": "اللغات",
-    "ageGroups": "الفئات العمرية للمريض"
+    "ageGroups": "الفئات العمرية للمريض",
+    "reviews": "التعليقات"
   },
   "promotions": {
     "title": "قائمة العروض الترويجية",

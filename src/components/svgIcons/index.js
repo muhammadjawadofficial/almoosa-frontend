@@ -11,6 +11,7 @@ import bellFillSvg from './bell-fill-svg.vue'
 import userSvg from './user-svg.vue'
 import lockSvg from './lock-svg.vue'
 import changeCommentSvg from './change-comment-svg.vue'
+import starSvg from './star-svg.vue'
 import reminderSvg from './reminder-svg.vue'
 import atom from './modules/atom'
 import calendar from './modules/calendar'
@@ -61,6 +62,7 @@ Vue.component('bell-fill-svg', bellFillSvg)
 Vue.component('user-svg', userSvg)
 Vue.component('lock-svg', lockSvg)
 Vue.component('change-comment-svg', changeCommentSvg)
+Vue.component('star-svg', starSvg)
 Vue.component('reminder-svg', reminderSvg)
 Vue.component('dashboard-svg', dashboardSvg)
 Vue.component('heart-report-svg', heartReport)
