@@ -28,7 +28,11 @@ import appointmentDetail from "../pages/appointment/appointment-detail";
 import appointmentHistory from "../pages/appointment/appointment-history-timeline";
 import findSpecialist from "../pages/appointment/find-specialist";
 import doctorList from "../pages/appointment/doctor-list";
-import onSpotConsultation from "../pages/appointment/on-spot-consultation";
+// import onSpotConsultation from "../pages/onspot-consultation/onspot-consultation";
+
+import myOnspotModule from "../pages/onspot-consultation"
+import OnSpotConsultation from "../pages/onspot-consultation/onspot-consultation"
+import ZoomNativeConnect  from "../pages/onspot-consultation/zoom-connect-native"
 
 import doctorDetails from "../pages/appointment/doctor-details";
 import selectPaymentMethod from "../pages/appointment/select-payment-method";
@@ -180,14 +184,14 @@ const routes = [
           title: "Find A Specialist | Almoosa Health Group",
         },
       },
-      {
-        path: "on-spot-consultation",
-        name: "On Spot Consultation",
-        component: onSpotConsultation,
-        meta: {
-          title: "On Spot Consultation | Almoosa Health Group",
-        },
-      },
+      // {
+      //   path: "onspot-consultation",
+      //   name: "On Spot Consultation",
+      //   component: onSpotConsultation,
+      //   meta: {
+      //     title: "On Spot Consultation | Almoosa Health Group",
+      //   },
+      // },
       {
         path: "find-a-specialist/details",
         name: "Specialist Details",
@@ -195,6 +199,29 @@ const routes = [
         meta: {
           title: "Specialist Details | Almoosa Health Group",
         },
+      },
+      {
+        path: 'on-spot-consultation',
+        component: myOnspotModule,
+        children: [
+          { path: '', name: "OnSpot Consultation", redirect: { name: 'OnSpot Lobby' } },
+          {
+            path: "lobby",
+            name: 'OnSpot Lobby',
+            component: OnSpotConsultation,
+            meta: {
+              title: 'OnSpot Consultation | Almoosa Specialist Hospital',
+            },
+          },
+          {
+            path: "connect",
+            name: 'Connect Native Zoom',
+            component: ZoomNativeConnect,
+            meta: {
+              title: 'Connect | Almoosa Specialist Hospital',
+            },
+          },
+        ]
       },
       {
         path: "webview",

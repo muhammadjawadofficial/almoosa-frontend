@@ -50,14 +50,14 @@
       </button>
     </div>
 
-    <on-spot-modal @close="hideOnSpotModal" />
+    <on-spot-modal @cancel="handleCancel" />
   </div>
 </template>
 
 <script>
 import onSpotModal from "./on-spot-modal.vue";
 import io from "socket.io-client";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data() {
@@ -72,58 +72,91 @@ export default {
   },
   computed: {
     ...mapGetters("user", ["getUserInfo"]),
+    ...mapGetters("appointment", ["getOnspotConsultation"]),
   },
   mounted() {
     this.initializeSocket();
   },
   beforeDestroy() {
-    this.destroySocket();
+    this.removeSocketListners();
   },
   watch: {},
   methods: {
+    ...mapActions("appointment", ["setSelectedOnspotConsultation"]),
     openOnSpotModal() {
       this.requestConsultation();
       this.$bvModal.show("onSpotCustomModal");
     },
-    hideOnSpotModal() {
-      this.$bvModal.hide("onSpotCustomModal");
-    },
     initializeSocket() {
       // Establish the connection with the WebSocket server
-      this.socket = io(this.socketURL);
-      this.socket.on("connect_error", (err) => {
+      // this.$socket = io(this.socketURL);
+      this.$socket.on("connect_error", (err) => {
         console.log(`connect_error due to ${err.message}`);
       });
-      this.socket.on("connect", (err) => {
-        console.log("WebSocket connected", this.socketURL);
+      this.$socket.on("connect", (err) => {
+        console.log("WebSocket connected", this.socketURL, this.$socket);
       });
-      this.socket.on("adminsAvailability", this.handleAdminsAvailability);
-      this.socket.on("initial-admins", this.handleAdminsAvailability);
-      this.socket.on("call-connect", this.handleCallConnect);
+      this.$socket.on(
+        "admins-availability-updated",
+        this.handleAdminsAvailability
+      );
+      this.$socket.on("error-connecting", this.handleErrorConnecting);
+      this.$socket.on("call-connect", this.handleCallConnect);
     },
-    destroySocket() {
-      if (this.socket) {
-        // Disconnect the socket and clean up event listeners
-        this.socket.disconnect();
-        console.log("WebSocket disconnected");
+    withdrawRequest() {
+      if (this.$socket) {
+        this.$socket.emit("remove-request-consultation");
+      }
+      this.removeSocketListners();
+    },
+    removeSocketListners() {
+      if (this.$socket) {
+        this.$socket.off("connect");
+        this.$socket.off("connect_error");
+        this.$socket.off("admins-availability-updated");
+        this.$socket.off("call-connect");
+        this.$socket.off("error-connecting");
       }
     },
     requestConsultation() {
       // Send a consultation request through the WebSocket
-      if (this.socket) {
-        this.socket.emit("requestConsultation", {
-          request_id: this.socket.id,
-          user_id: this.getUserInfo.id,
-          role_id: this.getUserInfo.role_id,
+      const user_id = this.getUserInfo.id;
+      const role_id = this.getUserInfo.role_id;
+      if (this.$socket) {
+        this.$socket.emit("request-consultation", {
+          request_id: this.$socket.id,
+          user_id: user_id,
+          role_id: role_id,
         });
       }
+      console.log({
+        request_id: this.$socket.id,
+        user_id: user_id,
+        role_id: role_id,
+      });
+    },
+    handleCancel() {
+      this.withdrawRequest();
     },
     handleAdminsAvailability(data) {
       // Handle the data received from the server (admin availability updates)
       console.log("Admin availability:", data);
     },
-    handleCallConnect(data) {
-      console.log(data);
+    handleErrorConnecting(data) {
+      console.log("Error connecting data is", data);
+    },
+    async handleCallConnect(data) {
+      try {
+        let response = await data;
+        console.log("Call connect data is", response);
+
+        // Similarly, set and log on-spot consultation data
+        this.setSelectedOnspotConsultation(response);
+        // console.log("On Spot Consultation Data is", this.getOnspotConsultation);
+        this.navigateTo("Connect Native Zoom");
+      } catch (error) {
+        console.error("Error in handleCallConnect:", error);
+      }
     },
   },
 };
@@ -137,5 +170,8 @@ export default {
 ::v-deep .instruction-checkbox > .custom-control-label {
   font-size: 1rem !important;
   font-weight: 400 !important;
+}
+::v-deep .custom-control-label {
+  cursor: pointer !important;
 }
 </style>

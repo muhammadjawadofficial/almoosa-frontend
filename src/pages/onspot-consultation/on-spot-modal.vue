@@ -7,6 +7,8 @@
     hide-footer
     no-fade
     body-class="transparent"
+    @show="startTimer"
+    @hide="resetTimer"
   >
     <div
       class="swal2-container swal2-center swal-custom-icon-top-padding swal2-shown custom-swal2"
@@ -24,8 +26,8 @@
       >
         <div class="swal2-header">
           <img
-            class="swal2-image"
-            src="../../assets/images/call.svg"
+            class="swal2-image call-icon"
+            src="../../assets/images/call-icon.svg"
             alt=""
             style="display: flex"
           />
@@ -33,18 +35,9 @@
         </div>
         <div class="d-flex flex-column align-items-center">
           <h5 class="secondary-text">Starting Video Call....</h5>
-          <h5>Pleae wait <span class="primary-text">5:00</span> minutes</h5>
+          <h5>Please wait <span class="primary-text">{{ formattedTime }}</span> minutes</h5>
         </div>
         <div class="swal2-actions">
-          <!-- <button
-              type="button"
-              class="swal2-confirm swal2-styled"
-              aria-label=""
-              style="display: inline-block; background-color: rgb(68, 102, 242)"
-              @click="setUpdateRequest"
-            >
-              {{ $t("ok") }}
-            </button> -->
           <button
             type="button"
             class="swal2-cancel swal2-styled"
@@ -61,47 +54,45 @@
 
 <script>
 export default {
-  props: {
-  },
   data() {
     return {
-      selectedDecision: null,
-      rejectionReason: "",
-      decisionOptions: [
-        { value: "pending", text: "Pending", textAr: "قيد الانتظار" },
-        { value: "in-progress", text: "In Progress", textAr: "في تَقَدم" },
-        { value: "approved", text: "Approved", textAr: "وافقت" },
-        { value: "rejected", text: "Rejected", textAr: "مرفوض" },
-      ],
+      timer: null,
+      timeLeft: 300, // 5 minutes in seconds
     };
+  },
+  computed: {
+    formattedTime() {
+      const minutes = Math.floor(this.timeLeft / 60);
+      const seconds = this.timeLeft % 60;
+      return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    },
+  },
+  beforeDestroy(){
   },
   methods: {
     closeModal() {
+      this.resetTimer();
+      this.$emit("cancel");
       this.$refs.onSpotConsultationModal.hide();
-      this.selectedDecision = null;
-      this.rejectionReason = "";
     },
-    setUpdateRequest() {
-      if (!this.selectedDecision) {
-        this.failureToast(this.$t("detailMedical.selectLanguage"));
-        return;
-      }
+    startTimer() {
+      // Ensure timer is reset when modal is shown
+      this.resetTimer();
+      this.timeLeft = 300; // Reset to 5 minutes
 
-      const payload = {
-        status: this.selectedDecision,
-      };
-
-      if (this.selectedDecision === "rejected") {
-        if (!this.rejectionReason) {
-          this.failureToast(this.$t("detailMedical.enterReason"));
-          return;
+      this.timer = setInterval(() => {
+        if (this.timeLeft > 0) {
+          this.timeLeft--;
+        } else {
+          this.timeLeft = 300; // Reset to 5 minutes when it reaches 0
         }
-        payload.reason = this.rejectionReason;
+      }, 1000);
+    },
+    resetTimer() {
+      if (this.timer) {
+        clearInterval(this.timer);
+        this.timer = null;
       }
-
-      // console.log("Payload is:", payload);
-      this.$emit("set-update-request", payload);
-      this.closeModal();
     },
   },
 };
@@ -124,5 +115,8 @@ export default {
 }
 .primary-text {
   color: var(--theme-default);
+}
+.call-icon {
+  padding: 2.5rem !important;
 }
 </style>

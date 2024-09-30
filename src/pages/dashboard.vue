@@ -495,7 +495,7 @@ export default {
       }
     },
     onSpotConsultation() {
-      this.navigateTo("On Spot Consultation");
+      this.navigateTo("OnSpot Lobby");
     },
     findASpecialist(type) {
       this.navigateTo("Find Specialist", { method: type });
