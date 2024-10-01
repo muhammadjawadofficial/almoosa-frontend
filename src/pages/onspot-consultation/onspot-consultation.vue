@@ -1,33 +1,44 @@
 <template>
   <div
-    class="doctor-list-container page-body-container standard-width"
+    class="onspot-lobby-container page-body-container standard-width"
     :class="{ 'py-0': isWebView }"
   >
-    <back-navigation
-      :backLink="'default'"
-      :title="$t('onspotConsultation.instructions')"
-      v-if="!isWebView"
-    />
+    <back-navigation :backLink="'default'" v-if="!isWebView" class="mb-2" />
+
+    <div class="heading w600">
+      {{ onSpotConsultationCMS[getLocaleKey("page_title")] }}
+    </div>
+    <div class="sub-heading w200">
+      {{ onSpotConsultationCMS[getLocaleKey("long_title")] }}
+    </div>
+    <div
+      class="cmsText"
+      v-html="onSpotConsultationCMS[getLocaleKey('long_text')]"
+    ></div>
+
     <div v-if="isWebView" class="instruction-text">
       {{ $t("onspotConsultation.instructions") }}
     </div>
     <div class="instruction-card-container">
       <p class="cmsText" v-html="localizedText"></p>
-      <div class="checkbox-container" v-if="!isWebView">
+      <div class="checkbox-container mt-5" v-if="!isWebView">
         <b-form-checkbox
           id="agree-checkbox"
           v-model="agree"
-          class="instruction-checkbox pb-4"
+          class="mt-3 custom-checkbox"
         >
-          {{ $t("onspotConsultation.iAgree") }}
+          {{ $t("termsAndConditions.iAgree") }}
         </b-form-checkbox>
-
-        <button
-          class="btn btn-primary make-appointment"
-          @click="openOnSpotModal()"
-        >
-          {{ $t("continue") }}
-        </button>
+        <div class="row">
+          <div class="col-md-12 button-group mt-5">
+            <button
+              class="btn btn-primary make-appointment"
+              @click="openOnSpotModal()"
+            >
+              {{ $t("continue") }}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -179,15 +190,73 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.instruction-text {
-  font-size: 2rem;
-  font-weight: 400 !important;
+.heading {
+  text-transform: uppercase;
+  font-size: 2.938rem;
+  color: var(--theme-default);
+  margin-bottom: 1rem;
+  font-family: "DiodrumArabicSemiBold";
 }
-::v-deep .instruction-checkbox > .custom-control-label {
-  font-size: 1rem !important;
-  font-weight: 400 !important;
+.sub-heading {
+  font-size: 1.625rem;
+  font-family: "DiodrumArabicSemiBold";
+  color: black;
 }
-::v-deep .custom-control-label {
-  cursor: pointer !important;
+@media (max-width: 991px) {
+  .login-card {
+    padding-top: 1.25rem;
+  }
+  .heading {
+    font-size: 1.5rem;
+  }
+  .sub-heading {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 525px) {
+  .heading {
+    font-size: 2rem;
+  }
+  .sub-heading {
+    font-size: 1.25rem;
+  }
+  .button-group {
+    button {
+      max-width: 100%;
+      border-radius: 9px;
+    }
+  }
+}
+.button-group {
+  margin-top: 3rem;
+}
+.custom-checkbox {
+  :deep {
+    input:checked {
+      ~ label {
+        &::before {
+          border-color: var(--theme-default);
+          background-color: var(--theme-default);
+          border-radius: 3px;
+        }
+      }
+    }
+    label {
+      font-size: 1rem;
+      color: var(--theme-default);
+      margin-inline-start: 0.5rem;
+      cursor: pointer;
+      &::after,
+      &::before {
+        width: 1.563rem;
+        height: 1.563rem;
+        top: 0;
+        bottom: 0;
+        left: -2rem;
+        margin: auto;
+        border-color: var(--theme-default) !important;
+      }
+    }
+  }
 }
 </style>
