@@ -34,8 +34,8 @@
           <h2 class="swal2-title" id="swal2-title" style="display: flex"></h2>
         </div>
         <div class="d-flex flex-column align-items-center">
-          <h5 class="secondary-text">Starting Video Call....</h5>
-          <h5>Please wait <span class="primary-text">{{ formattedTime }}</span> minutes</h5>
+          <h5 class="secondary-text">{{ $t("onspotConsultation.startCall") }}</h5>
+          <h5>{{ $t("onspotConsultation.pleaseWait") }} <span class="primary-text">{{ formattedTime }}</span> {{ $t("onspotConsultation.minutes") }}</h5>
         </div>
         <div class="swal2-actions">
           <button
@@ -74,6 +74,7 @@ export default {
       this.resetTimer();
       this.$emit("cancel");
       this.$refs.onSpotConsultationModal.hide();
+        this.navigateTo("default");
     },
     startTimer() {
       // Ensure timer is reset when modal is shown

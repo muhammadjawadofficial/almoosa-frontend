@@ -239,6 +239,17 @@ const routes = [
             },
           },
           {
+            path: "onspot-consultation",
+            name: "On Spot Consultation WebView",
+            component: OnspotConsultation,
+            meta: {
+              title: "On Spot Consultation | Almoosa Health Group",
+              public: true,
+              hideWhatsapp: true,
+              webview: true,
+            },
+          },
+          {
             path: "services-packages/:id",
             name: "Service and Package Terms WebView",
             component: TermsAndCondition,
@@ -1027,6 +1038,7 @@ const router = new Router({
 });
 
 import { resetCancellation } from "../services/axios";
+import OnspotConsultation from "../pages/onspot-consultation/onspot-consultation.vue";
 
 router.beforeEach((to, from, next) => {
   resetCancellation();

@@ -306,6 +306,15 @@
       "confirmText": "هل أنت متأكد من إلغاء موعدك؟"
     }
   },
+  "onspotConsultation": {
+    "iAgree": "أنا موافق",
+    "instructions": "تعليمات",
+    "startCall": "جارٍ بدء مكالمة الفيديو....",
+    "pleaseWait": "انتظر من فضلك",
+    "minutes": "دقائق",
+    "policyAcceptance": "يرجى قبول السياسة الفورية"
+
+  },
   "appointmentDetail": {
     "heading": "تفاصيل الموعد",
     "subHeading": "عرض المواعيد السابقة",

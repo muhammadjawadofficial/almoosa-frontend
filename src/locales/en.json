@@ -306,6 +306,14 @@
       "confirmText": "Are you sure, you want to cancel your appointment?"
     }
   },
+  "onspotConsultation": {
+    "iAgree": "I Agree",
+    "instructions": "Instructions",
+    "startCall":"Starting Video Call....",
+    "pleaseWait": "Please Wait",
+    "minutes": "minutes",
+    "policyAcceptance": "Please Accept Onspot Policy"
+  },
   "appointmentDetail": {
     "heading": "Appointment Detail",
     "subHeading": "View your appointments history",

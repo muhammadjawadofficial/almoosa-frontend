@@ -1,53 +1,34 @@
 <template>
-  <div class="doctor-list-container page-body-container standard-width">
+  <div
+    class="doctor-list-container page-body-container standard-width"
+    :class="{ 'py-0': isWebView }"
+  >
     <back-navigation
       :backLink="'default'"
-      :title="$t('doctorList.instructions')"
+      :title="$t('onspotConsultation.instructions')"
+      v-if="!isWebView"
     />
+    <div v-if="isWebView" class="instruction-text">
+      {{ $t("onspotConsultation.instructions") }}
+    </div>
+    <div class="instruction-card-container">
+      <p class="cmsText" v-html="localizedText"></p>
+      <div class="checkbox-container" v-if="!isWebView">
+        <b-form-checkbox
+          id="agree-checkbox"
+          v-model="agree"
+          class="instruction-checkbox pb-4"
+        >
+          {{ $t("onspotConsultation.iAgree") }}
+        </b-form-checkbox>
 
-    <div class="instruction-card-container py-5">
-      <!-- <p>{{ $t('doctorList.instructions') }}</p> -->
-      <p class="instruction-text">
-        Please take a moment to thoroughly review the following instructions
-        before proceeding. We highly encourage you to understand all the
-        guidelines to ensure a smooth and seamless experience. By agreeing to
-        these terms, you acknowledge that you are fully informed and prepared
-        for the next steps. Keep in mind that this process is designed to
-        provide you with a personalized, on-spot consultation call with one of
-        our medical professionals. This call will offer expert advice and
-        guidance tailored to your specific needs.
-        <br /><br />
-        It is important to note that by agreeing to the terms and conditions,
-        you are confirming your commitment to the consultation process and
-        agreeing to follow the protocols set forth. Failure to comply with these
-        terms may result in delays or interruptions to your consultation. Should
-        you have any questions or need further clarification, please feel free
-        to contact our support team before proceeding.
-        <br /><br />
-        Your participation in this consultation call signifies your
-        understanding of and agreement to these conditions. The purpose of this
-        agreement is to facilitate a productive and beneficial consultation that
-        meets your healthcare needs. Thank you for your cooperation and for
-        taking the time to carefully review the terms. Please check the box
-        below to confirm your agreement and proceed to schedule your
-        consultation.
-      </p>
-
-      <b-form-checkbox
-        id="agree-checkbox"
-        v-model="agree"
-        class="instruction-checkbox pb-4"
-      >
-        {{ $t("doctorList.agree") }}
-      </b-form-checkbox>
-
-      <button
-        class="btn btn-primary make-appointment"
-        :disabled="!agree"
-        @click="openOnSpotModal()"
-      >
-        {{ $t("continue") }}
-      </button>
+        <button
+          class="btn btn-primary make-appointment"
+          @click="openOnSpotModal()"
+        >
+          {{ $t("continue") }}
+        </button>
+      </div>
     </div>
 
     <on-spot-modal @cancel="handleCancel" />
@@ -56,15 +37,13 @@
 
 <script>
 import onSpotModal from "./on-spot-modal.vue";
-import io from "socket.io-client";
 import { mapGetters, mapActions } from "vuex";
-
+import { cmsPagesService } from "../../services";
 export default {
   data() {
     return {
       agree: false,
-      socket: null,
-      socketURL: process.env.VUE_APP_SERVER,
+      onSpotConsultationCMS: null,
     };
   },
   components: {
@@ -73,28 +52,65 @@ export default {
   computed: {
     ...mapGetters("user", ["getUserInfo"]),
     ...mapGetters("appointment", ["getOnspotConsultation"]),
+    localizedText() {
+      if (this.onSpotConsultationCMS) {
+        return this.$i18n.locale === "ar"
+          ? this.onSpotConsultationCMS.long_text_ar
+          : this.onSpotConsultationCMS.long_text;
+      }
+      return "";
+    },
   },
   mounted() {
     this.initializeSocket();
+    this.setAppLanguageFromRoute();
+    this.getCmsPage("onspot_policy");
+    console.log("Language is:", this.$i18n.locale);
   },
   beforeDestroy() {
     this.removeSocketListners();
   },
   watch: {},
   methods: {
+    ...mapActions("user", ["updateUserInfo", "setUserInfo"]),
+    getCmsPage(type) {
+      cmsPagesService.fetchCmsPages("?type=" + type).then(
+        (res) => {
+          if (res.data.status) {
+            this.onSpotConsultationCMS = res.data.data.items[0];
+            console.log(this.onSpotConsultationCMS);
+          } else {
+            this.failureToast(res.data.message);
+          }
+        },
+        (error) => {
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+          console.error(error);
+        }
+      );
+    },
+
     ...mapActions("appointment", ["setSelectedOnspotConsultation"]),
     openOnSpotModal() {
-      this.requestConsultation();
-      this.$bvModal.show("onSpotCustomModal");
+      if (this.agree == false) {
+        this.failureToast(this.$t("onspotConsultation.policyAcceptance"));
+      } else {
+        this.requestConsultation();
+        this.$bvModal.show("onSpotCustomModal");
+      }
     },
     initializeSocket() {
       // Establish the connection with the WebSocket server
-      // this.$socket = io(this.socketURL);
       this.$socket.on("connect_error", (err) => {
         console.log(`connect_error due to ${err.message}`);
       });
       this.$socket.on("connect", (err) => {
-        console.log("WebSocket connected", this.socketURL, this.$socket);
+        console.log("WebSocket connected", this.$socket);
       });
       this.$socket.on(
         "admins-availability-updated",
@@ -164,7 +180,7 @@ export default {
 
 <style lang="scss" scoped>
 .instruction-text {
-  font-size: 1rem;
+  font-size: 2rem;
   font-weight: 400 !important;
 }
 ::v-deep .instruction-checkbox > .custom-control-label {
