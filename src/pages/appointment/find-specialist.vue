@@ -4,30 +4,6 @@
   >
     <back-navigation />
     <div
-      class="datetime-section find-specialist-container-section block-section"
-    >
-      <div class="heading-section">
-        <div class="heading-icon">
-          <img src="../../assets/images/calendar.svg" alt="calendar-icon" />
-        </div>
-        <div class="heading-text">
-          <div class="heading-title">
-            {{ $t("findSpecialist.selectDateTime") }}
-          </div>
-          <div class="heading-subTitle">
-            {{ getLongMonthDayFromDate(selectedDate) }}
-          </div>
-        </div>
-      </div>
-      <div class="body-section">
-        <ash-datepicker
-          :placeholder="$t('findSpecialist.selectDate')"
-          v-model="selectedDate"
-          disableDate="forward"
-        />
-      </div>
-    </div>
-    <div
       v-if="getBookingMethod == 'onsite'"
       class="location-section find-specialist-container-section block-section"
     >
@@ -102,7 +78,7 @@
           </div>
         </div>
       </div>
-      <div class="search-box">
+      <div class="search-box" :style="getBookingMethod == 'onsite' ? '': 'top: 0;'">
         <div class="search-icon">
           <i class="fa fa-search" aria-hidden="true"></i>
         </div>
@@ -363,8 +339,6 @@ export default {
                 error.response.data.message
             );
         });
-      let today = new Date();
-      this.selectedDate = this.removeDateTime(today.setHours(0, 0, 0));
       if (this.getBookingDate) {
         this.selectedDate = this.getBookingDate;
       }
