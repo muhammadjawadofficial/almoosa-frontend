@@ -3,9 +3,11 @@
     class="onspot-lobby-container page-body-container standard-width"
     :class="{ 'py-0': isWebView }"
   >
-    <back-navigation :backLink="'default'" v-if="!isWebView" class="mb-2" />
+    <back-navigation :backLink="'default'" v-if="!isWebView" class="mb-2 heading w600"
+    :title="onSpotConsultationCMS[getLocaleKey('page_title')]"
+    />
 
-    <div class="heading w600">
+    <div v-if="isWebView" class="heading w600">
       {{ onSpotConsultationCMS[getLocaleKey("page_title")] }}
     </div>
     <div class="sub-heading w200">
