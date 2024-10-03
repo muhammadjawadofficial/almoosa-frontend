@@ -27,7 +27,8 @@ export default {
         },
         doctorsList: null,
         isReschedule: false,
-        teleConsultation: null
+        teleConsultation: null,
+        selectedOnspotConsultation: null
     },
     actions: {
         resetBookAppointment({ commit }, data) {
@@ -94,6 +95,9 @@ export default {
         setSelectedDoctorRating({ commit }, data) {
             commit('SET_SELECTED_DOCTOR_RATING', data)
         },
+        setSelectedOnspotConsultation({ commit }, data) {
+            commit('SET_SELECTED_ONSPOTCONSULTATION', data)
+        },
     },
     mutations: {
         RESET_BOOK_APPOINTMENT(state, booking) {
@@ -148,8 +152,8 @@ export default {
         SET_TELE_CONSULTATION(state, teleConsultation) {
             state.teleConsultation = teleConsultation;
         },
-        SET_SELECTED_DOCTOR_RATING(state, seleclectedDoctor) {
-            Vue.set(state, 'seleclectedDoctor', seleclectedDoctor)
+        SET_SELECTED_ONSPOTCONSULTATION(state, selectedOnspotConsultation) {
+            Vue.set(state, 'selectedOnspotConsultation', selectedOnspotConsultation)
         },
     },
     getters: {
@@ -177,5 +181,6 @@ export default {
         getBookingNearestDate: (state) => state.booking.nearestDate,
         getTeleConsultation: (state) => state.teleConsultation,
         getSelectedDoctorRating: (state) => state.seleclectedDoctor,
+        getOnspotConsultation: (state) => state.selectedOnspotConsultation,
     }
 };

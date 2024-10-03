@@ -85,7 +85,9 @@
                       <ash-datepicker
                         v-model="selectedDate"
                         @input="bookingDateChanged"
-                        disableDate="forward"
+                        disableDate="custom"
+                        :dateToCompare="availabilityDates"
+                        @month-change="handlePanelChange"
                       />
                     </div>
                     <div class="row">
@@ -218,7 +220,10 @@
                           {{ $t("doctorList.timeSlots") }}
                         </div>
                         <div class="time-slots-container">
-                          <div class="no-data" v-if="timeslots == null">
+                          <div class="no-data" v-if="!selectedDate">
+                            {{ $t("doctorList.selectDate") }}
+                          </div>
+                          <div class="no-data" v-else-if="timeslots == null">
                             {{ this.$t("loading") }}
                           </div>
                           <template v-else-if="timeslots.length">
@@ -430,6 +435,7 @@ export default {
       isBookingFlow: false,
       clinics: [],
       selectedClinic: {},
+      availabilityDates: [],
       swiperOption: {
         direction: "vertical",
         slidesPerView: 1,
@@ -468,6 +474,20 @@ export default {
       return this.getBookingClinic && this.getBookingClinic.id;
     },
   },
+  watch: {
+    selectedDate(value, oldValue) {
+      if (value) {
+        let dateParts = this.getMonthAndYear(value);
+        if (oldValue) {
+          if (value.month !== oldValue.month || value.year !== oldValue.year) {
+            this.fetchCalendarAvaiability(dateParts);
+          }
+        } else {
+          this.fetchCalendarAvaiability(dateParts);
+        }
+      }
+    },
+  },
   components: {
     swiper,
     swiperSlide,
@@ -489,6 +509,7 @@ export default {
     }
 
     this.initializeData();
+    // this.fetchCalendarAvaiability(this.getMonthAndYear(this.selectedDate));
   },
   methods: {
     ...mapActions("appointment", [
@@ -504,16 +525,33 @@ export default {
       "setBookingMethod",
       "setSelectedDoctorRating",
     ]),
+    async fetchCalendarAvaiability(dateParts) {
+      let method = this.getBookingMethod.toLowerCase();
+      if (method == "home-healthcare") {
+        method = "onsite";
+      }
+      this.setLoadingState(true);
+      const doctorId = this.getBookingDoctor.id;
+      const appointmentType = method.toUpperCase();
+      const locationId = this.selectedClinic ? this.selectedClinic.id : null;
+      const month = dateParts.month;
+      const year = dateParts.year;
+      const response = await appointmentService.fetchMonthAvailability(
+        doctorId,
+        appointmentType,
+        locationId,
+        month,
+        year
+      );
+      this.$set(this, "availabilityDates", response.data.data.items);
+      this.setLoadingState(false);
+    },
+    handlePanelChange(dateParts) {
+      this.fetchCalendarAvaiability(dateParts);
+    },
     ...mapActions("user", ["updateUserInfo"]),
     initializeData() {
       this.doctor = this.getBookingDoctor;
-      this.selectedDate = this.removeDateTime(
-        this.getBookingNearestDate || this.getBookingDate
-      );
-      const bookingMethod =
-        typeof this.getBookingMethod === "string"
-          ? this.getBookingMethod.toLowerCase()
-          : "";
       userService
         .getProfileById(this.getBookingDoctor.id)
         .then((res) => {
@@ -531,11 +569,14 @@ export default {
                 rating: rating,
               };
             }
-            if (bookingMethod == "online") {
+            if (this.getBookingMethod == "online") {
               if (this.doctor && this.isBookingFlow) {
                 this.fetchTimeslots();
               }
-            } else if (bookingMethod == "onsite" || bookingMethod == 'home-healthcare') {
+            } else if (
+              this.getBookingMethod == "onsite" ||
+              this.getBookingMethod == "home-healthcare"
+            ) {
               if (!this.isClinicSelected) {
                 appointmentService.getClinicsV1().then((res) => {
                   let response = res.data;
@@ -558,6 +599,7 @@ export default {
           }
         })
         .catch((error) => {
+          console.error(error);
           if (!this.isAPIAborted(error))
             this.failureToast(
               error.response &&
@@ -612,12 +654,7 @@ export default {
       }
 
       appointmentService
-        .fetchTimeslots(
-          this.doctor.id, 
-          this.selectedDate, 
-          method, 
-          location_id
-        )
+        .fetchTimeslots(this.doctor.id, this.selectedDate, method, location_id)
         .then(
           (res) => {
             let response = res.data;
@@ -743,6 +780,7 @@ export default {
               }
             },
             (error) => {
+              console.error(error);
               if (!this.isAPIAborted(error))
                 this.failureToast(
                   error.response &&
@@ -793,8 +831,8 @@ export default {
         payLater: true,
       };
       this.setPaymentObject(obj);
-      if(this.getBookingMethod == "home-healthcare"){
-        this.setBookingMethod('onsite')
+      if (this.getBookingMethod == "home-healthcare") {
+        this.setBookingMethod("onsite");
       }
       this.navigateTo("Book Appointment");
     },
@@ -866,6 +904,13 @@ export default {
 .flag {
   width: 2.5rem;
 }
+
+.booking-date ::v-deep .btn-light {
+  color: #343a40 !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
 .custom-login-input-groups {
   padding: 0.4rem 0.7rem;
 

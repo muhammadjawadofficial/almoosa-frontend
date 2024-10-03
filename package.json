@@ -40,6 +40,7 @@
     "leaflet": "^1.5.1",
     "moment-timezone": "^0.5.41",
     "sass-loader": "^8.0.0",
+    "socket.io-client": "^4.8.0",
     "tiptap": "^1.26.3",
     "v-calendar": "^2.0.2",
     "vee-validate": "^3.0.11",
