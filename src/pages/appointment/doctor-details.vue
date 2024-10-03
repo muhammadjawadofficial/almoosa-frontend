@@ -23,16 +23,32 @@
                       : "N/A"
                   }}
                 </div>
-                <!-- Star Rating Component -->
                 <div class="doctor-rating">
-                  <star-rating
-                    :rating="doc.rating"
-                    :read-only="true"
-                    :increment="0.5"
-                    :star-size="20"
-                  />
+                  <div class="star-container">
+                    <div class="value">
+                      <div class="rating-container disable-hover">
+                        <div class="fa fa-star star"></div>
+                        <div class="fa fa-star star"></div>
+                        <div class="fa fa-star star"></div>
+                        <div class="fa fa-star star"></div>
+                        <div class="fa fa-star star"></div>
+                        <div
+                          class="rating-filled"
+                          :style="
+                            'width: ' + (doctor.rating / 5 || 0) * 100 + '%'
+                          "
+                        >
+                          <div class="fa fa-star star active"></div>
+                          <div class="fa fa-star star active"></div>
+                          <div class="fa fa-star star active"></div>
+                          <div class="fa fa-star star active"></div>
+                          <div class="fa fa-star star active"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <span @click="openReviewModal()">{{
-                    $t("doctorDetail.reviews")
+                    $t("doctorDetail.viewReviews")
                   }}</span>
                 </div>
               </div>
@@ -272,10 +288,10 @@
                       <template v-if="doctor[getLocaleKey('expertise')]">
                         <div
                           class="hospital-address"
-                          v-for="expertise in doctor[
+                          v-for="(expertise, eindex) in doctor[
                             getLocaleKey('expertise')
                           ].split(',')"
-                          :key="'expertise-' + expertise.trim()"
+                          :key="'expertise-' + eindex + '-' + expertise.trim()"
                         >
                           {{ expertise }}
                         </div>
@@ -296,7 +312,11 @@
                             doctor.nationality[getLocaleKey("nationality")]) ||
                           "N/A"
                         }}
-                        <span v-if="doctor.nationality && doctor.nationality.flag_url">
+                        <span
+                          v-if="
+                            doctor.nationality && doctor.nationality.flag_url
+                          "
+                        >
                           <b-img
                             class="flag"
                             :src="doctor.nationality.flag_url"
@@ -397,14 +417,10 @@ import {
 } from "../../services";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import "swiper/dist/css/swiper.css";
-import StarRating from "vue-star-rating";
 import reviewsModal from "./reviews-modal.vue";
 export default {
   data() {
     return {
-      doc: {
-        rating: 4.5, // Replace this with the actual rating for the doctor
-      },
       selectedDate: "",
       doctor: null,
       timeslots: null,
@@ -436,6 +452,7 @@ export default {
       "getBookingMethod",
       "getBookingClinic",
       "getBookingNearestDate",
+      "getSelectedDoctorRating",
     ]),
     ...mapGetters("user", ["getUserInfo"]),
     shouldShowLocation() {
@@ -454,10 +471,10 @@ export default {
   components: {
     swiper,
     swiperSlide,
-    StarRating,
     "review-modal": reviewsModal,
   },
   mounted() {
+    this.setSelectedDoctorRating({});
     if (!this.getBookingDoctor) {
       this.navigateTo("Doctor List");
     }
@@ -484,7 +501,8 @@ export default {
       "resetBookAppointment",
       "setPaymentObject",
       "setBookingNearestDate",
-      "setBookingMethod"
+      "setBookingMethod",
+      "setSelectedDoctorRating",
     ]),
     ...mapActions("user", ["updateUserInfo"]),
     initializeData() {
@@ -503,12 +521,14 @@ export default {
           if (response.status) {
             let profile = response.data.items[0];
             if (profile) {
+              const rating = profile.rating === null ? 0 : profile.rating;
               this.doctor = {
                 ...profile,
                 id: this.getBookingDoctor.id,
                 profile_photo_url: this.getBookingDoctor.profile_photo_url,
                 speciality: this.getBookingDoctor.speciality,
                 speciality_ar: this.getBookingDoctor.speciality_ar,
+                rating: rating,
               };
             }
             if (bookingMethod == "online") {
@@ -554,6 +574,32 @@ export default {
       this.selectedDate = val;
       this.fetchTimeslots();
     },
+    openReviewModal() {
+      let doctor_id = this.getBookingDoctor.id;
+      appointmentService.getDoctorRating(doctor_id).then(
+        (res) => {
+          let response = res.data;
+          if (response.status) {
+            this.setSelectedDoctorRating(response.data);
+            this.$bvModal.show("ReviewCustomModal");
+          } else {
+            this.failureToast(response.message);
+          }
+        },
+        (error) => {
+          console.error(error);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
+    hideReviewRequestModal() {
+      this.$bvModal.hide("ReviewCustomModal");
+    },
     fetchTimeslots() {
       this.selectedTimeSlotIndex = null;
       let method = this.getBookingMethod || "";
@@ -567,9 +613,9 @@ export default {
 
       appointmentService
         .fetchTimeslots(
-          this.doctor.id,
-          this.selectedDate,
-          method,
+          this.doctor.id, 
+          this.selectedDate, 
+          method, 
           location_id
         )
         .then(
@@ -786,14 +832,6 @@ export default {
         }
       });
     },
-    openReviewModal() {
-      console.log("Modal Opened");
-      this.$bvModal.show("ReviewCustomModal");
-    },
-
-    hideReviewRequestModal() {
-      this.$bvModal.hide("ReviewCustomModal");
-    },
   },
   beforeDestroy() {
     if (this.getIsReschedule) {
@@ -813,11 +851,16 @@ export default {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #0a7dc6;
 }
 
 .doctor-rating > span {
   cursor: pointer;
+  color: var(--theme-secondary);
+}
+
+.doctor-rating > span:hover {
+  cursor: pointer;
+  color: #55b047;
 }
 
 .flag {
@@ -840,4 +883,55 @@ export default {
 
   max-width: 22.875rem;
 }
+.rating-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    margin: auto;
+    position: relative;
+    .star {
+        width: 2rem;
+        height: 2rem;
+        min-width: 2rem;
+        font-size: 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #d8d8d8;
+    }
+    &:not(.disable-hover) {
+        &:hover .star {
+            color: #55b047;
+
+        }
+        .star:hover ~ .star {
+            color: #d8d8d8;
+        }
+    }
+    .star.active {
+      color: #55b047;
+    }
+}
+.rating-container {
+  .star {
+    width: 1.5rem;
+    height: 1.5rem;
+    min-width: 1.5rem;
+    font-size: 1.5rem;
+  }
+
+  .rating-filled {
+    position: absolute;
+    display: flex;
+    overflow: hidden;
+    left: 0;
+  }
+}
+
+.rtl .rating-filled {
+  flex-direction: row-reverse;
+}
+
 </style>

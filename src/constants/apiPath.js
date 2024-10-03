@@ -69,6 +69,8 @@ export const apiPath = {
         updateAppointment: getApiObject("post", "appointments/reschedule", "v2"),
         cancelAppointment: getApiObject("post", "appointments/cancel", "v2"),
         todayAppointment: (id) => getApiObject("get", "appointments/today?doctor_id=" + id, 'v2'),
+        doctorRating: (id) => getApiObject("get", "user-ratings/summary/" + id, 'v1'),
+        currentDoctorRating: (query) => getApiObject("get", "user-ratings" + query),
         ratePhysician: getApiObject("post", "user-ratings"),
         fetchAppointmentHistory: (patient_id, doctor_id) => getApiObject("get", "appointments/history?mrn_number=" + patient_id + "&doctor_id=" + doctor_id, "v2"),
         createPayment: getApiObject("post", "payments/create", "v2"),

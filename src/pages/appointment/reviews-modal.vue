@@ -42,23 +42,50 @@
           <hr />
           <div class="d-flex main-container">
             <div class="review-container">
-              <div class="reviews">4.86</div>
-              <div class="total-reviews">8296 Reviews</div>
+              <div class="reviews">
+                {{
+                  getSelectedDoctorRating ? getSelectedDoctorRating.average : 0
+                }}
+              </div>
+              <div class="total-reviews">
+                {{
+                  getSelectedDoctorRating ? getSelectedDoctorRating.total : 0
+                }}
+                {{ $t("doctorDetail.reviews") }}
+              </div>
             </div>
             <div class="star-container">
-              <star-rating
-                :rating="rating"
-                :read-only="true"
-                :increment="0.5"
-                :star-size="20"
-              />
+              <div class="value">
+                <div class="rating-container disable-hover">
+                  <div class="fa fa-star star"></div>
+                  <div class="fa fa-star star"></div>
+                  <div class="fa fa-star star"></div>
+                  <div class="fa fa-star star"></div>
+                  <div class="fa fa-star star"></div>
+                  <div
+                    class="rating-filled"
+                    :style="{
+                      width:
+                        (getSelectedDoctorRating &&
+                        getSelectedDoctorRating.average
+                          ? (getSelectedDoctorRating.average / 5) * 100
+                          : 0) + '%',
+                    }"
+                  >
+                    <div class="fa fa-star star active"></div>
+                    <div class="fa fa-star star active"></div>
+                    <div class="fa fa-star star active"></div>
+                    <div class="fa fa-star star active"></div>
+                    <div class="fa fa-star star active"></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <!-- Rating Categories with Percentages -->
           <div class="rating-item-container">
             <div
               class="rating-item"
-              v-for="(item, index) in ratingCategories"
+              v-for="(item, index) in dynamicRatingCategories"
               :key="index"
             >
               <div class="category">{{ item.label }}</div>
@@ -72,23 +99,48 @@
 </template>
 
 <script>
-import StarRating from "vue-star-rating";
-
+import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
-      rating: 4.5,
-      ratingCategories: [
-        { label: "Excellent", percentage: 85 },
-        { label: "Very Good", percentage: 70 },
-        { label: "Good", percentage: 20 },
-        { label: "Average", percentage: 9 },
-        { label: "Below Average", percentage: 2 },
-      ],
+      ratingData: [],
     };
   },
-  components: {
-    StarRating,
+  computed: {
+    ...mapGetters("appointment", [
+      "getBookingDoctor",
+      "getSelectedDoctorRating",
+    ]),
+    dynamicRatingCategories() {
+      // if (!this.getSelectedDoctorRating.percentage) return [];
+      let percentages = this.getSelectedDoctorRating
+        ? this.getSelectedDoctorRating.percentage
+        : 0;
+      const isArabic = this.$i18n.locale === "ar";
+
+      return [
+        {
+          label: isArabic ? "ممتاز" : "Excellent",
+          percentage: percentages ? percentages.five : 0,
+        },
+        {
+          label: isArabic ? "جيد جدًا" : "Very Good",
+          percentage: percentages ? percentages.four : 0,
+        },
+        {
+          label: isArabic ? "جيد" : "Good",
+          percentage: percentages ? percentages.three : 0,
+        },
+        {
+          label: isArabic ? "متوسط" : "Average",
+          percentage: percentages ? percentages.two : 0,
+        },
+        {
+          label: isArabic ? "أقل من المتوسط" : "Below Average",
+          percentage: percentages ? percentages.one : 0,
+        },
+      ];
+    },
   },
   methods: {
     closeModal() {
@@ -148,5 +200,56 @@ export default {
 }
 .reviews {
   font-size: 1.5rem;
+}
+
+.rating-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  margin: auto;
+  position: relative;
+  .star {
+    width: 2rem;
+    height: 2rem;
+    min-width: 2rem;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #d8d8d8;
+  }
+  &:not(.disable-hover) {
+    &:hover .star {
+      color: #55b047;
+    }
+    .star:hover ~ .star {
+      color: #d8d8d8;
+    }
+  }
+  .star.active {
+    color: #55b047;
+  }
+}
+
+.rating-container {
+  .star {
+    width: 1.5rem;
+    height: 1.5rem;
+    min-width: 1.5rem;
+    font-size: 1.5rem;
+  }
+
+  .rating-filled {
+    position: absolute;
+    display: flex;
+    overflow: hidden;
+    left: 0;
+  }
+}
+
+.rtl .rating-filled {
+  flex-direction: row-reverse;
 }
 </style>

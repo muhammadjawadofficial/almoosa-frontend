@@ -324,7 +324,8 @@
     "caseHistory": "Case History",
     "consultation": "Consultation",
     "treatmentDate": "Treatment Date",
-    "treatmentType": "Treatment Type"
+    "treatmentType": "Treatment Type",
+    "noComment": "No Comment Provided"
   },
   "symptoms": {
     "symptom": "Symptoms",
@@ -401,7 +402,8 @@
     "nationality": "Nationality",
     "languages": "Languages",
     "ageGroups": "Patient Age Groups",
-    "reviews": "Reviews"
+    "reviews": "Reviews",
+    "viewReviews": "View Reviews"
   },
   "promotions": {
     "title": "Promotions List",
