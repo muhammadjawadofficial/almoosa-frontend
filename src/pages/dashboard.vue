@@ -174,6 +174,24 @@
             :class="{ one: getUserInfo.isDependent }"
           >
             <div
+              class="consultation-section--blocks--single large primary flex-column-reverse"
+              @click="findASpecialist('onsite')"
+            >
+              <div class="title">
+                {{ $t("modules.On-site Consultations") }}
+                <div class="sub-title">
+                  {{
+                    $t(
+                      "modules.description.Discover the best doctors in Almoosa Health Group"
+                    )
+                  }}
+                </div>
+              </div>
+              <div class="icon circle-shape">
+                <on-site-svg />
+              </div>
+            </div>
+            <div
               class="consultation-section--blocks--single large secondary flex-column-reverse"
               @click="findASpecialist('online')"
             >
@@ -195,26 +213,8 @@
               </div>
             </div>
             <div
-              class="consultation-section--blocks--single large primary flex-column-reverse"
-              @click="findASpecialist('onsite')"
-            >
-              <div class="title">
-                {{ $t("modules.On-site Consultations") }}
-                <div class="sub-title">
-                  {{
-                    $t(
-                      "modules.description.Discover the best doctors in Almoosa Health Group"
-                    )
-                  }}
-                </div>
-              </div>
-              <div class="icon circle-shape">
-                <on-site-svg />
-              </div>
-            </div>
-            <!-- <div
               class="consultation-section--blocks--single large tertiary flex-column-reverse"
-              @click="findSpecialist()"
+              @click="onSpotConsultation()"
             >
               <div class="title">
                 {{ $t("modules.On-spot Consultations") }}
@@ -229,11 +229,11 @@
               <div class="icon circle-shape">
                 <on-spot-svg />
               </div>
-            </div> -->
+            </div>
             <!-- <div
               class="consultation-section--blocks--single large flex-column-reverse"
               v-if="!getUserInfo.isDependent"
-              @click="findSpecialist()"
+              @click="onSpotConsultation()"
             >
               <div class="title">
                 {{ $t("modules.Find Specialist") }}
@@ -494,8 +494,8 @@ export default {
         );
       }
     },
-    findSpecialist() {
-      this.navigateTo("Find A Specialist");
+    onSpotConsultation() {
+      this.navigateTo("OnSpot Lobby");
     },
     findASpecialist(type) {
       this.navigateTo("Find Specialist", { method: type });

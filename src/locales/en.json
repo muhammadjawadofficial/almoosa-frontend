@@ -306,6 +306,14 @@
       "confirmText": "Are you sure, you want to cancel your appointment?"
     }
   },
+  "onspotConsultation": {
+    "iAgree": "I Agree",
+    "instructions": "Instructions",
+    "startCall":"Starting Video Call....",
+    "pleaseWait": "Please Wait",
+    "minutes": "minutes",
+    "policyAcceptance": "Please Accept Onspot Policy"
+  },
   "appointmentDetail": {
     "heading": "Appointment Detail",
     "subHeading": "View your appointments history",
@@ -374,9 +382,12 @@
     "search": "Search Doctor",
     "bookingDate": "Booking Date",
     "timeSlots": "Available Time Slots",
+    "selectDate": "Please select a date to view available time slots.",
     "bookAppointment": "Book an Appointment",
     "viewDetails": "View Details",
     "physicianList": "Our Doctors",
+    "instructions": "Instructions",
+    "agree":"I agree",
     "noData": "No doctor found in the current selection criteria",
     "doctorIsAvailableOnFollowingDates": "Doctor is available on following dates",
     "viewAvailability": "View Availability",

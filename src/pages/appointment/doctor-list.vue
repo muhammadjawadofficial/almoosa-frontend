@@ -46,18 +46,6 @@
               :src="getImageUrl(doctor.photo || doctor)"
               alt="doctor-image"
             />
-            <div
-              class="doctor-availability"
-              v-if="isBookingFlow && isDoctorAvailableForBooking(doctor)"
-            >
-              {{
-                doctor.has_schedule == "NO"
-                  ? $t("doctorUnavailable")
-                  : doctor.doctor_availability == "NO"
-                  ? $t("doctorFullyBooked")
-                  : ""
-              }}
-            </div>
           </div>
           <div class="doctor-name">
             {{ getFullName(doctor, $t("dr")) }}
@@ -73,18 +61,7 @@
             class="btn btn-primary make-appointment"
             @click="setSelectedDoctor(doctor)"
           >
-            <!-- {{
-              doctor.has_schedule == "NO"
-                ? $t("doctorUnavailable")
-                : doctor.doctor_availability == "NO"
-                ? $t("doctorFullyBooked")
-                : $t("doctorList.viewDetails")
-            }} -->
-            {{
-              isDoctorAvailableForBooking(doctor)
-                ? $t("doctorList.viewAvailability")
-                : $t("doctorList.viewDetails")
-            }}
+            {{ $t("doctorList.viewDetails") }}
           </button>
         </div>
       </template>
@@ -128,7 +105,9 @@ export default {
       "getBookingDate",
     ]),
     isBookAConsultationFlow() {
-      return !["onsite", "online", "home-healthcare"].includes(this.getBookingMethod);
+      return !["onsite", "online", "home-healthcare"].includes(
+        this.getBookingMethod
+      );
     },
   },
   mounted() {
@@ -137,9 +116,7 @@ export default {
     );
     if (
       this.isBookingFlow &&
-      (!this.getBookingSelectedSpeciality ||
-        !this.getBookingMethod ||
-        !this.getBookingDate)
+      (!this.getBookingSelectedSpeciality || !this.getBookingMethod)
     ) {
       this.navigateTo("Find Specialist" + (this.getIsGuest ? " Guest" : ""));
       return;
@@ -190,10 +167,6 @@ export default {
       this.setBookingStartTime(null);
       this.setBookingEndTime(null);
       this.setBookingAmount(100);
-      if (this.isDoctorAvailableForBooking(doctor)) {
-        this.openNearestAvailabilityModal();
-        return;
-      }
       if (this.isBookingFlow && this.isBookAConsultationFlow) {
         this.openSelectAppointmentTypeModal();
         return;
@@ -223,13 +196,10 @@ export default {
     },
     fetchDoctorList() {
       let speciality = null;
-      let subSpeciality = null;
-      let date = null;
       let clinic = null;
 
       if (this.isBookingFlow) {
         speciality = this.getBookingSelectedSpeciality.id;
-        date = this.getBookingDate;
         if (this.getBookingMethod == "onsite") {
           clinic = this.getBookingClinic.id;
         }
@@ -244,7 +214,7 @@ export default {
       }
 
       appointmentService
-        .findDoctors(speciality, date, clinic, method, this.currentAppLang)
+        .findDoctors(speciality, clinic, method, this.currentAppLang)
         .then(
           (res) => {
             let response = res.data;
