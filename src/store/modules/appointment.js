@@ -155,6 +155,9 @@ export default {
         SET_SELECTED_ONSPOTCONSULTATION(state, selectedOnspotConsultation) {
             Vue.set(state, 'selectedOnspotConsultation', selectedOnspotConsultation)
         },
+        SET_SELECTED_DOCTOR_RATING(state, seleclectedDoctor) {
+            Vue.set(state, 'seleclectedDoctor', seleclectedDoctor)
+        },
     },
     getters: {
         getSelectedAppointment: (state) => state.selectedAppointment,
