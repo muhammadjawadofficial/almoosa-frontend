@@ -65,11 +65,13 @@
           id="my-screen-share-content-video"
           height="1080"
           width="1920"
+          style="display: none"
         ></video>
         <canvas
           id="my-screen-share-content-canvas"
           height="1080"
           width="1920"
+          style="display: none"
         ></canvas>
         <canvas
           id="users-screen-share-content-canvas"
@@ -416,7 +418,7 @@ export default {
     this.destroySession();
   },
   methods: {
-    ...mapActions('appointment', ['setSelectedOnspotConsultation']),
+    ...mapActions("appointment", ["setSelectedOnspotConsultation"]),
     fetchContactConfig() {
       systemConfigService.fetchConfig("?title=APPOINTMENT_CONFIG").then(
         (response) => {
@@ -591,8 +593,8 @@ export default {
       this.client.off("active-share-change", () => {});
       this.client.off("chat-on-message", () => {});
       this.client.off("user-removed", () => {});
-      this.setSelectedOnspotConsultation(null)
-      this.$socket.emit('remove-request-consultation')
+      this.setSelectedOnspotConsultation(null);
+      this.$socket.emit("remove-request-consultation");
       ZoomVideo.destroyClient();
     },
   },
