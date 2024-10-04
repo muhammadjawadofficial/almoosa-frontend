@@ -73,11 +73,13 @@
           id="my-screen-share-content-video"
           height="1080"
           width="1920"
+          style="display: none"
         ></video>
         <canvas
           id="my-screen-share-content-canvas"
           height="1080"
           width="1920"
+          style="display: none"
         ></canvas>
         <canvas
           id="users-screen-share-content-canvas"
