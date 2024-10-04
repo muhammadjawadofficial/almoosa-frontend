@@ -233,6 +233,7 @@
     "search": "Search",
     "changeLanguage": "Change Language",
     "viewProfile": "View My Profile",
+    "myReviews": "My Reviews",
     "changePassword": "Change Password",
     "switchMyProfile": "Switch to My Profile",
     "oldPassword": "Old Password",
@@ -331,7 +332,8 @@
     "caseHistory": "Case History",
     "consultation": "Consultation",
     "treatmentDate": "Treatment Date",
-    "treatmentType": "Treatment Type"
+    "treatmentType": "Treatment Type",
+    "noComment": "No Comment Provided"
   },
   "symptoms": {
     "symptom": "Symptoms",
@@ -410,7 +412,9 @@
     "expertise": "Areas of expertise",
     "nationality": "Nationality",
     "languages": "Languages",
-    "ageGroups": "Patient Age Groups"
+    "ageGroups": "Patient Age Groups",
+    "reviews": "Reviews",
+    "viewReviews": "View Reviews"
   },
   "promotions": {
     "title": "Promotions List",

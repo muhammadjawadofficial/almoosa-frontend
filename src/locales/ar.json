@@ -233,6 +233,7 @@
     "search": "تفتيش",
     "changeLanguage": "تغيير اللغة",
     "viewProfile": "الملف التعريفي",
+    "myReviews": "تعليقاتي",
     "changePassword": "تغير كلمة المرور",
     "switchMyProfile": "قم بالتبديل إلى ملف التعريف الخاص بي",
     "oldPassword": "كلمة المرور القديمة",
@@ -332,7 +333,8 @@
     "caseHistory": "التاريخ المرضي لـ الحالة",
     "consultation": "التشاور",
     "treatmentDate": "تاريخ العلاج",
-    "treatmentType": "نوع العلاج"
+    "treatmentType": "نوع العلاج",
+    "noComment": "لم يتم تقديم أي تعليق"
   },
   "symptoms": {
     "symptom": "أعراض",
@@ -408,7 +410,9 @@
     "expertise": "مجالات الخبرة",
     "nationality": "الجنسية",
     "languages": "اللغات",
-    "ageGroups": "الفئات العمرية للمريض"
+    "ageGroups": "الفئات العمرية للمريض",
+    "reviews": "التعليقات",
+    "viewReviews": "عرض التعليقات"
   },
   "promotions": {
     "title": "قائمة العروض الترويجية",

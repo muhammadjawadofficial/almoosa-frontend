@@ -23,6 +23,34 @@
                       : "N/A"
                   }}
                 </div>
+                <div class="doctor-rating">
+                  <div class="star-container">
+                    <div class="value">
+                      <div class="rating-container disable-hover">
+                        <div class="fa fa-star star"></div>
+                        <div class="fa fa-star star"></div>
+                        <div class="fa fa-star star"></div>
+                        <div class="fa fa-star star"></div>
+                        <div class="fa fa-star star"></div>
+                        <div
+                          class="rating-filled"
+                          :style="
+                            'width: ' + (doctor.rating / 5 || 0) * 100 + '%'
+                          "
+                        >
+                          <div class="fa fa-star star active"></div>
+                          <div class="fa fa-star star active"></div>
+                          <div class="fa fa-star star active"></div>
+                          <div class="fa fa-star star active"></div>
+                          <div class="fa fa-star star active"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span @click="openReviewModal()">{{
+                    $t("doctorDetail.viewReviews")
+                  }}</span>
+                </div>
               </div>
               <div
                 class="doctor-details-card-header-right-location"
@@ -381,6 +409,7 @@
         </div>
       </div>
     </div>
+    <review-modal />
   </div>
 </template>
 
@@ -393,6 +422,7 @@ import {
 } from "../../services";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import "swiper/dist/css/swiper.css";
+import reviewsModal from "./reviews-modal.vue";
 export default {
   data() {
     return {
@@ -428,6 +458,7 @@ export default {
       "getBookingMethod",
       "getBookingClinic",
       "getBookingNearestDate",
+      "getSelectedDoctorRating",
     ]),
     ...mapGetters("user", ["getUserInfo"]),
     shouldShowLocation() {
@@ -460,8 +491,10 @@ export default {
   components: {
     swiper,
     swiperSlide,
+    "review-modal": reviewsModal,
   },
   mounted() {
+    this.setSelectedDoctorRating({});
     if (!this.getBookingDoctor) {
       this.navigateTo("Doctor List");
     }
@@ -490,6 +523,7 @@ export default {
       "setPaymentObject",
       "setBookingNearestDate",
       "setBookingMethod",
+      "setSelectedDoctorRating",
     ]),
     async fetchCalendarAvaiability(dateParts) {
       let method = this.getBookingMethod.toLowerCase();
@@ -525,12 +559,14 @@ export default {
           if (response.status) {
             let profile = response.data.items[0];
             if (profile) {
+              const rating = profile.rating === null ? 0 : profile.rating;
               this.doctor = {
                 ...profile,
                 id: this.getBookingDoctor.id,
                 profile_photo_url: this.getBookingDoctor.profile_photo_url,
                 speciality: this.getBookingDoctor.speciality,
                 speciality_ar: this.getBookingDoctor.speciality_ar,
+                rating: rating,
               };
             }
             if (this.getBookingMethod == "online") {
@@ -579,6 +615,32 @@ export default {
     bookingDateChanged(val) {
       this.selectedDate = val;
       this.fetchTimeslots();
+    },
+    openReviewModal() {
+      let doctor_id = this.getBookingDoctor.id;
+      appointmentService.getDoctorRating(doctor_id).then(
+        (res) => {
+          let response = res.data;
+          if (response.status) {
+            this.setSelectedDoctorRating(response.data);
+            this.$bvModal.show("ReviewCustomModal");
+          } else {
+            this.failureToast(response.message);
+          }
+        },
+        (error) => {
+          console.error(error);
+          if (!this.isAPIAborted(error))
+            this.failureToast(
+              error.response &&
+                error.response.data &&
+                error.response.data.message
+            );
+        }
+      );
+    },
+    hideReviewRequestModal() {
+      this.$bvModal.hide("ReviewCustomModal");
     },
     fetchTimeslots() {
       this.selectedTimeSlotIndex = null;
@@ -819,12 +881,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .ash-datetime-container {
-  .b-calendar {
-    .b-calendar-grid-body .col[data-date] .btn-outline-primary {
-      color: #343a40 !important;
-    }
-  }
+.doctor-rating :deep(.vue-star-rating-rating-text) {
+  display: none !important;
+}
+
+.doctor-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.doctor-rating > span {
+  cursor: pointer;
+  color: var(--theme-secondary);
+}
+
+.doctor-rating > span:hover {
+  cursor: pointer;
+  color: #55b047;
 }
 
 .flag {
@@ -854,4 +928,55 @@ export default {
 
   max-width: 22.875rem;
 }
+.rating-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    margin: auto;
+    position: relative;
+    .star {
+        width: 2rem;
+        height: 2rem;
+        min-width: 2rem;
+        font-size: 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #d8d8d8;
+    }
+    &:not(.disable-hover) {
+        &:hover .star {
+            color: #55b047;
+
+        }
+        .star:hover ~ .star {
+            color: #d8d8d8;
+        }
+    }
+    .star.active {
+      color: #55b047;
+    }
+}
+.rating-container {
+  .star {
+    width: 1.5rem;
+    height: 1.5rem;
+    min-width: 1.5rem;
+    font-size: 1.5rem;
+  }
+
+  .rating-filled {
+    position: absolute;
+    display: flex;
+    overflow: hidden;
+    left: 0;
+  }
+}
+
+.rtl .rating-filled {
+  flex-direction: row-reverse;
+}
+
 </style>

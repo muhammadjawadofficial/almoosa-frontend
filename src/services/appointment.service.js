@@ -16,6 +16,7 @@ export const appointmentService = {
     updateAppointment,
     cancelAppointment,
     getTodayAppointment,
+    getDoctorRating,
     ratePhysician,
     getAppointmentHistory,
     createPayment,
@@ -28,6 +29,7 @@ export const appointmentService = {
     oneStepCheckout,
     joinTeleConsultation,
     ringPatient,
+    fetchCurrentDoctorRating,
     fetchMonthAvailability
 }
 
@@ -150,6 +152,20 @@ function getTodayAppointment(id) {
     return axios({
         method: apiPath.appointment.todayAppointment(id).method,
         url: apiPath.appointment.todayAppointment(id).url,
+    })
+}
+
+function getDoctorRating(id) {
+    return axios({
+        method: apiPath.appointment.doctorRating(id).method,
+        url: apiPath.appointment.doctorRating(id).url,
+    })
+}
+
+function fetchCurrentDoctorRating(query) {
+    return axios({
+        method: apiPath.appointment.currentDoctorRating(query).method,
+        url: apiPath.appointment.currentDoctorRating(query).url,
     })
 }
 

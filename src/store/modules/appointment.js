@@ -4,6 +4,7 @@ export default {
     namespaced: true,
     state: {
         selectedAppointment: null,
+        seleclectedDoctor:null,
         booking: {
             type: null,
             speciality: null,
@@ -91,6 +92,9 @@ export default {
         setTeleConsultation({ commit }, data) {
             commit('SET_TELE_CONSULTATION', data)
         },
+        setSelectedDoctorRating({ commit }, data) {
+            commit('SET_SELECTED_DOCTOR_RATING', data)
+        },
         setSelectedOnspotConsultation({ commit }, data) {
             commit('SET_SELECTED_ONSPOTCONSULTATION', data)
         },
@@ -151,6 +155,9 @@ export default {
         SET_SELECTED_ONSPOTCONSULTATION(state, selectedOnspotConsultation) {
             Vue.set(state, 'selectedOnspotConsultation', selectedOnspotConsultation)
         },
+        SET_SELECTED_DOCTOR_RATING(state, seleclectedDoctor) {
+            Vue.set(state, 'seleclectedDoctor', seleclectedDoctor)
+        },
     },
     getters: {
         getSelectedAppointment: (state) => state.selectedAppointment,
@@ -176,6 +183,7 @@ export default {
         getPaymentObject: (state) => state.paymentObject,
         getBookingNearestDate: (state) => state.booking.nearestDate,
         getTeleConsultation: (state) => state.teleConsultation,
+        getSelectedDoctorRating: (state) => state.seleclectedDoctor,
         getOnspotConsultation: (state) => state.selectedOnspotConsultation,
     }
 };

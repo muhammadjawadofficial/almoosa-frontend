@@ -93,6 +93,15 @@
               </a>
               <hr />
             </li>
+            <li v-if="isDoctor">
+              <a class="" @click="myReviews">
+                <span class="profile-dropdown-menu-icon">
+                  <star-svg />
+                </span>
+                <span>{{ $t("header.myReviews") }}</span>
+              </a>
+              <hr />
+            </li>
             <li v-if="getUserInfo.isDependent">
               <a class="" @click="switchToMyProfile">
                 <span class="profile-dropdown-menu-icon">
@@ -294,6 +303,10 @@ export default {
     },
     viewProfile() {
       if (this.$route.name != "Profile") this.navigateTo("Profile");
+    },
+    myReviews() {
+      console.log(this.$route.name);
+      if (this.$route.name != "My Reviews") this.navigateTo("My Reviews");
     },
     switchToMyProfile() {
       let guardianInfo = { ...userService.getGuardianInfo() };
