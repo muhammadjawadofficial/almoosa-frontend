@@ -40,12 +40,14 @@
                 </div>
                 <div class="doctor-speciality">
                   {{
-                    `${sickLeave.speciality} | ${sickLeave.visit_type} - ${sickLeave.visit_no}`
+                    `${sickLeave[getLocaleKey("speciality")]} | ${
+                      sickLeave[getLocaleKey("visit_type")]
+                    } - ${translateNumber(sickLeave.visit_no)}`
                   }}
                 </div>
                 <div class="appointment-status unset success">
                   <div class="appointment-time-span">
-                    {{ sickLeave.incharge }}
+                    {{ sickLeave[getLocaleKey("incharge")] }}
                   </div>
                 </div>
                 <div class="appointment-status">

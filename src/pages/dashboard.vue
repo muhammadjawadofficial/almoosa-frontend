@@ -394,6 +394,11 @@ export default {
           link: "Virtual Tour",
         },
         {
+          text: "Medical Reports",
+          icon: "heart-report-svg",
+          link: "Medical Sessions",
+        },
+        {
           text: "Sick Leave",
           icon: "hospital-svg",
           link: "Sick Leave",
