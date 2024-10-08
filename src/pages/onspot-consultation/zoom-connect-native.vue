@@ -414,8 +414,19 @@ export default {
       this.navigateTo("default");
     }
   },
-  beforeDestroy() {
-    this.destroySession();
+  async beforeRouteLeave(to, from, next) {
+    this.client.off("peer-video-state-change", () => {});
+    this.client.off("media-sdk-change", () => {});
+    this.client.off("active-speaker", () => {});
+    this.client.off("video-active-change", () => {});
+    this.client.off("passively-stop-share", () => {});
+    this.client.off("active-share-change", () => {});
+    this.client.off("chat-on-message", () => {});
+    this.client.off("user-removed", () => {});
+    await this.client.leave(true);
+    ZoomVideo.destroyClient();
+
+    next();
   },
   methods: {
     ...mapActions("appointment", ["setSelectedOnspotConsultation"]),
@@ -547,10 +558,7 @@ export default {
       div.scrollTop = div.scrollHeight;
     },
     async leaveSession() {
-      await this.client.leave();
       this.destroySession();
-      this.navigateTo("default");
-      // else this.navigateTo("default");
     },
     async ringPatient() {
       if (this.timer > 0 || this.ringing || this.isParticipantJoined) return;
@@ -585,17 +593,8 @@ export default {
       }
     },
     destroySession() {
-      this.client.off("peer-video-state-change", () => {});
-      this.client.off("media-sdk-change", () => {});
-      this.client.off("active-speaker", () => {});
-      this.client.off("video-active-change", () => {});
-      this.client.off("passively-stop-share", () => {});
-      this.client.off("active-share-change", () => {});
-      this.client.off("chat-on-message", () => {});
-      this.client.off("user-removed", () => {});
-      this.setSelectedOnspotConsultation(null);
       this.$socket.emit("remove-request-consultation");
-      ZoomVideo.destroyClient();
+      this.setSelectedOnspotConsultation(null);
     },
   },
 };

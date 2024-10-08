@@ -181,7 +181,7 @@ export default {
         (response) => {
           if (response.data.status) {
             let data = response.data.data;
-            if (process.env.NODE_ENV != "Production") this.setOtp(data);
+            if (process.env.NODE_ENV != "production") this.setOtp(data);
             this.processData();
           } else {
             this.failureToast(response.data.message);

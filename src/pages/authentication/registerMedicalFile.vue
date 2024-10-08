@@ -254,7 +254,7 @@ export default {
                   (otpResponse) => {
                     if (otpResponse.data.status) {
                       let data = otpResponse.data.data;
-                      if (process.env.NODE_ENV != "Production")
+                      if (process.env.NODE_ENV != "production")
                         this.setOtp(data);
                       this.setAuthState(constants.auth.register);
                       this.setUserId({

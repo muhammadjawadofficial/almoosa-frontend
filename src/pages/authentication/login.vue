@@ -250,7 +250,7 @@ export default {
           if (response.data.status) {
             let data = response.data.data;
             if (payload.type == constants.loginByOTP) {
-              if (process.env.NODE_ENV != "Production") this.setOtp(data);
+              if (process.env.NODE_ENV != "production") this.setOtp(data);
               this.setUserId({
                 [this.selectedItem.method]: this.username,
               });
