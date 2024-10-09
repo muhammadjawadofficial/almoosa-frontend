@@ -388,7 +388,10 @@ export default {
 
       this.client.on("user-removed", (payload) => {
         if (this.users && this.users.length) {
-          let filterList = this.users.filter((x) => x.userId != payload.userId);
+          const userRemovedList = payload.map((x) => x.userId);
+          let filterList = this.users.filter(
+            (x) => !userRemovedList.includes(x.userId)
+          );
           this.$set(this, "users", [...filterList]);
         }
       });
@@ -408,7 +411,22 @@ export default {
       this.navigateTo("default");
     }
   },
-  beforeDestroy() {},
+  async beforeRouteLeave(to, from, next) {
+    if (this.client) {
+      this.client.off("peer-video-state-change", () => {});
+      this.client.off("media-sdk-change", () => {});
+      this.client.off("active-speaker", () => {});
+      this.client.off("video-active-change", () => {});
+      this.client.off("passively-stop-share", () => {});
+      this.client.off("active-share-change", () => {});
+      this.client.off("chat-on-message", () => {});
+      this.client.off("user-removed", () => {});
+      await this.client.leave();
+    }
+    ZoomVideo.destroyClient();
+    this.setSelectedOnspotConsultation({});
+    next();
+  },
   methods: {
     fetchContactConfig() {
       systemConfigService.fetchConfig("?title=APPOINTMENT_CONFIG").then(
@@ -538,10 +556,7 @@ export default {
       div.scrollTop = div.scrollHeight;
     },
     async leaveSession() {
-      await this.client.leave();
       this.destroySession();
-      if (this.isDoctor) this.navigateTo("default");
-      else this.navigateTo("Rate Doctor");
     },
     async ringPatient() {
       if (this.timer > 0 || this.ringing || this.isParticipantJoined) return;
@@ -576,15 +591,8 @@ export default {
       }
     },
     destroySession() {
-      this.client.off("peer-video-state-change", () => {});
-      this.client.off("media-sdk-change", () => {});
-      this.client.off("active-speaker", () => {});
-      this.client.off("video-active-change", () => {});
-      this.client.off("passively-stop-share", () => {});
-      this.client.off("active-share-change", () => {});
-      this.client.off("chat-on-message", () => {});
-      this.client.off("user-removed", () => {});
-      ZoomVideo.destroyClient();
+      if (this.isDoctor) this.navigateTo("default");
+      else this.navigateTo("Rate Doctor");
     },
   },
 };
