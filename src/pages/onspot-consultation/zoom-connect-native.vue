@@ -415,15 +415,17 @@ export default {
     }
   },
   async beforeRouteLeave(to, from, next) {
-    this.client.off("peer-video-state-change", () => {});
-    this.client.off("media-sdk-change", () => {});
-    this.client.off("active-speaker", () => {});
-    this.client.off("video-active-change", () => {});
-    this.client.off("passively-stop-share", () => {});
-    this.client.off("active-share-change", () => {});
-    this.client.off("chat-on-message", () => {});
-    this.client.off("user-removed", () => {});
-    await this.client.leave(true);
+    if (this.client) {
+      this.client.off("peer-video-state-change", () => {});
+      this.client.off("media-sdk-change", () => {});
+      this.client.off("active-speaker", () => {});
+      this.client.off("video-active-change", () => {});
+      this.client.off("passively-stop-share", () => {});
+      this.client.off("active-share-change", () => {});
+      this.client.off("chat-on-message", () => {});
+      this.client.off("user-removed", () => {});
+      await this.client.leave(true);
+    }
     ZoomVideo.destroyClient();
 
     next();
