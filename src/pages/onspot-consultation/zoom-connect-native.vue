@@ -380,7 +380,10 @@ export default {
 
       this.client.on("user-removed", (payload) => {
         if (this.users && this.users.length) {
-          let filterList = this.users.filter((x) => x.userId != payload.userId);
+          const userRemovedList = payload.map((x) => x.userId);
+          let filterList = this.users.filter(
+            (x) => !userRemovedList.includes(x.userId)
+          );
           this.$set(this, "users", [...filterList]);
         }
       });
@@ -424,10 +427,10 @@ export default {
       this.client.off("active-share-change", () => {});
       this.client.off("chat-on-message", () => {});
       this.client.off("user-removed", () => {});
-      await this.client.leave(true);
+      await this.client.leave();
     }
     ZoomVideo.destroyClient();
-
+    this.setSelectedOnspotConsultation({});
     next();
   },
   methods: {
@@ -596,7 +599,7 @@ export default {
     },
     destroySession() {
       this.$socket.emit("remove-request-consultation");
-      this.setSelectedOnspotConsultation({});
+      this.navigateTo("default");
     },
   },
 };
