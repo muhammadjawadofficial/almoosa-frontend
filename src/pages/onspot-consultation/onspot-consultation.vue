@@ -3,48 +3,55 @@
     class="onspot-lobby-container page-body-container standard-width"
     :class="{ 'py-0': isWebView }"
   >
-    <back-navigation :backLink="'default'" v-if="!isWebView" class="mb-2 heading w600"
-    :title="onSpotConsultationCMS[getLocaleKey('page_title')]"
-    />
+    <template v-if="onSpotConsultationCMS">
+      <back-navigation
+        :backLink="'default'"
+        v-if="!isWebView"
+        class="mb-2 heading w600"
+        :title="onSpotConsultationCMS[getLocaleKey('page_title')]"
+      />
 
-    <div v-if="isWebView" class="heading w600">
-      {{ onSpotConsultationCMS[getLocaleKey("page_title")] }}
-    </div>
-    <div class="sub-heading w200">
-      {{ onSpotConsultationCMS[getLocaleKey("long_title")] }}
-    </div>
-    <div
-      class="cmsText"
-      v-html="onSpotConsultationCMS[getLocaleKey('long_text')]"
-    ></div>
+      <div v-if="isWebView" class="heading w600">
+        {{ onSpotConsultationCMS[getLocaleKey("page_title")] }}
+      </div>
+      <div class="sub-heading w200">
+        {{ onSpotConsultationCMS[getLocaleKey("long_title")] }}
+      </div>
+      <div
+        class="cmsText"
+        v-html="onSpotConsultationCMS[getLocaleKey('long_text')]"
+      ></div>
 
-    <div v-if="isWebView" class="instruction-text">
-      {{ $t("onspotConsultation.instructions") }}
-    </div>
-    <div class="instruction-card-container">
-      <p class="cmsText" v-html="localizedText"></p>
-      <div class="checkbox-container mt-5" v-if="!isWebView">
-        <b-form-checkbox
-          id="agree-checkbox"
-          v-model="agree"
-          class="mt-3 custom-checkbox"
-        >
-          {{ $t("termsAndConditions.iAgree") }}
-        </b-form-checkbox>
-        <div class="row">
-          <div class="col-md-12 button-group mt-5">
-            <button
-              class="btn btn-primary make-appointment"
-              @click="openOnSpotModal()"
-            >
-              {{ $t("continue") }}
-            </button>
+      <div v-if="isWebView" class="instruction-text">
+        {{ $t("onspotConsultation.instructions") }}
+      </div>
+      <div class="instruction-card-container">
+        <p class="cmsText" v-html="localizedText"></p>
+        <div class="checkbox-container mt-5" v-if="!isWebView">
+          <b-form-checkbox
+            id="agree-checkbox"
+            v-model="agree"
+            class="mt-3 custom-checkbox"
+          >
+            {{ $t("termsAndConditions.iAgree") }}
+          </b-form-checkbox>
+          <div class="row">
+            <div class="col-md-12 button-group mt-5">
+              <button
+                class="btn btn-primary make-appointment"
+                @click="openOnSpotModal()"
+              >
+                {{ $t("continue") }}
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <on-spot-modal @cancel="handleCancel" />
+      <on-spot-modal @cancel="handleCancel" />
+    </template>
+    <template v-else>
+      <div class="no-data">{{ $t("loading") }}...</div>
+    </template>
   </div>
 </template>
 
@@ -78,7 +85,6 @@ export default {
     this.initializeSocket();
     this.setAppLanguageFromRoute();
     this.getCmsPage("onspot_policy");
-    console.log("Language is:", this.$i18n.locale);
   },
   beforeDestroy() {
     this.removeSocketListners();
@@ -91,7 +97,6 @@ export default {
         (res) => {
           if (res.data.status) {
             this.onSpotConsultationCMS = res.data.data.items[0];
-            console.log(this.onSpotConsultationCMS);
           } else {
             this.failureToast(res.data.message);
           }
@@ -122,13 +127,9 @@ export default {
       this.$socket.on("connect_error", (err) => {
         console.log(`connect_error due to ${err.message}`);
       });
-      this.$socket.on("connect", (err) => {
-        console.log("WebSocket connected", this.$socket);
+      this.$socket.on("connect", () => {
+        console.log("WebSocket connected");
       });
-      this.$socket.on(
-        "admins-availability-updated",
-        this.handleAdminsAvailability
-      );
       this.$socket.on("error-connecting", this.handleErrorConnecting);
       this.$socket.on("call-connect", this.handleCallConnect);
     },
@@ -142,7 +143,6 @@ export default {
       if (this.$socket) {
         this.$socket.off("connect");
         this.$socket.off("connect_error");
-        this.$socket.off("admins-availability-updated");
         this.$socket.off("call-connect");
         this.$socket.off("error-connecting");
       }
@@ -158,34 +158,18 @@ export default {
           role_id: role_id,
         });
       }
-      console.log({
-        request_id: this.$socket.id,
-        user_id: user_id,
-        role_id: role_id,
-      });
     },
     handleCancel() {
       this.withdrawRequest();
     },
-    handleAdminsAvailability(data) {
-      // Handle the data received from the server (admin availability updates)
-      console.log("Admin availability:", data);
-    },
-    handleErrorConnecting(data) {
-      console.log("Error connecting data is", data);
+    handleErrorConnecting(message) {
+      console.error("Error connecting data is", message);
+      this.failureToast(message);
     },
     async handleCallConnect(data) {
-      try {
-        let response = await data;
-        console.log("Call connect data is", response);
-
-        // Similarly, set and log on-spot consultation data
-        this.setSelectedOnspotConsultation(response);
-        // console.log("On Spot Consultation Data is", this.getOnspotConsultation);
-        this.navigateTo("Connect Native Zoom");
-      } catch (error) {
-        console.error("Error in handleCallConnect:", error);
-      }
+      let response = await data;
+      this.setSelectedOnspotConsultation(response);
+      this.navigateTo("Connect Native Zoom");
     },
   },
 };
