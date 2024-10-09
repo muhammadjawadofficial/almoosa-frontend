@@ -596,7 +596,7 @@ export default {
     },
     destroySession() {
       this.$socket.emit("remove-request-consultation");
-      this.setSelectedOnspotConsultation(null);
+      this.setSelectedOnspotConsultation({});
     },
   },
 };
