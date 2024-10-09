@@ -3,19 +3,38 @@
     class="onspot-lobby-container page-body-container standard-width"
     :class="{ 'py-0': isWebView }"
   >
-    <back-navigation :backLink="'default'" v-if="!isWebView" class="mb-2 heading w600"
-    :title="onSpotConsultationCMS[getLocaleKey('page_title')]"
+    <back-navigation
+      :backLink="'default'"
+      v-if="!isWebView"
+      class="mb-2 heading w600"
+      :title="
+        onSpotConsultationCMS
+          ? onSpotConsultationCMS[getLocaleKey('page_title')]
+          : ''
+      "
     />
 
     <div v-if="isWebView" class="heading w600">
-      {{ onSpotConsultationCMS[getLocaleKey("page_title")] }}
+      {{
+        onSpotConsultationCMS
+          ? onSpotConsultationCMS[getLocaleKey("page_title")]
+          : ""
+      }}
     </div>
     <div class="sub-heading w200">
-      {{ onSpotConsultationCMS[getLocaleKey("long_title")] }}
+      {{
+        onSpotConsultationCMS
+          ? onSpotConsultationCMS[getLocaleKey("long_title")]
+          : ""
+      }}
     </div>
     <div
       class="cmsText"
-      v-html="onSpotConsultationCMS[getLocaleKey('long_text')]"
+      v-html="
+        onSpotConsultationCMS
+          ? onSpotConsultationCMS[getLocaleKey('long_text')]
+          : ''
+      "
     ></div>
 
     <div v-if="isWebView" class="instruction-text">
@@ -78,7 +97,6 @@ export default {
     this.initializeSocket();
     this.setAppLanguageFromRoute();
     this.getCmsPage("onspot_policy");
-    console.log("Language is:", this.$i18n.locale);
   },
   beforeDestroy() {
     this.removeSocketListners();
@@ -91,7 +109,6 @@ export default {
         (res) => {
           if (res.data.status) {
             this.onSpotConsultationCMS = res.data.data.items[0];
-            console.log(this.onSpotConsultationCMS);
           } else {
             this.failureToast(res.data.message);
           }

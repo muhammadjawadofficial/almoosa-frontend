@@ -363,8 +363,11 @@ export default {
     backLink() {
       if (localStorage.getItem("guardianInfo")) {
         return "default";
+      } else if (this.isDoctor) {
+        return "default";
+      } else {
+        return "Medical File";
       }
-      return "Medical File";
     },
   },
   methods: {
