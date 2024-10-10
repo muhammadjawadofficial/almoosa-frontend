@@ -4,8 +4,8 @@
 <script>
 export default {
   mounted() {
-    this.$socket.on("connect", (res) => {
-      console.log("WebSocket connected", this.$socket, res);
+    this.$socket.on("connect", () => {
+      console.log("WebSocket connected");
     });
   },
   beforeDestroy() {

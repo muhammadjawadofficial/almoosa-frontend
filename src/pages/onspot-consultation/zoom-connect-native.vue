@@ -380,7 +380,10 @@ export default {
 
       this.client.on("user-removed", (payload) => {
         if (this.users && this.users.length) {
-          let filterList = this.users.filter((x) => x.userId != payload.userId);
+          const userRemovedList = payload.map((x) => x.userId);
+          let filterList = this.users.filter(
+            (x) => !userRemovedList.includes(x.userId)
+          );
           this.$set(this, "users", [...filterList]);
         }
       });
@@ -415,17 +418,19 @@ export default {
     }
   },
   async beforeRouteLeave(to, from, next) {
-    this.client.off("peer-video-state-change", () => {});
-    this.client.off("media-sdk-change", () => {});
-    this.client.off("active-speaker", () => {});
-    this.client.off("video-active-change", () => {});
-    this.client.off("passively-stop-share", () => {});
-    this.client.off("active-share-change", () => {});
-    this.client.off("chat-on-message", () => {});
-    this.client.off("user-removed", () => {});
-    await this.client.leave(true);
+    if (this.client) {
+      this.client.off("peer-video-state-change", () => {});
+      this.client.off("media-sdk-change", () => {});
+      this.client.off("active-speaker", () => {});
+      this.client.off("video-active-change", () => {});
+      this.client.off("passively-stop-share", () => {});
+      this.client.off("active-share-change", () => {});
+      this.client.off("chat-on-message", () => {});
+      this.client.off("user-removed", () => {});
+      await this.client.leave();
+    }
     ZoomVideo.destroyClient();
-
+    this.setSelectedOnspotConsultation({});
     next();
   },
   methods: {
@@ -594,7 +599,7 @@ export default {
     },
     destroySession() {
       this.$socket.emit("remove-request-consultation");
-      this.setSelectedOnspotConsultation(null);
+      this.navigateTo("default");
     },
   },
 };
